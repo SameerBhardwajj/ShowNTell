@@ -7,5 +7,14 @@ const Strings = {
   testimonialAuthor: "- Maggie James",
   testimonialCentre: "TLE @ Spring",
   under_development: "Under Development! Please try again Later",
+  proceed: "Proceed",
+  register: "Register",
+  please_enter_email_and_password:
+    "Please enter your registered email\nand Password",
+  Parent_email: "Parent's Email",
+  password: "Password",
+  forgot_password: "Forgot Password ?",
+  is_incorrect: " is incorrect",
+  Email: "Email",
 };
 export default Strings;

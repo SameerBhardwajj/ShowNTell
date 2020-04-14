@@ -7,6 +7,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 
 // Screens
 import Splash from "../modules/Splash/Splash";
+import LandingPage from "../modules/Auth/LandingPage/LandingPage";
 import Login from "../modules/Auth/Login/Login";
 import FindSchool from "../modules/FindSchool/FindSchool";
 import Home from "../modules/Home/Home";
@@ -23,7 +24,8 @@ const TabStack = createBottomTabNavigator();
 const DrawerStack = createDrawerNavigator();
 
 const AuthNavigator = () => (
-  <AuthStack.Navigator headerMode="none" initialRouteName="Login">
+  <AuthStack.Navigator headerMode="none" initialRouteName="LandingPage">
+    <AuthStack.Screen name="LandingPage" component={LandingPage} />
     <AuthStack.Screen name="Login" component={Login} />
     <AuthStack.Screen name="FindSchool" component={FindSchool} />
   </AuthStack.Navigator>

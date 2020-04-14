@@ -7,6 +7,7 @@ const Images = {
   Bubbles_Waving: require("../Assets/Images/Bubbles-Waving.png"),
   Testimonial_Base: require("../Assets/Images/Testimonial-Base.png"),
   Colen_Bubble: require("../Assets/Images/Colen-Bubble.png"),
+  back_icon: require("../Assets/Images/back-icon.png"),
 };
 
 export default Images;
