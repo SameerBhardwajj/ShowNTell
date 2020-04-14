@@ -1,7 +1,7 @@
-import * as React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {updateTab} from './Action';
-import {useDispatch, useSelector} from 'react-redux';
+import * as React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { updateTab } from "./Action";
+import { useDispatch, useSelector } from "react-redux";
 
 export interface AppProps {
   navigation?: any;
@@ -9,15 +9,17 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const {tab} = useSelector((state: {Home: any}) => ({
+  const { tab } = useSelector((state: { Home: any }) => ({
     tab: state.Home.tab,
   }));
   React.useEffect(() => {
-    const unsubscribe = props.navigation.addListener('drawerOpen', (e: any) => {
-      // Do something
-      console.warn('open', tab);
-      dispatch(updateTab());
-    });
+    const unsubscribe =
+      (props.navigation.addListener("drawerOpen", (e: any) => {
+        dispatch(updateTab(true));
+      }),
+      props.navigation.addListener("drawerClose", (e: any) => {
+        dispatch(updateTab(false));
+      }));
 
     return unsubscribe;
   }, [props.navigation]);
@@ -26,10 +28,11 @@ export default function App(props: AppProps) {
     <View
       style={{
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'space-evenly',
-        backgroundColor: 'yellow',
-      }}>
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        backgroundColor: "yellow",
+      }}
+    >
       <TouchableOpacity onPress={() => props.navigation.pop()}>
         <Text>Home</Text>
       </TouchableOpacity>

@@ -1,13 +1,13 @@
 // import Colors from './Colors';
-import { vh, vw, DesignHeight, DesignWidth } from './Dimension';
+import { vh, vw, DesignHeight, DesignWidth } from "./Dimension";
 // import Strings from './Strings';
-// import Images from './Images';
+import Images from "./Images";
 export {
-    // Colors,
-    vh, 
-    vw, 
-    DesignHeight, 
-    DesignWidth,
-//     Strings,
-//     Images
-}
+  // Colors,
+  vh,
+  vw,
+  DesignHeight,
+  DesignWidth,
+  //     Strings,
+  Images,
+};

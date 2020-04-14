@@ -1,0 +1,30 @@
+import * as React from "react";
+import { ImageBackground, Image, StatusBar, StyleSheet } from "react-native";
+
+// custom imports
+import { Images } from "../../utils";
+
+export interface AppProps {
+  navigation?: any;
+}
+export default function App(props: AppProps) {
+  React.useEffect(() => {
+    setTimeout(() => {
+      props.navigation.navigate("AuthNavigator");
+    }, 2000);
+  });
+  return (
+    <ImageBackground source={Images.background} style={Styles.mainImg}>
+      <StatusBar barStyle={"light-content"} />
+      <Image source={Images.logo} />
+    </ImageBackground>
+  );
+}
+const Styles = StyleSheet.create({
+  mainImg: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
