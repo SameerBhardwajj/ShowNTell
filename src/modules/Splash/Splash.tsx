@@ -14,16 +14,15 @@ export default function App(props: AppProps) {
     }, 2000);
   });
   return (
-    <ImageBackground source={Images.background} style={Styles.mainImg}>
+    <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <StatusBar barStyle={"light-content"} />
-      <Image source={Images.logo} />
+      <Image source={Images.Logo} />
     </ImageBackground>
   );
 }
 const Styles = StyleSheet.create({
   mainImg: {
     flex: 1,
-    width: "100%",
     alignItems: "center",
     justifyContent: "center",
   },

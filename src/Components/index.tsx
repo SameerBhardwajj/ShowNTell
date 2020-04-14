@@ -1,2 +1,3 @@
-import CustomButtom from "./CustomButtom";
-export { CustomButtom };
+import CustomButton from "./CustomButton";
+import CustomToast from "./CustomToast";
+export { CustomButton, CustomToast };
