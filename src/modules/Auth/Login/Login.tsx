@@ -8,9 +8,18 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
-import { Images, vh, vw, Colors, Strings } from "../../../utils";
+import {
+  Images,
+  vh,
+  vw,
+  Colors,
+  Strings,
+  validateEmail,
+  validatePasssword,
+} from "../../../utils";
 import {
   CustomButton,
   CustomToast,
@@ -27,94 +36,120 @@ export default function App(props: AppProps) {
   const input2: any = React.createRef();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [checkEmail, setCheckcheckEmail] = useState(false);
-  const [checkPassword, setCheckPassword] = useState(false);
+  const [checkEmail, setCheckcheckEmail] = useState(true);
+  const [checkPassword, setCheckPassword] = useState(true);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={Styles.backBtn}
-        onPress={() => props.navigation.pop()}
+      <KeyboardAwareScrollView
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ alignItems: "center" }}
       >
-        <Image source={Images.back_icon} />
-      </TouchableOpacity>
-      <View style={Styles.cartoonMainView}>
-        <Customcartoon />
-      </View>
-      <View style={Styles.loginView}>
-        <View style={Styles.loginMainView}>
-          <Text style={Styles.loginText}>{Strings.login}</Text>
-          <Text style={Styles.loginFooter}>
-            {Strings.please_enter_email_and_password}
-          </Text>
-          <View style={Styles.inputView}>
-            <CustomInputText
-              check={checkEmail}
-              ref={input1}
-              titleText={Strings.Parent_email}
-              keyboardType={"email-address"}
-              value={email}
-              onChangeText={(text: string) => setEmail(text)}
-              onSubmitEditing={() => input2.current.focus()}
-              incorrectText={Strings.Email}
-            />
-            <CustomInputText
-              check={checkPassword}
-              ref={input2}
-              titleText={Strings.password}
-              keyboardType={"default"}
-              value={password}
-              onChangeText={(text: string) => setPassword(text)}
-              onSubmitEditing={() => {
-                console.warn("ok");
-              }}
-              incorrectText={Strings.password}
-            />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={Styles.backBtn}
+          onPress={() => props.navigation.pop()}
+        >
+          <Image source={Images.back_icon} />
+        </TouchableOpacity>
+        <Customcartoon viewStyle={{ width: vw(300) }} />
+        <View style={Styles.loginView}>
+          <View style={Styles.loginMainView}>
+            <Text style={Styles.loginText}>{Strings.login}</Text>
+            <Text style={Styles.loginFooter}>
+              {Strings.please_enter_email_and_password}
+            </Text>
+            <View style={Styles.inputView}>
+              <CustomInputText
+                check={checkEmail}
+                ref={input1}
+                titleText={Strings.Parent_email}
+                keyboardType={"email-address"}
+                value={email}
+                onChangeText={(text: string) => {
+                  checkEmail ? null : setCheckcheckEmail(true), setEmail(text);
+                }}
+                onSubmitEditing={() => {
+                  validateEmail(email)
+                    ? input2.current.focus()
+                    : setCheckcheckEmail(false);
+                }}
+                incorrectText={Strings.Email}
+              />
+              <CustomInputText
+                check={checkPassword}
+                ref={input2}
+                titleText={Strings.password}
+                keyboardType={"default"}
+                value={password}
+                onChangeText={(text: string) => {
+                  checkPassword ? null : setCheckPassword(true),
+                    setPassword(text);
+                }}
+                onSubmitEditing={() => {
+                  validatePasssword(password)
+                    ? validateEmail(email)
+                      ? CustomToast("All Valid")
+                      : setCheckcheckEmail(false)
+                    : setCheckPassword(false);
+                }}
+                incorrectText={Strings.password}
+                returnKeyType="done"
+              />
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={Styles.forgotView}
+              onPress={() => CustomToast()}
+            >
+              <Text style={Styles.forgotTxt}>{Strings.forgot_password}</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={Styles.forgotView}
+          <CustomButton
+            Text={Strings.proceed}
+            ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
+            onPress={() => {
+              validatePasssword(password)
+                ? validateEmail(email)
+                  ? CustomToast("All Valid")
+                  : setCheckcheckEmail(false)
+                : setCheckPassword(false);
+            }}
+          />
+          <CustomButton
+            Text={Strings.register}
+            ButtonStyle={Styles.btn}
             onPress={() => CustomToast()}
-          >
-            <Text style={Styles.forgotTxt}>{Strings.forgot_password}</Text>
+          />
+          <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
+            <Text style={Styles.btnText}>{Strings.need_help}</Text>
           </TouchableOpacity>
         </View>
-        <CustomButton
-          Text={Strings.proceed}
-          ButtonStyle={Styles.btn}
-          onPress={() => CustomToast()}
-        />
-        <CustomButton
-          Text={Strings.register}
-          ButtonStyle={Styles.btn}
-          onPress={() => CustomToast()}
-        />
-        <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
-          <Text style={Styles.btnText}>{Strings.need_help}</Text>
-        </TouchableOpacity>
-      </View>
+      </KeyboardAwareScrollView>
     </ImageBackground>
   );
 }
 const Styles = StyleSheet.create({
   mainImg: {
     flex: 1,
-    alignItems: "center",
   },
   backBtn: {
     padding: vh(16),
+    paddingBottom: 0,
     alignSelf: "flex-start",
-    position: "absolute",
-    top: vh(14),
-    marginTop: vh(20),
+    top: vh(5),
+    marginTop: vh(10),
   },
-  cartoonMainView: {
-    position: "absolute",
-    top: vh(58),
+  loginView: {
+    backgroundColor: "white",
+    width: "90%",
+    borderRadius: vw(10),
+    alignItems: "center",
+    top: vh(30),
   },
   loginMainView: {
     width: "100%",
-    padding: vh(15),
+    paddingHorizontal: vw(15),
   },
   loginText: {
     fontSize: vh(32),
@@ -125,15 +160,8 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Regular",
     color: Colors.lightGrey,
   },
-  loginView: {
-    backgroundColor: "white",
-    width: "90%",
-    borderRadius: vw(10),
-    alignItems: "center",
-    top: vh(193),
-  },
   inputView: {
-    marginTop: vh(19),
+    marginTop: vh(15),
   },
   forgotView: {
     paddingHorizontal: vw(15),
@@ -151,7 +179,7 @@ const Styles = StyleSheet.create({
   btnText: {
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
-    padding: vw(28),
+    padding: vw(18),
     paddingTop: vh(10),
   },
 });

@@ -11,6 +11,7 @@ export interface AppProps {
   onSubmitEditing: Function;
   check: boolean;
   incorrectText: string;
+  returnKeyType?: any;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -20,23 +21,23 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         <Text
           style={[
             Styles.titleTxt,
-            { color: props.check ? Colors.pink : Colors.titleColor },
+            { color: props.check ? Colors.titleColor : Colors.pink },
           ]}
         >
           {props.titleText}
         </Text>
-        {props.check ? (
+        {props.check ? null : (
           <Text style={Styles.incorrectText}>
             {props.incorrectText}
             {Strings.is_incorrect}
           </Text>
-        ) : null}
+        )}
       </View>
       <TextInput
         ref={ref}
         style={[
           Styles.inputTxt,
-          { borderColor: props.check ? Colors.pink : Colors.borderGrey },
+          { borderColor: props.check ? Colors.borderGrey : Colors.pink },
         ]}
         keyboardType={props.keyboardType}
         secureTextEntry={
@@ -45,7 +46,9 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         value={props.value}
         onChangeText={(val: string) => props.onChangeText(val)}
         blurOnSubmit={false}
-        returnKeyType="next"
+        returnKeyType={
+          props.returnKeyType === undefined ? "next" : props.returnKeyType
+        }
         onSubmitEditing={() => props.onSubmitEditing()}
       />
     </View>

@@ -2,7 +2,7 @@ import * as React from "react";
 import { ImageBackground, Image, StatusBar, StyleSheet } from "react-native";
 
 // custom imports
-import { Images } from "../../utils";
+import { Images, Colors } from "../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -15,7 +15,7 @@ export default function App(props: AppProps) {
   });
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
-      <StatusBar barStyle={"light-content"} />
+      <StatusBar barStyle={"light-content"} backgroundColor={Colors.violet} />
       <Image source={Images.Logo} />
     </ImageBackground>
   );

@@ -24,9 +24,12 @@ export default function App(props: AppProps) {
       </View>
       <View style={Styles.loginView}>
         <View style={Styles.testimonialView}>
-          <View style={Styles.testimonialImg}>
-            <Image source={Images.Testimonial_Base} resizeMode="cover" />
-          </View>
+          <Image
+            source={Images.Testimonial_Base}
+            resizeMode="contain"
+            resizeMethod="resize"
+            style={Styles.testimonialImg}
+          />
           <Image source={Images.Colen_Bubble} style={Styles.testimonialColen} />
           <View style={Styles.testimonialTxtView}>
             <Text numberOfLines={4} style={Styles.testimonialtext}>
@@ -61,27 +64,34 @@ const Styles = StyleSheet.create({
     alignItems: "center",
   },
   cartoonMainView: {
-    position: "absolute",
-    top: vh(118),
+    top: vh(83),
+  },
+  loginView: {
+    backgroundColor: "white",
+    width: "90%",
+    borderRadius: vw(10),
+    alignItems: "center",
+    top: vh(110),
   },
   testimonialView: {
-    width: "100%",
-    height: vh(220),
+    width: vw(330),
     alignItems: "center",
+    marginBottom: vh(20),
   },
   testimonialImg: {
-    marginTop: vh(50),
+    marginTop: vw(40),
+    width: vw(350),
+    height: vw(180),
   },
   testimonialColen: {
     position: "absolute",
     alignSelf: "center",
-    marginTop: vh(30),
+    marginTop: vw(15),
   },
   testimonialTxtView: {
     position: "absolute",
-    width: "70%",
-    height: vh(100),
-    marginTop: vh(75),
+    marginHorizontal: vw(30),
+    marginTop: vw(65),
   },
   testimonialtext: {
     fontFamily: "Nunito-SemiBold",
@@ -100,13 +110,6 @@ const Styles = StyleSheet.create({
     fontSize: vw(14),
     textAlign: "center",
     paddingTop: vh(2),
-  },
-  loginView: {
-    backgroundColor: "white",
-    width: "90%",
-    borderRadius: vw(10),
-    alignItems: "center",
-    top: vh(253),
   },
   btnText: {
     fontFamily: "Nunito-Bold",

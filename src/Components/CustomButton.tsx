@@ -25,7 +25,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     height: vh(48),
-    width: "80%",
+    width: "85%",
     margin: vw(14),
     marginHorizontal: vw(20),
     backgroundColor: Colors.violet,
