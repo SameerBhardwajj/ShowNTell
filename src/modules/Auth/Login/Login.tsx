@@ -6,7 +6,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
+  Keyboard,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -38,6 +38,7 @@ export default function App(props: AppProps) {
   const [password, setPassword] = useState("");
   const [checkEmail, setCheckcheckEmail] = useState(true);
   const [checkPassword, setCheckPassword] = useState(true);
+  const [secureEntry, setsecureEntry] = useState(true);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <KeyboardAwareScrollView
@@ -81,7 +82,10 @@ export default function App(props: AppProps) {
                 ref={input2}
                 titleText={Strings.password}
                 keyboardType={"default"}
+                typePassword={true}
                 value={password}
+                secureTextEntry={secureEntry}
+                onPressEye={() => setsecureEntry(!secureEntry)}
                 onChangeText={(text: string) => {
                   checkPassword ? null : setCheckPassword(true),
                     setPassword(text);
@@ -89,7 +93,7 @@ export default function App(props: AppProps) {
                 onSubmitEditing={() => {
                   validatePasssword(password)
                     ? validateEmail(email)
-                      ? CustomToast("All Valid")
+                      ? (CustomToast(), Keyboard.dismiss())
                       : setCheckcheckEmail(false)
                     : setCheckPassword(false);
                 }}
@@ -111,10 +115,11 @@ export default function App(props: AppProps) {
             onPress={() => {
               validatePasssword(password)
                 ? validateEmail(email)
-                  ? CustomToast("All Valid")
+                  ? CustomToast()
                   : setCheckcheckEmail(false)
                 : setCheckPassword(false);
             }}
+            // story point, priority, estimated time
           />
           <CustomButton
             Text={Strings.register}
@@ -135,7 +140,7 @@ const Styles = StyleSheet.create({
   },
   backBtn: {
     padding: vh(16),
-    paddingBottom: 0,
+    paddingBottom: vh(5),
     alignSelf: "flex-start",
     top: vh(5),
     marginTop: vh(10),

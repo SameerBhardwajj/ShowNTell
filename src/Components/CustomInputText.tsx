@@ -1,6 +1,13 @@
 import * as React from "react";
-import { View, Text, TextInput, StyleSheet, Keyboard } from "react-native";
-import { Strings, Colors, vw, vh } from "../utils";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { Strings, Colors, vw, vh, Images } from "../utils";
 
 export interface AppProps {
   titleText: string;
@@ -12,6 +19,8 @@ export interface AppProps {
   check: boolean;
   incorrectText: string;
   returnKeyType?: any;
+  typePassword?: boolean;
+  onPressEye?: Function;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -51,6 +60,18 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         }
         onSubmitEditing={() => props.onSubmitEditing()}
       />
+      {props.typePassword === undefined ||
+      props.typePassword === false ? null : (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={Styles.eyeIcon}
+          onPress={() =>
+            props.onPressEye === undefined ? null : props.onPressEye()
+          }
+        >
+          <Image source={Images.Eye_icon} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 });
@@ -82,5 +103,10 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Medium",
     fontSize: vh(12),
     color: Colors.pink,
+  },
+  eyeIcon: {
+    position: "absolute",
+    bottom: vh(27),
+    right: vw(27),
   },
 });
