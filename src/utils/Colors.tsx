@@ -7,5 +7,6 @@ const Colors = {
   titleColor: "rgb(51, 51, 51)",
   waterBlue: "rgb(0, 173, 239)",
   modalBg: "rgba(0,0,0, 0.5)",
+  placeholderGrey: "rgb(153, 153, 153)",
 };
 export default Colors;

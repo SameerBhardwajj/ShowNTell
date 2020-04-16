@@ -17,6 +17,7 @@ import Attendance from "../modules/Attendance/Attendance";
 import PhotoGallery from "../modules/PhotoGallery/PhotoGallery";
 import Absence from "../modules/Absence/Absence";
 import Modal from "../modules/Auth/Modal/Modal";
+import Register from "../modules/Auth/Register/Register";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -29,6 +30,7 @@ const AuthNavigator = () => (
     <AuthStack.Screen name="LandingPage" component={LandingPage} />
     <AuthStack.Screen name="Login" component={Login} />
     <AuthStack.Screen name="FindSchool" component={FindSchool} />
+    <AuthStack.Screen name="Register" component={Register} />
   </AuthStack.Navigator>
 );
 

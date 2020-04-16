@@ -11,6 +11,7 @@ const Images = {
   Eye_icon: require("../Assets/Images/Eye-icon.png"),
   character_Description: require("../Assets/Images/character-Description.png"),
   Cancel_Icon: require("../Assets/Images/Cancel-Icon.png"),
+  Dropdown_icon: require("../Assets/Images/Dropdown-icon.png"),
 };
 
 export default Images;

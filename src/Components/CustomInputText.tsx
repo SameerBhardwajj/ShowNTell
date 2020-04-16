@@ -45,13 +45,13 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           </Text>
         )}
       </View>
-      <View style={Styles.inputTxtView}>
+      <View style={[Styles.inputTxtView, { borderColor: props.check ? Colors.borderGrey : Colors.pink }]}>
         <TextInput
           ref={ref}
           style={[
             Styles.inputTxt,
             checkPassword ? Styles.textInputStyle1 : Styles.textInputStyle2,
-            { borderColor: props.check ? Colors.borderGrey : Colors.pink },
+            { borderColor: props.check ? Colors.borderGrey : Colors.pink }
           ]}
           keyboardType={props.keyboardType}
           secureTextEntry={

@@ -22,6 +22,10 @@ const Strings = new LocalizedStrings({
     Bubbles: "Bubbles",
     bubbleMsg:
       "Our lovable friend who takes you on a daily adventure that makes kids happy to learn, play, and grow.",
+    please_enter_email_and_centre:
+      "Please enter your registered email and centre name",
+    choose_centre: "Choose Centre",
+    select_centre: "Select Centre",
   },
 });
 export default Strings;

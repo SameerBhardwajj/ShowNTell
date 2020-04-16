@@ -122,12 +122,11 @@ export default function App(props: AppProps) {
                   : setCheckcheckEmail(false)
                 : setCheckPassword(false);
             }}
-            // story point, priority, estimated time
           />
           <CustomButton
             Text={Strings.register}
             ButtonStyle={Styles.btn}
-            onPress={() => CustomToast()}
+            onPress={() => props.navigation.navigate("Register")}
           />
           <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
