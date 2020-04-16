@@ -3,7 +3,7 @@ import LocalizedStrings from "react-native-localization";
 const Strings = new LocalizedStrings({
   en: {
     login: "Login",
-    find_school: "Find School",
+    find_nearby_school: "Find Nearby School",
     need_help: "Need Help ?",
     testimonialtext:
       "“This is a great app for parents, especially in today’s busy schedule. This is just the app we need to relax ourselves while we are at work”",
@@ -19,6 +19,9 @@ const Strings = new LocalizedStrings({
     forgot_password: "Forgot Password ?",
     is_incorrect: " is incorrect",
     Email: "Email",
+    Bubbles: "Bubbles",
+    bubbleMsg:
+      "Our lovable friend who takes you on a daily adventure that makes kids happy to learn, play, and grow.",
   },
 });
 export default Strings;

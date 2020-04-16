@@ -16,6 +16,7 @@ import Chat from "../modules/Chat/Chat";
 import Attendance from "../modules/Attendance/Attendance";
 import PhotoGallery from "../modules/PhotoGallery/PhotoGallery";
 import Absence from "../modules/Absence/Absence";
+import Modal from "../modules/Auth/Modal/Modal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -63,9 +64,17 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
   public render() {
     return (
       <NavigationContainer>
-        <RootStack.Navigator headerMode="none" initialRouteName="Splash">
+        <RootStack.Navigator
+          headerMode="none"
+          initialRouteName="Splash"
+          screenOptions={{
+            cardStyle: { backgroundColor: "transparent" },
+          }}
+          mode="modal"
+        >
           <RootStack.Screen name="Splash" component={Splash} />
           <RootStack.Screen name="AuthNavigator" component={AuthNavigator} />
+          <RootStack.Screen name="Modal" component={Modal} />
           <RootStack.Screen name="TabNavigator" component={this.TabNavigator} />
         </RootStack.Navigator>
       </NavigationContainer>

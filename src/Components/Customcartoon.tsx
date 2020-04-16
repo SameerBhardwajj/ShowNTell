@@ -4,13 +4,14 @@ import { Colors, vw, vh, Images } from "../utils";
 
 export interface AppProps {
   viewStyle?: any;
+  navigation?: any;
 }
 
 export default function App(props: AppProps) {
   return (
     <View style={[Styles.cartoonView, props.viewStyle]}>
       <TouchableOpacity
-        activeOpacity={0.8}
+        activeOpacity={1}
         // style={{ marginTop: vh(13) }}
       >
         <Image
@@ -42,7 +43,10 @@ export default function App(props: AppProps) {
           style={Styles.img3}
         />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={1}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => props.navigation.navigate("Modal")}
+      >
         <Image
           source={Images.Bubbles_Waving}
           resizeMode="contain"

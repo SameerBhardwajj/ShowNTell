@@ -9,6 +9,8 @@ const Images = {
   Colen_Bubble: require("../Assets/Images/Colen-Bubble.png"),
   back_icon: require("../Assets/Images/back-icon.png"),
   Eye_icon: require("../Assets/Images/Eye-icon.png"),
+  character_Description: require("../Assets/Images/character-Description.png"),
+  Cancel_Icon: require("../Assets/Images/Cancel-Icon.png"),
 };
 
 export default Images;

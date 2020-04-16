@@ -5,5 +5,7 @@ const Colors = {
   veryLightGrey: "rgb(242, 242, 242)",
   borderGrey: "rgb(226, 226, 226)",
   titleColor: "rgb(51, 51, 51)",
+  waterBlue: "rgb(0, 173, 239)",
+  modalBg: "rgba(0,0,0, 0.5)",
 };
 export default Colors;

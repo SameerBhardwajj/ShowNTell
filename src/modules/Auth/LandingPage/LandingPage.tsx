@@ -52,7 +52,7 @@ export default function App(props: AppProps) {
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <View style={Styles.cartoonMainView}>
         {/* Custom Cartoon view ------------- */}
-        <Customcartoon />
+        <Customcartoon navigation={props.navigation} />
       </View>
       <View style={Styles.loginView}>
         {/* testimonial Flatlist -------------- */}
@@ -73,7 +73,7 @@ export default function App(props: AppProps) {
         />
         {/* Find School Button ------------ */}
         <CustomButton
-          Text={Strings.find_school}
+          Text={Strings.find_nearby_school}
           onPress={() => CustomToast()}
         />
         {/* Need help ------------- */}
