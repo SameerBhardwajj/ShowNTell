@@ -9,8 +9,9 @@ export interface AppProps {
 export default function App(props: AppProps) {
   return (
     <View style={[Styles.cartoonView, props.viewStyle]}>
-      <TouchableOpacity activeOpacity={0.8} 
-      // style={{ marginTop: vh(13) }}
+      <TouchableOpacity
+        activeOpacity={0.8}
+        // style={{ marginTop: vh(13) }}
       >
         <Image
           source={Images.Lionstein_holding_glasses}
@@ -20,7 +21,7 @@ export default function App(props: AppProps) {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        activeOpacity={0.8}
+        activeOpacity={1}
         style={{ marginTop: vh(20), marginLeft: vw(30) }}
       >
         <Image
@@ -31,7 +32,7 @@ export default function App(props: AppProps) {
         />
       </TouchableOpacity>
       <TouchableOpacity
-        activeOpacity={0.8}
+        activeOpacity={1}
         style={{ marginTop: vh(40), marginRight: vw(20) }}
       >
         <Image
@@ -41,7 +42,7 @@ export default function App(props: AppProps) {
           style={Styles.img3}
         />
       </TouchableOpacity>
-      <TouchableOpacity activeOpacity={0.8}>
+      <TouchableOpacity activeOpacity={1}>
         <Image
           source={Images.Bubbles_Waving}
           resizeMode="contain"
@@ -63,21 +64,21 @@ const Styles = StyleSheet.create({
   img1: {
     // backgroundColor: 'blue',
     height: vh(200),
-    width: vw(150)
+    width: vw(150),
   },
   img2: {
     // backgroundColor: 'blue',
     height: vh(200),
-    width: vw(200)
+    width: vw(200),
   },
   img3: {
     // backgroundColor: 'blue',
     height: vh(170),
-    width: vw(170)
+    width: vw(170),
   },
   img4: {
     // backgroundColor: 'blue',
     height: vh(180),
-    width: vw(200)
+    width: vw(200),
   },
 });

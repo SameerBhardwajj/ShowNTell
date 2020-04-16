@@ -1,56 +1,82 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   ImageBackground,
-  Image,
   StyleSheet,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 
 // custom imports
-import { Images, vh, vw, Colors, Strings } from "../../../utils";
+import { Images, vh, vw, Strings } from "../../../utils";
 import { CustomButton, CustomToast, Customcartoon } from "../../../Components";
+import TestimonialList from "./TestimonialList";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  let flatListRef: any = React.useRef();
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    autoScroll();
+  });
+
+  const renderItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return <TestimonialList item={item} index={index} />;
+  };
+
+  const autoScroll = () => {
+    setTimeout(() => {
+      if (currentIndex < DATA.length - 1) {
+        setCurrentIndex(currentIndex + 1);
+        flatListRef.current.scrollToIndex({
+          index: currentIndex,
+          animated: true,
+        });
+      } else {
+        setCurrentIndex(0);
+        flatListRef.current.scrollToIndex({
+          index: currentIndex,
+          animated: true,
+        });
+      }
+    }, 5000);
+  };
+
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <View style={Styles.cartoonMainView}>
+        {/* Custom Cartoon view ------------- */}
         <Customcartoon />
       </View>
       <View style={Styles.loginView}>
-        <View style={Styles.testimonialView}>
-          <Image
-            source={Images.Testimonial_Base}
-            resizeMode="contain"
-            resizeMethod="resize"
-            style={Styles.testimonialImg}
-          />
-          <Image source={Images.Colen_Bubble} style={Styles.testimonialColen} />
-          <View style={Styles.testimonialTxtView}>
-            <Text numberOfLines={4} style={Styles.testimonialtext}>
-              {Strings.testimonialtext}
-            </Text>
-            <Text style={Styles.testimonialAuthor}>
-              {Strings.testimonialAuthor}
-            </Text>
-            <Text style={Styles.testimonialCentre}>
-              {Strings.testimonialCentre}
-            </Text>
-          </View>
-        </View>
+        {/* testimonial Flatlist -------------- */}
+        <FlatList
+          ref={flatListRef}
+          data={DATA}
+          keyExtractor={(item, index) => index.toString()}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          bounces={false}
+          onScrollToIndexFailed={(data) => {}}
+          renderItem={renderItems}
+        />
+        {/* Login Custom Button ----------- */}
         <CustomButton
           Text={Strings.login}
           onPress={() => props.navigation.navigate("Login")}
         />
+        {/* Find School Button ------------ */}
         <CustomButton
           Text={Strings.find_school}
           onPress={() => CustomToast()}
         />
+        {/* Need help ------------- */}
         <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
           <Text style={Styles.btnText}>{Strings.need_help}</Text>
         </TouchableOpacity>
@@ -73,44 +99,6 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     top: vh(110),
   },
-  testimonialView: {
-    width: vw(330),
-    alignItems: "center",
-    marginBottom: vh(20),
-  },
-  testimonialImg: {
-    marginTop: vw(40),
-    width: vw(350),
-    height: vw(180),
-  },
-  testimonialColen: {
-    position: "absolute",
-    alignSelf: "center",
-    marginTop: vw(15),
-  },
-  testimonialTxtView: {
-    position: "absolute",
-    marginHorizontal: vw(30),
-    marginTop: vw(65),
-  },
-  testimonialtext: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: vw(16),
-    textAlign: "center",
-  },
-  testimonialAuthor: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vw(16),
-    textAlign: "center",
-    color: Colors.pink,
-    paddingTop: vh(2),
-  },
-  testimonialCentre: {
-    fontFamily: "Nunito-Medium",
-    fontSize: vw(14),
-    textAlign: "center",
-    paddingTop: vh(2),
-  },
   btnText: {
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
@@ -118,3 +106,31 @@ const Styles = StyleSheet.create({
     paddingTop: vh(10),
   },
 });
+
+const DATA = [
+  {
+    title: Strings.testimonialtext,
+    author: Strings.testimonialAuthor,
+    centre: Strings.testimonialCentre,
+  },
+  {
+    title: Strings.testimonialtext,
+    author: Strings.testimonialAuthor,
+    centre: Strings.testimonialCentre,
+  },
+  {
+    title: Strings.testimonialtext,
+    author: Strings.testimonialAuthor,
+    centre: Strings.testimonialCentre,
+  },
+  {
+    title: Strings.testimonialtext,
+    author: Strings.testimonialAuthor,
+    centre: Strings.testimonialCentre,
+  },
+  {
+    title: Strings.testimonialtext,
+    author: Strings.testimonialAuthor,
+    centre: Strings.testimonialCentre,
+  },
+];

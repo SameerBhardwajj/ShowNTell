@@ -3,6 +3,13 @@ import { vh, vw, DesignHeight, DesignWidth } from "./Dimension";
 import Strings from "./Strings";
 import Images from "./Images";
 import { validateEmail, validatePasssword } from "./Constants";
+import {
+  postApiCall,
+  getApiCall,
+  patchApiCall,
+  putApiCall,
+  deleteApiCall,
+} from "./API";
 export {
   Colors,
   vh,
@@ -13,4 +20,9 @@ export {
   Images,
   validateEmail,
   validatePasssword,
+  postApiCall,
+  getApiCall,
+  patchApiCall,
+  putApiCall,
+  deleteApiCall,
 };
