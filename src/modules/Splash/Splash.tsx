@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ImageBackground, Image, StatusBar, StyleSheet } from "react-native";
+import SplashScreen from "react-native-splash-screen";
 
 // custom imports
 import { Images, Colors } from "../../utils";
@@ -9,6 +10,7 @@ export interface AppProps {
 }
 export default function App(props: AppProps) {
   React.useEffect(() => {
+    SplashScreen.hide();
     setTimeout(() => {
       props.navigation.navigate("AuthNavigator");
     }, 2000);

@@ -44,7 +44,10 @@ export default function App(props: AppProps) {
       <KeyboardAwareScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ alignItems: "center" }}
+        contentContainerStyle={{
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}
       >
         <TouchableOpacity
           activeOpacity={0.8}
@@ -140,9 +143,8 @@ const Styles = StyleSheet.create({
   },
   backBtn: {
     padding: vh(16),
-    paddingBottom: vh(5),
+    paddingRight: vw(40),
     alignSelf: "flex-start",
-    top: vh(5),
     marginTop: vh(10),
   },
   loginView: {
@@ -150,7 +152,8 @@ const Styles = StyleSheet.create({
     width: "90%",
     borderRadius: vw(10),
     alignItems: "center",
-    top: vh(30),
+    justifyContent: "center",
+    marginTop: vh(30),
   },
   loginMainView: {
     width: "100%",

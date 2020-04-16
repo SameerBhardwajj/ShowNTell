@@ -24,6 +24,9 @@ export interface AppProps {
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
+  let checkPassword =
+    props.typePassword === undefined || props.typePassword === false;
+
   return (
     <View>
       <View style={Styles.textView}>
@@ -42,36 +45,38 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           </Text>
         )}
       </View>
-      <TextInput
-        ref={ref}
-        style={[
-          Styles.inputTxt,
-          { borderColor: props.check ? Colors.borderGrey : Colors.pink },
-        ]}
-        keyboardType={props.keyboardType}
-        secureTextEntry={
-          props.secureTextEntry === undefined ? false : props.secureTextEntry
-        }
-        value={props.value}
-        onChangeText={(val: string) => props.onChangeText(val)}
-        blurOnSubmit={false}
-        returnKeyType={
-          props.returnKeyType === undefined ? "next" : props.returnKeyType
-        }
-        onSubmitEditing={() => props.onSubmitEditing()}
-      />
-      {props.typePassword === undefined ||
-      props.typePassword === false ? null : (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={Styles.eyeIcon}
-          onPress={() =>
-            props.onPressEye === undefined ? null : props.onPressEye()
+      <View style={Styles.inputTxtView}>
+        <TextInput
+          ref={ref}
+          style={[
+            Styles.inputTxt,
+            checkPassword ? Styles.textInputStyle1 : Styles.textInputStyle2,
+            { borderColor: props.check ? Colors.borderGrey : Colors.pink },
+          ]}
+          keyboardType={props.keyboardType}
+          secureTextEntry={
+            props.secureTextEntry === undefined ? false : props.secureTextEntry
           }
-        >
-          <Image source={Images.Eye_icon} />
-        </TouchableOpacity>
-      )}
+          value={props.value}
+          onChangeText={(val: string) => props.onChangeText(val)}
+          blurOnSubmit={false}
+          returnKeyType={
+            props.returnKeyType === undefined ? "next" : props.returnKeyType
+          }
+          onSubmitEditing={() => props.onSubmitEditing()}
+        />
+        {checkPassword ? null : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={Styles.eyeIcon}
+            onPress={() =>
+              props.onPressEye === undefined ? null : props.onPressEye()
+            }
+          >
+            <Image source={Images.Eye_icon} style={Styles.imgEye} />
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 });
@@ -87,16 +92,33 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
   },
+  inputTxtView: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.veryLightGrey,
+    height: vh(48),
+    marginVertical: vh(10),
+    borderRadius: vh(50),
+    borderWidth: vh(1),
+    borderColor: Colors.borderGrey,
+  },
+  textInputStyle1: {
+    width: "100%",
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+  },
+  textInputStyle2: {
+    width: "80%",
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    paddingRight: 0,
+  },
   inputTxt: {
     height: vh(48),
-    width: "100%",
-    backgroundColor: Colors.veryLightGrey,
-    borderColor: Colors.borderGrey,
     fontSize: vh(16),
     fontFamily: "Nunito-SemiBold",
     borderRadius: vh(50),
     paddingHorizontal: vw(25),
-    marginVertical: vh(10),
     borderWidth: vh(1),
   },
   incorrectText: {
@@ -105,8 +127,11 @@ const Styles = StyleSheet.create({
     color: Colors.pink,
   },
   eyeIcon: {
-    position: "absolute",
-    bottom: vh(27),
-    right: vw(27),
+    paddingHorizontal: vw(15),
+    paddingLeft: vw(10),
+  },
+  imgEye: {
+    height: vh(18),
+    width: vh(27),
   },
 });

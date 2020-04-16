@@ -50,10 +50,8 @@ export default function App(props: AppProps) {
 
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
-      <View style={Styles.cartoonMainView}>
-        {/* Custom Cartoon view ------------- */}
-        <Customcartoon navigation={props.navigation} />
-      </View>
+      {/* Custom Cartoon view ------------- */}
+      <Customcartoon navigation={props.navigation} />
       <View style={Styles.loginView}>
         {/* testimonial Flatlist -------------- */}
         <FlatList
@@ -88,16 +86,15 @@ const Styles = StyleSheet.create({
   mainImg: {
     flex: 1,
     alignItems: "center",
-  },
-  cartoonMainView: {
-    top: vh(83),
+    justifyContent: "flex-end",
   },
   loginView: {
     backgroundColor: "white",
     width: "90%",
     borderRadius: vw(10),
     alignItems: "center",
-    top: vh(110),
+    marginBottom: vh(30),
+    marginTop: vh(30),
   },
   btnText: {
     fontFamily: "Nunito-Bold",

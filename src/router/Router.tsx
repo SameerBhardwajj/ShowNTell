@@ -9,7 +9,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Splash from "../modules/Splash/Splash";
 import LandingPage from "../modules/Auth/LandingPage/LandingPage";
 import Login from "../modules/Auth/Login/Login";
-import FindSchool from "../modules/FindSchool/FindSchool";
+import FindSchool from "../modules/Auth/FindSchool/FindSchool";
 import Home from "../modules/Home/Home";
 import Profile from "../modules/Profile/Profile";
 import Chat from "../modules/Chat/Chat";
