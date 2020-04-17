@@ -61,6 +61,7 @@ export default function App(props: AppProps) {
         <Text style={Styles.welcome}>{Strings.Welcome}</Text>
         <Text style={Styles.name}>Mr. Bob Parish</Text>
         <Text style={Styles.please}>{Strings.please_enter_code}</Text>
+        {/* Access code box ------------------ */}
         <View style={Styles.codeView}>
           <CustomCodeBox
             ref={inputRef1}
@@ -124,6 +125,7 @@ export default function App(props: AppProps) {
           />
         </View>
         <View style={{ alignItems: "center" }}>
+          {/* Verify Button ----------------- */}
           <CustomButton
             activeOpacity={EmptyBox ? 1 : 0.8}
             Text={Strings.verify}

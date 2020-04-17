@@ -44,6 +44,7 @@ export default function App(props: AppProps) {
           <Text style={Styles.name}>Mr. Bob Parish</Text>
           <Text style={Styles.please}>{Strings.enter_phone_and_email}</Text>
           <View style={Styles.codeView}>
+            {/* email -------------- */}
             <CustomInputText
               ref={inputRef1}
               titleText={Strings.Parent_email}
@@ -61,6 +62,7 @@ export default function App(props: AppProps) {
                   : setCheckEmail(false)
               }
             />
+            {/* phone number ---------------- */}
             <CustomInputText
               ref={inputRef2}
               titleText={Strings.parentPhone}

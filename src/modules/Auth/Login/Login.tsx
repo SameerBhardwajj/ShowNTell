@@ -66,6 +66,7 @@ export default function App(props: AppProps) {
               {Strings.please_enter_email_and_password}
             </Text>
             <View style={Styles.inputView}>
+              {/* Email ------------------ */}
               <CustomInputText
                 check={checkEmail}
                 ref={input1}
@@ -82,6 +83,7 @@ export default function App(props: AppProps) {
                 }}
                 incorrectText={Strings.Email}
               />
+              {/* Password ------------------ */}
               <CustomInputText
                 check={checkPassword}
                 ref={input2}
@@ -106,6 +108,7 @@ export default function App(props: AppProps) {
                 returnKeyType="done"
               />
             </View>
+            {/* Forgot password --------------- */}
             <TouchableOpacity
               activeOpacity={0.8}
               style={Styles.forgotView}
@@ -115,6 +118,7 @@ export default function App(props: AppProps) {
             </TouchableOpacity>
           </View>
           <View style={{ alignItems: "center", width: "100%" }}>
+            {/* Login ------------------ */}
             <CustomButton
               Text={Strings.proceed}
               ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
@@ -126,6 +130,7 @@ export default function App(props: AppProps) {
                   : setCheckPassword(false);
               }}
             />
+            {/* Register -------------------- */}
             <CustomButton
               Text={Strings.register}
               ButtonStyle={Styles.btn}

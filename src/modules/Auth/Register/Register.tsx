@@ -54,6 +54,7 @@ export default function App(props: AppProps) {
               {Strings.please_enter_email_and_centre}
             </Text>
             <View style={Styles.inputView}>
+              {/* Email ---------------- */}
               <CustomInputText
                 check={checkEmail}
                 titleText={Strings.Parent_email}
@@ -69,6 +70,7 @@ export default function App(props: AppProps) {
                 }}
                 incorrectText={Strings.Email}
               />
+              {/* School center list ------------- */}
               <CustomMenuList
                 titleText={Strings.choose_centre}
                 onPress={() => CustomToast()}

@@ -19,7 +19,7 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   let flatListRef: any = React.useRef();
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1);
 
   useEffect(() => {
     autoScroll();
@@ -30,6 +30,7 @@ export default function App(props: AppProps) {
     return <TestimonialList item={item} index={index} />;
   };
 
+  // Testimonial auto scroll -------------
   const autoScroll = () => {
     setTimeout(() => {
       if (currentIndex < DATA.length - 1) {
