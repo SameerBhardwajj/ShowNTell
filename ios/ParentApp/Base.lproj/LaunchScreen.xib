@@ -18,9 +18,9 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                 </imageView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="66d-Lf-5ud">
-                    <rect key="frame" x="107" y="268" width="200" height="200"/>
-                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="66d-Lf-5ud">
+                    <rect key="frame" x="118" y="278" width="179" height="180"/>
+                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -28,7 +28,7 @@
                 <constraint firstItem="66d-Lf-5ud" firstAttribute="centerX" secondItem="goi-Z7-svt" secondAttribute="centerX" id="gPe-wR-q0D"/>
                 <constraint firstItem="66d-Lf-5ud" firstAttribute="centerY" secondItem="goi-Z7-svt" secondAttribute="centerY" id="nUz-Rq-Lc9"/>
             </constraints>
-            <point key="canvasLocation" x="37.681159420289859" y="272.28260869565219"/>
+            <point key="canvasLocation" x="34.782608695652179" y="268.20652173913044"/>
         </view>
     </objects>
     <resources>
