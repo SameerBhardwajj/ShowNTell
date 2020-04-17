@@ -55,6 +55,7 @@ const DrawerNavigator = () => (
 
 export interface AppProps {
   tab: boolean;
+  splash: boolean;
 }
 export default class AppComponent extends React.PureComponent<AppProps, any> {
   constructor(props: AppProps) {
@@ -85,18 +86,29 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
           }}
           mode="modal"
         >
-          <RootStack.Screen name="Splash" component={Splash} />
-          <RootStack.Screen name="AuthNavigator" component={AuthNavigator} />
-          <RootStack.Screen name="Modal" component={Modal} />
-          <RootStack.Screen
-            name="ResendCodeModal"
-            component={ResendCodeModal}
-          />
-          <RootStack.Screen
-            name="CreatePasswordModal"
-            component={CreatePasswordModal}
-          />
-          <RootStack.Screen name="TabNavigator" component={this.TabNavigator} />
+          {this.props.splash ? (
+            <RootStack.Screen name="Splash" component={Splash} />
+          ) : (
+            <>
+              <RootStack.Screen
+                name="AuthNavigator"
+                component={AuthNavigator}
+              />
+              <RootStack.Screen name="Modal" component={Modal} />
+              <RootStack.Screen
+                name="ResendCodeModal"
+                component={ResendCodeModal}
+              />
+              <RootStack.Screen
+                name="CreatePasswordModal"
+                component={CreatePasswordModal}
+              />
+              <RootStack.Screen
+                name="TabNavigator"
+                component={this.TabNavigator}
+              />
+            </>
+          )}
         </RootStack.Navigator>
       </NavigationContainer>
     );

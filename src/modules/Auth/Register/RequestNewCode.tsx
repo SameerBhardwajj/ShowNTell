@@ -19,12 +19,13 @@ import {
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(props.route.params.email);
   const [phone, setPhone] = useState("+");
   const [checkphone, setCheckPhone] = useState(true);
   const [checkEmail, setCheckEmail] = useState(true);
@@ -47,6 +48,7 @@ export default function App(props: AppProps) {
             {/* email -------------- */}
             <CustomInputText
               ref={inputRef1}
+              editable={false}
               titleText={Strings.Parent_email}
               keyboardType={"email-address"}
               value={email}
@@ -77,11 +79,11 @@ export default function App(props: AppProps) {
               returnKeyType={"done"}
               onSubmitEditing={() => {
                 validatePhone(phone)
-                  ? validateEmail(email)
-                    ? (Keyboard.dismiss(),
-                      props.navigation.navigate("ResendCodeModal"))
-                    : setCheckEmail(false)
-                  : setCheckPhone(false);
+                  ? // ? validateEmail(email)
+                    (Keyboard.dismiss(),
+                    props.navigation.navigate("ResendCodeModal"))
+                  : // : setCheckEmail(false)
+                    setCheckPhone(false);
               }}
             />
             <View style={{ alignItems: "center", width: "100%" }}>
@@ -89,11 +91,11 @@ export default function App(props: AppProps) {
                 Text={Strings.Resent_Access_Code}
                 onPress={() => {
                   validatePhone(phone)
-                    ? validateEmail(email)
-                      ? (Keyboard.dismiss(),
-                        props.navigation.navigate("ResendCodeModal"))
-                      : setCheckEmail(false)
-                    : setCheckPhone(false);
+                    ? // ? validateEmail(email)
+                      (Keyboard.dismiss(),
+                      props.navigation.navigate("ResendCodeModal"))
+                    : // : setCheckEmail(false)
+                      setCheckPhone(false);
                 }}
                 ButtonStyle={{ width: "100%" }}
               />

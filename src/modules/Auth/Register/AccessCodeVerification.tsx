@@ -18,6 +18,7 @@ import { Strings, vw, vh, Colors } from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
@@ -144,7 +145,11 @@ export default function App(props: AppProps) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={{ paddingHorizontal: vw(7) }}
-              onPress={() => props.navigation.navigate("RequestNewCode")}
+              onPress={() =>
+                props.navigation.navigate("RequestNewCode", {
+                  email: props.route.params.email,
+                })
+              }
             >
               <Text style={Styles.requestNew}>{Strings.Request_New}</Text>
             </TouchableOpacity>

@@ -22,6 +22,7 @@ export interface AppProps {
   typePassword?: boolean;
   onPressEye?: Function;
   mainViewStyle?: any;
+  editable?: boolean;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -63,6 +64,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           secureTextEntry={
             props.secureTextEntry === undefined ? false : props.secureTextEntry
           }
+          editable={props.editable}
           value={props.value}
           onChangeText={(val: string) => props.onChangeText(val)}
           blurOnSubmit={false}

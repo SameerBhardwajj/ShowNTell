@@ -80,7 +80,13 @@ export default function App(props: AppProps) {
           <CustomButton
             Text={Strings.proceed}
             ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
-            onPress={() => props.navigation.navigate("AccessCodeVerification")}
+            onPress={() => {
+              validateEmail(email)
+                ? props.navigation.navigate("AccessCodeVerification", {
+                    email: email,
+                  })
+                : setCheckcheckEmail(false);
+            }}
           />
           <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
