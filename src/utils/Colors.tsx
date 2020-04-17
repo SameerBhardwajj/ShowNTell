@@ -1,5 +1,6 @@
 const Colors = {
   violet: "rgb(153, 51, 136)",
+  disableViolet: "rgba(153, 51, 136, 0.5)",
   pink: "rgb(236, 0, 136)",
   lightGrey: "rgb(102, 102, 102)",
   veryLightGrey: "rgb(242, 242, 242)",

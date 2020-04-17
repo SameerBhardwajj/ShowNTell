@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Keyboard } from "react-native";
 
 // custom imports
 import {
@@ -19,35 +19,31 @@ export default function App(props: AppProps) {
   const inputRef2: any = React.createRef();
   const inputRef3: any = React.createRef();
   const inputRef4: any = React.createRef();
-  const [input1, setinput1] = useState();
-  const [input2, setinput2] = useState();
-  const [input3, setinput3] = useState();
-  const [input4, setinput4] = useState();
+  const [input1, setinput1] = useState("");
+  const [input2, setinput2] = useState("");
+  const [input3, setinput3] = useState("");
+  const [input4, setinput4] = useState("");
 
   const verifyCode = () => {
     const code = "1234";
+    let enteredCode =
+      input1.toString() +
+      input2.toString() +
+      input3.toString() +
+      input4.toString();
 
-    if (
-      input1 === null ||
-      input2 === null ||
-      input3 === null ||
-      input4 === null
-    ) {
-      CustomToast(Strings.Please_Fill_All_Boxes);
+    if (code === enteredCode) {
+      props.navigation.navigate("CreatePassword");
     } else {
-      let enteredCode =
-        input1.toString() +
-        input2.toString() +
-        input3.toString() +
-        input4.toString();
-
-      if (code === enteredCode) {
-        props.navigation.navigate("CreatePassword");
-      } else {
-        CustomToast(Strings.wrong_code);
-      }
+      CustomToast(Strings.wrong_code);
     }
   };
+
+  let EmptyBox =
+    input1.length === 0 ||
+    input2.length === 0 ||
+    input3.length === 0 ||
+    input4.length === 0;
 
   return (
     <View style={Styles.mainView}>
@@ -80,9 +76,9 @@ export default function App(props: AppProps) {
             }}
             onKeyPress={(e: any) => {
               e.nativeEvent.key === "Backspace"
-                ? input2 === null
-                  ? (inputRef1.current.focus(), setinput1(null))
-                  : setinput2(null)
+                ? input2.length === 0
+                  ? (inputRef1.current.focus(), setinput1(""))
+                  : setinput2("")
                 : null;
             }}
             onSubmitEditing={() => inputRef3.current.focus()}
@@ -96,9 +92,9 @@ export default function App(props: AppProps) {
             }}
             onKeyPress={(e: any) => {
               e.nativeEvent.key === "Backspace"
-                ? input3 === null
-                  ? (inputRef2.current.focus(), setinput2(null))
-                  : setinput3(null)
+                ? input3.length === 0
+                  ? (inputRef2.current.focus(), setinput2(""))
+                  : setinput3("")
                 : null;
             }}
             onSubmitEditing={() => inputRef4.current.focus()}
@@ -113,18 +109,22 @@ export default function App(props: AppProps) {
             onKeyPress={(e: any) => {
               e.nativeEvent.key === "Backspace"
                 ? input4.length === 0
-                  ? (inputRef3.current.focus(), setinput3(null))
-                  : setinput4(null)
+                  ? (inputRef3.current.focus(), setinput3(""))
+                  : setinput4("")
                 : null;
             }}
-            onSubmitEditing={() => verifyCode()}
+            onSubmitEditing={() => {Keyboard.dismiss(), verifyCode()}}
           />
         </View>
         <View style={{ alignItems: "center" }}>
           <CustomButton
+            activeOpacity={EmptyBox ? 1 : 0.8}
             Text={Strings.verify}
-            onPress={() => verifyCode()}
-            ButtonStyle={{ width: "98%" }}
+            onPress={() => (EmptyBox ? null : (Keyboard.dismiss(), verifyCode()))}
+            ButtonStyle={{
+              width: "98%",
+              backgroundColor: EmptyBox ? Colors.disableViolet : Colors.violet,
+            }}
           />
           <View style={Styles.footer}>
             <Text style={Styles.didntReceive}>

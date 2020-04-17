@@ -11,7 +11,7 @@ import { Strings, Colors, vw, vh, Images } from "../utils";
 
 export interface AppProps {
   titleText: string;
-  keyboardType: any;
+  keyboardType?: any;
   secureTextEntry?: boolean;
   value: string;
   onChangeText: Function;
@@ -21,6 +21,7 @@ export interface AppProps {
   returnKeyType?: any;
   typePassword?: boolean;
   onPressEye?: Function;
+  mainViewStyle?: any;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -28,7 +29,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
     props.typePassword === undefined || props.typePassword === false;
 
   return (
-    <View>
+    <View style={props.mainViewStyle}>
       <View style={Styles.textView}>
         <Text
           style={[
@@ -45,13 +46,18 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           </Text>
         )}
       </View>
-      <View style={[Styles.inputTxtView, { borderColor: props.check ? Colors.borderGrey : Colors.pink }]}>
+      <View
+        style={[
+          Styles.inputTxtView,
+          { borderColor: props.check ? Colors.borderGrey : Colors.pink },
+        ]}
+      >
         <TextInput
           ref={ref}
           style={[
             Styles.inputTxt,
             checkPassword ? Styles.textInputStyle1 : Styles.textInputStyle2,
-            { borderColor: props.check ? Colors.borderGrey : Colors.pink }
+            { borderColor: props.check ? Colors.borderGrey : Colors.pink },
           ]}
           keyboardType={props.keyboardType}
           secureTextEntry={

@@ -2,7 +2,7 @@ import Colors from "./Colors";
 import { vh, vw, DesignHeight, DesignWidth } from "./Dimension";
 import Strings from "./Strings";
 import Images from "./Images";
-import { validateEmail, validatePasssword } from "./Constants";
+import { validateEmail, validatePasssword, validatePhone } from "./Constants";
 import {
   postApiCall,
   getApiCall,
@@ -20,6 +20,7 @@ export {
   Images,
   validateEmail,
   validatePasssword,
+  validatePhone,
   postApiCall,
   getApiCall,
   patchApiCall,

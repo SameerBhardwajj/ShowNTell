@@ -7,12 +7,15 @@ export interface AppProps {
   ButtonStyle?: any;
   TextStyle?: any;
   onPress: Function;
+  activeOpacity?: number;
 }
 
 export default function App(props: AppProps) {
   return (
     <TouchableOpacity
-      activeOpacity={0.8}
+      activeOpacity={
+        props.activeOpacity === undefined ? 0.8 : props.activeOpacity
+      }
       style={[Styles.btn, props.ButtonStyle]}
       onPress={() => props.onPress()}
     >

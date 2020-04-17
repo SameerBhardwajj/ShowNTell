@@ -36,7 +36,7 @@ export default function App(props: AppProps) {
   const input2: any = React.createRef();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [checkEmail, setCheckcheckEmail] = useState(true);
+  const [checkEmail, setCheckEmail] = useState(true);
   const [checkPassword, setCheckPassword] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
   return (
@@ -73,12 +73,12 @@ export default function App(props: AppProps) {
                 keyboardType={"email-address"}
                 value={email}
                 onChangeText={(text: string) => {
-                  checkEmail ? null : setCheckcheckEmail(true), setEmail(text);
+                  checkEmail ? null : setCheckEmail(true), setEmail(text);
                 }}
                 onSubmitEditing={() => {
                   validateEmail(email)
                     ? input2.current.focus()
-                    : setCheckcheckEmail(false);
+                    : setCheckEmail(false);
                 }}
                 incorrectText={Strings.Email}
               />
@@ -99,7 +99,7 @@ export default function App(props: AppProps) {
                   validatePasssword(password)
                     ? validateEmail(email)
                       ? (CustomToast(), Keyboard.dismiss())
-                      : setCheckcheckEmail(false)
+                      : setCheckEmail(false)
                     : setCheckPassword(false);
                 }}
                 incorrectText={Strings.password}
@@ -122,7 +122,7 @@ export default function App(props: AppProps) {
                 validatePasssword(password)
                   ? validateEmail(email)
                     ? CustomToast()
-                    : setCheckcheckEmail(false)
+                    : setCheckEmail(false)
                   : setCheckPassword(false);
               }}
             />

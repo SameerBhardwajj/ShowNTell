@@ -21,6 +21,7 @@ import Register from "../modules/Auth/Register/Register";
 import AccessCodeVerification from "../modules/Auth/Register/AccessCodeVerification";
 import CreatePassword from "../modules/Auth/Register/CreatePassword";
 import RequestNewCode from "../modules/Auth/Register/RequestNewCode";
+import ResendCodeModal from "../modules/Auth/Modal/ResendCodeModal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -86,6 +87,10 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
           <RootStack.Screen name="Splash" component={Splash} />
           <RootStack.Screen name="AuthNavigator" component={AuthNavigator} />
           <RootStack.Screen name="Modal" component={Modal} />
+          <RootStack.Screen
+            name="ResendCodeModal"
+            component={ResendCodeModal}
+          />
           <RootStack.Screen name="TabNavigator" component={this.TabNavigator} />
         </RootStack.Navigator>
       </NavigationContainer>

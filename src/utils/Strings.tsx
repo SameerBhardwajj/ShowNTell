@@ -35,6 +35,17 @@ const Strings = new LocalizedStrings({
     verify: "Verify",
     didnt_receive_code: "Didn’t receive access code ?",
     Request_New: "Request New",
+    Request_New_Access_Code: "Request New Access Code",
+    hello: "Hello",
+    enter_phone_and_email:
+      "Please enter your phone number along with\nyour email to get new verification code.",
+    parentPhone: "Parent’s Phone Number",
+    phone_number: "Phone No.",
+    Resent_Access_Code: "Resent Access Code",
+    I_have_Access_Code: "I have Access Code",
+    acsess_code_confirm:
+      "New Access Code will be sent to your phone number and email in a while.",
+    ok: "OK",
   },
 });
 export default Strings;

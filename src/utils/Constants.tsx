@@ -9,4 +9,9 @@ const validatePasssword = (password: string) => {
   return rp.test(String(password));
 };
 
-export { validateEmail, validatePasssword };
+const validatePhone = (phone: string) => {
+  var rp = /^\+[0-9]{3} [1-9]{1}[0-9]{9}$/;
+  return rp.test(String(phone));
+};
+
+export { validateEmail, validatePasssword, validatePhone };
