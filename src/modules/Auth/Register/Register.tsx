@@ -8,17 +8,10 @@ import {
   TouchableOpacity,
   Keyboard,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
-import {
-  Images,
-  vh,
-  vw,
-  Colors,
-  Strings,
-  validateEmail,
-  validatePasssword,
-} from "../../../utils";
+import { Images, vh, vw, Colors, Strings, validateEmail } from "../../../utils";
 import {
   CustomButton,
   CustomToast,
@@ -32,73 +25,76 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const input1: any = React.createRef();
-  const input2: any = React.createRef();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [checkEmail, setCheckcheckEmail] = useState(true);
-  const [checkPassword, setCheckPassword] = useState(true);
-  const [secureEntry, setsecureEntry] = useState(true);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={Styles.backBtn}
-        onPress={() => props.navigation.pop()}
+      <KeyboardAwareScrollView
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          alignItems: "center",
+        }}
       >
-        <Image source={Images.back_icon} />
-      </TouchableOpacity>
-      <Customcartoon viewStyle={{ width: vw(300) }} />
-      <View style={Styles.loginView}>
-        <View style={Styles.loginMainView}>
-          <Text style={Styles.loginText}>{Strings.register}</Text>
-          <Text style={Styles.loginFooter}>
-            {Strings.please_enter_email_and_centre}
-          </Text>
-          <View style={Styles.inputView}>
-            <CustomInputText
-              check={checkEmail}
-              ref={input1}
-              titleText={Strings.Parent_email}
-              keyboardType={"email-address"}
-              value={email}
-              onChangeText={(text: string) => {
-                checkEmail ? null : setCheckcheckEmail(true), setEmail(text);
-              }}
-              onSubmitEditing={() => {
-                validateEmail(email)
-                  ? Keyboard.dismiss()
-                  : setCheckcheckEmail(false);
-              }}
-              incorrectText={Strings.Email}
-            />
-            <CustomMenuList titleText={Strings.choose_centre} />
-          </View>
-        </View>
-        <CustomButton
-          Text={Strings.proceed}
-          ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
-          onPress={() => CustomToast()}
-        />
-        <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
-          <Text style={Styles.btnText}>{Strings.need_help}</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={Styles.backBtn}
+          onPress={() => props.navigation.pop()}
+        >
+          <Image source={Images.back_icon} />
         </TouchableOpacity>
-      </View>
+        <Customcartoon
+          navigation={props.navigation}
+          viewStyle={{ width: vw(300), marginTop: vh(115) }}
+        />
+        <View style={Styles.loginView}>
+          <View style={Styles.loginMainView}>
+            <Text style={Styles.loginText}>{Strings.register}</Text>
+            <Text style={Styles.loginFooter}>
+              {Strings.please_enter_email_and_centre}
+            </Text>
+            <View style={Styles.inputView}>
+              <CustomInputText
+                check={checkEmail}
+                titleText={Strings.Parent_email}
+                keyboardType={"email-address"}
+                value={email}
+                onChangeText={(text: string) => {
+                  checkEmail ? null : setCheckcheckEmail(true), setEmail(text);
+                }}
+                onSubmitEditing={() => {
+                  validateEmail(email)
+                    ? Keyboard.dismiss()
+                    : setCheckcheckEmail(false);
+                }}
+                incorrectText={Strings.Email}
+              />
+              <CustomMenuList titleText={Strings.choose_centre} />
+            </View>
+          </View>
+          <CustomButton
+            Text={Strings.proceed}
+            ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
+            onPress={() => props.navigation.navigate("AccessCodeVerification")}
+          />
+          <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
+            <Text style={Styles.btnText}>{Strings.need_help}</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
     </ImageBackground>
   );
 }
 const Styles = StyleSheet.create({
   mainImg: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end",
   },
   backBtn: {
     position: "absolute",
     padding: vh(16),
     paddingRight: vw(40),
     alignSelf: "flex-start",
-    top: vh(30),
+    top: vh(25),
   },
   loginView: {
     backgroundColor: "white",

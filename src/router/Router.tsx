@@ -18,6 +18,9 @@ import PhotoGallery from "../modules/PhotoGallery/PhotoGallery";
 import Absence from "../modules/Absence/Absence";
 import Modal from "../modules/Auth/Modal/Modal";
 import Register from "../modules/Auth/Register/Register";
+import AccessCodeVerification from "../modules/Auth/Register/AccessCodeVerification";
+import CreatePassword from "../modules/Auth/Register/CreatePassword";
+import RequestNewCode from "../modules/Auth/Register/RequestNewCode";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -31,6 +34,12 @@ const AuthNavigator = () => (
     <AuthStack.Screen name="Login" component={Login} />
     <AuthStack.Screen name="FindSchool" component={FindSchool} />
     <AuthStack.Screen name="Register" component={Register} />
+    <AuthStack.Screen
+      name="AccessCodeVerification"
+      component={AccessCodeVerification}
+    />
+    <AuthStack.Screen name="CreatePassword" component={CreatePassword} />
+    <AuthStack.Screen name="RequestNewCode" component={RequestNewCode} />
   </AuthStack.Navigator>
 );
 

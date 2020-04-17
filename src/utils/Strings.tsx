@@ -26,6 +26,15 @@ const Strings = new LocalizedStrings({
       "Please enter your registered email and centre name",
     choose_centre: "Choose Centre",
     select_centre: "Select Centre",
+    Access_Code_Verification: "Access Code Verification",
+    Welcome: "Welcome",
+    please_enter_code:
+      "Please enter the 4 digit access code\nreceived on Bob.parish@gmail.com",
+    wrong_code: "Entered Incorrect Code ! Please Try Again",
+    Please_Fill_All_Boxes: "Please Fill All Boxes !",
+    verify: "Verify",
+    didnt_receive_code: "Didn’t receive access code ?",
+    Request_New: "Request New",
   },
 });
 export default Strings;

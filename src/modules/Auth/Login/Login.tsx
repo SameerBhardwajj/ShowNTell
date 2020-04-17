@@ -46,7 +46,6 @@ export default function App(props: AppProps) {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           alignItems: "center",
-          justifyContent: "flex-end",
         }}
       >
         <TouchableOpacity
@@ -56,7 +55,10 @@ export default function App(props: AppProps) {
         >
           <Image source={Images.back_icon} />
         </TouchableOpacity>
-        <Customcartoon viewStyle={{ width: vw(300) }} />
+        <Customcartoon
+          navigation={props.navigation}
+          viewStyle={{ width: vw(300), marginTop: vw(70) }}
+        />
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
             <Text style={Styles.loginText}>{Strings.login}</Text>
@@ -112,22 +114,24 @@ export default function App(props: AppProps) {
               <Text style={Styles.forgotTxt}>{Strings.forgot_password}</Text>
             </TouchableOpacity>
           </View>
-          <CustomButton
-            Text={Strings.proceed}
-            ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
-            onPress={() => {
-              validatePasssword(password)
-                ? validateEmail(email)
-                  ? CustomToast()
-                  : setCheckcheckEmail(false)
-                : setCheckPassword(false);
-            }}
-          />
-          <CustomButton
-            Text={Strings.register}
-            ButtonStyle={Styles.btn}
-            onPress={() => props.navigation.navigate("Register")}
-          />
+          <View style={{ alignItems: "center", width: "100%" }}>
+            <CustomButton
+              Text={Strings.proceed}
+              ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
+              onPress={() => {
+                validatePasssword(password)
+                  ? validateEmail(email)
+                    ? CustomToast()
+                    : setCheckcheckEmail(false)
+                  : setCheckPassword(false);
+              }}
+            />
+            <CustomButton
+              Text={Strings.register}
+              ButtonStyle={Styles.btn}
+              onPress={() => props.navigation.navigate("Register")}
+            />
+          </View>
           <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
           </TouchableOpacity>
@@ -142,9 +146,9 @@ const Styles = StyleSheet.create({
   },
   backBtn: {
     padding: vh(16),
-    paddingRight: vw(40),
+    top: vh(20),
     alignSelf: "flex-start",
-    marginTop: vh(10),
+    position: "absolute",
   },
   loginView: {
     backgroundColor: "white",
@@ -153,6 +157,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: vh(30),
+    marginBottom: vh(30),
   },
   loginMainView: {
     width: "100%",
