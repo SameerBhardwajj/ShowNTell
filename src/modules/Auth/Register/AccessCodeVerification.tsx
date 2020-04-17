@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Keyboard,
+} from "react-native";
 
 // custom imports
 import {
@@ -105,7 +111,6 @@ export default function App(props: AppProps) {
             onChangeText={(text: string) => {
               setinput4(text);
             }}
-            returnKeyType="done"
             onKeyPress={(e: any) => {
               e.nativeEvent.key === "Backspace"
                 ? input4.length === 0
@@ -113,14 +118,18 @@ export default function App(props: AppProps) {
                   : setinput4("")
                 : null;
             }}
-            onSubmitEditing={() => {Keyboard.dismiss(), verifyCode()}}
+            onSubmitEditing={() => {
+              Keyboard.dismiss(), verifyCode();
+            }}
           />
         </View>
         <View style={{ alignItems: "center" }}>
           <CustomButton
             activeOpacity={EmptyBox ? 1 : 0.8}
             Text={Strings.verify}
-            onPress={() => (EmptyBox ? null : (Keyboard.dismiss(), verifyCode()))}
+            onPress={() =>
+              EmptyBox ? null : (Keyboard.dismiss(), verifyCode())
+            }
             ButtonStyle={{
               width: "98%",
               backgroundColor: EmptyBox ? Colors.disableViolet : Colors.violet,

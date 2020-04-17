@@ -19,7 +19,7 @@ export default function App(props: AppProps) {
         </Text>
         <CustomButton
           Text={Strings.Back_to_Login}
-          onPress={() => props.navigation.pop(1)}
+          onPress={() => props.navigation.navigate('Login')}
         />
       </View>
     </View>

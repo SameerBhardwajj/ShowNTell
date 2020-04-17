@@ -114,7 +114,7 @@ const Styles = StyleSheet.create({
     borderLeftWidth: 0,
   },
   textInputStyle2: {
-    width: "80%",
+    width: "83%",
     borderRightWidth: 0,
     borderLeftWidth: 0,
     paddingRight: 0,

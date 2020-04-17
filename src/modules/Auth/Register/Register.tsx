@@ -69,7 +69,10 @@ export default function App(props: AppProps) {
                 }}
                 incorrectText={Strings.Email}
               />
-              <CustomMenuList titleText={Strings.choose_centre} />
+              <CustomMenuList
+                titleText={Strings.choose_centre}
+                onPress={() => CustomToast()}
+              />
             </View>
           </View>
           <CustomButton

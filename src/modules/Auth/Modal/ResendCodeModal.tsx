@@ -17,7 +17,7 @@ export default function App(props: AppProps) {
         <Text style={Styles.bubbleMsgText}>{Strings.acsess_code_confirm}</Text>
         <CustomButton
           Text={Strings.ok}
-          onPress={() => props.navigation.pop()}
+          onPress={() => props.navigation.navigate("AccessCodeVerification")}
         />
       </View>
     </View>

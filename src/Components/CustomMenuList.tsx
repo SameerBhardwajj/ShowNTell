@@ -4,6 +4,7 @@ import { Strings, Colors, vw, vh, Images } from "../utils";
 
 export interface AppProps {
   titleText: string;
+  onPress: Function;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -15,7 +16,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
       <TouchableOpacity
         activeOpacity={0.8}
         style={Styles.inputTxtView}
-        onPress={() => {}}
+        onPress={() => props.onPress()}
       >
         <Text style={Styles.centreTxt}>{Strings.select_centre}</Text>
         <Image source={Images.Dropdown_icon} style={Styles.imgEye} />
