@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Keyboard } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
   CustomHeader,
   CustomInputText,
   CustomButton,
+  CustomToast,
 } from "../../../Components";
 import {
   Strings,
@@ -16,6 +18,7 @@ import {
   validateEmail,
   validatePhone,
 } from "../../../utils";
+import { updateAccess, delayAccess } from "./actions";
 
 export interface AppProps {
   navigation?: any;
@@ -23,6 +26,10 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
+  const { access } = useSelector((state: { Register: any }) => ({
+    access: state.Register.access,
+  }));
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
   const [email, setEmail] = useState(props.route.params.email);
@@ -50,23 +57,16 @@ export default function App(props: AppProps) {
               ref={inputRef1}
               editable={false}
               titleText={Strings.Parent_email}
-              keyboardType={"email-address"}
               value={email}
-              onChangeText={(text: string) => {
-                checkEmail ? null : setCheckEmail(true), setEmail(text);
-              }}
+              onChangeText={(text: string) => {}}
               check={checkEmail}
               incorrectText={Strings.Email}
-              returnKeyType={"next"}
-              onSubmitEditing={() =>
-                validateEmail(email)
-                  ? inputRef2.current.focus()
-                  : setCheckEmail(false)
-              }
+              onSubmitEditing={() => {}}
             />
             {/* phone number ---------------- */}
             <CustomInputText
               ref={inputRef2}
+              editable={true}
               titleText={Strings.parentPhone}
               keyboardType={"phone-pad"}
               mainViewStyle={{ marginVertical: vh(24) }}
@@ -79,25 +79,38 @@ export default function App(props: AppProps) {
               returnKeyType={"done"}
               onSubmitEditing={() => {
                 validatePhone(phone)
-                  ? // ? validateEmail(email)
+                  ? // access === true
+                    //   ?
                     (Keyboard.dismiss(),
+                    dispatch(updateAccess()),
+                    dispatch(delayAccess()),
                     props.navigation.navigate("ResendCodeModal"))
-                  : // : setCheckEmail(false)
+                  : // : null
                     setCheckPhone(false);
               }}
             />
             <View style={{ alignItems: "center", width: "100%" }}>
               <CustomButton
                 Text={Strings.Resent_Access_Code}
+                // activeOpacity={access ? 0.8 : 1}
                 onPress={() => {
+                  // access
+                  //   ?
                   validatePhone(phone)
-                    ? // ? validateEmail(email)
+                    ? // ? access === true
                       (Keyboard.dismiss(),
+                      dispatch(updateAccess()),
+                      dispatch(delayAccess()),
                       props.navigation.navigate("ResendCodeModal"))
-                    : // : setCheckEmail(false)
+                    : // : null
                       setCheckPhone(false);
+                  // : null;
                 }}
-                ButtonStyle={{ width: "100%" }}
+                ButtonStyle={{
+                  width: "100%",
+                  // backgroundColor:
+                  //   access === true ? Colors.violet : Colors.disableViolet,
+                }}
               />
               <CustomButton
                 Text={Strings.I_have_Access_Code}
