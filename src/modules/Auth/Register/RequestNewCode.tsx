@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Keyboard,
-} from "react-native";
+import { View, Text, StyleSheet, Keyboard } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
@@ -82,7 +76,8 @@ export default function App(props: AppProps) {
               onSubmitEditing={() => {
                 validatePhone(phone)
                   ? validateEmail(email)
-                    ? props.navigation.navigate("ResendCodeModal")
+                    ? (Keyboard.dismiss(),
+                      props.navigation.navigate("ResendCodeModal"))
                     : setCheckEmail(false)
                   : setCheckPhone(false);
               }}
@@ -93,7 +88,8 @@ export default function App(props: AppProps) {
                 onPress={() => {
                   validatePhone(phone)
                     ? validateEmail(email)
-                      ? props.navigation.navigate("ResendCodeModal")
+                      ? (Keyboard.dismiss(),
+                        props.navigation.navigate("ResendCodeModal"))
                       : setCheckEmail(false)
                     : setCheckPhone(false);
                 }}

@@ -22,6 +22,7 @@ import AccessCodeVerification from "../modules/Auth/Register/AccessCodeVerificat
 import CreatePassword from "../modules/Auth/Register/CreatePassword";
 import RequestNewCode from "../modules/Auth/Register/RequestNewCode";
 import ResendCodeModal from "../modules/Auth/Modal/ResendCodeModal";
+import CreatePasswordModal from "../modules/Auth/Modal/CreatePasswordModal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -90,6 +91,10 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
           <RootStack.Screen
             name="ResendCodeModal"
             component={ResendCodeModal}
+          />
+          <RootStack.Screen
+            name="CreatePasswordModal"
+            component={CreatePasswordModal}
           />
           <RootStack.Screen name="TabNavigator" component={this.TabNavigator} />
         </RootStack.Navigator>

@@ -44,8 +44,15 @@ const Strings = new LocalizedStrings({
     Resent_Access_Code: "Resent Access Code",
     I_have_Access_Code: "I have Access Code",
     acsess_code_confirm:
-      "New Access Code will be sent to your phone number and email in a while.",
+      "New Access Code will be sent to\nyour phone number and email\nin a while.",
     ok: "OK",
+    Create_Password: "Create Password",
+    create_password_content:
+      "Create password which you can use to login to this application from next time onwards.",
+    Confirm_Password: "Confirm Password",
+    Continue: "Continue",
+    Password_successfully_created: "Password successfully created",
+    Back_to_Login: "Back to Login",
   },
 });
 export default Strings;

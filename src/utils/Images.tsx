@@ -13,6 +13,7 @@ const Images = {
   Cancel_Icon: require("../Assets/Images/Cancel-Icon.png"),
   Dropdown_icon: require("../Assets/Images/Dropdown-icon.png"),
   Confirmation_check_Icon: require("../Assets/Images/Confirmation_check_Icon.png"),
+  Lock_Graphic: require("../Assets/Images/Lock_Graphic.png"),
 };
 
 export default Images;
