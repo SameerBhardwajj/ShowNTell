@@ -6,10 +6,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  StatusBar,
 } from "react-native";
 
 // custom imports
-import { Images, vh, vw, Strings } from "../../../utils";
+import { Images, vh, vw, Strings, Colors } from "../../../utils";
 import { CustomButton, CustomToast, Customcartoon } from "../../../Components";
 import TestimonialList from "./TestimonialList";
 
@@ -51,6 +52,11 @@ export default function App(props: AppProps) {
 
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
+      <StatusBar
+        barStyle={"light-content"}
+        backgroundColor={Colors.violet}
+        animated={true}
+      />
       {/* Custom Cartoon view ------------- */}
       <Customcartoon navigation={props.navigation} />
       <View style={Styles.loginView}>
