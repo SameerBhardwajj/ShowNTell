@@ -28,6 +28,7 @@ const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
 const DrawerStack = createDrawerNavigator();
+const ModalStack = createStackNavigator();
 
 const AuthNavigator = () => (
   <AuthStack.Navigator headerMode="none" initialRouteName="LandingPage">
@@ -41,6 +42,7 @@ const AuthNavigator = () => (
     />
     <AuthStack.Screen name="CreatePassword" component={CreatePassword} />
     <AuthStack.Screen name="RequestNewCode" component={RequestNewCode} />
+    <RootStack.Screen name="ModalNavigator" component={ModalNavigator} />
   </AuthStack.Navigator>
 );
 
@@ -50,6 +52,23 @@ const DrawerNavigator = () => (
     <DrawerStack.Screen name="Profile" component={Profile} />
     <DrawerStack.Screen name="Chat" component={Chat} />
   </DrawerStack.Navigator>
+);
+
+const ModalNavigator = () => (
+  <ModalStack.Navigator
+    screenOptions={{
+      cardStyle: { backgroundColor: "transparent" },
+    }}
+    mode="modal"
+    headerMode="none"
+  >
+    <ModalStack.Screen name="Modal" component={Modal} />
+    <ModalStack.Screen name="ResendCodeModal" component={ResendCodeModal} />
+    <ModalStack.Screen
+      name="CreatePasswordModal"
+      component={CreatePasswordModal}
+    />
+  </ModalStack.Navigator>
 );
 
 export interface AppProps {

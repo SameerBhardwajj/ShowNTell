@@ -18,10 +18,10 @@ export default function App(props: AppProps) {
       dispatch(updateSplash());
       props.navigation.navigate("AuthNavigator");
     }, 2000);
-  });
+  }, []);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
-      <StatusBar hidden={true} />
+      <StatusBar barStyle={'light-content'} backgroundColor={Colors.violet} />
       <Image source={Images.Logo} />
     </ImageBackground>
   );

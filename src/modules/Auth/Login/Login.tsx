@@ -57,7 +57,8 @@ export default function App(props: AppProps) {
         </TouchableOpacity>
         <Customcartoon
           navigation={props.navigation}
-          viewStyle={{ width: vw(300), marginTop: vw(70) }}
+          viewStyle={{ marginTop: vw(65) }}
+          small={true}
         />
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
@@ -161,8 +162,6 @@ const Styles = StyleSheet.create({
     borderRadius: vw(10),
     alignItems: "center",
     justifyContent: "center",
-    marginTop: vh(30),
-    marginBottom: vh(30),
   },
   loginMainView: {
     width: "100%",

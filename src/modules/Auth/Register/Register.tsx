@@ -45,7 +45,8 @@ export default function App(props: AppProps) {
         </TouchableOpacity>
         <Customcartoon
           navigation={props.navigation}
-          viewStyle={{ width: vw(300), marginTop: vh(115) }}
+          viewStyle={{ marginTop: vh(115) }}
+          small={true}
         />
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
@@ -112,8 +113,6 @@ const Styles = StyleSheet.create({
     width: "90%",
     borderRadius: vw(10),
     alignItems: "center",
-    marginTop: vh(30),
-    marginBottom: vh(30),
   },
   loginMainView: {
     width: "100%",
@@ -147,7 +146,7 @@ const Styles = StyleSheet.create({
   btnText: {
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
-    padding: vw(18),
+    padding: vw(15),
     paddingTop: vh(10),
   },
 });
