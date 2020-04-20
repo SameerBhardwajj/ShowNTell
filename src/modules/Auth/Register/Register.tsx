@@ -30,12 +30,12 @@ export default function App(props: AppProps) {
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <KeyboardAwareScrollView
-        bounces={false}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           flex: 1,
           alignItems: "center",
-          justifyContent: 'flex-end'
+          justifyContent: "flex-end",
         }}
       >
         <TouchableOpacity
@@ -45,10 +45,7 @@ export default function App(props: AppProps) {
         >
           <Image source={Images.back_icon} />
         </TouchableOpacity>
-        <Customcartoon
-          navigation={props.navigation}
-          small={true}
-        />
+        <Customcartoon navigation={props.navigation} small={true} />
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
             <Text style={Styles.loginText}>{Strings.register}</Text>
@@ -114,7 +111,7 @@ const Styles = StyleSheet.create({
     width: "90%",
     borderRadius: vw(10),
     alignItems: "center",
-    marginBottom: vh(30)
+    marginBottom: vh(30),
   },
   loginMainView: {
     width: "100%",

@@ -42,8 +42,8 @@ export default function App(props: AppProps) {
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <KeyboardAwareScrollView
-        bounces={false}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{
           flex: 1,
           alignItems: "center",
@@ -57,11 +57,7 @@ export default function App(props: AppProps) {
         >
           <Image source={Images.back_icon} />
         </TouchableOpacity>
-        <Customcartoon
-          navigation={props.navigation}
-          // viewStyle={{ marginTop: vh(35) }}
-          small={true}
-        />
+        <Customcartoon navigation={props.navigation} small={true} />
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
             <Text style={Styles.loginText}>{Strings.login}</Text>

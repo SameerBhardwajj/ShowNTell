@@ -28,6 +28,7 @@ export default function App(props: AppProps) {
       <KeyboardAwareScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
       >
         <CustomHeader
           title={Strings.Create_Password}

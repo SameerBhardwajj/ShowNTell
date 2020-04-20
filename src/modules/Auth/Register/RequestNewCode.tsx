@@ -46,6 +46,7 @@ export default function App(props: AppProps) {
       <KeyboardAwareScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps='handled'
       >
         <CustomHeader
           title={Strings.Request_New_Access_Code}
