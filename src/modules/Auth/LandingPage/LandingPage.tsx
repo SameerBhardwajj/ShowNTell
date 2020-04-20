@@ -61,7 +61,6 @@ export default function App(props: AppProps) {
       <Customcartoon
         navigation={props.navigation}
         small={false}
-        viewStyle={{ marginTop: vh(75) }}
       />
       <View style={Styles.loginView}>
         {/* testimonial Flatlist -------------- */}
@@ -97,13 +96,14 @@ const Styles = StyleSheet.create({
   mainImg: {
     flex: 1,
     alignItems: "center",
+    justifyContent: 'flex-end'
   },
   loginView: {
     backgroundColor: "white",
     width: "90%",
     borderRadius: vw(10),
     alignItems: "center",
-    marginTop: vh(30),
+    marginBottom: vh(30)
   },
   btnText: {
     fontFamily: "Nunito-Bold",

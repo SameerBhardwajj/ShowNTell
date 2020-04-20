@@ -20,8 +20,17 @@ const Strings = new LocalizedStrings({
     is_incorrect: " is incorrect",
     Email: "Email",
     Bubbles: "Bubbles",
+    Lionstein: "Lionstein",
+    Penny_Polite: "Penny Polite",
+    Miss_Chievous: "Miss Chievous",
     bubbleMsg:
       "Our lovable friend who takes you on a daily adventure that makes kids happy to learn, play, and grow.",
+    lionMsg:
+      "Our wise and creative scientist who makes science fun and exciting.",
+    pennyMsg:
+      "Our well-mannered etiquette coach demonstrates the importance of being helpful, honest, and kind.",
+    missMsg:
+      "Our spunky monkey keeps kids active to promote a strong body and mind through sports and movement.",
     please_enter_email_and_centre:
       "Please enter your registered email and centre name",
     choose_centre: "Choose Centre",

@@ -137,11 +137,10 @@ const Styles = StyleSheet.create({
     color: Colors.pink,
   },
   eyeIcon: {
-    paddingHorizontal: vw(15),
-    paddingLeft: vw(10),
+    paddingHorizontal: vw(5),
   },
   imgEye: {
-    height: vh(18),
-    width: vh(27),
+    height: vh(17),
+    width: vh(25),
   },
 });

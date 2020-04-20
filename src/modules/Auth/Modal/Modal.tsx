@@ -6,15 +6,50 @@ import { Images, vw, Strings, vh, Colors } from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
+  let value = props.route.params.type;
+  let data: any;
+
+  switch (value) {
+    case 1:
+      data = {
+        img: Images.Lionstein_holding_glasses,
+        name: Strings.Lionstein,
+        msg: Strings.lionMsg,
+      };
+      break;
+    case 2:
+      data = {
+        img: Images.Penny_Waving,
+        name: Strings.Penny_Polite,
+        msg: Strings.pennyMsg,
+      };
+      break;
+    case 3:
+      data = {
+        img: Images.MissChievous_Bouncing_On_Tail,
+        name: Strings.Miss_Chievous,
+        msg: Strings.missMsg,
+      };
+      break;
+    case 4:
+      data = {
+        img: Images.Bubbles_Waving,
+        name: Strings.Bubbles,
+        msg: Strings.bubbleMsg,
+      };
+      break;
+  }
+
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
-        <Image source={Images.character_Description} style={Styles.img} />
-        <Text style={Styles.bubbleText}>{Strings.Bubbles}</Text>
-        <Text style={Styles.bubbleMsgText}>{Strings.bubbleMsg}</Text>
+        <Image source={data.img} style={Styles.img} />
+        <Text style={Styles.bubbleText}>{data.name}</Text>
+        <Text style={Styles.bubbleMsgText}>{data.msg}</Text>
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.cancelBtn}
@@ -49,7 +84,7 @@ const Styles = StyleSheet.create({
   },
   img: {
     height: vh(180),
-    width: vh(180),
+    width: vh(150),
   },
   bubbleText: {
     color: Colors.waterBlue,

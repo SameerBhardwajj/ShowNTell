@@ -1,5 +1,8 @@
 import * as React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -101,37 +104,56 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
     </TabStack.Navigator>
   );
 
+  modal = {
+    title: "",
+    cardOverlayEnabled: true,
+    ...TransitionPresets.ModalSlideFromBottomIOS,
+    cardStyle: {
+      backgroundColor: "rgba(0,0,0,0.2)",
+      opacity: 1,
+    },
+  };
+
+  screen = {
+    ...TransitionPresets.DefaultTransition,
+  };
+
   public render() {
     return (
       <NavigationContainer>
-        <RootStack.Navigator
-          headerMode="none"
-          initialRouteName="Splash"
-          screenOptions={{
-            cardStyle: { backgroundColor: "transparent" },
-          }}
-          mode="modal"
-        >
+        <RootStack.Navigator headerMode="none" initialRouteName="Splash">
           {this.props.splash ? (
-            <RootStack.Screen name="Splash" component={Splash} />
+            <RootStack.Screen
+              name="Splash"
+              component={Splash}
+              options={this.screen}
+            />
           ) : (
             <>
               <RootStack.Screen
                 name="AuthNavigator"
                 component={AuthNavigator}
+                options={this.screen}
               />
-              <RootStack.Screen name="Modal" component={Modal} />
+              <RootStack.Screen
+                name="Modal"
+                component={Modal}
+                options={this.modal}
+              />
               <RootStack.Screen
                 name="ResendCodeModal"
                 component={ResendCodeModal}
+                options={this.modal}
               />
               <RootStack.Screen
                 name="CreatePasswordModal"
                 component={CreatePasswordModal}
+                options={this.modal}
               />
               <RootStack.Screen
                 name="TabNavigator"
                 component={this.TabNavigator}
+                options={this.screen}
               />
             </>
           )}

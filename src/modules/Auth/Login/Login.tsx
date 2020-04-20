@@ -45,7 +45,9 @@ export default function App(props: AppProps) {
         bounces={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
+          flex: 1,
           alignItems: "center",
+          justifyContent: "flex-end",
         }}
       >
         <TouchableOpacity
@@ -57,7 +59,7 @@ export default function App(props: AppProps) {
         </TouchableOpacity>
         <Customcartoon
           navigation={props.navigation}
-          viewStyle={{ marginTop: vw(65) }}
+          // viewStyle={{ marginTop: vh(35) }}
           small={true}
         />
         <View style={Styles.loginView}>
@@ -162,10 +164,11 @@ const Styles = StyleSheet.create({
     borderRadius: vw(10),
     alignItems: "center",
     justifyContent: "center",
+    marginBottom: vh(30),
   },
   loginMainView: {
     width: "100%",
-    paddingHorizontal: vw(15),
+    padding: vw(15),
   },
   loginText: {
     fontSize: vh(32),
