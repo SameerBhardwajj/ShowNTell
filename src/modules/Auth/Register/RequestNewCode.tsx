@@ -37,6 +37,10 @@ export default function App(props: AppProps) {
   const [checkphone, setCheckPhone] = useState(true);
   const [checkEmail, setCheckEmail] = useState(true);
 
+  React.useEffect(() => {
+    console.log("route request ", props.route.params);
+  }, []);
+
   return (
     <View style={Styles.mainView}>
       <KeyboardAwareScrollView
@@ -84,7 +88,9 @@ export default function App(props: AppProps) {
                     (Keyboard.dismiss(),
                     dispatch(updateAccess()),
                     dispatch(delayAccess()),
-                    props.navigation.navigate("ResendCodeModal"))
+                    props.navigation.navigate("ResendCodeModal", {
+                      path: props.route.params.path,
+                    }))
                   : // : null
                     setCheckPhone(false);
               }}
@@ -101,7 +107,9 @@ export default function App(props: AppProps) {
                       (Keyboard.dismiss(),
                       dispatch(updateAccess()),
                       dispatch(delayAccess()),
-                      props.navigation.navigate("ResendCodeModal"))
+                      props.navigation.navigate("ResendCodeModal", {
+                        path: props.route.params.path,
+                      }))
                     : // : null
                       setCheckPhone(false);
                   // : null;

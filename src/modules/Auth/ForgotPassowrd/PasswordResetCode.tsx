@@ -40,7 +40,7 @@ export default function App(props: AppProps) {
       input4.toString();
 
     if (code === enteredCode) {
-      props.navigation.navigate("CreatePassword");
+      props.navigation.navigate("ResetPassword");
     } else {
       CustomToast(Strings.wrong_code);
     }
@@ -55,7 +55,7 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.mainView}>
       <CustomHeader
-        title={Strings.Access_Code_Verification}
+        title={Strings.Enter_Password_Reset_Code}
         onPressBack={() => props.navigation.pop()}
       />
       <View style={Styles.innerView}>
@@ -70,6 +70,7 @@ export default function App(props: AppProps) {
           <CustomCodeBox
             ref={inputRef1}
             value={input1}
+            optional={true}
             onChangeText={(text: string) => {
               setinput1(text),
                 text.length !== 0 ? inputRef2.current.focus() : null;
@@ -81,6 +82,7 @@ export default function App(props: AppProps) {
           <CustomCodeBox
             ref={inputRef2}
             value={input2}
+            optional={true}
             onChangeText={(text: string) => {
               setinput2(text),
                 text.length !== 0 ? inputRef3.current.focus() : null;
@@ -97,6 +99,7 @@ export default function App(props: AppProps) {
           <CustomCodeBox
             ref={inputRef3}
             value={input3}
+            optional={true}
             onChangeText={(text: string) => {
               setinput3(text),
                 text.length !== 0 ? inputRef4.current.focus() : null;
@@ -113,6 +116,7 @@ export default function App(props: AppProps) {
           <CustomCodeBox
             ref={inputRef4}
             value={input4}
+            optional={true}
             onChangeText={(text: string) => {
               setinput4(text);
             }}
@@ -151,7 +155,7 @@ export default function App(props: AppProps) {
               onPress={() =>
                 props.navigation.navigate("RequestNewCode", {
                   email: props.route.params.email,
-                  path: "AccessCodeVerification",
+                  path: "PasswordResetCode",
                 })
               }
             >

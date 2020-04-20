@@ -22,6 +22,9 @@ import CreatePassword from "../modules/Auth/Register/CreatePassword";
 import RequestNewCode from "../modules/Auth/Register/RequestNewCode";
 import ResendCodeModal from "../modules/Auth/Modal/ResendCodeModal";
 import CreatePasswordModal from "../modules/Auth/Modal/CreatePasswordModal";
+import ResetPasswordEmail from "../modules/Auth/ForgotPassowrd/ResetPasswordEmail";
+import PasswordResetCode from "../modules/Auth/ForgotPassowrd/PasswordResetCode";
+import ResetPassword from "../modules/Auth/ForgotPassowrd/ResetPassword";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -42,7 +45,12 @@ const AuthNavigator = () => (
     />
     <AuthStack.Screen name="CreatePassword" component={CreatePassword} />
     <AuthStack.Screen name="RequestNewCode" component={RequestNewCode} />
-    <RootStack.Screen name="ModalNavigator" component={ModalNavigator} />
+    <AuthStack.Screen
+      name="ResetPasswordEmail"
+      component={ResetPasswordEmail}
+    />
+    <AuthStack.Screen name="PasswordResetCode" component={PasswordResetCode} />
+    <AuthStack.Screen name="ResetPassword" component={ResetPassword} />
   </AuthStack.Navigator>
 );
 

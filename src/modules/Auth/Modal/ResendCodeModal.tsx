@@ -7,9 +7,14 @@ import { CustomButton } from "../../../Components";
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
+  React.useEffect(() => {
+    console.log("route modal ", props.route.params);
+  }, []);
+
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
@@ -17,7 +22,7 @@ export default function App(props: AppProps) {
         <Text style={Styles.bubbleMsgText}>{Strings.acsess_code_confirm}</Text>
         <CustomButton
           Text={Strings.ok}
-          onPress={() => props.navigation.navigate("AccessCodeVerification")}
+          onPress={() => props.navigation.navigate(props.route.params.path)}
         />
       </View>
     </View>

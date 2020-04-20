@@ -23,6 +23,7 @@ export interface AppProps {
   onPressEye?: Function;
   mainViewStyle?: any;
   editable?: boolean;
+  autoFocus?: boolean;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -60,6 +61,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
             checkPassword ? Styles.textInputStyle1 : Styles.textInputStyle2,
             { borderColor: props.check ? Colors.borderGrey : Colors.pink },
           ]}
+          autoFocus={props.autoFocus}
           keyboardType={props.keyboardType}
           secureTextEntry={
             props.secureTextEntry === undefined ? false : props.secureTextEntry

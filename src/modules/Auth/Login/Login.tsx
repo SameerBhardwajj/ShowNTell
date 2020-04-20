@@ -103,7 +103,7 @@ export default function App(props: AppProps) {
                     ? validateEmail(email)
                       ? (CustomToast(), Keyboard.dismiss())
                       : setCheckEmail(false)
-                    : setCheckPassword(false);
+                    : (setPassword(""), setCheckPassword(false));
                 }}
                 incorrectText={Strings.password}
                 returnKeyType="done"
@@ -113,7 +113,7 @@ export default function App(props: AppProps) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={Styles.forgotView}
-              onPress={() => CustomToast()}
+              onPress={() => props.navigation.navigate("ResetPasswordEmail")}
             >
               <Text style={Styles.forgotTxt}>{Strings.forgot_password}</Text>
             </TouchableOpacity>
@@ -128,7 +128,7 @@ export default function App(props: AppProps) {
                   ? validateEmail(email)
                     ? CustomToast()
                     : setCheckEmail(false)
-                  : setCheckPassword(false);
+                  : (setPassword(""), setCheckPassword(false));
               }}
             />
             {/* Register -------------------- */}

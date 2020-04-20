@@ -9,6 +9,7 @@ export interface AppProps {
   returnKeyType?: any;
   autoFocus?: boolean;
   onKeyPress: Function;
+  optional?: boolean;
 }
 
 const CustomCodeBox = React.forwardRef((props: AppProps, ref: any) => {
@@ -26,8 +27,16 @@ const CustomCodeBox = React.forwardRef((props: AppProps, ref: any) => {
         style={[
           Styles.mainView,
           {
-            borderColor: boxEmpty ? Colors.borderGrey : Colors.violet,
-            backgroundColor: boxEmpty ? Colors.veryLightGrey : "white",
+            borderColor: props.optional
+              ? Colors.violet
+              : boxEmpty
+              ? Colors.borderGrey
+              : Colors.violet,
+            backgroundColor: props.optional
+              ? "white"
+              : boxEmpty
+              ? Colors.veryLightGrey
+              : "white",
           },
         ]}
         maxLength={1}

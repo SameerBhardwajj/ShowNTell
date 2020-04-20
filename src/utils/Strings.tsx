@@ -28,8 +28,7 @@ const Strings = new LocalizedStrings({
     select_centre: "Select Centre",
     Access_Code_Verification: "Access Code Verification",
     Welcome: "Welcome",
-    please_enter_code:
-      "Please enter the 4 digit access code\nreceived on Bob.parish@gmail.com",
+    please_enter_code: "Please enter the 4 digit access code\nreceived on ",
     wrong_code: "Entered Incorrect Code ! Please Try Again",
     Please_Fill_All_Boxes: "Please Fill All Boxes !",
     verify: "Verify",
@@ -53,6 +52,12 @@ const Strings = new LocalizedStrings({
     Continue: "Continue",
     Password_successfully_created: "Password successfully created",
     Back_to_Login: "Back to Login",
+    enter_email_passowrd_link:
+      "Enter your registered email ID to receive\npassword reset link",
+    Reset_Password: "Reset Password",
+    Enter_Password_Reset_Code: "Enter Password Reset Code",
+    Enter_New_Password: "Enter New Password",
+    Confirm_New_Password: "Confirm New Password",
   },
 });
 export default Strings;
