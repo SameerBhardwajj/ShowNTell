@@ -28,6 +28,8 @@ import CreatePasswordModal from "../modules/Auth/Modal/CreatePasswordModal";
 import ResetPasswordEmail from "../modules/Auth/ForgotPassowrd/ResetPasswordEmail";
 import PasswordResetCode from "../modules/Auth/ForgotPassowrd/PasswordResetCode";
 import ResetPassword from "../modules/Auth/ForgotPassowrd/ResetPassword";
+import NearbySchool from "../modules/Auth/FindSchool/NearbySchool/NearbySchool";
+import SchoolListing from "../modules/Auth/FindSchool/SchoolListing";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -54,6 +56,8 @@ const AuthNavigator = () => (
     />
     <AuthStack.Screen name="PasswordResetCode" component={PasswordResetCode} />
     <AuthStack.Screen name="ResetPassword" component={ResetPassword} />
+    <AuthStack.Screen name="NearbySchool" component={NearbySchool} />
+    <AuthStack.Screen name="SchoolListing" component={SchoolListing} />
   </AuthStack.Navigator>
 );
 

@@ -67,6 +67,19 @@ const Strings = new LocalizedStrings({
     Enter_Password_Reset_Code: "Enter Password Reset Code",
     Enter_New_Password: "Enter New Password",
     Confirm_New_Password: "Confirm New Password",
+    Nearby_School: "Nearby School",
+    Nearby_Schools: "Nearby Schools",
+    Allow_Location_Access: "Allow Location Access",
+    to_locate_schools:
+      "To locate schools near you, enable location\nfrom settings or enter location manually.",
+    Enable_Location_Access: "Enable Location Access",
+    Select_Location_Manually: "Select Location Manually",
+    Search_placeholder: "Search by City or Address",
+    Use_my_location: "Use my current location",
+    Recent_Searches: "Recent Searches",
+    Choose_a_Center: "Choose a Center",
+    Get_Directions: "Get Directions",
+    Schedule_a_Tour: "Schedule a Tour",
   },
 });
 export default Strings;

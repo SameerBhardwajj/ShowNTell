@@ -14,6 +14,14 @@ const Images = {
   Dropdown_icon: require("../Assets/Images/Dropdown-icon.png"),
   Confirmation_check_Icon: require("../Assets/Images/Confirmation_check_Icon.png"),
   Lock_Graphic: require("../Assets/Images/Lock_Graphic.png"),
+  Location_Graphic: require("../Assets/Images/Location_Graphic.png"),
+  Search_Icon: require("../Assets/Images/Search_Icon.png"),
+  Location_icon: require("../Assets/Images/Location_icon.png"),
+  History_Icon: require("../Assets/Images/History_Icon.png"),
+  Location_icon_Grey: require("../Assets/Images/Location_icon_Grey.png"),
+  Distance_Pin_small: require("../Assets/Images/Distance_Pin_small.png"),
+  Lcation_Pin_small: require("../Assets/Images/Lcation_Pin_small.png"),
+  Phone_small: require("../Assets/Images/Phone_small.png"),
 };
 
 export default Images;

@@ -58,10 +58,7 @@ export default function App(props: AppProps) {
         animated={true}
       />
       {/* Custom Cartoon view ------------- */}
-      <Customcartoon
-        navigation={props.navigation}
-        small={false}
-      />
+      <Customcartoon navigation={props.navigation} small={false} />
       <View style={Styles.loginView}>
         {/* testimonial Flatlist -------------- */}
         <FlatList
@@ -82,7 +79,7 @@ export default function App(props: AppProps) {
         {/* Find School Button ------------ */}
         <CustomButton
           Text={Strings.find_nearby_school}
-          onPress={() => CustomToast()}
+          onPress={() => props.navigation.navigate("FindSchool")}
         />
         {/* Need help ------------- */}
         <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
@@ -96,14 +93,14 @@ const Styles = StyleSheet.create({
   mainImg: {
     flex: 1,
     alignItems: "center",
-    justifyContent: 'flex-end'
+    justifyContent: "flex-end",
   },
   loginView: {
     backgroundColor: "white",
     width: "90%",
     borderRadius: vw(10),
     alignItems: "center",
-    marginBottom: vh(30)
+    marginBottom: vh(30),
   },
   btnText: {
     fontFamily: "Nunito-Bold",
