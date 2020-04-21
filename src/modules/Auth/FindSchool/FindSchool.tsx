@@ -1,11 +1,7 @@
 import * as React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  PermissionsAndroid,
-} from "react-native";
+import { View, Text, StyleSheet, Image, Platform } from "react-native";
+// import { PERMISSIONS, request } from "react-native-permissions";
+// import Geolocation from "@react-native-community/geolocation";
 
 // custom imports
 import { CustomHeader, CustomButton } from "../../../Components";
@@ -17,25 +13,28 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const requestLocationPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: "Example App",
-          message: "Example App access to your location ",
-          buttonPositive: "OK",
-        }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.warn("You can use the location");
-        // alert("You can use the location");
-      } else {
-        console.warn("location permission denied");
-        // alert("Location permission denied");
-      }
-    } catch (err) {
-      console.warn(err);
-    }
+    // try {
+    //   request(
+    //     Platform.select({
+    //       android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+    //       ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+    //     })
+    //   ).then((res: string) => {
+    //     if (res == "granted") {
+    //       Geolocation.getCurrentPosition((info) => {
+    //         let position = {
+    //           latitude: info.coords.latitude,
+    //           longitude: info.coords.longitude,
+    //         };
+    //         console.warn("coordinates ", position);
+    //       });
+    //     } else {
+    //       // console.log("Location is not enabled");
+    //     }
+    //   });
+    // } catch (error) {
+    //   console.log("location set error:", error);
+    // }
   };
 
   return (

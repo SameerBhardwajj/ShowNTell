@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import Swiper from "react-native-swiper";
 
 // custom imports
 import { CustomHeader, CustomButton } from "../../../Components";
@@ -10,6 +11,13 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const inactiveDotColor = () => {
+    return <View style={[Styles.dotColor, { opacity: 0.6 }]} />;
+  };
+
+  const activeDotColor = () => {
+    return <View style={Styles.dotColor} />;
+  };
   return (
     <View style={Styles.mainView}>
       <CustomHeader
@@ -20,7 +28,18 @@ export default function App(props: AppProps) {
         <View style={Styles.innerView}>
           <Text style={Styles.headingText}>{Strings.Choose_a_Center}</Text>
           <View style={Styles.mainInnerView}>
-            <View style={Styles.imgView} />
+            <Swiper
+              index={0}
+              activeDot={activeDotColor()}
+              dot={inactiveDotColor()}
+              showsButtons={false}
+              loop={true}
+              style={{ height: vh(192) }}
+            >
+              <Image source={Images.any} style={Styles.imgView} />
+              <Image source={Images.any} style={Styles.imgView} />
+              <Image source={Images.any} style={Styles.imgView} />
+            </Swiper>
             <View style={Styles.schoolView}>
               <Text style={Styles.name}>Kiddie Cloud Play School</Text>
               <View style={Styles.locationView}>
@@ -55,7 +74,7 @@ export default function App(props: AppProps) {
               </View>
             </View>
           </View>
-          <View style={Styles.finalImg} />
+          <Image source={Images.any} style={Styles.finalImg} />
         </View>
       </ScrollView>
     </View>
@@ -64,14 +83,12 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    alignItems: "center",
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   innerView: {
     paddingVertical: vh(20),
     paddingHorizontal: vh(16),
     alignItems: "center",
-    width: "100%",
   },
   headingText: {
     fontFamily: "Nunito-Bold",
@@ -89,9 +106,20 @@ const Styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 7.49,
     elevation: 12,
+  },
+  dotColor: {
+    backgroundColor: "white",
+    width: vw(8),
+    height: vw(8),
+    borderRadius: 4,
+    marginStart: 3,
+    marginEnd: 3,
+    marginTop: vh(3),
+    marginBottom: vh(3),
+    // position: 'absolute'
   },
   imgView: {
     width: "100%",

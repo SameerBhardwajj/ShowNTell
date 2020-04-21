@@ -12,6 +12,7 @@
     "androidr": "react-native run-android --variant=release"
   },
   "dependencies": {
+    "@react-native-community/geolocation": "^2.0.2",
     "@react-native-community/masked-view": "^0.1.7",
     "@react-navigation/bottom-tabs": "^5.2.6",
     "@react-navigation/drawer": "^5.4.1",
@@ -30,6 +31,7 @@
     "react-native-screens": "^2.4.0",
     "react-native-snackbar": "^2.2.0",
     "react-native-splash-screen": "^3.2.0",
+    "react-native-swiper": "^1.6.0",
     "react-redux": "^7.2.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0"

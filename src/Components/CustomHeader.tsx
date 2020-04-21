@@ -18,6 +18,7 @@ export default function App(props: AppProps) {
       >
         <Image source={Images.back_icon} style={Styles.btn} />
       </TouchableOpacity>
+      <View></View>
     </View>
   );
 }
@@ -42,5 +43,10 @@ const Styles = StyleSheet.create({
   },
   btn: {
     marginTop: vh(20),
+  },
+  newView: {
+    position: "absolute",
+    padding: vh(16),
+    alignSelf: "flex-start",
   },
 });
