@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ImageBackground, Image, StatusBar, StyleSheet } from "react-native";
+import { ImageBackground, Image, StatusBar, StyleSheet, Dimensions } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch } from "react-redux";
 
@@ -13,7 +13,7 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   React.useEffect(() => {
-    SplashScreen.hide();
+    SplashScreen.hide(); 
     setTimeout(() => {
       dispatch(updateSplash());
       props.navigation.navigate("AuthNavigator");

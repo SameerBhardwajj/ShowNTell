@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
+  Dimensions,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -22,6 +23,7 @@ import {
 export interface AppProps {
   navigation?: any;
 }
+const iPhoneX = Dimensions.get("window").height >= 812;
 
 export default function App(props: AppProps) {
   const input1: any = React.createRef();
@@ -31,6 +33,7 @@ export default function App(props: AppProps) {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkPassword, setCheckPassword] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
+
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <KeyboardAwareScrollView
@@ -142,7 +145,7 @@ const Styles = StyleSheet.create({
   },
   backBtn: {
     padding: vh(16),
-    top: vh(20),
+    top: iPhoneX ? vh(30) : vh(20),
     alignSelf: "flex-start",
     position: "absolute",
   },

@@ -21,6 +21,7 @@ export interface AppProps {
 export default function App(props: AppProps) {
   let flatListRef: any = React.useRef();
   const [currentIndex, setCurrentIndex] = useState(1);
+  const [scroll, setScroll] = useState(true);
 
   useEffect(() => {
     autoScroll();
@@ -28,26 +29,34 @@ export default function App(props: AppProps) {
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
-    return <TestimonialList item={item} index={index} />;
+    return (
+      <TestimonialList
+        item={item}
+        index={index}
+        scrollableTest={() => setScroll(false)}
+      />
+    );
   };
 
   // Testimonial auto scroll -------------
   const autoScroll = () => {
-    setTimeout(() => {
-      if (currentIndex < DATA.length - 1) {
-        setCurrentIndex(currentIndex + 1);
-        flatListRef.current.scrollToIndex({
-          index: currentIndex,
-          animated: true,
-        });
-      } else {
-        setCurrentIndex(0);
-        flatListRef.current.scrollToIndex({
-          index: currentIndex,
-          animated: true,
-        });
-      }
-    }, 5000);
+    scroll
+      ? setTimeout(() => {
+          if (currentIndex < DATA.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+            flatListRef.current.scrollToIndex({
+              index: currentIndex,
+              animated: true,
+            });
+          } else {
+            setCurrentIndex(0);
+            flatListRef.current.scrollToIndex({
+              index: currentIndex,
+              animated: true,
+            });
+          }
+        }, 5000)
+      : null;
   };
 
   return (

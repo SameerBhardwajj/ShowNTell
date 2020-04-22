@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
+  Dimensions
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -19,7 +20,7 @@ import {
   CustomInputText,
   CustomMenuList,
 } from "../../../Components";
-
+const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
   navigation?: any;
 }
@@ -104,7 +105,7 @@ const Styles = StyleSheet.create({
     padding: vh(16),
     paddingRight: vw(40),
     alignSelf: "flex-start",
-    top: vh(25),
+    top: iPhoneX ? vh(30) : vh(20),
   },
   loginView: {
     backgroundColor: "white",

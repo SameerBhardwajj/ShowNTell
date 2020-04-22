@@ -164,7 +164,7 @@ export default function App(props: AppProps) {
             onPress={() =>
               disable()
                 ? props.navigation.navigate("ResendCodeModal", {
-                    path: "DateTimeSchedule",
+                    path: "SchoolListing",
                     msg: Strings.tour_success,
                   })
                 : null

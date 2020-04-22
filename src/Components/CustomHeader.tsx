@@ -1,5 +1,12 @@
 import * as React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+} from "react-native";
 import { Colors, vh, Images, vw } from "../utils";
 
 export interface AppProps {
@@ -8,6 +15,8 @@ export interface AppProps {
   notify?: boolean;
   notifyNumber?: number;
 }
+
+const iPhoneX = Dimensions.get("window").height >= 812;
 
 export default function App(props: AppProps) {
   return (
@@ -33,9 +42,9 @@ const Styles = StyleSheet.create({
     backgroundColor: Colors.violet,
     alignItems: "center",
     justifyContent: "center",
-    height: vh(70),
+    height: iPhoneX ? vh(80) : vh(70),
     width: "100%",
-    paddingTop: vh(20),
+    paddingTop: iPhoneX ? vh(30) : vh(20),
   },
   text: {
     fontFamily: "Nunito-Bold",
@@ -48,7 +57,7 @@ const Styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   btn: {
-    marginTop: vh(20),
+    marginTop: iPhoneX ? vh(30) : vh(20),
   },
   newView: {
     position: "absolute",
@@ -61,7 +70,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
     height: vh(31),
     width: vw(60),
-    top: vh(30),
+    top: iPhoneX ? vh(40) : vh(30),
     right: vh(16),
     borderRadius: vh(20),
     alignItems: "center",

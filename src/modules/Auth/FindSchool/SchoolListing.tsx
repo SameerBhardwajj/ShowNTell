@@ -51,6 +51,7 @@ export default function App(props: AppProps) {
               dot={inactiveDotColor()}
               showsButtons={false}
               loop={true}
+              removeClippedSubviews={false}
               style={{ height: vh(192) }}
             >
               <Image source={Images.any} style={Styles.imgView} />
@@ -58,29 +59,31 @@ export default function App(props: AppProps) {
               <Image source={Images.any} style={Styles.imgView} />
             </Swiper>
             <View style={Styles.schoolView}>
-              <Text style={Styles.name}>Kiddie Cloud Play School</Text>
+              <Text style={Styles.name}>{DATA.schoolName}</Text>
               <View style={Styles.locationView}>
                 <Image source={Images.Distance_Pin_small} style={Styles.img1} />
-                <Text style={Styles.locationText}>0.8 Miles</Text>
-              </View>
-              <View style={Styles.locationView}>
-                <Image source={Images.Lcation_Pin_small} style={Styles.img2} />
                 <Text style={Styles.locationText}>
-                  851 South Dowling Street, Surry Hills0.8 Miles
+                  {DATA.location.distance}
                 </Text>
               </View>
               <View style={Styles.locationView}>
-                <Image source={Images.Phone_small} style={Styles.img3} />
-                <Text style={Styles.locationText}>561 - 9637625</Text>
+                <Image source={Images.Lcation_Pin_small} style={Styles.img2} />
+                <Text style={Styles.locationText}>{DATA.location.address}</Text>
               </View>
-              <Text style={Styles.description}>
-                One of the best play school for kids which not only focus on
-                learning but also on extracurricular activities.
-              </Text>
+              <View style={Styles.locationView}>
+                <Image source={Images.Phone_small} style={Styles.img3} />
+                <Text style={Styles.locationText}>{DATA.location.phone}</Text>
+              </View>
+              <Text style={Styles.description}>{DATA.description}</Text>
               <View style={Styles.btnView}>
                 <CustomButton
                   Text={Strings.Get_Directions}
-                  onPress={() => openGps(28.6728, 77.3863)}
+                  onPress={() =>
+                    openGps(
+                      DATA.coordinates.latitude,
+                      DATA.coordinates.longitude
+                    )
+                  }
                   ButtonStyle={Styles.btn}
                 />
                 <CustomButton
@@ -91,7 +94,9 @@ export default function App(props: AppProps) {
               </View>
             </View>
           </View>
-          <Image source={Images.any} style={Styles.finalImg} />
+          <View style={Styles.finalImgView}>
+            <Image source={DATA.img} style={Styles.finalImg} />
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -125,6 +130,7 @@ const Styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 7.49,
+    elevation: 5,
   },
   dotColor: {
     backgroundColor: "white",
@@ -160,15 +166,15 @@ const Styles = StyleSheet.create({
     marginVertical: vh(4),
   },
   img1: {
-    height: vh(12),
+    height: vw(15),
     width: vw(11),
   },
   img2: {
-    height: vh(17),
-    width: vw(11),
+    height: vw(20),
+    width: vw(10),
   },
   img3: {
-    height: vh(10),
+    height: vw(12),
     width: vw(11),
   },
   locationText: {
@@ -192,9 +198,10 @@ const Styles = StyleSheet.create({
     marginHorizontal: 0,
     width: vw(165),
   },
-  finalImg: {
+  finalImgView: {
     width: "100%",
     height: vh(192),
+    backgroundColor: "white",
     borderRadius: vh(10),
     marginVertical: vh(20),
     shadowColor: "#000",
@@ -202,7 +209,26 @@ const Styles = StyleSheet.create({
       width: 0,
       height: 0,
     },
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.1,
     shadowRadius: 7.49,
+    elevation: 5,
+  },
+  finalImg: {
+    width: "100%",
+    height: vh(192),
+    borderRadius: vh(10),
   },
 });
+
+const DATA = {
+  schoolName: "Kiddie Cloud Play School",
+  location: {
+    distance: "0.8 Miles",
+    address: "851 South Dowling Street, Surry Hills",
+    phone: "561 - 9637625",
+  },
+  description:
+    "One of the best play school for kids which not only focus on learning but also on extracurricular activities.",
+  coordinates: { longitude: 28.6728, latitude: 77.3863 },
+  img: Images.any,
+};

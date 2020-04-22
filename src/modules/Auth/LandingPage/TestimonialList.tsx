@@ -1,16 +1,21 @@
 import * as React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Strings, Images, vh, vw, Colors } from "../../../utils";
 
 export interface AppProps {
   item: any;
   index: string;
+  scrollableTest: Function;
 }
 
 export default function App(props: AppProps) {
   const { title, author, centre } = props.item;
   return (
-    <View style={Styles.testimonialView}>
+    <TouchableOpacity
+      activeOpacity={1}
+      onPressIn={() => props.scrollableTest()}
+      style={Styles.testimonialView}
+    >
       <Image
         source={Images.Testimonial_Base}
         resizeMode="contain"
@@ -25,7 +30,7 @@ export default function App(props: AppProps) {
         <Text style={Styles.testimonialAuthor}>{author}</Text>
         <Text style={Styles.testimonialCentre}>{centre}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
