@@ -8,6 +8,7 @@ export interface AppProps {
   TextStyle?: any;
   onPress: Function;
   activeOpacity?: number;
+  lightBtn?: boolean;
 }
 
 export default function App(props: AppProps) {
@@ -16,10 +17,25 @@ export default function App(props: AppProps) {
       activeOpacity={
         props.activeOpacity === undefined ? 0.8 : props.activeOpacity
       }
-      style={[Styles.btn, props.ButtonStyle]}
+      style={[
+        Styles.btn,
+        {
+          backgroundColor: props.lightBtn ? "white" : Colors.violet,
+          borderWidth: props.lightBtn ? vw(3) : 0,
+        },
+        props.ButtonStyle,
+      ]}
       onPress={() => props.onPress()}
     >
-      <Text style={[Styles.btnText, props.TextStyle]}>{props.Text}</Text>
+      <Text
+        style={[
+          Styles.btnText,
+          { color: props.lightBtn ? Colors.violet : "white" },
+          props.TextStyle,
+        ]}
+      >
+        {props.Text}
+      </Text>
     </TouchableOpacity>
   );
 }
@@ -31,12 +47,11 @@ const Styles = StyleSheet.create({
     width: "85%",
     margin: vw(14),
     marginHorizontal: vw(20),
-    backgroundColor: Colors.violet,
     borderRadius: vw(50),
+    borderColor: Colors.violet,
   },
   btnText: {
     fontFamily: "Nunito-Bold",
-    color: "white",
     fontSize: vh(16),
   },
 });

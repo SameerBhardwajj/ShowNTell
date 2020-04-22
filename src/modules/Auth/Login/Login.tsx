@@ -11,15 +11,7 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
-import {
-  Images,
-  vh,
-  vw,
-  Colors,
-  Strings,
-  validateEmail,
-  validatePasssword,
-} from "../../../utils";
+import { Images, vh, vw, Colors, Strings, validate } from "../../../utils";
 import {
   CustomButton,
   CustomToast,
@@ -76,7 +68,7 @@ export default function App(props: AppProps) {
                   checkEmail ? null : setCheckEmail(true), setEmail(text);
                 }}
                 onSubmitEditing={() => {
-                  validateEmail(email)
+                  validate("email", email)
                     ? input2.current.focus()
                     : setCheckEmail(false);
                 }}
@@ -97,8 +89,8 @@ export default function App(props: AppProps) {
                     setPassword(text);
                 }}
                 onSubmitEditing={() => {
-                  validatePasssword(password)
-                    ? validateEmail(email)
+                  validate("password", password)
+                    ? validate("email", email)
                       ? (CustomToast(), Keyboard.dismiss())
                       : setCheckEmail(false)
                     : (setPassword(""), setCheckPassword(false));
@@ -122,8 +114,8 @@ export default function App(props: AppProps) {
               Text={Strings.proceed}
               ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
               onPress={() => {
-                validatePasssword(password)
-                  ? validateEmail(email)
+                validate("password", password)
+                  ? validate("email", email)
                     ? CustomToast()
                     : setCheckEmail(false)
                   : (setPassword(""), setCheckPassword(false));

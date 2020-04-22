@@ -11,7 +11,7 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
-import { Images, vh, vw, Colors, Strings, validateEmail } from "../../../utils";
+import { Images, vh, vw, Colors, Strings, validate } from "../../../utils";
 import {
   CustomButton,
   CustomToast,
@@ -63,7 +63,7 @@ export default function App(props: AppProps) {
                   checkEmail ? null : setCheckcheckEmail(true), setEmail(text);
                 }}
                 onSubmitEditing={() => {
-                  validateEmail(email)
+                  validate("email", email)
                     ? Keyboard.dismiss()
                     : setCheckcheckEmail(false);
                 }}
@@ -80,7 +80,7 @@ export default function App(props: AppProps) {
             Text={Strings.proceed}
             ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
             onPress={() => {
-              validateEmail(email)
+              validate("email", email)
                 ? props.navigation.navigate("AccessCodeVerification", {
                     email: email,
                   })

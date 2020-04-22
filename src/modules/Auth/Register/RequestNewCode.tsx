@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Keyboard } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,16 +8,8 @@ import {
   CustomHeader,
   CustomInputText,
   CustomButton,
-  CustomToast,
 } from "../../../Components";
-import {
-  Strings,
-  vw,
-  vh,
-  Colors,
-  validateEmail,
-  validatePhone,
-} from "../../../utils";
+import { Strings, vw, vh, Colors, validate } from "../../../utils";
 import { updateAccess, delayAccess } from "./actions";
 
 export interface AppProps {
@@ -46,7 +38,7 @@ export default function App(props: AppProps) {
       <KeyboardAwareScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps='handled'
+        keyboardShouldPersistTaps="handled"
       >
         <CustomHeader
           title={Strings.Request_New_Access_Code}
@@ -83,7 +75,7 @@ export default function App(props: AppProps) {
               incorrectText={Strings.phone_number}
               returnKeyType={"done"}
               onSubmitEditing={() => {
-                validatePhone(phone)
+                validate("phone", phone)
                   ? // access === true
                     //   ?
                     (Keyboard.dismiss(),
@@ -103,7 +95,7 @@ export default function App(props: AppProps) {
                 onPress={() => {
                   // access
                   //   ?
-                  validatePhone(phone)
+                  validate("phone", phone)
                     ? // ? access === true
                       (Keyboard.dismiss(),
                       dispatch(updateAccess()),

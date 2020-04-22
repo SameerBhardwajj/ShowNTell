@@ -5,14 +5,13 @@ import { Strings, Colors, vw, vh, Images } from "../utils";
 export interface AppProps {
   titleText: string;
   onPress: Function;
+  viewStyle?: Object;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
   return (
-    <View>
-      <View style={Styles.textView}>
-        <Text style={Styles.titleTxt}>{props.titleText}</Text>
-      </View>
+    <View style={[Styles.mainView, props.viewStyle]}>
+      <Text style={Styles.titleTxt}>{props.titleText}</Text>
       <TouchableOpacity
         activeOpacity={0.8}
         style={Styles.inputTxtView}
@@ -27,18 +26,19 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
 export default CustomInputText;
 
 const Styles = StyleSheet.create({
-  textView: {
-    flexDirection: "row",
+  mainView: {
     alignItems: "center",
-    justifyContent: "space-between",
+    width: "100%",
   },
   titleTxt: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
+    alignSelf: "flex-start",
   },
   inputTxtView: {
     flexDirection: "row",
     alignItems: "center",
+    width: "100%",
     justifyContent: "space-between",
     backgroundColor: Colors.veryLightGrey,
     height: vh(48),

@@ -11,15 +11,15 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  React.useEffect(() => {
-    console.log("route modal ", props.route.params);
-  }, []);
-
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
         <Image source={Images.Confirmation_check_Icon} style={Styles.img} />
-        <Text style={Styles.bubbleMsgText}>{Strings.acsess_code_confirm}</Text>
+        <Text style={Styles.bubbleMsgText}>
+          {props.route.params.msg === undefined
+            ? Strings.acsess_code_confirm
+            : props.route.params.msg}
+        </Text>
         <CustomButton
           Text={Strings.ok}
           onPress={() => props.navigation.navigate(props.route.params.path)}

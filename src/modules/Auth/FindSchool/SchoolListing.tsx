@@ -1,5 +1,13 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Platform,
+  Linking,
+} from "react-native";
 import Swiper from "react-native-swiper";
 
 // custom imports
@@ -18,11 +26,20 @@ export default function App(props: AppProps) {
   const activeDotColor = () => {
     return <View style={Styles.dotColor} />;
   };
+
+  const openGps = (lat: number, lng: number) => {
+    var scheme = Platform.OS === "ios" ? "maps:" : "geo:";
+    var url = scheme + `${lat},${lng}`;
+    Linking.openURL(url);
+  };
+
   return (
     <View style={Styles.mainView}>
       <CustomHeader
         title={Strings.Nearby_Schools}
         onPressBack={() => props.navigation.pop()}
+        notify={true}
+        notifyNumber={1}
       />
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <View style={Styles.innerView}>
@@ -63,12 +80,12 @@ export default function App(props: AppProps) {
               <View style={Styles.btnView}>
                 <CustomButton
                   Text={Strings.Get_Directions}
-                  onPress={() => {}}
+                  onPress={() => openGps(28.6728, 77.3863)}
                   ButtonStyle={Styles.btn}
                 />
                 <CustomButton
                   Text={Strings.Schedule_a_Tour}
-                  onPress={() => {}}
+                  onPress={() => props.navigation.navigate("DateTimeSchedule")}
                   ButtonStyle={Styles.btn}
                 />
               </View>
@@ -108,7 +125,6 @@ const Styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 7.49,
-    elevation: 12,
   },
   dotColor: {
     backgroundColor: "white",
@@ -119,12 +135,10 @@ const Styles = StyleSheet.create({
     marginEnd: 3,
     marginTop: vh(3),
     marginBottom: vh(3),
-    // position: 'absolute'
   },
   imgView: {
     width: "100%",
     height: vh(192),
-    backgroundColor: "yellow",
     borderTopLeftRadius: vh(10),
     borderTopRightRadius: vh(10),
   },
@@ -181,7 +195,6 @@ const Styles = StyleSheet.create({
   finalImg: {
     width: "100%",
     height: vh(192),
-    backgroundColor: "yellow",
     borderRadius: vh(10),
     marginVertical: vh(20),
     shadowColor: "#000",
@@ -191,6 +204,5 @@ const Styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 7.49,
-    elevation: 12,
   },
 });

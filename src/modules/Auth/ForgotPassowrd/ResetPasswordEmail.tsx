@@ -7,7 +7,7 @@ import {
   CustomInputText,
   CustomButton,
 } from "../../../Components";
-import { Strings, vw, vh, Colors, validateEmail } from "../../../utils";
+import { Strings, vw, vh, Colors, validate } from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -34,7 +34,7 @@ export default function App(props: AppProps) {
             titleText={Strings.Parent_email}
             value={email}
             onChangeText={(text: string) => {
-              validateEmail(email) ? setAccess(true) : setAccess(false),
+              validate("email", email) ? setAccess(true) : setAccess(false),
                 setEmail(text);
             }}
             check={checkEmail}

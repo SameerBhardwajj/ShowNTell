@@ -30,6 +30,8 @@ import PasswordResetCode from "../modules/Auth/ForgotPassowrd/PasswordResetCode"
 import ResetPassword from "../modules/Auth/ForgotPassowrd/ResetPassword";
 import NearbySchool from "../modules/Auth/FindSchool/NearbySchool/NearbySchool";
 import SchoolListing from "../modules/Auth/FindSchool/SchoolListing";
+import ScheduleTour from "../modules/Auth/FindSchool/ScheduleTour";
+import DateTimeSchedule from "../modules/Auth/FindSchool/DateTimeSchedule";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -58,6 +60,8 @@ const AuthNavigator = () => (
     <AuthStack.Screen name="ResetPassword" component={ResetPassword} />
     <AuthStack.Screen name="NearbySchool" component={NearbySchool} />
     <AuthStack.Screen name="SchoolListing" component={SchoolListing} />
+    <AuthStack.Screen name="ScheduleTour" component={ScheduleTour} />
+    <AuthStack.Screen name="DateTimeSchedule" component={DateTimeSchedule} />
   </AuthStack.Navigator>
 );
 

@@ -5,6 +5,8 @@ import { Colors, vh, Images, vw } from "../utils";
 export interface AppProps {
   title: string;
   onPressBack: Function;
+  notify?: boolean;
+  notifyNumber?: number;
 }
 
 export default function App(props: AppProps) {
@@ -18,7 +20,11 @@ export default function App(props: AppProps) {
       >
         <Image source={Images.back_icon} style={Styles.btn} />
       </TouchableOpacity>
-      <View></View>
+      {props.notify ? (
+        <View style={Styles.notifyView}>
+          <Text style={Styles.notifyText}>{props.notifyNumber}/3</Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -48,5 +54,22 @@ const Styles = StyleSheet.create({
     position: "absolute",
     padding: vh(16),
     alignSelf: "flex-start",
+  },
+  notifyView: {
+    position: "absolute",
+    alignSelf: "flex-end",
+    backgroundColor: "white",
+    height: vh(31),
+    width: vw(60),
+    top: vh(30),
+    right: vh(16),
+    borderRadius: vh(20),
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  notifyText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(14),
+    color: Colors.pink,
   },
 });
