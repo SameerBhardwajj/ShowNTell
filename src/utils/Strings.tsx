@@ -5,6 +5,7 @@ const Strings = new LocalizedStrings({
     login: "Login",
     find_nearby_school: "Find Nearby School",
     need_help: "Need Help ?",
+    Need_Help: "Need Help",
     testimonialtext:
       "“This is a great app for parents, especially in today’s busy schedule. This is just the app we need to relax ourselves while we are at work”",
     testimonialAuthor: "- Maggie James",
@@ -94,6 +95,9 @@ const Strings = new LocalizedStrings({
     Add_Second_Child: "+ Add Second Child",
     Schedule_Tour: "Schedule Tour",
     tour_success: "Your tour has been\nsuccessfully scheduled.",
+    How_can_we_help_you: "How can we help you ?",
+    Submit: "Submit",
+    ticket_submitted: "Your support ticket has been\nsuccessfully submitted",
   },
 });
 export default Strings;

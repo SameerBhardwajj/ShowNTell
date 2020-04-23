@@ -91,7 +91,7 @@ export default function App(props: AppProps) {
           onPress={() => props.navigation.navigate("FindSchool")}
         />
         {/* Need help ------------- */}
-        <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => props.navigation.navigate('NeedHelp')}>
           <Text style={Styles.btnText}>{Strings.need_help}</Text>
         </TouchableOpacity>
       </View>

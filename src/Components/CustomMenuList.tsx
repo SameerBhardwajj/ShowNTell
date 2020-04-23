@@ -1,25 +1,33 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { Dropdown } from "react-native-material-dropdown";
 import { Strings, Colors, vw, vh, Images } from "../utils";
 
 export interface AppProps {
   titleText: string;
-  onPress: Function;
   viewStyle?: Object;
+  data: Array<any>;
+  onChangeText: Function;
+  currentText: string;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
   return (
     <View style={[Styles.mainView, props.viewStyle]}>
       <Text style={Styles.titleTxt}>{props.titleText}</Text>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={Styles.inputTxtView}
-        onPress={() => props.onPress()}
-      >
-        <Text style={Styles.centreTxt}>{Strings.select_centre}</Text>
-        <Image source={Images.Dropdown_icon} style={Styles.imgEye} />
-      </TouchableOpacity>
+      <Dropdown
+        renderBase={() => {
+          return (
+            <View style={Styles.inputTxtView}>
+              <Text style={Styles.centreTxt}>{props.currentText}</Text>
+              <Image source={Images.Dropdown_icon} />
+            </View>
+          );
+        }}
+        fontSize={vh(16)}
+        data={props.data}
+        onChangeText={(value) => props.onChangeText(value)}
+      />
     </View>
   );
 });
@@ -38,7 +46,8 @@ const Styles = StyleSheet.create({
   inputTxtView: {
     flexDirection: "row",
     alignItems: "center",
-    width: "100%",
+    alignSelf: 'center',
+    width: "70%",
     justifyContent: "space-between",
     backgroundColor: Colors.veryLightGrey,
     height: vh(48),
@@ -52,9 +61,5 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
     color: Colors.placeholderGrey,
-  },
-  imgEye: {
-    // height: vh(18),
-    // width: vh(27),
   },
 });

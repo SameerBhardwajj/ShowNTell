@@ -23,6 +23,7 @@ const Images = {
   Lcation_Pin_small: require("../Assets/Images/Lcation_Pin_small.png"),
   Phone_small: require("../Assets/Images/Phone_small.png"),
   any: require("../Assets/Images/any.jpg"),
+  Phone_Icon: require("../Assets/Images/Phone_Icon.png"),
 };
 
 export default Images;

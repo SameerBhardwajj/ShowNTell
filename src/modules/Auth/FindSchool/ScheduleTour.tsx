@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Keyboard } from "react-native";
+import { View, StyleSheet, Keyboard, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
@@ -9,7 +9,7 @@ import {
   CustomInputText,
   CustomToast,
 } from "../../../Components";
-import { Strings, vw, vh, Images, Colors, validate } from "../../../utils";
+import { Strings, vw, vh, Colors, validate } from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -34,14 +34,49 @@ export default function App(props: AppProps) {
   const [checkzipcode, setCheckzipcode] = useState(true);
   const [checkemail, setCheckemail] = useState(true);
   const [checkc1name, setCheckc1name] = useState(true);
+  const [childArray, setChildArray] = useState([]);
 
   const disable = () => {
     return (
-      pname.length !== 0 ||
-      phone.length !== 1 ||
-      zipcode.length !== 0 ||
-      email.length !== 0 ||
+      pname.length !== 0 &&
+      phone.length !== 1 &&
+      zipcode.length !== 0 &&
+      email.length !== 0 &&
       c1name.length !== 0
+    );
+  };
+
+  const addTextInput = () => {
+    return (
+      <View>
+        <CustomInputText
+          ref={input5}
+          titleText={Strings.First_Child_Name}
+          value={c1name}
+          onChangeText={(text: string) => {
+            checkc1name ? null : setCheckc1name(true), setC1name(text);
+          }}
+          onSubmitEditing={() => {
+            validate("name", c1name)
+              ? Keyboard.dismiss()
+              : setCheckc1name(false);
+          }}
+          check={checkc1name}
+          incorrectText={Strings.Name}
+          mainViewStyle={Styles.textInput}
+        />
+        <CustomInputText
+          ref={input6}
+          titleText={Strings.First_Child_DOB}
+          value={c1DOB}
+          onChangeText={(text: string) => setc1DOB(text)}
+          onSubmitEditing={() => {}}
+          check={true}
+          incorrectText={Strings.DOB}
+          mainViewStyle={Styles.textInput}
+          editable={false}
+        />
+      </View>
     );
   };
 
@@ -154,7 +189,7 @@ export default function App(props: AppProps) {
           />
           <CustomButton
             Text={Strings.Add_Second_Child}
-            onPress={() => {}}
+            onPress={() => addTextInput()}
             lightBtn={true}
             ButtonStyle={Styles.btn}
           />

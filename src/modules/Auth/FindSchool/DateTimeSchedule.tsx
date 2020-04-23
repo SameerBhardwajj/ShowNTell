@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Platform, Button } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import DatePicker from "react-native-date-picker";
 
 // custom imports
@@ -16,6 +16,15 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const [date, setDate] = useState(new Date());
+  const [school, setSchool] = useState("Select School");
+
+  const toTimestamp = (strDate: Date) => {
+    // let currentDate = strDate.getDate()
+    // strDate.setDate(currentDate + 1)
+    // return strDate
+    var datum = Date.parse(strDate.toString());
+    return datum / 1000;
+  };
 
   return (
     <View style={Styles.mainView}>
@@ -29,19 +38,35 @@ export default function App(props: AppProps) {
         <Text style={Styles.heading}>{Strings.Please_select_date_time}</Text>
         <CustomMenuList
           titleText={Strings.School_Name}
-          onPress={() => {}}
+          onChangeText={(text: string) => setSchool(text)}
+          currentText={school}
           viewStyle={Styles.menuView}
+          data={DATA}
         />
-        <DatePicker date={date} onDateChange={setDate} />
+        <DatePicker
+          minimumDate={new Date()}
+          date={date}
+          onDateChange={(text: Date) => setDate(text)}
+        />
         <CustomButton
+          activeOpacity={school === "Select School" ? 1 : 0.8}
           Text={Strings.Next}
-          onPress={() => props.navigation.navigate("ScheduleTour")}
-          ButtonStyle={{ width: "100%", marginTop: vh(30) }}
+          onPress={() =>
+            school === "Select School"
+              ? null
+              : props.navigation.navigate("ScheduleTour")
+          }
+          ButtonStyle={{
+            width: "100%",
+            marginTop: vh(30),
+            backgroundColor:
+              school === "Select School" ? Colors.disableViolet : Colors.violet,
+          }}
         />
         <Text style={Styles.orText}>{Strings.Or}</Text>
         <CustomButton
           Text={Strings.general_information}
-          onPress={() => {}}
+          onPress={() => props.navigation.navigate("ScheduleTour")}
           lightBtn={true}
           ButtonStyle={{ width: "100%" }}
         />
@@ -75,3 +100,15 @@ const Styles = StyleSheet.create({
     color: Colors.lightGrey,
   },
 });
+
+const DATA = [
+  {
+    value: "Banana",
+  },
+  {
+    value: "Mango",
+  },
+  {
+    value: "Pear",
+  },
+];

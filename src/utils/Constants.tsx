@@ -17,7 +17,8 @@ const reg = (regex: string) => {
 
 const validate = (type: string, text: string) => {
   const regex: any = reg(type);
-  return regex.test(String(text).toLowerCase());
+  if (type === "name") return regex.test(String(text).toLowerCase());
+  else return regex.test(String(text));
 };
 
 export { validate };
