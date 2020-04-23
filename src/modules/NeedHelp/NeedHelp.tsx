@@ -16,10 +16,11 @@ import {
   CustomMenuList,
   CustomInputText,
 } from "../../Components";
-import { Strings, vw, vh, Images, Colors } from "../../utils";
+import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
@@ -31,6 +32,8 @@ export default function App(props: AppProps) {
   const [email, setEmail] = useState("");
   const [help, setHelp] = useState("");
   const [cLength, setCLength] = useState(0);
+  const [checkEmail, setCheckEmail] = useState(true);
+  const [checkName, setCheckName] = useState(true);
 
   const disable = () => {
     return (
@@ -103,20 +106,32 @@ export default function App(props: AppProps) {
           <CustomInputText
             ref={input1}
             value={name}
-            onChangeText={(text: string) => setName(text)}
-            onSubmitEditing={() => {}}
+            onChangeText={(text: string) => {
+              checkName ? null : setCheckName(true), setName(text);
+            }}
+            onSubmitEditing={() => {
+              validate("name", name)
+                ? input2.current.focus()
+                : setCheckName(false);
+            }}
             titleText={Strings.Parent_Name}
-            check={true}
+            check={checkName}
             incorrectText={Strings.Parent_Name}
           />
           <CustomInputText
             ref={input2}
             mainViewStyle={Styles.menuView}
             value={email}
-            onChangeText={(text: string) => setEmail(text)}
-            onSubmitEditing={() => {}}
+            onChangeText={(text: string) => {
+              checkEmail ? null : setCheckEmail(true), setEmail(text);
+            }}
+            onSubmitEditing={() => {
+              validate("email", email)
+                ? input3.current.focus()
+                : setCheckEmail(false);
+            }}
             titleText={Strings.Parent_email}
-            check={true}
+            check={checkEmail}
             incorrectText={Strings.Parent_email}
           />
           <View style={Styles.helpView}>
@@ -132,6 +147,14 @@ export default function App(props: AppProps) {
                 }}
                 style={Styles.textInputView}
                 multiline={true}
+                onSubmitEditing={() =>
+                  disable()
+                    ? props.navigation.navigate("ResendCodeModal", {
+                        path: props.route.params.path,
+                        msg: Strings.ticket_submitted,
+                      })
+                    : null
+                }
               />
               <Text style={Styles.character}>{cLength}/500 Characters</Text>
             </View>
@@ -141,7 +164,7 @@ export default function App(props: AppProps) {
             onPress={() =>
               disable()
                 ? props.navigation.navigate("ResendCodeModal", {
-                    path: "LandingPage",
+                    path: props.route.params.path,
                     msg: Strings.ticket_submitted,
                   })
                 : null

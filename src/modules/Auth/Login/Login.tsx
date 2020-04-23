@@ -131,7 +131,12 @@ export default function App(props: AppProps) {
               onPress={() => props.navigation.navigate("Register")}
             />
           </View>
-          <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() =>
+              props.navigation.navigate("NeedHelp", { path: "Login" })
+            }
+          >
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
           </TouchableOpacity>
         </View>

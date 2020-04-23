@@ -42,11 +42,12 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
     alignSelf: "flex-start",
+    color: Colors.titleColor,
   },
   inputTxtView: {
     flexDirection: "row",
     alignItems: "center",
-    alignSelf: 'center',
+    alignSelf: "center",
     width: "70%",
     justifyContent: "space-between",
     backgroundColor: Colors.veryLightGrey,

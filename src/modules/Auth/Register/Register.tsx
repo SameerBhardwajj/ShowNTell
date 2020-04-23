@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -15,7 +15,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Images, vh, vw, Colors, Strings, validate } from "../../../utils";
 import {
   CustomButton,
-  CustomToast,
   Customcartoon,
   CustomInputText,
   CustomMenuList,
@@ -28,6 +27,7 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const [email, setEmail] = useState("");
   const [checkEmail, setCheckcheckEmail] = useState(true);
+  const [school, setSchool] = useState("Select School");
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <KeyboardAwareScrollView
@@ -72,8 +72,10 @@ export default function App(props: AppProps) {
               />
               {/* School center list ------------- */}
               <CustomMenuList
-                titleText={Strings.choose_centre}
-                onPress={() => CustomToast()}
+                titleText={Strings.School_Name}
+                onChangeText={(text: string) => setSchool(text)}
+                currentText={school}
+                data={DATA}
               />
             </View>
           </View>
@@ -88,7 +90,12 @@ export default function App(props: AppProps) {
                 : setCheckcheckEmail(false);
             }}
           />
-          <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() =>
+              props.navigation.navigate("NeedHelp", { path: "Register" })
+            }
+          >
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
           </TouchableOpacity>
         </View>
@@ -150,3 +157,15 @@ const Styles = StyleSheet.create({
     paddingTop: vh(10),
   },
 });
+
+const DATA = [
+  {
+    value: "Banana",
+  },
+  {
+    value: "Mango",
+  },
+  {
+    value: "Pear",
+  },
+];

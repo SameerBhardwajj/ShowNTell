@@ -91,7 +91,12 @@ export default function App(props: AppProps) {
           onPress={() => props.navigation.navigate("FindSchool")}
         />
         {/* Need help ------------- */}
-        <TouchableOpacity activeOpacity={0.8} onPress={() => props.navigation.navigate('NeedHelp')}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() =>
+            props.navigation.navigate("NeedHelp", { path: "LandingPage" })
+          }
+        >
           <Text style={Styles.btnText}>{Strings.need_help}</Text>
         </TouchableOpacity>
       </View>
