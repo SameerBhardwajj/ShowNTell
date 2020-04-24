@@ -20,31 +20,44 @@ const iPhoneX = Dimensions.get("window").height >= 812;
 
 export default function App(props: AppProps) {
   return (
-    <View style={Styles.mainView}>
-      <Text style={Styles.text}>{props.title}</Text>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={Styles.btnView}
-        onPress={() => props.onPressBack()}
-      >
-        <Image source={Images.back_icon} style={Styles.btn} />
-      </TouchableOpacity>
-      {props.notify ? (
-        <View style={Styles.notifyView}>
-          <Text style={Styles.notifyText}>{props.notifyNumber}/3</Text>
-        </View>
-      ) : null}
+    <View style={Styles.mainOuterView}>
+      <View style={Styles.extraHeader} />
+      <View style={Styles.mainView}>
+        <Text style={Styles.text}>{props.title}</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={Styles.btnView}
+          onPress={() => props.onPressBack()}
+        >
+          <Image source={Images.back_icon} style={Styles.btn} />
+        </TouchableOpacity>
+        {props.notify ? (
+          <View style={Styles.notifyView}>
+            <Text style={Styles.notifyText}>{props.notifyNumber}/3</Text>
+          </View>
+        ) : null}
+      </View>
     </View>
   );
 }
 const Styles = StyleSheet.create({
+  mainOuterView: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   mainView: {
     backgroundColor: Colors.violet,
     alignItems: "center",
     justifyContent: "center",
-    height: iPhoneX ? vh(80) : vh(70),
+    height: vh(70),
     width: "100%",
-    paddingTop: iPhoneX ? vh(30) : vh(20),
+    paddingTop: vh(20),
+  },
+  extraHeader: {
+    backgroundColor: Colors.violet,
+    width: "100%",
+    height: iPhoneX ? vh(10) : 0,
   },
   text: {
     fontFamily: "Nunito-Bold",
@@ -57,7 +70,9 @@ const Styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   btn: {
-    marginTop: iPhoneX ? vh(30) : vh(20),
+    marginTop: vh(18),
+    height: vw(20),
+    width: vw(15)
   },
   newView: {
     position: "absolute",

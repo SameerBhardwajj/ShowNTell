@@ -17,17 +17,18 @@ export interface AppProps {
   mainViewStyle?: any;
   autoFocus?: boolean;
   onPressCancel: Function;
+  inputTextStyle?: Object;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
   return (
-    <View style={[Styles.inputTxtView]}>
+    <View style={[Styles.inputTxtView, props.mainViewStyle]}>
       <View style={Styles.imgView}>
         <Image source={Images.Search_Icon} style={Styles.img} />
       </View>
       <TextInput
         ref={ref}
-        style={[Styles.inputTxt]}
+        style={[Styles.inputTxt, props.inputTextStyle]}
         placeholder={props.placeholder}
         autoFocus={props.autoFocus}
         value={props.value}
@@ -35,13 +36,15 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         blurOnSubmit={false}
         returnKeyType={props.returnKeyType}
       />
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => props.onPressCancel()}
-        style={Styles.imgView}
-      >
-        <Image source={Images.Cancel_Icon} />
-      </TouchableOpacity>
+      {props.value.length === 0 ? null : (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => props.onPressCancel()}
+          style={Styles.imgView}
+        >
+          <Image source={Images.Cancel_Icon} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 });

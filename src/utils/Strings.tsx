@@ -98,6 +98,17 @@ const Strings = new LocalizedStrings({
     How_can_we_help_you: "How can we help you ?",
     Submit: "Submit",
     ticket_submitted: "Your support ticket has been\nsuccessfully submitted",
+    Search: "Search",
+    lunch_time: "Lunch Time",
+    lunch_description:
+      "This will help Alex in getting along with other children and importance of eating together.",
+    Announcement: "Announcement",
+    anonsmtDescription:
+      "Parent workshop has been conducted in the school premisis on 07th February. Make sure all of you attent the workshop from 10AM onwards.",
+    Question_of_the_Day: "Question of the Day",
+    QOD_description: "Ask Alex, what did he learn about dinosaure today ?",
+    QOD_category: "Daily Activity • Literacy • GK",
+    We_did_it: "We did it",
   },
 });
 export default Strings;

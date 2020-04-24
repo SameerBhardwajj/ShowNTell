@@ -31,6 +31,7 @@
 		3D92C011FDB049E8B182FED3 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81FA08F34FD74CD19C8A6794 /* Nunito-SemiBold.ttf */; };
 		2A49A8173E914E95800A679A /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1876EFA2840C44819495E5DB /* Nunito-SemiBoldItalic.ttf */; };
 		DA7C5012B71E483C9B2C5098 /* Nunito-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2097757AD69E44A09CFF6B1C /* Nunito-Medium.ttf */; };
+		FFE73F447BDA4782B9E83E81 /* frutiger.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BFB300854A42A809FC0C /* frutiger.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		81FA08F34FD74CD19C8A6794 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; name = "Nunito-SemiBold.ttf"; path = "../src/Assets/Fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		1876EFA2840C44819495E5DB /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "Nunito-SemiBoldItalic.ttf"; path = "../src/Assets/Fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		2097757AD69E44A09CFF6B1C /* Nunito-Medium.ttf */ = {isa = PBXFileReference; name = "Nunito-Medium.ttf"; path = "../src/Assets/Fonts/Nunito-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6571BFB300854A42A809FC0C /* frutiger.ttf */ = {isa = PBXFileReference; name = "frutiger.ttf"; path = "../src/Assets/Fonts/frutiger.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +236,7 @@
 				81FA08F34FD74CD19C8A6794 /* Nunito-SemiBold.ttf */,
 				1876EFA2840C44819495E5DB /* Nunito-SemiBoldItalic.ttf */,
 				2097757AD69E44A09CFF6B1C /* Nunito-Medium.ttf */,
+				6571BFB300854A42A809FC0C /* frutiger.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				3D92C011FDB049E8B182FED3 /* Nunito-SemiBold.ttf in Resources */,
 				2A49A8173E914E95800A679A /* Nunito-SemiBoldItalic.ttf in Resources */,
 				DA7C5012B71E483C9B2C5098 /* Nunito-Medium.ttf in Resources */,
+				FFE73F447BDA4782B9E83E81 /* frutiger.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

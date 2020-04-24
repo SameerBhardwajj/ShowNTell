@@ -24,6 +24,17 @@ const Images = {
   Phone_small: require("../Assets/Images/Phone_small.png"),
   any: require("../Assets/Images/any.jpg"),
   Phone_Icon: require("../Assets/Images/Phone_Icon.png"),
+  Hamburger: require("../Assets/Images/Hamburger.png"),
+  Notification_Icon: require("../Assets/Images/Notification_Icon.png"),
+  Filter_Icon: require("../Assets/Images/Filter_Icon.png"),
+  Elipsis: require("../Assets/Images/Elipsis.png"),
+  Announcement_Icon: require("../Assets/Images/Announcement_Icon.png"),
+  Announcement_light: require("../Assets/Images/Announcement_light.png"),
+  Drop_Down_icon: require("../Assets/Images/Drop_Down_icon.png"),
+  Home_Active: require("../Assets/Images/Home_Active.png"),
+  attendance_Inactive: require("../Assets/Images/attendance_Inactive.png"),
+  Photo_Library: require("../Assets/Images/Photo_Library.png"),
+  Absence_Inactive: require("../Assets/Images/Absence_Inactive.png"),
 };
 
 export default Images;

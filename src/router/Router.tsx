@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Image, Text } from "react-native";
+import { vh, Colors, Images, vw } from "../utils";
 import {
   createStackNavigator,
   TransitionPresets,
@@ -102,7 +104,123 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
   }
 
   TabNavigator = () => (
-    <TabStack.Navigator headerMode="none" initialRouteName="Home">
+    <TabStack.Navigator
+      headerMode="none"
+      initialRouteName="Home"
+      tabBarOptions={{
+        style: {
+          height: vh(70),
+          backgroundColor: 'white'
+        },
+        // activeBackgroundColor: Colors.waterBlue,
+        // inactiveBackgroundColor: 'white',
+        safeAreaInsets: { bottom: 0 },
+      }}
+      screenOptions={({ route }) => ({
+        tabBarLabel: ({ focused }) => {
+          if (route.name === "Home") {
+            return (
+              <Text
+                style={{
+                  color: focused ? Colors.violet : Colors.characterGrey,
+                  fontFamily: "Nunito-SemiBold",
+                  fontSize: vh(12),
+                  marginBottom: vh(10)
+                }}
+              >
+                Home
+              </Text>
+            );
+          } else if (route.name === "Attendance") {
+            return (
+              <Text
+                style={{
+                  color: focused ? Colors.violet : Colors.characterGrey,
+                  fontFamily: "Nunito-SemiBold",
+                  fontSize: vh(12),
+                  marginBottom: vh(10)
+                }}
+              >
+                Attendence
+              </Text>
+            );
+          } else if (route.name === "PhotoGallery") {
+            return (
+              <Text
+                style={{
+                  color: focused ? Colors.violet : Colors.characterGrey,
+                  fontFamily: "Nunito-SemiBold",
+                  fontSize: vh(12),
+                  marginBottom: vh(10)
+                }}
+              >
+                Photo Library
+              </Text>
+            );
+          } else if (route.name === "Absence") {
+            return (
+              <Text
+                style={{
+                  color: focused ? Colors.violet : Colors.characterGrey,
+                  fontFamily: "Nunito-SemiBold",
+                  fontSize: vh(12),
+                  marginBottom: vh(10)
+                }}
+              >
+                Absence
+              </Text>
+            );
+          }
+        },
+        tabBarIcon: ({ focused }) => {
+          if (route.name === "Home") {
+            return (
+              <Image
+                style={{
+                  tintColor: focused ? Colors.violet : Colors.characterGrey,
+                  height: vw(30),
+                  width: vw(30),
+                }}
+                source={Images.Home_Active}
+              />
+            );
+          } else if (route.name === "Attendance") {
+            return (
+              <Image
+                style={{
+                  tintColor: focused ? Colors.violet : Colors.characterGrey,
+                  height: vw(30),
+                  width: vw(30),
+                }}
+                source={Images.attendance_Inactive}
+              />
+            );
+          } else if (route.name === "PhotoGallery") {
+            return (
+              <Image
+                style={{
+                  tintColor: focused ? Colors.violet : Colors.characterGrey,
+                  height: vw(28),
+                  width: vw(35),
+                }}
+                source={Images.Photo_Library}
+              />
+            );
+          } else if (route.name === "Absence") {
+            return (
+              <Image
+                style={{
+                  tintColor: focused ? Colors.violet : Colors.characterGrey,
+                  height: vw(30),
+                  width: vw(30),
+                }}
+                source={Images.Absence_Inactive}
+              />
+            );
+          }
+        },
+      })}
+    >
       <TabStack.Screen
         name="Home"
         component={DrawerNavigator}
