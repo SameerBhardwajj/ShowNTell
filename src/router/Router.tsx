@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, Text } from "react-native";
+import { Image, Text, View } from "react-native";
 import { vh, Colors, Images, vw } from "../utils";
 import {
   createStackNavigator,
@@ -35,10 +35,12 @@ import SchoolListing from "../modules/Auth/FindSchool/SchoolListing";
 import ScheduleTour from "../modules/Auth/FindSchool/ScheduleTour";
 import DateTimeSchedule from "../modules/Auth/FindSchool/DateTimeSchedule";
 import NeedHelp from "../modules/NeedHelp/NeedHelp";
+import CustomDrawer from "./CustomDrawer";
 
 // Stack Registration
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
 const DrawerStack = createDrawerNavigator();
 const ModalStack = createStackNavigator();
@@ -69,29 +71,70 @@ const AuthNavigator = () => (
   </AuthStack.Navigator>
 );
 
+// const HomeNavigator = () => {
+//   <HomeStack.Navigator initialRouteName="Home">
+//     <HomeStack.Screen name="Home" component={Home} />
+//     <HomeStack.Screen name="DrawerNavigator" component={DrawerNavigator} />
+//   </HomeStack.Navigator>;
+// };
+
+// const DrawerNavigator = () => (
+// <DrawerStack.Navigator
+// initialRouteName="Home"
+//   screenOptions={({ route }) => ({
+//     drawerLabel: () => {
+//       return null;
+//     },
+//     drawerIcon: () => {
+//       // if (route.name === "Home") {
+//       //   return null;
+//       // } else
+//       if (route.name === "Profile") {
+//         return (
+//           <View
+//             style={{
+//               height: vh(100),
+//               width: "100%",
+//               backgroundColor: Colors.violet,
+//               flexDirection: "row",
+//               alignItems: "center",
+//               justifyContent: "center",
+//             }}
+//           >
+//             <Image
+//               source={Images.any}
+//               style={{ height: vh(50), width: vh(50), borderRadius: vh(25) }}
+//             />
+//             <View>
+//               <Text>Bob Parish</Text>
+//               <Text>Bob_Parish@gmail.com</Text>
+//             </View>
+//           </View>
+//         );
+//       } else if (route.name === "Chat") {
+//         return (
+//           <View>
+//             <Text>Chat</Text>
+//           </View>
+//         );
+//       }
+//     },
+//   })}
+// >
+//   <DrawerStack.Screen name="Home" component={Home} />
+//   <DrawerStack.Screen name="Profile" component={Profile} />
+//   <DrawerStack.Screen name="Chat" component={Chat} />
+// </DrawerStack.Navigator>
+// );
+
 const DrawerNavigator = () => (
-  <DrawerStack.Navigator initialRouteName="Home">
+  <DrawerStack.Navigator
+    drawerStyle={{ width: "85%" }}
+    drawerContent={(props: any) => <CustomDrawer {...props} />}
+  >
     <DrawerStack.Screen name="Home" component={Home} />
     <DrawerStack.Screen name="Profile" component={Profile} />
-    <DrawerStack.Screen name="Chat" component={Chat} />
   </DrawerStack.Navigator>
-);
-
-const ModalNavigator = () => (
-  <ModalStack.Navigator
-    screenOptions={{
-      cardStyle: { backgroundColor: "transparent" },
-    }}
-    mode="modal"
-    headerMode="none"
-  >
-    <ModalStack.Screen name="Modal" component={Modal} />
-    <ModalStack.Screen name="ResendCodeModal" component={ResendCodeModal} />
-    <ModalStack.Screen
-      name="CreatePasswordModal"
-      component={CreatePasswordModal}
-    />
-  </ModalStack.Navigator>
 );
 
 export interface AppProps {
@@ -108,12 +151,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
       headerMode="none"
       initialRouteName="Home"
       tabBarOptions={{
-        style: {
-          height: vh(70),
-          backgroundColor: 'white'
-        },
-        // activeBackgroundColor: Colors.waterBlue,
-        // inactiveBackgroundColor: 'white',
+        style: { height: vh(70), backgroundColor: "white" },
         safeAreaInsets: { bottom: 0 },
       }}
       screenOptions={({ route }) => ({
@@ -125,7 +163,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                   color: focused ? Colors.violet : Colors.characterGrey,
                   fontFamily: "Nunito-SemiBold",
                   fontSize: vh(12),
-                  marginBottom: vh(10)
+                  marginBottom: vh(10),
                 }}
               >
                 Home
@@ -138,7 +176,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                   color: focused ? Colors.violet : Colors.characterGrey,
                   fontFamily: "Nunito-SemiBold",
                   fontSize: vh(12),
-                  marginBottom: vh(10)
+                  marginBottom: vh(10),
                 }}
               >
                 Attendence
@@ -151,7 +189,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                   color: focused ? Colors.violet : Colors.characterGrey,
                   fontFamily: "Nunito-SemiBold",
                   fontSize: vh(12),
-                  marginBottom: vh(10)
+                  marginBottom: vh(10),
                 }}
               >
                 Photo Library
@@ -164,7 +202,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                   color: focused ? Colors.violet : Colors.characterGrey,
                   fontFamily: "Nunito-SemiBold",
                   fontSize: vh(12),
-                  marginBottom: vh(10)
+                  marginBottom: vh(10),
                 }}
               >
                 Absence

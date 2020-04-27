@@ -15,5 +15,6 @@ const Colors = {
   lightGreen: "rgba(165, 204, 68, 0.1)",
   characterGrey: "rgb(178, 178, 178)",
   orange: "rgb(244, 168, 28)",
+  lightBlack: "rgb(51, 51, 51)",
 };
 export default Colors;
