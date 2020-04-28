@@ -1,5 +1,11 @@
 export const updateTab = (value: boolean) => {
-  return (dispatch: any) => {
-    dispatch({ type: "UPDATE_TAB", payload: value });
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: "UPDATE_TAB",
+      payload: {
+        tab: value,
+        forceRerendering: !getState().Home.forceRerendering,
+      },
+    });
   };
 };

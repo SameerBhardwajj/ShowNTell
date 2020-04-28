@@ -118,6 +118,12 @@ const Strings = new LocalizedStrings({
     Testimonials: "Testimonials",
     Settings: "Settings",
     Logout: "Logout",
+    Attendence: "Attendence",
+    View_by_Date: "View by Date",
+    View_by_Month: "View by Month",
+    Absence_Notification: "Absence Notification",
+    From: "From",
+    To: "To",
   },
 });
 export default Strings;

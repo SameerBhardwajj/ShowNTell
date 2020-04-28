@@ -16,5 +16,8 @@ const Colors = {
   characterGrey: "rgb(178, 178, 178)",
   orange: "rgb(244, 168, 28)",
   lightBlack: "rgb(51, 51, 51)",
+  fadedPink: "rgb(245, 236, 244)",
+  darkFadedPink: "rgb(236, 217, 233)",
+  separator: "rgba(0, 0, 0, 0.06)",
 };
 export default Colors;

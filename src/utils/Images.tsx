@@ -35,6 +35,7 @@ const Images = {
   attendance_Inactive: require("../Assets/Images/attendance_Inactive.png"),
   Photo_Library: require("../Assets/Images/Photo_Library.png"),
   Absence_Inactive: require("../Assets/Images/Absence_Inactive.png"),
+  Attendance_Active: require("../Assets/Images/Attendance_Active.png"),
   Chat_Icon: require("../Assets/Images/Chat_Icon.png"),
   QA_Icon: require("../Assets/Images/QA_Icon.png"),
   Announcement_Icons: require("../Assets/Images/Announcement_Icons.png"),
@@ -46,6 +47,12 @@ const Images = {
   need_help_Icon: require("../Assets/Images/need_help_Icon.png"),
   setting_Icon: require("../Assets/Images/setting_Icon.png"),
   Log_out_Icon: require("../Assets/Images/Log_out_Icon.png"),
+  Radio_Button_Unselected: require("../Assets/Images/Radio_Button_Unselected.png"),
+  Radio_Button_Selected: require("../Assets/Images/Radio_Button_Selected.png"),
+  Calendar_Icon: require("../Assets/Images/Calendar_Icon.png"),
+  In_Time_Icon: require("../Assets/Images/In_Time_Icon.png"),
+  Out_Time_Icon: require("../Assets/Images/Out_Time_Icon.png"),
+  Absent_Icon: require("../Assets/Images/Absent_Icon.png"),
 };
 
 export default Images;

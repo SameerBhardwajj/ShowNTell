@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   View,
   Text,
@@ -27,17 +27,20 @@ export default function App(props: AppProps) {
   const { tab } = useSelector((state: { Home: any }) => ({
     tab: state.Home.tab,
   }));
+
   React.useEffect(() => {
     const unsubscribe =
       (props.navigation.addListener("drawerOpen", (e: any) => {
         dispatch(updateTab(true));
+        console.warn(tab);
       }),
       props.navigation.addListener("drawerClose", (e: any) => {
         dispatch(updateTab(false));
+        console.warn(tab);
       }));
 
     return unsubscribe;
-  }, [props.navigation]);
+  }, []);
 
   return (
     <ScrollView
@@ -57,14 +60,7 @@ export default function App(props: AppProps) {
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
               <Text style={Styles.childHeaderText}>Alex </Text>
-              <Image
-                source={Images.Drop_Down_icon}
-                style={{
-                  height: vh(8),
-                  width: vh(13),
-                  marginHorizontal: vw(5),
-                }}
-              />
+              <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.8}>
               <Image
@@ -192,6 +188,11 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
   },
+  dropdown: {
+    height: vh(8),
+    width: vh(13),
+    marginHorizontal: vw(5),
+  },
   hamburgerImg: {
     height: vw(22),
     width: vw(32),
@@ -212,7 +213,7 @@ const Styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 3,
     },
     shadowOpacity: 0.08,
     shadowRadius: 4.65,
@@ -220,8 +221,8 @@ const Styles = StyleSheet.create({
   },
   mainInnerView: {
     alignItems: "center",
+    backgroundColor: 'white',
     width: "100%",
-    backgroundColor: "white",
     marginVertical: vh(15),
     borderRadius: vh(10),
   },

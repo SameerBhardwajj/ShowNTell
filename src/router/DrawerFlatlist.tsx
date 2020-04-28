@@ -12,7 +12,7 @@ export default function App(props: AppProps) {
     <TouchableOpacity
       style={Styles.mainView}
       activeOpacity={0.8}
-      onPress={() => props.onPress()}
+      onPress={() => props.onPress(props.item.path)}
     >
       <Image
         source={props.item.icon}

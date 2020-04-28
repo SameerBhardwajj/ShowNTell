@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, Text, View } from "react-native";
+import { Image, Text, StyleSheet } from "react-native";
 import { vh, Colors, Images, vw } from "../utils";
 import {
   createStackNavigator,
@@ -36,11 +36,14 @@ import ScheduleTour from "../modules/Auth/FindSchool/ScheduleTour";
 import DateTimeSchedule from "../modules/Auth/FindSchool/DateTimeSchedule";
 import NeedHelp from "../modules/NeedHelp/NeedHelp";
 import CustomDrawer from "./CustomDrawer";
+import Announcement from "../modules/Announcement/Announcement";
+import Settings from "../modules/Settings/Settings";
+import AbsenceNotificationModal from "../modules/Attendance/AbsenceNotificationModal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
-const HomeStack = createStackNavigator();
+const ProfileStack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
 const DrawerStack = createDrawerNavigator();
 const ModalStack = createStackNavigator();
@@ -71,70 +74,23 @@ const AuthNavigator = () => (
   </AuthStack.Navigator>
 );
 
-// const HomeNavigator = () => {
-//   <HomeStack.Navigator initialRouteName="Home">
-//     <HomeStack.Screen name="Home" component={Home} />
-//     <HomeStack.Screen name="DrawerNavigator" component={DrawerNavigator} />
-//   </HomeStack.Navigator>;
-// };
-
-// const DrawerNavigator = () => (
-// <DrawerStack.Navigator
-// initialRouteName="Home"
-//   screenOptions={({ route }) => ({
-//     drawerLabel: () => {
-//       return null;
-//     },
-//     drawerIcon: () => {
-//       // if (route.name === "Home") {
-//       //   return null;
-//       // } else
-//       if (route.name === "Profile") {
-//         return (
-//           <View
-//             style={{
-//               height: vh(100),
-//               width: "100%",
-//               backgroundColor: Colors.violet,
-//               flexDirection: "row",
-//               alignItems: "center",
-//               justifyContent: "center",
-//             }}
-//           >
-//             <Image
-//               source={Images.any}
-//               style={{ height: vh(50), width: vh(50), borderRadius: vh(25) }}
-//             />
-//             <View>
-//               <Text>Bob Parish</Text>
-//               <Text>Bob_Parish@gmail.com</Text>
-//             </View>
-//           </View>
-//         );
-//       } else if (route.name === "Chat") {
-//         return (
-//           <View>
-//             <Text>Chat</Text>
-//           </View>
-//         );
-//       }
-//     },
-//   })}
-// >
-//   <DrawerStack.Screen name="Home" component={Home} />
-//   <DrawerStack.Screen name="Profile" component={Profile} />
-//   <DrawerStack.Screen name="Chat" component={Chat} />
-// </DrawerStack.Navigator>
-// );
-
 const DrawerNavigator = () => (
   <DrawerStack.Navigator
     drawerStyle={{ width: "85%" }}
     drawerContent={(props: any) => <CustomDrawer {...props} />}
   >
     <DrawerStack.Screen name="Home" component={Home} />
-    <DrawerStack.Screen name="Profile" component={Profile} />
+    <RootStack.Screen name="Profile" component={Profile} />
+    <DrawerStack.Screen name="Chat" component={Chat} />
+    <DrawerStack.Screen name="Announcement" component={Announcement} />
+    <DrawerStack.Screen name="Settings" component={Settings} />
   </DrawerStack.Navigator>
+);
+
+const ProfileNavigator = () => (
+  <ProfileStack.Navigator>
+    <ProfileStack.Screen name="Profile" component={Profile} />
+  </ProfileStack.Navigator>
 );
 
 export interface AppProps {
@@ -151,7 +107,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
       headerMode="none"
       initialRouteName="Home"
       tabBarOptions={{
-        style: { height: vh(70), backgroundColor: "white" },
+        style: Styles.tabView,
         safeAreaInsets: { bottom: 0 },
       }}
       screenOptions={({ route }) => ({
@@ -226,11 +182,14 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
             return (
               <Image
                 style={{
-                  tintColor: focused ? Colors.violet : Colors.characterGrey,
                   height: vw(30),
                   width: vw(30),
                 }}
-                source={Images.attendance_Inactive}
+                source={
+                  focused
+                    ? Images.Attendance_Active
+                    : Images.attendance_Inactive
+                }
               />
             );
           } else if (route.name === "PhotoGallery") {
@@ -321,6 +280,11 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 component={this.TabNavigator}
                 options={this.screen}
               />
+              <RootStack.Screen
+                name="AbsenceNotificationModal"
+                component={AbsenceNotificationModal}
+                options={this.modal}
+              />
             </>
           )}
         </RootStack.Navigator>
@@ -328,3 +292,20 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
     );
   }
 }
+
+const Styles = StyleSheet.create({
+  tabView: {
+    height: vh(70),
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: -5,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 4.65,
+    elevation: 7,
+    borderTopLeftRadius: vh(20),
+    borderTopRightRadius: vh(20),
+  },
+});
