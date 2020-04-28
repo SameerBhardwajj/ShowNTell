@@ -39,6 +39,7 @@ import CustomDrawer from "./CustomDrawer";
 import Announcement from "../modules/Announcement/Announcement";
 import Settings from "../modules/Settings/Settings";
 import AbsenceNotificationModal from "../modules/Attendance/AbsenceNotificationModal";
+import QOD from "../modules/QOD/QOD";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -84,6 +85,7 @@ const DrawerNavigator = () => (
     <DrawerStack.Screen name="Chat" component={Chat} />
     <DrawerStack.Screen name="Announcement" component={Announcement} />
     <DrawerStack.Screen name="Settings" component={Settings} />
+    <DrawerStack.Screen name="QOD" component={QOD} />
   </DrawerStack.Navigator>
 );
 
@@ -135,7 +137,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                   marginBottom: vh(10),
                 }}
               >
-                Attendence
+                Attendance
               </Text>
             );
           } else if (route.name === "PhotoGallery") {
@@ -206,12 +208,10 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
           } else if (route.name === "Absence") {
             return (
               <Image
-                style={{
-                  tintColor: focused ? Colors.violet : Colors.characterGrey,
-                  height: vw(30),
-                  width: vw(30),
-                }}
-                source={Images.Absence_Inactive}
+                style={{ height: vw(30), width: vw(30) }}
+                source={
+                  focused ? Images.Absence_Active : Images.Absence_Inactive
+                }
               />
             );
           }

@@ -14,6 +14,7 @@ export interface AppProps {
   onPressBack: Function;
   notify?: boolean;
   notifyNumber?: number;
+  textStyle?: Object;
 }
 
 const iPhoneX = Dimensions.get("window").height >= 812;
@@ -23,7 +24,7 @@ export default function App(props: AppProps) {
     <View style={Styles.mainOuterView}>
       <View style={Styles.extraHeader} />
       <View style={Styles.mainView}>
-        <Text style={Styles.text}>{props.title}</Text>
+        <Text style={[Styles.text, props.textStyle]}>{props.title}</Text>
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.btnView}
@@ -72,7 +73,7 @@ const Styles = StyleSheet.create({
   btn: {
     marginTop: vh(18),
     height: vw(20),
-    width: vw(15)
+    width: vw(15),
   },
   newView: {
     position: "absolute",

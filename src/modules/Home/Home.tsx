@@ -32,11 +32,11 @@ export default function App(props: AppProps) {
     const unsubscribe =
       (props.navigation.addListener("drawerOpen", (e: any) => {
         dispatch(updateTab(true));
-        console.warn(tab);
+        // console.warn(tab);
       }),
       props.navigation.addListener("drawerClose", (e: any) => {
         dispatch(updateTab(false));
-        console.warn(tab);
+        // console.warn(tab);
       }));
 
     return unsubscribe;

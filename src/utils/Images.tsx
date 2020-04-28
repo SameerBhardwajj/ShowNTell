@@ -35,6 +35,7 @@ const Images = {
   attendance_Inactive: require("../Assets/Images/attendance_Inactive.png"),
   Photo_Library: require("../Assets/Images/Photo_Library.png"),
   Absence_Inactive: require("../Assets/Images/Absence_Inactive.png"),
+  Absence_Active: require("../Assets/Images/Absence_Active.png"),
   Attendance_Active: require("../Assets/Images/Attendance_Active.png"),
   Chat_Icon: require("../Assets/Images/Chat_Icon.png"),
   QA_Icon: require("../Assets/Images/QA_Icon.png"),

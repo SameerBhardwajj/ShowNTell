@@ -26,7 +26,7 @@ export default function App(props: AppProps) {
     <View style={Styles.mainView}>
       <View style={Styles.extraHeader} />
       <View style={Styles.headerView}>
-        <Text style={Styles.headerText}>{Strings.Attendence}</Text>
+        <Text style={Styles.headerText}>{Strings.Attendance}</Text>
         <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
           <Text style={Styles.childHeaderText}>Alex </Text>
           <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />

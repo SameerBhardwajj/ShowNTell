@@ -9,6 +9,7 @@ export interface AppProps {
   onPress: Function;
   activeOpacity?: number;
   lightBtn?: boolean;
+  btnColor?: string;
 }
 
 export default function App(props: AppProps) {
@@ -20,8 +21,14 @@ export default function App(props: AppProps) {
       style={[
         Styles.btn,
         {
-          backgroundColor: props.lightBtn ? "white" : Colors.violet,
+          backgroundColor: props.lightBtn
+            ? "white"
+            : props.btnColor === undefined
+            ? Colors.violet
+            : props.btnColor,
           borderWidth: props.lightBtn ? vw(3) : 0,
+          borderColor:
+            props.btnColor === undefined ? Colors.violet : props.btnColor,
         },
         props.ButtonStyle,
       ]}
@@ -30,7 +37,13 @@ export default function App(props: AppProps) {
       <Text
         style={[
           Styles.btnText,
-          { color: props.lightBtn ? Colors.violet : "white" },
+          {
+            color: props.lightBtn
+              ? props.btnColor === undefined
+                ? Colors.violet
+                : props.btnColor
+              : "white",
+          },
           props.TextStyle,
         ]}
       >
@@ -48,7 +61,6 @@ const Styles = StyleSheet.create({
     margin: vw(14),
     marginHorizontal: vw(20),
     borderRadius: vw(50),
-    borderColor: Colors.violet,
   },
   btnText: {
     fontFamily: "Nunito-Bold",
