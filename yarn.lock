@@ -1150,6 +1150,14 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
+"@types/react-native-share@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-share/-/react-native-share-3.1.0.tgz#06b3772257d77a8f56af05aa92729efaf6387069"
+  integrity sha512-qW4gLw04HPHMDDzosX34eSdCKQanncqy8RH4KJNittkpxc5MLBmosa0d/05AEAjPhnuzciw6UK+WHbZ/XcApOA==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native@*":
   version "0.62.3"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.62.3.tgz#e95e6e2de14656e43280995fc260ef6b044ed1ea"
@@ -5360,6 +5368,11 @@ react-native-screens@^2.4.0:
   integrity sha512-7GcXlaj7IIrM4l5Ub7BPTkNQJ2slHGt2bhmfWmW73NTXEv+7pjHlp+JpQO32Yn+O8UQGPFf0rsesfYUdER7ppQ==
   dependencies:
     debounce "^1.2.0"
+
+react-native-share@^3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-3.3.0.tgz#07ab21e6e6dc2399a9c4b5517f5bca831907ffa3"
+  integrity sha512-BH/l3UMk+g+JVa/0W4pw9Jr92fOJPg6KyK9sOjPe9SSNxei/NObo+D80MaecZaBoORV9lrktmlCD+ka/ed1JuA==
 
 react-native-snackbar@^2.2.0:
   version "2.2.0"

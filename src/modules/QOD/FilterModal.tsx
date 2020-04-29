@@ -58,7 +58,7 @@ export default function App(props: AppProps) {
         <CustomButton
           ButtonStyle={{ width: "100%" }}
           Text={Strings.proceed}
-          onPress={() => props.navigation.navigate("")}
+          onPress={() => props.navigation.pop()}
         />
       </View>
     </View>
@@ -76,7 +76,8 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
     width: "100%",
     alignItems: "center",
-    borderRadius: vw(20),
+    borderTopRightRadius: vw(20),
+    borderTopLeftRadius: vh(20),
     paddingVertical: vh(20),
     paddingHorizontal: vw(18),
   },

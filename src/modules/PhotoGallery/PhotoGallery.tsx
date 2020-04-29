@@ -5,7 +5,7 @@ export interface AppProps {}
 
 export default function App(props: AppProps) {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'red'}}>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Photo Gallery</Text>
     </View>
   );

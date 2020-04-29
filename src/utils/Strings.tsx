@@ -127,6 +127,12 @@ const Strings = new LocalizedStrings({
     To: "To",
     Done: "Done",
     Filter: "Filter",
+    Share: "Share",
+    Save_to_Photo_Library: "Save to Photo Library",
+    Cancel: "Cancel",
+    logout_msg: "Are you sure,\nyou want to log out ?",
+    Yes_Logout: "Yes, Logout",
+    No: "No",
   },
 });
 export default Strings;

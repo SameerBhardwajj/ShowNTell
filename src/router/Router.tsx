@@ -17,6 +17,11 @@ import FindSchool from "../modules/Auth/FindSchool/FindSchool";
 import Home from "../modules/Home/Home";
 import Profile from "../modules/Profile/Profile";
 import Chat from "../modules/Chat/Chat";
+import Events from "../modules/Events/Events";
+import ClassroomSchedule from "../modules/ClassroomSchedule/ClassroomSchedule";
+import Statements from "../modules/Statements/Statements";
+import Referral from "../modules/Referral/Referral";
+import Testimonials from "../modules/Testimonials/Testimonials";
 import Attendance from "../modules/Attendance/Attendance";
 import PhotoGallery from "../modules/PhotoGallery/PhotoGallery";
 import Absence from "../modules/Absence/Absence";
@@ -41,6 +46,8 @@ import Settings from "../modules/Settings/Settings";
 import AbsenceNotificationModal from "../modules/Attendance/AbsenceNotificationModal";
 import QOD from "../modules/QOD/QOD";
 import FilterModal from "../modules/QOD/FilterModal";
+import ShareModal from "../modules/Home/ShareModal";
+import LogoutModal from "../modules/Auth/Modal/LogoutModal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -87,6 +94,14 @@ const DrawerNavigator = () => (
     <DrawerStack.Screen name="Announcement" component={Announcement} />
     <DrawerStack.Screen name="Settings" component={Settings} />
     <DrawerStack.Screen name="QOD" component={QOD} />
+    <DrawerStack.Screen name="Events" component={Events} />
+    <DrawerStack.Screen
+      name="ClassroomSchedule"
+      component={ClassroomSchedule}
+    />
+    <DrawerStack.Screen name="Statements" component={Statements} />
+    <DrawerStack.Screen name="Referral" component={Referral} />
+    <DrawerStack.Screen name="Testimonials" component={Testimonials} />
   </DrawerStack.Navigator>
 );
 
@@ -289,6 +304,16 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
               <RootStack.Screen
                 name="FilterModal"
                 component={FilterModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name="ShareModal"
+                component={ShareModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name="LogoutModal"
+                component={LogoutModal}
                 options={this.modal}
               />
             </>

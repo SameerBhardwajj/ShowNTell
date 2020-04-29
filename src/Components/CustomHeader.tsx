@@ -86,7 +86,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
     height: vh(31),
     width: vw(60),
-    top: iPhoneX ? vh(40) : vh(30),
+    top: vh(30),
     right: vh(16),
     borderRadius: vh(20),
     alignItems: "center",

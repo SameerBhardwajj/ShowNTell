@@ -21,7 +21,11 @@ export default function App(props: AppProps) {
     return (
       <DrawerFlatlist
         item={item}
-        onPress={(path: string) => props.navigation.navigate(path)}
+        onPress={(path: string) =>
+          path === "NeedHelp"
+            ? props.navigation.navigate(path, { path: "TabNavigator" })
+            : props.navigation.navigate(path)
+        }
       />
     );
   };
@@ -93,68 +97,68 @@ const Styles = StyleSheet.create({
 const DATA = [
   {
     icon: Images.Chat_Icon,
-    size: { height: vw(30), width: vw(32) },
+    size: { height: vh(23), width: vh(25) },
     label: Strings.Chat,
     path: "Chat",
   },
   {
     icon: Images.QA_Icon,
-    size: { height: vw(32), width: vw(30) },
+    size: { height: vh(27), width: vh(25) },
     label: Strings.QOD_label,
     path: "QOD",
   },
   {
     icon: Images.Announcement_Icons,
-    size: { height: vw(25), width: vw(32) },
+    size: { height: vh(19), width: vh(25) },
     label: Strings.Announcement,
     path: "Announcement",
   },
   {
     icon: Images.Event_Icon,
-    size: { height: vw(32), width: vw(32) },
+    size: { height: vh(25), width: vh(25) },
     label: Strings.Events,
     path: "Events",
   },
   {
     icon: Images.Classroom_schedule_Icon,
-    size: { height: vw(32), width: vw(32) },
+    size: { height: vh(25), width: vh(25) },
     label: Strings.Classroom_Schedule,
     path: "ClassroomSchedule",
   },
   {
     icon: Images.statement_Icon,
-    size: { height: vw(29), width: vw(32) },
+    size: { height: vh(22), width: vh(25) },
     label: Strings.Statements,
     path: "Statements",
   },
   {
     icon: Images.referral_Icon,
-    size: { height: vw(32), width: vw(28) },
+    size: { height: vh(27), width: vh(25) },
     label: Strings.Referral,
     path: "Referral",
   },
   {
     icon: Images.testimonial_Icon,
-    size: { height: vw(30), width: vw(32) },
+    size: { height: vh(23), width: vh(25) },
     label: Strings.Testimonials,
     path: "Testimonials",
   },
   {
     icon: Images.need_help_Icon,
-    size: { height: vw(32), width: vw(32) },
+    size: { height: vh(25), width: vh(25) },
     label: Strings.need_help,
     path: "NeedHelp",
   },
   {
     icon: Images.setting_Icon,
-    size: { height: vw(31), width: vw(32) },
+    size: { height: vh(23), width: vh(25) },
     label: Strings.Settings,
     path: "Settings",
   },
   {
     icon: Images.Log_out_Icon,
-    size: { height: vw(32), width: vw(32) },
+    size: { height: vh(25), width: vh(25) },
     label: Strings.Logout,
-    path: "Logout",
+    path: "LogoutModal",
   },
 ];

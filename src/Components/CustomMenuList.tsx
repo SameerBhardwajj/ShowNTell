@@ -48,7 +48,7 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
-    width: "80%",
+    width: "81%",
     justifyContent: "space-between",
     backgroundColor: Colors.veryLightGrey,
     height: vh(48),

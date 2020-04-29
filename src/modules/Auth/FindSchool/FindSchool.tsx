@@ -1,7 +1,6 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Image, Platform } from "react-native";
-// import { PERMISSIONS, request } from "react-native-permissions";
-// import Geolocation from "@react-native-community/geolocation";
+import { View, Text, StyleSheet, Image, Platform, Linking } from "react-native";
+import Geolocation from "@react-native-community/geolocation";
 
 // custom imports
 import { CustomHeader, CustomButton } from "../../../Components";
@@ -13,28 +12,20 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const requestLocationPermission = async () => {
-    // try {
-    //   request(
-    //     Platform.select({
-    //       android: PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-    //       ios: PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
-    //     })
-    //   ).then((res: string) => {
-    //     if (res == "granted") {
-    //       Geolocation.getCurrentPosition((info) => {
-    //         let position = {
-    //           latitude: info.coords.latitude,
-    //           longitude: info.coords.longitude,
-    //         };
-    //         console.warn("coordinates ", position);
-    //       });
-    //     } else {
-    //       // console.log("Location is not enabled");
-    //     }
-    //   });
-    // } catch (error) {
-    //   console.log("location set error:", error);
-    // }
+    Geolocation.getCurrentPosition(
+      (info) => {
+        let position = {
+          latitude: info.coords.latitude,
+          longitude: info.coords.longitude,
+        };
+        console.warn("coordinates ", position);
+        props.navigation.navigate("SchoolListing");
+      },
+      (error) => {
+        console.warn(error);
+        Linking.openSettings()
+      }
+    );
   };
 
   return (

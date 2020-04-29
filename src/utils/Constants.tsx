@@ -7,11 +7,11 @@ const reg = (regex: string) => {
     case "password":
       return /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
     case "phone":
-      return /^\+[0-9]{3}[1-9]{1}[0-9]{9}$/;
+      return /^\+[0-9]{1,3}[1-9]{1}[0-9]{6,14}$/;
     case "name":
       return /^[a-zA-Z ]+$/;
     case "zipcode":
-      return /(^\d{5}$)|(^\d{5}-\d{4}$)/;
+      return /(^\d{5}$)|(^\d{5}-\d{4,7}$)/;
   }
 };
 

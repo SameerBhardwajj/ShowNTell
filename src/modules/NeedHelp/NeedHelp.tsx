@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TextInput,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, Image, TextInput } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
@@ -42,22 +35,22 @@ export default function App(props: AppProps) {
   };
 
   return (
-    <View style={Styles.mainView}>
-      <CustomHeader
-        title={Strings.Need_Help}
-        onPressBack={() => props.navigation.pop()}
-      />
-      <KeyboardAwareScrollView
-        keyboardShouldPersistTaps={"handled"}
-        bounces={false}
-        horizontal={false}
-        showsVerticalScrollIndicator={false}
-      >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-          contentContainerStyle={Styles.innerView}
-        >
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps={"handled"}
+      bounces={false}
+      horizontal={false}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={Styles.mainView}>
+        <CustomHeader
+          title={Strings.Need_Help}
+          onPressBack={() =>
+            props.route.params.path === "TabNavigator"
+              ? props.navigation.navigate("TabNavigator")
+              : props.navigation.pop()
+          }
+        />
+        <View style={Styles.innerView}>
           <View style={Styles.deviceMainView}>
             <View
               style={[
@@ -176,9 +169,9 @@ export default function App(props: AppProps) {
               backgroundColor: disable() ? Colors.violet : Colors.disableViolet,
             }}
           />
-        </ScrollView>
-      </KeyboardAwareScrollView>
-    </View>
+        </View>
+      </View>
+    </KeyboardAwareScrollView>
   );
 }
 const Styles = StyleSheet.create({
@@ -254,13 +247,7 @@ const Styles = StyleSheet.create({
 });
 
 const DATA = [
-  {
-    value: "Banana",
-  },
-  {
-    value: "Mango",
-  },
-  {
-    value: "Pear",
-  },
+  { value: "School 1" },
+  { value: "School 2" },
+  { value: "School 3" },
 ];

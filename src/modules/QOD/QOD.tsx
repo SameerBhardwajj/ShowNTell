@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Dimensions
 } from "react-native";
 
 // custom imports
@@ -15,6 +16,7 @@ import { vh, Colors, Images, vw, Strings } from "../../utils";
 import { CustomHeader } from "../../Components";
 import QODFlatList from "./QODFlatList";
 
+const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
   navigation?: any;
 }
@@ -65,7 +67,7 @@ export const Styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     right: vw(16),
-    top: vh(43),
+    top: iPhoneX ? vh(43) : vh(33),
     paddingVertical: vw(3),
     paddingHorizontal: vw(10),
     backgroundColor: "white",
@@ -81,7 +83,7 @@ export const Styles = StyleSheet.create({
     height: vh(6),
     width: vh(11),
     marginLeft: vw(5),
-    marginTop: vh(2),
+    marginTop: 0,
     tintColor: Colors.violet,
   },
   mainInnerView: {

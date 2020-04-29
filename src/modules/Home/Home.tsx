@@ -112,8 +112,12 @@ export default function App(props: AppProps) {
                   <Text style={Styles.content}>Green Veggies and Salads</Text>
                   <Text style={Styles.time}>Feb 1, 2020 at 12:00 PM</Text>
                 </View>
-                <TouchableOpacity activeOpacity={0.8}>
-                  <Image source={Images.Elipsis} style={Styles.ElipsisImg} />
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={Styles.ElipsisImg}
+                  onPress={() => props.navigation.navigate("ShareModal")}
+                >
+                  <Image source={Images.Elipsis} style={{ padding: vh(2) }} />
                 </TouchableOpacity>
               </View>
               <Text style={Styles.description}>
@@ -201,7 +205,7 @@ const Styles = StyleSheet.create({
   },
   dropdown: {
     height: vh(8),
-    width: vh(13),
+    width: vh(14),
     marginHorizontal: vw(5),
   },
   hamburgerImg: {
@@ -285,8 +289,9 @@ const Styles = StyleSheet.create({
     paddingVertical: vh(5),
   },
   ElipsisImg: {
-    height: vw(25),
-    width: vw(5),
+    height: vh(40),
+    alignItems: "center",
+    padding: vh(10),
   },
   description: {
     fontFamily: "Nunito-Regular",

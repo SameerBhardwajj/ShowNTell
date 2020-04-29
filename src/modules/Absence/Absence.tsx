@@ -10,7 +10,6 @@ export default function App(props: AppProps) {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'blue',
       }}>
       <Text>Absence</Text>
     </View>

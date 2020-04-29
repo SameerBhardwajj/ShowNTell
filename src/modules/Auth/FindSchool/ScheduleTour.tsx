@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Keyboard, TextInput } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Keyboard,
+  TextInput,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import DatePicker from "react-native-date-picker";
 
 // custom imports
 import {
@@ -70,7 +78,7 @@ export default function App(props: AppProps) {
           titleText={Strings.First_Child_DOB}
           value={c1DOB}
           onChangeText={(text: string) => setc1DOB(text)}
-          onSubmitEditing={() => {}}
+          onSubmitEditing={() => CustomToast()}
           check={true}
           incorrectText={Strings.DOB}
           mainViewStyle={Styles.textInput}
@@ -176,20 +184,23 @@ export default function App(props: AppProps) {
             incorrectText={Strings.Name}
             mainViewStyle={Styles.textInput}
           />
-          <CustomInputText
-            ref={input6}
-            titleText={Strings.First_Child_DOB}
-            value={c1DOB}
-            onChangeText={(text: string) => setc1DOB(text)}
-            onSubmitEditing={() => {}}
-            check={true}
-            incorrectText={Strings.DOB}
-            mainViewStyle={Styles.textInput}
-            editable={false}
-          />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              console.warn("ok");
+            }}
+            style={Styles.dobView}
+          >
+            <View style={Styles.dobView}>
+              <Text style={Styles.titleTxt}>{Strings.First_Child_DOB}</Text>
+              <View style={Styles.inputTxt}>
+                <Text style={Styles.dobText}>{c1DOB}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
           <CustomButton
             Text={Strings.Add_Second_Child}
-            onPress={() => addTextInput()}
+            onPress={() => CustomToast()}
             lightBtn={true}
             ButtonStyle={Styles.btn}
           />
@@ -236,5 +247,32 @@ const Styles = StyleSheet.create({
   btn: {
     width: "100%",
     marginTop: vh(20),
+  },
+  titleTxt: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(14),
+    alignSelf: "flex-start",
+  },
+  inputTxt: {
+    height: vh(48),
+    borderRadius: vh(50),
+    paddingHorizontal: vw(25),
+    borderWidth: vh(1),
+    width: "100%",
+    marginTop: vh(10),
+    marginBottom: vh(15),
+    borderColor: Colors.borderGrey,
+    backgroundColor: Colors.veryLightGrey,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  dobText: {
+    fontSize: vh(16),
+    fontFamily: "Nunito-SemiBold",
+  },
+  dobView: {
+    alignItems: "center",
+    width: "100%",
+    marginTop: vh(5),
   },
 });

@@ -102,13 +102,7 @@ const Styles = StyleSheet.create({
 });
 
 const DATA = [
-  {
-    value: "Banana",
-  },
-  {
-    value: "Mango",
-  },
-  {
-    value: "Pear",
-  },
+  { value: "School 1" },
+  { value: "School 2" },
+  { value: "School 3" },
 ];

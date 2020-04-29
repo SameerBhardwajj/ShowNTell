@@ -14,7 +14,7 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(updateTab(true));
+    dispatch(updateTab(true, () => {}));
   }, []);
   return (
     <View style={Styles.mainView}>
