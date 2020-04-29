@@ -1,5 +1,6 @@
-export const updateTab = (value: boolean) => {
+export const updateTab = (value: boolean, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
+    debugger;
     dispatch({
       type: "UPDATE_TAB",
       payload: {
@@ -7,5 +8,6 @@ export const updateTab = (value: boolean) => {
         forceRerendering: !getState().Home.forceRerendering,
       },
     });
+    callback();
   };
 };

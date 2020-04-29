@@ -4,7 +4,6 @@ const initialState = {
 };
 const Reducer = (state = initialState, action: any) => {
   console.log(action, state.tab);
-  
   switch (action.type) {
     case "UPDATE_TAB":
       return { ...state, ...action.payload };

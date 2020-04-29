@@ -31,12 +31,22 @@ export default function App(props: AppProps) {
   React.useEffect(() => {
     const unsubscribe =
       (props.navigation.addListener("drawerOpen", (e: any) => {
-        dispatch(updateTab(true));
-        // console.warn(tab);
+        dispatch(
+          updateTab(true, () => {
+            console.log("drawer open", tab);
+          })
+        );
+
+        debugger;
       }),
       props.navigation.addListener("drawerClose", (e: any) => {
-        dispatch(updateTab(false));
-        // console.warn(tab);
+        dispatch(
+          updateTab(false, () => {
+            console.log("drawer close", tab);
+          })
+        );
+
+        debugger;
       }));
 
     return unsubscribe;
@@ -48,6 +58,7 @@ export default function App(props: AppProps) {
       bounces={false}
       keyboardShouldPersistTaps={"handled"}
     >
+      {console.log("rendered", tab)}
       <View style={Styles.mainView}>
         <View style={Styles.extraHeader} />
         <View style={Styles.header}>
@@ -221,7 +232,7 @@ const Styles = StyleSheet.create({
   },
   mainInnerView: {
     alignItems: "center",
-    backgroundColor: 'white',
+    backgroundColor: "white",
     width: "100%",
     marginVertical: vh(15),
     borderRadius: vh(10),

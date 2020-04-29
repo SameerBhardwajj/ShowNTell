@@ -40,6 +40,7 @@ import Announcement from "../modules/Announcement/Announcement";
 import Settings from "../modules/Settings/Settings";
 import AbsenceNotificationModal from "../modules/Attendance/AbsenceNotificationModal";
 import QOD from "../modules/QOD/QOD";
+import FilterModal from "../modules/QOD/FilterModal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -283,6 +284,11 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
               <RootStack.Screen
                 name="AbsenceNotificationModal"
                 component={AbsenceNotificationModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name="FilterModal"
+                component={FilterModal}
                 options={this.modal}
               />
             </>

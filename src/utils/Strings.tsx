@@ -109,6 +109,7 @@ const Strings = new LocalizedStrings({
     QOD_description: "Ask Alex, what did he learn about dinosaure today ?",
     QOD_category: "Daily Activity • Literacy • GK",
     We_did_it: "We did it",
+    I_did_it: "I did it",
     Chat: "Chat",
     QOD_label: "Question of the Day",
     Events: "Events",
@@ -125,6 +126,7 @@ const Strings = new LocalizedStrings({
     From: "From",
     To: "To",
     Done: "Done",
+    Filter: "Filter",
   },
 });
 export default Strings;

@@ -45,6 +45,13 @@ export default function App(props: AppProps) {
           renderItem={renderItems}
         />
       </View>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={Styles.filter}
+        onPress={() => props.navigation.navigate("FilterModal")}
+      >
+        <Image source={Images.Elipsis_Options} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -80,7 +87,7 @@ export const Styles = StyleSheet.create({
   mainInnerView: {
     paddingVertical: vh(8),
     paddingHorizontal: vw(16),
-    marginBottom: vh(90),
+    marginBottom: vh(85),
     width: "100%",
   },
   cardView: {
@@ -129,6 +136,13 @@ export const Styles = StyleSheet.create({
     fontSize: vh(14),
     padding: vh(5),
     paddingLeft: 0,
+  },
+  filter: {
+    position: "absolute",
+    right: vw(24),
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

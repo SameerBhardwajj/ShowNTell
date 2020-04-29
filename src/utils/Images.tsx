@@ -54,6 +54,9 @@ const Images = {
   In_Time_Icon: require("../Assets/Images/In_Time_Icon.png"),
   Out_Time_Icon: require("../Assets/Images/Out_Time_Icon.png"),
   Absent_Icon: require("../Assets/Images/Absent_Icon.png"),
+  Elipsis_Options: require("../Assets/Images/Elipsis_Options.png"),
+  Check_Box_Active: require("../Assets/Images/Check_Box_Active.png"),
+  Check_Box_inactive: require("../Assets/Images/Check_Box_inactive.png"),
 };
 
 export default Images;
