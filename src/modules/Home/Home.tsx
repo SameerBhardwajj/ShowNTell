@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -102,12 +102,22 @@ export default function App(props: AppProps) {
               <View style={Styles.nameView}>
                 <Image source={Images.any} style={Styles.childAvatar} />
                 <View style={Styles.centerNameView}>
-                  <Text style={Styles.name}>
-                    Alex .{" "}
-                    <Text style={{ color: Colors.orange }}>
-                      {Strings.lunch_time}
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      props.navigation.navigate("ActivityModal", {
+                        name: Strings.lunch_name,
+                        msg: Strings.lunch_msg,
+                      })
+                    }
+                  >
+                    <Text style={Styles.name}>
+                      Alex .{" "}
+                      <Text style={{ color: Colors.orange }}>
+                        {Strings.lunch_time}
+                      </Text>
                     </Text>
-                  </Text>
+                  </TouchableOpacity>
                   <Text style={Styles.category}>Healthy Food</Text>
                   <Text style={Styles.content}>Green Veggies and Salads</Text>
                   <Text style={Styles.time}>Feb 1, 2020 at 12:00 PM</Text>

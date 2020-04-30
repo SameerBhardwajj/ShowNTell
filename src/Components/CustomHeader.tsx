@@ -15,6 +15,7 @@ export interface AppProps {
   notify?: boolean;
   notifyNumber?: number;
   textStyle?: Object;
+  hideBackButton?: boolean;
 }
 
 const iPhoneX = Dimensions.get("window").height >= 812;
@@ -25,13 +26,15 @@ export default function App(props: AppProps) {
       <View style={Styles.extraHeader} />
       <View style={Styles.mainView}>
         <Text style={[Styles.text, props.textStyle]}>{props.title}</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={Styles.btnView}
-          onPress={() => props.onPressBack()}
-        >
-          <Image source={Images.back_icon} style={Styles.btn} />
-        </TouchableOpacity>
+        {props.hideBackButton ? null : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={Styles.btnView}
+            onPress={() => props.onPressBack()}
+          >
+            <Image source={Images.back_icon} style={Styles.btn} />
+          </TouchableOpacity>
+        )}
         {props.notify ? (
           <View style={Styles.notifyView}>
             <Text style={Styles.notifyText}>{props.notifyNumber}/3</Text>

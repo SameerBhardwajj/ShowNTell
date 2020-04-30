@@ -48,6 +48,8 @@ import QOD from "../modules/QOD/QOD";
 import FilterModal from "../modules/QOD/FilterModal";
 import ShareModal from "../modules/Home/ShareModal";
 import LogoutModal from "../modules/Auth/Modal/LogoutModal";
+import ActivityModal from "../modules/Home/ActivityModal";
+import GalleryDetails from "../modules/PhotoGallery/GalleryDetails";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -56,6 +58,7 @@ const ProfileStack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
 const DrawerStack = createDrawerNavigator();
 const ModalStack = createStackNavigator();
+const GalleryStack = createStackNavigator();
 
 const AuthNavigator = () => (
   <AuthStack.Navigator headerMode="none" initialRouteName="LandingPage">
@@ -103,6 +106,13 @@ const DrawerNavigator = () => (
     <DrawerStack.Screen name="Referral" component={Referral} />
     <DrawerStack.Screen name="Testimonials" component={Testimonials} />
   </DrawerStack.Navigator>
+);
+
+const GalleryNavigator = () => (
+  <GalleryStack.Navigator initialRouteName="PhotoGallery" headerMode="none">
+    <GalleryStack.Screen name="PhotoGallery" component={PhotoGallery} />
+    <GalleryStack.Screen name="GalleryDetails" component={GalleryDetails} />
+  </GalleryStack.Navigator>
 );
 
 const ProfileNavigator = () => (
@@ -240,7 +250,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
         options={{ tabBarVisible: this.props.tab }}
       />
       <TabStack.Screen name="Attendance" component={Attendance} />
-      <TabStack.Screen name="PhotoGallery" component={PhotoGallery} />
+      <TabStack.Screen name="PhotoGallery" component={GalleryNavigator} />
       <TabStack.Screen name="Absence" component={Absence} />
     </TabStack.Navigator>
   );
@@ -309,6 +319,11 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
               <RootStack.Screen
                 name="ShareModal"
                 component={ShareModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name="ActivityModal"
+                component={ActivityModal}
                 options={this.modal}
               />
               <RootStack.Screen

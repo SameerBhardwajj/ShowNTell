@@ -57,6 +57,9 @@ const Images = {
   Elipsis_Options: require("../Assets/Images/Elipsis_Options.png"),
   Check_Box_Active: require("../Assets/Images/Check_Box_Active.png"),
   Check_Box_inactive: require("../Assets/Images/Check_Box_inactive.png"),
+  Activity_Detail_Graphic: require("../Assets/Images/Activity_Detail_Graphic.png"),
+  Delete_Icon: require("../Assets/Images/Delete_Icon.png"),
+  download_Icon: require("../Assets/Images/download_Icon.png"),
 };
 
 export default Images;

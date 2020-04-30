@@ -133,6 +133,10 @@ const Strings = new LocalizedStrings({
     logout_msg: "Are you sure,\nyou want to log out ?",
     Yes_Logout: "Yes, Logout",
     No: "No",
+    Photo_Library: "Photo Library",
+    lunch_name: "Why Lunch activity is important for children ?",
+    lunch_msg:
+      "This will help your children in getting along with rest of the kids, importance of eating together and also inculcate the basic eating manners, the different taste of food as well as learning names of different dishes.",
   },
 });
 export default Strings;

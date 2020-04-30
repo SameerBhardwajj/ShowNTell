@@ -117,11 +117,12 @@ export default function App(props: AppProps) {
               Text={Strings.proceed}
               ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
               onPress={() => {
-                validate("password", password)
-                  ? validate("email", email)
-                    ? props.navigation.navigate("TabNavigator")
-                    : setCheckEmail(false)
-                  : (setPassword(""), setCheckPassword(false));
+                // validate("password", password)
+                //   ? validate("email", email)
+                //     ? 
+                    props.navigation.navigate("TabNavigator")
+                  //   : setCheckEmail(false)
+                  // : (setPassword(""), setCheckPassword(false));
               }}
             />
             {/* Register -------------------- */}
