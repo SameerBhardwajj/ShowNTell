@@ -12,12 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { updateTab } from "../Home/Action";
-import {
-  CustomHeader,
-  CustomButton,
-  CustomMenuList,
-  CustomInputText,
-} from "../../Components";
+import { CustomHeader } from "../../Components";
 import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
 import GalleryFlatlist from "./GalleryFlatlist";
 
@@ -26,11 +21,14 @@ export interface AppProps {
 }
 const img =
   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg";
+const img2 =
+  "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg";
 let dataArray = new Array();
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [select, setSelect] = useState(false);
+  const [selected, setSelected] = useState(false);
   const { tab } = useSelector((state: { Home: any }) => ({
     tab: state.Home.tab,
   }));
@@ -57,10 +55,12 @@ export default function App(props: AppProps) {
       <GalleryFlatlist
         item={item}
         index={index}
+        select={select}
         onPress={(data: any) =>
           select
-            ? null
-            : props.navigation.navigate("GalleryDetails", { item: data })
+            ? setSelected(!selected)
+            : (dispatch(updateTab(false, () => {})),
+              props.navigation.navigate("GalleryDetails", { item: data }))
         }
       />
     );
@@ -149,7 +149,7 @@ export const Styles = StyleSheet.create({
   },
   innerView: {
     alignItems: "center",
-    paddingHorizontal: vh(16),
+    paddingHorizontal: vh(10),
     width: "100%",
   },
   headingView: {
@@ -163,37 +163,6 @@ export const Styles = StyleSheet.create({
     fontSize: vh(16),
     color: Colors.lightBlack,
     paddingVertical: vh(16),
-  },
-  picsView: {
-    flexDirection: "row",
-    width: "100%",
-    height: vh(198),
-    justifyContent: "space-between",
-    marginBottom: vh(16),
-  },
-  bigView: {
-    height: "100%",
-    width: vw(178),
-    borderRadius: vh(10),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  bigImg: {
-    height: "100%",
-    width: "100%",
-    borderRadius: vh(10),
-  },
-  smallView: {
-    height: "46%",
-    width: vw(178),
-    borderRadius: vh(10),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  smallImg: {
-    height: "100%",
-    width: "100%",
-    borderRadius: vh(10),
   },
 });
 
@@ -212,53 +181,62 @@ const DATA = [
     // img: 0,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
+    selected: false,
   },
   {
-    img: img,
+    img: img2,
     // img: 1,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
+    selected: false,
   },
   {
     img: img,
     // img: 2,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
+    selected: false,
   },
   {
-    img: img,
+    img: img2,
     // img: 3,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
+    selected: false,
   },
   {
     img: img,
     // img: 4,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
+    selected: false,
   },
   {
-    img: img,
+    img: img2,
     // img: 5,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
+    selected: false,
   },
   {
     img: img,
     // img: 6,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
+    selected: false,
   },
   {
-    img: img,
+    img: img2,
     // img: 7,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
+    selected: false,
   },
   {
     img: img,
     // img: 8,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
+    selected: false,
   },
 ];

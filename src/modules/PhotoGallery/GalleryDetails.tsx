@@ -29,13 +29,14 @@ export default function App(props: AppProps) {
       </View>
       <Text style={Styles.heading}>{item.heading}</Text>
       <Text style={Styles.category}>{item.category}</Text>
+      <Image source={{ uri: item.img }} style={Styles.img} />
     </View>
   );
 }
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    alignItems: "center",
+    // alignItems: "center",
     backgroundColor: "white",
   },
   mainBtnView: {
@@ -55,10 +56,19 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(18),
     color: Colors.lightBlack,
+    paddingLeft: vh(16),
+    paddingTop: vh(16),
   },
   category: {
     fontFamily: "Nunito-Medium",
     fontSize: vh(18),
     color: Colors.lightGrey,
+    paddingTop: vh(10),
+    paddingLeft: vh(16),
+  },
+  img: {
+    height: "40%",
+    width: "100%",
+    marginTop: vh(80),
   },
 });
