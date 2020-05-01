@@ -9,9 +9,9 @@ export default function App(props: AppProps) {
   return (
     <TouchableOpacity
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-      onPress={() => props.navigation.navigate('Home')}
+      onPress={() => props.navigation.navigate("Home")}
     >
-      <Text>Profile</Text>
+      <Text>Press To Go Back</Text>
     </TouchableOpacity>
   );
 }
