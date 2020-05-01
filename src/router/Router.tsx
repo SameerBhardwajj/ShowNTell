@@ -23,7 +23,7 @@ import Statements from "../modules/Statements/Statements";
 import Referral from "../modules/Referral/Referral";
 import Testimonials from "../modules/Testimonials/Testimonials";
 import Attendance from "../modules/Attendance/Attendance";
-import PhotoGallery from "../modules/PhotoGallery/PhotoGallery";
+import PhotoGallery from "../modules/PhotoLibrary/PhotoLibrary";
 import Absence from "../modules/Absence/Absence";
 import Modal from "../modules/Auth/Modal/Modal";
 import Register from "../modules/Auth/Register/Register";
@@ -49,7 +49,7 @@ import FilterModal from "../modules/QOD/FilterModal";
 import ShareModal from "../modules/Home/ShareModal";
 import LogoutModal from "../modules/Auth/Modal/LogoutModal";
 import ActivityModal from "../modules/Home/ActivityModal";
-import GalleryDetails from "../modules/PhotoGallery/GalleryDetails";
+import GalleryDetails from "../modules/PhotoLibrary/GalleryDetails";
 
 // Stack Registration
 const RootStack = createStackNavigator();

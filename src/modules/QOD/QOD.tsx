@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 // custom imports
-import { updateTab } from "../Home/Action";
+import { updateTab } from "../Home/action";
 import { useDispatch, useSelector } from "react-redux";
 import { vh, Colors, Images, vw, Strings } from "../../utils";
 import { CustomHeader } from "../../Components";

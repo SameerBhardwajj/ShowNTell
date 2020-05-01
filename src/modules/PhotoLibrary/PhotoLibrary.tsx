@@ -11,9 +11,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { updateTab } from "../Home/Action";
+import { updateTab } from "../Home/action";
+import { updateLibrary } from "./action";
 import { CustomHeader } from "../../Components";
-import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
+import { Strings, vw, vh, Images, Colors } from "../../utils";
 import GalleryFlatlist from "./GalleryFlatlist";
 
 export interface AppProps {
@@ -29,16 +30,21 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [select, setSelect] = useState(false);
   const [selected, setSelected] = useState(false);
-  const { tab } = useSelector((state: { Home: any }) => ({
-    tab: state.Home.tab,
-  }));
+  const { tab, libraryData } = useSelector(
+    (state: { Home: any; PhotoLibrary: any }) => ({
+      tab: state.Home.tab,
+      libraryData: state.PhotoLibrary.libraryData,
+    })
+  );
 
   useEffect(() => {
-    // arrangeData(DATA);
+    dispatch(updateLibrary(DATA));
   }, []);
 
-  const arrangeData = (data: Array<any>) => {
-    let temp: any[] = [];
+  const arrangeData = () => {
+    let data = libraryData;
+    // let temp: any[] = [];
+    dataArray = new Array();
     for (let i = 0; i < data.length; i++) {
       dataArray.push([data[i], data[(i += 1)], data[(i += 1)]]);
       // console.warn(dataArray);
@@ -56,9 +62,12 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         select={select}
-        onPress={(data: any) =>
+        onPress={(data: any, dataIndex: number) =>
           select
-            ? setSelected(!selected)
+            ? ((dataArray[index][dataIndex].selected = !dataArray[index][
+                dataIndex
+              ].selected),
+              console.warn(dataArray[index][dataIndex].selected))
             : (dispatch(updateTab(false, () => {})),
               props.navigation.navigate("GalleryDetails", { item: data }))
         }
@@ -109,7 +118,7 @@ export default function App(props: AppProps) {
           bounces={false}
           horizontal={false}
           showsVerticalScrollIndicator={false}
-          data={arrangeData(DATA)}
+          data={arrangeData()}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItems}
         />
@@ -165,15 +174,6 @@ export const Styles = StyleSheet.create({
     paddingVertical: vh(16),
   },
 });
-
-// const DATA = [
-//   { img1: Images.any, img2: Images.any, },
-//   { img1: Images.any, img2: Images.any, img3: Images.any },
-//   { img1: Images.any, img2: Images.any, img3: Images.any },
-//   { img1: Images.any, img2: Images.any, img3: Images.any },
-//   { img1: Images.any, img2: Images.any, img3: Images.any },
-//   { img1: Images.any, img2: Images.any, img3: Images.any },
-// ];
 
 const DATA = [
   {
@@ -235,6 +235,27 @@ const DATA = [
   {
     img: img,
     // img: 8,
+    heading: "Lunch Time",
+    category: "Healthy • Fresh and Green",
+    selected: false,
+  },
+  {
+    img: img2,
+    // img: 3,
+    heading: "Lunch Time",
+    category: "Healthy • Fresh and Green",
+    selected: false,
+  },
+  {
+    img: img,
+    // img: 4,
+    heading: "Lunch Time",
+    category: "Healthy • Fresh and Green",
+    selected: false,
+  },
+  {
+    img: img2,
+    // img: 5,
     heading: "Lunch Time",
     category: "Healthy • Fresh and Green",
     selected: false,

@@ -60,6 +60,8 @@ const Images = {
   Activity_Detail_Graphic: require("../Assets/Images/Activity_Detail_Graphic.png"),
   Delete_Icon: require("../Assets/Images/Delete_Icon.png"),
   download_Icon: require("../Assets/Images/download_Icon.png"),
+  Edit_Icon: require("../Assets/Images/Edit_Icon.png"),
+  Add_leave: require("../Assets/Images/Add_leave.png"),
 };
 
 export default Images;

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 // custom imports
-import { updateTab } from "../Home/Action";
+import { updateTab } from "../Home/action";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomHeader } from "../../Components";
 import { Strings, vw, vh, Colors } from "../../utils";

@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 // custom imports
-import { updateTab } from "../Home/Action";
+import { updateTab } from "../Home/action";
 import { CustomHeader } from "../../Components";
 import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
 

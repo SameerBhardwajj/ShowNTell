@@ -12,7 +12,7 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const [selected, setSelected] = useState(false);
   const index = parseInt(props.index);
-  console.warn(props.select);
+  console.warn(props.select, index, index % 2 === 0);
 
   return (
     <View style={{ flex: 1, alignItems: "center", width: "100%" }}>
@@ -23,7 +23,7 @@ export default function App(props: AppProps) {
               Styles.bigView,
               { borderColor: props.item[0].selected ? Colors.orange : "white" },
             ]}
-            onPress={() => props.onPress(props.item[0])}
+            onPress={() => props.onPress(props.item[0], 0)}
           >
             <Image source={{ uri: props.item[0].img }} style={Styles.bigImg} />
           </TouchableOpacity>
