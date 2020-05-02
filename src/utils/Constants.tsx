@@ -11,7 +11,7 @@ const reg = (regex: string) => {
     case "name":
       return /^[a-zA-Z ]+$/;
     case "zipcode":
-      return /(^\d{5}$)|(^\d{5}-\d{4,7}$)/;
+      return /(^[1-9]{1}\d{3,6}$)/;
   }
 };
 

@@ -31,18 +31,33 @@ export default function App(props: AppProps) {
   const input4: any = React.createRef();
   const input5: any = React.createRef();
   const input6: any = React.createRef();
+  const input7: any = React.createRef();
+  const input8: any = React.createRef();
+  const input9: any = React.createRef();
   const [pname, setPname] = useState("");
   const [phone, setPhone] = useState("+");
   const [zipcode, setZipcode] = useState("");
   const [email, setEmail] = useState("");
   const [c1name, setC1name] = useState("");
   const [c1DOB, setc1DOB] = useState("");
+  const [c2name, setC2name] = useState("");
+  const [c2DOB, setc2DOB] = useState("");
+  const [c3name, setC3name] = useState("");
+  const [c3DOB, setc3DOB] = useState("");
+  const [c4name, setC4name] = useState("");
+  const [c4DOB, setc4DOB] = useState("");
+  const [c5name, setC5name] = useState("");
+  const [c5DOB, setc5DOB] = useState("");
   const [checkpname, setCheckPname] = useState(true);
   const [checkphone, setCheckphone] = useState(true);
   const [checkzipcode, setCheckzipcode] = useState(true);
   const [checkemail, setCheckemail] = useState(true);
   const [checkc1name, setCheckc1name] = useState(true);
-  const [childArray, setChildArray] = useState([]);
+  const [checkc2name, setCheckc2name] = useState(true);
+  const [checkc3name, setCheckc3name] = useState(true);
+  const [checkc4name, setCheckc4name] = useState(true);
+  const [checkc5name, setCheckc5name] = useState(true);
+  const [counter, setCounter] = useState(1);
 
   const disable = () => {
     return (
@@ -54,38 +69,11 @@ export default function App(props: AppProps) {
     );
   };
 
-  const addTextInput = () => {
-    return (
-      <View>
-        <CustomInputText
-          ref={input5}
-          titleText={Strings.First_Child_Name}
-          value={c1name}
-          onChangeText={(text: string) => {
-            checkc1name ? null : setCheckc1name(true), setC1name(text);
-          }}
-          onSubmitEditing={() => {
-            validate("name", c1name)
-              ? Keyboard.dismiss()
-              : setCheckc1name(false);
-          }}
-          check={checkc1name}
-          incorrectText={Strings.Name}
-          mainViewStyle={Styles.textInput}
-        />
-        <CustomInputText
-          ref={input6}
-          titleText={Strings.First_Child_DOB}
-          value={c1DOB}
-          onChangeText={(text: string) => setc1DOB(text)}
-          onSubmitEditing={() => CustomToast()}
-          check={true}
-          incorrectText={Strings.DOB}
-          mainViewStyle={Styles.textInput}
-          editable={false}
-        />
-      </View>
-    );
+  const navigating = () => {
+    props.navigation.navigate("ResendCodeModal", {
+      path: "SchoolListing",
+      msg: Strings.tour_success,
+    });
   };
 
   return (
@@ -102,6 +90,7 @@ export default function App(props: AppProps) {
         showsVerticalScrollIndicator={false}
       >
         <View style={Styles.innerView}>
+          {/* Parent's name ---------- */}
           <CustomInputText
             ref={input1}
             titleText={Strings.Parent_Name}
@@ -117,6 +106,7 @@ export default function App(props: AppProps) {
             check={checkpname}
             incorrectText={Strings.Parent_Name}
           />
+          {/* Parent's phone no.----------- */}
           <CustomInputText
             ref={input2}
             titleText={Strings.parentPhone}
@@ -130,10 +120,11 @@ export default function App(props: AppProps) {
                 : setCheckphone(false);
             }}
             check={checkphone}
-            incorrectText={Strings.parentPhone}
+            incorrectText={Strings.phone_number}
             keyboardType={"phone-pad"}
             mainViewStyle={Styles.textInput}
           />
+          {/* zipcode -------------- */}
           <CustomInputText
             ref={input3}
             titleText={Strings.Zip_Code}
@@ -151,6 +142,7 @@ export default function App(props: AppProps) {
             mainViewStyle={Styles.textInput}
             keyboardType={"phone-pad"}
           />
+          {/* Parent's email --------------- */}
           <CustomInputText
             ref={input4}
             titleText={Strings.Parent_email}
@@ -168,6 +160,7 @@ export default function App(props: AppProps) {
             mainViewStyle={Styles.textInput}
             keyboardType={"email-address"}
           />
+          {/* 1st child name --------- */}
           <CustomInputText
             ref={input5}
             titleText={Strings.First_Child_Name}
@@ -184,6 +177,7 @@ export default function App(props: AppProps) {
             incorrectText={Strings.Name}
             mainViewStyle={Styles.textInput}
           />
+          {/* 1st child DOB -------------- */}
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => {
@@ -198,21 +192,211 @@ export default function App(props: AppProps) {
               </View>
             </View>
           </TouchableOpacity>
-          <CustomButton
-            Text={Strings.Add_Second_Child}
-            onPress={() => CustomToast()}
-            lightBtn={true}
-            ButtonStyle={Styles.btn}
-          />
+
+          {/* 2nd child name --------- */}
+          {counter >= 2 ? (
+            <View style={{ width: "100%" }}>
+              <CustomInputText
+                ref={input6}
+                titleText={Strings.Second_Child_Name}
+                value={c2name}
+                onChangeText={(text: string) => {
+                  checkc2name ? null : setCheckc2name(true), setC2name(text);
+                }}
+                onSubmitEditing={() => {
+                  validate("name", c2name)
+                    ? Keyboard.dismiss()
+                    : setCheckc2name(false);
+                }}
+                check={checkc2name}
+                incorrectText={Strings.Name}
+                mainViewStyle={Styles.textInput}
+              />
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  console.warn("ok");
+                }}
+                style={Styles.dobView}
+              >
+                <View style={Styles.dobView}>
+                  <Text style={Styles.titleTxt}>
+                    {Strings.Second_Child_DOB}
+                  </Text>
+                  <View style={Styles.inputTxt}>
+                    <Text style={Styles.dobText}>{c2DOB}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+          {/* 3rd child name --------- */}
+          {counter >= 3 ? (
+            <View style={{ width: "100%" }}>
+              <CustomInputText
+                ref={input7}
+                titleText={Strings.Third_Child_Name}
+                value={c3name}
+                onChangeText={(text: string) => {
+                  checkc3name ? null : setCheckc3name(true), setC3name(text);
+                }}
+                onSubmitEditing={() => {
+                  validate("name", c3name)
+                    ? Keyboard.dismiss()
+                    : setCheckc3name(false);
+                }}
+                check={checkc3name}
+                incorrectText={Strings.Name}
+                mainViewStyle={Styles.textInput}
+              />
+              {/* 3rd child DOB -------------- */}
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  console.warn("ok");
+                }}
+                style={Styles.dobView}
+              >
+                <View style={Styles.dobView}>
+                  <Text style={Styles.titleTxt}>{Strings.Third_Child_DOB}</Text>
+                  <View style={Styles.inputTxt}>
+                    <Text style={Styles.dobText}>{c3DOB}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+          {/* 4th child name --------- */}
+          {counter >= 4 ? (
+            <View style={{ width: "100%" }}>
+              <CustomInputText
+                ref={input8}
+                titleText={Strings.Fourth_Child_Name}
+                value={c4name}
+                onChangeText={(text: string) => {
+                  checkc4name ? null : setCheckc4name(true), setC4name(text);
+                }}
+                onSubmitEditing={() => {
+                  validate("name", c4name)
+                    ? Keyboard.dismiss()
+                    : setCheckc4name(false);
+                }}
+                check={checkc4name}
+                incorrectText={Strings.Name}
+                mainViewStyle={Styles.textInput}
+              />
+              {/* 4th child DOB -------------- */}
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  console.warn("ok");
+                }}
+                style={Styles.dobView}
+              >
+                <View style={Styles.dobView}>
+                  <Text style={Styles.titleTxt}>
+                    {Strings.Fourth_Child_DOB}
+                  </Text>
+                  <View style={Styles.inputTxt}>
+                    <Text style={Styles.dobText}>{c4DOB}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+          {/* 5th child name --------- */}
+          {counter === 5 ? (
+            <View style={{ width: "100%" }}>
+              <CustomInputText
+                ref={input9}
+                titleText={Strings.Fifth_Child_Name}
+                value={c5name}
+                onChangeText={(text: string) => {
+                  checkc5name ? null : setCheckc5name(true), setC5name(text);
+                }}
+                onSubmitEditing={() => {
+                  validate("name", c1name)
+                    ? Keyboard.dismiss()
+                    : setCheckc5name(false);
+                }}
+                check={checkc5name}
+                incorrectText={Strings.Name}
+                mainViewStyle={Styles.textInput}
+              />
+              {/* 5th child DOB -------------- */}
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  console.warn("ok");
+                }}
+                style={Styles.dobView}
+              >
+                <View style={Styles.dobView}>
+                  <Text style={Styles.titleTxt}>{Strings.Fifth_Child_DOB}</Text>
+                  <View style={Styles.inputTxt}>
+                    <Text style={Styles.dobText}>{c5DOB}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+          ) : null}
+          {/* Add New Child Button --------- */}
+          {counter !== 5 ? (
+            <CustomButton
+              Text={
+                counter === 1
+                  ? Strings.Add_Second_Child
+                  : counter === 2
+                  ? Strings.Add_Third_Child
+                  : counter === 3
+                  ? Strings.Add_Fourth_Child
+                  : Strings.Add_Fifth_Child
+              }
+              onPress={() =>
+                counter <= 5
+                  ? setCounter(counter + 1)
+                  : CustomToast(`Can't Add more than 5 Children`)
+              }
+              lightBtn={true}
+              ButtonStyle={Styles.btn}
+            />
+          ) : null}
+          {/* Schedule Tour Button ------------ */}
           <CustomButton
             Text={Strings.Schedule_Tour}
             activeOpacity={disable() ? 0.8 : 1}
             onPress={() =>
               disable()
-                ? props.navigation.navigate("ResendCodeModal", {
-                    path: "SchoolListing",
-                    msg: Strings.tour_success,
-                  })
+                ? validate("name", pname)
+                  ? validate("phone", phone)
+                    ? validate("zipcode", zipcode)
+                      ? validate("email", email)
+                        ? validate("name", c1name)
+                          ? counter >= 2
+                            ? validate("name", c2name)
+                              ? counter >= 3
+                                ? validate("name", c3name)
+                                  ? counter >= 4
+                                    ? validate("name", c4name)
+                                      ? counter === 5
+                                        ? validate("name", c5name)
+                                          ? navigating()
+                                          : (setCheckc5name(false),
+                                            input9.current.focus())
+                                        : navigating()
+                                      : (setCheckc4name(false),
+                                        input7.current.focus())
+                                    : navigating()
+                                  : (setCheckc3name(false),
+                                    input7.current.focus())
+                                : navigating()
+                              : (setCheckc2name(false), input6.current.focus())
+                            : navigating()
+                          : (setCheckc1name(false), input5.current.focus())
+                        : (setCheckemail(false), input4.current.focus())
+                      : (setCheckzipcode(false), input3.current.focus())
+                    : (setCheckphone(false), input2.current.focus())
+                  : (setCheckPname(false), input1.current.focus())
                 : null
             }
             ButtonStyle={[
