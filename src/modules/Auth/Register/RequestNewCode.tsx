@@ -8,6 +8,7 @@ import {
   CustomHeader,
   CustomInputText,
   CustomButton,
+  CustomPhoneField,
 } from "../../../Components";
 import { Strings, vw, vh, Colors, validate } from "../../../utils";
 import { updateAccess, delayAccess } from "./actions";
@@ -25,9 +26,10 @@ export default function App(props: AppProps) {
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
   const [email, setEmail] = useState(props.route.params.email);
-  const [phone, setPhone] = useState("+");
+  const [phone, setPhone] = useState("");
   const [checkphone, setCheckPhone] = useState(true);
   const [checkEmail, setCheckEmail] = useState(true);
+  const [countryCode, setCountryCode] = useState("US");
 
   React.useEffect(() => {
     console.log("route request ", props.route.params);
@@ -61,32 +63,25 @@ export default function App(props: AppProps) {
               onSubmitEditing={() => {}}
             />
             {/* phone number ---------------- */}
-            <CustomInputText
-              ref={inputRef2}
-              editable={true}
-              titleText={Strings.parentPhone}
-              keyboardType={"phone-pad"}
-              mainViewStyle={{ marginVertical: vh(24) }}
+            <CustomPhoneField
+              onSelect={(code: any) => setCountryCode(code)}
               value={phone}
+              ref={inputRef2}
               onChangeText={(text: string) => {
                 checkphone ? null : setCheckPhone(true), setPhone(text);
               }}
               check={checkphone}
-              incorrectText={Strings.phone_number}
-              returnKeyType={"done"}
               onSubmitEditing={() => {
                 validate("phone", phone)
-                  ? // access === true
-                    //   ?
-                    (Keyboard.dismiss(),
+                  ? (Keyboard.dismiss(),
                     dispatch(updateAccess()),
                     dispatch(delayAccess()),
                     props.navigation.navigate("ResendCodeModal", {
                       path: props.route.params.path,
                     }))
-                  : // : null
-                    setCheckPhone(false);
+                  : setCheckPhone(false);
               }}
+              mainViewStyle={{ width: "100%" }}
             />
             <View style={{ alignItems: "center", width: "100%" }}>
               <CustomButton

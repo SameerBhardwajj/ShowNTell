@@ -3,9 +3,9 @@ import {
   View,
   StyleSheet,
   Keyboard,
-  TextInput,
   TouchableOpacity,
   Text,
+  Modal,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DatePicker from "react-native-date-picker";
@@ -16,6 +16,7 @@ import {
   CustomButton,
   CustomInputText,
   CustomToast,
+  CustomPhoneField,
 } from "../../../Components";
 import { Strings, vw, vh, Colors, validate } from "../../../utils";
 
@@ -35,7 +36,7 @@ export default function App(props: AppProps) {
   const input8: any = React.createRef();
   const input9: any = React.createRef();
   const [pname, setPname] = useState("");
-  const [phone, setPhone] = useState("+");
+  const [phone, setPhone] = useState("");
   const [zipcode, setZipcode] = useState("");
   const [email, setEmail] = useState("");
   const [c1name, setC1name] = useState("");
@@ -58,6 +59,10 @@ export default function App(props: AppProps) {
   const [checkc4name, setCheckc4name] = useState(true);
   const [checkc5name, setCheckc5name] = useState(true);
   const [counter, setCounter] = useState(1);
+  const [currentChild, setCurrentChild] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [countryCode, setCountryCode] = useState("US");
+  const [date, setDate] = useState(new Date());
 
   const disable = () => {
     return (
@@ -107,22 +112,20 @@ export default function App(props: AppProps) {
             incorrectText={Strings.Parent_Name}
           />
           {/* Parent's phone no.----------- */}
-          <CustomInputText
-            ref={input2}
-            titleText={Strings.parentPhone}
+          <CustomPhoneField
+            onSelect={(code: any) => setCountryCode(code)}
             value={phone}
+            ref={input2}
             onChangeText={(text: string) => {
               checkphone ? null : setCheckphone(true), setPhone(text);
             }}
+            check={checkphone}
             onSubmitEditing={() => {
               validate("phone", phone)
                 ? input3.current.focus()
                 : setCheckphone(false);
             }}
-            check={checkphone}
-            incorrectText={Strings.phone_number}
-            keyboardType={"phone-pad"}
-            mainViewStyle={Styles.textInput}
+            mainViewStyle={{ width: "100%" }}
           />
           {/* zipcode -------------- */}
           <CustomInputText
@@ -178,20 +181,18 @@ export default function App(props: AppProps) {
             mainViewStyle={Styles.textInput}
           />
           {/* 1st child DOB -------------- */}
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              console.warn("ok");
-            }}
-            style={Styles.dobView}
-          >
-            <View style={Styles.dobView}>
-              <Text style={Styles.titleTxt}>{Strings.First_Child_DOB}</Text>
-              <View style={Styles.inputTxt}>
-                <Text style={Styles.dobText}>{c1DOB}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+          <View style={Styles.dobView}>
+            <Text style={Styles.titleTxt}>{Strings.First_Child_DOB}</Text>
+            <TouchableOpacity
+              style={Styles.inputTxt}
+              activeOpacity={0.8}
+              onPress={() => {
+                setCurrentChild(1), setModalOpen(true);
+              }}
+            >
+              <Text style={Styles.dobText}>{c1DOB}</Text>
+            </TouchableOpacity>
+          </View>
 
           {/* 2nd child name --------- */}
           {counter >= 2 ? (
@@ -212,22 +213,19 @@ export default function App(props: AppProps) {
                 incorrectText={Strings.Name}
                 mainViewStyle={Styles.textInput}
               />
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  console.warn("ok");
-                }}
-                style={Styles.dobView}
-              >
-                <View style={Styles.dobView}>
-                  <Text style={Styles.titleTxt}>
-                    {Strings.Second_Child_DOB}
-                  </Text>
-                  <View style={Styles.inputTxt}>
-                    <Text style={Styles.dobText}>{c2DOB}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
+              {/* 2nd child DOB -------------- */}
+              <View style={Styles.dobView}>
+                <Text style={Styles.titleTxt}>{Strings.Second_Child_DOB}</Text>
+                <TouchableOpacity
+                  style={Styles.inputTxt}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    setCurrentChild(2), setModalOpen(true);
+                  }}
+                >
+                  <Text style={Styles.dobText}>{c2DOB}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : null}
           {/* 3rd child name --------- */}
@@ -250,20 +248,18 @@ export default function App(props: AppProps) {
                 mainViewStyle={Styles.textInput}
               />
               {/* 3rd child DOB -------------- */}
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  console.warn("ok");
-                }}
-                style={Styles.dobView}
-              >
-                <View style={Styles.dobView}>
-                  <Text style={Styles.titleTxt}>{Strings.Third_Child_DOB}</Text>
-                  <View style={Styles.inputTxt}>
-                    <Text style={Styles.dobText}>{c3DOB}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
+              <View style={Styles.dobView}>
+                <Text style={Styles.titleTxt}>{Strings.Third_Child_DOB}</Text>
+                <TouchableOpacity
+                  style={Styles.inputTxt}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    setCurrentChild(3), setModalOpen(true);
+                  }}
+                >
+                  <Text style={Styles.dobText}>{c3DOB}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : null}
           {/* 4th child name --------- */}
@@ -286,22 +282,18 @@ export default function App(props: AppProps) {
                 mainViewStyle={Styles.textInput}
               />
               {/* 4th child DOB -------------- */}
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  console.warn("ok");
-                }}
-                style={Styles.dobView}
-              >
-                <View style={Styles.dobView}>
-                  <Text style={Styles.titleTxt}>
-                    {Strings.Fourth_Child_DOB}
-                  </Text>
-                  <View style={Styles.inputTxt}>
-                    <Text style={Styles.dobText}>{c4DOB}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
+              <View style={Styles.dobView}>
+                <Text style={Styles.titleTxt}>{Strings.Fourth_Child_DOB}</Text>
+                <TouchableOpacity
+                  style={Styles.inputTxt}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    setCurrentChild(4), setModalOpen(true);
+                  }}
+                >
+                  <Text style={Styles.dobText}>{c4DOB}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : null}
           {/* 5th child name --------- */}
@@ -324,20 +316,18 @@ export default function App(props: AppProps) {
                 mainViewStyle={Styles.textInput}
               />
               {/* 5th child DOB -------------- */}
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  console.warn("ok");
-                }}
-                style={Styles.dobView}
-              >
-                <View style={Styles.dobView}>
-                  <Text style={Styles.titleTxt}>{Strings.Fifth_Child_DOB}</Text>
-                  <View style={Styles.inputTxt}>
-                    <Text style={Styles.dobText}>{c5DOB}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
+              <View style={Styles.dobView}>
+                <Text style={Styles.titleTxt}>{Strings.Fifth_Child_DOB}</Text>
+                <TouchableOpacity
+                  style={Styles.inputTxt}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    setCurrentChild(5), setModalOpen(true);
+                  }}
+                >
+                  <Text style={Styles.dobText}>{c5DOB}</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           ) : null}
           {/* Add New Child Button --------- */}
@@ -408,6 +398,37 @@ export default function App(props: AppProps) {
               },
             ]}
           />
+          <Modal animationType="slide" transparent={true} visible={modalOpen}>
+            <TouchableOpacity
+              style={Styles.topModalView}
+              onPress={() => setModalOpen(false)}
+            />
+            <View style={Styles.modalView}>
+              <DatePicker
+                maximumDate={new Date()}
+                date={date}
+                mode="date"
+                onDateChange={(text: Date) => {
+                  setDate(text);
+                  currentChild === 1
+                    ? setc1DOB(text.toLocaleDateString())
+                    : currentChild === 2
+                    ? setc2DOB(text.toLocaleDateString())
+                    : currentChild === 3
+                    ? setc3DOB(text.toLocaleDateString())
+                    : currentChild === 4
+                    ? setc4DOB(text.toLocaleDateString())
+                    : currentChild === 5
+                    ? setc5DOB(text.toLocaleDateString())
+                    : null;
+                }}
+              />
+              <CustomButton
+                Text="Set Date of Birth"
+                onPress={() => setModalOpen(false)}
+              />
+            </View>
+          </Modal>
         </View>
       </KeyboardAwareScrollView>
     </View>
@@ -458,5 +479,19 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     marginTop: vh(5),
+  },
+  topModalView: {
+    width: "100%",
+    flex: 0.65,
+    backgroundColor: "transparent",
+  },
+  modalView: {
+    backgroundColor: "white",
+    width: "100%",
+    flex: 0.35,
+    paddingVertical: vh(30),
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexDirection: "column",
   },
 });

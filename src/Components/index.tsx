@@ -6,6 +6,7 @@ import CustomMenuList from "./CustomMenuList";
 import CustomHeader from "./CustomHeader";
 import CustomCodeBox from "./CustomCodeBox";
 import CustomSearchBar from "./CustomSearchBar";
+import CustomPhoneField from "./CustomPhoneField";
 export {
   CustomButton,
   CustomToast,
@@ -15,4 +16,5 @@ export {
   CustomHeader,
   CustomCodeBox,
   CustomSearchBar,
+  CustomPhoneField,
 };
