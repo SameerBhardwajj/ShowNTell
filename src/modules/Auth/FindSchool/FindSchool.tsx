@@ -1,5 +1,13 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Image, Linking } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Linking,
+  Platform,
+  PermissionsAndroid,
+} from "react-native";
 import Geolocation from "@react-native-community/geolocation";
 
 // custom imports
@@ -12,20 +20,39 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const requestLocationPermission = async () => {
-    Geolocation.getCurrentPosition(
-      (info) => {
-        let position = {
-          latitude: info.coords.latitude,
-          longitude: info.coords.longitude,
-        };
-        console.warn("coordinates ", position);
-        props.navigation.navigate("SchoolListing");
-      },
-      (error) => {
-        console.warn(error);
-        Linking.openSettings()
+    let hasPermission = true;
+    if (Platform.OS === "android") {
+      hasPermission = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+      if (!hasPermission) {
+        const status = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        );
+        hasPermission = status === PermissionsAndroid.RESULTS.GRANTED;
       }
-    );
+    }
+    if (!hasPermission) {
+      Linking.openSettings();
+    }
+    if (hasPermission) {
+      Geolocation.getCurrentPosition(
+        (info) => {
+          let position = {
+            latitude: info.coords.latitude,
+            longitude: info.coords.longitude,
+          };
+          console.warn("coordinates ", position);
+          props.navigation.navigate("SchoolListing");
+        },
+        (error) => {
+          console.warn("error ", error);
+        },
+        Platform.OS === "android"
+          ? {}
+          : { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
+      );
+    }
   };
 
   return (

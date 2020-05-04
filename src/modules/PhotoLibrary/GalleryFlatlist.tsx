@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
 
@@ -15,7 +15,13 @@ export default function App(props: AppProps) {
   const [selected2, setSelected2] = useState(false);
   const [selected3, setSelected3] = useState(false);
   const index = parseInt(props.index);
-  // console.warn(props.select, index, index % 2 === 0);
+  const { select, navigation, item } = props;
+
+  useEffect(() => {
+    select === true
+      ? (setSelected1(false), setSelected2(false), setSelected3(false))
+      : null;
+  }, [select]);
 
   return (
     <View style={{ flex: 1, alignItems: "center", width: "100%" }}>
@@ -25,9 +31,13 @@ export default function App(props: AppProps) {
             activeOpacity={0.8}
             style={[
               Styles.bigView,
-              { borderColor: selected1 ? Colors.orange : "white" },
+              { borderColor: select && selected1 ? Colors.orange : "white" },
             ]}
-            onPress={() => setSelected1(!selected1)}
+            onPress={() =>
+              select
+                ? setSelected1(!selected1)
+                : navigation.navigate("GalleryDetails", { item: item[0] })
+            }
           >
             <Image source={{ uri: props.item[0].img }} style={Styles.bigImg} />
           </TouchableOpacity>
@@ -37,10 +47,14 @@ export default function App(props: AppProps) {
               style={[
                 Styles.smallView,
                 {
-                  borderColor: selected2 ? Colors.orange : "white",
+                  borderColor: select && selected2 ? Colors.orange : "white",
                 },
               ]}
-              onPress={() => setSelected2(!selected2)}
+              onPress={() =>
+                select
+                  ? setSelected2(!selected2)
+                  : navigation.navigate("GalleryDetails", { item: item[1] })
+              }
             >
               <Image
                 source={{ uri: props.item[1].img }}
@@ -52,10 +66,14 @@ export default function App(props: AppProps) {
               style={[
                 Styles.smallView,
                 {
-                  borderColor: selected3 ? Colors.orange : "white",
+                  borderColor: select && selected3 ? Colors.orange : "white",
                 },
               ]}
-              onPress={() => setSelected3(!selected3)}
+              onPress={() =>
+                select
+                  ? setSelected3(!selected3)
+                  : navigation.navigate("GalleryDetails", { item: item[2] })
+              }
             >
               <Image
                 source={{ uri: props.item[2].img }}
@@ -72,10 +90,14 @@ export default function App(props: AppProps) {
               style={[
                 Styles.smallView,
                 {
-                  borderColor: selected1 ? Colors.orange : "white",
+                  borderColor: select && selected1 ? Colors.orange : "white",
                 },
               ]}
-              onPress={() => setSelected1(!selected1)}
+              onPress={() =>
+                select
+                  ? setSelected1(!selected1)
+                  : navigation.navigate("GalleryDetails", { item: item[0] })
+              }
             >
               <Image
                 source={{ uri: props.item[0].img }}
@@ -87,10 +109,14 @@ export default function App(props: AppProps) {
               style={[
                 Styles.smallView,
                 {
-                  borderColor: selected2 ? Colors.orange : "white",
+                  borderColor: select && selected2 ? Colors.orange : "white",
                 },
               ]}
-              onPress={() => setSelected2(!selected2)}
+              onPress={() =>
+                select
+                  ? setSelected2(!selected2)
+                  : navigation.navigate("GalleryDetails", { item: item[1] })
+              }
             >
               <Image
                 source={{ uri: props.item[1].img }}
@@ -102,9 +128,13 @@ export default function App(props: AppProps) {
             activeOpacity={0.8}
             style={[
               Styles.bigView,
-              { borderColor: selected3 ? Colors.orange : "white" },
+              { borderColor: select && selected3 ? Colors.orange : "white" },
             ]}
-            onPress={() => setSelected3(!selected3)}
+            onPress={() =>
+              select
+                ? setSelected3(!selected3)
+                : navigation.navigate("GalleryDetails", { item: item[2] })
+            }
           >
             <Image source={{ uri: props.item[2].img }} style={Styles.bigImg} />
           </TouchableOpacity>

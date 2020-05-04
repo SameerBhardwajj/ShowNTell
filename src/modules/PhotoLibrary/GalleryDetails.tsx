@@ -6,13 +6,19 @@ import {
   Image,
   TouchableOpacity,
   Linking,
+  Platform,
+  PermissionsAndroid,
+  Dimensions
 } from "react-native";
+import RNFetchBlob from "rn-fetch-blob";
+import CameraRoll from "@react-native-community/cameraroll";
 
 // custom imports
 import { updateTab } from "../Home/action";
 import { CustomHeader } from "../../Components";
 import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
 
+const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
   navigation?: any;
   route?: any;
@@ -20,6 +26,42 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const { item } = props.route.params;
+
+  const saveToCameraRoll = async (image: string) => {
+    console.warn(image);
+    let permission;
+    if (Platform.OS === "android") {
+      permission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      );
+      if (!permission) {
+        Linking.openSettings();
+      }
+      if (permission === PermissionsAndroid.RESULTS.GRANTED) {
+        RNFetchBlob.config({
+          fileCache: true,
+          appendExt: "jpg",
+        })
+          .fetch("GET", image)
+          .then((res) => {
+            CameraRoll.saveToCameraRoll(res.path())
+              .then(() => {
+                console.warn("saved");
+              })
+              .catch((err) => console.warn("err:", err));
+          });
+      }
+    } else {
+      CameraRoll.saveToCameraRoll(image)
+        .then(() => {
+          console.warn("saved");
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+  };
+
   return (
     <View style={Styles.mainView}>
       <CustomHeader title="" onPressBack={() => props.navigation.pop()} />
@@ -27,7 +69,7 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           style={Styles.btnView}
           activeOpacity={0.8}
-          onPress={() => Linking.openURL(item.img)}
+          onPress={() => saveToCameraRoll(item.img)}
         >
           <Image source={Images.download_Icon} style={Styles.btn} />
         </TouchableOpacity>
@@ -53,7 +95,7 @@ const Styles = StyleSheet.create({
   mainBtnView: {
     position: "absolute",
     flexDirection: "row",
-    top: vh(30),
+    top: iPhoneX ? vh(30) : vh(20),
     right: vw(12),
   },
   btnView: {

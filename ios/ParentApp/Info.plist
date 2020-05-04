@@ -37,6 +37,10 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>To save images</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To save images</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>To find Nearby Schools</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
