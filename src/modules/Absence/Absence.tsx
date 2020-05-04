@@ -14,9 +14,7 @@ import { CustomHeader } from "../../Components";
 import { Strings, vw, vh, Images, Colors } from "../../utils";
 import AbsenceFlatlist from "./AbsenceFlatlist";
 
-export interface AppProps {
-  navigation?: any;
-}
+export interface AppProps {}
 
 export default function App(props: AppProps) {
   const renderItems = (rowData: any) => {
