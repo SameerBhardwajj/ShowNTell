@@ -16,7 +16,7 @@ export default function App(props: AppProps) {
         <Text style={Styles.bubbleMsgText}>{Strings.logout_msg}</Text>
         <CustomButton
           Text={Strings.Yes_Logout}
-          onPress={() => props.navigation.pop(2)}
+          onPress={() => props.navigation.navigate('Login')}
         />
         <CustomButton
           Text={Strings.No}
