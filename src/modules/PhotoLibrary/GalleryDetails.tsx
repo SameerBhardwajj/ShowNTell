@@ -1,5 +1,12 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Linking,
+} from "react-native";
 
 // custom imports
 import { updateTab } from "../Home/action";
@@ -17,7 +24,11 @@ export default function App(props: AppProps) {
     <View style={Styles.mainView}>
       <CustomHeader title="" onPressBack={() => props.navigation.pop()} />
       <View style={Styles.mainBtnView}>
-        <TouchableOpacity style={Styles.btnView}>
+        <TouchableOpacity
+          style={Styles.btnView}
+          activeOpacity={0.8}
+          onPress={() => Linking.openURL(item.img)}
+        >
           <Image source={Images.download_Icon} style={Styles.btn} />
         </TouchableOpacity>
         <TouchableOpacity style={Styles.btnView}>

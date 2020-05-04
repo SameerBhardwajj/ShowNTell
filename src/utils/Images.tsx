@@ -62,6 +62,7 @@ const Images = {
   download_Icon: require("../Assets/Images/download_Icon.png"),
   Edit_Icon: require("../Assets/Images/Edit_Icon.png"),
   Add_leave: require("../Assets/Images/Add_leave.png"),
+  Selected: require("../Assets/Images/Selected.png"),
 };
 
 export default Images;

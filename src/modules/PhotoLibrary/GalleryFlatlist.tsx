@@ -7,35 +7,40 @@ export interface AppProps {
   index: string;
   onPress: Function;
   select: boolean;
+  navigation: any;
 }
 
 export default function App(props: AppProps) {
-  const [selected, setSelected] = useState(false);
+  const [selected1, setSelected1] = useState(false);
+  const [selected2, setSelected2] = useState(false);
+  const [selected3, setSelected3] = useState(false);
   const index = parseInt(props.index);
-  console.warn(props.select, index, index % 2 === 0);
+  // console.warn(props.select, index, index % 2 === 0);
 
   return (
     <View style={{ flex: 1, alignItems: "center", width: "100%" }}>
       {index % 2 === 0 ? (
         <View style={Styles.picsView}>
           <TouchableOpacity
+            activeOpacity={0.8}
             style={[
               Styles.bigView,
-              { borderColor: props.item[0].selected ? Colors.orange : "white" },
+              { borderColor: selected1 ? Colors.orange : "white" },
             ]}
-            onPress={() => props.onPress(props.item[0], 0)}
+            onPress={() => setSelected1(!selected1)}
           >
             <Image source={{ uri: props.item[0].img }} style={Styles.bigImg} />
           </TouchableOpacity>
           <View style={{ justifyContent: "space-between" }}>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={[
                 Styles.smallView,
                 {
-                  borderColor: props.item[0].selected ? Colors.orange : "white",
+                  borderColor: selected2 ? Colors.orange : "white",
                 },
               ]}
-              onPress={() => props.onPress(props.item[1])}
+              onPress={() => setSelected2(!selected2)}
             >
               <Image
                 source={{ uri: props.item[1].img }}
@@ -43,13 +48,14 @@ export default function App(props: AppProps) {
               />
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={[
                 Styles.smallView,
                 {
-                  borderColor: props.item[0].selected ? Colors.orange : "white",
+                  borderColor: selected3 ? Colors.orange : "white",
                 },
               ]}
-              onPress={() => props.onPress(props.item[2])}
+              onPress={() => setSelected3(!selected3)}
             >
               <Image
                 source={{ uri: props.item[2].img }}
@@ -62,13 +68,14 @@ export default function App(props: AppProps) {
         <View style={Styles.picsView}>
           <View style={{ justifyContent: "space-between" }}>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={[
                 Styles.smallView,
                 {
-                  borderColor: props.item[0].selected ? Colors.orange : "white",
+                  borderColor: selected1 ? Colors.orange : "white",
                 },
               ]}
-              onPress={() => props.onPress(props.item[0])}
+              onPress={() => setSelected1(!selected1)}
             >
               <Image
                 source={{ uri: props.item[0].img }}
@@ -76,13 +83,14 @@ export default function App(props: AppProps) {
               />
             </TouchableOpacity>
             <TouchableOpacity
+              activeOpacity={0.8}
               style={[
                 Styles.smallView,
                 {
-                  borderColor: props.item[0].selected ? Colors.orange : "white",
+                  borderColor: selected2 ? Colors.orange : "white",
                 },
               ]}
-              onPress={() => props.onPress(props.item[1])}
+              onPress={() => setSelected2(!selected2)}
             >
               <Image
                 source={{ uri: props.item[1].img }}
@@ -91,11 +99,12 @@ export default function App(props: AppProps) {
             </TouchableOpacity>
           </View>
           <TouchableOpacity
+            activeOpacity={0.8}
             style={[
               Styles.bigView,
-              { borderColor: props.item[0].selected ? Colors.orange : "white" },
+              { borderColor: selected3 ? Colors.orange : "white" },
             ]}
-            onPress={() => props.onPress(props.item[2])}
+            onPress={() => setSelected3(!selected3)}
           >
             <Image source={{ uri: props.item[2].img }} style={Styles.bigImg} />
           </TouchableOpacity>

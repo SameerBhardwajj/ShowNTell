@@ -7,11 +7,14 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  Modal,
 } from "react-native";
+import DatePicker from "react-native-date-picker";
 
 // custom imports
 import { useDispatch, useSelector } from "react-redux";
 import { vh, Colors, Images, vw, Strings } from "../../utils";
+import { CustomButton } from "../../Components";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 
@@ -21,6 +24,9 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const [viewByDate, setViewByDate] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [month, setMonth] = useState(new Date());
 
   return (
     <View style={Styles.mainView}>
@@ -79,7 +85,11 @@ export default function App(props: AppProps) {
         <View style={{ alignItems: "center", width: "100%" }}>
           <View style={Styles.attenanceView}>
             <Text style={Styles.attendenceHeading}>Feb 27, 2020</Text>
-            <TouchableOpacity activeOpacity={0.8} style={Styles.calenderStyle}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={Styles.calenderStyle}
+              onPress={() => setModalOpen(true)}
+            >
               <Image source={Images.Calendar_Icon} style={{ padding: 13 }} />
             </TouchableOpacity>
           </View>
@@ -109,6 +119,26 @@ export default function App(props: AppProps) {
               <Text style={Styles.inTime}>10:15 AM</Text>
             </View>
           </View>
+          <Modal animationType="slide" transparent={true} visible={modalOpen}>
+            <TouchableOpacity
+              style={Styles.topModalView}
+              onPress={() => setModalOpen(false)}
+            />
+            <View style={Styles.modalView}>
+              <DatePicker
+                maximumDate={new Date()}
+                date={date}
+                mode="date"
+                onDateChange={(text: Date) => {
+                  setDate(text);
+                }}
+              />
+              <CustomButton
+                Text="Set Date"
+                onPress={() => setModalOpen(false)}
+              />
+            </View>
+          </Modal>
         </View>
       ) : (
         <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
@@ -118,6 +148,7 @@ export default function App(props: AppProps) {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={Styles.calenderStyle}
+                onPress={() => setModalOpen(true)}
               >
                 <Image source={Images.Calendar_Icon} style={{ padding: 13 }} />
               </TouchableOpacity>
@@ -172,6 +203,26 @@ export default function App(props: AppProps) {
                 </Text>
               </View>
             </View>
+            <Modal animationType="slide" transparent={true} visible={modalOpen}>
+              <TouchableOpacity
+                style={Styles.topModalView}
+                onPress={() => setModalOpen(false)}
+              />
+              <View style={Styles.modalView}>
+                <DatePicker
+                  maximumDate={new Date()}
+                  date={month}
+                  mode="date"
+                  onDateChange={(text: Date) => {
+                    setMonth(text);
+                  }}
+                />
+                <CustomButton
+                  Text="Set Month"
+                  onPress={() => setModalOpen(false)}
+                />
+              </View>
+            </Modal>
           </View>
         </ScrollView>
       )}
@@ -350,5 +401,19 @@ const Styles = StyleSheet.create({
     width: vh(80),
     alignItems: "center",
     justifyContent: "center",
+  },
+  topModalView: {
+    width: "100%",
+    flex: 0.65,
+    backgroundColor: "transparent",
+  },
+  modalView: {
+    backgroundColor: "white",
+    width: "100%",
+    flex: 0.35,
+    paddingVertical: vh(30),
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexDirection: "column",
   },
 });

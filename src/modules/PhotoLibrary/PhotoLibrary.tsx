@@ -39,7 +39,7 @@ export default function App(props: AppProps) {
 
   useEffect(() => {
     dispatch(updateLibrary(DATA));
-  }, []);
+  }, [tab]);
 
   const arrangeData = () => {
     let data = libraryData;
@@ -61,6 +61,7 @@ export default function App(props: AppProps) {
       <GalleryFlatlist
         item={item}
         index={index}
+        navigation={props.navigation}
         select={select}
         onPress={(data: any, dataIndex: number) =>
           select

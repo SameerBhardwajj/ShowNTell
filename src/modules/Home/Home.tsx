@@ -33,7 +33,7 @@ export default function App(props: AppProps) {
       (props.navigation.addListener("drawerOpen", (e: any) => {
         dispatch(
           updateTab(true, () => {
-            console.log("drawer open", tab);
+            console.warn("drawer open", tab);
           })
         );
 
@@ -42,7 +42,7 @@ export default function App(props: AppProps) {
       props.navigation.addListener("drawerClose", (e: any) => {
         dispatch(
           updateTab(false, () => {
-            console.log("drawer close", tab);
+            console.warn("drawer close", tab);
           })
         );
 
@@ -50,7 +50,7 @@ export default function App(props: AppProps) {
       }));
 
     return unsubscribe;
-  }, []);
+  }, [props.navigation]);
 
   return (
     <ScrollView
