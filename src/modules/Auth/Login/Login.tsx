@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,6 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Keyboard,
   Dimensions,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -15,7 +14,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Images, vh, vw, Colors, Strings, validate } from "../../../utils";
 import {
   CustomButton,
-  CustomToast,
   Customcartoon,
   CustomInputText,
 } from "../../../Components";
@@ -92,11 +90,11 @@ export default function App(props: AppProps) {
                     setPassword(text);
                 }}
                 onSubmitEditing={() => {
-                  validate("password", password)
-                    ? validate("email", email)
+                  validate("email", email)
+                    ? validate("password", password)
                       ? props.navigation.navigate("TabNavigator")
-                      : setCheckEmail(false)
-                    : (setPassword(""), setCheckPassword(false));
+                      : (setPassword(""), setCheckPassword(false))
+                    : setCheckEmail(false);
                 }}
                 incorrectText={Strings.password}
                 returnKeyType="done"

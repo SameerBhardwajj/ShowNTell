@@ -11,7 +11,7 @@ import {
 
 // custom imports
 import { Images, vh, vw, Strings, Colors } from "../../../utils";
-import { CustomButton, CustomToast, Customcartoon } from "../../../Components";
+import { CustomButton, Customcartoon } from "../../../Components";
 import TestimonialList from "./TestimonialList";
 
 export interface AppProps {

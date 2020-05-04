@@ -8,7 +8,7 @@ import {
   CustomButton,
   CustomMenuList,
 } from "../../../Components";
-import { Strings, vw, vh, Images, Colors } from "../../../utils";
+import { Strings, vw, vh, Colors } from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -17,14 +17,6 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const [date, setDate] = useState(new Date());
   const [school, setSchool] = useState("Select School");
-
-  const toTimestamp = (strDate: Date) => {
-    // let currentDate = strDate.getDate()
-    // strDate.setDate(currentDate + 1)
-    // return strDate
-    var datum = Date.parse(strDate.toString());
-    return datum / 1000;
-  };
 
   return (
     <View style={Styles.mainView}>
@@ -101,6 +93,7 @@ const Styles = StyleSheet.create({
   },
 });
 
+// Dummy data for School list API
 const DATA = [
   { value: "School 1" },
   { value: "School 2" },
