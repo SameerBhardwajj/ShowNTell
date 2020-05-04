@@ -158,6 +158,7 @@ const Styles = StyleSheet.create({
   },
 });
 
+// Dummy data for School listy API
 const DATA = [
   { value: "School 1" },
   { value: "School 2" },

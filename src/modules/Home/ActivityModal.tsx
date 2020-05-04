@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 // custom imports
-import { Images, vw, Strings, vh, Colors } from "../../utils";
+import { Images, vw, vh, Colors } from "../../utils";
 
 export interface AppProps {
   navigation?: any;

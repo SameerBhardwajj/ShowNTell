@@ -86,26 +86,18 @@ export default function App(props: AppProps) {
             <View style={{ alignItems: "center", width: "100%" }}>
               <CustomButton
                 Text={Strings.Resent_Access_Code}
-                // activeOpacity={access ? 0.8 : 1}
                 onPress={() => {
-                  // access
-                  //   ?
                   validate("phone", phone)
-                    ? // ? access === true
-                      (Keyboard.dismiss(),
+                    ? (Keyboard.dismiss(),
                       dispatch(updateAccess()),
                       dispatch(delayAccess()),
                       props.navigation.navigate("ResendCodeModal", {
                         path: props.route.params.path,
                       }))
-                    : // : null
-                      setCheckPhone(false);
-                  // : null;
+                    : setCheckPhone(false);
                 }}
                 ButtonStyle={{
                   width: "100%",
-                  // backgroundColor:
-                  //   access === true ? Colors.violet : Colors.disableViolet,
                 }}
               />
               <CustomButton

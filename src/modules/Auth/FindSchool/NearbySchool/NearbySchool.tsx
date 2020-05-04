@@ -130,6 +130,7 @@ const Styles = StyleSheet.create({
   },
 });
 
+// Dummy data for Search API
 const DATA = [
   { title: "27A Ann Street, Surry Hills" },
   { title: "851 South Dowling Street, Surry Hills" },

@@ -57,8 +57,6 @@ export default function App(props: AppProps) {
     // @ts-ignore
     Share.open(options)
       .then((res: any) => {
-        console.log("ok");
-
         console.log(res);
       })
       .catch((err: any) => {

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { Strings, Images, vh, vw, Colors } from "../../../utils";
+import { Images, vh, vw, Colors } from "../../../utils";
 
 export interface AppProps {
   item: any;

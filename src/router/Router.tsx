@@ -117,6 +117,8 @@ const ProfileNavigator = () => (
   </ProfileStack.Navigator>
 );
 
+console.disableYellowBox = true;
+
 export interface AppProps {
   tab: boolean;
   splash: boolean;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Image, Platform, Linking } from "react-native";
+import { View, Text, StyleSheet, Image, Linking } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
 
 // custom imports
