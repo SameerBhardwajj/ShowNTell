@@ -8,7 +8,9 @@ import {
   CustomButton,
   CustomMenuList,
 } from "../../../Components";
-import { Strings, vw, vh, Colors } from "../../../utils";
+import { Strings, vw, vh, Colors, ScreenName } from "../../../utils";
+
+const SELECT_SCHOOL = "Select School";
 
 export interface AppProps {
   navigation?: any;
@@ -16,7 +18,7 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const [date, setDate] = useState(new Date());
-  const [school, setSchool] = useState("Select School");
+  const [school, setSchool] = useState(SELECT_SCHOOL);
 
   return (
     <View style={Styles.mainView}>
@@ -41,24 +43,24 @@ export default function App(props: AppProps) {
           onDateChange={(text: Date) => setDate(text)}
         />
         <CustomButton
-          activeOpacity={school === "Select School" ? 1 : 0.8}
+          activeOpacity={school === SELECT_SCHOOL ? 1 : 0.8}
           Text={Strings.Next}
           onPress={() =>
-            school === "Select School"
+            school === SELECT_SCHOOL
               ? null
-              : props.navigation.navigate("ScheduleTour")
+              : props.navigation.navigate(ScreenName.SCHEDULE_TOUR)
           }
           ButtonStyle={{
             width: "100%",
             marginTop: vh(30),
             backgroundColor:
-              school === "Select School" ? Colors.disableViolet : Colors.violet,
+              school === SELECT_SCHOOL ? Colors.disableViolet : Colors.violet,
           }}
         />
         <Text style={Styles.orText}>{Strings.Or}</Text>
         <CustomButton
           Text={Strings.general_information}
-          onPress={() => props.navigation.navigate("ScheduleTour")}
+          onPress={() => props.navigation.navigate(ScreenName.SCHEDULE_TOUR)}
           lightBtn={true}
           ButtonStyle={{ width: "100%" }}
         />

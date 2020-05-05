@@ -8,9 +8,10 @@ import {
   FlatList,
 } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
-import { vh, Colors, Images, vw, Strings } from "../utils";
+import { vh, Colors, Images, vw, Strings, ScreenName } from "../utils";
 import DrawerFlatlist from "./DrawerFlatlist";
 
+const EMAIL = "Bob_Parish@gmail.com";
 export interface AppProps {
   navigation?: any;
 }
@@ -22,8 +23,10 @@ export default function App(props: AppProps) {
       <DrawerFlatlist
         item={item}
         onPress={(path: string) =>
-          path === "NeedHelp"
-            ? props.navigation.navigate(path, { path: "TabNavigator" })
+          path === ScreenName.NEED_HELP
+            ? props.navigation.navigate(path, {
+                path: ScreenName.TAB_NAVIGATOR,
+              })
             : props.navigation.navigate(path)
         }
       />
@@ -40,12 +43,12 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           style={Styles.profileView}
           activeOpacity={0.8}
-          onPress={() => props.navigation.navigate("Profile")}
+          onPress={() => props.navigation.navigate(ScreenName.PROFILE)}
         >
           <Image source={Images.any} style={Styles.img} />
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>
-            <Text style={Styles.name}>Bob Parish</Text>
-            <Text style={Styles.email}>Bob_Parish@gmail.com</Text>
+            <Text style={Styles.name}>{Strings.Bob_Parish}</Text>
+            <Text style={Styles.email}>{EMAIL}</Text>
           </View>
         </TouchableOpacity>
         <FlatList
@@ -99,66 +102,66 @@ const DATA = [
     icon: Images.Chat_Icon,
     size: { height: vh(23), width: vh(25) },
     label: Strings.Chat,
-    path: "Chat",
+    path: ScreenName.CHAT,
   },
   {
     icon: Images.QA_Icon,
     size: { height: vh(27), width: vh(25) },
     label: Strings.QOD_label,
-    path: "QOD",
+    path: ScreenName.QOD,
   },
   {
     icon: Images.Announcement_Icons,
     size: { height: vh(19), width: vh(25) },
     label: Strings.Announcement,
-    path: "Announcement",
+    path: ScreenName.ANNOUNCEMENT,
   },
   {
     icon: Images.Event_Icon,
     size: { height: vh(25), width: vh(25) },
     label: Strings.Events,
-    path: "Events",
+    path: ScreenName.EVENTS,
   },
   {
     icon: Images.Classroom_schedule_Icon,
     size: { height: vh(25), width: vh(25) },
     label: Strings.Classroom_Schedule,
-    path: "ClassroomSchedule",
+    path: ScreenName.CLASSROOM_SCHEDULE,
   },
   {
     icon: Images.statement_Icon,
     size: { height: vh(22), width: vh(25) },
     label: Strings.Statements,
-    path: "Statements",
+    path: ScreenName.STATEMENTS,
   },
   {
     icon: Images.referral_Icon,
     size: { height: vh(27), width: vh(25) },
     label: Strings.Referral,
-    path: "Referral",
+    path: ScreenName.REFERRAL,
   },
   {
     icon: Images.testimonial_Icon,
     size: { height: vh(23), width: vh(25) },
     label: Strings.Testimonials,
-    path: "Testimonials",
+    path: ScreenName.TESTIMONIALS,
   },
   {
     icon: Images.need_help_Icon,
     size: { height: vh(25), width: vh(25) },
     label: Strings.need_help,
-    path: "NeedHelp",
+    path: ScreenName.NEED_HELP,
   },
   {
     icon: Images.setting_Icon,
     size: { height: vh(23), width: vh(25) },
     label: Strings.Settings,
-    path: "Settings",
+    path: ScreenName.SETTINGS,
   },
   {
     icon: Images.Log_out_Icon,
     size: { height: vh(25), width: vh(25) },
     label: Strings.Logout,
-    path: "LogoutModal",
+    path: ScreenName.LOGOUT_MODAL,
   },
 ];

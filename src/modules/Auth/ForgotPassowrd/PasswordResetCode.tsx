@@ -14,7 +14,7 @@ import {
   CustomToast,
   CustomButton,
 } from "../../../Components";
-import { Strings, vw, vh, Colors } from "../../../utils";
+import { Strings, vw, vh, Colors, ScreenName } from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -31,8 +31,11 @@ export default function App(props: AppProps) {
   const [input3, setinput3] = useState("");
   const [input4, setinput4] = useState("");
 
+  const CODE = "1234";
+  const KEY_BACKSPACE = "Backspace";
+
   const verifyCode = () => {
-    const code = "1234";
+    const code = CODE;
     let enteredCode =
       input1.toString() +
       input2.toString() +
@@ -40,7 +43,7 @@ export default function App(props: AppProps) {
       input4.toString();
 
     if (code === enteredCode) {
-      props.navigation.navigate("ResetPassword");
+      props.navigation.navigate(ScreenName.RESET_PASSWORD);
     } else {
       CustomToast(Strings.wrong_code);
     }
@@ -88,7 +91,7 @@ export default function App(props: AppProps) {
                 text.length !== 0 ? inputRef3.current.focus() : null;
             }}
             onKeyPress={(e: any) => {
-              e.nativeEvent.key === "Backspace"
+              e.nativeEvent.key === KEY_BACKSPACE
                 ? input2.length === 0
                   ? (inputRef1.current.focus(), setinput1(""))
                   : setinput2("")
@@ -105,7 +108,7 @@ export default function App(props: AppProps) {
                 text.length !== 0 ? inputRef4.current.focus() : null;
             }}
             onKeyPress={(e: any) => {
-              e.nativeEvent.key === "Backspace"
+              e.nativeEvent.key === KEY_BACKSPACE
                 ? input3.length === 0
                   ? (inputRef2.current.focus(), setinput2(""))
                   : setinput3("")
@@ -121,7 +124,7 @@ export default function App(props: AppProps) {
               setinput4(text);
             }}
             onKeyPress={(e: any) => {
-              e.nativeEvent.key === "Backspace"
+              e.nativeEvent.key === KEY_BACKSPACE
                 ? input4.length === 0
                   ? (inputRef3.current.focus(), setinput3(""))
                   : setinput4("")
@@ -153,9 +156,9 @@ export default function App(props: AppProps) {
               activeOpacity={0.8}
               style={{ paddingHorizontal: vw(7) }}
               onPress={() =>
-                props.navigation.navigate("RequestNewCode", {
+                props.navigation.navigate(ScreenName.REQUEST_NEW_CODE, {
                   email: props.route.params.email,
-                  path: "PasswordResetCode",
+                  path: ScreenName.PASSWORD_RESET_CODE,
                 })
               }
             >

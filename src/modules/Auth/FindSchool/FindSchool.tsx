@@ -4,7 +4,7 @@ import Geolocation from "@react-native-community/geolocation";
 
 // custom imports
 import { CustomHeader, CustomButton } from "../../../Components";
-import { Strings, Images, vh, Colors } from "../../../utils";
+import { Strings, Images, vh, Colors, ScreenName } from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -19,11 +19,11 @@ export default function App(props: AppProps) {
           longitude: info.coords.longitude,
         };
         console.warn("coordinates ", position);
-        props.navigation.navigate("SchoolListing");
+        props.navigation.navigate(ScreenName.SCHOOL_LISTING);
       },
       (error) => {
         console.warn(error);
-        Linking.openSettings()
+        Linking.openSettings();
       }
     );
   };
@@ -43,7 +43,7 @@ export default function App(props: AppProps) {
       />
       <CustomButton
         Text={Strings.Select_Location_Manually}
-        onPress={() => props.navigation.navigate("NearbySchool")}
+        onPress={() => props.navigation.navigate(ScreenName.NEARBY_SCHOOL)}
       />
     </View>
   );

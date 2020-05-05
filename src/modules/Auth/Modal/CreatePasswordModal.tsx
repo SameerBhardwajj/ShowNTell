@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 // custom imports
-import { Images, vw, Strings, vh, Colors } from "../../../utils";
+import { Images, vw, Strings, vh, Colors, ScreenName } from "../../../utils";
 import { CustomButton } from "../../../Components";
 
 export interface AppProps {
@@ -19,7 +19,7 @@ export default function App(props: AppProps) {
         </Text>
         <CustomButton
           Text={Strings.Back_to_Login}
-          onPress={() => props.navigation.navigate('Login')}
+          onPress={() => props.navigation.navigate(ScreenName.LOGIN)}
         />
       </View>
     </View>

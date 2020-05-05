@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 // custom imports
-import { Images, vh, vw, Strings, Colors } from "../../../utils";
+import { Images, vh, vw, Strings, Colors, ScreenName } from "../../../utils";
 import { CustomButton, Customcartoon } from "../../../Components";
 import TestimonialList from "./TestimonialList";
 
@@ -83,18 +83,20 @@ export default function App(props: AppProps) {
         {/* Login Custom Button ----------- */}
         <CustomButton
           Text={Strings.login}
-          onPress={() => props.navigation.navigate("Login")}
+          onPress={() => props.navigation.navigate(ScreenName.LOGIN)}
         />
         {/* Find School Button ------------ */}
         <CustomButton
           Text={Strings.find_nearby_school}
-          onPress={() => props.navigation.navigate("FindSchool")}
+          onPress={() => props.navigation.navigate(ScreenName.FIND_SCHOOL)}
         />
         {/* Need help ------------- */}
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() =>
-            props.navigation.navigate("NeedHelp", { path: "LandingPage" })
+            props.navigation.navigate(ScreenName.NEED_HELP, {
+              path: ScreenName.LANDING_PAGE,
+            })
           }
         >
           <Text style={Styles.btnText}>{Strings.need_help}</Text>

@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 // custom imports
-import { vw, Strings, vh, Colors } from "../../../utils";
+import { vw, Strings, vh, Colors, ScreenName } from "../../../utils";
 import { CustomButton } from "../../../Components";
 
 export interface AppProps {
@@ -16,12 +16,12 @@ export default function App(props: AppProps) {
         <Text style={Styles.bubbleMsgText}>{Strings.logout_msg}</Text>
         <CustomButton
           Text={Strings.Yes_Logout}
-          onPress={() => props.navigation.navigate('Login')}
+          onPress={() => props.navigation.navigate(ScreenName.LOGIN)}
         />
         <CustomButton
           Text={Strings.No}
           lightBtn={true}
-          onPress={() => props.navigation.navigate("TabNavigator")}
+          onPress={() => props.navigation.navigate(ScreenName.TAB_NAVIGATOR)}
         />
       </View>
     </View>

@@ -8,7 +8,15 @@ import {
   CustomInputText,
   CustomButton,
 } from "../../../Components";
-import { Strings, vw, vh, Colors, validate } from "../../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Colors,
+  validate,
+  ConstantName,
+  ScreenName,
+} from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -36,7 +44,7 @@ export default function App(props: AppProps) {
         />
         <View style={Styles.innerView}>
           <Text style={Styles.welcome}>{Strings.hello}</Text>
-          <Text style={Styles.name}>Mr. Bob Parish</Text>
+          <Text style={Styles.name}>{Strings.Bob_Parish}</Text>
           <Text style={Styles.please}>{Strings.create_password_content}</Text>
           <View style={Styles.codeView}>
             <CustomInputText
@@ -52,9 +60,9 @@ export default function App(props: AppProps) {
               secureTextEntry={secureEntry}
               onPressEye={() => setsecureEntry(!secureEntry)}
               incorrectText={Strings.password}
-              returnKeyType={"next"}
+              returnKeyType="next"
               onSubmitEditing={() =>
-                validate("password", password1)
+                validate(ConstantName.PASSWORD, password1)
                   ? inputRef2.current.focus()
                   : setCheckPassword1(false)
               }
@@ -71,13 +79,15 @@ export default function App(props: AppProps) {
               }}
               check={checkPassword2}
               incorrectText={Strings.password}
-              returnKeyType={"done"}
+              returnKeyType="done"
               onSubmitEditing={() => {
-                validate("password", password2)
-                  ? validate("password", password1)
+                validate(ConstantName.PASSWORD, password2)
+                  ? validate(ConstantName.PASSWORD, password1)
                     ? password1 === password2
                       ? (Keyboard.dismiss(),
-                        props.navigation.navigate("CreatePasswordModal"))
+                        props.navigation.navigate(
+                          ScreenName.CREATE_PASSWORD_MODAL
+                        ))
                       : setCheckPassword2(false)
                     : setCheckPassword2(false)
                   : setCheckPassword1(false);
@@ -87,11 +97,13 @@ export default function App(props: AppProps) {
               <CustomButton
                 Text={Strings.Continue}
                 onPress={() => {
-                  validate("password", password2)
-                    ? validate("password", password1)
+                  validate(ConstantName.PASSWORD, password2)
+                    ? validate(ConstantName.PASSWORD, password1)
                       ? password1 === password2
                         ? (Keyboard.dismiss(),
-                          props.navigation.navigate("CreatePasswordModal"))
+                          props.navigation.navigate(
+                            ScreenName.CREATE_PASSWORD_MODAL
+                          ))
                         : setCheckPassword2(false)
                       : setCheckPassword2(false)
                     : setCheckPassword1(false);

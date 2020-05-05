@@ -13,6 +13,8 @@ import { vw, Strings, vh, Colors } from "../../utils";
 
 const img =
   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg";
+const TYPE_URL = "url";
+const TYPE_TEXT = "text";
 
 export interface AppProps {
   navigation?: any;
@@ -22,17 +24,17 @@ export default function App(props: AppProps) {
   const openShare = (titles: string, urls: string) => {
     const url = urls;
     const title = titles;
-    const message = "Please check this out.";
+    const message = Strings.Please_check_this;
     const options = Platform.select({
       ios: {
         activityItemSources: [
           {
-            placeholderItem: { type: "url", content: url },
+            placeholderItem: { type: TYPE_URL, content: url },
             item: {
-              default: { type: "url", content: url },
+              default: { type: TYPE_URL, content: url },
             },
             type: {
-              print: { type: "url", content: url },
+              print: { type: TYPE_URL, content: url },
             },
             subject: {
               default: title,
@@ -40,9 +42,9 @@ export default function App(props: AppProps) {
             linkMetadata: { originalUrl: url, url, title },
           },
           {
-            placeholderItem: { type: "text", content: message },
+            placeholderItem: { type: TYPE_TEXT, content: message },
             item: {
-              default: { type: "text", content: message },
+              default: { type: TYPE_TEXT, content: message },
               message: null, // Specify no text to share via Messages app.
             },
           },
@@ -70,7 +72,7 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.shareView}
-          onPress={() => openShare("Alex doing Lunch", img)}
+          onPress={() => openShare(Strings.Alex_doing_Lunch, img)}
         >
           <Text style={Styles.bubbleMsgText}>{Strings.Share}</Text>
         </TouchableOpacity>

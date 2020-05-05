@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image, Text, StyleSheet } from "react-native";
-import { vh, Colors, Images, vw } from "../utils";
+import { vh, Colors, Images, vw, ScreenName } from "../utils";
 import {
   createStackNavigator,
   TransitionPresets,
@@ -58,28 +58,55 @@ const ModalStack = createStackNavigator();
 const GalleryStack = createStackNavigator();
 
 const AuthNavigator = () => (
-  <AuthStack.Navigator headerMode="none" initialRouteName="LandingPage">
-    <AuthStack.Screen name="LandingPage" component={LandingPage} />
-    <AuthStack.Screen name="Login" component={Login} />
-    <AuthStack.Screen name="FindSchool" component={FindSchool} />
-    <AuthStack.Screen name="Register" component={Register} />
+  <AuthStack.Navigator
+    headerMode="none"
+    initialRouteName={ScreenName.LANDING_PAGE}
+  >
+    <AuthStack.Screen name={ScreenName.LANDING_PAGE} component={LandingPage} />
+    <AuthStack.Screen name={ScreenName.LOGIN} component={Login} />
+    <AuthStack.Screen name={ScreenName.FIND_SCHOOL} component={FindSchool} />
+    <AuthStack.Screen name={ScreenName.REGISTER} component={Register} />
     <AuthStack.Screen
-      name="AccessCodeVerification"
+      name={ScreenName.ACCESS_CODE_VERIFICATION}
       component={AccessCodeVerification}
     />
-    <AuthStack.Screen name="CreatePassword" component={CreatePassword} />
-    <AuthStack.Screen name="RequestNewCode" component={RequestNewCode} />
     <AuthStack.Screen
-      name="ResetPasswordEmail"
+      name={ScreenName.CREATE_PASSWORD}
+      component={CreatePassword}
+    />
+    <AuthStack.Screen
+      name={ScreenName.REQUEST_NEW_CODE}
+      component={RequestNewCode}
+    />
+    <AuthStack.Screen
+      name={ScreenName.RESET_PASSWORD_EMAIL}
       component={ResetPasswordEmail}
     />
-    <AuthStack.Screen name="PasswordResetCode" component={PasswordResetCode} />
-    <AuthStack.Screen name="ResetPassword" component={ResetPassword} />
-    <AuthStack.Screen name="NearbySchool" component={NearbySchool} />
-    <AuthStack.Screen name="SchoolListing" component={SchoolListing} />
-    <AuthStack.Screen name="ScheduleTour" component={ScheduleTour} />
-    <AuthStack.Screen name="DateTimeSchedule" component={DateTimeSchedule} />
-    <AuthStack.Screen name="NeedHelp" component={NeedHelp} />
+    <AuthStack.Screen
+      name={ScreenName.PASSWORD_RESET_CODE}
+      component={PasswordResetCode}
+    />
+    <AuthStack.Screen
+      name={ScreenName.RESET_PASSWORD}
+      component={ResetPassword}
+    />
+    <AuthStack.Screen
+      name={ScreenName.NEARBY_SCHOOL}
+      component={NearbySchool}
+    />
+    <AuthStack.Screen
+      name={ScreenName.SCHOOL_LISTING}
+      component={SchoolListing}
+    />
+    <AuthStack.Screen
+      name={ScreenName.SCHEDULE_TOUR}
+      component={ScheduleTour}
+    />
+    <AuthStack.Screen
+      name={ScreenName.DATE_TIME_SCHEDULE}
+      component={DateTimeSchedule}
+    />
+    <AuthStack.Screen name={ScreenName.NEED_HELP} component={NeedHelp} />
   </AuthStack.Navigator>
 );
 
@@ -88,33 +115,8 @@ const DrawerNavigator = () => (
     drawerStyle={{ width: "85%" }}
     drawerContent={(props: any) => <CustomDrawer {...props} />}
   >
-    <DrawerStack.Screen name="Home" component={Home} />
-    <RootStack.Screen name="Profile" component={Profile} />
-    <DrawerStack.Screen name="Chat" component={Chat} />
-    <DrawerStack.Screen name="Announcement" component={Announcement} />
-    <DrawerStack.Screen name="Settings" component={Settings} />
-    <DrawerStack.Screen name="QOD" component={QOD} />
-    <DrawerStack.Screen name="Events" component={Events} />
-    <DrawerStack.Screen
-      name="ClassroomSchedule"
-      component={ClassroomSchedule}
-    />
-    <DrawerStack.Screen name="Statements" component={Statements} />
-    <DrawerStack.Screen name="Referral" component={Referral} />
-    <DrawerStack.Screen name="Testimonials" component={Testimonials} />
+    <DrawerStack.Screen name={ScreenName.HOME} component={Home} />
   </DrawerStack.Navigator>
-);
-
-const GalleryNavigator = () => (
-  <GalleryStack.Navigator initialRouteName="PhotoGallery" headerMode="none">
-    <GalleryStack.Screen name="PhotoGallery" component={PhotoGallery} />
-  </GalleryStack.Navigator>
-);
-
-const ProfileNavigator = () => (
-  <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={Profile} />
-  </ProfileStack.Navigator>
 );
 
 console.disableYellowBox = true;
@@ -131,14 +133,14 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
   TabNavigator = () => (
     <TabStack.Navigator
       headerMode="none"
-      initialRouteName="Home"
+      initialRouteName={ScreenName.HOME}
       tabBarOptions={{
         style: Styles.tabView,
         safeAreaInsets: { bottom: 0 },
       }}
       screenOptions={({ route }) => ({
         tabBarLabel: ({ focused }) => {
-          if (route.name === "Home") {
+          if (route.name === ScreenName.HOME) {
             return (
               <Text
                 style={{
@@ -151,7 +153,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 Home
               </Text>
             );
-          } else if (route.name === "Attendance") {
+          } else if (route.name === ScreenName.ATTENDANCE) {
             return (
               <Text
                 style={{
@@ -164,7 +166,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 Attendance
               </Text>
             );
-          } else if (route.name === "PhotoGallery") {
+          } else if (route.name === ScreenName.PHOTO_GALLERY) {
             return (
               <Text
                 style={{
@@ -177,7 +179,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 Photo Library
               </Text>
             );
-          } else if (route.name === "Absence") {
+          } else if (route.name === ScreenName.ABSENCE) {
             return (
               <Text
                 style={{
@@ -193,7 +195,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
           }
         },
         tabBarIcon: ({ focused }) => {
-          if (route.name === "Home") {
+          if (route.name === ScreenName.HOME) {
             return (
               <Image
                 style={{
@@ -204,7 +206,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 source={Images.Home_Active}
               />
             );
-          } else if (route.name === "Attendance") {
+          } else if (route.name === ScreenName.ATTENDANCE) {
             return (
               <Image
                 style={{
@@ -218,7 +220,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 }
               />
             );
-          } else if (route.name === "PhotoGallery") {
+          } else if (route.name === ScreenName.PHOTO_GALLERY) {
             return (
               <Image
                 style={{
@@ -229,7 +231,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 source={Images.Photo_Library}
               />
             );
-          } else if (route.name === "Absence") {
+          } else if (route.name === ScreenName.ABSENCE) {
             return (
               <Image
                 style={{ height: vw(30), width: vw(30) }}
@@ -243,13 +245,16 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
       })}
     >
       <TabStack.Screen
-        name="Home"
+        name={ScreenName.HOME}
         component={DrawerNavigator}
         options={{ tabBarVisible: this.props.tab }}
       />
-      <TabStack.Screen name="Attendance" component={Attendance} />
-      <TabStack.Screen name="PhotoGallery" component={GalleryNavigator} />
-      <TabStack.Screen name="Absence" component={Absence} />
+      <TabStack.Screen name={ScreenName.ATTENDANCE} component={Attendance} />
+      <TabStack.Screen
+        name={ScreenName.PHOTO_GALLERY}
+        component={PhotoGallery}
+      />
+      <TabStack.Screen name={ScreenName.ABSENCE} component={Absence} />
     </TabStack.Navigator>
   );
 
@@ -270,52 +275,83 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
   public render() {
     return (
       <NavigationContainer>
-        <RootStack.Navigator headerMode="none" initialRouteName="Splash">
+        <RootStack.Navigator
+          headerMode="none"
+          initialRouteName={ScreenName.SPLASH}
+        >
           {this.props.splash ? (
             <RootStack.Screen
-              name="Splash"
+              name={ScreenName.SPLASH}
               component={Splash}
               options={this.screen}
             />
           ) : (
             <>
               <RootStack.Screen
-                name="AuthNavigator"
+                name={ScreenName.AUTH_NAVIGATOR}
                 component={AuthNavigator}
                 options={this.screen}
               />
               <RootStack.Screen
-                name="Modal"
+                name={ScreenName.MODAL}
                 component={Modal}
                 options={this.modal}
               />
               <RootStack.Screen
-                name="ResendCodeModal"
+                name={ScreenName.RESEND_CODE_MODAL}
                 component={ResendCodeModal}
                 options={this.modal}
               />
               <RootStack.Screen
-                name="CreatePasswordModal"
+                name={ScreenName.CREATE_PASSWORD_MODAL}
                 component={CreatePasswordModal}
                 options={this.modal}
               />
               <RootStack.Screen
-                name="TabNavigator"
+                name={ScreenName.TAB_NAVIGATOR}
                 component={this.TabNavigator}
                 options={this.screen}
               />
+              <RootStack.Screen name={ScreenName.PROFILE} component={Profile} />
+              <RootStack.Screen name={ScreenName.CHAT} component={Chat} />
               <RootStack.Screen
-                name="ShareModal"
+                name={ScreenName.ANNOUNCEMENT}
+                component={Announcement}
+              />
+              <RootStack.Screen
+                name={ScreenName.SETTINGS}
+                component={Settings}
+              />
+              <RootStack.Screen name={ScreenName.QOD} component={QOD} />
+              <RootStack.Screen name={ScreenName.EVENTS} component={Events} />
+              <RootStack.Screen
+                name={ScreenName.CLASSROOM_SCHEDULE}
+                component={ClassroomSchedule}
+              />
+              <RootStack.Screen
+                name={ScreenName.STATEMENTS}
+                component={Statements}
+              />
+              <RootStack.Screen
+                name={ScreenName.REFERRAL}
+                component={Referral}
+              />
+              <RootStack.Screen
+                name={ScreenName.TESTIMONIALS}
+                component={Testimonials}
+              />
+              <RootStack.Screen
+                name={ScreenName.SHARE_MODAL}
                 component={ShareModal}
                 options={this.modal}
               />
               <RootStack.Screen
-                name="ActivityModal"
+                name={ScreenName.ACTIVITY_MODAL}
                 component={ActivityModal}
                 options={this.modal}
               />
               <RootStack.Screen
-                name="LogoutModal"
+                name={ScreenName.LOGOUT_MODAL}
                 component={LogoutModal}
                 options={this.modal}
               />

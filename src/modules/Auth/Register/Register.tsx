@@ -12,7 +12,16 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
-import { Images, vh, vw, Colors, Strings, validate } from "../../../utils";
+import {
+  Images,
+  vh,
+  vw,
+  Colors,
+  Strings,
+  validate,
+  ConstantName,
+  ScreenName,
+} from "../../../utils";
 import {
   CustomButton,
   Customcartoon,
@@ -20,6 +29,7 @@ import {
   CustomMenuList,
 } from "../../../Components";
 const iPhoneX = Dimensions.get("window").height >= 812;
+const SELECT_SCHOOL = "Select School";
 export interface AppProps {
   navigation?: any;
 }
@@ -27,17 +37,13 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const [email, setEmail] = useState("");
   const [checkEmail, setCheckcheckEmail] = useState(true);
-  const [school, setSchool] = useState("Select School");
+  const [school, setSchool] = useState(SELECT_SCHOOL);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "flex-end",
-        }}
+        contentContainerStyle={Styles.mainView}
       >
         <TouchableOpacity
           activeOpacity={0.8}
@@ -64,7 +70,7 @@ export default function App(props: AppProps) {
                   checkEmail ? null : setCheckcheckEmail(true), setEmail(text);
                 }}
                 onSubmitEditing={() => {
-                  validate("email", email)
+                  validate(ConstantName.EMAIL, email)
                     ? Keyboard.dismiss()
                     : setCheckcheckEmail(false);
                 }}
@@ -83,17 +89,22 @@ export default function App(props: AppProps) {
             Text={Strings.proceed}
             ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
             onPress={() => {
-              validate("email", email)
-                ? props.navigation.navigate("AccessCodeVerification", {
-                    email: email,
-                  })
+              validate(ConstantName.EMAIL, email)
+                ? props.navigation.navigate(
+                    ScreenName.ACCESS_CODE_VERIFICATION,
+                    {
+                      email: email,
+                    }
+                  )
                 : setCheckcheckEmail(false);
             }}
           />
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() =>
-              props.navigation.navigate("NeedHelp", { path: "Register" })
+              props.navigation.navigate(ScreenName.NEED_HELP, {
+                path: ScreenName.REGISTER,
+              })
             }
           >
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
@@ -104,6 +115,11 @@ export default function App(props: AppProps) {
   );
 }
 const Styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
   mainImg: {
     flex: 1,
   },

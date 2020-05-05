@@ -11,7 +11,16 @@ import {
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
-import { Images, vh, vw, Colors, Strings, validate } from "../../../utils";
+import {
+  Images,
+  vh,
+  vw,
+  Colors,
+  Strings,
+  validate,
+  ScreenName,
+  ConstantName,
+} from "../../../utils";
 import {
   CustomButton,
   Customcartoon,
@@ -37,11 +46,7 @@ export default function App(props: AppProps) {
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          alignItems: "center",
-          justifyContent: "flex-end",
-        }}
+        contentContainerStyle={Styles.mainView}
       >
         <TouchableOpacity
           activeOpacity={0.8}
@@ -69,7 +74,7 @@ export default function App(props: AppProps) {
                   checkEmail ? null : setCheckEmail(true), setEmail(text);
                 }}
                 onSubmitEditing={() => {
-                  validate("email", email)
+                  validate(ConstantName.EMAIL, email)
                     ? input2.current.focus()
                     : setCheckEmail(false);
                 }}
@@ -90,9 +95,9 @@ export default function App(props: AppProps) {
                     setPassword(text);
                 }}
                 onSubmitEditing={() => {
-                  validate("email", email)
-                    ? validate("password", password)
-                      ? props.navigation.navigate("TabNavigator")
+                  validate(ConstantName.EMAIL, email)
+                    ? validate(ConstantName.PASSWORD, password)
+                      ? props.navigation.navigate(ScreenName.TAB_NAVIGATOR)
                       : (setPassword(""), setCheckPassword(false))
                     : setCheckEmail(false);
                 }}
@@ -104,7 +109,9 @@ export default function App(props: AppProps) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={Styles.forgotView}
-              onPress={() => props.navigation.navigate("ResetPasswordEmail")}
+              onPress={() =>
+                props.navigation.navigate(ScreenName.RESET_PASSWORD_EMAIL)
+              }
             >
               <Text style={Styles.forgotTxt}>{Strings.forgot_password}</Text>
             </TouchableOpacity>
@@ -115,9 +122,9 @@ export default function App(props: AppProps) {
               Text={Strings.proceed}
               ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
               onPress={() => {
-                validate("email", email)
-                  ? validate("password", password)
-                    ? props.navigation.navigate("TabNavigator")
+                validate(ConstantName.EMAIL, email)
+                  ? validate(ConstantName.PASSWORD, password)
+                    ? props.navigation.navigate(ScreenName.TAB_NAVIGATOR)
                     : (setPassword(""), setCheckPassword(false))
                   : setCheckEmail(false);
               }}
@@ -126,13 +133,15 @@ export default function App(props: AppProps) {
             <CustomButton
               Text={Strings.register}
               ButtonStyle={Styles.btn}
-              onPress={() => props.navigation.navigate("Register")}
+              onPress={() => props.navigation.navigate(ScreenName.REGISTER)}
             />
           </View>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() =>
-              props.navigation.navigate("NeedHelp", { path: "Login" })
+              props.navigation.navigate(ScreenName.NEED_HELP, {
+                path: ScreenName.LOGIN,
+              })
             }
           >
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
@@ -143,6 +152,11 @@ export default function App(props: AppProps) {
   );
 }
 const Styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
   mainImg: {
     flex: 1,
   },

@@ -1,12 +1,18 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { ScreenName } from "../../utils";
 
-export interface AppProps {}
+export interface AppProps {
+  navigation?: any;
+}
 
 export default function App(props: AppProps) {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Absence</Text>
-    </View>
+    <TouchableOpacity
+      style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+      onPress={() => props.navigation.navigate(ScreenName.HOME)}
+    >
+      <Text>Press To Go Back</Text>
+    </TouchableOpacity>
   );
 }

@@ -1,23 +1,23 @@
 // Validations ----------------------
-
+import ConstantName from "./ConstantName";
 const reg = (regex: string) => {
   switch (regex) {
-    case "email":
+    case ConstantName.EMAIL:
       return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    case "password":
+    case ConstantName.PASSWORD:
       return /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    case "phone":
+    case ConstantName.PHONE:
       return /^[1-9]{1}[0-9]{6,14}$/;
-    case "name":
+    case ConstantName.NAME:
       return /^[a-zA-Z ]+$/;
-    case "zipcode":
+    case ConstantName.ZIPCODE:
       return /(^[1-9]{1}\d{3,6}$)/;
   }
 };
 
 const validate = (type: string, text: string) => {
   const regex: any = reg(type);
-  if (type === "name") return regex.test(String(text).toLowerCase());
+  if (type === ConstantName.NAME) return regex.test(String(text).toLowerCase());
   else return regex.test(String(text));
 };
 

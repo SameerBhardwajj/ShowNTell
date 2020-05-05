@@ -9,8 +9,21 @@ import {
   CustomMenuList,
   CustomInputText,
 } from "../../Components";
-import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Images,
+  Colors,
+  validate,
+  ScreenName,
+  ConstantName,
+} from "../../utils";
 
+const SELECT_SCHOOL = "Select School";
+const IPHONE7 = "Device\nIphone 7+";
+const IOS = "IOS\nV 13.3.1";
+const APPLICATION = "Application\nV 2.0.8";
 export interface AppProps {
   navigation?: any;
   route?: any;
@@ -20,7 +33,7 @@ export default function App(props: AppProps) {
   const input1: any = React.createRef();
   const input2: any = React.createRef();
   const input3: any = React.createRef();
-  const [school, setSchool] = useState("Select School");
+  const [school, setSchool] = useState(SELECT_SCHOOL);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [help, setHelp] = useState("");
@@ -29,14 +42,12 @@ export default function App(props: AppProps) {
   const [checkName, setCheckName] = useState(true);
 
   const disable = () => {
-    return (
-      school !== "Select School" && email.length !== 0 && name.length !== 0
-    );
+    return school !== SELECT_SCHOOL && email.length !== 0 && name.length !== 0;
   };
 
   return (
     <KeyboardAwareScrollView
-      keyboardShouldPersistTaps={"handled"}
+      keyboardShouldPersistTaps="handled"
       bounces={false}
       horizontal={false}
       showsVerticalScrollIndicator={false}
@@ -45,8 +56,8 @@ export default function App(props: AppProps) {
         <CustomHeader
           title={Strings.Need_Help}
           onPressBack={() =>
-            props.route.params.path === "TabNavigator"
-              ? props.navigation.navigate("TabNavigator")
+            props.route.params.path === ScreenName.TAB_NAVIGATOR
+              ? props.navigation.navigate(ScreenName.TAB_NAVIGATOR)
               : props.navigation.pop()
           }
         />
@@ -60,7 +71,7 @@ export default function App(props: AppProps) {
             >
               <Image source={Images.Phone_Icon} />
               <Text style={[Styles.text, { color: Colors.green }]}>
-                {"Device\nIphone 7+"}
+                {IPHONE7}
               </Text>
             </View>
             <View
@@ -70,9 +81,7 @@ export default function App(props: AppProps) {
                 source={Images.Phone_Icon}
                 style={{ tintColor: Colors.pink }}
               />
-              <Text style={[Styles.text, { color: Colors.pink }]}>
-                {"IOS\nV 13.3.1"}
-              </Text>
+              <Text style={[Styles.text, { color: Colors.pink }]}>{IOS}</Text>
             </View>
             <View
               style={[
@@ -85,7 +94,7 @@ export default function App(props: AppProps) {
                 style={{ tintColor: Colors.waterBlue }}
               />
               <Text style={[Styles.text, { color: Colors.waterBlue }]}>
-                {"Application\nV 2.0.8"}
+                {APPLICATION}
               </Text>
             </View>
           </View>
@@ -103,7 +112,7 @@ export default function App(props: AppProps) {
               checkName ? null : setCheckName(true), setName(text);
             }}
             onSubmitEditing={() => {
-              validate("name", name)
+              validate(ConstantName.NAME, name)
                 ? input2.current.focus()
                 : setCheckName(false);
             }}
@@ -119,7 +128,7 @@ export default function App(props: AppProps) {
               checkEmail ? null : setCheckEmail(true), setEmail(text);
             }}
             onSubmitEditing={() => {
-              validate("email", email)
+              validate(ConstantName.EMAIL, email)
                 ? input3.current.focus()
                 : setCheckEmail(false);
             }}
@@ -142,7 +151,7 @@ export default function App(props: AppProps) {
                 multiline={true}
                 onSubmitEditing={() =>
                   disable()
-                    ? props.navigation.navigate("ResendCodeModal", {
+                    ? props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
                         path: props.route.params.path,
                         msg: Strings.ticket_submitted,
                       })
@@ -156,7 +165,7 @@ export default function App(props: AppProps) {
             Text={Strings.Submit}
             onPress={() =>
               disable()
-                ? props.navigation.navigate("ResendCodeModal", {
+                ? props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
                     path: props.route.params.path,
                     msg: Strings.ticket_submitted,
                   })
