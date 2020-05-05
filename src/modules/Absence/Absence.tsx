@@ -11,7 +11,7 @@ import {
 
 // custom imports
 import { CustomHeader } from "../../Components";
-import { Strings, vw, vh, Images, Colors } from "../../utils";
+import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 import AbsenceFlatlist from "./AbsenceFlatlist";
 
 export interface AppProps {
@@ -46,7 +46,7 @@ export default function App(props: AppProps) {
       <TouchableOpacity
         style={Styles.addBtnView}
         activeOpacity={0.8}
-        onPress={() => props.navigation.navigate("CreateAbsence")}
+        onPress={() => props.navigation.navigate(ScreenName.CREATE_ABSENCE)}
       >
         <Image source={Images.Add_leave} style={Styles.addBtn} />
       </TouchableOpacity>

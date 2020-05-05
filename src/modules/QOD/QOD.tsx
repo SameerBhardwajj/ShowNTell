@@ -12,7 +12,7 @@ import {
 // custom imports
 import { updateTab } from "../Home/action";
 import { useDispatch, useSelector } from "react-redux";
-import { vh, Colors, Images, vw, Strings } from "../../utils";
+import { vh, Colors, Images, vw, Strings, ScreenName } from "../../utils";
 import { CustomHeader } from "../../Components";
 import QODFlatList from "./QODFlatList";
 
@@ -28,9 +28,7 @@ export default function App(props: AppProps) {
     tab: state.Home.tab,
   }));
 
-  useEffect(() => {
-    
-  }, []);
+  useEffect(() => {}, []);
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -41,7 +39,7 @@ export default function App(props: AppProps) {
     <View style={Styles.mainView}>
       <CustomHeader
         title={Strings.QOD_label}
-        onPressBack={() => props.navigation.navigate("Home")}
+        onPressBack={() => props.navigation.navigate(ScreenName.HOME)}
         textStyle={{ alignSelf: "flex-start", paddingLeft: vw(50) }}
       />
       <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
@@ -60,7 +58,7 @@ export default function App(props: AppProps) {
       <TouchableOpacity
         activeOpacity={0.8}
         style={Styles.filter}
-        onPress={() => props.navigation.navigate("FilterModal")}
+        onPress={() => props.navigation.navigate(ScreenName.FILTER_MODAL)}
       >
         <Image source={Images.Elipsis_Options} />
       </TouchableOpacity>

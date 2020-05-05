@@ -28,7 +28,6 @@ export default function App(props: AppProps) {
   const { item } = props.route.params;
 
   const saveToCameraRoll = async (image: string) => {
-    console.warn(image);
     let permission;
     if (Platform.OS === "android") {
       permission = await PermissionsAndroid.request(

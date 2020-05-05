@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateTab } from "../Home/action";
 import { updateLibrary } from "./action";
 import { CustomHeader } from "../../Components";
-import { Strings, vw, vh, Images, Colors } from "../../utils";
+import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 import GalleryFlatlist from "./GalleryFlatlist";
 
 export interface AppProps {
@@ -70,7 +70,7 @@ export default function App(props: AppProps) {
               ].selected),
               console.warn(dataArray[index][dataIndex].selected))
             : (dispatch(updateTab(false, () => {})),
-              props.navigation.navigate("GalleryDetails", { item: data }))
+              props.navigation.navigate(ScreenName.GALLERY_DETAILS, { item: data }))
         }
       />
     );

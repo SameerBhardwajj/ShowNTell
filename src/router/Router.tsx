@@ -57,8 +57,6 @@ const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
 const DrawerStack = createDrawerNavigator();
-const ModalStack = createStackNavigator();
-const NewDrawerStack = createStackNavigator();
 
 const AuthNavigator = () => (
   <AuthStack.Navigator
@@ -351,6 +349,21 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
               <RootStack.Screen
                 name={ScreenName.ACTIVITY_MODAL}
                 component={ActivityModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name={ScreenName.ABSENCE_NOTIFICATION_MODAL}
+                component={AbsenceNotificationModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name={ScreenName.GALLERY_DETAILS}
+                component={GalleryDetails}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name={ScreenName.CREATE_ABSENCE}
+                component={CreateAbsence}
                 options={this.modal}
               />
               <RootStack.Screen

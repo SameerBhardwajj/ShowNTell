@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
+import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 
 export interface AppProps {
   item: any;
@@ -36,7 +36,9 @@ export default function App(props: AppProps) {
             onPress={() =>
               select
                 ? setSelected1(!selected1)
-                : navigation.navigate("GalleryDetails", { item: item[0] })
+                : navigation.navigate(ScreenName.GALLERY_DETAILS, {
+                    item: item[0],
+                  })
             }
           >
             <Image source={{ uri: props.item[0].img }} style={Styles.bigImg} />
@@ -53,7 +55,9 @@ export default function App(props: AppProps) {
               onPress={() =>
                 select
                   ? setSelected2(!selected2)
-                  : navigation.navigate("GalleryDetails", { item: item[1] })
+                  : navigation.navigate(ScreenName.GALLERY_DETAILS, {
+                      item: item[1],
+                    })
               }
             >
               <Image
@@ -72,7 +76,9 @@ export default function App(props: AppProps) {
               onPress={() =>
                 select
                   ? setSelected3(!selected3)
-                  : navigation.navigate("GalleryDetails", { item: item[2] })
+                  : navigation.navigate(ScreenName.GALLERY_DETAILS, {
+                      item: item[2],
+                    })
               }
             >
               <Image
@@ -96,7 +102,9 @@ export default function App(props: AppProps) {
               onPress={() =>
                 select
                   ? setSelected1(!selected1)
-                  : navigation.navigate("GalleryDetails", { item: item[0] })
+                  : navigation.navigate(ScreenName.GALLERY_DETAILS, {
+                      item: item[0],
+                    })
               }
             >
               <Image
@@ -115,7 +123,9 @@ export default function App(props: AppProps) {
               onPress={() =>
                 select
                   ? setSelected2(!selected2)
-                  : navigation.navigate("GalleryDetails", { item: item[1] })
+                  : navigation.navigate(ScreenName.GALLERY_DETAILS, {
+                      item: item[1],
+                    })
               }
             >
               <Image
@@ -133,7 +143,9 @@ export default function App(props: AppProps) {
             onPress={() =>
               select
                 ? setSelected3(!selected3)
-                : navigation.navigate("GalleryDetails", { item: item[2] })
+                : navigation.navigate(ScreenName.GALLERY_DETAILS, {
+                    item: item[2],
+                  })
             }
           >
             <Image source={{ uri: props.item[2].img }} style={Styles.bigImg} />

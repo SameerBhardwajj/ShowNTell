@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 // custom imports
 import { updateTab } from "../Home/action";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { CustomHeader } from "../../Components";
-import { Strings, vw, vh, Colors } from "../../utils";
+import { Strings, vw, vh, Colors, ScreenName } from "../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -20,7 +20,7 @@ export default function App(props: AppProps) {
     <View style={Styles.mainView}>
       <CustomHeader
         title={Strings.Announcement}
-        onPressBack={() => props.navigation.navigate("Home")}
+        onPressBack={() => props.navigation.navigate(ScreenName.HOME)}
       />
       <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
         {DATA.map((item, index) => (

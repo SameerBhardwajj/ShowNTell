@@ -125,7 +125,7 @@ export default function App(props: AppProps) {
                 // validate("password", password)
                 //   ? validate("email", email)
                 //     ? 
-                    props.navigation.navigate("TabNavigator")
+                    props.navigation.navigate(ScreenName.TAB_NAVIGATOR)
                   //   : setCheckEmail(false)
                   // : (setPassword(""), setCheckPassword(false));
               }}
