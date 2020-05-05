@@ -25,7 +25,9 @@ export default function App(props: AppProps) {
     <View style={Styles.mainOuterView}>
       <View style={Styles.extraHeader} />
       <View style={Styles.mainView}>
-        <Text style={[Styles.text, props.textStyle]}>{props.title}</Text>
+        <Text numberOfLines={1} style={[Styles.text, props.textStyle]}>
+          {props.title}
+        </Text>
         {props.hideBackButton ? null : (
           <TouchableOpacity
             activeOpacity={0.8}

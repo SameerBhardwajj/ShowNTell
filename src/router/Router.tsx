@@ -50,15 +50,15 @@ import ShareModal from "../modules/Home/ShareModal";
 import LogoutModal from "../modules/Auth/Modal/LogoutModal";
 import ActivityModal from "../modules/Home/ActivityModal";
 import GalleryDetails from "../modules/PhotoLibrary/GalleryDetails";
+import CreateAbsence from "../modules/Absence/CreateAbsence";
 
 // Stack Registration
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
-const ProfileStack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
 const DrawerStack = createDrawerNavigator();
 const ModalStack = createStackNavigator();
-const GalleryStack = createStackNavigator();
+const NewDrawerStack = createStackNavigator();
 
 const AuthNavigator = () => (
   <AuthStack.Navigator headerMode="none" initialRouteName="LandingPage">
@@ -92,33 +92,7 @@ const DrawerNavigator = () => (
     drawerContent={(props: any) => <CustomDrawer {...props} />}
   >
     <DrawerStack.Screen name="Home" component={Home} />
-    <RootStack.Screen name="Profile" component={Profile} />
-    <DrawerStack.Screen name="Chat" component={Chat} />
-    <DrawerStack.Screen name="Announcement" component={Announcement} />
-    <DrawerStack.Screen name="Settings" component={Settings} />
-    <DrawerStack.Screen name="QOD" component={QOD} />
-    <DrawerStack.Screen name="Events" component={Events} />
-    <DrawerStack.Screen
-      name="ClassroomSchedule"
-      component={ClassroomSchedule}
-    />
-    <DrawerStack.Screen name="Statements" component={Statements} />
-    <DrawerStack.Screen name="Referral" component={Referral} />
-    <DrawerStack.Screen name="Testimonials" component={Testimonials} />
   </DrawerStack.Navigator>
-);
-
-const GalleryNavigator = () => (
-  <GalleryStack.Navigator initialRouteName="PhotoGallery" headerMode="none">
-    <GalleryStack.Screen name="PhotoGallery" component={PhotoGallery} />
-    <GalleryStack.Screen name="GalleryDetails" component={GalleryDetails} />
-  </GalleryStack.Navigator>
-);
-
-const ProfileNavigator = () => (
-  <ProfileStack.Navigator>
-    <ProfileStack.Screen name="Profile" component={Profile} />
-  </ProfileStack.Navigator>
 );
 
 console.disableYellowBox = false;
@@ -252,7 +226,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
         options={{ tabBarVisible: this.props.tab }}
       />
       <TabStack.Screen name="Attendance" component={Attendance} />
-      <TabStack.Screen name="PhotoGallery" component={GalleryNavigator} />
+      <TabStack.Screen name="PhotoGallery" component={PhotoGallery} />
       <TabStack.Screen name="Absence" component={Absence} />
     </TabStack.Navigator>
   );
@@ -308,6 +282,27 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 component={this.TabNavigator}
                 options={this.screen}
               />
+              <RootStack.Screen
+                name="GalleryDetails"
+                component={GalleryDetails}
+              />
+              <RootStack.Screen
+                name="CreateAbsence"
+                component={CreateAbsence}
+              />
+              <RootStack.Screen name="Profile" component={Profile} />
+              <RootStack.Screen name="Chat" component={Chat} />
+              <RootStack.Screen name="Announcement" component={Announcement} />
+              <RootStack.Screen name="Settings" component={Settings} />
+              <RootStack.Screen name="QOD" component={QOD} />
+              <RootStack.Screen name="Events" component={Events} />
+              <RootStack.Screen
+                name="ClassroomSchedule"
+                component={ClassroomSchedule}
+              />
+              <RootStack.Screen name="Statements" component={Statements} />
+              <RootStack.Screen name="Referral" component={Referral} />
+              <RootStack.Screen name="Testimonials" component={Testimonials} />
               <RootStack.Screen
                 name="AbsenceNotificationModal"
                 component={AbsenceNotificationModal}

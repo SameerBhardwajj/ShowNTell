@@ -14,7 +14,9 @@ import { CustomHeader } from "../../Components";
 import { Strings, vw, vh, Images, Colors } from "../../utils";
 import AbsenceFlatlist from "./AbsenceFlatlist";
 
-export interface AppProps {}
+export interface AppProps {
+  navigation?: any;
+}
 
 export default function App(props: AppProps) {
   const renderItems = (rowData: any) => {
@@ -41,7 +43,11 @@ export default function App(props: AppProps) {
       </TouchableOpacity>
 
       {/* Add Btn ----------- */}
-      <TouchableOpacity style={Styles.addBtnView}>
+      <TouchableOpacity
+        style={Styles.addBtnView}
+        activeOpacity={0.8}
+        onPress={() => props.navigation.navigate("CreateAbsence")}
+      >
         <Image source={Images.Add_leave} style={Styles.addBtn} />
       </TouchableOpacity>
 
