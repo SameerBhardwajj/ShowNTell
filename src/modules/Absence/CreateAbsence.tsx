@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,17 +7,25 @@ import {
   Image,
   ScrollView,
   FlatList,
+  TextInput,
 } from "react-native";
 
 // custom imports
-import { CustomHeader } from "../../Components";
-import { Strings, vw, vh, Images, Colors } from "../../utils";
+import { CustomHeader, CustomDate, CustomButton } from "../../Components";
+import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  const input1: any = React.createRef();
+  const input2: any = React.createRef();
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
+  const [days, setDays] = useState("0");
+  const [reason, setReason] = useState("");
+  const [cLength, setCLength] = useState(0);
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -28,11 +36,7 @@ export default function App(props: AppProps) {
       <CustomHeader
         title={Strings.Create_Absence_Notification}
         onPressBack={() => props.navigation.pop()}
-        textStyle={{
-          alignSelf: "flex-start",
-          paddingLeft: vw(46),
-          width: "75%",
-        }}
+        textStyle={Styles.headerText}
       />
       <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
         <Text style={Styles.childHeaderText}>Alex </Text>
@@ -44,6 +48,62 @@ export default function App(props: AppProps) {
           <Text style={Styles.heading2}>{Strings.Bob_Parish}</Text>
           <Text style={Styles.heading3}>{Strings.apply_leave_on_time}</Text>
         </View>
+        <CustomDate
+          heading={Strings.From}
+          getDate={(date: Date) => {
+            setFromDate(date);
+            let difference: number = toDate.getDate() - fromDate.getDate();
+            difference > 0 ? setDays(difference.toString()) : 0;
+          }}
+        />
+        <CustomDate
+          heading={Strings.To}
+          minDate={fromDate}
+          getDate={(date: Date) => {
+            setToDate(date);
+            let difference: number = toDate.getDate() - fromDate.getDate();
+            difference > 0 ? setDays(difference.toString()) : 0;
+          }}
+        />
+        <Text style={Styles.titleTxt}>{Strings.Number_of_Days}</Text>
+        <View style={Styles.inputTxt}>
+          <Text style={Styles.dateText}>{days}</Text>
+        </View>
+        <Text style={Styles.titleTxt}>{Strings.Reason_for_absence}</Text>
+        <View style={Styles.innerHelpView}>
+          <TextInput
+            ref={input2}
+            maxLength={500}
+            value={reason}
+            onChangeText={(text: string) => {
+              cLength <= 500 ? setReason(text) : null, setCLength(text.length);
+            }}
+            style={Styles.textInputView}
+            multiline={true}
+            onSubmitEditing={() =>
+              props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                // path: props.route.params.path,
+                // msg: Strings.ticket_submitted,
+              })
+            }
+          />
+          <Text style={Styles.character}>{cLength}/500 Characters</Text>
+        </View>
+        <View
+          style={{ flexDirection: "row", alignItems: "center" }}
+        >
+          <CustomButton
+            Text={Strings.Cancel}
+            onPress={() => {}}
+            lightBtn={true}
+            ButtonStyle={{ width: "45%" }}
+          />
+          <CustomButton
+            Text={Strings.Update}
+            onPress={() => {}}
+            ButtonStyle={{ width: "45%" }}
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -53,6 +113,11 @@ const Styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "white",
+  },
+  headerText: {
+    alignSelf: "flex-start",
+    paddingLeft: vw(46),
+    width: "75%",
   },
   childHeader: {
     flexDirection: "row",
@@ -104,5 +169,56 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Regular",
     fontSize: vh(15),
     color: Colors.lightGrey,
+  },
+  titleTxt: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(14),
+    marginTop: vh(24),
+    alignSelf: "flex-start",
+    color: Colors.lightBlack,
+  },
+  inputTxt: {
+    flexDirection: "row",
+    height: vh(48),
+    borderRadius: vh(50),
+    paddingHorizontal: vw(25),
+    borderWidth: vh(1),
+    width: "100%",
+    marginTop: vh(10),
+    borderColor: Colors.borderGrey,
+    backgroundColor: Colors.veryLightGrey,
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  dateText: {
+    fontSize: vh(16),
+    fontFamily: "Nunito-SemiBold",
+    color: Colors.lightBlack,
+  },
+  innerHelpView: {
+    width: vw(380),
+    alignItems: "center",
+    backgroundColor: Colors.veryLightGrey,
+    borderRadius: vh(8),
+    padding: vh(10),
+    marginVertical: vh(10),
+  },
+  textInputView: {
+    alignItems: "center",
+    justifyContent: "flex-start",
+    backgroundColor: Colors.veryLightGrey,
+    width: "100%",
+    borderTopLeftRadius: vh(8),
+    borderTopRightRadius: vh(8),
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(16),
+    paddingHorizontal: vw(6),
+    paddingVertical: vh(4),
+  },
+  character: {
+    color: Colors.characterGrey,
+    fontSize: vh(14),
+    fontFamily: "Nunito-Regular",
+    alignSelf: "flex-end",
   },
 });

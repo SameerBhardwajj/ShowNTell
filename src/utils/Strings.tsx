@@ -156,6 +156,9 @@ const Strings = new LocalizedStrings({
     Please_check_this: "Please check this out.",
     Alex_doing_Lunch: "Alex doing Lunch",
     apply_leave_on_time: "Please make sure you apply leave on time",
+    Number_of_Days: "Number of Days",
+    Reason_for_absence: "Reason for absence",
+    Update: "Update",
   },
 });
 export default Strings;
