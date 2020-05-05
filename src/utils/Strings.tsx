@@ -155,6 +155,7 @@ const Strings = new LocalizedStrings({
     Bob_Parish: "Mr. Bob Parish",
     Please_check_this: "Please check this out.",
     Alex_doing_Lunch: "Alex doing Lunch",
+    apply_leave_on_time: "Please make sure you apply leave on time",
   },
 });
 export default Strings;

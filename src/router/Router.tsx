@@ -313,33 +313,55 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 component={this.TabNavigator}
                 options={this.screen}
               />
-              <RootStack.Screen name={ScreenName.PROFILE} component={Profile} />
-              <RootStack.Screen name={ScreenName.CHAT} component={Chat} />
+              <RootStack.Screen
+                name={ScreenName.PROFILE}
+                component={Profile}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.CHAT}
+                component={Chat}
+                options={this.screen}
+              />
               <RootStack.Screen
                 name={ScreenName.ANNOUNCEMENT}
                 component={Announcement}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.SETTINGS}
                 component={Settings}
+                options={this.screen}
               />
-              <RootStack.Screen name={ScreenName.QOD} component={QOD} />
-              <RootStack.Screen name={ScreenName.EVENTS} component={Events} />
+              <RootStack.Screen
+                name={ScreenName.QOD}
+                component={QOD}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.EVENTS}
+                component={Events}
+                options={this.screen}
+              />
               <RootStack.Screen
                 name={ScreenName.CLASSROOM_SCHEDULE}
                 component={ClassroomSchedule}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.STATEMENTS}
                 component={Statements}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.REFERRAL}
                 component={Referral}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.TESTIMONIALS}
                 component={Testimonials}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.SHARE_MODAL}
@@ -359,12 +381,17 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
               <RootStack.Screen
                 name={ScreenName.GALLERY_DETAILS}
                 component={GalleryDetails}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.FILTER_MODAL}
+                component={FilterModal}
                 options={this.modal}
               />
               <RootStack.Screen
                 name={ScreenName.CREATE_ABSENCE}
                 component={CreateAbsence}
-                options={this.modal}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.LOGOUT_MODAL}
