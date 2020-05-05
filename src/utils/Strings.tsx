@@ -151,6 +151,10 @@ const Strings = new LocalizedStrings({
       "This will help your children in getting along with rest of the kids, importance of eating together and also inculcate the basic eating manners, the different taste of food as well as learning names of different dishes.",
     Absence_Notifications: "Absence Notifications",
     Create_Absence_Notification: "Create Absence Notification",
+    set_DOB: "Set Date of Birth",
+    Bob_Parish: "Mr. Bob Parish",
+    Please_check_this: "Please check this out.",
+    Alex_doing_Lunch: "Alex doing Lunch",
   },
 });
 export default Strings;

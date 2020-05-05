@@ -7,7 +7,15 @@ import {
   CustomInputText,
   CustomButton,
 } from "../../../Components";
-import { Strings, vw, vh, Colors, validate } from "../../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Colors,
+  validate,
+  ConstantName,
+  ScreenName,
+} from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -34,7 +42,9 @@ export default function App(props: AppProps) {
             titleText={Strings.Parent_email}
             value={email}
             onChangeText={(text: string) => {
-              validate("email", email) ? setAccess(true) : setAccess(false),
+              validate(ConstantName.EMAIL, email)
+                ? setAccess(true)
+                : setAccess(false),
                 setEmail(text);
             }}
             check={checkEmail}
@@ -44,7 +54,7 @@ export default function App(props: AppProps) {
               access
                 ? (setEmail(""),
                   setAccess(false),
-                  props.navigation.navigate("PasswordResetCode", {
+                  props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE, {
                     email: email,
                   }))
                 : null;
@@ -58,7 +68,7 @@ export default function App(props: AppProps) {
                 access
                   ? (setEmail(""),
                     setAccess(false),
-                    props.navigation.navigate("PasswordResetCode", {
+                    props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE, {
                       email: email,
                     }))
                   : null;

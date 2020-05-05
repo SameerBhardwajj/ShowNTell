@@ -1,7 +1,11 @@
 import * as React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { vh, Colors, Images, vw, Strings } from "../../utils";
+import { vh, Colors, Images, vw, Strings, ScreenName } from "../../utils";
 import { CustomButton } from "../../Components";
+
+const LUNCH = "Lunch";
+const ANNOUNCEMENT = "Announcement";
+const QOA = "QOA";
 
 export interface AppProps {
   navigation?: any;
@@ -13,7 +17,7 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.innerView}>
       {/* Lunch View */}
-      {item.activityType === "Lunch" ? (
+      {item.activityType === LUNCH ? (
         <View style={Styles.mainInnerView}>
           <Image source={Images.any} style={Styles.imgView} />
           <View style={Styles.lunchView}>
@@ -23,16 +27,17 @@ export default function App(props: AppProps) {
                 <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() =>
-                    props.navigation.navigate("ActivityModal", {
+                    props.navigation.navigate(ScreenName.ACTIVITY_MODAL, {
                       name: Strings.lunch_name,
                       msg: Strings.lunch_msg,
                     })
                   }
                 >
                   <Text style={Styles.name}>
-                    {item.name}{' . '} 
+                    {item.name}
+                    {" . "}
                     <Text style={{ color: Colors.orange }}>
-                       {Strings.lunch_time}
+                      {Strings.lunch_time}
                     </Text>
                   </Text>
                 </TouchableOpacity>
@@ -47,7 +52,9 @@ export default function App(props: AppProps) {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={Styles.ElipsisImg}
-                onPress={() => props.navigation.navigate("ShareModal")}
+                onPress={() =>
+                  props.navigation.navigate(ScreenName.SHARE_MODAL)
+                }
               >
                 <Image source={Images.Elipsis} style={{ padding: vh(2) }} />
               </TouchableOpacity>
@@ -57,7 +64,7 @@ export default function App(props: AppProps) {
         </View>
       ) : null}
       {/* Announcements */}
-      {item.activityType === "Announcement" ? (
+      {item.activityType === ANNOUNCEMENT ? (
         <View style={[Styles.mainInnerView, Styles.announcementView]}>
           <Text style={Styles.title}>{Strings.Announcement}</Text>
           <Text style={Styles.timeBlack}>
@@ -70,7 +77,7 @@ export default function App(props: AppProps) {
         </View>
       ) : null}
       {/* Question of the Day */}
-      {item.activityType === "QOA" ? (
+      {item.activityType === QOA ? (
         <View style={[Styles.mainInnerView, Styles.viewQOD]}>
           <View style={{ flexDirection: "row" }}>
             <Image source={Images.any} style={Styles.childAvatar} />

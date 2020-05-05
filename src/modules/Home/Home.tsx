@@ -13,7 +13,15 @@ import {
 // custom imports
 import { updateTab } from "./action";
 import { useDispatch, useSelector } from "react-redux";
-import { vh, Colors, Images, vw, Strings } from "../../utils";
+import {
+  vh,
+  Colors,
+  Images,
+  vw,
+  Strings,
+  ScreenName,
+  ConstantName,
+} from "../../utils";
 import { CustomSearchBar, CustomToast } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
 
@@ -21,6 +29,9 @@ const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
   navigation?: any;
 }
+
+const DRAWER_OPEN = "drawerOpen";
+const DRAWER_CLOSE = "drawerClose";
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
@@ -32,7 +43,7 @@ export default function App(props: AppProps) {
 
   React.useEffect(() => {
     const unsubscribe =
-      (props.navigation.addListener("drawerOpen", (e: any) => {
+      (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
         dispatch(
           updateTab(true, () => {
             console.warn("drawer open", tab);
@@ -41,7 +52,7 @@ export default function App(props: AppProps) {
 
         debugger;
       }),
-      props.navigation.addListener("drawerClose", (e: any) => {
+      props.navigation.addListener(DRAWER_CLOSE, (e: any) => {
         dispatch(
           updateTab(false, () => {
             console.warn("drawer close", tab);
@@ -63,7 +74,7 @@ export default function App(props: AppProps) {
     <ScrollView
       showsVerticalScrollIndicator={false}
       bounces={false}
-      keyboardShouldPersistTaps={"handled"}
+      keyboardShouldPersistTaps="handled"
     >
       {console.log("rendered", tab)}
       <View style={Styles.mainView}>

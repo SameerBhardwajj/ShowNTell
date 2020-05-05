@@ -10,7 +10,15 @@ import {
   CustomButton,
   CustomPhoneField,
 } from "../../../Components";
-import { Strings, vw, vh, Colors, validate } from "../../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Colors,
+  validate,
+  ScreenName,
+  ConstantName,
+} from "../../../utils";
 import { updateAccess, delayAccess } from "./actions";
 
 export interface AppProps {
@@ -48,7 +56,7 @@ export default function App(props: AppProps) {
         />
         <View style={Styles.innerView}>
           <Text style={Styles.welcome}>{Strings.hello}</Text>
-          <Text style={Styles.name}>Mr. Bob Parish</Text>
+          <Text style={Styles.name}>{Strings.Bob_Parish}</Text>
           <Text style={Styles.please}>{Strings.enter_phone_and_email}</Text>
           <View style={Styles.codeView}>
             {/* email -------------- */}
@@ -72,11 +80,11 @@ export default function App(props: AppProps) {
               }}
               check={checkphone}
               onSubmitEditing={() => {
-                validate("phone", phone)
+                validate(ConstantName.PHONE, phone)
                   ? (Keyboard.dismiss(),
                     dispatch(updateAccess()),
                     dispatch(delayAccess()),
-                    props.navigation.navigate("ResendCodeModal", {
+                    props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
                       path: props.route.params.path,
                     }))
                   : setCheckPhone(false);
@@ -87,11 +95,11 @@ export default function App(props: AppProps) {
               <CustomButton
                 Text={Strings.Resent_Access_Code}
                 onPress={() => {
-                  validate("phone", phone)
+                  validate(ConstantName.PHONE, phone)
                     ? (Keyboard.dismiss(),
                       dispatch(updateAccess()),
                       dispatch(delayAccess()),
-                      props.navigation.navigate("ResendCodeModal", {
+                      props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
                         path: props.route.params.path,
                       }))
                     : setCheckPhone(false);

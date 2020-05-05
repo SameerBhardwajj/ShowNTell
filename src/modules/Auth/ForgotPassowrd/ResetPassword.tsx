@@ -7,7 +7,14 @@ import {
   CustomInputText,
   CustomButton,
 } from "../../../Components";
-import { Strings, vw, vh, Colors, validate } from "../../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Colors,
+  validate,
+  ConstantName,
+} from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -42,9 +49,9 @@ export default function App(props: AppProps) {
           secureTextEntry={secureEntry1}
           onPressEye={() => setsecureEntry1(!secureEntry1)}
           incorrectText={Strings.password}
-          returnKeyType={"next"}
+          returnKeyType="next"
           onSubmitEditing={() =>
-            validate("password", password1)
+            validate(ConstantName.PASSWORD, password1)
               ? inputRef2.current.focus()
               : setCheckPassword1(false)
           }
@@ -62,10 +69,10 @@ export default function App(props: AppProps) {
           check={checkPassword2}
           onPressEye={() => setsecureEntry2(!secureEntry2)}
           incorrectText={Strings.password}
-          returnKeyType={"done"}
+          returnKeyType="done"
           onSubmitEditing={() => {
-            validate("password", password2)
-              ? validate("password", password1)
+            validate(ConstantName.PASSWORD, password2)
+              ? validate(ConstantName.PASSWORD, password1)
                 ? password1 === password2
                   ? (Keyboard.dismiss(), props.navigation.pop(3))
                   : setCheckPassword2(false)
@@ -77,8 +84,8 @@ export default function App(props: AppProps) {
           <CustomButton
             Text={Strings.Continue}
             onPress={() => {
-              validate("password", password2)
-                ? validate("password", password1)
+              validate(ConstantName.PASSWORD, password2)
+                ? validate(ConstantName.PASSWORD, password1)
                   ? password1 === password2
                     ? (Keyboard.dismiss(), props.navigation.pop(3))
                     : setCheckPassword2(false)

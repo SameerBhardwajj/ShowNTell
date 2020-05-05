@@ -10,7 +10,7 @@ import {
 
 // custom imports
 import { CustomHeader, CustomSearchBar } from "../../../../Components";
-import { Strings, vw, vh, Images, Colors } from "../../../../utils";
+import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../../utils";
 import RecentFlatlist from "./RecentFlatlist";
 import ResultFlatlist from "./ResultFlatlist";
 
@@ -29,7 +29,7 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={(text: string) => {
-          props.navigation.navigate("SchoolListing");
+          props.navigation.navigate(ScreenName.SCHOOL_LISTING);
         }}
       />
     );
@@ -42,7 +42,7 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={(text: string) => {
-          props.navigation.navigate("SchoolListing");
+          props.navigation.navigate(ScreenName.SCHOOL_LISTING);
         }}
       />
     );

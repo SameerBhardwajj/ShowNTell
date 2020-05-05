@@ -15,11 +15,19 @@ import {
   CustomHeader,
   CustomButton,
   CustomInputText,
-  CustomToast,
   CustomPhoneField,
 } from "../../../Components";
-import { Strings, vw, vh, Colors, validate } from "../../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Colors,
+  validate,
+  ScreenName,
+  ConstantName,
+} from "../../../utils";
 
+const US = "US";
 export interface AppProps {
   navigation?: any;
   route?: any;
@@ -61,7 +69,7 @@ export default function App(props: AppProps) {
   const [counter, setCounter] = useState(1);
   const [currentChild, setCurrentChild] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
-  const [countryCode, setCountryCode] = useState("US");
+  const [countryCode, setCountryCode] = useState(US);
   const [date, setDate] = useState(new Date());
 
   const disable = () => {
@@ -75,8 +83,8 @@ export default function App(props: AppProps) {
   };
 
   const navigating = () => {
-    props.navigation.navigate("ResendCodeModal", {
-      path: "SchoolListing",
+    props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+      path: ScreenName.SCHOOL_LISTING,
       msg: Strings.tour_success,
     });
   };
@@ -104,7 +112,7 @@ export default function App(props: AppProps) {
               checkpname ? null : setCheckPname(true), setPname(text);
             }}
             onSubmitEditing={() => {
-              validate("name", pname)
+              validate(ConstantName.NAME, pname)
                 ? input2.current.focus()
                 : setCheckPname(false);
             }}
@@ -121,7 +129,7 @@ export default function App(props: AppProps) {
             }}
             check={checkphone}
             onSubmitEditing={() => {
-              validate("phone", phone)
+              validate(ConstantName.PHONE, phone)
                 ? input3.current.focus()
                 : setCheckphone(false);
             }}
@@ -136,7 +144,7 @@ export default function App(props: AppProps) {
               checkzipcode ? null : setCheckzipcode(true), setZipcode(text);
             }}
             onSubmitEditing={() => {
-              validate("zipcode", zipcode)
+              validate(ConstantName.ZIPCODE, zipcode)
                 ? input4.current.focus()
                 : setCheckzipcode(false);
             }}
@@ -154,7 +162,7 @@ export default function App(props: AppProps) {
               checkemail ? null : setCheckemail(true), setEmail(text);
             }}
             onSubmitEditing={() => {
-              validate("email", email)
+              validate(ConstantName.EMAIL, email)
                 ? input5.current.focus()
                 : setCheckemail(false);
             }}
@@ -172,7 +180,7 @@ export default function App(props: AppProps) {
               checkc1name ? null : setCheckc1name(true), setC1name(text);
             }}
             onSubmitEditing={() => {
-              validate("name", c1name)
+              validate(ConstantName.NAME, c1name)
                 ? Keyboard.dismiss()
                 : setCheckc1name(false);
             }}
@@ -205,7 +213,7 @@ export default function App(props: AppProps) {
                   checkc2name ? null : setCheckc2name(true), setC2name(text);
                 }}
                 onSubmitEditing={() => {
-                  validate("name", c2name)
+                  validate(ConstantName.NAME, c2name)
                     ? Keyboard.dismiss()
                     : setCheckc2name(false);
                 }}
@@ -239,7 +247,7 @@ export default function App(props: AppProps) {
                   checkc3name ? null : setCheckc3name(true), setC3name(text);
                 }}
                 onSubmitEditing={() => {
-                  validate("name", c3name)
+                  validate(ConstantName.NAME, c3name)
                     ? Keyboard.dismiss()
                     : setCheckc3name(false);
                 }}
@@ -273,7 +281,7 @@ export default function App(props: AppProps) {
                   checkc4name ? null : setCheckc4name(true), setC4name(text);
                 }}
                 onSubmitEditing={() => {
-                  validate("name", c4name)
+                  validate(ConstantName.NAME, c4name)
                     ? Keyboard.dismiss()
                     : setCheckc4name(false);
                 }}
@@ -307,7 +315,7 @@ export default function App(props: AppProps) {
                   checkc5name ? null : setCheckc5name(true), setC5name(text);
                 }}
                 onSubmitEditing={() => {
-                  validate("name", c1name)
+                  validate(ConstantName.NAME, c1name)
                     ? Keyboard.dismiss()
                     : setCheckc5name(false);
                 }}
@@ -342,11 +350,7 @@ export default function App(props: AppProps) {
                   ? Strings.Add_Fourth_Child
                   : Strings.Add_Fifth_Child
               }
-              onPress={() =>
-                counter <= 5
-                  ? setCounter(counter + 1)
-                  : CustomToast(`Can't Add more than 5 Children`)
-              }
+              onPress={() => (counter <= 5 ? setCounter(counter + 1) : null)}
               lightBtn={true}
               ButtonStyle={Styles.btn}
             />
@@ -357,19 +361,19 @@ export default function App(props: AppProps) {
             activeOpacity={disable() ? 0.8 : 1}
             onPress={() =>
               disable()
-                ? validate("name", pname)
-                  ? validate("phone", phone)
-                    ? validate("zipcode", zipcode)
-                      ? validate("email", email)
-                        ? validate("name", c1name)
+                ? validate(ConstantName.NAME, pname)
+                  ? validate(ConstantName.PHONE, phone)
+                    ? validate(ConstantName.ZIPCODE, zipcode)
+                      ? validate(ConstantName.EMAIL, email)
+                        ? validate(ConstantName.NAME, c1name)
                           ? counter >= 2
-                            ? validate("name", c2name)
+                            ? validate(ConstantName.NAME, c2name)
                               ? counter >= 3
-                                ? validate("name", c3name)
+                                ? validate(ConstantName.NAME, c3name)
                                   ? counter >= 4
-                                    ? validate("name", c4name)
+                                    ? validate(ConstantName.NAME, c4name)
                                       ? counter === 5
-                                        ? validate("name", c5name)
+                                        ? validate(ConstantName.NAME, c5name)
                                           ? navigating()
                                           : (setCheckc5name(false),
                                             input9.current.focus())
@@ -424,7 +428,7 @@ export default function App(props: AppProps) {
                 }}
               />
               <CustomButton
-                Text="Set Date of Birth"
+                Text={Strings.set_DOB}
                 onPress={() => setModalOpen(false)}
               />
             </View>

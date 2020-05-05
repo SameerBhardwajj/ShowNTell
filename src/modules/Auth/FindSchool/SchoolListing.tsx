@@ -12,7 +12,11 @@ import Swiper from "react-native-swiper";
 
 // custom imports
 import { CustomHeader, CustomButton } from "../../../Components";
-import { Strings, vw, vh, Images, Colors } from "../../../utils";
+import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../utils";
+
+const IOS = "ios";
+const MAP_SCHEME = "maps:";
+const GEO_SCHEME = "geo:";
 
 export interface AppProps {
   navigation?: any;
@@ -28,7 +32,7 @@ export default function App(props: AppProps) {
   };
 
   const openGps = (lat: number, lng: number) => {
-    var scheme = Platform.OS === "ios" ? "maps:" : "geo:";
+    var scheme = Platform.OS === IOS ? MAP_SCHEME : GEO_SCHEME;
     var url = scheme + `${lat},${lng}`;
     Linking.openURL(url);
   };
@@ -88,7 +92,9 @@ export default function App(props: AppProps) {
                 />
                 <CustomButton
                   Text={Strings.Schedule_a_Tour}
-                  onPress={() => props.navigation.navigate("DateTimeSchedule")}
+                  onPress={() =>
+                    props.navigation.navigate(ScreenName.DATE_TIME_SCHEDULE)
+                  }
                   ButtonStyle={Styles.btn}
                 />
               </View>
