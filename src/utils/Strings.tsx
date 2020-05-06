@@ -159,6 +159,16 @@ const Strings = new LocalizedStrings({
     Number_of_Days: "Number of Days",
     Reason_for_absence: "Reason for absence",
     Update: "Update",
+    absence_submit_msg:
+      "Your absence notification has been successfully submitted",
+    absence_update_msg:
+      "Your absence notification has been successfully updated",
+    image_saved: "Image saved to gallery successfully!",
+    My_Profile: "My Profile",
+    Contact_Details: "Contact Details",
+    Address_Details: "Address Details",
+    Activity_Preferences: "Activity Preferences",
+    Receive_Daily_Emails: "Receive Daily Emails",
   },
 });
 export default Strings;

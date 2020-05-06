@@ -24,7 +24,7 @@ export default function App(props: AppProps) {
   }, [select]);
 
   return (
-    <View style={{ flex: 1, alignItems: "center", width: "100%" }}>
+    <View style={Styles.mainView}>
       {index % 2 === 0 ? (
         <View style={Styles.picsView}>
           <TouchableOpacity
@@ -42,6 +42,9 @@ export default function App(props: AppProps) {
             }
           >
             <Image source={{ uri: props.item[0].img }} style={Styles.bigImg} />
+            {select && selected1 ? (
+              <Image source={Images.Selected} style={Styles.selectedIcon} />
+            ) : null}
           </TouchableOpacity>
           <View style={{ justifyContent: "space-between" }}>
             <TouchableOpacity
@@ -64,6 +67,9 @@ export default function App(props: AppProps) {
                 source={{ uri: props.item[1].img }}
                 style={Styles.smallImg}
               />
+              {select && selected2 ? (
+                <Image source={Images.Selected} style={Styles.selectedIcon} />
+              ) : null}
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -85,6 +91,9 @@ export default function App(props: AppProps) {
                 source={{ uri: props.item[2].img }}
                 style={Styles.smallImg}
               />
+              {select && selected3 ? (
+                <Image source={Images.Selected} style={Styles.selectedIcon} />
+              ) : null}
             </TouchableOpacity>
           </View>
         </View>
@@ -111,6 +120,9 @@ export default function App(props: AppProps) {
                 source={{ uri: props.item[0].img }}
                 style={Styles.smallImg}
               />
+              {select && selected1 ? (
+                <Image source={Images.Selected} style={Styles.selectedIcon} />
+              ) : null}
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -132,6 +144,9 @@ export default function App(props: AppProps) {
                 source={{ uri: props.item[1].img }}
                 style={Styles.smallImg}
               />
+              {select && selected2 ? (
+                <Image source={Images.Selected} style={Styles.selectedIcon} />
+              ) : null}
             </TouchableOpacity>
           </View>
           <TouchableOpacity
@@ -149,6 +164,9 @@ export default function App(props: AppProps) {
             }
           >
             <Image source={{ uri: props.item[2].img }} style={Styles.bigImg} />
+            {select && selected3 ? (
+              <Image source={Images.Selected} style={Styles.selectedIcon} />
+            ) : null}
           </TouchableOpacity>
         </View>
       )}
@@ -157,6 +175,11 @@ export default function App(props: AppProps) {
 }
 
 const Styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+    alignItems: "center",
+    width: "100%",
+  },
   picsView: {
     flexDirection: "row",
     width: "95%",
@@ -189,5 +212,12 @@ const Styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     borderRadius: vh(10),
+  },
+  selectedIcon: {
+    position: "absolute",
+    bottom: vh(16),
+    right: vw(16),
+    height: vh(28),
+    width: vh(28),
   },
 });

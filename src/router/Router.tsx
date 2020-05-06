@@ -318,6 +318,11 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 component={Profile}
                 options={this.screen}
               />
+              {/* <RootStack.Screen
+                name={ScreenName.TOP_TAB_NAVIGATOR}
+                component={TopTabNavigator}
+                options={this.screen}
+              /> */}
               <RootStack.Screen
                 name={ScreenName.CHAT}
                 component={Chat}

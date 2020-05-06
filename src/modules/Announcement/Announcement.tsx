@@ -22,7 +22,11 @@ export default function App(props: AppProps) {
         title={Strings.Announcement}
         onPressBack={() => props.navigation.navigate(ScreenName.HOME)}
       />
-      <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+        contentContainerStyle={Styles.scrollStyle}
+      >
         {DATA.map((item, index) => (
           <View style={Styles.innerView}>
             {item.date.length !== 0 ? (
@@ -54,6 +58,16 @@ const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
     backgroundColor: "white",
+  },
+  scrollStyle: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   innerView: {
     padding: vh(16),

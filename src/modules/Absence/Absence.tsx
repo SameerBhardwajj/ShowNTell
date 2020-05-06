@@ -14,6 +14,9 @@ import { CustomHeader } from "../../Components";
 import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 import AbsenceFlatlist from "./AbsenceFlatlist";
 
+const TYPE_ADD = "add";
+const TYPE_UPDATE = "update";
+
 export interface AppProps {
   navigation?: any;
 }
@@ -21,7 +24,17 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
-    return <AbsenceFlatlist item={item} index={index} />;
+    return (
+      <AbsenceFlatlist
+        item={item}
+        index={index}
+        onPress={() =>
+          props.navigation.navigate(ScreenName.CREATE_ABSENCE, {
+            type: TYPE_UPDATE,
+          })
+        }
+      />
+    );
   };
 
   return (
@@ -46,7 +59,11 @@ export default function App(props: AppProps) {
       <TouchableOpacity
         style={Styles.addBtnView}
         activeOpacity={0.8}
-        onPress={() => props.navigation.navigate(ScreenName.CREATE_ABSENCE)}
+        onPress={() =>
+          props.navigation.navigate(ScreenName.CREATE_ABSENCE, {
+            type: TYPE_ADD,
+          })
+        }
       >
         <Image source={Images.Add_leave} style={Styles.addBtn} />
       </TouchableOpacity>

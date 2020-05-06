@@ -63,6 +63,12 @@ const Images = {
   Edit_Icon: require("../Assets/Images/Edit_Icon.png"),
   Add_leave: require("../Assets/Images/Add_leave.png"),
   Selected: require("../Assets/Images/Selected.png"),
+  Edit_Image: require("../Assets/Images/Edit_Image.png"),
+  Phone_Icon_blue: require("../Assets/Images/Phone_Icon_blue.png"),
+  Mobile_Icon: require("../Assets/Images/Mobile_Icon.png"),
+  Home_Icom: require("../Assets/Images/Home_Icom.png"),
+  Location_Pin_Icon: require("../Assets/Images/Location_Pin_Icon.png"),
+  Toggle_on: require("../Assets/Images/Toggle_on.png"),
 };
 
 export default Images;

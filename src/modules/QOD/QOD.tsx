@@ -150,7 +150,7 @@ export const Styles = StyleSheet.create({
   filter: {
     position: "absolute",
     right: vw(24),
-    bottom: 0,
+    bottom: vh(54),
     alignItems: "center",
     justifyContent: "center",
   },

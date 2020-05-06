@@ -161,6 +161,7 @@ export const Styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: vh(10),
     width: "100%",
+    paddingBottom: vh(130)
   },
   headingView: {
     alignItems: "center",

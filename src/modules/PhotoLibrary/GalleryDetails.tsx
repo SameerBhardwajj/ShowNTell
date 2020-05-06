@@ -8,14 +8,14 @@ import {
   Linking,
   Platform,
   PermissionsAndroid,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import RNFetchBlob from "rn-fetch-blob";
 import CameraRoll from "@react-native-community/cameraroll";
 
 // custom imports
 import { updateTab } from "../Home/action";
-import { CustomHeader } from "../../Components";
+import { CustomHeader, CustomToast } from "../../Components";
 import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
@@ -44,20 +44,14 @@ export default function App(props: AppProps) {
           .fetch("GET", image)
           .then((res) => {
             CameraRoll.saveToCameraRoll(res.path())
-              .then(() => {
-                console.warn("saved");
-              })
-              .catch((err) => console.warn("err:", err));
+              .then(() => CustomToast(Strings.image_saved))
+              .catch((err) => CustomToast(err));
           });
       }
     } else {
       CameraRoll.saveToCameraRoll(image)
-        .then(() => {
-          console.warn("saved");
-        })
-        .catch((error) => {
-          console.warn(error);
-        });
+        .then(() => CustomToast(Strings.image_saved))
+        .catch((error) => CustomToast(error));
     }
   };
 

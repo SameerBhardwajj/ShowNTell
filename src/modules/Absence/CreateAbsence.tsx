@@ -14,8 +14,11 @@ import {
 import { CustomHeader, CustomDate, CustomButton } from "../../Components";
 import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 
+const TYPE_ADD = "add";
+const TYPE_UPDATE = "update";
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
@@ -82,28 +85,45 @@ export default function App(props: AppProps) {
             multiline={true}
             onSubmitEditing={() =>
               props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                // path: props.route.params.path,
-                // msg: Strings.ticket_submitted,
+                msg: Strings.absence_submit_msg,
               })
             }
           />
           <Text style={Styles.character}>{cLength}/500 Characters</Text>
         </View>
-        <View
-          style={{ flexDirection: "row", alignItems: "center" }}
-        >
+        {props.route.params.type === TYPE_ADD ? (
           <CustomButton
-            Text={Strings.Cancel}
-            onPress={() => {}}
-            lightBtn={true}
-            ButtonStyle={{ width: "45%" }}
+            Text={Strings.Submit}
+            onPress={() =>
+              props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                msg: Strings.absence_submit_msg,
+              })
+            }
+            ButtonStyle={{ width: "100%" }}
           />
-          <CustomButton
-            Text={Strings.Update}
-            onPress={() => {}}
-            ButtonStyle={{ width: "45%" }}
-          />
-        </View>
+        ) : (
+          <View style={{ flexDirection: "row" }}>
+            <CustomButton
+              Text={Strings.Cancel}
+              lightBtn={true}
+              onPress={() =>
+                props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                  msg: Strings.absence_submit_msg,
+                })
+              }
+              ButtonStyle={{ width: "45%" }}
+            />
+            <CustomButton
+              Text={Strings.Update}
+              onPress={() =>
+                props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                  msg: Strings.absence_update_msg,
+                })
+              }
+              ButtonStyle={{ width: "45%" }}
+            />
+          </View>
+        )}
       </View>
     </ScrollView>
   );

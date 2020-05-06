@@ -5,6 +5,7 @@ import { Strings, vw, vh, Images, Colors } from "../../utils";
 export interface AppProps {
   item: any;
   index: string;
+  onPress: Function;
 }
 
 export default function App(props: AppProps) {
@@ -27,7 +28,11 @@ export default function App(props: AppProps) {
           <Text style={Styles.name}>{props.item.name}</Text>
           <Text style={Styles.classText}>{props.item.class}</Text>
         </View>
-        <TouchableOpacity style={Styles.editView}>
+        <TouchableOpacity
+          style={Styles.editView}
+          activeOpacity={0.8}
+          onPress={() => props.onPress()}
+        >
           <Image source={Images.Edit_Icon} style={Styles.editImg} />
         </TouchableOpacity>
       </View>
@@ -45,7 +50,7 @@ const Styles = StyleSheet.create({
     backgroundColor: Colors.fadedPink,
     width: "100%",
     borderRadius: vh(10),
-    marginBottom: vh(20)
+    marginBottom: vh(20),
   },
   msgUpperView: {
     backgroundColor: Colors.lightPink,

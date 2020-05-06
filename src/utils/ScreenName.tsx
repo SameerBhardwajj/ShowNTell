@@ -41,4 +41,7 @@ export default {
   SHARE_MODAL: "ShareModal",
   ACTIVITY_MODAL: "ActivityModal",
   LOGOUT_MODAL: "LogoutModal",
+  BASIC_DETAILS: "BasicDetails",
+  MY_CHILDREN: "MyChildren",
+  TOP_TAB_NAVIGATOR: "TopTabNavigator",
 };
