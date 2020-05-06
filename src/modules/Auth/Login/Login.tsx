@@ -41,6 +41,14 @@ export default function App(props: AppProps) {
   const [checkPassword, setCheckPassword] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
 
+  const resetAll = () => {
+    setEmail("");
+    setPassword("");
+    setCheckEmail(true);
+    setCheckPassword(true);
+    setsecureEntry(true);
+  };
+
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <KeyboardAwareScrollView
@@ -97,7 +105,8 @@ export default function App(props: AppProps) {
                 onSubmitEditing={() => {
                   validate(ConstantName.EMAIL, email)
                     ? validate(ConstantName.PASSWORD, password)
-                      ? props.navigation.navigate(ScreenName.TAB_NAVIGATOR)
+                      ? (resetAll(),
+                        props.navigation.navigate(ScreenName.TAB_NAVIGATOR))
                       : (setPassword(""), setCheckPassword(false))
                     : setCheckEmail(false);
                 }}
@@ -109,9 +118,10 @@ export default function App(props: AppProps) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={Styles.forgotView}
-              onPress={() =>
-                props.navigation.navigate(ScreenName.RESET_PASSWORD_EMAIL)
-              }
+              onPress={() => {
+                resetAll();
+                props.navigation.navigate(ScreenName.RESET_PASSWORD_EMAIL);
+              }}
             >
               <Text style={Styles.forgotTxt}>{Strings.forgot_password}</Text>
             </TouchableOpacity>
@@ -124,7 +134,8 @@ export default function App(props: AppProps) {
               onPress={() => {
                 validate(ConstantName.EMAIL, email)
                   ? validate(ConstantName.PASSWORD, password)
-                    ? props.navigation.navigate(ScreenName.TAB_NAVIGATOR)
+                    ? (resetAll(),
+                      props.navigation.navigate(ScreenName.TAB_NAVIGATOR))
                     : (setPassword(""), setCheckPassword(false))
                   : setCheckEmail(false);
               }}
@@ -133,16 +144,19 @@ export default function App(props: AppProps) {
             <CustomButton
               Text={Strings.register}
               ButtonStyle={Styles.btn}
-              onPress={() => props.navigation.navigate(ScreenName.REGISTER)}
+              onPress={() => {
+                resetAll(), props.navigation.navigate(ScreenName.REGISTER);
+              }}
             />
           </View>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() =>
+            onPress={() => {
+              resetAll();
               props.navigation.navigate(ScreenName.NEED_HELP, {
                 path: ScreenName.LOGIN,
-              })
-            }
+              });
+            }}
           >
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
           </TouchableOpacity>
