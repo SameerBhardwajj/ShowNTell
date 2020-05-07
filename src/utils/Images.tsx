@@ -72,6 +72,9 @@ const Images = {
   Toggle_off: require("../Assets/Images/Toggle_off.png"),
   Radio_Button_Selected_Orange: require("../Assets/Images/Radio_Button_Selected_Orange.png"),
   Mail_Icon: require("../Assets/Images/Mail_Icon.png"),
+  DOB_Icon: require("../Assets/Images/DOB_Icon.png"),
+  Center_Icon: require("../Assets/Images/Center_Icon.png"),
+  Virus_icon: require("../Assets/Images/Virus_icon.png"),
 };
 
 export default Images;
