@@ -169,6 +169,12 @@ const Strings = new LocalizedStrings({
     Address_Details: "Address Details",
     Activity_Preferences: "Activity Preferences",
     Receive_Daily_Emails: "Receive Daily Emails",
+    Out_of_City: "Out of City",
+    Not_Well: "Not Well",
+    Other: "Other",
+    Phone_Number: "Phone Number",
+    Mobile_Number: "Mobile Number",
+    Other_Number: "Other Number",
   },
 });
 export default Strings;

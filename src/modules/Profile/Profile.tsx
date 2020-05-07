@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,9 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  Modal,
 } from "react-native";
+import ImagePicker from "react-native-image-crop-picker";
 
 // custom imports
 import { CustomHeader } from "../../Components";
@@ -18,6 +20,16 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const [profilePic, setProfilePic] = useState("");
+
+  const ImagePick = () => {
+    ImagePicker.openPicker({
+      cropping: true,
+    }).then((image: any) => {
+      setProfilePic(image.path);
+    });
+  };
+
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
@@ -32,13 +44,16 @@ export default function App(props: AppProps) {
         />
         <View style={Styles.profilePicView}>
           <View>
-            <Image source={Images.any} style={Styles.profilePic} />
+            <Image
+              source={
+                profilePic.length === 0 ? Images.any : { uri: profilePic }
+              }
+              style={Styles.profilePic}
+            />
             <TouchableOpacity
               activeOpacity={0.8}
               style={Styles.editView}
-              onPress={() =>
-                props.navigation.navigate(ScreenName.TOP_TAB_NAVIGATOR)
-              }
+              onPress={() => ImagePick()}
             >
               <Image
                 source={Images.Edit_Image}
@@ -49,7 +64,7 @@ export default function App(props: AppProps) {
           </View>
           <Text style={Styles.nameText}>{Strings.Bob_Parish}</Text>
         </View>
-        <View style={{ height: '100%', width: "100%" }}>
+        <View style={{ height: "100%", width: "100%" }}>
           <TopTabNavigation />
         </View>
       </View>
@@ -60,7 +75,7 @@ const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "transparent",
   },
   profilePicView: {
     alignItems: "center",

@@ -34,7 +34,7 @@ export default function App(props: AppProps) {
     <View style={Styles.mainView}>
       <CustomHeader
         title={Strings.Create_Password}
-        onPressBack={() => props.navigation.pop()}
+        onPressBack={() => props.navigation.pop(3)}
       />
       <View style={Styles.codeView}>
         <CustomInputText

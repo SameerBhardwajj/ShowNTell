@@ -26,5 +26,6 @@ const Colors = {
   darkFadedPink: "rgb(236, 217, 233)",
   separator: "rgba(0, 0, 0, 0.06)",
   mediumBlack: "rgb(68, 68, 68)",
+  modalBg2: "rgba(0,0,0,0.2)",
 };
 export default Colors;

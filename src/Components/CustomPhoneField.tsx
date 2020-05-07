@@ -10,6 +10,7 @@ export interface AppProps {
   check: boolean;
   onSubmitEditing: Function;
   mainViewStyle?: any;
+  title?: string;
 }
 
 const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
@@ -33,7 +34,7 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
             { color: props.check ? Colors.titleColor : Colors.pink },
           ]}
         >
-          {Strings.parentPhone}
+          {props.title === undefined ? Strings.parentPhone : props.title}
         </Text>
         {props.check ? null : (
           <Text style={Styles.incorrectText}>
@@ -91,7 +92,7 @@ const Styles = StyleSheet.create({
   inputTxtView: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     backgroundColor: Colors.veryLightGrey,
     height: vh(48),
     marginVertical: vh(10),
@@ -105,7 +106,7 @@ const Styles = StyleSheet.create({
     fontSize: vh(16),
     fontFamily: "Nunito-SemiBold",
     paddingHorizontal: vw(25),
-    width: '85%',
+    width: "85%",
   },
   incorrectText: {
     fontFamily: "Nunito-Medium",

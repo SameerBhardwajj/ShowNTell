@@ -138,63 +138,16 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
       tabBarOptions={{
         style: Styles.tabView,
         safeAreaInsets: { bottom: 0 },
+        activeTintColor: Colors.violet,
+        inactiveTintColor: Colors.characterGrey,
+        labelStyle: {
+          fontFamily: "Nunito-SemiBold",
+          fontSize: vh(12),
+          marginBottom: vh(10),
+          textTransform: "capitalize",
+        },
       }}
       screenOptions={({ route }) => ({
-        tabBarLabel: ({ focused }) => {
-          if (route.name === ScreenName.HOME) {
-            return (
-              <Text
-                style={{
-                  color: focused ? Colors.violet : Colors.characterGrey,
-                  fontFamily: "Nunito-SemiBold",
-                  fontSize: vh(12),
-                  marginBottom: vh(10),
-                }}
-              >
-                Home
-              </Text>
-            );
-          } else if (route.name === ScreenName.ATTENDANCE) {
-            return (
-              <Text
-                style={{
-                  color: focused ? Colors.violet : Colors.characterGrey,
-                  fontFamily: "Nunito-SemiBold",
-                  fontSize: vh(12),
-                  marginBottom: vh(10),
-                }}
-              >
-                Attendance
-              </Text>
-            );
-          } else if (route.name === ScreenName.PHOTO_GALLERY) {
-            return (
-              <Text
-                style={{
-                  color: focused ? Colors.violet : Colors.characterGrey,
-                  fontFamily: "Nunito-SemiBold",
-                  fontSize: vh(12),
-                  marginBottom: vh(10),
-                }}
-              >
-                Photo Library
-              </Text>
-            );
-          } else if (route.name === ScreenName.ABSENCE) {
-            return (
-              <Text
-                style={{
-                  color: focused ? Colors.violet : Colors.characterGrey,
-                  fontFamily: "Nunito-SemiBold",
-                  fontSize: vh(12),
-                  marginBottom: vh(10),
-                }}
-              >
-                Absence
-              </Text>
-            );
-          }
-        },
         tabBarIcon: ({ focused }) => {
           if (route.name === ScreenName.HOME) {
             return (
@@ -221,7 +174,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 }
               />
             );
-          } else if (route.name === ScreenName.PHOTO_GALLERY) {
+          } else if (route.name === ScreenName.PHOTO_LIBRARY) {
             return (
               <Image
                 style={{
@@ -252,7 +205,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
       />
       <TabStack.Screen name={ScreenName.ATTENDANCE} component={Attendance} />
       <TabStack.Screen
-        name={ScreenName.PHOTO_GALLERY}
+        name={ScreenName.PHOTO_LIBRARY}
         component={PhotoGallery}
       />
       <TabStack.Screen name={ScreenName.ABSENCE} component={Absence} />
@@ -264,7 +217,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
     cardOverlayEnabled: true,
     ...TransitionPresets.ModalSlideFromBottomIOS,
     cardStyle: {
-      backgroundColor: "rgba(0,0,0,0.2)",
+      backgroundColor: Colors.modalBg2,
       opacity: 1,
     },
   };
@@ -318,11 +271,6 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 component={Profile}
                 options={this.screen}
               />
-              {/* <RootStack.Screen
-                name={ScreenName.TOP_TAB_NAVIGATOR}
-                component={TopTabNavigator}
-                options={this.screen}
-              /> */}
               <RootStack.Screen
                 name={ScreenName.CHAT}
                 component={Chat}
@@ -414,6 +362,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
 const Styles = StyleSheet.create({
   tabView: {
     height: vh(70),
+    alignItems: "center",
     backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {

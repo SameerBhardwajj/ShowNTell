@@ -2,27 +2,60 @@ import * as React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { NavigationContainer } from "@react-navigation/native";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
+
+// custom Imports
 import BasicDetails from "./BasicDetails";
 import MyChildren from "./MyChildren";
-import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
+import { vw, vh, Colors, ScreenName } from "../../utils";
 
+// Stack
 const TopTabStack = createMaterialTopTabNavigator();
 
 export interface AppProps {}
 
 export default function App(props: AppProps) {
+  const modal = {
+    title: "",
+    cardOverlayEnabled: true,
+    ...TransitionPresets.ModalSlideFromBottomIOS,
+    cardStyle: {
+      backgroundColor: "rgba(0,0,0,0.2)",
+      opacity: 1,
+    },
+  };
+
+  const screen = {
+    ...TransitionPresets.DefaultTransition,
+  };
   return (
     <NavigationContainer independent={true}>
       <TopTabStack.Navigator
+        headerMode="none"
+        initialRouteName={ScreenName.BASIC_DETAILS}
         tabBarOptions={{
-          tabStyle: { backgroundColor: Colors.violet },
+          indicatorStyle: {
+            height: vw(5),
+            backgroundColor: "white",
+            borderRadius: vw(5),
+            position: "absolute",
+            top: 0,
+          },
+          style: {
+            backgroundColor: Colors.violet,
+            borderBottomEndRadius: vw(15),
+            borderBottomStartRadius: vw(15),
+          },
+          backgroundColor: Colors.violet,
           activeTintColor: "white",
           inactiveTintColor: Colors.lightViolet,
-          backgroundColor: Colors.violet,
-          indicatorStyle: { backgroundColor: "white", height: 3 },
           labelStyle: {
             fontFamily: "Nunito-Bold",
             fontSize: vh(16),
+            textTransform: "capitalize",
           },
         }}
       >

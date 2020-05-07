@@ -9,6 +9,7 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
 import { CustomHeader, CustomDate, CustomButton } from "../../Components";
@@ -23,16 +24,17 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const input1: any = React.createRef();
-  const input2: any = React.createRef();
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
   const [days, setDays] = useState("0");
+  const [reasonOption, setReasonOption] = useState(1);
   const [reason, setReason] = useState("");
   const [cLength, setCLength] = useState(0);
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
       showsVerticalScrollIndicator={false}
       bounces={false}
+      keyboardShouldPersistTaps="handled"
       contentContainerStyle={Styles.mainView}
     >
       {/* Custom Header -------------- */}
@@ -55,7 +57,7 @@ export default function App(props: AppProps) {
           heading={Strings.From}
           getDate={(date: Date) => {
             setFromDate(date);
-            let difference: number = toDate.getDate() - fromDate.getDate();
+            let difference: number = toDate.getDate() - date.getDate();
             difference > 0 ? setDays(difference.toString()) : 0;
           }}
         />
@@ -64,8 +66,8 @@ export default function App(props: AppProps) {
           minDate={fromDate}
           getDate={(date: Date) => {
             setToDate(date);
-            let difference: number = toDate.getDate() - fromDate.getDate();
-            difference > 0 ? setDays(difference.toString()) : 0;
+            let difference: number = date.getDate() - fromDate.getDate();
+            setDays(difference.toString());
           }}
         />
         <Text style={Styles.titleTxt}>{Strings.Number_of_Days}</Text>
@@ -73,9 +75,51 @@ export default function App(props: AppProps) {
           <Text style={Styles.dateText}>{days}</Text>
         </View>
         <Text style={Styles.titleTxt}>{Strings.Reason_for_absence}</Text>
+        <View style={Styles.reasonView}>
+          <TouchableOpacity
+            style={Styles.reasonBtn}
+            activeOpacity={0.8}
+            onPress={() => setReasonOption(1)}
+          >
+            {reasonOption === 1 ? (
+              <Image source={Images.Radio_Button_Selected_Orange} />
+            ) : (
+              <Image source={Images.Radio_Button_Unselected} />
+            )}
+          </TouchableOpacity>
+          <Text style={Styles.dateText}>{Strings.Out_of_City}</Text>
+        </View>
+        <View style={Styles.reasonView}>
+          <TouchableOpacity
+            style={Styles.reasonBtn}
+            activeOpacity={0.8}
+            onPress={() => setReasonOption(2)}
+          >
+            {reasonOption === 2 ? (
+              <Image source={Images.Radio_Button_Selected_Orange} />
+            ) : (
+              <Image source={Images.Radio_Button_Unselected} />
+            )}
+          </TouchableOpacity>
+          <Text style={Styles.dateText}>{Strings.Not_Well}</Text>
+        </View>
+        <View style={Styles.reasonView}>
+          <TouchableOpacity
+            style={Styles.reasonBtn}
+            activeOpacity={0.8}
+            onPress={() => setReasonOption(3)}
+          >
+            {reasonOption === 3 ? (
+              <Image source={Images.Radio_Button_Selected_Orange} />
+            ) : (
+              <Image source={Images.Radio_Button_Unselected} />
+            )}
+          </TouchableOpacity>
+          <Text style={Styles.dateText}>{Strings.Other}</Text>
+        </View>
         <View style={Styles.innerHelpView}>
           <TextInput
-            ref={input2}
+            ref={input1}
             maxLength={500}
             value={reason}
             onChangeText={(text: string) => {
@@ -125,7 +169,7 @@ export default function App(props: AppProps) {
           </View>
         )}
       </View>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 const Styles = StyleSheet.create({
@@ -214,6 +258,16 @@ const Styles = StyleSheet.create({
     fontSize: vh(16),
     fontFamily: "Nunito-SemiBold",
     color: Colors.lightBlack,
+  },
+  reasonView: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  reasonBtn: {
+    padding: vh(11),
+    paddingLeft: 0,
   },
   innerHelpView: {
     width: vw(380),
