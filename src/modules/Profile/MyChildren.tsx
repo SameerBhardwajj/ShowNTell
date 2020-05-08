@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  FlatList,
+} from "react-native";
 
 // custom imports
-import { vw, vh, Strings, Images, Colors } from "../../utils";
+import { vw, vh, Colors } from "../../utils";
+import ChildrenFlatlist from "./ChildrenFlatlist";
 
 const img =
   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg";
@@ -11,56 +18,57 @@ export interface AppProps {}
 
 export default function App(props: AppProps) {
   const [currentChild, setCurrentChild] = useState(1);
+
+  const renderChild = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => setCurrentChild(parseInt(index))}
+      >
+        <Image
+          source={{ uri: item.img }}
+          resizeMethod="resize"
+          resizeMode="cover"
+          style={[
+            Styles.imageView,
+            {
+              borderWidth: parseInt(index) === currentChild ? vw(5) : 0,
+            },
+          ]}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  const renderItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <ChildrenFlatlist item={item} index={index} currentChild={currentChild} />
+    );
+  };
+
   return (
     <View style={Styles.mainView}>
       <View style={Styles.contactView}>
-        <TouchableOpacity style={Styles.imageView}>
-          <Image
-            source={{ uri: img }}
-            resizeMethod="resize"
-            resizeMode="cover"
-            style={{
-              height: vh(80),
-              width: vh(80),
-              borderRadius: vh(40),
-              borderWidth: vw(5),
-              borderColor: Colors.violet,
-            }}
-          />
-        </TouchableOpacity>
+        <FlatList
+          showsHorizontalScrollIndicator={false}
+          horizontal={true}
+          ItemSeparatorComponent={() => (
+            <View style={{ paddingHorizontal: vw(20) }} />
+          )}
+          data={DATA}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderChild}
+        />
         <View style={Styles.childView}>
-          <Text style={Styles.nameText}>Alex Parish</Text>
-          <View>
-            <View style={Styles.itemView}>
-              <Image source={Images.DOB_Icon} />
-              <Text style={Styles.DOBText}>February 21, 2016</Text>
-            </View>
-            <View style={Styles.itemView}>
-              <Image source={Images.Center_Icon} />
-              <Text style={Styles.DOBText}>Infant -A</Text>
-            </View>
-          </View>
-          <View style={Styles.separatorView} />
-          <Text style={Styles.DOBText2}>{Strings.Medical_Information}</Text>
-          <View>
-            <View style={Styles.itemView}>
-              <Image source={Images.Virus_icon} />
-              <Text style={Styles.DOBText}>Asthama</Text>
-            </View>
-            <View style={Styles.itemView}>
-              <Image source={Images.Virus_icon} />
-              <Text style={Styles.DOBText}>Skin Rashes</Text>
-            </View>
-          </View>
-          <View style={Styles.separatorView} />
-          <Text style={Styles.DOBText2}>{Strings.Teachers_Information}</Text>
-          <View style={Styles.avatarView}>
-            <Image source={Images.any} style={Styles.childAvatar} />
-            <View style={Styles.centerNameView}>
-              <Text style={Styles.name}>Natasha Jacobs</Text>
-              <Text style={Styles.classText}>Infant A</Text>
-            </View>
-          </View>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            horizontal={false}
+            data={DATA}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItems}
+          />
         </View>
       </View>
     </View>
@@ -89,7 +97,12 @@ const Styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 7,
   },
-  imageView: {},
+  imageView: {
+    height: vh(80),
+    width: vh(80),
+    borderRadius: vh(40),
+    borderColor: Colors.violet,
+  },
   childView: {
     width: "100%",
     backgroundColor: "white",
@@ -153,9 +166,49 @@ const Styles = StyleSheet.create({
 
 // API Data
 const DATA = [
-  { img: img },
-  { img: img },
-  { img: img },
-  { img: img },
-  { img: img },
+  {
+    img: img,
+    name: "Alex Parish",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
+  {
+    img: img,
+    name: "Alex",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
+  {
+    img: img,
+    name: "Parish",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
+  {
+    img: img,
+    name: "Sam",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
+  {
+    img: img,
+    name: "Raj",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
 ];

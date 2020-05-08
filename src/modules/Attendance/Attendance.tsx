@@ -14,7 +14,7 @@ import DatePicker from "react-native-date-picker";
 // custom imports
 import { useDispatch, useSelector } from "react-redux";
 import { vh, Colors, Images, vw, Strings } from "../../utils";
-import { CustomButton } from "../../Components";
+import { CustomButton, CustomHeader } from "../../Components";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 
@@ -30,14 +30,12 @@ export default function App(props: AppProps) {
 
   return (
     <View style={Styles.mainView}>
-      <View style={Styles.extraHeader} />
-      <View style={Styles.headerView}>
-        <Text style={Styles.headerText}>{Strings.Attendance}</Text>
-        <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
-          <Text style={Styles.childHeaderText}>Alex </Text>
-          <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
-        </TouchableOpacity>
-      </View>
+      <CustomHeader
+        hideBackButton={true}
+        title={Strings.Attendance}
+        onPressBack={() => {}}
+        child={true}
+      />
       <View style={Styles.viewByView}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <TouchableOpacity
@@ -254,29 +252,6 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(18),
     color: "white",
-  },
-  childHeader: {
-    flexDirection: "row",
-    position: "absolute",
-    right: vw(16),
-    top: vh(33),
-    paddingVertical: vw(3),
-    paddingHorizontal: vw(10),
-    backgroundColor: "white",
-    borderRadius: vh(20),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  childHeaderText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(14),
-  },
-  dropdown: {
-    height: vh(6),
-    width: vh(11),
-    marginLeft: vw(5),
-    marginTop: vh(2),
-    tintColor: Colors.violet,
   },
   viewByView: {
     alignItems: "center",

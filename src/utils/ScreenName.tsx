@@ -45,4 +45,5 @@ export default {
   MY_CHILDREN: "My Children",
   TOP_TAB_NAVIGATOR: "TopTabNavigator",
   CONTACT_MODAL: "ContactModal",
+  CHILD_MODAL: "ChildModal",
 };

@@ -31,6 +31,7 @@ export default function App(props: AppProps) {
         onPress={() =>
           props.navigation.navigate(ScreenName.CREATE_ABSENCE, {
             type: TYPE_UPDATE,
+            item: item,
           })
         }
       />
@@ -49,11 +50,9 @@ export default function App(props: AppProps) {
         title={Strings.Absence_Notification}
         onPressBack={() => {}}
         textStyle={{ alignSelf: "flex-start", paddingLeft: vw(16) }}
+        child={true}
+        navigation={props.navigation}
       />
-      <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
-        <Text style={Styles.childHeaderText}>Alex </Text>
-        <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
-      </TouchableOpacity>
 
       {/* Add Btn ----------- */}
       <TouchableOpacity
@@ -86,29 +85,6 @@ export const Styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "white",
-  },
-  childHeader: {
-    flexDirection: "row",
-    position: "absolute",
-    right: vw(16),
-    top: vh(43),
-    paddingVertical: vw(3),
-    paddingHorizontal: vw(10),
-    backgroundColor: "white",
-    borderRadius: vh(20),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  childHeaderText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(14),
-  },
-  dropdown: {
-    height: vh(6),
-    width: vh(11),
-    marginLeft: vw(5),
-    marginTop: vh(2),
-    tintColor: Colors.violet,
   },
   innerView: {
     paddingHorizontal: vh(16),

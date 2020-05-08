@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
   TextInput,
+  Keyboard,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -23,6 +24,9 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const CURR_TYPE = props.route.params.type === TYPE_UPDATE ? true : false;
+  const { params } = props.route;
+
   const input1: any = React.createRef();
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -35,139 +39,142 @@ export default function App(props: AppProps) {
       showsVerticalScrollIndicator={false}
       bounces={false}
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={Styles.mainView}
     >
-      {/* Custom Header -------------- */}
-      <CustomHeader
-        title={Strings.Create_Absence_Notification}
-        onPressBack={() => props.navigation.pop()}
-        textStyle={Styles.headerText}
-      />
-      <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
-        <Text style={Styles.childHeaderText}>Alex </Text>
-        <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
-      </TouchableOpacity>
-      <View style={Styles.innerView}>
-        <View style={Styles.headingView}>
-          <Text style={Styles.heading1}>{Strings.hello}</Text>
-          <Text style={Styles.heading2}>{Strings.Bob_Parish}</Text>
-          <Text style={Styles.heading3}>{Strings.apply_leave_on_time}</Text>
-        </View>
-        <CustomDate
-          heading={Strings.From}
-          getDate={(date: Date) => {
-            setFromDate(date);
-            let difference: number = toDate.getDate() - date.getDate();
-            difference > 0 ? setDays(difference.toString()) : 0;
-          }}
+      <View style={Styles.mainView}>
+        {/* Custom Header -------------- */}
+        <CustomHeader
+          title={Strings.Create_Absence_Notification}
+          onPressBack={() => props.navigation.pop()}
+          textStyle={Styles.headerText}
         />
-        <CustomDate
-          heading={Strings.To}
-          minDate={fromDate}
-          getDate={(date: Date) => {
-            setToDate(date);
-            let difference: number = date.getDate() - fromDate.getDate();
-            setDays(difference.toString());
-          }}
-        />
-        <Text style={Styles.titleTxt}>{Strings.Number_of_Days}</Text>
-        <View style={Styles.inputTxt}>
-          <Text style={Styles.dateText}>{days}</Text>
-        </View>
-        <Text style={Styles.titleTxt}>{Strings.Reason_for_absence}</Text>
-        <View style={Styles.reasonView}>
-          <TouchableOpacity
-            style={Styles.reasonBtn}
-            activeOpacity={0.8}
-            onPress={() => setReasonOption(1)}
-          >
-            {reasonOption === 1 ? (
-              <Image source={Images.Radio_Button_Selected_Orange} />
-            ) : (
-              <Image source={Images.Radio_Button_Unselected} />
-            )}
-          </TouchableOpacity>
-          <Text style={Styles.dateText}>{Strings.Out_of_City}</Text>
-        </View>
-        <View style={Styles.reasonView}>
-          <TouchableOpacity
-            style={Styles.reasonBtn}
-            activeOpacity={0.8}
-            onPress={() => setReasonOption(2)}
-          >
-            {reasonOption === 2 ? (
-              <Image source={Images.Radio_Button_Selected_Orange} />
-            ) : (
-              <Image source={Images.Radio_Button_Unselected} />
-            )}
-          </TouchableOpacity>
-          <Text style={Styles.dateText}>{Strings.Not_Well}</Text>
-        </View>
-        <View style={Styles.reasonView}>
-          <TouchableOpacity
-            style={Styles.reasonBtn}
-            activeOpacity={0.8}
-            onPress={() => setReasonOption(3)}
-          >
-            {reasonOption === 3 ? (
-              <Image source={Images.Radio_Button_Selected_Orange} />
-            ) : (
-              <Image source={Images.Radio_Button_Unselected} />
-            )}
-          </TouchableOpacity>
-          <Text style={Styles.dateText}>{Strings.Other}</Text>
-        </View>
-        <View style={Styles.innerHelpView}>
-          <TextInput
-            ref={input1}
-            maxLength={500}
-            value={reason}
-            onChangeText={(text: string) => {
-              cLength <= 500 ? setReason(text) : null, setCLength(text.length);
+        <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
+          <Text style={Styles.childHeaderText}>Alex </Text>
+          <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
+        </TouchableOpacity>
+        <View style={Styles.innerView}>
+          <View style={Styles.headingView}>
+            <Text style={Styles.heading1}>{Strings.hello}</Text>
+            <Text style={Styles.heading2}>{Strings.Bob_Parish}</Text>
+            <Text style={Styles.heading3}>{Strings.apply_leave_on_time}</Text>
+          </View>
+          <CustomDate
+            heading={Strings.From}
+            getDate={(date: Date) => {
+              setFromDate(date);
+              let difference: number = toDate.getDate() - date.getDate();
+              difference > 0 ? setDays(difference.toString()) : 0;
             }}
-            style={Styles.textInputView}
-            multiline={true}
-            onSubmitEditing={() =>
-              props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                msg: Strings.absence_submit_msg,
-              })
-            }
           />
-          <Text style={Styles.character}>{cLength}/500 Characters</Text>
-        </View>
-        {props.route.params.type === TYPE_ADD ? (
-          <CustomButton
-            Text={Strings.Submit}
-            onPress={() =>
-              props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                msg: Strings.absence_submit_msg,
-              })
-            }
-            ButtonStyle={{ width: "100%" }}
+          <CustomDate
+            heading={Strings.To}
+            minDate={fromDate}
+            getDate={(date: Date) => {
+              setToDate(date);
+              let difference: number = date.getDate() - fromDate.getDate();
+              setDays(difference.toString());
+            }}
           />
-        ) : (
-          <View style={{ flexDirection: "row" }}>
+          <Text style={Styles.titleTxt}>{Strings.Number_of_Days}</Text>
+          <View style={Styles.inputTxt}>
+            <Text style={Styles.dateText}>{days}</Text>
+          </View>
+          <Text style={Styles.titleTxt}>{Strings.Reason_for_absence}</Text>
+          <View style={Styles.reasonView}>
+            <TouchableOpacity
+              style={Styles.reasonBtn}
+              activeOpacity={0.8}
+              onPress={() => setReasonOption(1)}
+            >
+              {reasonOption === 1 ? (
+                <Image source={Images.Radio_Button_Selected_Orange} />
+              ) : (
+                <Image source={Images.Radio_Button_Unselected} />
+              )}
+            </TouchableOpacity>
+            <Text style={Styles.dateText}>{Strings.Out_of_City}</Text>
+          </View>
+          <View style={Styles.reasonView}>
+            <TouchableOpacity
+              style={Styles.reasonBtn}
+              activeOpacity={0.8}
+              onPress={() => setReasonOption(2)}
+            >
+              {reasonOption === 2 ? (
+                <Image source={Images.Radio_Button_Selected_Orange} />
+              ) : (
+                <Image source={Images.Radio_Button_Unselected} />
+              )}
+            </TouchableOpacity>
+            <Text style={Styles.dateText}>{Strings.Not_Well}</Text>
+          </View>
+          <View style={Styles.reasonView}>
+            <TouchableOpacity
+              style={Styles.reasonBtn}
+              activeOpacity={0.8}
+              onPress={() => setReasonOption(3)}
+            >
+              {reasonOption === 3 ? (
+                <Image source={Images.Radio_Button_Selected_Orange} />
+              ) : (
+                <Image source={Images.Radio_Button_Unselected} />
+              )}
+            </TouchableOpacity>
+            <Text style={Styles.dateText}>{Strings.Other}</Text>
+          </View>
+          <View style={Styles.innerHelpView}>
+            <TextInput
+              ref={input1}
+              maxLength={500}
+              value={reason}
+              onChangeText={(text: string) => {
+                cLength <= 500 ? setReason(text) : null,
+                  setCLength(text.length);
+              }}
+              style={Styles.textInputView}
+              multiline={true}
+              onSubmitEditing={() => {
+                Keyboard.dismiss();
+                props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                  msg: Strings.absence_submit_msg,
+                });
+              }}
+            />
+            <Text style={Styles.character}>{cLength}/500 Characters</Text>
+          </View>
+          {props.route.params.type === TYPE_ADD ? (
             <CustomButton
-              Text={Strings.Cancel}
-              lightBtn={true}
+              Text={Strings.Submit}
               onPress={() =>
                 props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
                   msg: Strings.absence_submit_msg,
                 })
               }
-              ButtonStyle={{ width: "45%" }}
+              ButtonStyle={{ width: "100%" }}
             />
-            <CustomButton
-              Text={Strings.Update}
-              onPress={() =>
-                props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                  msg: Strings.absence_update_msg,
-                })
-              }
-              ButtonStyle={{ width: "45%" }}
-            />
-          </View>
-        )}
+          ) : (
+            <View style={{ flexDirection: "row" }}>
+              <CustomButton
+                Text={Strings.Cancel}
+                lightBtn={true}
+                onPress={() =>
+                  props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                    msg: Strings.absence_submit_msg,
+                  })
+                }
+                ButtonStyle={{ width: "45%" }}
+              />
+              <CustomButton
+                Text={Strings.Update}
+                onPress={() =>
+                  props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                    msg: Strings.absence_update_msg,
+                  })
+                }
+                ButtonStyle={{ width: "45%" }}
+              />
+            </View>
+          )}
+        </View>
       </View>
     </KeyboardAwareScrollView>
   );

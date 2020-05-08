@@ -51,6 +51,7 @@ import LogoutModal from "../modules/Auth/Modal/LogoutModal";
 import ActivityModal from "../modules/Home/ActivityModal";
 import GalleryDetails from "../modules/PhotoLibrary/GalleryDetails";
 import CreateAbsence from "../modules/Absence/CreateAbsence";
+import ChildModal from "../Components/CustomHeader/ChildModal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -345,6 +346,11 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 name={ScreenName.CREATE_ABSENCE}
                 component={CreateAbsence}
                 options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.CHILD_MODAL}
+                component={ChildModal}
+                options={this.modal}
               />
               <RootStack.Screen
                 name={ScreenName.LOGOUT_MODAL}

@@ -70,7 +70,9 @@ export default function App(props: AppProps) {
               ].selected),
               console.warn(dataArray[index][dataIndex].selected))
             : (dispatch(updateTab(false, () => {})),
-              props.navigation.navigate(ScreenName.GALLERY_DETAILS, { item: data }))
+              props.navigation.navigate(ScreenName.GALLERY_DETAILS, {
+                item: data,
+              }))
         }
       />
     );
@@ -86,11 +88,9 @@ export default function App(props: AppProps) {
         title={Strings.Photo_Library}
         onPressBack={() => {}}
         textStyle={{ alignSelf: "flex-start", paddingLeft: vw(16) }}
+        child={true}
+        navigation={props.navigation}
       />
-      <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
-        <Text style={Styles.childHeaderText}>Alex </Text>
-        <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
-      </TouchableOpacity>
       <View style={Styles.innerView}>
         <View style={Styles.headingView}>
           <Text style={Styles.dateText}>18 Jan, 2020</Text>
@@ -134,34 +134,11 @@ export const Styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "white",
   },
-  childHeader: {
-    flexDirection: "row",
-    position: "absolute",
-    right: vw(16),
-    top: vh(43),
-    paddingVertical: vw(3),
-    paddingHorizontal: vw(10),
-    backgroundColor: "white",
-    borderRadius: vh(20),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  childHeaderText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(14),
-  },
-  dropdown: {
-    height: vh(6),
-    width: vh(11),
-    marginLeft: vw(5),
-    marginTop: vh(2),
-    tintColor: Colors.violet,
-  },
   innerView: {
     alignItems: "center",
     paddingHorizontal: vh(10),
     width: "100%",
-    paddingBottom: vh(130)
+    paddingBottom: vh(130),
   },
   headingView: {
     alignItems: "center",

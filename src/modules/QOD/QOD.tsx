@@ -41,11 +41,8 @@ export default function App(props: AppProps) {
         title={Strings.QOD_label}
         onPressBack={() => props.navigation.navigate(ScreenName.HOME)}
         textStyle={{ alignSelf: "flex-start", paddingLeft: vw(50) }}
+        child={true}
       />
-      <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
-        <Text style={Styles.childHeaderText}>Alex </Text>
-        <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
-      </TouchableOpacity>
       <View style={Styles.mainInnerView}>
         <FlatList
           showsVerticalScrollIndicator={false}
@@ -70,29 +67,6 @@ export const Styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "white",
-  },
-  childHeader: {
-    flexDirection: "row",
-    position: "absolute",
-    right: vw(16),
-    top: iPhoneX ? vh(43) : vh(33),
-    paddingVertical: vw(3),
-    paddingHorizontal: vw(10),
-    backgroundColor: "white",
-    borderRadius: vh(20),
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  childHeaderText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(14),
-  },
-  dropdown: {
-    height: vh(6),
-    width: vh(11),
-    marginLeft: vw(5),
-    marginTop: 0,
-    tintColor: Colors.violet,
   },
   mainInnerView: {
     paddingVertical: vh(8),
@@ -156,7 +130,8 @@ export const Styles = StyleSheet.create({
   },
 });
 
-const DATA: Array<any> = [
+// Dummy API data
+const DATA = [
   {
     name: "Alex Parish",
     class: "Infant A",

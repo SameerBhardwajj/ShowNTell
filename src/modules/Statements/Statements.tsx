@@ -61,20 +61,6 @@ export default function App(props: AppProps) {
     );
   };
 
-  const statementText = () => {
-    return (
-      <Text style={Styles.clearText}>
-        {Strings.Download_Statement}
-        {"\n"}
-        <Text style={Styles.statementText}>
-          {fromDate.toLocaleDateString()}
-          {Strings.to}
-          {toDate.toLocaleDateString()}
-        </Text>
-      </Text>
-    );
-  };
-
   return (
     <View style={Styles.mainView}>
       <CustomHeader

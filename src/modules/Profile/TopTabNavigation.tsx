@@ -36,6 +36,7 @@ export default function App(props: AppProps) {
       <TopTabStack.Navigator
         headerMode="none"
         initialRouteName={ScreenName.BASIC_DETAILS}
+        lazy={true}
         tabBarOptions={{
           indicatorStyle: {
             height: vw(5),
