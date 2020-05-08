@@ -178,6 +178,10 @@ const Strings = new LocalizedStrings({
     Medical_Information: "Medical Information",
     Teachers_Information: "Teacher’s Information",
     Balance: "Balance :",
+    Date_Range: "Date Range",
+    Clear: "Clear",
+    to: " to ",
+    Download_Statement: "Download Statement",
   },
 });
 export default Strings;

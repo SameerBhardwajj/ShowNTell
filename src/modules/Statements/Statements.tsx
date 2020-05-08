@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,21 +6,73 @@ import {
   StyleSheet,
   Image,
   FlatList,
+  Modal,
 } from "react-native";
 
 // custom imports
 import { ScreenName, Strings, vw, vh, Images, Colors } from "../../utils";
-import { CustomHeader } from "../../Components";
+import { CustomHeader, CustomButton } from "../../Components";
 import FlatlistStatement from "./FlatlistStatement";
+import FilterModal from "./FilterModal";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
+  const [state, setState] = useState(true);
+
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
-    return <FlatlistStatement item={item} index={index} />;
+    return <FlatlistStatement item={item} index={index} state={state} />;
+  };
+
+  const headerDate = () => {
+    return (
+      <Text style={Styles.dateText}>
+        {fromDate.toLocaleDateString()}
+        {Strings.to}
+        {toDate.toLocaleDateString()}
+      </Text>
+    );
+  };
+
+  const footerStatement = () => {
+    return (
+      <CustomButton
+        ButtonStyle={{ alignItems: "center", justifyContent: "center" }}
+        onPress={() => {}}
+        // @ts-ignore
+        Text={
+          <Text style={Styles.clearText}>
+            {Strings.Download_Statement}
+            {"\n"}
+            <Text style={Styles.statementText}>
+              {fromDate.toLocaleDateString()}
+              {Strings.to}
+              {toDate.toLocaleDateString()}
+            </Text>
+          </Text>
+        }
+      />
+    );
+  };
+
+  const statementText = () => {
+    return (
+      <Text style={Styles.clearText}>
+        {Strings.Download_Statement}
+        {"\n"}
+        <Text style={Styles.statementText}>
+          {fromDate.toLocaleDateString()}
+          {Strings.to}
+          {toDate.toLocaleDateString()}
+        </Text>
+      </Text>
+    );
   };
 
   return (
@@ -30,23 +82,53 @@ export default function App(props: AppProps) {
         onPressBack={() => props.navigation.pop()}
         textStyle={Styles.headerText}
       />
+      {state ? null : (
+        <TouchableOpacity
+          style={Styles.clearBtn}
+          activeOpacity={0.8}
+          onPress={() => setState(!state)}
+        >
+          <Text style={Styles.clearText}>{Strings.Clear}</Text>
+        </TouchableOpacity>
+      )}
       <View style={Styles.innerView}>
         <FlatList
+          ListHeaderComponent={state ? null : headerDate()}
+          showsVerticalScrollIndicator={false}
           data={DATA}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItems}
+          ListFooterComponent={state ? null : footerStatement()}
         />
       </View>
-      <TouchableOpacity
-        style={Styles.filterIcon}
-        activeOpacity={0.8}
-        onPress={() => {}}
-      >
-        <Image
-          source={Images.Elipsis_Options_statement}
-          style={Styles.filterBtn}
+      {state ? (
+        <TouchableOpacity
+          style={Styles.filterIcon}
+          activeOpacity={0.8}
+          onPress={() => setModalOpen(true)}
+        >
+          <Image
+            source={Images.Elipsis_Options_statement}
+            style={Styles.filterBtn}
+          />
+        </TouchableOpacity>
+      ) : null}
+      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+        <TouchableOpacity
+          style={Styles.topModalView}
+          onPress={() => setModalOpen(false)}
         />
-      </TouchableOpacity>
+        <FilterModal
+          setModalOpen={() => setModalOpen(false)}
+          state={() => setState(!state)}
+          fromDate={fromDate}
+          toDate={toDate}
+          getDate={(fromDate: Date, toDate: Date) => {
+            setFromDate(fromDate);
+            setToDate(toDate);
+          }}
+        />
+      </Modal>
     </View>
   );
 }
@@ -60,10 +142,30 @@ const Styles = StyleSheet.create({
     alignSelf: "flex-start",
     paddingLeft: vw(50),
   },
+  clearBtn: {
+    position: "absolute",
+    right: 0,
+    top: vh(15),
+    paddingTop: vh(30),
+    paddingHorizontal: vh(16),
+  },
+  clearText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    color: "white",
+  },
+  dateText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    paddingVertical: vh(10),
+    paddingLeft: vh(16),
+    alignSelf: "flex-start",
+  },
   innerView: {
     paddingVertical: vh(8),
     paddingHorizontal: vh(16),
     width: "100%",
+    marginBottom: vh(100),
   },
   filterIcon: {
     position: "absolute",
@@ -74,6 +176,15 @@ const Styles = StyleSheet.create({
   filterBtn: {
     height: vh(94),
     width: vh(94),
+  },
+  topModalView: {
+    width: "100%",
+    backgroundColor: Colors.modalBg2,
+  },
+  statementText: {
+    fontFamily: "Nunito-Regular",
+    fontSize: vh(14),
+    color: "white",
   },
 });
 

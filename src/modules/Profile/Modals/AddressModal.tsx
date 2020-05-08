@@ -76,7 +76,7 @@ const Styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-end",
-    backgroundColor: Colors.modalBg,
+    backgroundColor: Colors.modalBg2,
   },
   modalView: {
     backgroundColor: "white",

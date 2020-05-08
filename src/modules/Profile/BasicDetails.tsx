@@ -211,6 +211,6 @@ const Styles = StyleSheet.create({
   },
   topModalView: {
     width: "100%",
-    backgroundColor: Colors.modalBg,
+    backgroundColor: Colors.modalBg2,
   },
 });

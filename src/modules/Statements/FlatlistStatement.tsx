@@ -5,6 +5,7 @@ import { ScreenName, Strings, vw, vh, Images, Colors } from "../../utils";
 export interface AppProps {
   item: any;
   index: string;
+  state: boolean;
 }
 
 export default function App(props: AppProps) {
@@ -20,9 +21,11 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.contentView}>
         <Text style={Styles.text1}>{props.item.heading}</Text>
-        <Text style={Styles.text2}>
-          {Strings.Balance} {props.item.balance}
-        </Text>
+        {props.state ? (
+          <Text style={Styles.text2}>
+            {Strings.Balance} {props.item.balance}
+          </Text>
+        ) : null}
         <Text style={Styles.text3}>
           {props.item.date} {Strings.at} {props.item.time}
         </Text>

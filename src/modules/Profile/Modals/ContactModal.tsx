@@ -146,7 +146,7 @@ const Styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-end",
-    backgroundColor: Colors.modalBg,
+    backgroundColor: Colors.modalBg2,
   },
   modalView: {
     backgroundColor: "white",
@@ -172,6 +172,7 @@ const Styles = StyleSheet.create({
     width: "100%",
     backgroundColor: Colors.separator,
     marginVertical: vh(20),
+    alignSelf: 'center'
   },
   msgView: {
     width: "100%",
