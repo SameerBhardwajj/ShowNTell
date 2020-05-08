@@ -177,6 +177,7 @@ const Strings = new LocalizedStrings({
     Other_Number: "Other Number",
     Medical_Information: "Medical Information",
     Teachers_Information: "Teacher’s Information",
+    Balance: "Balance :",
   },
 });
 export default Strings;

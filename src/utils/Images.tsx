@@ -75,6 +75,7 @@ const Images = {
   DOB_Icon: require("../Assets/Images/DOB_Icon.png"),
   Center_Icon: require("../Assets/Images/Center_Icon.png"),
   Virus_icon: require("../Assets/Images/Virus_icon.png"),
+  Elipsis_Options_statement: require("../Assets/Images/Elipsis_Options_statement.png"),
 };
 
 export default Images;

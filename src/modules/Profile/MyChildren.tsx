@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 // custom imports
-import { vw, vh, Strings, Images, Colors, ScreenName } from "../../utils";
+import { vw, vh, Strings, Images, Colors } from "../../utils";
 
 const img =
   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg";
