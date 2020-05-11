@@ -41,6 +41,22 @@ export default function App(props: AppProps) {
     dispatch(updateLibrary(DATA));
   }, [tab]);
 
+  // React.useEffect(() => {
+  //   {
+  //     !select
+  //       ? dispatch(
+  //           updateTab(true, () => {
+  //             console.warn("tab open", tab);
+  //           })
+  //         )
+  //       : dispatch(
+  //           updateTab(false, () => {
+  //             console.warn("tab close", tab);
+  //           })
+  //         );
+  //   }
+  // }, [select]);
+
   const arrangeData = () => {
     let data = libraryData;
     // let temp: any[] = [];
@@ -124,6 +140,20 @@ export default function App(props: AppProps) {
           renderItem={renderItems}
         />
       </View>
+      {select ? (
+        <View
+          style={{
+            height: 100,
+            width: "100%",
+            backgroundColor: "white",
+            position: "absolute",
+            bottom: 0,
+            alignItems: "center",
+          }}
+        >
+          <Text>Hiiiiii</Text>
+        </View>
+      ) : null}
     </ScrollView>
   );
 }

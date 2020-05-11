@@ -50,7 +50,7 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(18),
     textAlign: "center",
-    paddingVertical: vh(50),
+    paddingVertical: vh(40),
   },
   separatorView: {
     height: vw(1),

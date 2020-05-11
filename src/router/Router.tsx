@@ -118,6 +118,10 @@ const DrawerNavigator = () => (
     drawerContent={(props: any) => <CustomDrawer {...props} />}
   >
     <DrawerStack.Screen name={ScreenName.HOME} component={Home} />
+    <DrawerStack.Screen
+      name={ScreenName.PHOTO_LIBRARY}
+      component={PhotoGallery}
+    />
   </DrawerStack.Navigator>
 );
 
@@ -127,9 +131,11 @@ export interface AppProps {
   tab: boolean;
   splash: boolean;
 }
-export default class AppComponent extends React.PureComponent<AppProps, any> {
+export default class AppComponent extends React.Component<AppProps, any> {
   constructor(props: AppProps) {
     super(props);
+    console.warn('navigation value ',props.tab);
+    
   }
 
   TabNavigator = () => (

@@ -182,6 +182,7 @@ const Strings = new LocalizedStrings({
     Clear: "Clear",
     to: " to ",
     Download_Statement: "Download Statement",
+    Class_Schedule: "Class Schedule",
   },
 });
 export default Strings;
