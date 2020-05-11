@@ -51,9 +51,10 @@ export default function App(props: AppProps) {
         <FlatList
           showsHorizontalScrollIndicator={false}
           horizontal={true}
-          ItemSeparatorComponent={() => (
-            <View style={{ paddingHorizontal: vw(20) }} />
-          )}
+          bounces={false}
+          // ItemSeparatorComponent={() => (
+          //   <View style={{ paddingHorizontal: vw(10) }} />
+          // )}
           data={DATA}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderChild}
@@ -61,6 +62,7 @@ export default function App(props: AppProps) {
         <View style={Styles.childView}>
           <FlatList
             showsVerticalScrollIndicator={false}
+            bounces={false}
             horizontal={false}
             data={DATA}
             keyExtractor={(item, index) => index.toString()}
@@ -76,7 +78,6 @@ const Styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "transparent",
-    padding: vh(16),
   },
   contactView: {
     backgroundColor: "transparent",
@@ -85,6 +86,22 @@ const Styles = StyleSheet.create({
     width: "100%",
     borderRadius: vh(8),
     marginBottom: vh(16),
+    paddingHorizontal: vw(16),
+  },
+  imageView: {
+    height: vh(80),
+    width: vh(80),
+    borderRadius: vh(40),
+    borderColor: Colors.violet,
+    marginHorizontal: vw(15),
+    marginTop: vh(10),
+  },
+  childView: {
+    width: "100%",
+    backgroundColor: "white",
+    margin: vh(16),
+    padding: vh(16),
+    borderRadius: vw(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -93,19 +110,6 @@ const Styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 4.65,
     elevation: 7,
-  },
-  imageView: {
-    height: vh(80),
-    width: vh(80),
-    borderRadius: vh(40),
-    borderColor: Colors.violet,
-  },
-  childView: {
-    width: "100%",
-    backgroundColor: "white",
-    marginTop: vh(20),
-    padding: vh(16),
-    borderRadius: vw(10),
   },
   itemView: {
     flexDirection: "row",

@@ -45,14 +45,14 @@ export default function App(props: AppProps) {
     const unsubscribe =
       (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
         dispatch(
-          updateTab(tab, () => {
+          updateTab(true, () => {
             console.warn("drawer open", tab);
           })
         );
       }),
       props.navigation.addListener(DRAWER_CLOSE, (e: any) => {
         dispatch(
-          updateTab(!tab, () => {
+          updateTab(false, () => {
             console.warn("drawer close", tab);
           })
         );
