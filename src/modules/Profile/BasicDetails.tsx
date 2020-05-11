@@ -22,11 +22,11 @@ export default function App(props: AppProps) {
   const [receiveEmail, setReceiveEmail] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState(1);
-  const [phone1, setPhone1] = useState("");
-  const [phone2, setPhone2] = useState("");
-  const [phone3, setPhone3] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
+  const [phone1, setPhone1] = useState("9876543210");
+  const [phone2, setPhone2] = useState("9876543210");
+  const [phone3, setPhone3] = useState("9876543210");
+  const [address, setAddress] = useState("555 Main Street, Willington, FL-315");
+  const [email, setEmail] = useState("Bob.Parish@gmail.com");
 
   return (
     <View style={Styles.mainView}>

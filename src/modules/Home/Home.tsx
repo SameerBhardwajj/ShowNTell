@@ -83,7 +83,11 @@ export default function App(props: AppProps) {
             >
               <Image source={Images.Hamburger} style={Styles.hamburgerImg} />
             </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={Styles.childHeader}
+              onPress={() => props.navigation.navigate(ScreenName.CHILD_MODAL)}
+            >
               <Text style={Styles.childHeaderText}>Alex </Text>
               <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
             </TouchableOpacity>

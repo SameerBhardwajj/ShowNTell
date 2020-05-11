@@ -66,7 +66,11 @@ export default function App(props: AppProps) {
         >
           <Image source={Images.download_Icon} style={Styles.btn} />
         </TouchableOpacity>
-        <TouchableOpacity style={Styles.btnView}>
+        <TouchableOpacity
+          style={Styles.btnView}
+          activeOpacity={0.8}
+          onPress={() => CustomToast()}
+        >
           <Image
             source={Images.Delete_Icon}
             style={[Styles.btn, { width: vh(21) }]}

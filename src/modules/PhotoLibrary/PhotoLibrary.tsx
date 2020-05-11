@@ -39,7 +39,12 @@ export default function App(props: AppProps) {
 
   useEffect(() => {
     dispatch(updateLibrary(DATA));
+    dispatch(updateTab(true, () => {}));
   }, [tab]);
+
+  // useEffect(() => {
+  //   dispatch(updateLibrary(DATA));
+  // }, [tab]);
 
   // React.useEffect(() => {
   //   {
@@ -140,20 +145,6 @@ export default function App(props: AppProps) {
           renderItem={renderItems}
         />
       </View>
-      {select ? (
-        <View
-          style={{
-            height: 100,
-            width: "100%",
-            backgroundColor: "white",
-            position: "absolute",
-            bottom: 0,
-            alignItems: "center",
-          }}
-        >
-          <Text>Hiiiiii</Text>
-        </View>
-      ) : null}
     </ScrollView>
   );
 }

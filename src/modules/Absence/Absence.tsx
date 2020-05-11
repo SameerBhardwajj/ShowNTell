@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -8,11 +8,13 @@ import {
   ScrollView,
   FlatList,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { CustomHeader } from "../../Components";
 import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 import AbsenceFlatlist from "./AbsenceFlatlist";
+import { updateTab } from "../Home/action";
 
 const TYPE_ADD = "add";
 const TYPE_UPDATE = "update";
@@ -22,6 +24,15 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
+  const { tab } = useSelector((state: { Home: any }) => ({
+    tab: state.Home.tab,
+  }));
+
+  useEffect(() => {
+    dispatch(updateTab(true, () => {}));
+  }, []);
+
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
     return (

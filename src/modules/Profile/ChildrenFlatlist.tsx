@@ -3,6 +3,9 @@ import { View, Text, Image, StyleSheet } from "react-native";
 
 // custom imports
 import { vw, vh, Strings, Images, Colors } from "../../utils";
+
+const teacher =
+  "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
 export interface AppProps {
   item: any;
   index: string;
@@ -30,19 +33,17 @@ export default function App(props: AppProps) {
         <View style={Styles.separatorView} />
         <Text style={Styles.DOBText2}>{Strings.Medical_Information}</Text>
         <View>
-          <View style={Styles.itemView}>
-            <Image source={Images.Virus_icon} />
-            <Text style={Styles.DOBText}>Asthama</Text>
-          </View>
-          <View style={Styles.itemView}>
-            <Image source={Images.Virus_icon} />
-            <Text style={Styles.DOBText}>Skin Rashes</Text>
-          </View>
+          {item.disease.map((data: any) => (
+            <View style={Styles.itemView}>
+              <Image source={Images.Virus_icon} />
+              <Text style={Styles.DOBText}>{data}</Text>
+            </View>
+          ))}
         </View>
         <View style={Styles.separatorView} />
         <Text style={Styles.DOBText2}>{Strings.Teachers_Information}</Text>
         <View style={Styles.avatarView}>
-          <Image source={Images.any} style={Styles.childAvatar} />
+          <Image source={{ uri: teacher }} style={Styles.childAvatar} />
           <View style={Styles.centerNameView}>
             <Text style={Styles.name}>{item.teacherName}</Text>
             <Text style={Styles.classText}>{item.teacherClass}</Text>

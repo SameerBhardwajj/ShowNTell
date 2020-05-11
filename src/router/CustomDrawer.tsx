@@ -22,13 +22,14 @@ export default function App(props: AppProps) {
     return (
       <DrawerFlatlist
         item={item}
-        onPress={(path: string) =>
+        onPress={(path: string) => {
+          props.navigation.closeDrawer();
           path === ScreenName.NEED_HELP
             ? props.navigation.navigate(path, {
                 path: ScreenName.TAB_NAVIGATOR,
               })
-            : props.navigation.navigate(path)
-        }
+            : props.navigation.navigate(path);
+        }}
       />
     );
   };
@@ -43,7 +44,10 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           style={Styles.profileView}
           activeOpacity={0.8}
-          onPress={() => props.navigation.navigate(ScreenName.PROFILE)}
+          onPress={() => {
+            props.navigation.closeDrawer();
+            props.navigation.navigate(ScreenName.PROFILE);
+          }}
         >
           <Image source={Images.any} style={Styles.img} />
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>

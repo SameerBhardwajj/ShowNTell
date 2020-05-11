@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import DatePicker from "react-native-date-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { vh, Colors, Images, vw, Strings } from "../../utils";
 import { CustomButton, CustomHeader } from "../../Components";
+import { updateTab } from "../Home/action";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 
@@ -28,6 +29,15 @@ export default function App(props: AppProps) {
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(new Date());
 
+  const dispatch = useDispatch();
+  const { tab } = useSelector((state: { Home: any }) => ({
+    tab: state.Home.tab,
+  }));
+
+  useEffect(() => {
+    dispatch(updateTab(true, () => {}));
+  }, []);
+
   return (
     <View style={Styles.mainView}>
       <CustomHeader
@@ -35,6 +45,7 @@ export default function App(props: AppProps) {
         title={Strings.Attendance}
         onPressBack={() => {}}
         child={true}
+        navigation={props.navigation}
       />
       <View style={Styles.viewByView}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>

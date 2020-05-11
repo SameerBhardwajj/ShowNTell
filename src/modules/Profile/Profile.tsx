@@ -15,6 +15,8 @@ import { CustomHeader } from "../../Components";
 import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 import TopTabNavigation from "./TopTabNavigation";
 
+const img =
+  "https://media.istockphoto.com/photos/portrait-of-smiling-handsome-man-in-blue-tshirt-standing-with-crossed-picture-id1045886560?k=6&m=1045886560&s=612x612&w=0&h=hXrxai1QKrfdqWdORI4TZ-M0ceCVakt4o6532vHaS3I=";
 export interface AppProps {
   navigation?: any;
 }
@@ -46,7 +48,7 @@ export default function App(props: AppProps) {
           <View>
             <Image
               source={
-                profilePic.length === 0 ? Images.any : { uri: profilePic }
+                profilePic.length === 0 ? { uri: img } : { uri: profilePic }
               }
               style={Styles.profilePic}
             />

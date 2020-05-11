@@ -6,7 +6,8 @@ import { CustomButton } from "../../Components";
 const LUNCH = "Lunch";
 const ANNOUNCEMENT = "Announcement";
 const QOA = "QOA";
-
+const child =
+  "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80";
 export interface AppProps {
   navigation?: any;
   item: any;
@@ -19,10 +20,10 @@ export default function App(props: AppProps) {
       {/* Lunch View */}
       {item.activityType === LUNCH ? (
         <View style={Styles.mainInnerView}>
-          <Image source={Images.any} style={Styles.imgView} />
+          <Image source={{uri: child}} style={Styles.imgView} />
           <View style={Styles.lunchView}>
             <View style={Styles.nameView}>
-              <Image source={Images.any} style={Styles.childAvatar} />
+              <Image source={{uri: child}} style={Styles.childAvatar} />
               <View style={Styles.centerNameView}>
                 <TouchableOpacity
                   activeOpacity={0.8}
@@ -80,7 +81,7 @@ export default function App(props: AppProps) {
       {item.activityType === QOA ? (
         <View style={[Styles.mainInnerView, Styles.viewQOD]}>
           <View style={{ flexDirection: "row" }}>
-            <Image source={Images.any} style={Styles.childAvatar} />
+            <Image source={{uri: child}} style={Styles.childAvatar} />
             <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
               <Text style={Styles.name}>{item.name}</Text>
               <Text style={Styles.classText}>{item.class}</Text>

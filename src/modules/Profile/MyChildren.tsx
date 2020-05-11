@@ -11,13 +11,10 @@ import {
 import { vw, vh, Colors } from "../../utils";
 import ChildrenFlatlist from "./ChildrenFlatlist";
 
-const img =
-  "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg";
-
 export interface AppProps {}
 
 export default function App(props: AppProps) {
-  const [currentChild, setCurrentChild] = useState(1);
+  const [currentChild, setCurrentChild] = useState(0);
 
   const renderChild = (rowData: any) => {
     const { item, index } = rowData;
@@ -167,47 +164,52 @@ const Styles = StyleSheet.create({
 // API Data
 const DATA = [
   {
-    img: img,
+    img:
+      "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
     name: "Alex Parish",
     dob: "February 21, 2016",
     class: "Infant - A",
-    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    disease: ["Asthama", "Skin Rashes", "Food Poisioning"],
     teacherName: "Natasha Jacobs",
     teacherClass: "Infant A",
   },
   {
-    img: img,
+    img:
+      "https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
     name: "Alex",
     dob: "February 21, 2016",
     class: "Infant - A",
-    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    disease: ["Asthama", "Skin Rashes"],
     teacherName: "Natasha Jacobs",
     teacherClass: "Infant A",
   },
   {
-    img: img,
+    img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQfHtQL_rkve2SB0gLi7Ev37CWhwa2gEpmKwuuMsjgGG7zsx1lF&usqp=CAU",
     name: "Parish",
     dob: "February 21, 2016",
     class: "Infant - A",
-    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    disease: ["Asthama", "Skin Rashes"],
     teacherName: "Natasha Jacobs",
     teacherClass: "Infant A",
   },
   {
-    img: img,
+    img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRumf07Mflse2OBnmdZcrB_u30MamZw-KnJVVluhdFzkz9y_Zg4&usqp=CAU",
     name: "Sam",
     dob: "February 21, 2016",
     class: "Infant - A",
-    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    disease: ["Asthama", "Skin Rashes"],
     teacherName: "Natasha Jacobs",
     teacherClass: "Infant A",
   },
   {
-    img: img,
+    img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgWrsvt5Ch52QWa-rO1d6rr14WXY8Wf5X_FBI4YYg5RX5FTrW7&usqp=CAU",
     name: "Raj",
     dob: "February 21, 2016",
     class: "Infant - A",
-    disease: [{ disease: "Asthama" }, { disease: "Skin Rashes" }],
+    disease: ["Asthama", "Skin Rashes"],
     teacherName: "Natasha Jacobs",
     teacherClass: "Infant A",
   },

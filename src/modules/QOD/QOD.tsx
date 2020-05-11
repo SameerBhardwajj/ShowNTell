@@ -28,7 +28,9 @@ export default function App(props: AppProps) {
     tab: state.Home.tab,
   }));
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch(updateTab(true, () => {}));
+  }, []);
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;

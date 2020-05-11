@@ -2,6 +2,8 @@ import * as React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Strings, vw, vh, Images, Colors } from "../../utils";
 
+const child =
+  "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80";
 export interface AppProps {
   item: any;
   index: string;
@@ -23,7 +25,7 @@ export default function App(props: AppProps) {
         </View>
       </View>
       <View style={Styles.avatarView}>
-        <Image source={Images.any} style={Styles.childAvatar} />
+        <Image source={{ uri: child }} style={Styles.childAvatar} />
         <View style={Styles.centerNameView}>
           <Text style={Styles.name}>{props.item.name}</Text>
           <Text style={Styles.classText}>{props.item.class}</Text>

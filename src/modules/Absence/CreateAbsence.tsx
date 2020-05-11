@@ -157,9 +157,7 @@ export default function App(props: AppProps) {
                 Text={Strings.Cancel}
                 lightBtn={true}
                 onPress={() =>
-                  props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                    msg: Strings.absence_submit_msg,
-                  })
+                  props.navigation.pop()
                 }
                 ButtonStyle={{ width: "45%" }}
               />
