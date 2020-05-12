@@ -9,6 +9,7 @@ export interface AppProps {
   data: Array<any>;
   onChangeText: Function;
   currentText: string;
+  dropDownView?: Object;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -16,6 +17,8 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
     <View style={[Styles.mainView, props.viewStyle]}>
       <Text style={Styles.titleTxt}>{props.titleText}</Text>
       <Dropdown
+        rippleOpacity={0}
+        rippleDuration={0}
         renderBase={() => {
           return (
             <View style={Styles.inputTxtView}>
@@ -24,6 +27,11 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
             </View>
           );
         }}
+        pickerStyle={[
+          { width: "85%", marginHorizontal: vw(22) },
+          props.dropDownView,
+        ]}
+        containerStyle={{ width: "100%" }}
         fontSize={vh(16)}
         data={props.data}
         onChangeText={(value) => props.onChangeText(value)}
@@ -47,8 +55,7 @@ const Styles = StyleSheet.create({
   inputTxtView: {
     flexDirection: "row",
     alignItems: "center",
-    alignSelf: "center",
-    width: "81%",
+    width: "100%",
     justifyContent: "space-between",
     backgroundColor: Colors.veryLightGrey,
     height: vh(48),

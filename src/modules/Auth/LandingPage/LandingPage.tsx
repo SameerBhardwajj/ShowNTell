@@ -40,23 +40,23 @@ export default function App(props: AppProps) {
 
   // Testimonial auto scroll -------------
   const autoScroll = () => {
-    scroll
-      ? setTimeout(() => {
-          if (currentIndex < DATA.length - 1) {
-            setCurrentIndex(currentIndex + 1);
-            flatListRef.current.scrollToIndex({
-              index: currentIndex,
-              animated: true,
-            });
-          } else {
-            setCurrentIndex(0);
-            flatListRef.current.scrollToIndex({
-              index: currentIndex,
-              animated: true,
-            });
-          }
-        }, 5000)
-      : null;
+    // scroll
+    //   ? setTimeout(() => {
+    //       if (currentIndex < DATA.length - 1) {
+    //         setCurrentIndex(currentIndex + 1);
+    //         flatListRef.current.scrollToIndex({
+    //           index: currentIndex,
+    //           animated: true,
+    //         });
+    //       } else {
+    //         setCurrentIndex(0);
+    //         flatListRef.current.scrollToIndex({
+    //           index: currentIndex,
+    //           animated: true,
+    //         });
+    //       }
+    //     }, 5000)
+    //   : null;
   };
 
   return (

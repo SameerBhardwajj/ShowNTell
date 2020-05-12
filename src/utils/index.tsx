@@ -6,6 +6,7 @@ import { validate } from "./Constants";
 import ScreenName from "./ScreenName";
 import ConstantName from "./ConstantName";
 import Action from "./Action";
+import CommonFunctions from "./CommonFunctions";
 import {
   postApiCall,
   getApiCall,
@@ -30,4 +31,5 @@ export {
   ScreenName,
   ConstantName,
   Action,
+  CommonFunctions,
 };

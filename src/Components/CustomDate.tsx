@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { vh, Colors, vw, Images, Strings } from "../utils";
 import DatePicker from "react-native-date-picker";
+import { CommonFunctions } from "../utils";
 
 export interface AppProps {
   heading: string;
@@ -27,7 +28,9 @@ export default function App(props: AppProps) {
         activeOpacity={0.8}
         onPress={() => setModalOpen(true)}
       >
-        <Text style={Styles.dobText}>{date.toLocaleDateString()}</Text>
+        <Text style={Styles.dobText}>
+          {CommonFunctions.DateFormatter(date)}
+        </Text>
         <Image source={Images.Calendar_Icon} style={Styles.iconImage} />
       </TouchableOpacity>
       <Modal animationType="slide" transparent={true} visible={modalOpen}>

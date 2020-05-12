@@ -1,6 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TextInput,
+  Platform,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { getDeviceName } from "react-native-device-info";
 
 // custom imports
 import {
@@ -21,9 +29,7 @@ import {
 } from "../../utils";
 
 const SELECT_SCHOOL = "Select School";
-const IPHONE7 = "Device\nIphone 7+";
-const IOS = "IOS\nV 13.3.1";
-const APPLICATION = "Application\nV 2.0.8";
+const APPLICATION = "Application\nV 1.0.0";
 export interface AppProps {
   navigation?: any;
   route?: any;
@@ -40,9 +46,29 @@ export default function App(props: AppProps) {
   const [cLength, setCLength] = useState(0);
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkName, setCheckName] = useState(true);
+  const [device, setDevice] = useState("");
 
   const disable = () => {
     return school !== SELECT_SCHOOL && email.length !== 0 && name.length !== 0;
+  };
+
+  React.useEffect(() => {
+    getDeviceName()
+      .then((deviceName) => {
+        setDevice(deviceName);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  const check = () => {
+    validate(ConstantName.NAME, name)
+      ? validate(ConstantName.EMAIL, email)
+        ? props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+            path: props.route.params.path,
+            msg: Strings.ticket_submitted,
+          })
+        : setCheckEmail(false)
+      : setCheckName(false);
   };
 
   return (
@@ -63,6 +89,7 @@ export default function App(props: AppProps) {
         />
         <View style={Styles.innerView}>
           <View style={Styles.deviceMainView}>
+            {/* Device -------------------- */}
             <View
               style={[
                 Styles.deviceView,
@@ -71,9 +98,12 @@ export default function App(props: AppProps) {
             >
               <Image source={Images.Phone_Icon} />
               <Text style={[Styles.text, { color: Colors.green }]}>
-                {IPHONE7}
+                {Strings.Device}
+                {"\n"}
+                {device}
               </Text>
             </View>
+            {/* Version -------------------- */}
             <View
               style={[Styles.deviceView, { backgroundColor: Colors.lightPink }]}
             >
@@ -81,8 +111,13 @@ export default function App(props: AppProps) {
                 source={Images.Phone_Icon}
                 style={{ tintColor: Colors.pink }}
               />
-              <Text style={[Styles.text, { color: Colors.pink }]}>{IOS}</Text>
+              <Text style={[Styles.text, { color: Colors.pink }]}>
+                {Platform.OS.toUpperCase()}
+                {"\nV "}
+                {Platform.Version.toString()}
+              </Text>
             </View>
+            {/* Application -------------------- */}
             <View
               style={[
                 Styles.deviceView,
@@ -98,86 +133,76 @@ export default function App(props: AppProps) {
               </Text>
             </View>
           </View>
-          <CustomMenuList
-            titleText={Strings.School_Name}
-            onChangeText={(text: string) => setSchool(text)}
-            currentText={school}
-            viewStyle={Styles.menuView}
-            data={DATA}
-          />
-          <CustomInputText
-            ref={input1}
-            value={name}
-            onChangeText={(text: string) => {
-              checkName ? null : setCheckName(true), setName(text);
-            }}
-            onSubmitEditing={() => {
-              validate(ConstantName.NAME, name)
-                ? input2.current.focus()
-                : setCheckName(false);
-            }}
-            titleText={Strings.Parent_Name}
-            check={checkName}
-            incorrectText={Strings.Parent_Name}
-          />
-          <CustomInputText
-            ref={input2}
-            mainViewStyle={Styles.menuView}
-            value={email}
-            onChangeText={(text: string) => {
-              checkEmail ? null : setCheckEmail(true), setEmail(text);
-            }}
-            onSubmitEditing={() => {
-              validate(ConstantName.EMAIL, email)
-                ? input3.current.focus()
-                : setCheckEmail(false);
-            }}
-            titleText={Strings.Parent_email}
-            check={checkEmail}
-            incorrectText={Strings.Parent_email}
-          />
-          <View style={Styles.helpView}>
-            <Text style={Styles.titleTxt}>{Strings.How_can_we_help_you}</Text>
-            <View style={Styles.innerHelpView}>
-              <TextInput
-                ref={input3}
-                maxLength={500}
-                value={help}
-                onChangeText={(text: string) => {
-                  cLength <= 500 ? setHelp(text) : null,
-                    setCLength(text.length);
-                }}
-                style={Styles.textInputView}
-                multiline={true}
-                onSubmitEditing={() =>
-                  disable()
-                    ? props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                        path: props.route.params.path,
-                        msg: Strings.ticket_submitted,
-                      })
-                    : null
-                }
-              />
-              <Text style={Styles.character}>{cLength}/500 Characters</Text>
+          <View style={{ width: "100%" }}>
+            <CustomMenuList
+              titleText={Strings.School_Name}
+              onChangeText={(text: string) => setSchool(text)}
+              currentText={school}
+              viewStyle={Styles.menuView}
+              data={DATA}
+            />
+            <CustomInputText
+              ref={input1}
+              value={name}
+              onChangeText={(text: string) => {
+                checkName ? null : setCheckName(true), setName(text);
+              }}
+              onSubmitEditing={() => {
+                validate(ConstantName.NAME, name)
+                  ? input2.current.focus()
+                  : setCheckName(false);
+              }}
+              titleText={Strings.Parent_Name}
+              check={checkName}
+              incorrectText={Strings.Name_error}
+            />
+            <CustomInputText
+              ref={input2}
+              mainViewStyle={Styles.menuView}
+              value={email}
+              onChangeText={(text: string) => {
+                checkEmail ? null : setCheckEmail(true), setEmail(text);
+              }}
+              onSubmitEditing={() => {
+                validate(ConstantName.EMAIL, email)
+                  ? input3.current.focus()
+                  : setCheckEmail(false);
+              }}
+              titleText={Strings.Parent_email}
+              check={checkEmail}
+              incorrectText={Strings.Email_error}
+            />
+            <View style={Styles.helpView}>
+              <Text style={Styles.titleTxt}>{Strings.How_can_we_help_you}</Text>
+              <View style={Styles.innerHelpView}>
+                <TextInput
+                  ref={input3}
+                  maxLength={500}
+                  value={help}
+                  onChangeText={(text: string) => {
+                    cLength <= 500 ? setHelp(text) : null,
+                      setCLength(text.length);
+                  }}
+                  style={Styles.textInputView}
+                  multiline={true}
+                  onSubmitEditing={() => (disable() ? check() : null)}
+                />
+                <Text style={Styles.character}>{cLength}/500 Characters</Text>
+              </View>
             </View>
+            <CustomButton
+              Text={Strings.Submit}
+              onPress={() => (disable() ? check() : null)}
+              activeOpacity={disable() ? 0.8 : 1}
+              ButtonStyle={{
+                width: "100%",
+                marginTop: vh(30),
+                backgroundColor: disable()
+                  ? Colors.violet
+                  : Colors.disableViolet,
+              }}
+            />
           </View>
-          <CustomButton
-            Text={Strings.Submit}
-            onPress={() =>
-              disable()
-                ? props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                    path: props.route.params.path,
-                    msg: Strings.ticket_submitted,
-                  })
-                : null
-            }
-            activeOpacity={disable() ? 0.8 : 1}
-            ButtonStyle={{
-              width: "100%",
-              marginTop: vh(30),
-              backgroundColor: disable() ? Colors.violet : Colors.disableViolet,
-            }}
-          />
         </View>
       </View>
     </KeyboardAwareScrollView>
@@ -198,7 +223,7 @@ const Styles = StyleSheet.create({
   deviceMainView: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
     width: "100%",
   },
   deviceView: {
@@ -207,6 +232,7 @@ const Styles = StyleSheet.create({
     padding: vh(10),
     width: "30%",
     borderRadius: vh(8),
+    height: vh(106),
   },
   text: {
     paddingTop: vh(14),

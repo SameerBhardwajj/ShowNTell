@@ -5,7 +5,8 @@ const reg = (regex: string) => {
     case ConstantName.EMAIL:
       return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     case ConstantName.PASSWORD:
-      return /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+      // return /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+      return /^[0-9a-zA-Z]{6,12}$/;
     case ConstantName.PHONE:
       return /^[1-9]{1}[0-9]{6,14}$/;
     case ConstantName.NAME:

@@ -25,6 +25,7 @@ import {
   validate,
   ScreenName,
   ConstantName,
+  CommonFunctions,
 } from "../../../utils";
 
 const US = "US";
@@ -48,15 +49,15 @@ export default function App(props: AppProps) {
   const [zipcode, setZipcode] = useState("");
   const [email, setEmail] = useState("");
   const [c1name, setC1name] = useState("");
-  const [c1DOB, setc1DOB] = useState("");
+  const [c1DOB, setc1DOB] = useState();
   const [c2name, setC2name] = useState("");
-  const [c2DOB, setc2DOB] = useState("");
+  const [c2DOB, setc2DOB] = useState();
   const [c3name, setC3name] = useState("");
-  const [c3DOB, setc3DOB] = useState("");
+  const [c3DOB, setc3DOB] = useState();
   const [c4name, setC4name] = useState("");
-  const [c4DOB, setc4DOB] = useState("");
+  const [c4DOB, setc4DOB] = useState();
   const [c5name, setC5name] = useState("");
-  const [c5DOB, setc5DOB] = useState("");
+  const [c5DOB, setc5DOB] = useState();
   const [checkpname, setCheckPname] = useState(true);
   const [checkphone, setCheckphone] = useState(true);
   const [checkzipcode, setCheckzipcode] = useState(true);
@@ -117,7 +118,7 @@ export default function App(props: AppProps) {
                 : setCheckPname(false);
             }}
             check={checkpname}
-            incorrectText={Strings.Parent_Name}
+            incorrectText={Strings.Name_error}
           />
           {/* Parent's phone no.----------- */}
           <CustomPhoneField
@@ -149,7 +150,7 @@ export default function App(props: AppProps) {
                 : setCheckzipcode(false);
             }}
             check={checkzipcode}
-            incorrectText={Strings.Zip_Code}
+            incorrectText={Strings.Zipcode_error}
             mainViewStyle={Styles.textInput}
             keyboardType={"phone-pad"}
           />
@@ -167,7 +168,7 @@ export default function App(props: AppProps) {
                 : setCheckemail(false);
             }}
             check={checkemail}
-            incorrectText={Strings.Parent_email}
+            incorrectText={Strings.Email_error}
             mainViewStyle={Styles.textInput}
             keyboardType={"email-address"}
           />
@@ -185,7 +186,7 @@ export default function App(props: AppProps) {
                 : setCheckc1name(false);
             }}
             check={checkc1name}
-            incorrectText={Strings.Name}
+            incorrectText={Strings.Name_error}
             mainViewStyle={Styles.textInput}
           />
           {/* 1st child DOB -------------- */}
@@ -218,7 +219,7 @@ export default function App(props: AppProps) {
                     : setCheckc2name(false);
                 }}
                 check={checkc2name}
-                incorrectText={Strings.Name}
+                incorrectText={Strings.Name_error}
                 mainViewStyle={Styles.textInput}
               />
               {/* 2nd child DOB -------------- */}
@@ -252,7 +253,7 @@ export default function App(props: AppProps) {
                     : setCheckc3name(false);
                 }}
                 check={checkc3name}
-                incorrectText={Strings.Name}
+                incorrectText={Strings.Name_error}
                 mainViewStyle={Styles.textInput}
               />
               {/* 3rd child DOB -------------- */}
@@ -286,7 +287,7 @@ export default function App(props: AppProps) {
                     : setCheckc4name(false);
                 }}
                 check={checkc4name}
-                incorrectText={Strings.Name}
+                incorrectText={Strings.Name_error}
                 mainViewStyle={Styles.textInput}
               />
               {/* 4th child DOB -------------- */}
@@ -320,7 +321,7 @@ export default function App(props: AppProps) {
                     : setCheckc5name(false);
                 }}
                 check={checkc5name}
-                incorrectText={Strings.Name}
+                incorrectText={Strings.Name_error}
                 mainViewStyle={Styles.textInput}
               />
               {/* 5th child DOB -------------- */}
@@ -415,15 +416,15 @@ export default function App(props: AppProps) {
                 onDateChange={(text: Date) => {
                   setDate(text);
                   currentChild === 1
-                    ? setc1DOB(text.toLocaleDateString())
+                    ? setc1DOB(CommonFunctions.DateFormatter(text))
                     : currentChild === 2
-                    ? setc2DOB(text.toLocaleDateString())
+                    ? setc2DOB(CommonFunctions.DateFormatter(text))
                     : currentChild === 3
-                    ? setc3DOB(text.toLocaleDateString())
+                    ? setc3DOB(CommonFunctions.DateFormatter(text))
                     : currentChild === 4
-                    ? setc4DOB(text.toLocaleDateString())
+                    ? setc4DOB(CommonFunctions.DateFormatter(text))
                     : currentChild === 5
-                    ? setc5DOB(text.toLocaleDateString())
+                    ? setc5DOB(CommonFunctions.DateFormatter(text))
                     : null;
                 }}
               />

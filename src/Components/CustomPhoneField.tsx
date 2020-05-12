@@ -37,10 +37,7 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
           {props.title === undefined ? Strings.parentPhone : props.title}
         </Text>
         {props.check ? null : (
-          <Text style={Styles.incorrectText}>
-            {Strings.phone_number}
-            {Strings.is_incorrect}
-          </Text>
+          <Text style={Styles.incorrectText}>{Strings.Phone_error}</Text>
         )}
       </View>
       <View
@@ -105,8 +102,7 @@ const Styles = StyleSheet.create({
     height: vh(48),
     fontSize: vh(16),
     fontFamily: "Nunito-SemiBold",
-    paddingHorizontal: vw(25),
-    width: "85%",
+    width: "93%",
   },
   incorrectText: {
     fontFamily: "Nunito-Medium",

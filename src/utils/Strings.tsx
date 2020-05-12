@@ -183,6 +183,14 @@ const Strings = new LocalizedStrings({
     to: " to ",
     Download_Statement: "Download Statement",
     Class_Schedule: "Class Schedule",
+    Email_error: "Email is Incorrect",
+    Password_length: "Password must contain 6-12\ncharacters",
+    Password_mismatch: "Password Mismatch",
+    Phone_error: "Phone no. is incorrect",
+    Name_error: "Name is Incorrect",
+    Zipcode_error: "Zipcode is Incorrect",
+    Device: "Device",
+    Application: "Application",
   },
 });
 export default Strings;

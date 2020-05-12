@@ -48,12 +48,11 @@ export default function App(props: AppProps) {
                 setEmail(text);
             }}
             check={checkEmail}
-            incorrectText={Strings.Email}
+            incorrectText={Strings.Email_error}
             autoFocus={true}
             onSubmitEditing={() => {
               access
-                ? (setEmail(""),
-                  setAccess(false),
+                ? (setAccess(false),
                   props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE, {
                     email: email,
                   }))
@@ -66,8 +65,7 @@ export default function App(props: AppProps) {
               activeOpacity={access ? 0.8 : 1}
               onPress={() => {
                 access
-                  ? (setEmail(""),
-                    setAccess(false),
+                  ? (setAccess(false),
                     props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE, {
                       email: email,
                     }))

@@ -74,22 +74,24 @@ export default function App(props: AppProps) {
           <Image source={Images.Location_icon} />
           <Text style={Styles.myLocText}>{Strings.Use_my_location}</Text>
         </TouchableOpacity>
-        {showRes ? (
-          <FlatList
-            data={DATA}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItemResult}
-          />
-        ) : (
-          <FlatList
-            ListHeaderComponent={
-              <Text style={Styles.headerText}>{Strings.Recent_Searches}</Text>
-            }
-            data={DATA}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItems}
-          />
-        )}
+        <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
+          {showRes ? (
+            <FlatList
+              data={DATA}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItemResult}
+            />
+          ) : (
+            <FlatList
+              ListHeaderComponent={
+                <Text style={Styles.headerText}>{Strings.Recent_Searches}</Text>
+              }
+              data={DATA}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItems}
+            />
+          )}
+        </View>
       </View>
     </View>
   );

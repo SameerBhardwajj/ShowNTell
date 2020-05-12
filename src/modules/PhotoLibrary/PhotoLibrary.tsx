@@ -7,13 +7,18 @@ import {
   Image,
   ScrollView,
   FlatList,
+  Linking,
+  Platform,
+  PermissionsAndroid,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import RNFetchBlob from "rn-fetch-blob";
+import CameraRoll from "@react-native-community/cameraroll";
 
 // custom imports
 import { updateTab } from "../Home/action";
 import { updateLibrary } from "./action";
-import { CustomHeader } from "../../Components";
+import { CustomHeader, CustomToast } from "../../Components";
 import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 import GalleryFlatlist from "./GalleryFlatlist";
 
@@ -42,35 +47,12 @@ export default function App(props: AppProps) {
     dispatch(updateTab(true, () => {}));
   }, [tab]);
 
-  // useEffect(() => {
-  //   dispatch(updateLibrary(DATA));
-  // }, [tab]);
-
-  // React.useEffect(() => {
-  //   {
-  //     !select
-  //       ? dispatch(
-  //           updateTab(true, () => {
-  //             console.warn("tab open", tab);
-  //           })
-  //         )
-  //       : dispatch(
-  //           updateTab(false, () => {
-  //             console.warn("tab close", tab);
-  //           })
-  //         );
-  //   }
-  // }, [select]);
-
   const arrangeData = () => {
     let data = libraryData;
-    // let temp: any[] = [];
     dataArray = new Array();
     for (let i = 0; i < data.length; i++) {
       dataArray.push([data[i], data[(i += 1)], data[(i += 1)]]);
-      // console.warn(dataArray);
     }
-    // dataArray = temp;
     console.log("data ", dataArray);
     return dataArray;
   };
@@ -98,11 +80,43 @@ export default function App(props: AppProps) {
       />
     );
   };
+
+  const saveToCameraRoll = async (image: string) => {
+    let permission;
+    if (Platform.OS === "android") {
+      permission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      );
+      if (!permission) {
+        Linking.openSettings();
+      }
+      if (permission === PermissionsAndroid.RESULTS.GRANTED) {
+        RNFetchBlob.config({
+          fileCache: true,
+          appendExt: "jpg",
+        })
+          .fetch("GET", image)
+          .then((res) => {
+            CameraRoll.saveToCameraRoll(res.path())
+              .then(() => CustomToast(Strings.image_saved))
+              .catch((err) => CustomToast(err));
+          });
+      }
+    } else {
+      CameraRoll.saveToCameraRoll(image)
+        .then(() => CustomToast(Strings.image_saved))
+        .catch((error) => CustomToast(error));
+    }
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       bounces={false}
-      contentContainerStyle={Styles.mainView}
+      contentContainerStyle={[
+        Styles.mainView,
+        { paddingBottom: select ? vh(200) : vh(130) },
+      ]}
     >
       <CustomHeader
         hideBackButton={true}
@@ -145,6 +159,30 @@ export default function App(props: AppProps) {
           renderItem={renderItems}
         />
       </View>
+      {select ? (
+        <View style={Styles.bottomMain}>
+          <View style={Styles.bottomView}>
+            <TouchableOpacity
+              style={Styles.btnView}
+              activeOpacity={0.8}
+              onPress={() => CustomToast()}
+            >
+              <Image
+                source={Images.Delete_Icon}
+                style={[Styles.btn, { width: vh(21) }]}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={Styles.btnView}
+              activeOpacity={0.8}
+              // onPress={() => saveToCameraRoll(img)}
+              onPress={() => CustomToast()}
+            >
+              <Image source={Images.download_Icon} style={Styles.btn} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : null}
     </ScrollView>
   );
 }
@@ -159,7 +197,6 @@ export const Styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: vh(10),
     width: "100%",
-    paddingBottom: vh(130),
   },
   headingView: {
     alignItems: "center",
@@ -172,6 +209,40 @@ export const Styles = StyleSheet.create({
     fontSize: vh(16),
     color: Colors.lightBlack,
     paddingVertical: vh(16),
+  },
+  bottomMain: {
+    position: "absolute",
+    width: "100%",
+    bottom: -1,
+    borderTopLeftRadius: vh(10),
+    borderTopRightRadius: vh(10),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 4.65,
+    elevation: 7,
+  },
+  bottomView: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "white",
+    paddingHorizontal: vw(24),
+    paddingVertical: vh(10),
+    borderTopLeftRadius: vh(10),
+    borderTopRightRadius: vh(10),
+  },
+  btnView: {
+    padding: vh(12),
+  },
+  btn: {
+    height: vh(22),
+    width: vh(22),
+    tintColor: Colors.violet,
   },
 });
 

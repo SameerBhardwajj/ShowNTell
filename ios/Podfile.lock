@@ -306,7 +306,11 @@ PODS:
     - React
   - rn-fetch-blob (0.12.0):
     - React-Core
+  - RNCAsyncStorage (1.10.0):
+    - React
   - RNCMaskedView (0.1.10):
+    - React
+  - RNDeviceInfo (5.5.7):
     - React
   - RNGestureHandler (1.6.1):
     - React
@@ -386,7 +390,9 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeLocalization (from `../node_modules/react-native-localization`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -474,8 +480,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-localization"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
@@ -534,7 +544,9 @@ SPEC CHECKSUMS:
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
   ReactNativeLocalization: dbb269b27d8a84bb22b9c2cdec38ba780b51dd72
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  RNCAsyncStorage: 6d99641f8e6f15d169d695d8ef184bf187903f11
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
+  RNDeviceInfo: e2102056bde3ad5d137fd029d8d431510a00486a
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNImageCropPicker: a606d65f71c6c05caa3c850c16fb1ba2a4718608
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
@@ -545,6 +557,6 @@ SPEC CHECKSUMS:
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 3b21f3ecfe571822d0cf4450e5ac4b3f336f725c
+PODFILE CHECKSUM: 0ec0581289cba05fdf80d0cb87dc9774d914a966
 
 COCOAPODS: 1.8.4

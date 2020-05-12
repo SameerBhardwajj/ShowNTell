@@ -79,8 +79,10 @@ export default function App(props: AppProps) {
       )}
       <View style={Styles.innerView}>
         <FlatList
+          contentContainerStyle={{ paddingBottom: vh(85) }}
           ListHeaderComponent={state ? null : headerDate()}
           showsVerticalScrollIndicator={false}
+          bounces={false}
           data={DATA}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItems}

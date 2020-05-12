@@ -125,17 +125,17 @@ const DrawerNavigator = () => (
   </DrawerStack.Navigator>
 );
 
-console.disableYellowBox = true;
+console.disableYellowBox = false;
 
 export interface AppProps {
   tab: boolean;
   splash: boolean;
+  login: boolean;
 }
 export default class AppComponent extends React.Component<AppProps, any> {
   constructor(props: AppProps) {
     super(props);
-    console.warn('navigation value ',props.tab);
-    
+    console.warn("navigation value ", props.tab);
   }
 
   TabNavigator = () => (
@@ -246,7 +246,7 @@ export default class AppComponent extends React.Component<AppProps, any> {
               component={Splash}
               options={this.screen}
             />
-          ) : (
+          ) : this.props.login ? (
             <>
               <RootStack.Screen
                 name={ScreenName.AUTH_NAVIGATOR}
@@ -268,6 +268,9 @@ export default class AppComponent extends React.Component<AppProps, any> {
                 component={CreatePasswordModal}
                 options={this.modal}
               />
+            </>
+          ) : (
+            <>
               <RootStack.Screen
                 name={ScreenName.TAB_NAVIGATOR}
                 component={this.TabNavigator}

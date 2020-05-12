@@ -4,6 +4,8 @@ import { Colors, Images, Strings } from "../../utils";
 import { CustomButton } from "../../Components";
 import { Styles } from "./QOD";
 
+const child =
+  "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80";
 export interface AppProps {
   item: any;
   index: string;
@@ -28,7 +30,7 @@ export default function App(props: AppProps) {
   return (
     <View style={[Styles.cardView, { backgroundColor: lightColor }]}>
       <View style={{ flexDirection: "row" }}>
-        <Image source={Images.any} style={Styles.childAvatar} />
+        <Image source={{uri: child}} style={Styles.childAvatar} />
         <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
           <Text style={Styles.name}>{item.name}</Text>
           <Text style={Styles.classText}>{item.category}</Text>

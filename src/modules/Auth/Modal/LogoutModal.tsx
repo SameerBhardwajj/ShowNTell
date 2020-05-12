@@ -1,22 +1,25 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useDispatch } from "react-redux";
 
 // custom imports
 import { vw, Strings, vh, Colors, ScreenName } from "../../../utils";
 import { CustomButton } from "../../../Components";
+import { updateLogin } from "../Login/action";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
         <Text style={Styles.bubbleMsgText}>{Strings.logout_msg}</Text>
         <CustomButton
           Text={Strings.Yes_Logout}
-          onPress={() => props.navigation.navigate(ScreenName.LOGIN)}
+          onPress={() => dispatch(updateLogin())}
         />
         <CustomButton
           Text={Strings.No}

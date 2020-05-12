@@ -12,6 +12,8 @@ import { vh, Colors, Images, vw, Strings, ScreenName } from "../utils";
 import DrawerFlatlist from "./DrawerFlatlist";
 
 const EMAIL = "Bob_Parish@gmail.com";
+const img =
+  "https://media.istockphoto.com/photos/portrait-of-smiling-handsome-man-in-blue-tshirt-standing-with-crossed-picture-id1045886560?k=6&m=1045886560&s=612x612&w=0&h=hXrxai1QKrfdqWdORI4TZ-M0ceCVakt4o6532vHaS3I=";
 export interface AppProps {
   navigation?: any;
 }
@@ -49,7 +51,7 @@ export default function App(props: AppProps) {
             props.navigation.navigate(ScreenName.PROFILE);
           }}
         >
-          <Image source={Images.any} style={Styles.img} />
+          <Image source={{ uri: img }} style={Styles.img} />
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>
             <Text style={Styles.name}>{Strings.Bob_Parish}</Text>
             <Text style={Styles.email}>{EMAIL}</Text>

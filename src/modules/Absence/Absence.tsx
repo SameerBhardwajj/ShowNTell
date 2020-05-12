@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Image,
-  ScrollView,
   FlatList,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { CustomHeader } from "../../Components";
-import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
+import { Strings, vw, vh, Images, ScreenName } from "../../utils";
 import AbsenceFlatlist from "./AbsenceFlatlist";
 import { updateTab } from "../Home/action";
 
@@ -50,11 +48,7 @@ export default function App(props: AppProps) {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-      contentContainerStyle={Styles.mainView}
-    >
+    <View style={Styles.mainView}>
       {/* Custom Header -------------- */}
       <CustomHeader
         hideBackButton={true}
@@ -64,7 +58,6 @@ export default function App(props: AppProps) {
         child={true}
         navigation={props.navigation}
       />
-
       {/* Add Btn ----------- */}
       <TouchableOpacity
         style={Styles.addBtnView}
@@ -77,10 +70,10 @@ export default function App(props: AppProps) {
       >
         <Image source={Images.Add_leave} style={Styles.addBtn} />
       </TouchableOpacity>
-
       {/* Message starts here -------- */}
       <View style={Styles.innerView}>
         <FlatList
+          contentContainerStyle={{ paddingBottom: vh(90) }}
           showsVerticalScrollIndicator={false}
           bounces={false}
           data={DATA}
@@ -88,7 +81,7 @@ export default function App(props: AppProps) {
           renderItem={renderItems}
         />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 export const Styles = StyleSheet.create({
@@ -122,7 +115,7 @@ const DATA = [
     name: "Alex Parish",
     class: "Infant A",
     msg:
-      "Hello Mam,\n\nThis is to inform you that my ward would be travelling outside station and would be unavailable for the mentioned dates.\nThanks,\nBob",
+      "Hello Mam,\n\nThis is to inform you that my ward would be travelling outside station and would be unavailable for the mentioned dates.This is to inform you that my ward would be travelling outside station and would be unavailable for the mentioned dates. for the mentioned dates.\nThanks,\nBob",
     createdOn: "Feb 25, 2020",
     time: "05:00 PM",
   },

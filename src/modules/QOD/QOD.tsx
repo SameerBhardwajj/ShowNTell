@@ -47,6 +47,7 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.mainInnerView}>
         <FlatList
+          contentContainerStyle={{ paddingBottom: vh(100) }}
           showsVerticalScrollIndicator={false}
           bounces={false}
           data={DATA}

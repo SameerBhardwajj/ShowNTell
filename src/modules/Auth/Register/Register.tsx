@@ -74,7 +74,7 @@ export default function App(props: AppProps) {
                     ? Keyboard.dismiss()
                     : setCheckcheckEmail(false);
                 }}
-                incorrectText={Strings.Email}
+                incorrectText={Strings.Email_error}
               />
               {/* School center list ------------- */}
               <CustomMenuList
@@ -82,6 +82,7 @@ export default function App(props: AppProps) {
                 onChangeText={(text: string) => setSchool(text)}
                 currentText={school}
                 data={DATA}
+                dropDownView={{width: '80%'}}
               />
             </View>
           </View>
@@ -176,6 +177,12 @@ const Styles = StyleSheet.create({
 
 // Dummy data for School listy API
 const DATA = [
+  { value: "School 1" },
+  { value: "School 2" },
+  { value: "School 3" },
+  { value: "School 1" },
+  { value: "School 2" },
+  { value: "School 3" },
   { value: "School 1" },
   { value: "School 2" },
   { value: "School 3" },

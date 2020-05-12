@@ -14,7 +14,15 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 // custom imports
 import { CustomHeader, CustomDate, CustomButton } from "../../Components";
-import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Images,
+  Colors,
+  ScreenName,
+  CommonFunctions,
+} from "../../utils";
 
 const TYPE_ADD = "add";
 const TYPE_UPDATE = "update";
@@ -61,8 +69,9 @@ export default function App(props: AppProps) {
             heading={Strings.From}
             getDate={(date: Date) => {
               setFromDate(date);
-              let difference: number = toDate.getDate() - date.getDate();
-              difference > 0 ? setDays(difference.toString()) : 0;
+              setDays(
+                CommonFunctions.DateDifference(fromDate, date).toString()
+              );
             }}
           />
           <CustomDate
@@ -70,8 +79,9 @@ export default function App(props: AppProps) {
             minDate={fromDate}
             getDate={(date: Date) => {
               setToDate(date);
-              let difference: number = date.getDate() - fromDate.getDate();
-              setDays(difference.toString());
+              setDays(
+                CommonFunctions.DateDifference(fromDate, date).toString()
+              );
             }}
           />
           <Text style={Styles.titleTxt}>{Strings.Number_of_Days}</Text>
@@ -156,9 +166,7 @@ export default function App(props: AppProps) {
               <CustomButton
                 Text={Strings.Cancel}
                 lightBtn={true}
-                onPress={() =>
-                  props.navigation.pop()
-                }
+                onPress={() => props.navigation.pop()}
                 ButtonStyle={{ width: "45%" }}
               />
               <CustomButton
