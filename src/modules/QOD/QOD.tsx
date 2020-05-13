@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Image,
   FlatList,
-  Dimensions,
 } from "react-native";
 
 // custom imports
@@ -16,7 +14,6 @@ import { vh, Colors, Images, vw, Strings, ScreenName } from "../../utils";
 import { CustomHeader } from "../../Components";
 import QODFlatList from "./QODFlatList";
 
-const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
   navigation?: any;
 }
@@ -44,6 +41,7 @@ export default function App(props: AppProps) {
         onPressBack={() => props.navigation.navigate(ScreenName.HOME)}
         textStyle={{ alignSelf: "flex-start", paddingLeft: vw(50) }}
         child={true}
+        navigation={props.navigation}
       />
       <View style={Styles.mainInnerView}>
         <FlatList

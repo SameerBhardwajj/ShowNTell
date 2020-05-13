@@ -27,5 +27,6 @@ const Colors = {
   separator: "rgba(0, 0, 0, 0.06)",
   mediumBlack: "rgb(68, 68, 68)",
   modalBg2: "rgba(0,0,0,0.2)",
+  chatBorderGrey: "rgb(210, 210, 210)",
 };
 export default Colors;

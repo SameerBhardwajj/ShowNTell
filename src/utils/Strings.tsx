@@ -193,6 +193,9 @@ const Strings = new LocalizedStrings({
     Application: "Application",
     Remove_Child: "Remove Child",
     Chat_Room: "Chat Room",
+    Write_here: "Write here",
+    Chat_warning:
+      "Responses to these messages may be delayed. For any critical issues, please call the center directly.",
   },
 });
 export default Strings;
