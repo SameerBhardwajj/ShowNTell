@@ -191,6 +191,8 @@ const Strings = new LocalizedStrings({
     Zipcode_error: "Zipcode is Incorrect",
     Device: "Device",
     Application: "Application",
+    Remove_Child: "Remove Child",
+    Chat_Room: "Chat Room",
   },
 });
 export default Strings;

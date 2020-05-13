@@ -54,11 +54,9 @@ export default function App(props: AppProps) {
           title={Strings.Create_Absence_Notification}
           onPressBack={() => props.navigation.pop()}
           textStyle={Styles.headerText}
+          child={true}
+          navigation={props.navigation}
         />
-        <TouchableOpacity activeOpacity={0.8} style={Styles.childHeader}>
-          <Text style={Styles.childHeaderText}>Alex </Text>
-          <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
-        </TouchableOpacity>
         <View style={Styles.innerView}>
           <View style={Styles.headingView}>
             <Text style={Styles.heading1}>{Strings.hello}</Text>

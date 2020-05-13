@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { getDeviceName } from "react-native-device-info";
+import { getDeviceName, getManufacturer } from "react-native-device-info";
 
 // custom imports
 import {
@@ -53,7 +53,7 @@ export default function App(props: AppProps) {
   };
 
   React.useEffect(() => {
-    getDeviceName()
+    getManufacturer()
       .then((deviceName) => {
         setDevice(deviceName);
       })
@@ -99,7 +99,11 @@ export default function App(props: AppProps) {
               <Image source={Images.Phone_Icon} />
               <Text style={[Styles.text, { color: Colors.green }]}>
                 {Strings.Device}
-                {"\n"}
+              </Text>
+              <Text
+                numberOfLines={1}
+                style={[Styles.text, { color: Colors.green, paddingTop: 0 }]}
+              >
                 {device}
               </Text>
             </View>
@@ -108,11 +112,24 @@ export default function App(props: AppProps) {
               style={[Styles.deviceView, { backgroundColor: Colors.lightPink }]}
             >
               <Image
-                source={Images.Phone_Icon}
+                source={
+                  Platform.OS === "ios"
+                    ? Images.IOS_Version_icon
+                    : Images.Android_verson_Icon
+                }
                 style={{ tintColor: Colors.pink }}
               />
-              <Text style={[Styles.text, { color: Colors.pink }]}>
-                {Platform.OS.toUpperCase()}
+              <Text
+                style={[
+                  Styles.text,
+                  {
+                    color: Colors.pink,
+                    textTransform:
+                      Platform.OS === "ios" ? "uppercase" : "capitalize",
+                  },
+                ]}
+              >
+                {Platform.OS}
                 {"\nV "}
                 {Platform.Version.toString()}
               </Text>
@@ -125,7 +142,7 @@ export default function App(props: AppProps) {
               ]}
             >
               <Image
-                source={Images.Phone_Icon}
+                source={Images.Application_icon}
                 style={{ tintColor: Colors.waterBlue }}
               />
               <Text style={[Styles.text, { color: Colors.waterBlue }]}>
@@ -196,6 +213,7 @@ export default function App(props: AppProps) {
               activeOpacity={disable() ? 0.8 : 1}
               ButtonStyle={{
                 width: "100%",
+                alignSelf: "center",
                 marginTop: vh(30),
                 backgroundColor: disable()
                   ? Colors.violet

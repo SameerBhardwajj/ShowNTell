@@ -76,6 +76,9 @@ const Images = {
   Center_Icon: require("../Assets/Images/Center_Icon.png"),
   Virus_icon: require("../Assets/Images/Virus_icon.png"),
   Elipsis_Options_statement: require("../Assets/Images/Elipsis_Options_statement.png"),
+  Application_icon: require("../Assets/Images/Application_icon.png"),
+  IOS_Version_icon: require("../Assets/Images/IOS_Version_icon.png"),
+  Android_verson_Icon: require("../Assets/Images/Android_verson_Icon.png"),
 };
 
 export default Images;

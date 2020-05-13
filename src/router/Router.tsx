@@ -236,10 +236,7 @@ export default class AppComponent extends React.Component<AppProps, any> {
   public render() {
     return (
       <NavigationContainer>
-        <RootStack.Navigator
-          headerMode="none"
-          initialRouteName={ScreenName.SPLASH}
-        >
+        <RootStack.Navigator headerMode="none">
           {this.props.splash ? (
             <RootStack.Screen
               name={ScreenName.SPLASH}
@@ -325,6 +322,16 @@ export default class AppComponent extends React.Component<AppProps, any> {
                 name={ScreenName.TESTIMONIALS}
                 component={Testimonials}
                 options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.NEED_HELP}
+                component={NeedHelp}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.RESEND_CODE_MODAL}
+                component={ResendCodeModal}
+                options={this.modal}
               />
               <RootStack.Screen
                 name={ScreenName.SHARE_MODAL}
