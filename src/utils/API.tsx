@@ -1,4 +1,4 @@
-import axios from "axios";
+import Constants from "./Constants";
 /**
  *
  * @param endPoint api end point
@@ -12,7 +12,7 @@ const postApiCall = (
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
+  Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
       successCallback(response);
@@ -46,34 +46,26 @@ const postApiCall = (
  */
 const getApiCall = (
   endPoint: string,
-  params: string = "",
+  params: any,
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
-    .get(endPoint + params, {})
+  Constants.axiosInstance
+    .get(endPoint, params)
     .then((response: any) => {
-      console.log("response", response);
+      console.log("Success: ", response);
       successCallback(response);
     })
     .catch((error: any) => {
-      if (error.code === "ECONNABORTED") {
-        let payload = {
-          data: {
-            //or whatever the code we are using
-            status: 408,
-          },
-        };
-        errorCallback(payload);
-      } else if (error.response) {
-        errorCallback(error.response);
-      } else if (!error.response) {
-        let payload = {
-          data: {
-            status: "",
-          },
-        };
-        errorCallback(payload);
+      console.log("error", error);
+      console.log("Error: ", error.response);
+      errorCallback(error.response);
+      if (error.message === "Network Error") {
+        // NavigationStore.showSnackbar(
+        //   constStrings.no_internet,
+        //   Constants.Colors.color_red
+        // );
+        return;
       }
     });
 };
@@ -90,7 +82,7 @@ const deleteApiCall = (
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
+  Constants.axiosInstance
     .delete(endPoint + params, {})
     .then((response: any) => {
       successCallback(response);
@@ -129,7 +121,7 @@ const patchApiCall = (
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
+  Constants.axiosInstance
     .patch(endPoint, params)
     .then((response: any) => {
       successCallback(response);
@@ -168,7 +160,7 @@ const putApiCall = (
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
+  Constants.axiosInstance
     .put(endPoint, params)
     .then((response: any) => {
       successCallback(response);
@@ -197,7 +189,7 @@ const putApiCall = (
 /**
  * export all function
  */
-export {
+export default {
   postApiCall,
   getApiCall,
   patchApiCall,

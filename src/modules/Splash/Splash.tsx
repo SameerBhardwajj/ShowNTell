@@ -13,8 +13,11 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   React.useEffect(() => {
+    debugger
     SplashScreen.hide();
+    debugger
     setTimeout(() => {
+      debugger
       dispatch(updateSplash());
     }, 2000);
   }, []);

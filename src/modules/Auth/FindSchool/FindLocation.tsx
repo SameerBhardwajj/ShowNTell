@@ -43,7 +43,9 @@ export default function App(props: AppProps) {
             longitude: info.coords.longitude,
           };
           console.warn("coordinates ", position);
-          props.navigation.navigate("SchoolListing");
+          props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
+            coordinates: { latitude: 41.063412, longitude: -74.133544 },
+          });
         },
         (error) => {
           console.warn("error ", error);

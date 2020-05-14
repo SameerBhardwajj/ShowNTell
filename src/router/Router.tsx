@@ -13,7 +13,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Splash from "../modules/Splash/Splash";
 import LandingPage from "../modules/Auth/LandingPage/LandingPage";
 import Login from "../modules/Auth/Login/Login";
-import FindSchool from "../modules/Auth/FindSchool/FindSchool";
+import FindSchool from "../modules/Auth/FindSchool/FindLocation";
 import Home from "../modules/Home/Home";
 import Profile from "../modules/Profile/Profile";
 import Chat from "../modules/Chat/Chat";
@@ -36,7 +36,7 @@ import ResetPasswordEmail from "../modules/Auth/ForgotPassowrd/ResetPasswordEmai
 import PasswordResetCode from "../modules/Auth/ForgotPassowrd/PasswordResetCode";
 import ResetPassword from "../modules/Auth/ForgotPassowrd/ResetPassword";
 import NearbySchool from "../modules/Auth/FindSchool/NearbySchool/NearbySchool";
-import SchoolListing from "../modules/Auth/FindSchool/SchoolListing";
+import SchoolListing from "../modules/Auth/FindSchool/SchoolListing/SchoolListing";
 import ScheduleTour from "../modules/Auth/FindSchool/ScheduleTour";
 import DateTimeSchedule from "../modules/Auth/FindSchool/DateTimeSchedule";
 import NeedHelp from "../modules/NeedHelp/NeedHelp";

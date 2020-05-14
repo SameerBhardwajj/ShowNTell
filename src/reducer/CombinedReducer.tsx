@@ -5,7 +5,7 @@ import Register from "../modules/Auth/Register/reducer";
 import PhotoLibrary from "../modules/PhotoLibrary/reducer";
 import Login from "../modules/Auth/Login/reducer";
 import LandingPage from "../modules/Auth/LandingPage/reducer";
-const reducer = combineReducers({
+const CombinedReducer = combineReducers({
   Home,
   Splash,
   Register,
@@ -14,4 +14,4 @@ const reducer = combineReducers({
   LandingPage,
 });
 
-export default reducer;
+export default CombinedReducer;

@@ -1,10 +1,12 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { CustomHeader } from "../../../Components";
-import { Strings, vh } from "../../../utils";
+import { CustomHeader } from "../../../../Components";
+import { Strings, vh } from "../../../../utils";
 import ListFlatlist from "./ListFlatlist";
+import { fetchSchoolList } from "./action";
 
 const class1 =
   "https://www.sciencespo.fr/sites/default/files/tables%20v3_1.jpg";
@@ -14,9 +16,16 @@ const class3 =
   "https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80";
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    console.warn(props.route.params.coordinates);
+    dispatch(fetchSchoolList(props.route.params.coordinates));
+  }, []);
+
   const renderItemResult = (rowData: any) => {
     const { item, index } = rowData;
     return <ListFlatlist navigation={props.navigation} item={item} />;

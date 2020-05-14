@@ -9,7 +9,10 @@ import {
   ScrollView,
   FlatList,
   StatusBar,
+  BackHandler,
+  ToastAndroid,
 } from "react-native";
+import SplashScreen from "react-native-splash-screen";
 
 // custom imports
 import { updateTab } from "./action";
@@ -43,6 +46,12 @@ export default function App(props: AppProps) {
   }));
 
   React.useEffect(() => {
+    SplashScreen.hide();
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
+      BackHandler.exitApp();
+      return true;
+    });
     const unsubscribe =
       (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
         dispatch(

@@ -3,8 +3,8 @@ import { View, Text, Linking, Platform, Image, StyleSheet } from "react-native";
 import Swiper from "react-native-swiper";
 
 // custom imports
-import { CustomButton } from "../../../Components";
-import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../utils";
+import { CustomButton } from "../../../../Components";
+import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../../utils";
 const IOS = "ios";
 const MAP_SCHEME = "maps:";
 const GEO_SCHEME = "geo:";

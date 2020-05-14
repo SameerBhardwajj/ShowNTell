@@ -7,8 +7,11 @@ import {
   TouchableOpacity,
   StatusBar,
   FlatList,
+  ToastAndroid,
+  BackHandler,
 } from "react-native";
 import { useDispatch } from "react-redux";
+import SplashScreen from "react-native-splash-screen";
 
 // custom imports
 import { Images, vh, vw, Strings, Colors, ScreenName } from "../../../utils";
@@ -39,8 +42,14 @@ export default function App(props: AppProps) {
   const [scroll, setScroll] = useState(true);
 
   useEffect(() => {
+    SplashScreen.hide();
     autoScroll();
-  }, []);
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
+      BackHandler.exitApp();
+      return true;
+    });
+  }, [currentIndex]);
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -57,18 +66,20 @@ export default function App(props: AppProps) {
   const autoScroll = () => {
     scroll
       ? setTimeout(() => {
-          if (currentIndex < DATA.length - 1) {
-            setCurrentIndex(currentIndex + 1);
-            flatListRef.current.scrollToIndex({
-              index: currentIndex,
-              animated: true,
-            });
-          } else {
-            setCurrentIndex(0);
-            flatListRef.current.scrollToIndex({
-              index: currentIndex,
-              animated: true,
-            });
+          if (flatListRef.current) {
+            if (currentIndex < DATA.length - 1) {
+              setCurrentIndex(currentIndex + 1);
+              flatListRef.current.scrollToIndex({
+                index: currentIndex,
+                animated: true,
+              });
+            } else {
+              setCurrentIndex(0);
+              flatListRef.current.scrollToIndex({
+                index: currentIndex,
+                animated: true,
+              });
+            }
           }
         }, 5000)
       : null;
