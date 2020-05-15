@@ -1,15 +1,20 @@
 import Config from "react-native-config";
 import axios from "axios";
 
+const googleSearch = axios.create({
+  baseURL: "https://www.googleapis.com/customsearch/v1",
+});
+
 const $http = axios.create({
   baseURL: Config.API_URL,
   headers: {
-    Authorization: "Basic IyNXZWJpbG9naWNzQEA6QEBXZWJpbG9naWNzIyNA",
+    Authorization: "Basic Y29yZTpjb3Jl",
     "Content-Type": "application/json",
   },
 });
 
 export default {
+  googleSearch,
   successStatus: 200,
   unAuthorizedStatus: 401,
   notAuthorizedForInfo: 400,

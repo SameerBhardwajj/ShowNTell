@@ -1,7 +1,6 @@
 import { Action } from "../../utils";
 export const updateTab = (value: boolean, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
-    debugger;
     dispatch({
       type: Action.UPDATE_TAB,
       payload: {

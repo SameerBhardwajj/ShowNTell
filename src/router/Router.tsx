@@ -130,7 +130,7 @@ console.disableYellowBox = false;
 export interface AppProps {
   tab: boolean;
   splash: boolean;
-  login: boolean;
+  loginToken: string;
 }
 export default class AppComponent extends React.Component<AppProps, any> {
   constructor(props: AppProps) {
@@ -243,7 +243,7 @@ export default class AppComponent extends React.Component<AppProps, any> {
               component={Splash}
               options={this.screen}
             />
-          ) : this.props.login ? (
+          ) : this.props.loginToken === "" ? (
             <>
               <RootStack.Screen
                 name={ScreenName.AUTH_NAVIGATOR}

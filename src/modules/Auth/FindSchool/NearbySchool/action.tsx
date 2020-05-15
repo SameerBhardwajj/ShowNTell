@@ -1,28 +1,23 @@
 import { Action, API, EndPoints } from "../../../../utils";
 
-export const fetchSchoolList = (
-  value: any,
-  page: number,
-  callback: Function
-) => {
+export const searchCenter = (query: string, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
-    API.getApiCall(
-      EndPoints.auth.nearByCentres(41.063412, -74.133544, page),
-      undefined,
+    API.googleSearchApiCall(
+      EndPoints.auth.searchCentres(query),
       (success: any) => {
-        console.log("success ", success.data.response);
+        console.log("success ", success);
         dispatch({
-          type: Action.FETCH_SCHOOL_LIST,
+          type: Action.SEARCH_CENTER,
           payload: {
-            schoolList: success.data.response,
+            searchList: success,
           },
         });
-        callback(success.data.response);
+        callback(success);
       },
       (error: any) => {
         console.log("error ", error);
         dispatch({
-          type: Action.FETCH_SCHOOL_LIST,
+          type: Action.SEARCH_CENTER,
           payload: {
             // isLoading: false,
           },

@@ -1,4 +1,35 @@
 import Constants from "./Constants";
+import { CustomToast } from "../Components";
+import Strings from "./Strings";
+
+/**
+ *
+ * @param endPoint api end point
+ * @param params request data
+ * @param successCallback function for handle success response
+ * @param errorCallback  function for handle error response
+ */
+const googleSearchApiCall = (
+  endPoint: string,
+  successCallback: Function,
+  errorCallback: Function
+) => {
+  Constants.googleSearch
+    .get(endPoint)
+    .then((response: any) => {
+      console.log("Success: ", response);
+      successCallback(response);
+    })
+    .catch((error: any) => {
+      console.warn("error", error);
+      console.log("Error: ", error.response);
+      if (error.message === "Network Error") {
+        CustomToast(Strings.No_Internet);
+      }
+      errorCallback(error.response);
+    });
+};
+
 /**
  *
  * @param endPoint api end point
@@ -15,26 +46,16 @@ const postApiCall = (
   Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
+      console.log("res ", response);
       successCallback(response);
     })
     .catch((error: any) => {
-      if (error.code === "ECONNABORTED") {
-        let payload = {
-          data: {
-            status: 408,
-          },
-        };
-        errorCallback(payload);
-      } else if (error.response) {
-        errorCallback(error.response);
-      } else if (!error.response) {
-        let payload = {
-          data: {
-            status: "",
-          },
-        };
-        errorCallback(payload);
+      console.warn("error", error);
+      console.log("Error: ", error.response);
+      if (error.message === "Network Error") {
+        CustomToast(Strings.No_Internet);
       }
+      errorCallback(error.response);
     });
 };
 /**
@@ -57,16 +78,12 @@ const getApiCall = (
       successCallback(response);
     })
     .catch((error: any) => {
-      console.log("error", error);
+      console.warn("error", error);
       console.log("Error: ", error.response);
-      errorCallback(error.response);
       if (error.message === "Network Error") {
-        // NavigationStore.showSnackbar(
-        //   constStrings.no_internet,
-        //   Constants.Colors.color_red
-        // );
-        return;
+        CustomToast(Strings.No_Internet);
       }
+      errorCallback(error.response);
     });
 };
 /**
@@ -195,4 +212,5 @@ export default {
   patchApiCall,
   putApiCall,
   deleteApiCall,
+  googleSearchApiCall,
 };

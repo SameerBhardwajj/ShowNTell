@@ -1,14 +1,10 @@
-import { Action } from "../../../utils";
+import { Action } from "../../../../utils";
 const initialState = {
-  loginData: {},
-  loginToken: "",
+  searchList: [],
 };
-
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case Action.UPDATE_LOGIN:
-      return { ...state, ...action.payload };
-    case Action.USER_LOGIN:
+    case Action.SEARCH_CENTER:
       return { ...state, ...action.payload };
     default:
       return state;

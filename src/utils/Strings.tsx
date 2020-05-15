@@ -184,7 +184,7 @@ const Strings = new LocalizedStrings({
     Download_Statement: "Download Statement",
     Class_Schedule: "Class Schedule",
     Email_error: "Email is Incorrect",
-    Password_length: "Password must contain 6-12\ncharacters",
+    Password_length: "Password must contain 4-12\ncharacters",
     Password_mismatch: "Password Mismatch",
     Phone_error: "Phone no. is incorrect",
     Name_error: "Name is Incorrect",
@@ -196,6 +196,9 @@ const Strings = new LocalizedStrings({
     Write_here: "Write here",
     Chat_warning:
       "Responses to these messages may be delayed. For any critical issues, please call the center directly.",
+    No_Internet: "No Internet! Please check your Internet Connection",
+    Miles: "Miles",
+    No_data_Found: "No data Found",
   },
 });
 export default Strings;

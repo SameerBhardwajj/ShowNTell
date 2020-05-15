@@ -1,7 +1,7 @@
 import { Action } from "../../../../utils";
 const initialState = {
   schoolList: [],
-  isLoading: false
+  isLoading: false,
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

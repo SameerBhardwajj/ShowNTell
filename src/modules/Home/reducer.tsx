@@ -4,7 +4,6 @@ const initialState = {
   forceRerendering: false,
 };
 const Reducer = (state = initialState, action: any) => {
-  console.log(action, state.tab);
   switch (action.type) {
     case Action.UPDATE_TAB:
       return { ...state, ...action.payload };

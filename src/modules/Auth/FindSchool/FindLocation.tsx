@@ -48,11 +48,9 @@ export default function App(props: AppProps) {
           });
         },
         (error) => {
-          console.warn("error ", error);
+          console.warn("error ", error.code);
         },
-        Platform.OS === "android"
-          ? {}
-          : { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
       );
     }
   };

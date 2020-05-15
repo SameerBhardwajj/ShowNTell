@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { CustomHeader } from "../../../../Components";
-import { Strings, vh } from "../../../../utils";
+import { Strings, vh, Colors } from "../../../../utils";
 import ListFlatlist from "./ListFlatlist";
 import { fetchSchoolList } from "./action";
 
@@ -21,10 +28,41 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
+
+  const { schoolList } = useSelector((state: { SchoolListing: any }) => ({
+    schoolList: state.SchoolListing.schoolList,
+  }));
+
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setisRefreshing] = useState(false);
+  const [pageNum, setpageNum] = useState(1);
+
   useEffect(() => {
     console.warn(props.route.params.coordinates);
-    dispatch(fetchSchoolList(props.route.params.coordinates));
+    handleUrl();
   }, []);
+
+  const handleUrl = async () => {
+    setIsLoading(true);
+    dispatch(
+      fetchSchoolList(props.route.params.coordinates, pageNum, (data: any) => {
+        console.warn("here ", schoolList);
+        setData(data.concat(schoolList));
+        console.warn("data  ", data);
+        setIsLoading(false);
+        setpageNum(pageNum + 1);
+        setisRefreshing(false);
+      })
+    );
+  };
+
+  const handleRefresh = () => {
+    setData([]);
+    setpageNum(1);
+    setisRefreshing(true);
+    handleUrl();
+  };
 
   const renderItemResult = (rowData: any) => {
     const { item, index } = rowData;
@@ -32,7 +70,11 @@ export default function App(props: AppProps) {
   };
 
   return (
-    <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      bounces={false}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{ flex: 1 }}
+    >
       <View style={Styles.mainView}>
         <CustomHeader
           title={Strings.Nearby_Schools}
@@ -40,23 +82,54 @@ export default function App(props: AppProps) {
           notify={true}
           notifyNumber={1}
         />
-        <View style={Styles.innerView}>
-          <Text style={Styles.headingText}>{Strings.Choose_a_Center}</Text>
-          <View style={Styles.mainInnerView}>
-            <FlatList
-              bounces={false}
-              showsVerticalScrollIndicator={false}
-              data={DATA}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItemResult}
-            />
+        {data.length === 0 ? (
+          <View style={Styles.notFoundView}>
+            {isLoading ? (
+              <ActivityIndicator
+                color={Colors.violet}
+                animating={isLoading}
+                size="large"
+              />
+            ) : (
+              <Text>{Strings.No_data_Found}</Text>
+            )}
           </View>
-        </View>
+        ) : (
+          <View style={Styles.innerView}>
+            <Text style={Styles.headingText}>{Strings.Choose_a_Center}</Text>
+            <View style={Styles.mainInnerView}>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={data}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItemResult}
+                refreshing={isRefreshing}
+                onRefresh={handleRefresh}
+                onEndReached={handleUrl}
+                onEndReachedThreshold={0.5}
+                ListFooterComponent={
+                  <ActivityIndicator
+                    size="large"
+                    color={Colors.violet}
+                    animating={pageNum !== 1 && isLoading}
+                  />
+                }
+              />
+            </View>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
 }
+
 const Styles = StyleSheet.create({
+  notFoundView: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   mainView: {
     flex: 1,
     backgroundColor: "white",

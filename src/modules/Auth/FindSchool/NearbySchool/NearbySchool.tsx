@@ -7,20 +7,36 @@ import {
   Image,
   FlatList,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { CustomHeader, CustomSearchBar } from "../../../../Components";
 import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../../utils";
 import RecentFlatlist from "./RecentFlatlist";
 import ResultFlatlist from "./ResultFlatlist";
+import { searchCenter } from "./action";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
+
+  const { searchList } = useSelector((state: { NearbySchool: any }) => ({
+    searchList: state.NearbySchool.searchList,
+  }));
+
   const [query, setQuery] = useState("");
   const [showRes, setshowRes] = useState(false);
+
+  const hitSearchAPI = () => {
+    dispatch(
+      searchCenter(query, () => {
+        console.warn("list ", searchList);
+      })
+    );
+  };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -60,7 +76,9 @@ export default function App(props: AppProps) {
           placeholder={Strings.Search_placeholder}
           onChangeText={(text: string) => {
             setQuery(text),
-              query.length >= 2 ? setshowRes(true) : setshowRes(false);
+              query.length >= 2
+                ? (hitSearchAPI(), setshowRes(true))
+                : setshowRes(false);
           }}
           onPressCancel={() => {
             setQuery(""), setshowRes(false);

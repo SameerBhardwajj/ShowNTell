@@ -6,9 +6,10 @@ import Swiper from "react-native-swiper";
 import { CustomButton } from "../../../../Components";
 import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../../utils";
 const IOS = "ios";
-const MAP_SCHEME = "maps:";
-const GEO_SCHEME = "geo:";
-
+const MAP_SCHEME = "maps:0,0?q=";
+const GEO_SCHEME = "geo:0,0?q=";
+const defaultImg =
+  "https://lh3.googleusercontent.com/proxy/vFjC1K6IiTKYIH8nog3krroYvUR1Xn8cWTD1dVR4tBJsBRk-hTJzCfpT1RLfslVwY2OS6ASiYa6pOrpSIUCSLBt6E_qi0_rknF6iwP4xE5csFE6QP0I9pSY";
 export interface AppProps {
   navigation?: any;
   item: any;
@@ -41,31 +42,38 @@ export default function App(props: AppProps) {
         removeClippedSubviews={false}
         style={{ height: vh(192) }}
       >
-        {item.schoolImages.map((img: string) => (
-          <Image source={{ uri: img }} style={Styles.imgView} />
-        ))}
+        <Image
+          source={{
+            uri: item.center_image === null ? defaultImg : item.center_image,
+          }}
+          style={Styles.imgView}
+        />
       </Swiper>
       <View style={Styles.schoolView}>
-        <Text style={Styles.name}>{item.schoolName}</Text>
+        <Text style={Styles.name}>{item.name}</Text>
         <View style={Styles.locationView}>
           <Image source={Images.Distance_Pin_small} style={Styles.img1} />
-          <Text style={Styles.locationText}>{item.location.distance}</Text>
+          <Text style={Styles.locationText}>{`${Math.round(
+            item.distance_in_km / 1.609
+          )} ${Strings.Miles}`}</Text>
         </View>
         <View style={Styles.locationView}>
           <Image source={Images.Lcation_Pin_small} style={Styles.img2} />
-          <Text style={Styles.locationText}>{item.location.address}</Text>
+          <Text
+            style={Styles.locationText}
+          >{`${item.address1} ${item.address2} ${item.city}`}</Text>
         </View>
         <View style={Styles.locationView}>
           <Image source={Images.Phone_small} style={Styles.img3} />
-          <Text style={Styles.locationText}>{item.location.phone}</Text>
+          <Text
+            style={Styles.locationText}
+          >{`${item.country_id} - ${item.phone}`}</Text>
         </View>
-        <Text style={Styles.description}>{item.description}</Text>
+        {/* <Text style={Styles.description}>{}</Text> */}
         <View style={Styles.btnView}>
           <CustomButton
             Text={Strings.Get_Directions}
-            onPress={() =>
-              openGps(item.coordinates.latitude, item.coordinates.longitude)
-            }
+            onPress={() => openGps(item.center_lat, item.center_long)}
             ButtonStyle={Styles.btn}
           />
           <CustomButton

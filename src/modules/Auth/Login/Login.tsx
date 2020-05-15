@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch } from "react-redux";
@@ -27,7 +28,7 @@ import {
   Customcartoon,
   CustomInputText,
 } from "../../../Components";
-import { updateLogin } from "./action";
+import { loginAPI } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -43,10 +44,9 @@ export default function App(props: AppProps) {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkPassword, setCheckPassword] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const resetAll = () => {
-    setEmail("");
-    setPassword("");
     setCheckEmail(true);
     setCheckPassword(true);
     setsecureEntry(true);
@@ -55,7 +55,13 @@ export default function App(props: AppProps) {
   const check = () => {
     validate(ConstantName.EMAIL, email)
       ? validate(ConstantName.PASSWORD, password)
-        ? (resetAll(), dispatch(updateLogin()))
+        ? (setIsLoading(true),
+          resetAll(),
+          dispatch(
+            loginAPI(email, password, () => {
+              setIsLoading(false);
+            })
+          ))
         : setCheckPassword(false)
       : setCheckEmail(false);
   };
@@ -67,6 +73,14 @@ export default function App(props: AppProps) {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={Styles.mainView}
       >
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.violet}
+            animating={isLoading}
+            size="large"
+            style={Styles.indicator}
+          />
+        ) : null}
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.backBtn}
@@ -176,6 +190,14 @@ const Styles = StyleSheet.create({
     top: iPhoneX ? vh(30) : vh(20),
     alignSelf: "flex-start",
     position: "absolute",
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
   loginView: {
     backgroundColor: "white",
