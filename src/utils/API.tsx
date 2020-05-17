@@ -1,6 +1,7 @@
 import Constants from "./Constants";
 import { CustomToast } from "../Components";
 import Strings from "./Strings";
+import axios from "axios";
 
 /**
  *
@@ -14,7 +15,7 @@ const googleSearchApiCall = (
   successCallback: Function,
   errorCallback: Function
 ) => {
-  Constants.googleSearch
+  axios
     .get(endPoint)
     .then((response: any) => {
       console.log("Success: ", response);

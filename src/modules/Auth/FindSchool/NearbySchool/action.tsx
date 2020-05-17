@@ -9,7 +9,7 @@ export const searchCenter = (query: string, callback: Function) => {
         dispatch({
           type: Action.SEARCH_CENTER,
           payload: {
-            searchList: success,
+            searchList: success.data.results,
           },
         });
         callback(success);

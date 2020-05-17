@@ -43,11 +43,11 @@ export default function App(props: AppProps) {
     handleUrl();
   }, []);
 
-  const handleUrl = async () => {
+  const handleUrl = () => {
     setIsLoading(true);
     dispatch(
       fetchSchoolList(props.route.params.coordinates, pageNum, (data: any) => {
-        console.warn("here ", schoolList);
+        console.warn(pageNum,"here ", schoolList);
         setData(data.concat(schoolList));
         console.warn("data  ", data);
         setIsLoading(false);
@@ -58,8 +58,8 @@ export default function App(props: AppProps) {
   };
 
   const handleRefresh = () => {
-    setData([]);
     setpageNum(1);
+    setData([]);
     setisRefreshing(true);
     handleUrl();
   };

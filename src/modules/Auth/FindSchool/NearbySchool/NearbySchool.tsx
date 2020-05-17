@@ -29,11 +29,13 @@ export default function App(props: AppProps) {
 
   const [query, setQuery] = useState("");
   const [showRes, setshowRes] = useState(false);
+  const [data, setData] = useState([]);
 
   const hitSearchAPI = () => {
     dispatch(
       searchCenter(query, () => {
         console.warn("list ", searchList);
+        setData(searchList);
       })
     );
   };
@@ -57,8 +59,13 @@ export default function App(props: AppProps) {
       <ResultFlatlist
         item={item}
         index={index}
-        onPress={(text: string) => {
-          props.navigation.navigate(ScreenName.SCHOOL_LISTING);
+        onPress={() => {
+          setData([]);
+          setQuery("");
+          setshowRes(false);
+          props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
+            coordinates: item.geometry.location,
+          });
         }}
       />
     );
@@ -95,7 +102,9 @@ export default function App(props: AppProps) {
         <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
           {showRes ? (
             <FlatList
-              data={DATA}
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+              data={data}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItemResult}
             />

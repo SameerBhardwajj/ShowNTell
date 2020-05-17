@@ -9,7 +9,7 @@ const IOS = "ios";
 const MAP_SCHEME = "maps:0,0?q=";
 const GEO_SCHEME = "geo:0,0?q=";
 const defaultImg =
-  "https://lh3.googleusercontent.com/proxy/vFjC1K6IiTKYIH8nog3krroYvUR1Xn8cWTD1dVR4tBJsBRk-hTJzCfpT1RLfslVwY2OS6ASiYa6pOrpSIUCSLBt6E_qi0_rknF6iwP4xE5csFE6QP0I9pSY";
+  "https://lh3.googleusercontent.com/proxy/2kXib7_7cwmnS3wFmpjT67pldvSKZ7tLmzT7zCwmeOo8738Ea62MTmp7q0fjeCRw9wiAND_RamASouYjmDYVtwJgsomWk35u4YiiNY3n9Vh8HTH8N_i9Vjo";
 export interface AppProps {
   navigation?: any;
   item: any;
