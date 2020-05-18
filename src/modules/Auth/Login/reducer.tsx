@@ -1,12 +1,14 @@
-import { Action } from "../../utils";
+import { Action } from "../../../utils";
 const initialState = {
-  tab: true,
-  forceRerendering: false,
+  loginData: {},
+  loginToken: "",
 };
+
 const Reducer = (state = initialState, action: any) => {
-  console.log(action, state.tab);
   switch (action.type) {
-    case Action.UPDATE_TAB:
+    case Action.UPDATE_LOGIN:
+      return { ...state, ...action.payload };
+    case Action.USER_LOGIN:
       return { ...state, ...action.payload };
     default:
       return state;

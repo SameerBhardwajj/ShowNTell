@@ -42,10 +42,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           {props.titleText}
         </Text>
         {props.check ? null : (
-          <Text style={Styles.incorrectText}>
-            {props.incorrectText}
-            {Strings.is_incorrect}
-          </Text>
+          <Text style={Styles.incorrectText}>{props.incorrectText}</Text>
         )}
       </View>
       <View
@@ -95,8 +92,8 @@ export default CustomInputText;
 const Styles = StyleSheet.create({
   textView: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
+    width: "100%",
   },
   titleTxt: {
     fontFamily: "Nunito-SemiBold",
@@ -135,6 +132,7 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Medium",
     fontSize: vh(12),
     color: Colors.pink,
+    paddingLeft: vw(40),
   },
   eyeIcon: {
     paddingHorizontal: vw(5),

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,16 +6,19 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  Modal,
 } from "react-native";
-import { Colors, vh, Images, vw } from "../utils";
+import { Colors, vh, Images, vw, ScreenName } from "../../utils";
 
 export interface AppProps {
   title: string;
+  navigation?: any;
   onPressBack: Function;
   notify?: boolean;
   notifyNumber?: number;
   textStyle?: Object;
   hideBackButton?: boolean;
+  child?: boolean;
 }
 
 const iPhoneX = Dimensions.get("window").height >= 812;
@@ -25,7 +28,19 @@ export default function App(props: AppProps) {
     <View style={Styles.mainOuterView}>
       <View style={Styles.extraHeader} />
       <View style={Styles.mainView}>
-        <Text style={[Styles.text, props.textStyle]}>{props.title}</Text>
+        <Text numberOfLines={1} style={[Styles.text, props.textStyle]}>
+          {props.title}
+        </Text>
+        {props.child ? (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={Styles.childHeader}
+            onPress={() => props.navigation.navigate(ScreenName.CHILD_MODAL)}
+          >
+            <Text style={Styles.childHeaderText}>Alex </Text>
+            <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
+          </TouchableOpacity>
+        ) : null}
         {props.hideBackButton ? null : (
           <TouchableOpacity
             activeOpacity={0.8}
@@ -99,5 +114,32 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(14),
     color: Colors.pink,
+  },
+  childHeader: {
+    flexDirection: "row",
+    position: "absolute",
+    right: vw(16),
+    top: vh(33),
+    paddingVertical: vw(3),
+    paddingHorizontal: vw(10),
+    backgroundColor: "white",
+    borderRadius: vh(20),
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  childHeaderText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(14),
+  },
+  dropdown: {
+    height: vh(6),
+    width: vh(11),
+    marginLeft: vw(5),
+    marginTop: vh(2),
+    tintColor: Colors.violet,
+  },
+  topModalView: {
+    width: "100%",
+    backgroundColor: Colors.modalBg2,
   },
 });

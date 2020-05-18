@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 // custom imports
-import { updateTab } from "./Action";
+import { updateTab } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 import {
   vh,

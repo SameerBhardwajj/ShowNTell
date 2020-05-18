@@ -1,4 +1,36 @@
+import Constants from "./Constants";
+import { CustomToast } from "../Components";
+import Strings from "./Strings";
 import axios from "axios";
+
+/**
+ *
+ * @param endPoint api end point
+ * @param params request data
+ * @param successCallback function for handle success response
+ * @param errorCallback  function for handle error response
+ */
+const googleSearchApiCall = (
+  endPoint: string,
+  successCallback: Function,
+  errorCallback: Function
+) => {
+  axios
+    .get(endPoint)
+    .then((response: any) => {
+      console.log("Success: ", response);
+      successCallback(response);
+    })
+    .catch((error: any) => {
+      console.warn("error", error);
+      console.log("Error: ", error.response);
+      if (error.message === "Network Error") {
+        CustomToast(Strings.No_Internet);
+      }
+      errorCallback(error.response);
+    });
+};
+
 /**
  *
  * @param endPoint api end point
@@ -12,29 +44,19 @@ const postApiCall = (
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
+  Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
+      console.log("res ", response);
       successCallback(response);
     })
     .catch((error: any) => {
-      if (error.code === "ECONNABORTED") {
-        let payload = {
-          data: {
-            status: 408,
-          },
-        };
-        errorCallback(payload);
-      } else if (error.response) {
-        errorCallback(error.response);
-      } else if (!error.response) {
-        let payload = {
-          data: {
-            status: "",
-          },
-        };
-        errorCallback(payload);
+      console.warn("error", error);
+      console.log("Error: ", error.response);
+      if (error.message === "Network Error") {
+        CustomToast(Strings.No_Internet);
       }
+      errorCallback(error.response);
     });
 };
 /**
@@ -46,35 +68,23 @@ const postApiCall = (
  */
 const getApiCall = (
   endPoint: string,
-  params: string = "",
+  params: any,
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
-    .get(endPoint + params, {})
+  Constants.axiosInstance
+    .get(endPoint, params)
     .then((response: any) => {
-      console.log("response", response);
+      console.log("Success: ", response);
       successCallback(response);
     })
     .catch((error: any) => {
-      if (error.code === "ECONNABORTED") {
-        let payload = {
-          data: {
-            //or whatever the code we are using
-            status: 408,
-          },
-        };
-        errorCallback(payload);
-      } else if (error.response) {
-        errorCallback(error.response);
-      } else if (!error.response) {
-        let payload = {
-          data: {
-            status: "",
-          },
-        };
-        errorCallback(payload);
+      console.warn("error", error);
+      console.log("Error: ", error.response);
+      if (error.message === "Network Error") {
+        CustomToast(Strings.No_Internet);
       }
+      errorCallback(error.response);
     });
 };
 /**
@@ -90,7 +100,7 @@ const deleteApiCall = (
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
+  Constants.axiosInstance
     .delete(endPoint + params, {})
     .then((response: any) => {
       successCallback(response);
@@ -129,7 +139,7 @@ const patchApiCall = (
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
+  Constants.axiosInstance
     .patch(endPoint, params)
     .then((response: any) => {
       successCallback(response);
@@ -168,7 +178,7 @@ const putApiCall = (
   successCallback: Function,
   errorCallback: Function
 ) => {
-  axios
+  Constants.axiosInstance
     .put(endPoint, params)
     .then((response: any) => {
       successCallback(response);
@@ -197,10 +207,11 @@ const putApiCall = (
 /**
  * export all function
  */
-export {
+export default {
   postApiCall,
   getApiCall,
   patchApiCall,
   putApiCall,
   deleteApiCall,
+  googleSearchApiCall,
 };

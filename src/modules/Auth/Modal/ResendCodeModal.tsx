@@ -11,6 +11,7 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const { params } = props.route;
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
@@ -22,7 +23,11 @@ export default function App(props: AppProps) {
         </Text>
         <CustomButton
           Text={Strings.ok}
-          onPress={() => props.navigation.navigate(props.route.params.path)}
+          onPress={() =>
+            params.path === undefined
+              ? props.navigation.pop(2)
+              : props.navigation.navigate(params.path)
+          }
         />
       </View>
     </View>

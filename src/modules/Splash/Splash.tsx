@@ -16,7 +16,6 @@ export default function App(props: AppProps) {
     SplashScreen.hide();
     setTimeout(() => {
       dispatch(updateSplash());
-      props.navigation.navigate(ScreenName.AUTH_NAVIGATOR);
     }, 2000);
   }, []);
   return (

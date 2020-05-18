@@ -17,7 +17,7 @@ export default {
   NEED_HELP: "NeedHelp",
   HOME: "Home",
   ATTENDANCE: "Attendance",
-  PHOTO_GALLERY: "PhotoGallery",
+  PHOTO_LIBRARY: "Photo Library",
   ABSENCE: "Absence",
   AUTH_NAVIGATOR: "AuthNavigator",
   MODAL: "Modal",
@@ -41,4 +41,9 @@ export default {
   SHARE_MODAL: "ShareModal",
   ACTIVITY_MODAL: "ActivityModal",
   LOGOUT_MODAL: "LogoutModal",
+  BASIC_DETAILS: "Basic Details",
+  MY_CHILDREN: "My Children",
+  TOP_TAB_NAVIGATOR: "TopTabNavigator",
+  CONTACT_MODAL: "ContactModal",
+  CHILD_MODAL: "ChildModal",
 };

@@ -40,7 +40,7 @@ export default function App(props: AppProps) {
       >
         <CustomHeader
           title={Strings.Create_Password}
-          onPressBack={() => props.navigation.pop()}
+          onPressBack={() => props.navigation.pop(3)}
         />
         <View style={Styles.innerView}>
           <Text style={Styles.welcome}>{Strings.hello}</Text>
@@ -59,7 +59,7 @@ export default function App(props: AppProps) {
               check={checkPassword1}
               secureTextEntry={secureEntry}
               onPressEye={() => setsecureEntry(!secureEntry)}
-              incorrectText={Strings.password}
+              incorrectText={Strings.Password_length}
               returnKeyType="next"
               onSubmitEditing={() =>
                 validate(ConstantName.PASSWORD, password1)
@@ -78,7 +78,7 @@ export default function App(props: AppProps) {
                   setPassword2(text);
               }}
               check={checkPassword2}
-              incorrectText={Strings.password}
+              incorrectText={Strings.Password_mismatch}
               returnKeyType="done"
               onSubmitEditing={() => {
                 validate(ConstantName.PASSWORD, password2)

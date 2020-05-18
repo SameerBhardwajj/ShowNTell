@@ -7,8 +7,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch } from "react-redux";
 
 // custom imports
 import {
@@ -26,6 +28,7 @@ import {
   Customcartoon,
   CustomInputText,
 } from "../../../Components";
+import { loginAPI } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -33,6 +36,7 @@ export interface AppProps {
 const iPhoneX = Dimensions.get("window").height >= 812;
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const input1: any = React.createRef();
   const input2: any = React.createRef();
   const [email, setEmail] = useState("");
@@ -40,13 +44,28 @@ export default function App(props: AppProps) {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkPassword, setCheckPassword] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const resetAll = () => {
-    setEmail("");
-    setPassword("");
     setCheckEmail(true);
     setCheckPassword(true);
     setsecureEntry(true);
+  };
+
+  const check = () => {
+    validate(ConstantName.EMAIL, email)
+      ? validate(ConstantName.PASSWORD, password)
+        ? (setIsLoading(true),
+          resetAll(),
+          dispatch(
+            loginAPI(email, password, () => {
+              console.warn('here');
+              
+              setIsLoading(false);
+            })
+          ))
+        : setCheckPassword(false)
+      : setCheckEmail(false);
   };
 
   return (
@@ -56,6 +75,14 @@ export default function App(props: AppProps) {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={Styles.mainView}
       >
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.violet}
+            animating={isLoading}
+            size="large"
+            style={Styles.indicator}
+          />
+        ) : null}
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.backBtn}
@@ -86,7 +113,7 @@ export default function App(props: AppProps) {
                     ? input2.current.focus()
                     : setCheckEmail(false);
                 }}
-                incorrectText={Strings.Email}
+                incorrectText={Strings.Email_error}
               />
               {/* Password ------------------ */}
               <CustomInputText
@@ -102,15 +129,8 @@ export default function App(props: AppProps) {
                   checkPassword ? null : setCheckPassword(true),
                     setPassword(text);
                 }}
-                onSubmitEditing={() => {
-                  validate(ConstantName.EMAIL, email)
-                    ? validate(ConstantName.PASSWORD, password)
-                      ? (resetAll(),
-                        props.navigation.navigate(ScreenName.TAB_NAVIGATOR))
-                      : (setPassword(""), setCheckPassword(false))
-                    : setCheckEmail(false);
-                }}
-                incorrectText={Strings.password}
+                onSubmitEditing={() => check()}
+                incorrectText={Strings.Password_length}
                 returnKeyType="done"
               />
             </View>
@@ -127,18 +147,11 @@ export default function App(props: AppProps) {
             </TouchableOpacity>
           </View>
           <View style={{ alignItems: "center", width: "100%" }}>
-            {/* Login ------------------ */}
+            {/* Proceed ------------------ */}
             <CustomButton
               Text={Strings.proceed}
               ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
-              onPress={() => {
-                validate(ConstantName.EMAIL, email)
-                  ? validate(ConstantName.PASSWORD, password)
-                    ? (resetAll(),
-                      props.navigation.navigate(ScreenName.TAB_NAVIGATOR))
-                    : (setPassword(""), setCheckPassword(false))
-                  : setCheckEmail(false);
-              }}
+              onPress={() => check()}
             />
             {/* Register -------------------- */}
             <CustomButton
@@ -179,6 +192,14 @@ const Styles = StyleSheet.create({
     top: iPhoneX ? vh(30) : vh(20),
     alignSelf: "flex-start",
     position: "absolute",
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
   loginView: {
     backgroundColor: "white",

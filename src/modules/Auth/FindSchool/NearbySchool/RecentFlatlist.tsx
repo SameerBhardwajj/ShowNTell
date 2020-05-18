@@ -16,7 +16,7 @@ export default function App(props: AppProps) {
       onPress={() => props.onPress(props.index)}
     >
       <Image style={Styles.img} source={Images.History_Icon} />
-      <Text style={Styles.text}>{props.item.title}</Text>
+      <Text numberOfLines={1} style={Styles.text}>{props.item.title}</Text>
     </TouchableOpacity>
   );
 }

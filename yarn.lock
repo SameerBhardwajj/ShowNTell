@@ -879,6 +879,13 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
+"@react-native-community/async-storage@^1.10.1":
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.10.1.tgz#23902625cf146a25b2929d72558caa437c72c4a8"
+  integrity sha512-9wjW4lNAKkNgeQtj4dG2graKoJoiAELvh6QDXZ55ld5J58kOfJIe6ELaGBUtIAoXPpmjsddjpXrfV6af3mN2JA==
+  dependencies:
+    deep-assign "^3.0.0"
+
 "@react-native-community/cli-debugger-ui@^4.6.3":
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.6.3.tgz#5e93bf170a092a011f1bb0e19886f94265a4ce97"
@@ -2234,6 +2241,13 @@ decode-uri-component@^0.2.0:
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
 
+deep-assign@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/deep-assign/-/deep-assign-3.0.0.tgz#c8e4c4d401cba25550a2f0f486a2e75bc5f219a2"
+  integrity sha512-YX2i9XjJ7h5q/aQ/IM9PEwEnDqETAIYbggmdDB3HLTlSgo1CxPsj6pvhPG68rq6SVE0+p+6Ywsm5fTYNrYtBWw==
+  dependencies:
+    is-obj "^1.0.0"
+
 deep-diff@^0.3.5:
   version "0.3.8"
   resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.8.tgz#c01de63efb0eec9798801d40c7e0dae25b582c84"
@@ -3494,6 +3508,11 @@ is-number@^3.0.0:
   integrity sha1-JP1iAaR4LPUFYcgQJ2r8fRLXEZU=
   dependencies:
     kind-of "^3.0.2"
+
+is-obj@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
+  integrity sha1-PkcprB9f3gJc19g6iW2rn09n2w8=
 
 is-plain-object@^2.0.3, is-plain-object@^2.0.4:
   version "2.0.4"
@@ -5314,6 +5333,11 @@ react-localization@^1.0.14:
   dependencies:
     localized-strings "^0.2.0"
 
+react-native-config@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.0.0.tgz#fada8f79996db1eadcee9e221afd713c91f677e5"
+  integrity sha512-ZydFNkGgjPCgJ4nDDGxuoMSsz4HACJH6TyYEDeefnzGW3XS/HXxdiW8SOaOD8B0WACQJHM028ypnwhexJ7hhsA==
+
 react-native-country-picker-modal@^1.10.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/react-native-country-picker-modal/-/react-native-country-picker-modal-1.10.0.tgz#ff4a3b73f08d5241f75f9edfaa2ad4cc0b1823f7"
@@ -5332,6 +5356,11 @@ react-native-date-picker@^2.7.9:
   integrity sha512-9D8N6oT8ZU5/zHDz2c+Asco24ESvd8Y7SnxipAyLB0GmtRFfRSJ+mOFwaZaYpeqAoSFJnRJVvICnDQCCLAl1cw==
   dependencies:
     moment "^2.22.1"
+
+react-native-device-info@^5.5.7:
+  version "5.5.7"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.5.7.tgz#aafe2581a702637a66fc04f333052980a4f9e8c5"
+  integrity sha512-0021blhx/N1+mWQPOW3QAMWhOjYdG0uC5n+P6sMXZD3pF9aiIeCKuw4JpBpfNXXpUmDmQ7qWgHZUZO7JBMRijw==
 
 react-native-gesture-handler@^1.6.1:
   version "1.6.1"
@@ -5556,6 +5585,11 @@ redux-logger@^3.0.6:
   integrity sha1-91VZZvMJjzyIYExEnPC69XeCdL8=
   dependencies:
     deep-diff "^0.3.5"
+
+redux-persist@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-6.0.0.tgz#b4d2972f9859597c130d40d4b146fecdab51b3a8"
+  integrity sha512-71LLMbUq2r02ng2We9S215LtPu3fY0KgaGE0k8WRgl6RkqxtGfl7HUozz1Dftwsb0D/5mZ8dwAaPbtnzfvbEwQ==
 
 redux-thunk@^2.3.0:
   version "2.3.0"

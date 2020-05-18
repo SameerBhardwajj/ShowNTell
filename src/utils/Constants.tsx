@@ -1,24 +1,28 @@
-// Validations ----------------------
-import ConstantName from "./ConstantName";
-const reg = (regex: string) => {
-  switch (regex) {
-    case ConstantName.EMAIL:
-      return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    case ConstantName.PASSWORD:
-      return /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
-    case ConstantName.PHONE:
-      return /^[1-9]{1}[0-9]{6,14}$/;
-    case ConstantName.NAME:
-      return /^[a-zA-Z ]+$/;
-    case ConstantName.ZIPCODE:
-      return /(^[1-9]{1}\d{3,6}$)/;
-  }
-};
+import Config from "react-native-config";
+import axios from "axios";
 
-const validate = (type: string, text: string) => {
-  const regex: any = reg(type);
-  if (type === ConstantName.NAME) return regex.test(String(text).toLowerCase());
-  else return regex.test(String(text));
-};
+const $http = axios.create({
+  baseURL: Config.API_URL,
+  headers: {
+    Authorization: "Basic Y29yZTpjb3Jl",
+    "Content-Type": "application/json",
+  },
+});
 
-export { validate };
+export default {
+  successStatus: 200,
+  unAuthorizedStatus: 401,
+  notAuthorizedForInfo: 400,
+  axiosInstance: $http,
+  status_code: {
+    success: 200,
+    successAction: 201,
+    notFound: 204,
+    badRequest: 400,
+    Unauthorized: 401,
+    invalid: 400,
+    timeout: 408,
+    userDelete: 410,
+    serverError: 500,
+  },
+};

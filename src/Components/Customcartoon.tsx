@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, TouchableOpacity, Image } from "react-native";
-import { vw, vh, Images } from "../utils";
+import { vw, vh, Images, ScreenName } from "../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -23,7 +23,7 @@ export default function App(props: AppProps) {
     <View style={{ flexDirection: "row" }}>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => props.navigation.navigate("Modal", { type: 1 })}
+        onPress={() => props.navigation.navigate(ScreenName.MODAL, { type: 1 })}
         style={{
           height: small ? vh(125) : vh(142),
           alignSelf: "flex-end",
@@ -36,7 +36,7 @@ export default function App(props: AppProps) {
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => props.navigation.navigate("Modal", { type: 2 })}
+        onPress={() => props.navigation.navigate(ScreenName.MODAL, { type: 2 })}
         style={{
           height: small ? vh(117) : vh(127),
           width: small ? vw(75) : vw(85),
@@ -47,7 +47,7 @@ export default function App(props: AppProps) {
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => props.navigation.navigate("Modal", { type: 3 })}
+        onPress={() => props.navigation.navigate(ScreenName.MODAL, { type: 3 })}
         style={{
           height: small ? vh(100) : vh(113),
           width: vw(65),
@@ -61,7 +61,7 @@ export default function App(props: AppProps) {
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => props.navigation.navigate("Modal", { type: 4 })}
+        onPress={() => props.navigation.navigate(ScreenName.MODAL, { type: 4 })}
         style={{
           height: h4,
           alignSelf: "flex-end",

@@ -1,6 +1,7 @@
 const Colors = {
   violet: "rgb(153, 51, 136)",
   disableViolet: "rgba(153, 51, 136, 0.5)",
+  lightViolet: "rgb(208, 162, 200)",
   pink: "rgb(236, 0, 136)",
   lightPink: "rgba(236, 0,136, 0.1)",
   mediumPink: "rgba(236, 0,136, 0.5)",
@@ -24,5 +25,8 @@ const Colors = {
   fadedPink: "rgb(245, 236, 244)",
   darkFadedPink: "rgb(236, 217, 233)",
   separator: "rgba(0, 0, 0, 0.06)",
+  mediumBlack: "rgb(68, 68, 68)",
+  modalBg2: "rgba(0,0,0,0.2)",
+  chatBorderGrey: "rgb(210, 210, 210)",
 };
 export default Colors;

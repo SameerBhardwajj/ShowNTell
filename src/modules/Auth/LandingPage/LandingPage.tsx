@@ -5,27 +5,51 @@ import {
   ImageBackground,
   StyleSheet,
   TouchableOpacity,
-  FlatList,
   StatusBar,
+  FlatList,
+  ToastAndroid,
+  BackHandler,
 } from "react-native";
+import { useDispatch } from "react-redux";
+import SplashScreen from "react-native-splash-screen";
 
 // custom imports
 import { Images, vh, vw, Strings, Colors, ScreenName } from "../../../utils";
 import { CustomButton, Customcartoon } from "../../../Components";
 import TestimonialList from "./TestimonialList";
+import { updateScrollRef } from "./action";
+
+export function isNullUndefined(item: any) {
+  try {
+    if (item == null || item == "" || item == 0 || item == undefined) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return true;
+  }
+}
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
-  let flatListRef: any = React.useRef();
+  const dispatch = useDispatch();
+  const flatListRef: any = React.useRef();
   const [currentIndex, setCurrentIndex] = useState(1);
   const [scroll, setScroll] = useState(true);
 
   useEffect(() => {
+    SplashScreen.hide();
     autoScroll();
-  });
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
+      BackHandler.exitApp();
+      return true;
+    });
+  }, [currentIndex]);
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -42,18 +66,20 @@ export default function App(props: AppProps) {
   const autoScroll = () => {
     scroll
       ? setTimeout(() => {
-          if (currentIndex < DATA.length - 1) {
-            setCurrentIndex(currentIndex + 1);
-            flatListRef.current.scrollToIndex({
-              index: currentIndex,
-              animated: true,
-            });
-          } else {
-            setCurrentIndex(0);
-            flatListRef.current.scrollToIndex({
-              index: currentIndex,
-              animated: true,
-            });
+          if (flatListRef.current) {
+            if (currentIndex < DATA.length - 1) {
+              setCurrentIndex(currentIndex + 1);
+              flatListRef.current.scrollToIndex({
+                index: currentIndex,
+                animated: true,
+              });
+            } else {
+              setCurrentIndex(0);
+              flatListRef.current.scrollToIndex({
+                index: currentIndex,
+                animated: true,
+              });
+            }
           }
         }, 5000)
       : null;

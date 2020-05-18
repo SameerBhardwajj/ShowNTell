@@ -13,7 +13,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import Splash from "../modules/Splash/Splash";
 import LandingPage from "../modules/Auth/LandingPage/LandingPage";
 import Login from "../modules/Auth/Login/Login";
-import FindSchool from "../modules/Auth/FindSchool/FindSchool";
+import FindSchool from "../modules/Auth/FindSchool/FindLocation";
 import Home from "../modules/Home/Home";
 import Profile from "../modules/Profile/Profile";
 import Chat from "../modules/Chat/Chat";
@@ -36,26 +36,28 @@ import ResetPasswordEmail from "../modules/Auth/ForgotPassowrd/ResetPasswordEmai
 import PasswordResetCode from "../modules/Auth/ForgotPassowrd/PasswordResetCode";
 import ResetPassword from "../modules/Auth/ForgotPassowrd/ResetPassword";
 import NearbySchool from "../modules/Auth/FindSchool/NearbySchool/NearbySchool";
-import SchoolListing from "../modules/Auth/FindSchool/SchoolListing";
+import SchoolListing from "../modules/Auth/FindSchool/SchoolListing/SchoolListing";
 import ScheduleTour from "../modules/Auth/FindSchool/ScheduleTour";
 import DateTimeSchedule from "../modules/Auth/FindSchool/DateTimeSchedule";
 import NeedHelp from "../modules/NeedHelp/NeedHelp";
 import CustomDrawer from "./CustomDrawer";
 import Announcement from "../modules/Announcement/Announcement";
 import Settings from "../modules/Settings/Settings";
+// import AbsenceNotificationModal from "../modules/Attendance/AbsenceNotificationModal";
 import QOD from "../modules/QOD/QOD";
+// import FilterModal from "../modules/QOD/FilterModal";
 import ShareModal from "../modules/Home/ShareModal";
 import LogoutModal from "../modules/Auth/Modal/LogoutModal";
 import ActivityModal from "../modules/Home/ActivityModal";
+// import GalleryDetails from "../modules/PhotoLibrary/GalleryDetails";
+// import CreateAbsence from "../modules/Absence/CreateAbsence";
+import ChildModal from "../Components/CustomHeader/ChildModal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
 const AuthStack = createStackNavigator();
-const ProfileStack = createStackNavigator();
 const TabStack = createBottomTabNavigator();
 const DrawerStack = createDrawerNavigator();
-const ModalStack = createStackNavigator();
-const GalleryStack = createStackNavigator();
 
 const AuthNavigator = () => (
   <AuthStack.Navigator
@@ -116,18 +118,24 @@ const DrawerNavigator = () => (
     drawerContent={(props: any) => <CustomDrawer {...props} />}
   >
     <DrawerStack.Screen name={ScreenName.HOME} component={Home} />
+    <DrawerStack.Screen
+      name={ScreenName.PHOTO_LIBRARY}
+      component={PhotoGallery}
+    />
   </DrawerStack.Navigator>
 );
 
-console.disableYellowBox = true;
+console.disableYellowBox = false;
 
 export interface AppProps {
   tab: boolean;
   splash: boolean;
+  loginToken: string;
 }
-export default class AppComponent extends React.PureComponent<AppProps, any> {
+export default class AppComponent extends React.Component<AppProps, any> {
   constructor(props: AppProps) {
     super(props);
+    console.warn("navigation value ", props.tab);
   }
 
   TabNavigator = () => (
@@ -137,63 +145,16 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
       tabBarOptions={{
         style: Styles.tabView,
         safeAreaInsets: { bottom: 0 },
+        activeTintColor: Colors.violet,
+        inactiveTintColor: Colors.characterGrey,
+        labelStyle: {
+          fontFamily: "Nunito-SemiBold",
+          fontSize: vh(12),
+          marginBottom: vh(10),
+          textTransform: "capitalize",
+        },
       }}
       screenOptions={({ route }) => ({
-        tabBarLabel: ({ focused }) => {
-          if (route.name === ScreenName.HOME) {
-            return (
-              <Text
-                style={{
-                  color: focused ? Colors.violet : Colors.characterGrey,
-                  fontFamily: "Nunito-SemiBold",
-                  fontSize: vh(12),
-                  marginBottom: vh(10),
-                }}
-              >
-                Home
-              </Text>
-            );
-          } else if (route.name === ScreenName.ATTENDANCE) {
-            return (
-              <Text
-                style={{
-                  color: focused ? Colors.violet : Colors.characterGrey,
-                  fontFamily: "Nunito-SemiBold",
-                  fontSize: vh(12),
-                  marginBottom: vh(10),
-                }}
-              >
-                Attendance
-              </Text>
-            );
-          } else if (route.name === ScreenName.PHOTO_GALLERY) {
-            return (
-              <Text
-                style={{
-                  color: focused ? Colors.violet : Colors.characterGrey,
-                  fontFamily: "Nunito-SemiBold",
-                  fontSize: vh(12),
-                  marginBottom: vh(10),
-                }}
-              >
-                Photo Library
-              </Text>
-            );
-          } else if (route.name === ScreenName.ABSENCE) {
-            return (
-              <Text
-                style={{
-                  color: focused ? Colors.violet : Colors.characterGrey,
-                  fontFamily: "Nunito-SemiBold",
-                  fontSize: vh(12),
-                  marginBottom: vh(10),
-                }}
-              >
-                Absence
-              </Text>
-            );
-          }
-        },
         tabBarIcon: ({ focused }) => {
           if (route.name === ScreenName.HOME) {
             return (
@@ -220,7 +181,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 }
               />
             );
-          } else if (route.name === ScreenName.PHOTO_GALLERY) {
+          } else if (route.name === ScreenName.PHOTO_LIBRARY) {
             return (
               <Image
                 style={{
@@ -251,7 +212,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
       />
       <TabStack.Screen name={ScreenName.ATTENDANCE} component={Attendance} />
       <TabStack.Screen
-        name={ScreenName.PHOTO_GALLERY}
+        name={ScreenName.PHOTO_LIBRARY}
         component={PhotoGallery}
       />
       <TabStack.Screen name={ScreenName.ABSENCE} component={Absence} />
@@ -263,7 +224,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
     cardOverlayEnabled: true,
     ...TransitionPresets.ModalSlideFromBottomIOS,
     cardStyle: {
-      backgroundColor: "rgba(0,0,0,0.2)",
+      backgroundColor: Colors.modalBg2,
       opacity: 1,
     },
   };
@@ -275,17 +236,14 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
   public render() {
     return (
       <NavigationContainer>
-        <RootStack.Navigator
-          headerMode="none"
-          initialRouteName={ScreenName.SPLASH}
-        >
+        <RootStack.Navigator headerMode="none">
           {this.props.splash ? (
             <RootStack.Screen
               name={ScreenName.SPLASH}
               component={Splash}
               options={this.screen}
             />
-          ) : (
+          ) : this.props.loginToken === "" ? (
             <>
               <RootStack.Screen
                 name={ScreenName.AUTH_NAVIGATOR}
@@ -307,38 +265,73 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
                 component={CreatePasswordModal}
                 options={this.modal}
               />
+            </>
+          ) : (
+            <>
               <RootStack.Screen
                 name={ScreenName.TAB_NAVIGATOR}
                 component={this.TabNavigator}
                 options={this.screen}
               />
-              <RootStack.Screen name={ScreenName.PROFILE} component={Profile} />
-              <RootStack.Screen name={ScreenName.CHAT} component={Chat} />
+              <RootStack.Screen
+                name={ScreenName.PROFILE}
+                component={Profile}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.CHAT}
+                component={Chat}
+                options={this.screen}
+              />
               <RootStack.Screen
                 name={ScreenName.ANNOUNCEMENT}
                 component={Announcement}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.SETTINGS}
                 component={Settings}
+                options={this.screen}
               />
-              <RootStack.Screen name={ScreenName.QOD} component={QOD} />
-              <RootStack.Screen name={ScreenName.EVENTS} component={Events} />
+              <RootStack.Screen
+                name={ScreenName.QOD}
+                component={QOD}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.EVENTS}
+                component={Events}
+                options={this.screen}
+              />
               <RootStack.Screen
                 name={ScreenName.CLASSROOM_SCHEDULE}
                 component={ClassroomSchedule}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.STATEMENTS}
                 component={Statements}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.REFERRAL}
                 component={Referral}
+                options={this.screen}
               />
               <RootStack.Screen
                 name={ScreenName.TESTIMONIALS}
                 component={Testimonials}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.NEED_HELP}
+                component={NeedHelp}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.RESEND_CODE_MODAL}
+                component={ResendCodeModal}
+                options={this.modal}
               />
               <RootStack.Screen
                 name={ScreenName.SHARE_MODAL}
@@ -348,6 +341,31 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
               <RootStack.Screen
                 name={ScreenName.ACTIVITY_MODAL}
                 component={ActivityModal}
+                options={this.modal}
+              />
+              {/* <RootStack.Screen
+                name={ScreenName.ABSENCE_NOTIFICATION_MODAL}
+                component={AbsenceNotificationModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name={ScreenName.GALLERY_DETAILS}
+                component={GalleryDetails}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.FILTER_MODAL}
+                component={FilterModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name={ScreenName.CREATE_ABSENCE}
+                component={CreateAbsence}
+                options={this.screen}
+              /> */}
+              <RootStack.Screen
+                name={ScreenName.CHILD_MODAL}
+                component={ChildModal}
                 options={this.modal}
               />
               <RootStack.Screen
@@ -366,6 +384,7 @@ export default class AppComponent extends React.PureComponent<AppProps, any> {
 const Styles = StyleSheet.create({
   tabView: {
     height: vh(70),
+    alignItems: "center",
     backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {

@@ -14,6 +14,7 @@ import {
   Colors,
   validate,
   ConstantName,
+  ScreenName,
 } from "../../../utils";
 
 export interface AppProps {
@@ -29,6 +30,17 @@ export default function App(props: AppProps) {
   const [checkPassword2, setCheckPassword2] = useState(true);
   const [secureEntry1, setsecureEntry1] = useState(true);
   const [secureEntry2, setsecureEntry2] = useState(true);
+
+  const check = () => {
+    validate(ConstantName.PASSWORD, password1)
+      ? validate(ConstantName.PASSWORD, password2)
+        ? password1 === password2
+          ? (Keyboard.dismiss(),
+            props.navigation.navigate(ScreenName.CREATE_PASSWORD_MODAL))
+          : setCheckPassword2(false)
+        : setCheckPassword2(false)
+      : setCheckPassword1(false);
+  };
 
   return (
     <View style={Styles.mainView}>
@@ -48,7 +60,7 @@ export default function App(props: AppProps) {
           check={checkPassword1}
           secureTextEntry={secureEntry1}
           onPressEye={() => setsecureEntry1(!secureEntry1)}
-          incorrectText={Strings.password}
+          incorrectText={Strings.Password_length}
           returnKeyType="next"
           onSubmitEditing={() =>
             validate(ConstantName.PASSWORD, password1)
@@ -68,30 +80,14 @@ export default function App(props: AppProps) {
           }}
           check={checkPassword2}
           onPressEye={() => setsecureEntry2(!secureEntry2)}
-          incorrectText={Strings.password}
+          incorrectText={Strings.Password_mismatch}
           returnKeyType="done"
-          onSubmitEditing={() => {
-            validate(ConstantName.PASSWORD, password2)
-              ? validate(ConstantName.PASSWORD, password1)
-                ? password1 === password2
-                  ? (Keyboard.dismiss(), props.navigation.pop(3))
-                  : setCheckPassword2(false)
-                : setCheckPassword2(false)
-              : setCheckPassword1(false);
-          }}
+          onSubmitEditing={() => check()}
         />
         <View style={{ alignItems: "center" }}>
           <CustomButton
             Text={Strings.Continue}
-            onPress={() => {
-              validate(ConstantName.PASSWORD, password2)
-                ? validate(ConstantName.PASSWORD, password1)
-                  ? password1 === password2
-                    ? (Keyboard.dismiss(), props.navigation.pop(3))
-                    : setCheckPassword2(false)
-                  : setCheckPassword2(false)
-                : setCheckPassword1(false);
-            }}
+            onPress={() => check()}
             ButtonStyle={{ width: "100%" }}
           />
         </View>

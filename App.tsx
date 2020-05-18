@@ -8,15 +8,19 @@
  * @format
  */
 
-import React from 'react';
+import React from "react";
 
-import Router from './src/router';
-import {Provider} from 'react-redux';
-import {store} from './src/store/Store';
+import Router from "./src/router";
+import { Provider } from "react-redux";
+import { store, persistor } from "./src/store/Store";
+import { PersistGate } from "redux-persist/es/integration/react";
+
 const App = () => {
   return (
     <Provider store={store}>
-      <Router />
+      <PersistGate loading={null} persistor={persistor}>
+        <Router />
+      </PersistGate>
     </Provider>
   );
 };
