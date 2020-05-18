@@ -35,7 +35,6 @@ export default function App(props: AppProps) {
           onChangeText={(text: string) => setSchool(text)}
           currentText={school}
           viewStyle={Styles.menuView}
-          data={DATA}
         />
         <DatePicker
           minimumDate={new Date()}

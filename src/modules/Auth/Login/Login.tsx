@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
+  Keyboard,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch } from "react-redux";
@@ -50,6 +51,7 @@ export default function App(props: AppProps) {
     setCheckEmail(true);
     setCheckPassword(true);
     setsecureEntry(true);
+    Keyboard.dismiss();
   };
 
   const check = () => {
@@ -59,8 +61,8 @@ export default function App(props: AppProps) {
           resetAll(),
           dispatch(
             loginAPI(email, password, () => {
-              console.warn('here');
-              
+              console.warn("here");
+
               setIsLoading(false);
             })
           ))

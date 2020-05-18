@@ -7,5 +7,6 @@ export default {
       `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${GoogleAPI}`,
     nearByCentres: (lat: number, lon: number, page: number) =>
       `/v1/parent/nearbycenter?latitude=${lat}&longitude=${lon}&page=${page}`,
+    centerList: "/v1/parent/centers",
   },
 };

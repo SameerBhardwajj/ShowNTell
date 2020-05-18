@@ -156,7 +156,6 @@ export default function App(props: AppProps) {
               onChangeText={(text: string) => setSchool(text)}
               currentText={school}
               viewStyle={Styles.menuView}
-              data={DATA}
             />
             <CustomInputText
               ref={input1}
@@ -298,9 +297,3 @@ const Styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
 });
-
-const DATA = [
-  { value: "School 1" },
-  { value: "School 2" },
-  { value: "School 3" },
-];

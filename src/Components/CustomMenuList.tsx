@@ -1,18 +1,45 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { Dropdown } from "react-native-material-dropdown";
-import { Strings, Colors, vw, vh, Images } from "../utils";
+import { Strings, Colors, vw, vh, Images, API, EndPoints } from "../utils";
+import CustomToast from "./CustomToast";
 
 export interface AppProps {
   titleText: string;
   viewStyle?: Object;
-  data: Array<any>;
   onChangeText: Function;
   currentText: string;
   dropDownView?: Object;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
+  const [list, setList] = React.useState([]);
+  React.useEffect(() => {
+    API.getApiCall(
+      EndPoints.auth.centerList,
+      undefined,
+      (success: any) => {
+        console.warn(success.data.response);
+        let temp = success.data.response;
+        temp = temp.map((item: any) => {
+          return {
+            id: item.id,
+            value: item.name,
+            address1: item.address1,
+            phone: item.phone,
+            email: item.email,
+            center_image: item.center_image,
+            center_lat: item.center_lat,
+            center_long: item.center_long,
+            Centertype: item.Centertype,
+          };
+        });
+        setList(temp);
+      },
+      (error: any) => CustomToast(error)
+    );
+  }, []);
+
   return (
     <View style={[Styles.mainView, props.viewStyle]}>
       <Text style={Styles.titleTxt}>{props.titleText}</Text>
@@ -33,7 +60,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         ]}
         containerStyle={{ width: "100%" }}
         fontSize={vh(16)}
-        data={props.data}
+        data={list}
         onChangeText={(value) => props.onChangeText(value)}
       />
     </View>

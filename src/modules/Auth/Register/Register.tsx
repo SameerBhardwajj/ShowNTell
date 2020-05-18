@@ -81,8 +81,7 @@ export default function App(props: AppProps) {
                 titleText={Strings.School_Name}
                 onChangeText={(text: string) => setSchool(text)}
                 currentText={school}
-                data={DATA}
-                dropDownView={{width: '80%'}}
+                dropDownView={{ width: "80%" }}
               />
             </View>
           </View>
@@ -174,16 +173,3 @@ const Styles = StyleSheet.create({
     paddingTop: vh(10),
   },
 });
-
-// Dummy data for School listy API
-const DATA = [
-  { value: "School 1" },
-  { value: "School 2" },
-  { value: "School 3" },
-  { value: "School 1" },
-  { value: "School 2" },
-  { value: "School 3" },
-  { value: "School 1" },
-  { value: "School 2" },
-  { value: "School 3" },
-];
