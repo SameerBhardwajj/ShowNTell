@@ -1,6 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Keyboard,
+  ActivityIndicator,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
@@ -17,12 +24,14 @@ import {
   ConstantName,
   ScreenName,
 } from "../../../utils";
+import { createPassword } from "./action";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
   const [password1, setPassword1] = useState("");
@@ -30,6 +39,34 @@ export default function App(props: AppProps) {
   const [checkPassword1, setCheckPassword1] = useState(true);
   const [checkPassword2, setCheckPassword2] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { id } = useSelector((state: { Register: any }) => ({
+    id: state.Register.id,
+  }));
+
+  const check = () => {
+    validate(ConstantName.PASSWORD, password1)
+      ? validate(ConstantName.PASSWORD, password2)
+        ? password1 === password2
+          ? (Keyboard.dismiss(),
+            setIsLoading(true),
+            dispatch(
+              createPassword(
+                id,
+                password1,
+                password2,
+                () => {
+                  setIsLoading(false);
+                  props.navigation.navigate(ScreenName.CREATE_PASSWORD_MODAL);
+                },
+                () => setIsLoading(false)
+              )
+            ))
+          : setCheckPassword2(false)
+        : setCheckPassword2(false)
+      : setCheckPassword1(false);
+  };
 
   return (
     <View style={Styles.mainView}>
@@ -42,6 +79,14 @@ export default function App(props: AppProps) {
           title={Strings.Create_Password}
           onPressBack={() => props.navigation.pop(3)}
         />
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.violet}
+            animating={isLoading}
+            size="large"
+            style={Styles.indicator}
+          />
+        ) : null}
         <View style={Styles.innerView}>
           <Text style={Styles.welcome}>{Strings.hello}</Text>
           <Text style={Styles.name}>{Strings.Bob_Parish}</Text>
@@ -80,34 +125,12 @@ export default function App(props: AppProps) {
               check={checkPassword2}
               incorrectText={Strings.Password_mismatch}
               returnKeyType="done"
-              onSubmitEditing={() => {
-                validate(ConstantName.PASSWORD, password2)
-                  ? validate(ConstantName.PASSWORD, password1)
-                    ? password1 === password2
-                      ? (Keyboard.dismiss(),
-                        props.navigation.navigate(
-                          ScreenName.CREATE_PASSWORD_MODAL
-                        ))
-                      : setCheckPassword2(false)
-                    : setCheckPassword2(false)
-                  : setCheckPassword1(false);
-              }}
+              onSubmitEditing={() => check()}
             />
             <View style={{ alignItems: "center" }}>
               <CustomButton
                 Text={Strings.Continue}
-                onPress={() => {
-                  validate(ConstantName.PASSWORD, password2)
-                    ? validate(ConstantName.PASSWORD, password1)
-                      ? password1 === password2
-                        ? (Keyboard.dismiss(),
-                          props.navigation.navigate(
-                            ScreenName.CREATE_PASSWORD_MODAL
-                          ))
-                        : setCheckPassword2(false)
-                      : setCheckPassword2(false)
-                    : setCheckPassword1(false);
-                }}
+                onPress={() => check()}
                 ButtonStyle={{ width: "100%" }}
               />
             </View>
@@ -144,5 +167,13 @@ const Styles = StyleSheet.create({
   },
   codeView: {
     marginVertical: vh(32),
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
 });

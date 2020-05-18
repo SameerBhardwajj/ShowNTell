@@ -189,6 +189,7 @@ const Strings = new LocalizedStrings({
     Phone_error: "Phone no. is incorrect",
     Name_error: "Name is Incorrect",
     Zipcode_error: "Zipcode is Incorrect",
+    SchoolName_error: "Please select atleast 1 center",
     Device: "Device",
     Application: "Application",
     Remove_Child: "Remove Child",
@@ -199,6 +200,7 @@ const Strings = new LocalizedStrings({
     No_Internet: "No Internet! Please check your Internet Connection",
     Miles: "Miles",
     No_data_Found: "No data Found",
+    Select_School: "Select School",
   },
 });
 export default Strings;

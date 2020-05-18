@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
@@ -16,15 +17,37 @@ import {
   ConstantName,
   ScreenName,
 } from "../../../utils";
+import { forgotPassword } from "./action";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [checkEmail, setCheckEmail] = useState(true);
   const [access, setAccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const check = () => {
+    access
+      ? (setAccess(false),
+        setIsLoading(true),
+        dispatch(
+          forgotPassword(
+            email,
+            () => {
+              setIsLoading(false);
+              props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE, {
+                email: email,
+              });
+            },
+            () => setIsLoading(false)
+          )
+        ))
+      : null;
+  };
 
   return (
     <View style={Styles.mainView}>
@@ -32,6 +55,14 @@ export default function App(props: AppProps) {
         title={Strings.Reset_Password}
         onPressBack={() => props.navigation.pop()}
       />
+      {isLoading ? (
+        <ActivityIndicator
+          color={Colors.violet}
+          animating={isLoading}
+          size="large"
+          style={Styles.indicator}
+        />
+      ) : null}
       <View style={Styles.innerView}>
         <Text style={Styles.welcome}>{Strings.hello}</Text>
         <Text style={Styles.name}>Mr. Bob Parish</Text>
@@ -50,27 +81,13 @@ export default function App(props: AppProps) {
             check={checkEmail}
             incorrectText={Strings.Email_error}
             autoFocus={true}
-            onSubmitEditing={() => {
-              access
-                ? (setAccess(false),
-                  props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE, {
-                    email: email,
-                  }))
-                : null;
-            }}
+            onSubmitEditing={() => check()}
           />
           <View style={{ alignItems: "center", width: "100%" }}>
             <CustomButton
               Text={Strings.Continue}
               activeOpacity={access ? 0.8 : 1}
-              onPress={() => {
-                access
-                  ? (setAccess(false),
-                    props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE, {
-                      email: email,
-                    }))
-                  : null;
-              }}
+              onPress={() => check()}
               ButtonStyle={{
                 width: "100%",
                 backgroundColor:
@@ -111,5 +128,13 @@ const Styles = StyleSheet.create({
   codeView: {
     alignItems: "center",
     marginVertical: vh(32),
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
 });

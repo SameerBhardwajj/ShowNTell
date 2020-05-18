@@ -1,0 +1,147 @@
+import { CustomToast } from "../../../Components";
+import { Action, API, EndPoints } from "../../../utils";
+
+export const forgotPassword = (
+  email: string,
+  successCallback: Function,
+  failCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.auth.register,
+      {
+        email: email,
+      },
+      (success: any) => {
+        console.log("success ", success);
+        if (success.data.code === 200) {
+          dispatch({
+            type: Action.CREATE_PASSWORD,
+            payload: {
+              email: email,
+            },
+          });
+          successCallback();
+        } else {
+          CustomToast(success.data.message);
+          failCallback();
+        }
+      },
+      (error: any) => {
+        console.log("error ", error);
+      }
+    );
+  };
+};
+
+export const resendCode = (
+  email: string,
+  phone: string,
+  successCallback: Function,
+  failCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.auth.resendCode,
+      {
+        email: email,
+        phone_number: phone,
+      },
+      (success: any) => {
+        console.log("success ", success);
+        if (success.data.code === 200) {
+          let res = success.data.response;
+          dispatch({
+            type: Action.RESEND_CODE,
+            payload: {
+              name: `${res.first_name}${
+                res.middle_name === null ? "" : `${" "}${res.middle_name}`
+              } ${res.last_name}`,
+              id: res.id,
+            },
+          });
+          successCallback();
+        } else {
+          CustomToast(success.data.message);
+          failCallback();
+        }
+      },
+      (error: any) => {
+        console.log("error ", error);
+      }
+    );
+  };
+};
+
+export const verifyCode = (
+  code: string,
+  id: number,
+  successCallback: Function,
+  failCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.auth.verifyCode,
+      {
+        access_code: code,
+        guardian_id: id,
+      },
+      (success: any) => {
+        console.log("success ", success);
+        if (success.data.code === 200) {
+          dispatch({
+            type: Action.VERIFY_CODE,
+            payload: {
+              email: "",
+              name: "",
+            },
+          });
+          successCallback();
+        } else {
+          CustomToast(success.data.message);
+          failCallback();
+        }
+      },
+      (error: any) => {
+        console.log("error ", error);
+      }
+    );
+  };
+};
+
+export const createPassword = (
+  id: number,
+  password1: string,
+  password2: string,
+  successCallback: Function,
+  failCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.auth.createPassword,
+      {
+        guardian_id: id,
+        password: password1,
+        confirm_password: password2,
+      },
+      (success: any) => {
+        console.log("success ", success);
+        if (success.data.code === 200) {
+          dispatch({
+            type: Action.CREATE_PASSWORD,
+            payload: {
+              id: 0,
+            },
+          });
+          successCallback();
+        } else {
+          CustomToast(success.data.message);
+          failCallback();
+        }
+      },
+      (error: any) => {
+        console.log("error ", error);
+      }
+    );
+  };
+};

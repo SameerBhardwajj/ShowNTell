@@ -5,23 +5,21 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import {
-  CustomHeader,
-  CustomCodeBox,
-  CustomToast,
-  CustomButton,
-} from "../../../Components";
+import { CustomHeader, CustomCodeBox, CustomButton } from "../../../Components";
 import { Strings, vw, vh, Colors, ScreenName } from "../../../utils";
+import { verifyCode } from "./action";
 
 export interface AppProps {
   navigation?: any;
-  route?: any;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
   const inputRef3: any = React.createRef();
@@ -30,23 +28,35 @@ export default function App(props: AppProps) {
   const [input2, setinput2] = useState("");
   const [input3, setinput3] = useState("");
   const [input4, setinput4] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const CODE = "1234";
   const KEY_BACKSPACE = "Backspace";
 
-  const verifyCode = () => {
-    const code = CODE;
+  const { email, name, id } = useSelector((state: { Register: any }) => ({
+    email: state.Register.email,
+    name: state.Register.name,
+    id: state.Register.id,
+  }));
+
+  const verifyMyCode = () => {
     let enteredCode =
       input1.toString() +
       input2.toString() +
       input3.toString() +
       input4.toString();
 
-    if (code === enteredCode) {
-      props.navigation.navigate(ScreenName.CREATE_PASSWORD);
-    } else {
-      CustomToast(Strings.wrong_code);
-    }
+    setIsLoading(true);
+    dispatch(
+      verifyCode(
+        enteredCode,
+        id,
+        () => {
+          setIsLoading(false);
+          props.navigation.navigate(ScreenName.CREATE_PASSWORD);
+        },
+        () => setIsLoading(false)
+      )
+    );
   };
 
   let EmptyBox =
@@ -63,11 +73,19 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.innerView}>
         <Text style={Styles.welcome}>{Strings.Welcome}</Text>
-        <Text style={Styles.name}>Mr. Bob Parish</Text>
+        {name === "" ? null : <Text style={Styles.name}>{name}</Text>}
         <Text style={Styles.please}>
           {Strings.please_enter_code}
-          {props.route.params.email}
+          {email}
         </Text>
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.violet}
+            animating={isLoading}
+            size="large"
+            style={Styles.indicator}
+          />
+        ) : null}
         {/* Access code box ------------------ */}
         <View style={Styles.codeView}>
           <CustomCodeBox
@@ -127,7 +145,7 @@ export default function App(props: AppProps) {
                 : null;
             }}
             onSubmitEditing={() => {
-              Keyboard.dismiss(), verifyCode();
+              Keyboard.dismiss(), verifyMyCode();
             }}
           />
         </View>
@@ -137,7 +155,7 @@ export default function App(props: AppProps) {
             activeOpacity={EmptyBox ? 1 : 0.8}
             Text={Strings.verify}
             onPress={() =>
-              EmptyBox ? null : (Keyboard.dismiss(), verifyCode())
+              EmptyBox ? null : (Keyboard.dismiss(), verifyMyCode())
             }
             ButtonStyle={{
               width: "98%",
@@ -153,7 +171,7 @@ export default function App(props: AppProps) {
               style={{ paddingHorizontal: vw(7) }}
               onPress={() =>
                 props.navigation.navigate(ScreenName.REQUEST_NEW_CODE, {
-                  email: props.route.params.email,
+                  email: email,
                   path: ScreenName.ACCESS_CODE_VERIFICATION,
                 })
               }
@@ -209,5 +227,13 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(14),
     color: Colors.violet,
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
 });

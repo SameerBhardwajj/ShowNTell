@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Keyboard } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Keyboard,
+  ActivityIndicator,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,7 +25,7 @@ import {
   ScreenName,
   ConstantName,
 } from "../../../utils";
-import { updateAccess, delayAccess } from "./actions";
+import { resendCode } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -28,20 +34,41 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const { access } = useSelector((state: { Register: any }) => ({
-    access: state.Register.access,
+  const { email } = useSelector((state: { Register: any }) => ({
+    email: state.Register.email,
   }));
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
-  const [email, setEmail] = useState(props.route.params.email);
   const [phone, setPhone] = useState("");
   const [checkphone, setCheckPhone] = useState(true);
-  const [checkEmail, setCheckEmail] = useState(true);
   const [countryCode, setCountryCode] = useState("US");
+  const [isLoading, setIsLoading] = useState(false);
 
-  React.useEffect(() => {
-    console.log("route request ", props.route.params);
-  }, []);
+  const formatPhone = (f: string) => {
+    let f_val = f.replace(/\D[^\.]/g, "");
+    f = f_val.slice(0, 3) + "-" + f_val.slice(3, 6) + "-" + f_val.slice(6);
+    return f;
+  };
+
+  const check = () => {
+    validate(ConstantName.PHONE, phone)
+      ? (Keyboard.dismiss(),
+        setIsLoading(true),
+        dispatch(
+          resendCode(
+            email,
+            formatPhone(phone),
+            () => {
+              setIsLoading(false);
+              props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                path: props.route.params.path,
+              });
+            },
+            () => setIsLoading(false)
+          )
+        ))
+      : setCheckPhone(false);
+  };
 
   return (
     <View style={Styles.mainView}>
@@ -54,6 +81,14 @@ export default function App(props: AppProps) {
           title={Strings.Request_New_Access_Code}
           onPressBack={() => props.navigation.pop()}
         />
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.violet}
+            animating={isLoading}
+            size="large"
+            style={Styles.indicator}
+          />
+        ) : null}
         <View style={Styles.innerView}>
           <Text style={Styles.welcome}>{Strings.hello}</Text>
           <Text style={Styles.name}>{Strings.Bob_Parish}</Text>
@@ -66,7 +101,7 @@ export default function App(props: AppProps) {
               titleText={Strings.Parent_email}
               value={email}
               onChangeText={(text: string) => {}}
-              check={checkEmail}
+              check={true}
               incorrectText={Strings.Email}
               onSubmitEditing={() => {}}
             />
@@ -79,31 +114,13 @@ export default function App(props: AppProps) {
                 checkphone ? null : setCheckPhone(true), setPhone(text);
               }}
               check={checkphone}
-              onSubmitEditing={() => {
-                validate(ConstantName.PHONE, phone)
-                  ? (Keyboard.dismiss(),
-                    dispatch(updateAccess()),
-                    dispatch(delayAccess()),
-                    props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                      path: props.route.params.path,
-                    }))
-                  : setCheckPhone(false);
-              }}
+              onSubmitEditing={() => check()}
               mainViewStyle={{ width: "100%" }}
             />
             <View style={{ alignItems: "center", width: "100%" }}>
               <CustomButton
                 Text={Strings.Resent_Access_Code}
-                onPress={() => {
-                  validate(ConstantName.PHONE, phone)
-                    ? (Keyboard.dismiss(),
-                      dispatch(updateAccess()),
-                      dispatch(delayAccess()),
-                      props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                        path: props.route.params.path,
-                      }))
-                    : setCheckPhone(false);
-                }}
+                onPress={() => check()}
                 ButtonStyle={{
                   width: "100%",
                 }}
@@ -148,5 +165,13 @@ const Styles = StyleSheet.create({
   codeView: {
     alignItems: "center",
     marginVertical: vh(32),
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
 });
