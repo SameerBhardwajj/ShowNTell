@@ -16,6 +16,7 @@ import { verifyCode } from "./action";
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
@@ -32,11 +33,13 @@ export default function App(props: AppProps) {
 
   const KEY_BACKSPACE = "Backspace";
 
-  const { email, name, id } = useSelector((state: { Register: any }) => ({
-    email: state.Register.email,
-    name: state.Register.name,
-    id: state.Register.id,
-  }));
+  const { email, name, id } = useSelector(
+    (state: { Register: any; ForgotPassword: any }) => ({
+      email: state.Register.email,
+      name: state.Register.name,
+      id: state.Register.id,
+    })
+  );
 
   const verifyMyCode = () => {
     let enteredCode =
@@ -73,7 +76,12 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.innerView}>
         <Text style={Styles.welcome}>{Strings.Welcome}</Text>
-        {name === "" ? null : <Text style={Styles.name}>{name}</Text>}
+        {name === "" ? null : (
+          <Text style={Styles.name}>
+            {name}
+            {console.warn(name)}
+          </Text>
+        )}
         <Text style={Styles.please}>
           {Strings.please_enter_code}
           {email}
@@ -171,7 +179,7 @@ export default function App(props: AppProps) {
               style={{ paddingHorizontal: vw(7) }}
               onPress={() =>
                 props.navigation.navigate(ScreenName.REQUEST_NEW_CODE, {
-                  email: email,
+                  type: 0,
                   path: ScreenName.ACCESS_CODE_VERIFICATION,
                 })
               }

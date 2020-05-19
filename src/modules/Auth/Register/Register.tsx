@@ -30,7 +30,7 @@ import {
   CustomInputText,
   CustomMenuList,
 } from "../../../Components";
-import { register } from "./action";
+import { register, fetchSchoolList } from "./action";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 const SELECT_SCHOOL = "Select School";
@@ -46,6 +46,7 @@ export default function App(props: AppProps) {
   const [checkCenter, setCheckCenter] = useState(true);
   const [school, setSchool] = useState(SELECT_SCHOOL);
   const [isLoading, setIsLoading] = useState(false);
+  const [list, setList] = useState([]);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <KeyboardAwareScrollView
@@ -91,10 +92,33 @@ export default function App(props: AppProps) {
                     : setCheckcheckEmail(false);
                 }}
                 incorrectText={Strings.Email_error}
+                onBlur={() => {
+                  Keyboard.dismiss();
+                  setIsLoading(true);
+                  dispatch(
+                    fetchSchoolList(
+                      email,
+                      (data: any) => {
+                        let temp = data;
+                        temp = temp.map((item: any) => {
+                          return {
+                            id: item.id,
+                            value: item.name,
+                          };
+                        });
+                        setList(temp);
+                        setIsLoading(false);
+                        temp.length === 0 ? setCheckcheckEmail(false) : null;
+                      },
+                      () => setIsLoading(false)
+                    )
+                  );
+                }}
               />
               {/* School center list ------------- */}
               <CustomMenuList
                 titleText={Strings.School_Name}
+                data={list}
                 onChangeText={(text: string, i: number, data: Array<any>) => {
                   setCenter(data[i].id), setSchool(text), setCheckCenter(true);
                 }}

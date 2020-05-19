@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Keyboard,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
@@ -18,7 +24,6 @@ import {
   ScreenName,
 } from "../../../utils";
 import { forgotPassword } from "./action";
-
 export interface AppProps {
   navigation?: any;
 }
@@ -32,16 +37,14 @@ export default function App(props: AppProps) {
 
   const check = () => {
     access
-      ? (setAccess(false),
+      ? (Keyboard.dismiss(),
         setIsLoading(true),
         dispatch(
           forgotPassword(
             email,
             () => {
               setIsLoading(false);
-              props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE, {
-                email: email,
-              });
+              props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE);
             },
             () => setIsLoading(false)
           )
@@ -65,7 +68,7 @@ export default function App(props: AppProps) {
       ) : null}
       <View style={Styles.innerView}>
         <Text style={Styles.welcome}>{Strings.hello}</Text>
-        <Text style={Styles.name}>Mr. Bob Parish</Text>
+        {/* <Text style={Styles.name}>Mr. Bob Parish</Text> */}
         <Text style={Styles.please}>{Strings.enter_email_passowrd_link}</Text>
         <View style={Styles.codeView}>
           {/* email -------------- */}
@@ -73,7 +76,7 @@ export default function App(props: AppProps) {
             titleText={Strings.Parent_email}
             value={email}
             onChangeText={(text: string) => {
-              validate(ConstantName.EMAIL, email)
+              validate(ConstantName.EMAIL, text)
                 ? setAccess(true)
                 : setAccess(false),
                 setEmail(text);

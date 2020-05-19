@@ -8,7 +8,7 @@ export const forgotPassword = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.postApiCall(
-      EndPoints.auth.register,
+      EndPoints.auth.forgotPassword,
       {
         email: email,
       },
@@ -16,9 +16,10 @@ export const forgotPassword = (
         console.log("success ", success);
         if (success.data.code === 200) {
           dispatch({
-            type: Action.CREATE_PASSWORD,
+            type: Action.FORGOT_PASSWORD,
             payload: {
               email: email,
+              id: success.data.response.guardian_id,
             },
           });
           successCallback();
@@ -28,13 +29,16 @@ export const forgotPassword = (
         }
       },
       (error: any) => {
-        console.log("error ", error);
+        error.status === 504 ?
+        CustomToast('Error! Server timeout'):
+        CustomToast(error.data.message);       
+        failCallback();
       }
     );
   };
 };
 
-export const resendCode = (
+export const fpresendCode = (
   email: string,
   phone: string,
   successCallback: Function,
@@ -52,7 +56,7 @@ export const resendCode = (
         if (success.data.code === 200) {
           let res = success.data.response;
           dispatch({
-            type: Action.RESEND_CODE,
+            type: Action.FP_RESEND_CODE,
             payload: {
               name: `${res.first_name}${
                 res.middle_name === null ? "" : `${" "}${res.middle_name}`
@@ -67,13 +71,14 @@ export const resendCode = (
         }
       },
       (error: any) => {
-        console.log("error ", error);
+        CustomToast(error.data.message);
+        failCallback();
       }
     );
   };
 };
 
-export const verifyCode = (
+export const fpverifyCode = (
   code: string,
   id: number,
   successCallback: Function,
@@ -90,7 +95,7 @@ export const verifyCode = (
         console.log("success ", success);
         if (success.data.code === 200) {
           dispatch({
-            type: Action.VERIFY_CODE,
+            type: Action.FP_VERIFY_CODE,
             payload: {
               email: "",
               name: "",
@@ -103,13 +108,14 @@ export const verifyCode = (
         }
       },
       (error: any) => {
-        console.log("error ", error);
+        CustomToast(error.data.message);
+        failCallback();
       }
     );
   };
 };
 
-export const createPassword = (
+export const resetPassword = (
   id: number,
   password1: string,
   password2: string,
@@ -118,7 +124,7 @@ export const createPassword = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.postApiCall(
-      EndPoints.auth.createPassword,
+      EndPoints.auth.resetPassword,
       {
         guardian_id: id,
         password: password1,
@@ -128,7 +134,7 @@ export const createPassword = (
         console.log("success ", success);
         if (success.data.code === 200) {
           dispatch({
-            type: Action.CREATE_PASSWORD,
+            type: Action.RESET_PASSWORD,
             payload: {
               id: 0,
             },
@@ -140,7 +146,10 @@ export const createPassword = (
         }
       },
       (error: any) => {
-        console.log("error ", error);
+        console.warn('my ', error);
+        
+        CustomToast(error.data.message);
+        failCallback();
       }
     );
   };

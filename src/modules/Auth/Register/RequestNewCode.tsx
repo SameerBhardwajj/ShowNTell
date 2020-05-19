@@ -26,6 +26,7 @@ import {
   ConstantName,
 } from "../../../utils";
 import { resendCode } from "./action";
+import { fpresendCode } from "../ForgotPassword/action";
 
 export interface AppProps {
   navigation?: any;
@@ -34,15 +35,21 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const { email } = useSelector((state: { Register: any }) => ({
-    email: state.Register.email,
-  }));
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
   const [phone, setPhone] = useState("");
   const [checkphone, setCheckPhone] = useState(true);
   const [countryCode, setCountryCode] = useState("US");
   const [isLoading, setIsLoading] = useState(false);
+
+  const { type } = props.route.params;
+
+  const { email, name } = useSelector(
+    (state: { Register: any; ForgotPassword: any }) => ({
+      email: type === 0 ? state.Register.email : state.ForgotPassword.email,
+      name: type === 0 ? state.Register.name : state.ForgotPassword.name,
+    })
+  );
 
   const formatPhone = (f: string) => {
     let f_val = f.replace(/\D[^\.]/g, "");
@@ -54,19 +61,35 @@ export default function App(props: AppProps) {
     validate(ConstantName.PHONE, phone)
       ? (Keyboard.dismiss(),
         setIsLoading(true),
-        dispatch(
-          resendCode(
-            email,
-            formatPhone(phone),
-            () => {
-              setIsLoading(false);
-              props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                path: props.route.params.path,
-              });
-            },
-            () => setIsLoading(false)
-          )
-        ))
+        type === 0
+          ? dispatch(
+              resendCode(
+                email,
+                formatPhone(phone),
+                () => {
+                  setIsLoading(false);
+                  props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                    path: props.route.params.path,
+                    type: type,
+                  });
+                },
+                () => setIsLoading(false)
+              )
+            )
+          : dispatch(
+              fpresendCode(
+                email,
+                formatPhone(phone),
+                () => {
+                  setIsLoading(false);
+                  props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                    path: props.route.params.path,
+                    type: type,
+                  });
+                },
+                () => setIsLoading(false)
+              )
+            ))
       : setCheckPhone(false);
   };
 
@@ -91,7 +114,7 @@ export default function App(props: AppProps) {
         ) : null}
         <View style={Styles.innerView}>
           <Text style={Styles.welcome}>{Strings.hello}</Text>
-          <Text style={Styles.name}>{Strings.Bob_Parish}</Text>
+          <Text style={Styles.name}>{name}</Text>
           <Text style={Styles.please}>{Strings.enter_phone_and_email}</Text>
           <View style={Styles.codeView}>
             {/* email -------------- */}

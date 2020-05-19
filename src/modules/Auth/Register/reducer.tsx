@@ -3,6 +3,7 @@ const initialState = {
   email: "",
   name: "",
   id: 0,
+  schoolList: [],
 };
 
 const Reducer = (state = initialState, action: any) => {
@@ -12,6 +13,10 @@ const Reducer = (state = initialState, action: any) => {
     case Action.RESEND_CODE:
       return { ...state, ...action.payload };
     case Action.VERIFY_CODE:
+      return { ...state, ...action.payload };
+    case Action.FETCH_SCHOOL_LIST:
+      return { ...state, ...action.payload };
+    case Action.CREATE_PASSWORD:
       return { ...state, ...action.payload };
     default:
       return state;

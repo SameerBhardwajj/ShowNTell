@@ -41,8 +41,9 @@ export default function App(props: AppProps) {
   const [secureEntry, setsecureEntry] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { id } = useSelector((state: { Register: any }) => ({
+  const { id, name } = useSelector((state: { Register: any }) => ({
     id: state.Register.id,
+    name: state.Register.name,
   }));
 
   const check = () => {
@@ -89,7 +90,7 @@ export default function App(props: AppProps) {
         ) : null}
         <View style={Styles.innerView}>
           <Text style={Styles.welcome}>{Strings.hello}</Text>
-          <Text style={Styles.name}>{Strings.Bob_Parish}</Text>
+          <Text style={Styles.name}>{name}</Text>
           <Text style={Styles.please}>{Strings.create_password_content}</Text>
           <View style={Styles.codeView}>
             <CustomInputText

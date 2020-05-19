@@ -30,12 +30,12 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.innerView}>
         <Text style={Styles.heading}>{Strings.Please_select_date_time}</Text>
-        <CustomMenuList
+        {/* <CustomMenuList
           titleText={Strings.School_Name}
           onChangeText={(text: string) => setSchool(text)}
           currentText={school}
           viewStyle={Styles.menuView}
-        />
+        /> */}
         <DatePicker
           minimumDate={new Date()}
           date={date}
