@@ -10,14 +10,14 @@ import {
   ToastAndroid,
   BackHandler,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SplashScreen from "react-native-splash-screen";
 
 // custom imports
 import { Images, vh, vw, Strings, Colors, ScreenName } from "../../../utils";
 import { CustomButton, Customcartoon } from "../../../Components";
 import TestimonialList from "./TestimonialList";
-import { updateScrollRef } from "./action";
+import { updateScrollRef, fetchTestimonials } from "./action";
 
 export function isNullUndefined(item: any) {
   try {
@@ -41,9 +41,26 @@ export default function App(props: AppProps) {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [scroll, setScroll] = useState(true);
 
+  const { fetchTest } = useSelector((state: { LandingPage: any }) => ({
+    fetchTest: state.LandingPage.fetchTest,
+  }));
+
   useEffect(() => {
     SplashScreen.hide();
-    autoScroll();
+    console.warn(fetchTest);
+
+    fetchTest
+      // ? dispatch(
+      //     fetchTestimonials(
+      //       (data: any) => {
+      //         console.warn(data);
+      //       },
+      //       () => {
+      //         autoScroll();
+      //       }
+      //     )
+      //   )
+      : null;
     BackHandler.addEventListener("hardwareBackPress", () => {
       ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
       BackHandler.exitApp();

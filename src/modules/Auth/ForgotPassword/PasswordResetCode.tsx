@@ -10,12 +10,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import {
-  CustomHeader,
-  CustomCodeBox,
-  CustomToast,
-  CustomButton,
-} from "../../../Components";
+import { CustomHeader, CustomCodeBox, CustomButton } from "../../../Components";
 import { Strings, vw, vh, Colors, ScreenName } from "../../../utils";
 import { fpverifyCode } from "../ForgotPassword/action";
 
@@ -36,9 +31,10 @@ export default function App(props: AppProps) {
   const [input4, setinput4] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const { name, id } = useSelector((state: { ForgotPassword: any }) => ({
+  const { name, id, email } = useSelector((state: { ForgotPassword: any }) => ({
     name: state.ForgotPassword.name,
     id: state.ForgotPassword.id,
+    email: state.ForgotPassword.email,
   }));
 
   const KEY_BACKSPACE = "Backspace";
@@ -88,7 +84,7 @@ export default function App(props: AppProps) {
         <Text style={Styles.name}>{name}</Text>
         <Text style={Styles.please}>
           {Strings.please_enter_code}
-          {props.route.params.email}
+          {email}
         </Text>
         {/* Access code box ------------------ */}
         <View style={Styles.codeView}>
@@ -179,7 +175,6 @@ export default function App(props: AppProps) {
               style={{ paddingHorizontal: vw(7) }}
               onPress={() =>
                 props.navigation.navigate(ScreenName.REQUEST_NEW_CODE, {
-                  email: props.route.params.email,
                   type: 1,
                   path: ScreenName.PASSWORD_RESET_CODE,
                 })

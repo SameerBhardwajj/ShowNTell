@@ -35,8 +35,8 @@ export default function App(props: AppProps) {
   const [secureEntry2, setsecureEntry2] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { id } = useSelector((state: { Forgotpassword: any }) => ({
-    id: state.Forgotpassword.id,
+  const { id } = useSelector((state: { ForgotPassword: any }) => ({
+    id: state.ForgotPassword.id,
   }));
 
   const check = () => {

@@ -9,7 +9,7 @@ export const fetchSchoolList = (
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
       EndPoints.auth.centerList(email),
-      undefined,
+      {},
       (success: any) => {
         console.log("success ", success.data.response);
         if (success.data.code === 200) {

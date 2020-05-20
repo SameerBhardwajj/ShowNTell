@@ -6,9 +6,11 @@ import {
   Image,
   TextInput,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { getDeviceName, getManufacturer } from "react-native-device-info";
+import { getManufacturer } from "react-native-device-info";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
@@ -16,6 +18,7 @@ import {
   CustomButton,
   CustomMenuList,
   CustomInputText,
+  CustomToast,
 } from "../../Components";
 import {
   Strings,
@@ -26,7 +29,10 @@ import {
   validate,
   ScreenName,
   ConstantName,
+  API,
+  EndPoints,
 } from "../../utils";
+import { needHelpAPI } from "./action";
 
 const SELECT_SCHOOL = "Select School";
 const APPLICATION = "Application\nV 1.0.0";
@@ -36,10 +42,12 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const input1: any = React.createRef();
   const input2: any = React.createRef();
   const input3: any = React.createRef();
   const [school, setSchool] = useState(SELECT_SCHOOL);
+  const [center, setCenter] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [help, setHelp] = useState("");
@@ -47,10 +55,9 @@ export default function App(props: AppProps) {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkName, setCheckName] = useState(true);
   const [device, setDevice] = useState("");
-
-  const disable = () => {
-    return school !== SELECT_SCHOOL && email.length !== 0 && name.length !== 0;
-  };
+  const [page, setPage] = useState(1);
+  const [list, setList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   React.useEffect(() => {
     getManufacturer()
@@ -58,15 +65,60 @@ export default function App(props: AppProps) {
         setDevice(deviceName);
       })
       .catch((err) => console.log(err));
+
+    API.getApiCall(
+      EndPoints.auth.fetchAllCenters(page),
+      {},
+      (success: any) => {
+        let temp = success.data.response;
+        temp = temp.map((item: any) => {
+          return {
+            id: item.id,
+            value: item.name,
+            address1: item.address1,
+            phone: item.phone,
+            email: item.email,
+            center_image: item.center_image,
+            center_lat: item.center_lat,
+            center_long: item.center_long,
+            Centertype: item.Centertype,
+          };
+        });
+        setList(list.concat(temp));
+      },
+      (error: any) => {
+        console.warn(error);
+      }
+    );
   }, []);
+
+  const disable = () => {
+    return school !== SELECT_SCHOOL && email.length !== 0 && name.length !== 0;
+  };
 
   const check = () => {
     validate(ConstantName.NAME, name)
       ? validate(ConstantName.EMAIL, email)
-        ? props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-            path: props.route.params.path,
-            msg: Strings.ticket_submitted,
-          })
+        ? (setIsLoading(true),
+          dispatch(
+            needHelpAPI(
+              device,
+              Platform.Version.toString(),
+              "1.0.0",
+              center.toString(),
+              name,
+              email,
+              help,
+              () => {
+                setIsLoading(false);
+                props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                  path: props.route.params.path,
+                  msg: Strings.ticket_submitted,
+                });
+              },
+              () => setIsLoading(false)
+            )
+          ))
         : setCheckEmail(false)
       : setCheckName(false);
   };
@@ -87,6 +139,14 @@ export default function App(props: AppProps) {
               : props.navigation.pop()
           }
         />
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.violet}
+            animating={isLoading}
+            size="large"
+            style={Styles.indicator}
+          />
+        ) : null}
         <View style={Styles.innerView}>
           <View style={Styles.deviceMainView}>
             {/* Device -------------------- */}
@@ -153,9 +213,13 @@ export default function App(props: AppProps) {
           <View style={{ width: "100%" }}>
             <CustomMenuList
               titleText={Strings.School_Name}
-              onChangeText={(text: string) => setSchool(text)}
+              data={list}
+              onChangeText={(text: string, i: number, data: Array<any>) => {
+                setCenter(data[i].id), setSchool(text);
+              }}
               currentText={school}
               viewStyle={Styles.menuView}
+              check={true}
             />
             <CustomInputText
               ref={input1}
@@ -295,5 +359,13 @@ const Styles = StyleSheet.create({
     fontSize: vh(14),
     fontFamily: "Nunito-Regular",
     alignSelf: "flex-end",
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
 });

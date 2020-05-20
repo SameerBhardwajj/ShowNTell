@@ -68,7 +68,7 @@ const postApiCall = (
  */
 const getApiCall = (
   endPoint: string,
-  params: any,
+  params: object,
   successCallback: Function,
   errorCallback: Function
 ) => {

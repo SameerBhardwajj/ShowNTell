@@ -82,10 +82,15 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           { width: "85%", marginHorizontal: vw(22) },
           props.dropDownView,
         ]}
+        useNativeDriver={true}
         containerStyle={{ width: "100%" }}
         fontSize={vh(16)}
         data={props.data}
+        itemCount={5}
         onChangeText={(value, i, data) => props.onChangeText(value, i, data)}
+        onLayout={(event: any) => {
+          console.warn(event.nativeEvent);
+        }}
       />
     </View>
   );

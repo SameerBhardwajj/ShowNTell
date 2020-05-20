@@ -14,12 +14,16 @@ export const forgotPassword = (
       },
       (success: any) => {
         console.log("success ", success);
+        let res = success.data.response;
         if (success.data.code === 200) {
           dispatch({
             type: Action.FORGOT_PASSWORD,
             payload: {
               email: email,
-              id: success.data.response.guardian_id,
+              id: res.guardian_id,
+              name: `${res.first_name}${
+                res.middle_name === null ? "" : `${" "}${res.middle_name}`
+              } ${res.last_name}`,
             },
           });
           successCallback();
@@ -29,9 +33,9 @@ export const forgotPassword = (
         }
       },
       (error: any) => {
-        error.status === 504 ?
-        CustomToast('Error! Server timeout'):
-        CustomToast(error.data.message);       
+        error.status === 504
+          ? CustomToast("Error! Server timeout")
+          : CustomToast(error.data.message);
         failCallback();
       }
     );
@@ -146,8 +150,8 @@ export const resetPassword = (
         }
       },
       (error: any) => {
-        console.warn('my ', error);
-        
+        console.warn("my ", error);
+
         CustomToast(error.data.message);
         failCallback();
       }
