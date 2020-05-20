@@ -24,6 +24,7 @@ import {
   validate,
   ConstantName,
 } from "../../../utils";
+import { updateLogin } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -39,13 +40,14 @@ export default function App(props: AppProps) {
   const [secureEntry, setsecureEntry] = useState(true);
 
   const { email, name, id } = useSelector(
-    (state: { Register: any; ForgotPassword: any }) => ({
+    (state: { Register: any; Login: any }) => ({
       email: state.Register.email,
       name: state.Register.name,
       id: state.Register.id,
     })
   );
   const check = () => {
+    Keyboard.dismiss();
     validate(ConstantName.PASSWORD, password)
       ? // setIsLoading(true),
         // dispatch(
@@ -55,7 +57,8 @@ export default function App(props: AppProps) {
         //     setIsLoading(false);
         //   })
         // )
-        props.navigation.navigate(ScreenName.ENTER_PASSWORD)
+        // props.navigation.navigate(ScreenName.TOP_TAB_NAVIGATOR)
+        dispatch(updateLogin("any"))
       : setCheckPassword(false);
   };
 
@@ -103,9 +106,7 @@ export default function App(props: AppProps) {
           {/* Verify Button ----------------- */}
           <CustomButton
             Text={Strings.login}
-            onPress={() => {
-              Keyboard.dismiss();
-            }}
+            onPress={() => check()}
             ButtonStyle={{
               width: "100%",
             }}

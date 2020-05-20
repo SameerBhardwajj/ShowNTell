@@ -1,12 +1,12 @@
 import { CustomToast } from "../../../Components";
 import { Action, API, EndPoints } from "../../../utils";
-export const updateLogin = () => {
+export const updateLogin = (token: string) => {
   return (dispatch: any, getState: any) => {
     dispatch({
       type: Action.UPDATE_LOGIN,
       payload: {
         loginData: {},
-        loginToken: "",
+        loginToken: token,
       },
     });
   };

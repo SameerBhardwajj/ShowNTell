@@ -19,7 +19,7 @@ export default function App(props: AppProps) {
         <Text style={Styles.bubbleMsgText}>{Strings.logout_msg}</Text>
         <CustomButton
           Text={Strings.Yes_Logout}
-          onPress={() => dispatch(updateLogin())}
+          onPress={() => dispatch(updateLogin(""))}
         />
         <CustomButton
           Text={Strings.No}
