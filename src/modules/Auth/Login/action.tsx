@@ -12,6 +12,44 @@ export const updateLogin = () => {
   };
 };
 
+export const fetchSchoolList = (
+  email: string,
+  successCallback: Function,
+  failCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.getApiCall(
+      EndPoints.auth.centerList(email),
+      {},
+      (success: any) => {
+        console.log("success ", success.data.response);
+        if (success.data.code === 200) {
+          dispatch({
+            type: Action.FETCH_SCHOOL_LOGIN,
+            payload: {
+              schoolList: success.data.response,
+            },
+          });
+          successCallback(success.data.response);
+        } else {
+          CustomToast(success.data.message);
+          failCallback();
+        }
+      },
+      (error: any) => {
+        dispatch({
+          type: Action.FETCH_SCHOOL_LOGIN,
+          payload: {
+            schoolList: [],
+          },
+        });
+        CustomToast(error.data.message);
+        failCallback([]);
+      }
+    );
+  };
+};
+
 export const loginAPI = (
   email: string,
   password: string,
@@ -38,12 +76,12 @@ export const loginAPI = (
             },
           });
         } else {
-          debugger
+          debugger;
           CustomToast(success.data.message);
-          debugger
+          debugger;
           callback();
         }
-        debugger
+        debugger;
         callback();
       },
       (error: any) => {

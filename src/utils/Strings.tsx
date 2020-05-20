@@ -201,6 +201,8 @@ const Strings = new LocalizedStrings({
     Miles: "Miles",
     No_data_Found: "No data Found",
     Select_School: "Select School",
+    Enter_password: "Enter Password",
+    Please_enter_password: "Please enter your Password here",
   },
 });
 export default Strings;

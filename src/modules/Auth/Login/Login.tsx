@@ -28,9 +28,11 @@ import {
   CustomButton,
   Customcartoon,
   CustomInputText,
+  CustomMenuList,
 } from "../../../Components";
-import { loginAPI } from "./action";
+import { loginAPI, fetchSchoolList } from "./action";
 
+const SELECT_SCHOOL = "Select School";
 export interface AppProps {
   navigation?: any;
 }
@@ -46,6 +48,10 @@ export default function App(props: AppProps) {
   const [checkPassword, setCheckPassword] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [list, setList] = useState([]);
+  const [center, setCenter] = useState(0);
+  const [checkCenter, setCheckCenter] = useState(true);
+  const [school, setSchool] = useState(SELECT_SCHOOL);
 
   const resetAll = () => {
     setCheckEmail(true);
@@ -56,18 +62,19 @@ export default function App(props: AppProps) {
 
   const check = () => {
     validate(ConstantName.EMAIL, email)
-      ? validate(ConstantName.PASSWORD, password)
-        ? (setIsLoading(true),
-          resetAll(),
-          dispatch(
-            loginAPI(email, password, () => {
-              console.warn("here");
+      ? // ? validate(ConstantName.PASSWORD, password)
+        // setIsLoading(true),
+        (resetAll(),
+        // dispatch(
+        //   loginAPI(email, password, () => {
+        //     console.warn("here");
 
-              setIsLoading(false);
-            })
-          ))
-        : setCheckPassword(false)
-      : setCheckEmail(false);
+        //     setIsLoading(false);
+        //   })
+        // )
+        props.navigation.navigate(ScreenName.ENTER_PASSWORD))
+      : // : setCheckPassword(false)
+        setCheckEmail(false);
   };
 
   return (
@@ -97,7 +104,7 @@ export default function App(props: AppProps) {
           <View style={Styles.loginMainView}>
             <Text style={Styles.loginText}>{Strings.login}</Text>
             <Text style={Styles.loginFooter}>
-              {Strings.please_enter_email_and_password}
+              {Strings.please_enter_email_and_centre}
             </Text>
             <View style={Styles.inputView}>
               {/* Email ------------------ */}
@@ -112,28 +119,43 @@ export default function App(props: AppProps) {
                 }}
                 onSubmitEditing={() => {
                   validate(ConstantName.EMAIL, email)
-                    ? input2.current.focus()
+                    ? Keyboard.dismiss()
                     : setCheckEmail(false);
                 }}
                 incorrectText={Strings.Email_error}
-              />
-              {/* Password ------------------ */}
-              <CustomInputText
-                check={checkPassword}
-                ref={input2}
-                titleText={Strings.password}
-                keyboardType={"default"}
-                typePassword={true}
-                value={password}
-                secureTextEntry={secureEntry}
-                onPressEye={() => setsecureEntry(!secureEntry)}
-                onChangeText={(text: string) => {
-                  checkPassword ? null : setCheckPassword(true),
-                    setPassword(text);
+                onBlur={() => {
+                  Keyboard.dismiss();
+                  setIsLoading(true);
+                  dispatch(
+                    fetchSchoolList(
+                      email,
+                      (data: any) => {
+                        let temp = data;
+                        temp = temp.map((item: any) => {
+                          return {
+                            id: item.id,
+                            value: item.name,
+                          };
+                        });
+                        setList(temp);
+                        setIsLoading(false);
+                        temp.length === 0 ? setCheckEmail(false) : null;
+                      },
+                      () => setIsLoading(false)
+                    )
+                  );
                 }}
-                onSubmitEditing={() => check()}
-                incorrectText={Strings.Password_length}
-                returnKeyType="done"
+              />
+              {/* School center list ------------- */}
+              <CustomMenuList
+                titleText={Strings.School_Name}
+                data={list}
+                onChangeText={(text: string, i: number, data: Array<any>) => {
+                  setCenter(data[i].id), setSchool(text), setCheckCenter(true);
+                }}
+                currentText={school}
+                dropDownView={{ width: "80%" }}
+                check={checkCenter}
               />
             </View>
             {/* Forgot password --------------- */}

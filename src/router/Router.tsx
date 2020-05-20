@@ -52,6 +52,7 @@ import ActivityModal from "../modules/Home/ActivityModal";
 // import GalleryDetails from "../modules/PhotoLibrary/GalleryDetails";
 // import CreateAbsence from "../modules/Absence/CreateAbsence";
 import ChildModal from "../Components/CustomHeader/ChildModal";
+import EnterPassword from "../modules/Auth/Login/EnterPassword";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -68,6 +69,10 @@ const AuthNavigator = () => (
     <AuthStack.Screen name={ScreenName.LOGIN} component={Login} />
     <AuthStack.Screen name={ScreenName.FIND_SCHOOL} component={FindSchool} />
     <AuthStack.Screen name={ScreenName.REGISTER} component={Register} />
+    <AuthStack.Screen
+      name={ScreenName.ENTER_PASSWORD}
+      component={EnterPassword}
+    />
     <AuthStack.Screen
       name={ScreenName.ACCESS_CODE_VERIFICATION}
       component={AccessCodeVerification}
