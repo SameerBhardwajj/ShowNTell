@@ -54,15 +54,13 @@ export default function App(props: AppProps) {
           fetchTestimonials(
             (success: any) => {
               setCounter(false);
-              console.warn(success.length);
-
               setData(success);
             },
             () => {}
           )
         )
       : null;
-    // autoScroll();
+    autoScroll();
     BackHandler.addEventListener("hardwareBackPress", () => {
       ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
       BackHandler.exitApp();

@@ -42,6 +42,7 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const input1: any = React.createRef();
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const [checkEmail, setCheckEmail] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [list, setList] = useState([]);
@@ -62,6 +63,7 @@ export default function App(props: AppProps) {
           props.navigation.navigate(ScreenName.ENTER_PASSWORD, {
             email: email,
             center: center,
+            name: name,
           }))
         : setCheckCenter(false)
       : setCheckEmail(false);
@@ -124,9 +126,12 @@ export default function App(props: AppProps) {
                           return {
                             id: item.id,
                             value: item.name,
+                            parent: item.Parent,
                           };
                         });
                         setList(temp);
+                        console.warn(data);
+
                         temp.length === 0 ? setCheckEmail(false) : null;
                       },
                       () => setIsLoading(false)
@@ -139,9 +144,10 @@ export default function App(props: AppProps) {
                 titleText={Strings.School_Name}
                 data={list}
                 onChangeText={(text: string, i: number, data: Array<any>) => {
-                  console.warn(data[i].id);
-
-                  setCheckCenter(true), setCenter(data[i].id), setSchool(text);
+                  setCheckCenter(true),
+                    setName(data[i].parent.first_name),
+                    setCenter(data[i].id),
+                    setSchool(text);
                 }}
                 currentText={school}
                 dropDownView={{ width: "80%" }}

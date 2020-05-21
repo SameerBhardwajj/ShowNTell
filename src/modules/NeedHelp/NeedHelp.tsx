@@ -7,6 +7,8 @@ import {
   TextInput,
   Platform,
   ActivityIndicator,
+  TouchableOpacity,
+  FlatList,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { getManufacturer } from "react-native-device-info";
@@ -34,6 +36,7 @@ import {
 } from "../../utils";
 import { needHelpAPI } from "./action";
 const pkg = require("../../../package.json");
+import SchoolFlatlist from "./SchoolFlatlist";
 
 const SELECT_SCHOOL = "Select School";
 const APPLICATION = "Application\n";
@@ -59,39 +62,42 @@ export default function App(props: AppProps) {
   const [page, setPage] = useState(1);
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showList, setShowList] = useState(false);
 
   React.useEffect(() => {
     getManufacturer()
       .then((deviceName) => {
         setDevice(deviceName);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => CustomToast(err));
+    schoolAPI();
+  }, []);
 
+  const schoolAPI = () => {
     API.getApiCall(
       EndPoints.auth.fetchAllCenters(page),
       {},
       (success: any) => {
-        let temp = success.data.response;
-        temp = temp.map((item: any) => {
-          return {
-            id: item.id,
-            value: item.name,
-            address1: item.address1,
-            phone: item.phone,
-            email: item.email,
-            center_image: item.center_image,
-            center_lat: item.center_lat,
-            center_long: item.center_long,
-            Centertype: item.Centertype,
-          };
-        });
-        setList(list.concat(temp));
+        setList(list.concat(success.data.response));
       },
       (error: any) => {
-        console.warn(error);
+        CustomToast(error);
       }
     );
-  }, []);
+  };
+
+  const renderItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <SchoolFlatlist
+        item={item}
+        index={index}
+        onPress={() => {
+          setShowList(!showList), setCenter(item.id), setSchool(item.name);
+        }}
+      />
+    );
+  };
 
   const disable = () => {
     return school !== SELECT_SCHOOL && email.length !== 0 && name.length !== 0;
@@ -214,16 +220,34 @@ export default function App(props: AppProps) {
             </View>
           </View>
           <View style={{ width: "100%" }}>
-            <CustomMenuList
-              titleText={Strings.School_Name}
-              data={list}
-              onChangeText={(text: string, i: number, data: Array<any>) => {
-                setCenter(data[i].id), setSchool(text);
-              }}
-              currentText={school}
-              viewStyle={Styles.menuView}
-              check={true}
-            />
+            {/* School name --------------------- */}
+            <Text style={[Styles.titleTxt, { marginTop: vh(20) }]}>
+              {Strings.School_Name}
+            </Text>
+            <TouchableOpacity
+              style={Styles.inputTxtView}
+              activeOpacity={0.8}
+              onPress={() => setShowList(true)}
+            >
+              <Text style={Styles.schoolText}>{school}</Text>
+              <Image source={Images.Dropdown_icon} />
+            </TouchableOpacity>
+            {/* School Flatlist -------------- */}
+            {showList && list.length > 1 ? (
+              <FlatList
+                style={Styles.flatlistView}
+                data={list}
+                keyExtractor={(item, index) => index.toString()}
+                showsVerticalScrollIndicator={false}
+                bounces={false}
+                renderItem={renderItems}
+                onEndReached={() => {
+                  setPage(page + 1), schoolAPI();
+                }}
+                onEndReachedThreshold={0.5}
+              />
+            ) : null}
+
             <CustomInputText
               ref={input1}
               value={name}
@@ -326,6 +350,34 @@ const Styles = StyleSheet.create({
   },
   menuView: {
     marginVertical: vh(28),
+  },
+  inputTxtView: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+    backgroundColor: Colors.veryLightGrey,
+    height: vh(48),
+    marginVertical: vh(10),
+    borderRadius: vh(50),
+    borderWidth: vh(1),
+    borderColor: Colors.borderGrey,
+    paddingHorizontal: vw(25),
+  },
+  schoolText: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(16),
+    color: Colors.lightBlack,
+  },
+  flatlistView: {
+    position: "absolute",
+    top: vh(50),
+    zIndex: 99,
+    width: "100%",
+    borderColor: Colors.borderGrey,
+    borderWidth: vw(1),
+    borderRadius: vw(10),
+    height: vh(300),
   },
   helpView: {
     alignItems: "center",

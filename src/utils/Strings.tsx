@@ -203,6 +203,8 @@ const Strings = new LocalizedStrings({
     Select_School: "Select School",
     Enter_password: "Enter Password",
     Please_enter_password: "Please enter your Password here",
+    Please_On_GPS: "Please switch your GPS ON to access your location",
+    Unknown_error: "Unknown Error",
   },
 });
 export default Strings;

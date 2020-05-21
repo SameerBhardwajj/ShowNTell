@@ -21,6 +21,7 @@ import { resetPassword } from "./action";
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
@@ -50,6 +51,7 @@ export default function App(props: AppProps) {
                 id,
                 password1,
                 password2,
+                props.route.params.token,
                 () => {
                   setIsLoading(false);
                   props.navigation.navigate(ScreenName.CREATE_PASSWORD_MODAL);

@@ -17,7 +17,7 @@ export default function App(props: AppProps) {
     >
       <Image style={Styles.img} source={Images.History_Icon} />
       <Text numberOfLines={1} style={Styles.text}>
-        {props.item.title}
+        {props.item.name}
       </Text>
     </TouchableOpacity>
   );

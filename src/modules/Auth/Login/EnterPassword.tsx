@@ -39,14 +39,6 @@ export default function App(props: AppProps) {
   const [checkPassword, setCheckPassword] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
 
-  const { email, name, id } = useSelector(
-    (state: { Register: any; ForgotPassword: any }) => ({
-      email: state.Register.email,
-      name: state.Register.name,
-      id: state.Register.id,
-    })
-  );
-
   const { params } = props.route;
 
   const check = () => {
@@ -54,7 +46,7 @@ export default function App(props: AppProps) {
     validate(ConstantName.PASSWORD, password)
       ? (setIsLoading(true),
         dispatch(
-          loginAPI(params.email, password, () => {
+          loginAPI(params.email, password, params.center.toString(), () => {
             setIsLoading(false);
           })
         ))
@@ -69,13 +61,10 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.innerView}>
         <Text style={Styles.welcome}>{Strings.Welcome}</Text>
-        {/* {name === "" ? null : ( */}
-        <Text style={Styles.name}>{"Bob Parish"}</Text>
-        {/* )} */}
-        <Text style={Styles.please}>
-          {Strings.Please_enter_password}
-          {email}
-        </Text>
+        {params.name === "" ? null : (
+          <Text style={Styles.name}>{params.name}</Text>
+        )}
+        <Text style={Styles.please}>{Strings.Please_enter_password}</Text>
         {isLoading ? (
           <ActivityIndicator
             color={Colors.violet}

@@ -70,7 +70,6 @@ export default function App(props: AppProps) {
                   setIsLoading(false);
                   props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
                     path: props.route.params.path,
-                    type: type,
                   });
                 },
                 () => setIsLoading(false)
@@ -84,7 +83,6 @@ export default function App(props: AppProps) {
                   setIsLoading(false);
                   props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
                     path: props.route.params.path,
-                    type: type,
                   });
                 },
                 () => setIsLoading(false)

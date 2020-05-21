@@ -12,7 +12,7 @@ import {
 import Geolocation from "@react-native-community/geolocation";
 
 // custom imports
-import { CustomHeader, CustomButton } from "../../../Components";
+import { CustomHeader, CustomButton, CustomToast } from "../../../Components";
 import { Strings, Images, vh, Colors, ScreenName } from "../../../utils";
 
 export interface AppProps {
@@ -52,7 +52,9 @@ export default function App(props: AppProps) {
         },
         (error) => {
           setIsLoading(false);
-          console.warn("error ", error.code);
+          error.code === 2
+            ? CustomToast(Strings.Please_On_GPS)
+            : CustomToast(Strings.Unknown_error);
         },
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
       );

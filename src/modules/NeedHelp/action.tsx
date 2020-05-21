@@ -13,15 +13,6 @@ export const needHelpAPI = (
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.warn({
-        device_modal: modal,
-        os_version: os,
-        app_version: app,
-        center_id: center,
-        parent_name: name,
-        parent_email: email,
-        description: description,
-      });
     API.postApiCall(
       EndPoints.auth.needHelp,
       {
@@ -34,7 +25,6 @@ export const needHelpAPI = (
         description: description,
       },
       (success: any) => {
-
         console.log("success ", success.data.response);
         if (success.data.code === 200) {
           dispatch({

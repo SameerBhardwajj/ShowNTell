@@ -26,7 +26,7 @@ export default function App(props: AppProps) {
           onPress={() =>
             params.path === undefined
               ? props.navigation.pop(2)
-              : props.navigation.navigate(params.path, { type: params.type })
+              : props.navigation.navigate(params.path)
           }
         />
       </View>

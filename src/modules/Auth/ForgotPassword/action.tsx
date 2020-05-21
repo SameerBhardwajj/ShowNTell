@@ -58,15 +58,9 @@ export const fpresendCode = (
       (success: any) => {
         console.log("success ", success);
         if (success.data.code === 200) {
-          let res = success.data.response;
           dispatch({
             type: Action.FP_RESEND_CODE,
-            payload: {
-              name: `${res.first_name}${
-                res.middle_name === null ? "" : `${" "}${res.middle_name}`
-              } ${res.last_name}`,
-              id: res.id,
-            },
+            payload: {},
           });
           successCallback();
         } else {
@@ -105,7 +99,7 @@ export const fpverifyCode = (
               name: "",
             },
           });
-          successCallback();
+          successCallback(success.data.response);
         } else {
           CustomToast(success.data.message);
           failCallback();
@@ -123,6 +117,7 @@ export const resetPassword = (
   id: number,
   password1: string,
   password2: string,
+  token: string,
   successCallback: Function,
   failCallback: Function
 ) => {
@@ -133,6 +128,7 @@ export const resetPassword = (
         guardian_id: id,
         password: password1,
         confirm_password: password2,
+        token: token,
       },
       (success: any) => {
         console.log("success ", success);

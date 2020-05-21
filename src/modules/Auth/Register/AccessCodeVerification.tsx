@@ -76,12 +76,7 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.innerView}>
         <Text style={Styles.welcome}>{Strings.Welcome}</Text>
-        {name === "" ? null : (
-          <Text style={Styles.name}>
-            {name}
-            {console.warn(name)}
-          </Text>
-        )}
+        {name === "" ? null : <Text style={Styles.name}>{name}</Text>}
         <Text style={Styles.please}>
           {Strings.please_enter_code}
           {email}

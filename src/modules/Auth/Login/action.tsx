@@ -53,6 +53,7 @@ export const fetchSchoolList = (
 export const loginAPI = (
   email: string,
   password: string,
+  id: string,
   callback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
@@ -61,6 +62,7 @@ export const loginAPI = (
       {
         email: email,
         password: password,
+        center_id: id,
         device_id: "12",
         device_name: "ios",
         device_token: "asdasda",

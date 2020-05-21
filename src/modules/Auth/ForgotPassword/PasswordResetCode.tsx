@@ -50,9 +50,11 @@ export default function App(props: AppProps) {
       fpverifyCode(
         enteredCode,
         id,
-        () => {
+        (data: any) => {
           setIsLoading(false);
-          props.navigation.navigate(ScreenName.RESET_PASSWORD);
+          props.navigation.navigate(ScreenName.RESET_PASSWORD, {
+            token: data.token,
+          });
         },
         () => setIsLoading(false)
       )

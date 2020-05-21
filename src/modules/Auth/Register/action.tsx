@@ -99,12 +99,7 @@ export const resendCode = (
           let res = success.data.response;
           dispatch({
             type: Action.RESEND_CODE,
-            payload: {
-              name: `${res.first_name}${
-                res.middle_name === null ? "" : `${" "}${res.middle_name}`
-              } ${res.last_name}`,
-              id: res.id,
-            },
+            payload: {},
           });
           successCallback();
         } else {
