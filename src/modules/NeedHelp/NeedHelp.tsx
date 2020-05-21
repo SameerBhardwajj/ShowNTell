@@ -33,9 +33,10 @@ import {
   EndPoints,
 } from "../../utils";
 import { needHelpAPI } from "./action";
+const pkg = require("../../../package.json");
 
 const SELECT_SCHOOL = "Select School";
-const APPLICATION = "Application\nV 1.0.0";
+const APPLICATION = "Application\n";
 export interface AppProps {
   navigation?: any;
   route?: any;
@@ -104,7 +105,7 @@ export default function App(props: AppProps) {
             needHelpAPI(
               device,
               Platform.Version.toString(),
-              "1.0.0",
+              pkg.version.toString(),
               center.toString(),
               name,
               email,
@@ -207,6 +208,8 @@ export default function App(props: AppProps) {
               />
               <Text style={[Styles.text, { color: Colors.waterBlue }]}>
                 {APPLICATION}
+                {"V "}
+                {pkg.version.toString()}
               </Text>
             </View>
           </View>

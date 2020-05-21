@@ -24,7 +24,7 @@ import {
   validate,
   ConstantName,
 } from "../../../utils";
-import { updateLogin } from "./action";
+import { updateLogin, loginAPI } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -40,25 +40,24 @@ export default function App(props: AppProps) {
   const [secureEntry, setsecureEntry] = useState(true);
 
   const { email, name, id } = useSelector(
-    (state: { Register: any; Login: any }) => ({
+    (state: { Register: any; ForgotPassword: any }) => ({
       email: state.Register.email,
       name: state.Register.name,
       id: state.Register.id,
     })
   );
+
+  const { params } = props.route;
+
   const check = () => {
     Keyboard.dismiss();
     validate(ConstantName.PASSWORD, password)
-      ? // setIsLoading(true),
-        // dispatch(
-        //   loginAPI(email, password, () => {
-        //     console.warn("here");
-
-        //     setIsLoading(false);
-        //   })
-        // )
-        // props.navigation.navigate(ScreenName.TOP_TAB_NAVIGATOR)
-        dispatch(updateLogin("any"))
+      ? (setIsLoading(true),
+        dispatch(
+          loginAPI(params.email, password, () => {
+            setIsLoading(false);
+          })
+        ))
       : setCheckPassword(false);
   };
 

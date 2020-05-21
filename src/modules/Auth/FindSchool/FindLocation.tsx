@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Linking,
   Platform,
   PermissionsAndroid,
+  ActivityIndicator,
 } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
 
@@ -19,6 +20,7 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const requestLocationPermission = async () => {
     let hasPermission = true;
     if (Platform.OS === "android") {
@@ -33,6 +35,7 @@ export default function App(props: AppProps) {
       }
     }
     if (!hasPermission) {
+      setIsLoading(false);
       Linking.openSettings();
     }
     if (hasPermission) {
@@ -42,12 +45,13 @@ export default function App(props: AppProps) {
             latitude: info.coords.latitude,
             longitude: info.coords.longitude,
           };
-          console.warn("coordinates ", position);
+          setIsLoading(false);
           props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
             coordinates: position,
           });
         },
         (error) => {
+          setIsLoading(false);
           console.warn("error ", error.code);
         },
         { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
@@ -61,12 +65,22 @@ export default function App(props: AppProps) {
         title={Strings.Nearby_School}
         onPressBack={() => props.navigation.pop()}
       />
+      {isLoading ? (
+        <ActivityIndicator
+          color={Colors.violet}
+          animating={isLoading}
+          size="large"
+          style={Styles.indicator}
+        />
+      ) : null}
       <Image source={Images.Location_Graphic} style={Styles.img} />
       <Text style={Styles.mainHeading}>{Strings.Allow_Location_Access}</Text>
       <Text style={Styles.titleHeading}>{Strings.to_locate_schools}</Text>
       <CustomButton
         Text={Strings.Allow_Location_Access}
-        onPress={() => requestLocationPermission()}
+        onPress={() => {
+          setIsLoading(true), requestLocationPermission();
+        }}
       />
       <CustomButton
         Text={Strings.Select_Location_Manually}
@@ -99,5 +113,13 @@ const Styles = StyleSheet.create({
     textAlign: "center",
     marginTop: vh(10),
     marginBottom: vh(28),
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
 });

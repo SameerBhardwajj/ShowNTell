@@ -1,11 +1,11 @@
 import { CustomToast } from "../../../Components";
 import { Action, API, EndPoints } from "../../../utils";
-export const updateLogin = (token: string) => {
+export const updateLogin = (data: object, token: string) => {
   return (dispatch: any, getState: any) => {
     dispatch({
       type: Action.UPDATE_LOGIN,
       payload: {
-        loginData: {},
+        loginData: data,
         loginToken: token,
       },
     });
@@ -67,18 +67,17 @@ export const loginAPI = (
       },
       (success: any) => {
         console.log("success ", success);
+        const res = success.data.response;
         if (success.data.message === "Login Successfully!!") {
           dispatch({
             type: Action.USER_LOGIN,
             payload: {
-              loginData: success.data.response,
-              loginToken: success.data.response.jwttoken,
+              loginData: res,
+              loginToken: res.jwttoken,
             },
           });
         } else {
-          debugger;
           CustomToast(success.data.message);
-          debugger;
           callback();
         }
         debugger;
@@ -92,6 +91,8 @@ export const loginAPI = (
             // isLoading: false,
           },
         });
+        CustomToast(error.data.message);
+        callback();
       }
     );
   };

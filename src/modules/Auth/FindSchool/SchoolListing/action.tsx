@@ -7,10 +7,10 @@ export const fetchSchoolList = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     console.warn(page);
-    
+
     API.getApiCall(
       EndPoints.auth.nearByCentres(value.lat, value.lng, page),
-      undefined,
+      {},
       (success: any) => {
         console.log("success ", success.data.response);
         dispatch({

@@ -2,7 +2,7 @@ import Config from "react-native-config";
 import axios from "axios";
 
 const $http = axios.create({
-  baseURL: Config.API_URL,
+  baseURL: Config.BASE_URL,
   headers: {
     Authorization: "Basic Y29yZTpjb3Jl",
     "Content-Type": "application/json",

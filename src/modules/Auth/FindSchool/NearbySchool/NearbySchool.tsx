@@ -14,7 +14,7 @@ import { CustomHeader, CustomSearchBar } from "../../../../Components";
 import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../../utils";
 import RecentFlatlist from "./RecentFlatlist";
 import ResultFlatlist from "./ResultFlatlist";
-import { searchCenter } from "./action";
+import { searchCenter, recentSearch } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -23,18 +23,19 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
 
-  const { searchList } = useSelector((state: { NearbySchool: any }) => ({
-    searchList: state.NearbySchool.searchList,
-  }));
+  const { searchList, recentList } = useSelector(
+    (state: { NearbySchool: any }) => ({
+      searchList: state.NearbySchool.searchList,
+      recentList: state.NearbySchool.recentList,
+    })
+  );
 
   const [query, setQuery] = useState("");
-  const [showRes, setshowRes] = useState(false);
   const [data, setData] = useState([]);
 
   const hitSearchAPI = () => {
     dispatch(
       searchCenter(query, () => {
-        console.warn("list ", searchList);
         setData(searchList);
       })
     );
@@ -46,8 +47,10 @@ export default function App(props: AppProps) {
       <RecentFlatlist
         item={item}
         index={index}
-        onPress={(text: string) => {
-          props.navigation.navigate(ScreenName.SCHOOL_LISTING);
+        onPress={() => {
+          props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
+            coordinates: item.coordinates,
+          });
         }}
       />
     );
@@ -60,9 +63,12 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={() => {
+          recentSearch(item, (data: any) => {
+            console.warn("det data ", data);
+            debugger;
+          });
           setData([]);
           setQuery("");
-          setshowRes(false);
           props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
             coordinates: item.geometry.location,
           });
@@ -82,13 +88,10 @@ export default function App(props: AppProps) {
           value={query}
           placeholder={Strings.Search_placeholder}
           onChangeText={(text: string) => {
-            setQuery(text),
-              query.length >= 2
-                ? (hitSearchAPI(), setshowRes(true))
-                : setshowRes(false);
+            setQuery(text), query.length >= 2 ? hitSearchAPI() : setData([]);
           }}
           onPressCancel={() => {
-            setQuery(""), setshowRes(false);
+            setQuery(""), setData([]);
           }}
         />
         <TouchableOpacity
@@ -100,7 +103,7 @@ export default function App(props: AppProps) {
           <Text style={Styles.myLocText}>{Strings.Use_my_location}</Text>
         </TouchableOpacity>
         <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
-          {showRes ? (
+          {data.length !== 0 ? (
             <FlatList
               showsVerticalScrollIndicator={false}
               bounces={false}
@@ -113,7 +116,7 @@ export default function App(props: AppProps) {
               ListHeaderComponent={
                 <Text style={Styles.headerText}>{Strings.Recent_Searches}</Text>
               }
-              data={DATA}
+              data={recentList}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItems}
             />

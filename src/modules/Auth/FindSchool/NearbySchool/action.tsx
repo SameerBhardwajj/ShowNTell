@@ -27,3 +27,28 @@ export const searchCenter = (query: string, callback: Function) => {
     );
   };
 };
+
+export const recentSearch = (item: any, callback: Function) => {
+  debugger;
+  return (dispatch: Function, getState: Function) => {
+    debugger;
+    const { recentList } = getState().NearbySchool;
+    console.warn(getState().NearbySchool.recentList);
+    debugger;
+    let temp = {
+      name: item.formatted_address,
+      coordinates: item.geometry.location,
+    };
+    recentList.length >= 5 ? recentList.pop() : null;
+    recentList.unshift(temp);
+    debugger;
+    dispatch({
+      type: Action.RECENT_SEARCH,
+      payload: {
+        recentList: recentList,
+      },
+    });
+    debugger;
+    callback(recentList);
+  };
+};

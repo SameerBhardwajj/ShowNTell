@@ -9,7 +9,7 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const { title, author, centre } = props.item;
+  const { text, name } = props.item;
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -24,11 +24,14 @@ export default function App(props: AppProps) {
       />
       <Image source={Images.Colen_Bubble} style={Styles.testimonialColen} />
       <View style={Styles.testimonialTxtView}>
-        <Text numberOfLines={4} style={Styles.testimonialtext}>
-          {title}
+        <Text numberOfLines={5} style={Styles.testimonialtext}>
+          {text}
         </Text>
-        <Text style={Styles.testimonialAuthor}>{author}</Text>
-        <Text style={Styles.testimonialCentre}>{centre}</Text>
+        <Text style={Styles.testimonialAuthor}>
+          {name === "" ? "" : "- "}
+          {name}
+        </Text>
+        {/* <Text style={Styles.testimonialCentre}>{centre}</Text> */}
       </View>
     </TouchableOpacity>
   );
@@ -55,6 +58,8 @@ const Styles = StyleSheet.create({
     position: "absolute",
     marginHorizontal: vw(30),
     marginTop: vw(65),
+    alignItems: "center",
+    justifyContent: "center",
   },
   testimonialtext: {
     fontFamily: "Nunito-SemiBold",

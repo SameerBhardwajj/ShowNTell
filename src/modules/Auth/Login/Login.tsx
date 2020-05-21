@@ -41,40 +41,30 @@ const iPhoneX = Dimensions.get("window").height >= 812;
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const input1: any = React.createRef();
-  const input2: any = React.createRef();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [checkEmail, setCheckEmail] = useState(true);
-  const [checkPassword, setCheckPassword] = useState(true);
-  const [secureEntry, setsecureEntry] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [list, setList] = useState([]);
-  const [center, setCenter] = useState(0);
+  const [center, setCenter] = useState(-1);
   const [checkCenter, setCheckCenter] = useState(true);
   const [school, setSchool] = useState(SELECT_SCHOOL);
 
   const resetAll = () => {
     setCheckEmail(true);
-    setCheckPassword(true);
-    setsecureEntry(true);
     Keyboard.dismiss();
   };
 
   const check = () => {
     validate(ConstantName.EMAIL, email)
-      ? // ? validate(ConstantName.PASSWORD, password)
-        // setIsLoading(true),
-        (resetAll(),
-        // dispatch(
-        //   loginAPI(email, password, () => {
-        //     console.warn("here");
-
-        //     setIsLoading(false);
-        //   })
-        // )
-        props.navigation.navigate(ScreenName.ENTER_PASSWORD))
-      : // : setCheckPassword(false)
-        setCheckEmail(false);
+      ? center !== -1
+        ? (setIsLoading(false),
+          resetAll(),
+          props.navigation.navigate(ScreenName.ENTER_PASSWORD, {
+            email: email,
+            center: center,
+          }))
+        : setCheckCenter(false)
+      : setCheckEmail(false);
   };
 
   return (
@@ -125,7 +115,6 @@ export default function App(props: AppProps) {
                 incorrectText={Strings.Email_error}
                 onBlur={() => {
                   Keyboard.dismiss();
-                  setIsLoading(true);
                   dispatch(
                     fetchSchoolList(
                       email,
@@ -138,7 +127,6 @@ export default function App(props: AppProps) {
                           };
                         });
                         setList(temp);
-                        setIsLoading(false);
                         temp.length === 0 ? setCheckEmail(false) : null;
                       },
                       () => setIsLoading(false)
@@ -151,7 +139,9 @@ export default function App(props: AppProps) {
                 titleText={Strings.School_Name}
                 data={list}
                 onChangeText={(text: string, i: number, data: Array<any>) => {
-                  setCenter(data[i].id), setSchool(text), setCheckCenter(true);
+                  console.warn(data[i].id);
+
+                  setCheckCenter(true), setCenter(data[i].id), setSchool(text);
                 }}
                 currentText={school}
                 dropDownView={{ width: "80%" }}
