@@ -56,7 +56,7 @@
 		00E356EE1AD99517003FC87E /* ParentAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParentAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ParentAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParentAppTests.m; sourceTree = "<group>"; };
-		069673C4F75C4EE1A76C4315 /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../src/Assets/Fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
+		069673C4F75C4EE1A76C4315 /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../src/Assets/Fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 		09130A3FB147C1DDAA4216FB /* Pods-ParentApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ParentApp-tvOS/Pods-ParentApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ParentApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParentApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ParentApp/AppDelegate.h; sourceTree = "<group>"; };
@@ -65,31 +65,31 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ParentApp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ParentApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ParentApp/main.m; sourceTree = "<group>"; };
-		1876EFA2840C44819495E5DB /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBoldItalic.ttf"; path = "../src/Assets/Fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		1CF41D6D16984BAA8E7BC915 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../src/Assets/Fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
+		1876EFA2840C44819495E5DB /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBoldItalic.ttf"; path = "../src/Assets/Fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		1CF41D6D16984BAA8E7BC915 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../src/Assets/Fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
 		1F81E886C3E9D5167C99B3B1 /* libPods-ParentApp-ParentAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ParentApp-ParentAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		209466169D294440A6ECBB57 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.ttf"; path = "../src/Assets/Fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
-		2097757AD69E44A09CFF6B1C /* Nunito-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Medium.ttf"; path = "../src/Assets/Fonts/Nunito-Medium.ttf"; sourceTree = "<group>"; };
+		209466169D294440A6ECBB57 /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.ttf"; path = "../src/Assets/Fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
+		2097757AD69E44A09CFF6B1C /* Nunito-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Medium.ttf"; path = "../src/Assets/Fonts/Nunito-Medium.ttf"; sourceTree = "<group>"; };
 		25696DFAB2DEBBBFE9B018D9 /* Pods-ParentApp-ParentAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-ParentAppTests.release.xcconfig"; path = "Target Support Files/Pods-ParentApp-ParentAppTests/Pods-ParentApp-ParentAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* ParentApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ParentApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ParentApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ParentApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EFE8D821875EAC4FA4F1864 /* Pods-ParentApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ParentApp-tvOS/Pods-ParentApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		6571BFB300854A42A809FC0C /* frutiger.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = frutiger.ttf; path = ../src/Assets/Fonts/frutiger.ttf; sourceTree = "<group>"; };
+		6571BFB300854A42A809FC0C /* frutiger.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = frutiger.ttf; path = ../src/Assets/Fonts/frutiger.ttf; sourceTree = "<group>"; };
 		6A0A3CB5D4A026F090F26BAC /* libPods-ParentApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ParentApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73A34D17626758CCA43930A2 /* libPods-ParentApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ParentApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		81FA08F34FD74CD19C8A6794 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../src/Assets/Fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
+		81FA08F34FD74CD19C8A6794 /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../src/Assets/Fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		8AA0835698621A969734211B /* Pods-ParentApp-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ParentApp-tvOSTests/Pods-ParentApp-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		8DDE3A1E4A424299A1320382 /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../src/Assets/Fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		8DDE3A1E4A424299A1320382 /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../src/Assets/Fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		A03143B077A55CA8089B4792 /* Pods-ParentApp-ParentAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-ParentAppTests.debug.xcconfig"; path = "Target Support Files/Pods-ParentApp-ParentAppTests/Pods-ParentApp-ParentAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		BE30625F0C614E50B0C4ED5C /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../src/Assets/Fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
-		C88E61AD9749469FB0B9BE06 /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../src/Assets/Fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
-		D303964DB707444C89F53F90 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.ttf"; path = "../src/Assets/Fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; };
+		BE30625F0C614E50B0C4ED5C /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../src/Assets/Fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		C88E61AD9749469FB0B9BE06 /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../src/Assets/Fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		D303964DB707444C89F53F90 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.ttf"; path = "../src/Assets/Fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		D9096F8B42B9EEACDD33EE79 /* Pods-ParentApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp.debug.xcconfig"; path = "Target Support Files/Pods-ParentApp/Pods-ParentApp.debug.xcconfig"; sourceTree = "<group>"; };
 		E62B5F55DCE0198BAC048E6B /* libPods-ParentApp-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ParentApp-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F01A07B74BA7688944BF90D8 /* Pods-ParentApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ParentApp-tvOSTests/Pods-ParentApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		F7F3E846B67B4A3087FFC6A4 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../src/Assets/Fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
+		F7F3E846B67B4A3087FFC6A4 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../src/Assets/Fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
 		FE2FF180E46EE15943A43491 /* Pods-ParentApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp.release.xcconfig"; path = "Target Support Files/Pods-ParentApp/Pods-ParentApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -178,7 +178,6 @@
 				6571BFB300854A42A809FC0C /* frutiger.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		13B07FAE1A68108700A75B9A /* ParentApp */ = {
@@ -740,7 +739,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.parent.tle;
 				PRODUCT_NAME = ParentApp;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -762,7 +761,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.parent.tle;
 				PRODUCT_NAME = ParentApp;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
