@@ -32,9 +32,9 @@ import CreatePassword from "../modules/Auth/Register/CreatePassword";
 import RequestNewCode from "../modules/Auth/Register/RequestNewCode";
 import ResendCodeModal from "../modules/Auth/Modal/ResendCodeModal";
 import CreatePasswordModal from "../modules/Auth/Modal/CreatePasswordModal";
-import ResetPasswordEmail from "../modules/Auth/ForgotPassowrd/ResetPasswordEmail";
-import PasswordResetCode from "../modules/Auth/ForgotPassowrd/PasswordResetCode";
-import ResetPassword from "../modules/Auth/ForgotPassowrd/ResetPassword";
+import ResetPasswordEmail from "../modules/Auth/ForgotPassword/ResetPasswordEmail";
+import PasswordResetCode from "../modules/Auth/ForgotPassword/PasswordResetCode";
+import ResetPassword from "../modules/Auth/ForgotPassword/ResetPassword";
 import NearbySchool from "../modules/Auth/FindSchool/NearbySchool/NearbySchool";
 import SchoolListing from "../modules/Auth/FindSchool/SchoolListing/SchoolListing";
 import ScheduleTour from "../modules/Auth/FindSchool/ScheduleTour";
@@ -52,6 +52,7 @@ import ActivityModal from "../modules/Home/ActivityModal";
 import GalleryDetails from "../modules/PhotoLibrary/GalleryDetails";
 import CreateAbsence from "../modules/Absence/CreateAbsence";
 import ChildModal from "../Components/CustomHeader/ChildModal";
+import EnterPassword from "../modules/Auth/Login/EnterPassword";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -68,6 +69,10 @@ const AuthNavigator = () => (
     <AuthStack.Screen name={ScreenName.LOGIN} component={Login} />
     <AuthStack.Screen name={ScreenName.FIND_SCHOOL} component={FindSchool} />
     <AuthStack.Screen name={ScreenName.REGISTER} component={Register} />
+    <AuthStack.Screen
+      name={ScreenName.ENTER_PASSWORD}
+      component={EnterPassword}
+    />
     <AuthStack.Screen
       name={ScreenName.ACCESS_CODE_VERIFICATION}
       component={AccessCodeVerification}
@@ -341,6 +346,31 @@ export default class AppComponent extends React.Component<AppProps, any> {
               <RootStack.Screen
                 name={ScreenName.ACTIVITY_MODAL}
                 component={ActivityModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name={ScreenName.ABSENCE_NOTIFICATION_MODAL}
+                component={AbsenceNotificationModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name={ScreenName.GALLERY_DETAILS}
+                component={GalleryDetails}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.FILTER_MODAL}
+                component={FilterModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
+                name={ScreenName.CREATE_ABSENCE}
+                component={CreateAbsence}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.CHILD_MODAL}
+                component={ChildModal}
                 options={this.modal}
               />
               <RootStack.Screen

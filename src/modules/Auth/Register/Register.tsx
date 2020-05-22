@@ -8,8 +8,10 @@ import {
   TouchableOpacity,
   Keyboard,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
@@ -28,6 +30,8 @@ import {
   CustomInputText,
   CustomMenuList,
 } from "../../../Components";
+import { register, fetchSchoolList } from "./action";
+
 const iPhoneX = Dimensions.get("window").height >= 812;
 const SELECT_SCHOOL = "Select School";
 export interface AppProps {
@@ -35,9 +39,14 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
+  const [center, setCenter] = useState(0);
   const [checkEmail, setCheckcheckEmail] = useState(true);
+  const [checkCenter, setCheckCenter] = useState(true);
   const [school, setSchool] = useState(SELECT_SCHOOL);
+  const [isLoading, setIsLoading] = useState(false);
+  const [list, setList] = useState([]);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <KeyboardAwareScrollView
@@ -53,6 +62,14 @@ export default function App(props: AppProps) {
           <Image source={Images.back_icon} />
         </TouchableOpacity>
         <Customcartoon navigation={props.navigation} small={true} />
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.violet}
+            animating={isLoading}
+            size="large"
+            style={Styles.indicator}
+          />
+        ) : null}
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
             <Text style={Styles.loginText}>{Strings.register}</Text>
@@ -75,14 +92,39 @@ export default function App(props: AppProps) {
                     : setCheckcheckEmail(false);
                 }}
                 incorrectText={Strings.Email_error}
+                onBlur={() => {
+                  Keyboard.dismiss();
+                  setIsLoading(true);
+                  dispatch(
+                    fetchSchoolList(
+                      email,
+                      (data: any) => {
+                        let temp = data;
+                        temp = temp.map((item: any) => {
+                          return {
+                            id: item.id,
+                            value: item.name,
+                          };
+                        });
+                        setList(temp);
+                        setIsLoading(false);
+                        temp.length === 0 ? setCheckcheckEmail(false) : null;
+                      },
+                      () => setIsLoading(false)
+                    )
+                  );
+                }}
               />
               {/* School center list ------------- */}
               <CustomMenuList
                 titleText={Strings.School_Name}
-                onChangeText={(text: string) => setSchool(text)}
+                data={list}
+                onChangeText={(text: string, i: number, data: Array<any>) => {
+                  setCenter(data[i].id), setSchool(text), setCheckCenter(true);
+                }}
                 currentText={school}
-                data={DATA}
-                dropDownView={{width: '80%'}}
+                dropDownView={{ width: "80%" }}
+                check={checkCenter}
               />
             </View>
           </View>
@@ -91,12 +133,22 @@ export default function App(props: AppProps) {
             ButtonStyle={[Styles.btn, { marginTop: vh(15) }]}
             onPress={() => {
               validate(ConstantName.EMAIL, email)
-                ? props.navigation.navigate(
-                    ScreenName.ACCESS_CODE_VERIFICATION,
-                    {
-                      email: email,
-                    }
-                  )
+                ? school === SELECT_SCHOOL
+                  ? setCheckCenter(false)
+                  : (setIsLoading(true),
+                    dispatch(
+                      register(
+                        email,
+                        center,
+                        () => {
+                          setIsLoading(false);
+                          props.navigation.navigate(
+                            ScreenName.ACCESS_CODE_VERIFICATION
+                          );
+                        },
+                        () => setIsLoading(false)
+                      )
+                    ))
                 : setCheckcheckEmail(false);
             }}
           />
@@ -173,17 +225,12 @@ const Styles = StyleSheet.create({
     padding: vw(15),
     paddingTop: vh(10),
   },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
+  },
 });
-
-// Dummy data for School listy API
-const DATA = [
-  { value: "School 1" },
-  { value: "School 2" },
-  { value: "School 3" },
-  { value: "School 1" },
-  { value: "School 2" },
-  { value: "School 3" },
-  { value: "School 1" },
-  { value: "School 2" },
-  { value: "School 3" },
-];

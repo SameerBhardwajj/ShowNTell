@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { vh, Colors, Images, vw, Strings, ScreenName } from "../../utils";
-import { CustomButton } from "../../Components";
+import { CustomButton, CustomToast } from "../../Components";
 
 const LUNCH = "Lunch";
 const ANNOUNCEMENT = "Announcement";
@@ -53,9 +53,7 @@ export default function App(props: AppProps) {
               <TouchableOpacity
                 activeOpacity={0.8}
                 style={Styles.ElipsisImg}
-                onPress={() =>
-                  props.navigation.navigate(ScreenName.SHARE_MODAL)
-                }
+                onPress={() => CustomToast()}
               >
                 <Image source={Images.Elipsis} style={{ padding: vh(2) }} />
               </TouchableOpacity>

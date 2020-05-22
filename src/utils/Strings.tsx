@@ -37,7 +37,7 @@ const Strings = new LocalizedStrings({
     choose_centre: "Choose Centre",
     select_centre: "Select Centre",
     Access_Code_Verification: "Access Code Verification",
-    Welcome: "Welcome",
+    Welcome: "Welcome ",
     please_enter_code: "Please enter the 4 digit access code\nreceived on ",
     wrong_code: "Entered Incorrect Code ! Please Try Again",
     Please_Fill_All_Boxes: "Please Fill All Boxes !",
@@ -189,6 +189,7 @@ const Strings = new LocalizedStrings({
     Phone_error: "Phone no. is incorrect",
     Name_error: "Name is Incorrect",
     Zipcode_error: "Zipcode is Incorrect",
+    SchoolName_error: "Please select atleast 1 center",
     Device: "Device",
     Application: "Application",
     Remove_Child: "Remove Child",
@@ -199,6 +200,11 @@ const Strings = new LocalizedStrings({
     No_Internet: "No Internet! Please check your Internet Connection",
     Miles: "Miles",
     No_data_Found: "No data Found",
+    Select_School: "Select School",
+    Enter_password: "Enter Password",
+    Please_enter_password: "Please enter your Password here",
+    Please_On_GPS: "Please switch your GPS ON to access your location",
+    Unknown_error: "Unknown Error",
   },
 });
 export default Strings;

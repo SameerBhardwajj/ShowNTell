@@ -4,7 +4,7 @@ const CustomToast = (title?: string) => {
   title === undefined ? (title = Strings.under_development) : null;
   Snackbar.show({
     text: title,
-    duration: Snackbar.LENGTH_SHORT,
+    duration: Snackbar.LENGTH_LONG,
   });
 };
 export default CustomToast;

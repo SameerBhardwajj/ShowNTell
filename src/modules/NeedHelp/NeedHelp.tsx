@@ -6,9 +6,13 @@ import {
   Image,
   TextInput,
   Platform,
+  ActivityIndicator,
+  TouchableOpacity,
+  FlatList,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { getDeviceName, getManufacturer } from "react-native-device-info";
+import { getManufacturer } from "react-native-device-info";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
@@ -16,6 +20,7 @@ import {
   CustomButton,
   CustomMenuList,
   CustomInputText,
+  CustomToast,
 } from "../../Components";
 import {
   Strings,
@@ -26,20 +31,27 @@ import {
   validate,
   ScreenName,
   ConstantName,
+  API,
+  EndPoints,
 } from "../../utils";
+import { needHelpAPI } from "./action";
+const pkg = require("../../../package.json");
+import SchoolFlatlist from "./SchoolFlatlist";
 
 const SELECT_SCHOOL = "Select School";
-const APPLICATION = "Application\nV 1.0.0";
+const APPLICATION = "Application\n";
 export interface AppProps {
   navigation?: any;
   route?: any;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const input1: any = React.createRef();
   const input2: any = React.createRef();
   const input3: any = React.createRef();
   const [school, setSchool] = useState(SELECT_SCHOOL);
+  const [center, setCenter] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [help, setHelp] = useState("");
@@ -47,26 +59,73 @@ export default function App(props: AppProps) {
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkName, setCheckName] = useState(true);
   const [device, setDevice] = useState("");
-
-  const disable = () => {
-    return school !== SELECT_SCHOOL && email.length !== 0 && name.length !== 0;
-  };
+  const [page, setPage] = useState(1);
+  const [list, setList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showList, setShowList] = useState(false);
 
   React.useEffect(() => {
     getManufacturer()
       .then((deviceName) => {
         setDevice(deviceName);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => CustomToast(err));
+    schoolAPI();
   }, []);
+
+  const schoolAPI = () => {
+    API.getApiCall(
+      EndPoints.auth.fetchAllCenters(page),
+      {},
+      (success: any) => {
+        setList(list.concat(success.data.response));
+      },
+      (error: any) => {
+        CustomToast(error);
+      }
+    );
+  };
+
+  const renderItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <SchoolFlatlist
+        item={item}
+        index={index}
+        onPress={() => {
+          setShowList(!showList), setCenter(item.id), setSchool(item.name);
+        }}
+      />
+    );
+  };
+
+  const disable = () => {
+    return school !== SELECT_SCHOOL && email.length !== 0 && name.length !== 0;
+  };
 
   const check = () => {
     validate(ConstantName.NAME, name)
       ? validate(ConstantName.EMAIL, email)
-        ? props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-            path: props.route.params.path,
-            msg: Strings.ticket_submitted,
-          })
+        ? (setIsLoading(true),
+          dispatch(
+            needHelpAPI(
+              device,
+              Platform.Version.toString(),
+              pkg.version.toString(),
+              center.toString(),
+              name,
+              email,
+              help,
+              () => {
+                setIsLoading(false);
+                props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                  path: props.route.params.path,
+                  msg: Strings.ticket_submitted,
+                });
+              },
+              () => setIsLoading(false)
+            )
+          ))
         : setCheckEmail(false)
       : setCheckName(false);
   };
@@ -87,6 +146,14 @@ export default function App(props: AppProps) {
               : props.navigation.pop()
           }
         />
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.violet}
+            animating={isLoading}
+            size="large"
+            style={Styles.indicator}
+          />
+        ) : null}
         <View style={Styles.innerView}>
           <View style={Styles.deviceMainView}>
             {/* Device -------------------- */}
@@ -147,19 +214,45 @@ export default function App(props: AppProps) {
               />
               <Text style={[Styles.text, { color: Colors.waterBlue }]}>
                 {APPLICATION}
+                {"V "}
+                {pkg.version.toString()}
               </Text>
             </View>
           </View>
           <View style={{ width: "100%" }}>
-            <CustomMenuList
-              titleText={Strings.School_Name}
-              onChangeText={(text: string) => setSchool(text)}
-              currentText={school}
-              viewStyle={Styles.menuView}
-              data={DATA}
-            />
+            {/* School name --------------------- */}
+            <Text style={[Styles.titleTxt, Styles.menuView]}>
+              {Strings.School_Name}
+            </Text>
+            <TouchableOpacity
+              style={Styles.inputTxtView}
+              activeOpacity={0.8}
+              onPress={() => setShowList(true)}
+            >
+              <Text style={Styles.schoolText}>{school}</Text>
+              <Image source={Images.Dropdown_icon} />
+            </TouchableOpacity>
+            {/* School Flatlist -------------- */}
+            {showList && list.length > 1 ? (
+              <View style={Styles.flatlistView}>
+                <FlatList
+                  nestedScrollEnabled={true}
+                  data={list}
+                  keyExtractor={(item, index) => index.toString()}
+                  showsVerticalScrollIndicator={false}
+                  bounces={false}
+                  renderItem={renderItems}
+                  onEndReached={() => {
+                    setPage(page + 1), schoolAPI();
+                  }}
+                  onEndReachedThreshold={1}
+                />
+              </View>
+            ) : null}
+
             <CustomInputText
               ref={input1}
+              mainViewStyle={Styles.menuView}
               value={name}
               onChangeText={(text: string) => {
                 checkName ? null : setCheckName(true), setName(text);
@@ -259,11 +352,40 @@ const Styles = StyleSheet.create({
     textAlign: "center",
   },
   menuView: {
-    marginVertical: vh(28),
+    marginTop: vh(28),
+  },
+  inputTxtView: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+    backgroundColor: Colors.veryLightGrey,
+    height: vh(48),
+    marginVertical: vh(10),
+    borderRadius: vh(50),
+    borderWidth: vh(1),
+    borderColor: Colors.borderGrey,
+    paddingHorizontal: vw(25),
+  },
+  schoolText: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(16),
+    color: Colors.lightBlack,
+  },
+  flatlistView: {
+    position: "absolute",
+    top: vh(50),
+    zIndex: 99,
+    width: "100%",
+    borderColor: Colors.borderGrey,
+    borderWidth: vw(1),
+    borderRadius: vw(10),
+    height: vh(300),
   },
   helpView: {
     alignItems: "center",
     width: "100%",
+    marginTop: vh(28),
   },
   titleTxt: {
     fontFamily: "Nunito-SemiBold",
@@ -297,10 +419,12 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Regular",
     alignSelf: "flex-end",
   },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
+  },
 });
-
-const DATA = [
-  { value: "School 1" },
-  { value: "School 2" },
-  { value: "School 3" },
-];

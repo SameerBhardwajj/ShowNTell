@@ -314,6 +314,8 @@ PODS:
     - React
   - RNDeviceInfo (5.5.7):
     - React
+  - RNDeviceInfo (5.5.7):
+    - React
   - RNGestureHandler (1.6.1):
     - React
   - RNImageCropPicker (0.30.0):

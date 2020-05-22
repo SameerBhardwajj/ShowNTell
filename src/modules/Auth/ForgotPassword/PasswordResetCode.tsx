@@ -5,16 +5,14 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
+  ActivityIndicator,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import {
-  CustomHeader,
-  CustomCodeBox,
-  CustomToast,
-  CustomButton,
-} from "../../../Components";
+import { CustomHeader, CustomCodeBox, CustomButton } from "../../../Components";
 import { Strings, vw, vh, Colors, ScreenName } from "../../../utils";
+import { fpverifyCode } from "../ForgotPassword/action";
 
 export interface AppProps {
   navigation?: any;
@@ -22,6 +20,7 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
   const inputRef3: any = React.createRef();
@@ -30,23 +29,36 @@ export default function App(props: AppProps) {
   const [input2, setinput2] = useState("");
   const [input3, setinput3] = useState("");
   const [input4, setinput4] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const CODE = "1234";
+  const { name, id, email } = useSelector((state: { ForgotPassword: any }) => ({
+    name: state.ForgotPassword.name,
+    id: state.ForgotPassword.id,
+    email: state.ForgotPassword.email,
+  }));
+
   const KEY_BACKSPACE = "Backspace";
 
   const verifyCode = () => {
-    const code = CODE;
     let enteredCode =
       input1.toString() +
       input2.toString() +
       input3.toString() +
       input4.toString();
 
-    if (code === enteredCode) {
-      props.navigation.navigate(ScreenName.RESET_PASSWORD);
-    } else {
-      CustomToast(Strings.wrong_code);
-    }
+    dispatch(
+      fpverifyCode(
+        enteredCode,
+        id,
+        (data: any) => {
+          setIsLoading(false);
+          props.navigation.navigate(ScreenName.RESET_PASSWORD, {
+            token: data.token,
+          });
+        },
+        () => setIsLoading(false)
+      )
+    );
   };
 
   let EmptyBox =
@@ -61,12 +73,20 @@ export default function App(props: AppProps) {
         title={Strings.Enter_Password_Reset_Code}
         onPressBack={() => props.navigation.pop()}
       />
+      {isLoading ? (
+        <ActivityIndicator
+          color={Colors.violet}
+          animating={isLoading}
+          size="large"
+          style={Styles.indicator}
+        />
+      ) : null}
       <View style={Styles.innerView}>
         <Text style={Styles.welcome}>{Strings.Welcome}</Text>
-        <Text style={Styles.name}>Mr. Bob Parish</Text>
+        <Text style={Styles.name}>{name}</Text>
         <Text style={Styles.please}>
           {Strings.please_enter_code}
-          {props.route.params.email}
+          {email}
         </Text>
         {/* Access code box ------------------ */}
         <View style={Styles.codeView}>
@@ -157,7 +177,7 @@ export default function App(props: AppProps) {
               style={{ paddingHorizontal: vw(7) }}
               onPress={() =>
                 props.navigation.navigate(ScreenName.REQUEST_NEW_CODE, {
-                  email: props.route.params.email,
+                  type: 1,
                   path: ScreenName.PASSWORD_RESET_CODE,
                 })
               }
@@ -213,5 +233,13 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(14),
     color: Colors.violet,
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
 });

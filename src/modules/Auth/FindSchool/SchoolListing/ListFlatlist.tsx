@@ -79,7 +79,10 @@ export default function App(props: AppProps) {
           <CustomButton
             Text={Strings.Schedule_a_Tour}
             onPress={() =>
-              props.navigation.navigate(ScreenName.DATE_TIME_SCHEDULE)
+              props.navigation.navigate(ScreenName.DATE_TIME_SCHEDULE, {
+                id: item.id,
+                name: item.name,
+              })
             }
             ButtonStyle={Styles.btn}
           />

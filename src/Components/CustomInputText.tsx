@@ -24,6 +24,7 @@ export interface AppProps {
   mainViewStyle?: any;
   editable?: boolean;
   autoFocus?: boolean;
+  onBlur?: Function;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -71,6 +72,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
             props.returnKeyType === undefined ? "next" : props.returnKeyType
           }
           onSubmitEditing={() => props.onSubmitEditing()}
+          onBlur={() => (props.onBlur === undefined ? null : props.onBlur())}
         />
         {checkPassword ? null : (
           <TouchableOpacity

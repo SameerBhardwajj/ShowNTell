@@ -14,13 +14,6 @@ import { CustomHeader } from "../../../../Components";
 import { Strings, vh, Colors } from "../../../../utils";
 import ListFlatlist from "./ListFlatlist";
 import { fetchSchoolList } from "./action";
-
-const class1 =
-  "https://www.sciencespo.fr/sites/default/files/tables%20v3_1.jpg";
-const class2 =
-  "https://media.istockphoto.com/photos/empty-classroom-with-whiteboard-picture-id950607874?k=6&m=950607874&s=612x612&w=0&h=Fm0_zzZvq-0dC0UFsMdqMT8hxoLIwlXp07rjRutoJh8=";
-const class3 =
-  "https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80";
 export interface AppProps {
   navigation?: any;
   route?: any;
@@ -39,7 +32,6 @@ export default function App(props: AppProps) {
   const [pageNum, setpageNum] = useState(1);
 
   useEffect(() => {
-    console.warn(props.route.params.coordinates);
     handleUrl();
   }, []);
 
@@ -47,9 +39,7 @@ export default function App(props: AppProps) {
     setIsLoading(true);
     dispatch(
       fetchSchoolList(props.route.params.coordinates, pageNum, (data: any) => {
-        console.warn(pageNum,"here ", schoolList);
         setData(data.concat(schoolList));
-        console.warn("data  ", data);
         setIsLoading(false);
         setpageNum(pageNum + 1);
         setisRefreshing(false);
@@ -157,42 +147,3 @@ const Styles = StyleSheet.create({
     elevation: 5,
   },
 });
-
-const DATA = [
-  {
-    schoolImages: [class1, class2, class3],
-    schoolName: "Kiddie Cloud Play School",
-    location: {
-      distance: "0.8 Miles",
-      address: "851 South Dowling Street, Surry Hills",
-      phone: "561 - 9637625",
-    },
-    description:
-      "One of the best play school for kids which not only focus on learning but also on extracurricular activities.",
-    coordinates: { longitude: 28.6728, latitude: 77.3863 },
-  },
-  {
-    schoolImages: [class1, class2, class3],
-    schoolName: "Kiddie Cloud Play School",
-    location: {
-      distance: "0.8 Miles",
-      address: "851 South Dowling Street, Surry Hills",
-      phone: "561 - 9637625",
-    },
-    description:
-      "One of the best play school for kids which not only focus on learning but also on extracurricular activities.",
-    coordinates: { longitude: 28.6728, latitude: 77.3863 },
-  },
-  {
-    schoolImages: [class1, class2, class3],
-    schoolName: "Kiddie Cloud Play School",
-    location: {
-      distance: "0.8 Miles",
-      address: "851 South Dowling Street, Surry Hills",
-      phone: "561 - 9637625",
-    },
-    description:
-      "One of the best play school for kids which not only focus on learning but also on extracurricular activities.",
-    coordinates: { longitude: 28.6728, latitude: 77.3863 },
-  },
-];

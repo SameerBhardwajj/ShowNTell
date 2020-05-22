@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Keyboard } from "react-native";
+import { View, StyleSheet, Keyboard, ActivityIndicator } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
@@ -16,12 +17,15 @@ import {
   ConstantName,
   ScreenName,
 } from "../../../utils";
+import { resetPassword } from "./action";
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
   const [password1, setPassword1] = useState("");
@@ -30,6 +34,35 @@ export default function App(props: AppProps) {
   const [checkPassword2, setCheckPassword2] = useState(true);
   const [secureEntry1, setsecureEntry1] = useState(true);
   const [secureEntry2, setsecureEntry2] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { id } = useSelector((state: { ForgotPassword: any }) => ({
+    id: state.ForgotPassword.id,
+  }));
+
+  const check = () => {
+    validate(ConstantName.PASSWORD, password1)
+      ? validate(ConstantName.PASSWORD, password2)
+        ? password1 === password2
+          ? (Keyboard.dismiss(),
+            setIsLoading(true),
+            dispatch(
+              resetPassword(
+                id,
+                password1,
+                password2,
+                props.route.params.token,
+                () => {
+                  setIsLoading(false);
+                  props.navigation.navigate(ScreenName.CREATE_PASSWORD_MODAL);
+                },
+                () => setIsLoading(false)
+              )
+            ))
+          : setCheckPassword2(false)
+        : setCheckPassword2(false)
+      : setCheckPassword1(false);
+  };
 
   const check = () => {
     validate(ConstantName.PASSWORD, password1)
@@ -48,6 +81,14 @@ export default function App(props: AppProps) {
         title={Strings.Create_Password}
         onPressBack={() => props.navigation.pop(3)}
       />
+      {isLoading ? (
+        <ActivityIndicator
+          color={Colors.violet}
+          animating={isLoading}
+          size="large"
+          style={Styles.indicator}
+        />
+      ) : null}
       <View style={Styles.codeView}>
         <CustomInputText
           ref={inputRef1}
@@ -119,5 +160,13 @@ const Styles = StyleSheet.create({
   codeView: {
     marginHorizontal: vw(16),
     marginVertical: vh(24),
+  },
+  indicator: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 99,
   },
 });

@@ -7,33 +7,73 @@ import CustomToast from "./CustomToast";
 export interface AppProps {
   titleText: string;
   viewStyle?: Object;
-  data: Array<any>;
   onChangeText: Function;
   currentText: string;
   dropDownView?: Object;
+  check: boolean;
+  data: Array<any>;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
-  const [list, setList] = React.useState([]);
-  React.useEffect(() => {
-    API.getApiCall(
-      EndPoints.auth.centerList,
-      undefined,
-      (success: any) => setList(success.data.response),
-      (error: any) => CustomToast(error)
-    );
-  }, []);
+  // React.useEffect(() => {
+  //   API.getApiCall(
+  //     EndPoints.auth.centerList,
+  //     undefined,
+  //     (success: any) => {
+  //       let temp = success.data.response;
+  //       temp = temp.map((item: any) => {
+  //         return {
+  //           id: item.id,
+  //           value: item.name,
+  //           address1: item.address1,
+  //           phone: item.phone,
+  //           email: item.email,
+  //           center_image: item.center_image,
+  //           center_lat: item.center_lat,
+  //           center_long: item.center_long,
+  //           Centertype: item.Centertype,
+  //         };
+  //       });
+  //       setList(list.concat(temp));
+  //     },
+  //     (error: any) => CustomToast(error)
+  //   );
+  // }, []);
 
   return (
     <View style={[Styles.mainView, props.viewStyle]}>
-      <Text style={Styles.titleTxt}>{props.titleText}</Text>
+      <View style={Styles.textView}>
+        <Text
+          style={[
+            Styles.titleTxt,
+            { color: props.check ? Colors.titleColor : Colors.pink },
+          ]}
+        >
+          {props.titleText}
+        </Text>
+        {props.check ? null : (
+          <Text style={Styles.incorrectText}>{Strings.SchoolName_error}</Text>
+        )}
+      </View>
       <Dropdown
         rippleOpacity={0}
         rippleDuration={0}
         renderBase={() => {
           return (
             <View style={Styles.inputTxtView}>
-              <Text style={Styles.centreTxt}>{props.currentText}</Text>
+              <Text
+                style={[
+                  Styles.centreTxt,
+                  {
+                    color:
+                      props.currentText === Strings.Select_School
+                        ? Colors.placeholderGrey
+                        : "black",
+                  },
+                ]}
+              >
+                {props.currentText}
+              </Text>
               <Image source={Images.Dropdown_icon} />
             </View>
           );
@@ -42,11 +82,12 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           { width: "85%", marginHorizontal: vw(22) },
           props.dropDownView,
         ]}
-        label={Strings.School_Name}
+        useNativeDriver={true}
         containerStyle={{ width: "100%" }}
         fontSize={vh(16)}
-        data={list}
-        onChangeText={(value) => props.onChangeText(value)}
+        data={props.data}
+        itemCount={5}
+        onChangeText={(value, i, data) => props.onChangeText(value, i, data)}
       />
     </View>
   );
@@ -56,6 +97,12 @@ export default CustomInputText;
 const Styles = StyleSheet.create({
   mainView: {
     alignItems: "center",
+    width: "100%",
+  },
+  textView: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     width: "100%",
   },
   titleTxt: {
@@ -77,9 +124,14 @@ const Styles = StyleSheet.create({
     borderColor: Colors.borderGrey,
     paddingHorizontal: vw(25),
   },
+  incorrectText: {
+    fontFamily: "Nunito-Medium",
+    fontSize: vh(12),
+    color: Colors.pink,
+    paddingLeft: vw(40),
+  },
   centreTxt: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
-    color: Colors.placeholderGrey,
   },
 });

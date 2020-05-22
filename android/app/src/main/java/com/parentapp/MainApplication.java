@@ -7,6 +7,7 @@ import com.facebook.react.ReactApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;

@@ -10,14 +10,14 @@ import {
   ToastAndroid,
   BackHandler,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import SplashScreen from "react-native-splash-screen";
 
 // custom imports
 import { Images, vh, vw, Strings, Colors, ScreenName } from "../../../utils";
 import { CustomButton, Customcartoon } from "../../../Components";
 import TestimonialList from "./TestimonialList";
-import { updateScrollRef } from "./action";
+import { updateScrollRef, fetchTestimonials } from "./action";
 
 export function isNullUndefined(item: any) {
   try {
@@ -40,9 +40,12 @@ export default function App(props: AppProps) {
   const flatListRef: any = React.useRef();
   const [currentIndex, setCurrentIndex] = useState(1);
   const [scroll, setScroll] = useState(true);
+  const [counter, setCounter] = useState(true);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     SplashScreen.hide();
+    fetchTest();
     autoScroll();
     BackHandler.addEventListener("hardwareBackPress", () => {
       ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
@@ -50,6 +53,20 @@ export default function App(props: AppProps) {
       return true;
     });
   }, [currentIndex]);
+
+  const fetchTest = () => {
+    counter
+      ? dispatch(
+          fetchTestimonials(
+            (success: any) => {
+              setCounter(false);
+              setData(success);
+            },
+            () => {}
+          )
+        )
+      : null;
+  };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -64,10 +81,12 @@ export default function App(props: AppProps) {
 
   // Testimonial auto scroll -------------
   const autoScroll = () => {
-    scroll
+    data.length === 0
+      ? (setCounter(true), fetchTest())
+      : scroll
       ? setTimeout(() => {
           if (flatListRef.current) {
-            if (currentIndex < DATA.length - 1) {
+            if (currentIndex < data.length - 1) {
               setCurrentIndex(currentIndex + 1);
               flatListRef.current.scrollToIndex({
                 index: currentIndex,
@@ -98,7 +117,7 @@ export default function App(props: AppProps) {
         {/* testimonial Flatlist -------------- */}
         <FlatList
           ref={flatListRef}
-          data={DATA}
+          data={data.length === 0 ? DATA : data}
           keyExtractor={(item, index) => index.toString()}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
@@ -152,30 +171,4 @@ const Styles = StyleSheet.create({
   },
 });
 
-const DATA = [
-  {
-    title: Strings.testimonialtext,
-    author: Strings.testimonialAuthor,
-    centre: Strings.testimonialCentre,
-  },
-  {
-    title: Strings.testimonialtext,
-    author: Strings.testimonialAuthor,
-    centre: Strings.testimonialCentre,
-  },
-  {
-    title: Strings.testimonialtext,
-    author: Strings.testimonialAuthor,
-    centre: Strings.testimonialCentre,
-  },
-  {
-    title: Strings.testimonialtext,
-    author: Strings.testimonialAuthor,
-    centre: Strings.testimonialCentre,
-  },
-  {
-    title: Strings.testimonialtext,
-    author: Strings.testimonialAuthor,
-    centre: Strings.testimonialCentre,
-  },
-];
+const DATA = [{ text: "", name: "" }];

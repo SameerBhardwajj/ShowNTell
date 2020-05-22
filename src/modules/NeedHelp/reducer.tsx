@@ -1,13 +1,11 @@
-import { Action } from "../../../../utils";
+import { Action } from "../../utils";
 const initialState = {
-  searchList: [],
-  recentList: [],
+  list: [],
 };
+
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case Action.SEARCH_CENTER:
-      return { ...state, ...action.payload };
-    case Action.RECENT_SEARCH:
+    case Action.NEED_HELP:
       return { ...state, ...action.payload };
     default:
       return state;

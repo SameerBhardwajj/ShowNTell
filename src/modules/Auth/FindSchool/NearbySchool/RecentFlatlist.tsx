@@ -13,10 +13,12 @@ export default function App(props: AppProps) {
     <TouchableOpacity
       activeOpacity={0.8}
       style={Styles.textView}
-      onPress={() => props.onPress(props.index)}
+      onPress={() => props.onPress()}
     >
       <Image style={Styles.img} source={Images.History_Icon} />
-      <Text numberOfLines={1} style={Styles.text}>{props.item.title}</Text>
+      <Text numberOfLines={1} style={Styles.text}>
+        {props.item.name}
+      </Text>
     </TouchableOpacity>
   );
 }

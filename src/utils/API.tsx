@@ -68,7 +68,7 @@ const postApiCall = (
  */
 const getApiCall = (
   endPoint: string,
-  params: any,
+  params: object,
   successCallback: Function,
   errorCallback: Function
 ) => {
@@ -80,7 +80,7 @@ const getApiCall = (
     })
     .catch((error: any) => {
       console.warn("error", error);
-      console.log("Error: ", error.response);
+      console.log("Error: ", error);
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
       }

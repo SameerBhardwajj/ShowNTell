@@ -7,11 +7,13 @@ import Login from "../modules/Auth/Login/reducer";
 import LandingPage from "../modules/Auth/LandingPage/reducer";
 import SchoolListing from "../modules/Auth/FindSchool/SchoolListing/reducer";
 import NearbySchool from "../modules/Auth/FindSchool/NearbySchool/reducer";
+import ForgotPassword from "../modules/Auth/ForgotPassword/reducer";
 const CombinedReducer = combineReducers({
   Home,
   Splash,
   Register,
   PhotoLibrary,
+  ForgotPassword,
   Login,
   LandingPage,
   SchoolListing,
