@@ -17,6 +17,6 @@ export default {
     forgotPassword: "/api/v1/parent/forgot-password",
     resetPassword: "/api/v1/parent/reset-password",
     needHelp: "/api/v1/parent/need-help",
-    testimonials: "/api/v1/parent/testimonials",
+    testimonials: "https://snt-parent-api-test.mytle.com/api/v1/parent/testimonials",
   },
 };

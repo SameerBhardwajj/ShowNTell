@@ -64,16 +64,16 @@ export default function App(props: AppProps) {
       : setCheckPassword1(false);
   };
 
-  const check = () => {
-    validate(ConstantName.PASSWORD, password1)
-      ? validate(ConstantName.PASSWORD, password2)
-        ? password1 === password2
-          ? (Keyboard.dismiss(),
-            props.navigation.navigate(ScreenName.CREATE_PASSWORD_MODAL))
-          : setCheckPassword2(false)
-        : setCheckPassword2(false)
-      : setCheckPassword1(false);
-  };
+  // const check = () => {
+  //   validate(ConstantName.PASSWORD, password1)
+  //     ? validate(ConstantName.PASSWORD, password2)
+  //       ? password1 === password2
+  //         ? (Keyboard.dismiss(),
+  //           props.navigation.navigate(ScreenName.CREATE_PASSWORD_MODAL))
+  //         : setCheckPassword2(false)
+  //       : setCheckPassword2(false)
+  //     : setCheckPassword1(false);
+  // };
 
   return (
     <View style={Styles.mainView}>
