@@ -8,6 +8,7 @@ import {
   Dimensions,
   ScrollView,
   FlatList,
+  StatusBar,
 } from "react-native";
 
 // custom imports
@@ -76,7 +77,7 @@ export default function App(props: AppProps) {
       bounces={false}
       keyboardShouldPersistTaps="handled"
     >
-      {console.log("rendered", tab)}
+      <StatusBar backgroundColor={Colors.violet} barStyle="light-content" />
       <View style={Styles.mainView}>
         <View style={Styles.extraHeader} />
         <View style={Styles.header}>

@@ -221,7 +221,7 @@ export default function App(props: AppProps) {
           </View>
           <View style={{ width: "100%" }}>
             {/* School name --------------------- */}
-            <Text style={[Styles.titleTxt, { marginTop: vh(20) }]}>
+            <Text style={[Styles.titleTxt, Styles.menuView]}>
               {Strings.School_Name}
             </Text>
             <TouchableOpacity
@@ -234,22 +234,25 @@ export default function App(props: AppProps) {
             </TouchableOpacity>
             {/* School Flatlist -------------- */}
             {showList && list.length > 1 ? (
-              <FlatList
-                style={Styles.flatlistView}
-                data={list}
-                keyExtractor={(item, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-                bounces={false}
-                renderItem={renderItems}
-                onEndReached={() => {
-                  setPage(page + 1), schoolAPI();
-                }}
-                onEndReachedThreshold={0.5}
-              />
+              <View style={Styles.flatlistView}>
+                <FlatList
+                  nestedScrollEnabled={true}
+                  data={list}
+                  keyExtractor={(item, index) => index.toString()}
+                  showsVerticalScrollIndicator={false}
+                  bounces={false}
+                  renderItem={renderItems}
+                  onEndReached={() => {
+                    setPage(page + 1), schoolAPI();
+                  }}
+                  onEndReachedThreshold={1}
+                />
+              </View>
             ) : null}
 
             <CustomInputText
               ref={input1}
+              mainViewStyle={Styles.menuView}
               value={name}
               onChangeText={(text: string) => {
                 checkName ? null : setCheckName(true), setName(text);
@@ -349,7 +352,7 @@ const Styles = StyleSheet.create({
     textAlign: "center",
   },
   menuView: {
-    marginVertical: vh(28),
+    marginTop: vh(28),
   },
   inputTxtView: {
     flexDirection: "row",
@@ -382,6 +385,7 @@ const Styles = StyleSheet.create({
   helpView: {
     alignItems: "center",
     width: "100%",
+    marginTop: vh(28),
   },
   titleTxt: {
     fontFamily: "Nunito-SemiBold",

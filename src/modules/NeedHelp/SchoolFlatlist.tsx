@@ -24,7 +24,7 @@ const Styles = StyleSheet.create({
   mainView: {
     width: "100%",
     alignItems: "center",
-    backgroundColor: Colors.veryLightGrey,
+    backgroundColor: 'white',
     paddingVertical: vh(10),
   },
   nameText: {

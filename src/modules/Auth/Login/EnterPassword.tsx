@@ -89,6 +89,7 @@ export default function App(props: AppProps) {
           onSubmitEditing={() => check()}
           incorrectText={Strings.Password_length}
           returnKeyType="done"
+          mainViewStyle={{marginTop: vh(16)}}
         />
         <View style={{ alignItems: "center" }}>
           {/* Verify Button ----------------- */}
@@ -138,7 +139,6 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Regular",
     fontSize: vh(16),
     color: Colors.lightGrey,
-    marginVertical: vh(8),
   },
   codeView: {
     flexDirection: "row",

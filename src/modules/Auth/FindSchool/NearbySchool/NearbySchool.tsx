@@ -166,6 +166,7 @@ export default function App(props: AppProps) {
         <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
           {data.length !== 0 ? (
             <FlatList
+              keyboardShouldPersistTaps="handled"
               showsVerticalScrollIndicator={false}
               bounces={false}
               data={data}
@@ -174,8 +175,13 @@ export default function App(props: AppProps) {
             />
           ) : (
             <FlatList
+              keyboardShouldPersistTaps="handled"
               ListHeaderComponent={
-                <Text style={Styles.headerText}>{Strings.Recent_Searches}</Text>
+                recentList.length === 0 ? null : (
+                  <Text style={Styles.headerText}>
+                    {Strings.Recent_Searches}
+                  </Text>
+                )
               }
               data={recentList}
               keyExtractor={(item, index) => index.toString()}

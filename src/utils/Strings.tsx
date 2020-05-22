@@ -37,7 +37,7 @@ const Strings = new LocalizedStrings({
     choose_centre: "Choose Centre",
     select_centre: "Select Centre",
     Access_Code_Verification: "Access Code Verification",
-    Welcome: "Welcome",
+    Welcome: "Welcome ",
     please_enter_code: "Please enter the 4 digit access code\nreceived on ",
     wrong_code: "Entered Incorrect Code ! Please Try Again",
     Please_Fill_All_Boxes: "Please Fill All Boxes !",

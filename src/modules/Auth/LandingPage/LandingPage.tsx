@@ -43,12 +43,18 @@ export default function App(props: AppProps) {
   const [counter, setCounter] = useState(true);
   const [data, setData] = useState([]);
 
-  const { fetchTest } = useSelector((state: { LandingPage: any }) => ({
-    fetchTest: state.LandingPage.fetchTest,
-  }));
-
   useEffect(() => {
     SplashScreen.hide();
+    fetchTest();
+    autoScroll();
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
+      BackHandler.exitApp();
+      return true;
+    });
+  }, [currentIndex]);
+
+  const fetchTest = () => {
     counter
       ? dispatch(
           fetchTestimonials(
@@ -60,13 +66,7 @@ export default function App(props: AppProps) {
           )
         )
       : null;
-    autoScroll();
-    BackHandler.addEventListener("hardwareBackPress", () => {
-      ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
-      BackHandler.exitApp();
-      return true;
-    });
-  }, [currentIndex]);
+  };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -81,7 +81,9 @@ export default function App(props: AppProps) {
 
   // Testimonial auto scroll -------------
   const autoScroll = () => {
-    scroll
+    data.length === 0
+      ? (setCounter(true), fetchTest())
+      : scroll
       ? setTimeout(() => {
           if (flatListRef.current) {
             if (currentIndex < data.length - 1) {
