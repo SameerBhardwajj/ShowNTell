@@ -3,6 +3,7 @@ const initialState = {
   email: "",
   name: "",
   id: 0,
+  token: "",
   schoolList: [],
 };
 

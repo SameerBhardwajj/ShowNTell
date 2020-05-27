@@ -184,9 +184,10 @@ const Strings = new LocalizedStrings({
     Download_Statement: "Download Statement",
     Class_Schedule: "Class Schedule",
     Email_error: "Email is Incorrect",
+    Email_empty: "Email cannot be Empty",
     Password_length: "Password must contain 4-12\ncharacters",
     Password_mismatch: "Password Mismatch",
-    Phone_error: "Phone no. is incorrect",
+    Phone_error: "Phone no is incorrect",
     Name_error: "Name is Incorrect",
     Zipcode_error: "Zipcode is Incorrect",
     SchoolName_error: "Please select atleast 1 center",
@@ -205,6 +206,11 @@ const Strings = new LocalizedStrings({
     Please_enter_password: "Please enter your Password here",
     Please_On_GPS: "Please switch your GPS ON to access your location",
     Unknown_error: "Unknown Error",
+    Select_Date: "Select Date",
+    View_Slots: "View Slots",
+    Preferred_slot: "Please select a prefered time slot",
+    DOB_incorrect: "DOB cannot be Empty",
+    No_Location_Found: "No Location Found",
   },
 });
 export default Strings;

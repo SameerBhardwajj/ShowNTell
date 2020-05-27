@@ -9,9 +9,10 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   FlatList,
+  Keyboard,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { getManufacturer } from "react-native-device-info";
+import { getManufacturer, getVersion, getSystemVersion } from "react-native-device-info";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
@@ -35,7 +36,6 @@ import {
   EndPoints,
 } from "../../utils";
 import { needHelpAPI } from "./action";
-const pkg = require("../../../package.json");
 import SchoolFlatlist from "./SchoolFlatlist";
 
 const SELECT_SCHOOL = "Select School";
@@ -110,8 +110,8 @@ export default function App(props: AppProps) {
           dispatch(
             needHelpAPI(
               device,
-              Platform.Version.toString(),
-              pkg.version.toString(),
+              getSystemVersion(),
+              getVersion(),
               center.toString(),
               name,
               email,
@@ -198,7 +198,7 @@ export default function App(props: AppProps) {
               >
                 {Platform.OS}
                 {"\nV "}
-                {Platform.Version.toString()}
+                {getSystemVersion()}
               </Text>
             </View>
             {/* Application -------------------- */}
@@ -215,7 +215,7 @@ export default function App(props: AppProps) {
               <Text style={[Styles.text, { color: Colors.waterBlue }]}>
                 {APPLICATION}
                 {"V "}
-                {pkg.version.toString()}
+                {getVersion()}
               </Text>
             </View>
           </View>
@@ -227,7 +227,9 @@ export default function App(props: AppProps) {
             <TouchableOpacity
               style={Styles.inputTxtView}
               activeOpacity={0.8}
-              onPress={() => setShowList(true)}
+              onPress={() => {
+                setShowList(true), Keyboard.dismiss();
+              }}
             >
               <Text style={Styles.schoolText}>{school}</Text>
               <Image source={Images.Dropdown_icon} />
@@ -377,10 +379,16 @@ const Styles = StyleSheet.create({
     top: vh(50),
     zIndex: 99,
     width: "100%",
-    borderColor: Colors.borderGrey,
-    borderWidth: vw(1),
-    borderRadius: vw(10),
+    backgroundColor: 'white',
     height: vh(300),
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 7.49,
+    elevation: 5,
   },
   helpView: {
     alignItems: "center",

@@ -8,11 +8,10 @@ import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../../utils";
 const IOS = "ios";
 const MAP_SCHEME = "maps:0,0?q=";
 const GEO_SCHEME = "geo:0,0?q=";
-const defaultImg =
-  "https://lh3.googleusercontent.com/proxy/2kXib7_7cwmnS3wFmpjT67pldvSKZ7tLmzT7zCwmeOo8738Ea62MTmp7q0fjeCRw9wiAND_RamASouYjmDYVtwJgsomWk35u4YiiNY3n9Vh8HTH8N_i9Vjo";
 export interface AppProps {
   navigation?: any;
   item: any;
+  openModal: Function;
 }
 
 export default function App(props: AppProps) {
@@ -40,13 +39,20 @@ export default function App(props: AppProps) {
         showsButtons={false}
         loop={true}
         removeClippedSubviews={false}
-        style={{ height: vh(192) }}
+        style={{
+          height: vh(192),
+          backgroundColor: Colors.creamWhite,
+        }}
       >
         <Image
-          source={{
-            uri: item.center_image === null ? defaultImg : item.center_image,
-          }}
-          style={Styles.imgView}
+          source={
+            item.center_image === null
+              ? Images.Image_Placeholder
+              : { uri: item.center_image }
+          }
+          style={
+            item.center_image === null ? Styles.placeholderImg : Styles.imgView
+          }
         />
       </Swiper>
       <View style={Styles.schoolView}>
@@ -65,9 +71,7 @@ export default function App(props: AppProps) {
         </View>
         <View style={Styles.locationView}>
           <Image source={Images.Phone_small} style={Styles.img3} />
-          <Text
-            style={Styles.locationText}
-          >{`${item.country_id} - ${item.phone}`}</Text>
+          <Text style={Styles.locationText}>{`${item.phone}`}</Text>
         </View>
         {/* <Text style={Styles.description}>{}</Text> */}
         <View style={Styles.btnView}>
@@ -78,12 +82,7 @@ export default function App(props: AppProps) {
           />
           <CustomButton
             Text={Strings.Schedule_a_Tour}
-            onPress={() =>
-              props.navigation.navigate(ScreenName.DATE_TIME_SCHEDULE, {
-                id: item.id,
-                name: item.name,
-              })
-            }
+            onPress={() => props.openModal()}
             ButtonStyle={Styles.btn}
           />
         </View>
@@ -102,7 +101,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
     width: vw(8),
     height: vw(8),
-    borderRadius: 4,
+    borderRadius: vw(4),
     marginStart: 3,
     marginEnd: 3,
     marginTop: vh(3),
@@ -114,6 +113,10 @@ const Styles = StyleSheet.create({
     borderTopLeftRadius: vh(10),
     borderTopRightRadius: vh(10),
   },
+  placeholderImg: {
+    alignSelf: "center",
+    marginTop: vh(60),
+  },
   schoolView: {
     padding: vh(16),
     alignItems: "center",
@@ -121,6 +124,17 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
     borderBottomLeftRadius: vh(10),
     borderBottomRightRadius: vh(10),
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: Colors.borderGrey,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: vw(20),
+    elevation: 4,
   },
   name: {
     fontFamily: "Nunito-ExtraBold",

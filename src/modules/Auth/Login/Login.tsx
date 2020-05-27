@@ -114,29 +114,34 @@ export default function App(props: AppProps) {
                     ? Keyboard.dismiss()
                     : setCheckEmail(false);
                 }}
-                incorrectText={Strings.Email_error}
+                incorrectText={
+                  email.length === 0 ? Strings.Email_empty : Strings.Email_error
+                }
                 onBlur={() => {
                   Keyboard.dismiss();
-                  dispatch(
-                    fetchSchoolList(
-                      email,
-                      (data: any) => {
-                        let temp = data;
-                        temp = temp.map((item: any) => {
-                          return {
-                            id: item.id,
-                            value: item.name,
-                            parent: item.Parent,
-                          };
-                        });
-                        setList(temp);
-                        console.warn(data);
-
-                        temp.length === 0 ? setCheckEmail(false) : null;
-                      },
-                      () => setIsLoading(false)
-                    )
-                  );
+                  email.length !== 0
+                    ? (setIsLoading(true),
+                      dispatch(
+                        fetchSchoolList(
+                          email,
+                          (data: any) => {
+                            let temp = data;
+                            temp = temp.map((item: any) => {
+                              return {
+                                id: item.id,
+                                value: item.name,
+                                parent: item.Parent,
+                              };
+                            });
+                            setList(temp);
+                            console.warn(data);
+                            setIsLoading(false);
+                            temp.length === 0 ? setCheckEmail(false) : null;
+                          },
+                          () => setIsLoading(false)
+                        )
+                      ))
+                    : null;
                 }}
               />
               {/* School center list ------------- */}

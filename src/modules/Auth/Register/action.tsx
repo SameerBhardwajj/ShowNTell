@@ -131,10 +131,12 @@ export const verifyCode = (
       (success: any) => {
         console.log("success ", success);
         if (success.data.code === 200) {
+          let res = success.data.response;
           dispatch({
             type: Action.VERIFY_CODE,
             payload: {
               email: "",
+              token: res.token,
             },
           });
           successCallback();
@@ -155,6 +157,7 @@ export const createPassword = (
   id: number,
   password1: string,
   password2: string,
+  token: string,
   successCallback: Function,
   failCallback: Function
 ) => {
@@ -165,6 +168,7 @@ export const createPassword = (
         guardian_id: id,
         password: password1,
         confirm_password: password2,
+        token: token,
       },
       (success: any) => {
         console.log("success ", success);

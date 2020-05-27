@@ -16,6 +16,7 @@ import {
   CustomButton,
   CustomInputText,
   CustomPhoneField,
+  CustomDOB,
 } from "../../../Components";
 import {
   Strings,
@@ -49,15 +50,15 @@ export default function App(props: AppProps) {
   const [zipcode, setZipcode] = useState("");
   const [email, setEmail] = useState("");
   const [c1name, setC1name] = useState("");
-  const [c1DOB, setc1DOB] = useState();
+  const [c1DOB, setc1DOB] = useState(CommonFunctions.DateFormatter(new Date()));
   const [c2name, setC2name] = useState("");
-  const [c2DOB, setc2DOB] = useState();
+  const [c2DOB, setc2DOB] = useState(CommonFunctions.DateFormatter(new Date()));
   const [c3name, setC3name] = useState("");
-  const [c3DOB, setc3DOB] = useState();
+  const [c3DOB, setc3DOB] = useState(CommonFunctions.DateFormatter(new Date()));
   const [c4name, setC4name] = useState("");
-  const [c4DOB, setc4DOB] = useState();
+  const [c4DOB, setc4DOB] = useState(CommonFunctions.DateFormatter(new Date()));
   const [c5name, setC5name] = useState("");
-  const [c5DOB, setc5DOB] = useState();
+  const [c5DOB, setc5DOB] = useState(CommonFunctions.DateFormatter(new Date()));
   const [checkpname, setCheckPname] = useState(true);
   const [checkphone, setCheckphone] = useState(true);
   const [checkzipcode, setCheckzipcode] = useState(true);
@@ -67,6 +68,11 @@ export default function App(props: AppProps) {
   const [checkc3name, setCheckc3name] = useState(true);
   const [checkc4name, setCheckc4name] = useState(true);
   const [checkc5name, setCheckc5name] = useState(true);
+  const [checkc1DOB, setCheckc1DOB] = useState(true);
+  const [checkc2DOB, setCheckc2DOB] = useState(true);
+  const [checkc3DOB, setCheckc3DOB] = useState(true);
+  const [checkc4DOB, setCheckc4DOB] = useState(true);
+  const [checkc5DOB, setCheckc5DOB] = useState(true);
   const [counter, setCounter] = useState(1);
   const [currentChild, setCurrentChild] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -145,6 +151,7 @@ export default function App(props: AppProps) {
               onChangeText={(text: string) => {
                 checkzipcode ? null : setCheckzipcode(true), setZipcode(text);
               }}
+              maxLength={7}
               onSubmitEditing={() => {
                 validate(ConstantName.ZIPCODE, zipcode)
                   ? input4.current.focus()
@@ -191,19 +198,14 @@ export default function App(props: AppProps) {
               mainViewStyle={Styles.textInput}
             />
             {/* 1st child DOB -------------- */}
-            <View style={Styles.dobView}>
-              <Text style={Styles.titleTxt}>{Strings.First_Child_DOB}</Text>
-              <TouchableOpacity
-                style={Styles.inputTxt}
-                activeOpacity={0.8}
-                onPress={() => {
-                  setCurrentChild(1), setModalOpen(true);
-                }}
-              >
-                <Text style={Styles.dobText}>{c1DOB}</Text>
-              </TouchableOpacity>
-            </View>
-
+            <CustomDOB
+              value={c1DOB}
+              check={true}
+              titleText={Strings.First_Child_DOB}
+              onPress={() => {
+                setCurrentChild(1), setModalOpen(true);
+              }}
+            />
             {/* 2nd child name --------- */}
             {counter >= 2 ? (
               <View style={{ width: "100%" }}>
@@ -224,20 +226,14 @@ export default function App(props: AppProps) {
                   mainViewStyle={Styles.textInput}
                 />
                 {/* 2nd child DOB -------------- */}
-                <View style={Styles.dobView}>
-                  <Text style={Styles.titleTxt}>
-                    {Strings.Second_Child_DOB}
-                  </Text>
-                  <TouchableOpacity
-                    style={Styles.inputTxt}
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      setCurrentChild(2), setModalOpen(true);
-                    }}
-                  >
-                    <Text style={Styles.dobText}>{c2DOB}</Text>
-                  </TouchableOpacity>
-                </View>
+                <CustomDOB
+                  value={c2DOB}
+                  check={true}
+                  titleText={Strings.Second_Child_DOB}
+                  onPress={() => {
+                    setCurrentChild(2), setModalOpen(true);
+                  }}
+                />
               </View>
             ) : null}
             {/* 3rd child name --------- */}
@@ -260,18 +256,14 @@ export default function App(props: AppProps) {
                   mainViewStyle={Styles.textInput}
                 />
                 {/* 3rd child DOB -------------- */}
-                <View style={Styles.dobView}>
-                  <Text style={Styles.titleTxt}>{Strings.Third_Child_DOB}</Text>
-                  <TouchableOpacity
-                    style={Styles.inputTxt}
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      setCurrentChild(3), setModalOpen(true);
-                    }}
-                  >
-                    <Text style={Styles.dobText}>{c3DOB}</Text>
-                  </TouchableOpacity>
-                </View>
+                <CustomDOB
+                  value={c3DOB}
+                  check={true}
+                  titleText={Strings.Third_Child_DOB}
+                  onPress={() => {
+                    setCurrentChild(3), setModalOpen(true);
+                  }}
+                />
               </View>
             ) : null}
             {/* 4th child name --------- */}
@@ -294,20 +286,14 @@ export default function App(props: AppProps) {
                   mainViewStyle={Styles.textInput}
                 />
                 {/* 4th child DOB -------------- */}
-                <View style={Styles.dobView}>
-                  <Text style={Styles.titleTxt}>
-                    {Strings.Fourth_Child_DOB}
-                  </Text>
-                  <TouchableOpacity
-                    style={Styles.inputTxt}
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      setCurrentChild(4), setModalOpen(true);
-                    }}
-                  >
-                    <Text style={Styles.dobText}>{c4DOB}</Text>
-                  </TouchableOpacity>
-                </View>
+                <CustomDOB
+                  value={c4DOB}
+                  check={true}
+                  titleText={Strings.Fourth_Child_DOB}
+                  onPress={() => {
+                    setCurrentChild(4), setModalOpen(true);
+                  }}
+                />
               </View>
             ) : null}
             {/* 5th child name --------- */}
@@ -330,18 +316,14 @@ export default function App(props: AppProps) {
                   mainViewStyle={Styles.textInput}
                 />
                 {/* 5th child DOB -------------- */}
-                <View style={Styles.dobView}>
-                  <Text style={Styles.titleTxt}>{Strings.Fifth_Child_DOB}</Text>
-                  <TouchableOpacity
-                    style={Styles.inputTxt}
-                    activeOpacity={0.8}
-                    onPress={() => {
-                      setCurrentChild(5), setModalOpen(true);
-                    }}
-                  >
-                    <Text style={Styles.dobText}>{c5DOB}</Text>
-                  </TouchableOpacity>
-                </View>
+                <CustomDOB
+                  value={c5DOB}
+                  check={true}
+                  titleText={Strings.Fifth_Child_DOB}
+                  onPress={() => {
+                    setCurrentChild(5), setModalOpen(true);
+                  }}
+                />
               </View>
             ) : null}
           </View>
@@ -429,9 +411,11 @@ export default function App(props: AppProps) {
                 date={date}
                 mode="date"
                 onDateChange={(text: Date) => {
+                  console.log("date  ", text);
                   setDate(text);
                   currentChild === 1
-                    ? setc1DOB(CommonFunctions.DateFormatter(text))
+                    ? (setc1DOB(CommonFunctions.DateFormatter(text)),
+                      console.warn(text))
                     : currentChild === 2
                     ? setc2DOB(CommonFunctions.DateFormatter(text))
                     : currentChild === 3

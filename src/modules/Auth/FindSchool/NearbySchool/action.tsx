@@ -32,16 +32,16 @@ export const recentSearch = (item: any, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
     const { recentList } = getState().NearbySchool;
     let temp = {
-      name: item.formatted_address,
       coordinates: item.geometry.location,
     };
     let filteredList = recentList.filter(
       (item: any) =>
-        item.coordinates.lat !== temp.coordinates.lat &&
-        item.coordinates.lng !== temp.coordinates.lng
+        item.geometry.location.lat !== temp.coordinates.lat &&
+        item.geometry.location.lng !== temp.coordinates.lng
     );
-    filteredList.length >= 5 ? filteredList.pop() : null;
-    filteredList.unshift(temp);
+    filteredList.length >= 4 ? filteredList.pop() : null;
+    filteredList.unshift(item);
+    debugger
     dispatch({
       type: Action.RECENT_SEARCH,
       payload: {

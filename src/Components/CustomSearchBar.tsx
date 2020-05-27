@@ -18,6 +18,7 @@ export interface AppProps {
   autoFocus?: boolean;
   onPressCancel: Function;
   inputTextStyle?: Object;
+  onSubmitEditing: Function;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -34,7 +35,8 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         value={props.value}
         onChangeText={(val: string) => props.onChangeText(val)}
         blurOnSubmit={false}
-        returnKeyType={props.returnKeyType}
+        returnKeyType={"go"}
+        onSubmitEditing={() => props.onSubmitEditing()}
       />
       {props.value.length === 0 ? null : (
         <TouchableOpacity
