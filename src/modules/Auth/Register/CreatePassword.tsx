@@ -41,9 +41,10 @@ export default function App(props: AppProps) {
   const [secureEntry, setsecureEntry] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { id, name } = useSelector((state: { Register: any }) => ({
+  const { id, name, token } = useSelector((state: { Register: any }) => ({
     id: state.Register.id,
     name: state.Register.name,
+    token: state.Register.token,
   }));
 
   const check = () => {
@@ -57,6 +58,7 @@ export default function App(props: AppProps) {
                 id,
                 password1,
                 password2,
+                token,
                 () => {
                   setIsLoading(false);
                   props.navigation.navigate(ScreenName.CREATE_PASSWORD_MODAL);

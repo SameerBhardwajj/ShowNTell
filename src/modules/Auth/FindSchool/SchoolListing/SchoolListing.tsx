@@ -158,7 +158,7 @@ export default function App(props: AppProps) {
                     props.navigation.navigate(ScreenName.DATE_TIME_SCHEDULE, {
                       id: id,
                       name: name,
-                      date: date,
+                      date: date.getDate(),
                     });
                   }}
                 />

@@ -21,8 +21,7 @@ export default function App(props: AppProps) {
 
   const setDisabled = (time: number) => {
     let disable = false;
-
-    date.getDate() !== new Date().getDate()
+    date !== new Date().getDate()
       ? null
       : currentTime >= time
       ? (disable = true)

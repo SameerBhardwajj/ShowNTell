@@ -94,25 +94,29 @@ export default function App(props: AppProps) {
                 incorrectText={Strings.Email_error}
                 onBlur={() => {
                   Keyboard.dismiss();
-                  setIsLoading(true);
-                  dispatch(
-                    fetchSchoolList(
-                      email,
-                      (data: any) => {
-                        let temp = data;
-                        temp = temp.map((item: any) => {
-                          return {
-                            id: item.id,
-                            value: item.name,
-                          };
-                        });
-                        setList(temp);
-                        setIsLoading(false);
-                        temp.length === 0 ? setCheckcheckEmail(false) : null;
-                      },
-                      () => setIsLoading(false)
-                    )
-                  );
+                  email.length !== 0
+                    ? (setIsLoading(true),
+                      dispatch(
+                        fetchSchoolList(
+                          email,
+                          (data: any) => {
+                            let temp = data;
+                            temp = temp.map((item: any) => {
+                              return {
+                                id: item.id,
+                                value: item.name,
+                              };
+                            });
+                            setList(temp);
+                            setIsLoading(false);
+                            temp.length === 0
+                              ? setCheckcheckEmail(false)
+                              : null;
+                          },
+                          () => setIsLoading(false)
+                        )
+                      ))
+                    : null;
                 }}
               />
               {/* School center list ------------- */}
