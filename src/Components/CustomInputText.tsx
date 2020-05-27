@@ -25,6 +25,7 @@ export interface AppProps {
   editable?: boolean;
   autoFocus?: boolean;
   onBlur?: Function;
+  maxLength?: number;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
@@ -59,6 +60,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
             checkPassword ? Styles.textInputStyle1 : Styles.textInputStyle2,
             { borderColor: props.check ? Colors.borderGrey : Colors.pink },
           ]}
+          maxLength={props.maxLength}
           autoFocus={props.autoFocus}
           keyboardType={props.keyboardType}
           secureTextEntry={

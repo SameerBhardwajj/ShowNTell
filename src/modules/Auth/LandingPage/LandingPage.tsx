@@ -81,9 +81,8 @@ export default function App(props: AppProps) {
 
   // Testimonial auto scroll -------------
   const autoScroll = () => {
-    data.length === 0
-      ? (setCounter(true), fetchTest())
-      : scroll
+    data.length === 0 ? (setCounter(true), fetchTest()) : null;
+    scroll
       ? setTimeout(() => {
           if (flatListRef.current) {
             if (currentIndex < data.length - 1) {

@@ -116,6 +116,7 @@ export default function App(props: AppProps) {
                 }}
                 incorrectText={Strings.Email_error}
                 onBlur={() => {
+                  setIsLoading(true);
                   Keyboard.dismiss();
                   dispatch(
                     fetchSchoolList(
@@ -131,7 +132,7 @@ export default function App(props: AppProps) {
                         });
                         setList(temp);
                         console.warn(data);
-
+                        setIsLoading(false);
                         temp.length === 0 ? setCheckEmail(false) : null;
                       },
                       () => setIsLoading(false)

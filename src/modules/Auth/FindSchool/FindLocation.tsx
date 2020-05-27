@@ -5,15 +5,19 @@ import {
   StyleSheet,
   Image,
   Linking,
-  Platform,
-  PermissionsAndroid,
   ActivityIndicator,
 } from "react-native";
-import Geolocation from "@react-native-community/geolocation";
 
 // custom imports
 import { CustomHeader, CustomButton, CustomToast } from "../../../Components";
-import { Strings, Images, vh, Colors, ScreenName } from "../../../utils";
+import {
+  Strings,
+  Images,
+  vh,
+  Colors,
+  ScreenName,
+  CommonFunctions,
+} from "../../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -21,44 +25,26 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const requestLocationPermission = async () => {
-    let hasPermission = true;
-    if (Platform.OS === "android") {
-      hasPermission = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      );
-      if (!hasPermission) {
-        const status = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-        hasPermission = status === PermissionsAndroid.RESULTS.GRANTED;
+  const requestLocationPermission = () => {
+    setIsLoading(true);
+    CommonFunctions.requestLocationPermission(
+      (position: object) => {
+        setIsLoading(false);
+        props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
+          coordinates: { lat: 41.063412, lng: -74.133544 },
+        });
+      },
+      (code: number) => {
+        setIsLoading(false);
+        code === 2
+          ? CustomToast(Strings.Please_On_GPS)
+          : CustomToast(Strings.Unknown_error);
+      },
+      () => {
+        setIsLoading(false);
+        Linking.openSettings();
       }
-    }
-    if (!hasPermission) {
-      setIsLoading(false);
-      Linking.openSettings();
-    }
-    if (hasPermission) {
-      Geolocation.getCurrentPosition(
-        (info) => {
-          let position = {
-            latitude: info.coords.latitude,
-            longitude: info.coords.longitude,
-          };
-          setIsLoading(false);
-          props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
-            coordinates: position,
-          });
-        },
-        (error) => {
-          setIsLoading(false);
-          error.code === 2
-            ? CustomToast(Strings.Please_On_GPS)
-            : CustomToast(Strings.Unknown_error);
-        },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
-      );
-    }
+    );
   };
 
   return (

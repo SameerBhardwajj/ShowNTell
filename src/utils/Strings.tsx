@@ -205,6 +205,10 @@ const Strings = new LocalizedStrings({
     Please_enter_password: "Please enter your Password here",
     Please_On_GPS: "Please switch your GPS ON to access your location",
     Unknown_error: "Unknown Error",
+    Select_Date: "Select Date",
+    View_Slots: "View Slots",
+    Preferred_slot: "Please select a prefered time slot",
+    DOB_incorrect: "DOB cannot be Empty",
   },
 });
 export default Strings;

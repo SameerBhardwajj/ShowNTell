@@ -1,4 +1,6 @@
 import moment from "moment";
+import { Platform, PermissionsAndroid } from "react-native";
+import Geolocation from "@react-native-community/geolocation";
 
 const DateDifference = (date1: any, date2: any) => {
   let second = 1000,
@@ -32,7 +34,45 @@ const DateFormatter = (date: Date) => {
   return `${wMonths[month]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
+const requestLocationPermission = async (
+  successCallback: Function,
+  failureCallback: Function,
+  permissionError: Function
+) => {
+  let hasPermission = true;
+  if (Platform.OS === "android") {
+    hasPermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+    );
+    if (!hasPermission) {
+      const status = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+      );
+      hasPermission = status === PermissionsAndroid.RESULTS.GRANTED;
+    }
+  }
+  if (!hasPermission) {
+    permissionError();
+  }
+  if (hasPermission) {
+    Geolocation.getCurrentPosition(
+      (info) => {
+        let position = {
+          latitude: info.coords.latitude,
+          longitude: info.coords.longitude,
+        };
+        successCallback(position);
+      },
+      (error) => {
+        failureCallback(error.code);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
+    );
+  }
+};
+
 export default {
   DateDifference,
   DateFormatter,
+  requestLocationPermission,
 };

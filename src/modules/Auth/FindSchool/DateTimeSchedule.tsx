@@ -1,23 +1,34 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import DatePicker from "react-native-date-picker";
 
 // custom imports
 import {
   CustomHeader,
   CustomButton,
-  CustomInputText,
+  CustomTimeSlot,
 } from "../../../Components";
 import { Strings, vw, vh, Colors, ScreenName } from "../../../utils";
 
+const currentTime = new Date().getHours();
 export interface AppProps {
   navigation?: any;
   route?: any;
 }
 
 export default function App(props: AppProps) {
-  const [date, setDate] = useState(new Date());
-  const { id, name } = props.route.params;
+  const [time, setTime] = useState(0);
+  const { id, name, date } = props.route.params;
+
+  const setDisabled = (time: number) => {
+    let disable = false;
+
+    date.getDate() !== new Date().getDate()
+      ? null
+      : currentTime >= time
+      ? (disable = true)
+      : null;
+    return disable;
+  };
 
   return (
     <View style={Styles.mainView}>
@@ -28,34 +39,60 @@ export default function App(props: AppProps) {
         notifyNumber={2}
       />
       <View style={Styles.innerView}>
-        <Text style={Styles.heading}>{Strings.Please_select_date_time}</Text>
-        <CustomInputText
-          titleText={Strings.School_Name}
-          value={name}
-          editable={false}
-          onChangeText={() => {}}
-          check={true}
-          incorrectText={""}
-          onSubmitEditing={() => {}}
-          mainViewStyle={{ marginTop: vh(20) }}
+        <Text style={Styles.heading}>{Strings.Preferred_slot}</Text>
+        <CustomTimeSlot
+          time="11:00 am"
+          pressed={time === 11 ? true : false}
+          disabled={setDisabled(11)}
+          onPress={() => setTime(11)}
         />
-        <DatePicker
-          minimumDate={new Date()}
-          date={date}
-          onDateChange={(text: Date) => setDate(text)}
+        <CustomTimeSlot
+          time="12:00 am"
+          pressed={time === 12 ? true : false}
+          disabled={setDisabled(12)}
+          onPress={() => setTime(12)}
+        />
+        <CustomTimeSlot
+          time="02:00 pm"
+          pressed={time === 2 ? true : false}
+          disabled={setDisabled(14)}
+          onPress={() => setTime(2)}
+        />
+        <CustomTimeSlot
+          time="04:00 pm"
+          pressed={time === 4 ? true : false}
+          disabled={setDisabled(16)}
+          onPress={() => setTime(4)}
+        />
+        <CustomTimeSlot
+          time="05:00 pm"
+          pressed={time === 5 ? true : false}
+          disabled={setDisabled(17)}
+          onPress={() => setTime(5)}
+        />
+        <CustomTimeSlot
+          time="06:00 pm"
+          pressed={time === 6 ? true : false}
+          disabled={setDisabled(18)}
+          onPress={() => setTime(6)}
         />
         <CustomButton
           Text={Strings.Next}
+          activeOpacity={time === 0 ? 1 : 0.8}
           onPress={() =>
-            props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
-              date: date,
-              id: id,
-              name: name,
-            })
+            time === 0
+              ? null
+              : props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
+                  id: id,
+                  name: name,
+                  date: date,
+                  time: time,
+                })
           }
           ButtonStyle={{
             width: "100%",
             marginTop: vh(30),
+            backgroundColor: time === 0 ? Colors.disableViolet : Colors.violet,
           }}
         />
         <Text style={Styles.orText}>{Strings.Or}</Text>
@@ -65,6 +102,8 @@ export default function App(props: AppProps) {
             props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
               id: id,
               name: name,
+              date: date,
+              time: 0,
             })
           }
           lightBtn={true}
@@ -90,6 +129,7 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     alignSelf: "flex-start",
+    marginBottom: vh(15),
   },
   menuView: {
     marginVertical: vh(28),
@@ -100,10 +140,3 @@ const Styles = StyleSheet.create({
     color: Colors.lightGrey,
   },
 });
-
-// Dummy data for School list API
-const DATA = [
-  { value: "School 1" },
-  { value: "School 2" },
-  { value: "School 3" },
-];

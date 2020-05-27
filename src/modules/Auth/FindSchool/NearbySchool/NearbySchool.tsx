@@ -12,7 +12,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import Geolocation from "@react-native-community/geolocation";
 
 // custom imports
 import {
@@ -20,7 +19,15 @@ import {
   CustomSearchBar,
   CustomToast,
 } from "../../../../Components";
-import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Images,
+  Colors,
+  ScreenName,
+  CommonFunctions,
+} from "../../../../utils";
 import RecentFlatlist from "./RecentFlatlist";
 import ResultFlatlist from "./ResultFlatlist";
 import { searchCenter, recentSearch } from "./action";
@@ -32,6 +39,7 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [currentData, setCurrentData] = useState(Object);
 
   const { searchList, recentList } = useSelector(
     (state: { NearbySchool: any }) => ({
@@ -58,9 +66,10 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={() => {
-          props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
-            coordinates: item.coordinates,
-          });
+          setQuery(item.formatted_address);
+          setCurrentData(item);
+          let temp: never[] = [];
+          setData(temp.concat(item));
         }}
       />
     );
@@ -73,59 +82,35 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={() => {
-          dispatch(
-            recentSearch(item, (data: any) => {
-              console.warn("det data ", data);
-              setData([]);
-              setQuery("");
-              props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
-                coordinates: item.geometry.location,
-              });
-            })
-          );
+          setQuery(item.formatted_address);
+          setCurrentData(item);
+          let temp: never[] = [];
+          setData(temp.concat(item));
         }}
       />
     );
   };
 
-  const requestLocationPermission = async () => {
-    let hasPermission = true;
-    if (Platform.OS === "android") {
-      hasPermission = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-      );
-      if (!hasPermission) {
-        const status = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-        );
-        hasPermission = status === PermissionsAndroid.RESULTS.GRANTED;
+  const requestLocationPermission = () => {
+    setIsLoading(true);
+    CommonFunctions.requestLocationPermission(
+      (position: object) => {
+        setIsLoading(false);
+        props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
+          coordinates: position,
+        });
+      },
+      (code: number) => {
+        setIsLoading(false);
+        code === 2
+          ? CustomToast(Strings.Please_On_GPS)
+          : CustomToast(Strings.Unknown_error);
+      },
+      () => {
+        setIsLoading(false);
+        Linking.openSettings();
       }
-    }
-    if (!hasPermission) {
-      setIsLoading(false);
-      Linking.openSettings();
-    }
-    if (hasPermission) {
-      Geolocation.getCurrentPosition(
-        (info) => {
-          let position = {
-            latitude: info.coords.latitude,
-            longitude: info.coords.longitude,
-          };
-          setIsLoading(false);
-          props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
-            coordinates: position,
-          });
-        },
-        (error) => {
-          setIsLoading(false);
-          error.code === 2
-            ? CustomToast(Strings.Please_On_GPS)
-            : CustomToast(Strings.Unknown_error);
-        },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
-      );
-    }
+    );
   };
 
   return (
@@ -141,8 +126,22 @@ export default function App(props: AppProps) {
           onChangeText={(text: string) => {
             setQuery(text), query.length >= 2 ? hitSearchAPI() : setData([]);
           }}
+          autoFocus={true}
           onPressCancel={() => {
             setQuery(""), setData([]);
+          }}
+          onSubmitEditing={() => {
+            setIsLoading(true);
+            dispatch(
+              recentSearch(currentData, (data: any) => {
+                setData([]);
+                setQuery("");
+                setIsLoading(false);
+                props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
+                  coordinates: currentData.geometry.location,
+                });
+              })
+            );
           }}
         />
         {isLoading ? (

@@ -8,7 +8,7 @@ const reg = (regex: string) => {
       // return /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
       return /^[0-9a-zA-Z]{4,12}$/;
     case ConstantName.PHONE:
-      return /^[1-9]{1}[0-9]{6,14}$/;
+      return /^[0-9]{7,15}$/;
     case ConstantName.NAME:
       return /^[a-zA-Z ]+$/;
     case ConstantName.ZIPCODE:

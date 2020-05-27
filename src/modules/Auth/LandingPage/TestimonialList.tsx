@@ -25,7 +25,9 @@ export default function App(props: AppProps) {
       <Image source={Images.Colen_Bubble} style={Styles.testimonialColen} />
       <View style={Styles.testimonialTxtView}>
         <Text numberOfLines={5} style={Styles.testimonialtext}>
+          {`"`}
           {text}
+          {`"`}
         </Text>
         <Text style={Styles.testimonialAuthor}>
           {name === "" ? "" : "- "}
@@ -43,6 +45,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: vh(20),
     marginHorizontal: vw(20),
+    marginTop: vh(8),
   },
   testimonialImg: {
     marginTop: vw(40),
@@ -57,7 +60,7 @@ const Styles = StyleSheet.create({
   testimonialTxtView: {
     position: "absolute",
     marginHorizontal: vw(30),
-    marginTop: vw(65),
+    marginTop: vw(75),
     alignItems: "center",
     justifyContent: "center",
   },

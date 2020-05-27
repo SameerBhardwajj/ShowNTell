@@ -63,7 +63,8 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
             Styles.inputTxt,
             { borderColor: props.check ? Colors.borderGrey : Colors.pink },
           ]}
-          keyboardType={"phone-pad"}
+          maxLength={15}
+          keyboardType={"number-pad"}
           value={props.value}
           onChangeText={(val: string) => props.onChangeText(val)}
           blurOnSubmit={false}

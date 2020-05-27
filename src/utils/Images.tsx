@@ -9,7 +9,6 @@ const Images = {
   Colen_Bubble: require("../Assets/Images/Colen-Bubble.png"),
   back_icon: require("../Assets/Images/back-icon.png"),
   Eye_icon: require("../Assets/Images/Eye-icon.png"),
-  character_Description: require("../Assets/Images/character-Description.png"),
   Cancel_Icon: require("../Assets/Images/Cancel-Icon.png"),
   Dropdown_icon: require("../Assets/Images/Dropdown-icon.png"),
   Confirmation_check_Icon: require("../Assets/Images/Confirmation_check_Icon.png"),
@@ -79,6 +78,12 @@ const Images = {
   Application_icon: require("../Assets/Images/Application_icon.png"),
   IOS_Version_icon: require("../Assets/Images/IOS_Version_icon.png"),
   Android_verson_Icon: require("../Assets/Images/Android_verson_Icon.png"),
+  Unnamed: require("../Assets/Images/Unnamed.jpg"),
+  lion_character_description: require("../Assets/Images/lion_character_description.png"),
+  miss_chievous_character_description: require("../Assets/Images/miss_chievous_character_description.png"),
+  penny_waving_character_description: require("../Assets/Images/penny_waving_character_description.png"),
+  character_Description: require("../Assets/Images/character_Description.png"),
+  Image_Placeholder: require("../Assets/Images/Image_Placeholder.png"),
 };
 
 export default Images;

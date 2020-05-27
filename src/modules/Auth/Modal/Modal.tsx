@@ -16,28 +16,28 @@ export default function App(props: AppProps) {
   switch (value) {
     case 1:
       data = {
-        img: Images.Lionstein_holding_glasses,
+        img: Images.lion_character_description,
         name: Strings.Lionstein,
         msg: Strings.lionMsg,
       };
       break;
     case 2:
       data = {
-        img: Images.Penny_Waving,
+        img: Images.penny_waving_character_description,
         name: Strings.Penny_Polite,
         msg: Strings.pennyMsg,
       };
       break;
     case 3:
       data = {
-        img: Images.MissChievous_Bouncing_On_Tail,
+        img: Images.miss_chievous_character_description,
         name: Strings.Miss_Chievous,
         msg: Strings.missMsg,
       };
       break;
     case 4:
       data = {
-        img: Images.Bubbles_Waving,
+        img: Images.character_Description,
         name: Strings.Bubbles,
         msg: Strings.bubbleMsg,
       };
@@ -47,7 +47,7 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
-        <Image source={data.img} style={Styles.img} />
+        <Image source={data.img} />
         <Text style={Styles.bubbleText}>{data.name}</Text>
         <Text style={Styles.bubbleMsgText}>{data.msg}</Text>
         <TouchableOpacity

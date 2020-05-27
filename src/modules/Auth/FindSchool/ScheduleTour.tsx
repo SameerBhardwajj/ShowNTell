@@ -16,6 +16,7 @@ import {
   CustomButton,
   CustomInputText,
   CustomPhoneField,
+  CustomDOB,
 } from "../../../Components";
 import {
   Strings,
@@ -49,15 +50,15 @@ export default function App(props: AppProps) {
   const [zipcode, setZipcode] = useState("");
   const [email, setEmail] = useState("");
   const [c1name, setC1name] = useState("");
-  const [c1DOB, setc1DOB] = useState();
+  const [c1DOB, setc1DOB] = useState("");
   const [c2name, setC2name] = useState("");
-  const [c2DOB, setc2DOB] = useState();
+  const [c2DOB, setc2DOB] = useState("");
   const [c3name, setC3name] = useState("");
-  const [c3DOB, setc3DOB] = useState();
+  const [c3DOB, setc3DOB] = useState("");
   const [c4name, setC4name] = useState("");
-  const [c4DOB, setc4DOB] = useState();
+  const [c4DOB, setc4DOB] = useState("");
   const [c5name, setC5name] = useState("");
-  const [c5DOB, setc5DOB] = useState();
+  const [c5DOB, setc5DOB] = useState("");
   const [checkpname, setCheckPname] = useState(true);
   const [checkphone, setCheckphone] = useState(true);
   const [checkzipcode, setCheckzipcode] = useState(true);
@@ -67,6 +68,11 @@ export default function App(props: AppProps) {
   const [checkc3name, setCheckc3name] = useState(true);
   const [checkc4name, setCheckc4name] = useState(true);
   const [checkc5name, setCheckc5name] = useState(true);
+  const [checkc1DOB, setCheckc1DOB] = useState(true);
+  const [checkc2DOB, setCheckc2DOB] = useState(true);
+  const [checkc3DOB, setCheckc3DOB] = useState(true);
+  const [checkc4DOB, setCheckc4DOB] = useState(true);
+  const [checkc5DOB, setCheckc5DOB] = useState(true);
   const [counter, setCounter] = useState(1);
   const [currentChild, setCurrentChild] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
@@ -79,7 +85,8 @@ export default function App(props: AppProps) {
       phone.length !== 1 &&
       zipcode.length !== 0 &&
       email.length !== 0 &&
-      c1name.length !== 0
+      c1name.length !== 0 &&
+      c1DOB.length !== 0
     );
   };
 
@@ -145,6 +152,7 @@ export default function App(props: AppProps) {
               onChangeText={(text: string) => {
                 checkzipcode ? null : setCheckzipcode(true), setZipcode(text);
               }}
+              maxLength={7}
               onSubmitEditing={() => {
                 validate(ConstantName.ZIPCODE, zipcode)
                   ? input4.current.focus()
@@ -191,7 +199,15 @@ export default function App(props: AppProps) {
               mainViewStyle={Styles.textInput}
             />
             {/* 1st child DOB -------------- */}
-            <View style={Styles.dobView}>
+            <CustomDOB
+              value={c1DOB}
+              check={checkc1DOB}
+              titleText={Strings.First_Child_DOB}
+              onPress={() => {
+                setCurrentChild(1), setModalOpen(true);
+              }}
+            />
+            {/* <View style={Styles.dobView}>
               <Text style={Styles.titleTxt}>{Strings.First_Child_DOB}</Text>
               <TouchableOpacity
                 style={Styles.inputTxt}
@@ -202,7 +218,7 @@ export default function App(props: AppProps) {
               >
                 <Text style={Styles.dobText}>{c1DOB}</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
 
             {/* 2nd child name --------- */}
             {counter >= 2 ? (
@@ -384,24 +400,27 @@ export default function App(props: AppProps) {
                         ? validate(ConstantName.NAME, c1name)
                           ? counter >= 2
                             ? validate(ConstantName.NAME, c2name)
-                              ? counter >= 3
-                                ? validate(ConstantName.NAME, c3name)
-                                  ? counter >= 4
-                                    ? validate(ConstantName.NAME, c4name)
-                                      ? counter === 5
-                                        ? validate(ConstantName.NAME, c5name)
-                                          ? navigating()
-                                          : (setCheckc5name(false),
-                                            input9.current.focus())
-                                        : navigating()
-                                      : (setCheckc4name(false),
-                                        input7.current.focus())
-                                    : navigating()
-                                  : (setCheckc3name(false),
-                                    input7.current.focus())
-                                : navigating()
-                              : (setCheckc2name(false), input6.current.focus())
-                            : navigating()
+                              ? c1DOB.length !== 0
+                                ? counter >= 3
+                                  ? validate(ConstantName.NAME, c3name)
+                                    ? counter >= 4
+                                      ? validate(ConstantName.NAME, c4name)
+                                        ? counter === 5
+                                          ? validate(ConstantName.NAME, c5name)
+                                            ? navigating()
+                                            : (setCheckc5name(false),
+                                              input9.current.focus())
+                                          : navigating()
+                                        : (setCheckc4name(false),
+                                          input7.current.focus())
+                                      : navigating()
+                                    : (setCheckc3name(false),
+                                      input7.current.focus())
+                                  : navigating()
+                                : (setCheckc2name(false),
+                                  input6.current.focus())
+                              : navigating()
+                            : setCheckc1DOB(false)
                           : (setCheckc1name(false), input5.current.focus())
                         : (setCheckemail(false), input4.current.focus())
                       : (setCheckzipcode(false), input3.current.focus())
