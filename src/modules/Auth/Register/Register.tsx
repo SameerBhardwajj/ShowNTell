@@ -91,7 +91,9 @@ export default function App(props: AppProps) {
                     ? Keyboard.dismiss()
                     : setCheckcheckEmail(false);
                 }}
-                incorrectText={Strings.Email_error}
+                incorrectText={
+                  email.length === 0 ? Strings.Email_empty : Strings.Email_error
+                }
                 onBlur={() => {
                   Keyboard.dismiss();
                   email.length !== 0
