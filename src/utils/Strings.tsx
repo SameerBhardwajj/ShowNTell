@@ -210,6 +210,7 @@ const Strings = new LocalizedStrings({
     View_Slots: "View Slots",
     Preferred_slot: "Please select a prefered time slot",
     DOB_incorrect: "DOB cannot be Empty",
+    No_Location_Found: "No Location Found",
   },
 });
 export default Strings;

@@ -124,7 +124,7 @@ export default function App(props: AppProps) {
           value={query}
           placeholder={Strings.Search_placeholder}
           onChangeText={(text: string) => {
-            setQuery(text), query.length >= 2 ? hitSearchAPI() : setData([]);
+            setQuery(text), hitSearchAPI();
           }}
           autoFocus={true}
           onPressCancel={() => {
@@ -163,15 +163,23 @@ export default function App(props: AppProps) {
           <Text style={Styles.myLocText}>{Strings.Use_my_location}</Text>
         </TouchableOpacity>
         <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
-          {data.length !== 0 ? (
-            <FlatList
-              keyboardShouldPersistTaps="handled"
-              showsVerticalScrollIndicator={false}
-              bounces={false}
-              data={data}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItemResult}
-            />
+          {query.length !== 0 ? (
+            data.length === 0 ? (
+              <View>
+                <Text style={Styles.headerText}>
+                  {Strings.No_Location_Found}
+                </Text>
+              </View>
+            ) : (
+              <FlatList
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+                bounces={false}
+                data={data}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItemResult}
+              />
+            )
           ) : (
             <FlatList
               keyboardShouldPersistTaps="handled"
