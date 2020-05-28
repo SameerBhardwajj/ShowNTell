@@ -136,7 +136,7 @@ const Strings = new LocalizedStrings({
     Absence_Notification: "Absence Notification",
     From: "From",
     To: "To",
-    at: "at",
+    at: " at ",
     Done: "Done",
     Filter: "Filter",
     Share: "Share",

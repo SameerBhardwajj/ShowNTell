@@ -1,6 +1,14 @@
 import * as React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { vh, Colors, Images, vw, Strings, ScreenName } from "../../utils";
+import {
+  vh,
+  Colors,
+  Images,
+  vw,
+  Strings,
+  ScreenName,
+  CommonFunctions,
+} from "../../utils";
 import { CustomButton, CustomToast } from "../../Components";
 
 const LUNCH = "Lunch";
@@ -18,52 +26,73 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.innerView}>
       {/* Lunch View */}
-      {item.activityType === LUNCH ? (
-        <View style={Styles.mainInnerView}>
-          <Image source={{uri: child}} style={Styles.imgView} />
-          <View style={Styles.lunchView}>
-            <View style={Styles.nameView}>
-              <Image source={{uri: child}} style={Styles.childAvatar} />
-              <View style={Styles.centerNameView}>
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    props.navigation.navigate(ScreenName.ACTIVITY_MODAL, {
-                      name: Strings.lunch_name,
-                      msg: Strings.lunch_msg,
-                    })
-                  }
-                >
-                  <Text style={Styles.name}>
-                    {item.name}
-                    {" . "}
-                    <Text style={{ color: Colors.orange }}>
-                      {Strings.lunch_time}
-                    </Text>
-                  </Text>
-                </TouchableOpacity>
-                <Text style={Styles.category}>{item.category}</Text>
-                <Text style={Styles.content}>{item.content}</Text>
-                <Text style={Styles.time}>
-                  {item.date}
-                  {Strings.at}
-                  {item.time}
-                </Text>
-              </View>
+      {/* {item.activityType === LUNCH ? ( */}
+      <View style={Styles.mainInnerView}>
+        <View style={Styles.imgView}>
+          <Image
+            source={
+              item.s3_photo_path === null
+                ? Images.Image_Placeholder
+                : { uri: item.s3_photo_path }
+            }
+            style={item.s3_photo_path === null ? {} : {}}
+          />
+        </View>
+        <View style={Styles.lunchView}>
+          <View style={Styles.nameView}>
+            <View style={Styles.childAvatar}>
+              <Image
+                source={
+                  item.Child.s3_photo_path === null
+                    ? Images.Profile_Placeholder
+                    : { uri: item.Child.s3_photo_path }
+                }
+              />
+            </View>
+            <View style={Styles.centerNameView}>
               <TouchableOpacity
                 activeOpacity={0.8}
-                style={Styles.ElipsisImg}
-                onPress={() => CustomToast()}
+                onPress={() =>
+                  props.navigation.navigate(ScreenName.ACTIVITY_MODAL, {
+                    name: Strings.lunch_name,
+                    msg: Strings.lunch_msg,
+                  })
+                }
               >
-                <Image source={Images.Elipsis} style={{ padding: vh(2) }} />
+                <Text style={Styles.name}>
+                  {item.Child.first_name} {item.Child.last_name}
+                  {" . "}
+                  <Text style={{ color: Colors.orange }}>
+                    {item.ActivityCategory.name}
+                  </Text>
+                </Text>
               </TouchableOpacity>
+              <Text style={Styles.category}>{item.ActivityValue.name}</Text>
+              <Text style={Styles.content}>{item.ActivitySubValue.name}</Text>
+              <Text style={Styles.time}>
+                {CommonFunctions.DateFormatter(new Date(item.activity_dt))}
+                {Strings.at}
+                {CommonFunctions.timeFormatter(new Date(item.activity_dt))}
+              </Text>
             </View>
-            <Text style={Styles.description}>{item.description}</Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={Styles.ElipsisImg}
+              onPress={() => navigation.navigate(ScreenName.SHARE_MODAL)}
+            >
+              <Image source={Images.Elipsis} style={{ padding: vh(1) }} />
+            </TouchableOpacity>
           </View>
+          {item.ActivityValue.description === null ? null : (
+            <Text style={Styles.description}>
+              {item.ActivityValue.description}
+            </Text>
+          )}
         </View>
-      ) : null}
+      </View>
+      {/* ) : null} */}
       {/* Announcements */}
-      {item.activityType === ANNOUNCEMENT ? (
+      {/* {item.activityType === ANNOUNCEMENT ? (
         <View style={[Styles.mainInnerView, Styles.announcementView]}>
           <Text style={Styles.title}>{Strings.Announcement}</Text>
           <Text style={Styles.timeBlack}>
@@ -74,9 +103,9 @@ export default function App(props: AppProps) {
           </Text>
           <Image style={Styles.imgAnn} source={Images.Announcement_Icon} />
         </View>
-      ) : null}
+      ) : null} */}
       {/* Question of the Day */}
-      {item.activityType === QOA ? (
+      {/* {item.activityType === QOA ? (
         <View style={[Styles.mainInnerView, Styles.viewQOD]}>
           <View style={{ flexDirection: "row" }}>
             <Image source={{uri: child}} style={Styles.childAvatar} />
@@ -102,7 +131,7 @@ export default function App(props: AppProps) {
             onPress={() => {}}
           />
         </View>
-      ) : null}
+      ) : null} */}
     </View>
   );
 }
@@ -131,8 +160,13 @@ const Styles = StyleSheet.create({
   imgView: {
     width: "100%",
     height: vh(192),
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
     borderTopLeftRadius: vh(10),
     borderTopRightRadius: vh(10),
+    borderBottomWidth: vw(1),
+    borderColor: Colors.borderGrey,
   },
   lunchView: {
     padding: vh(16),
@@ -148,6 +182,10 @@ const Styles = StyleSheet.create({
     width: vh(64),
     borderRadius: vh(32),
     marginBottom: vh(10),
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: vw(1),
+    borderColor: Colors.borderGrey,
   },
   name: {
     fontFamily: "Nunito-Bold",

@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
 import { updateTab } from "../Home/action";
 import { useDispatch } from "react-redux";
 import { CustomHeader } from "../../Components";
-import { Strings, vw, vh, Colors, ScreenName } from "../../utils";
+import { Strings, vw, vh, Colors, ScreenName, Images } from "../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -60,13 +68,18 @@ export default function App(props: AppProps) {
           <View style={Styles.warningView}>
             <Text style={Styles.warningText}>{Strings.Chat_warning}</Text>
           </View>
-          <TextInput
-            value={msg}
-            placeholder={Strings.Write_here}
-            onChangeText={(text) => setMsg(text)}
-            style={Styles.inputTxt}
-            multiline
-          />
+          <View style={{ width: "100%" }}>
+            <TextInput
+              value={msg}
+              placeholder={Strings.Write_here}
+              onChangeText={(text) => setMsg(text)}
+              style={Styles.inputTxt}
+              // multiline
+            />
+            <TouchableOpacity style={Styles.sendBtnView}>
+              <Image source={Images.Send_Icon} style={Styles.sendBtn} />
+            </TouchableOpacity>
+          </View>
         </View>
       </KeyboardAwareScrollView>
     </View>
@@ -142,7 +155,8 @@ const Styles = StyleSheet.create({
   inputTxt: {
     height: vh(48),
     borderRadius: vh(50),
-    paddingHorizontal: vw(25),
+    paddingLeft: vw(25),
+    paddingRight: vw(50),
     width: "100%",
     marginTop: vh(10),
     marginBottom: vh(15),
@@ -151,6 +165,17 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
+  },
+  sendBtnView: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    paddingHorizontal: vw(16),
+    paddingVertical: vh(15)
+  },
+  sendBtn: {
+    height: vh(32),
+    width: vh(32),
   },
 });
 

@@ -17,6 +17,9 @@ export default {
     forgotPassword: "/api/v1/parent/forgot-password",
     resetPassword: "/api/v1/parent/reset-password",
     needHelp: "/api/v1/parent/need-help",
-    testimonials: "https://snt-parent-api-test.mytle.com/api/v1/parent/testimonials",
+    testimonials:
+      "https://snt-parent-api-test.mytle.com/api/v1/parent/testimonials",
+    HomeData: (child_id: number) =>
+      `/api/v1/parent/home-data?child_id=${child_id}`,
   },
 };

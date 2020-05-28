@@ -349,16 +349,6 @@ export default class AppComponent extends React.Component<AppProps, any> {
                 options={this.modal}
               />
               <RootStack.Screen
-                name={ScreenName.ABSENCE_NOTIFICATION_MODAL}
-                component={AbsenceNotificationModal}
-                options={this.modal}
-              />
-              <RootStack.Screen
-                name={ScreenName.GALLERY_DETAILS}
-                component={GalleryDetails}
-                options={this.screen}
-              />
-              <RootStack.Screen
                 name={ScreenName.FILTER_MODAL}
                 component={FilterModal}
                 options={this.modal}
@@ -382,21 +372,6 @@ export default class AppComponent extends React.Component<AppProps, any> {
                 name={ScreenName.GALLERY_DETAILS}
                 component={GalleryDetails}
                 options={this.screen}
-              />
-              <RootStack.Screen
-                name={ScreenName.FILTER_MODAL}
-                component={FilterModal}
-                options={this.modal}
-              />
-              <RootStack.Screen
-                name={ScreenName.CREATE_ABSENCE}
-                component={CreateAbsence}
-                options={this.screen}
-              />
-              <RootStack.Screen
-                name={ScreenName.CHILD_MODAL}
-                component={ChildModal}
-                options={this.modal}
               />
               <RootStack.Screen
                 name={ScreenName.LOGOUT_MODAL}

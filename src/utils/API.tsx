@@ -81,7 +81,6 @@ const getApiCall = (
     .catch((error: any) => {
       console.warn("error", error);
       console.log("Error: ", error);
-      debugger;
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
       }

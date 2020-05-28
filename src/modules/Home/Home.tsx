@@ -28,6 +28,7 @@ import {
 } from "../../utils";
 import { CustomSearchBar, CustomToast } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
+import { HomeAPI } from "./action";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -40,13 +41,20 @@ const DRAWER_CLOSE = "drawerClose";
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
-
-  const { tab } = useSelector((state: { Home: any }) => ({
+  const { tab, data } = useSelector((state: { Home: any }) => ({
     tab: state.Home.tab,
+    data: state.Home.data,
   }));
 
   React.useEffect(() => {
     SplashScreen.hide();
+    dispatch(
+      HomeAPI(
+        2,
+        () => {},
+        () => {}
+      )
+    );
     BackHandler.addEventListener("hardwareBackPress", () => {
       ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
       BackHandler.exitApp();
@@ -121,6 +129,7 @@ export default function App(props: AppProps) {
               onPressCancel={() => setQuery("")}
               mainViewStyle={{ backgroundColor: "white", width: "87%" }}
               inputTextStyle={{ width: "64%" }}
+              onSubmitEditing={() => {}}
             />
             <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
               <Image source={Images.Filter_Icon} style={Styles.filterImg} />
@@ -128,7 +137,7 @@ export default function App(props: AppProps) {
           </View>
         </View>
         <FlatList
-          data={DATA}
+          data={data.activity}
           keyExtractor={(item, index) => index.toString()}
           bounces={false}
           showsVerticalScrollIndicator={false}
@@ -196,46 +205,3 @@ const Styles = StyleSheet.create({
     width: vw(28),
   },
 });
-
-// Dummy data for Home API
-const DATA = [
-  {
-    activityType: "Lunch",
-    name: "Alex",
-    category: "Healthy Food",
-    content: "Green Veggies and Salads",
-    date: "Feb 1, 2020",
-    time: "12:00 PM",
-    description: Strings.lunch_description,
-  },
-  {
-    activityType: "Announcement",
-    date: "Feb 1, 2020",
-    time: "12:00 PM",
-    description: Strings.anonsmtDescription,
-  },
-  {
-    activityType: "QOA",
-    name: "Alex",
-    class: "Infant A",
-    category: Strings.QOD_category,
-    date: "Feb 1, 2020",
-    time: "12:00 PM",
-    description: Strings.QOD_description,
-  },
-  {
-    activityType: "Announcement",
-    date: "Feb 1, 2020",
-    time: "12:00 PM",
-    description: Strings.anonsmtDescription,
-  },
-  {
-    activityType: "QOA",
-    name: "Alex",
-    class: "Infant A",
-    category: Strings.QOD_category,
-    date: "Feb 1, 2020",
-    time: "12:00 PM",
-    description: Strings.QOD_description,
-  },
-];

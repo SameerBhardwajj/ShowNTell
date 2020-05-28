@@ -34,6 +34,15 @@ const DateFormatter = (date: Date) => {
   return `${wMonths[month]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
+const timeFormatter = (date: Date) => {
+  const hour = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+  const min = date.getMinutes();
+  const time = date.getHours() > 12 ? "PM" : "AM";
+  return `${hour < 10 ? "0" + hour : hour}:${
+    min < 10 ? "0" + min : min
+  } ${time}`;
+};
+
 const requestLocationPermission = async (
   successCallback: Function,
   failureCallback: Function,
@@ -75,4 +84,5 @@ export default {
   DateDifference,
   DateFormatter,
   requestLocationPermission,
+  timeFormatter,
 };
