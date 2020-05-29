@@ -33,7 +33,7 @@ export const fetchSchoolList = (
           successCallback(success.data.response);
         } else {
           CustomToast(success.data.message);
-          failCallback();
+          failCallback([]);
         }
       },
       (error: any) => {

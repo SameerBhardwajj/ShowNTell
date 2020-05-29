@@ -79,12 +79,17 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         {checkPassword ? null : (
           <TouchableOpacity
             activeOpacity={0.8}
-            style={Styles.eyeIcon}
+            style={{ paddingHorizontal: props.secureTextEntry ? vw(5) : vw(2), paddingTop: props.secureTextEntry ? vw(2) : vw(0)  }}
             onPress={() =>
               props.onPressEye === undefined ? null : props.onPressEye()
             }
           >
-            <Image source={Images.Eye_icon} style={Styles.imgEye} />
+            <Image
+              source={
+                props.secureTextEntry ? Images.Eye_icon : Images.Eye_close_icon
+              }
+              style={props.secureTextEntry ? Styles.imgEye : Styles.closeImgEye}
+            />
           </TouchableOpacity>
         )}
       </View>
@@ -138,11 +143,12 @@ const Styles = StyleSheet.create({
     color: Colors.pink,
     paddingLeft: vw(40),
   },
-  eyeIcon: {
-    paddingHorizontal: vw(5),
-  },
   imgEye: {
     height: vh(17),
-    width: vh(25),
+    width: vh(26),
+  },
+  closeImgEye: {
+    height: vh(32),
+    width: vh(32),
   },
 });
