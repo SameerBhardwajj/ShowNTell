@@ -743,7 +743,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.parent.tle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.parent.tle.dev;
 				PRODUCT_NAME = ParentApp;
 				PROVISIONING_PROFILE_SPECIFIER = "Parent Ap v3 Dev Prov Profile";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -768,7 +768,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.parent.tle;
+				PRODUCT_BUNDLE_IDENTIFIER = com.parent.tle.dev;
 				PRODUCT_NAME = ParentApp;
 				PROVISIONING_PROFILE_SPECIFIER = "Parent Ap v3 Dev Prov Profile";
 				SWIFT_VERSION = 5.0;
