@@ -140,7 +140,7 @@ const Styles = StyleSheet.create({
     paddingVertical: vh(5),
     paddingHorizontal: vh(16),
     alignItems: "center",
-    width: "97%",
+    width: "100%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

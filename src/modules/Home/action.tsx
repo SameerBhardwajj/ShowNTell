@@ -1,5 +1,6 @@
 import { Action, API, EndPoints } from "../../utils";
 import { CustomToast } from "../../Components";
+
 export const updateTab = (value: boolean, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
     dispatch({
@@ -13,14 +14,26 @@ export const updateTab = (value: boolean, callback: Function) => {
   };
 };
 
+export const updateChild = (value: object) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        currentChild: value,
+      },
+    });
+  };
+};
+
 export const HomeAPI = (
   child_id: number,
+  page: number,
   successCallback: Function,
   failureCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.auth.HomeData(child_id),
+      EndPoints.auth.HomeData(child_id, page),
       {},
       (success: any) => {
         if (success.data.code === 200) {

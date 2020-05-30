@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  Modal,
 } from "react-native";
 import { Colors, vh, Images, vw, ScreenName } from "../../utils";
 

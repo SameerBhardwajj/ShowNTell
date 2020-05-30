@@ -13,10 +13,10 @@ import {
   ToastAndroid,
 } from "react-native";
 import SplashScreen from "react-native-splash-screen";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { updateTab } from "./action";
-import { useDispatch, useSelector } from "react-redux";
 import {
   vh,
   Colors,
@@ -26,7 +26,7 @@ import {
   ScreenName,
   ConstantName,
 } from "../../utils";
-import { CustomSearchBar, CustomToast } from "../../Components";
+import { CustomSearchBar, CustomToast, CustomLoader } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
 import { HomeAPI } from "./action";
 
@@ -41,20 +41,16 @@ const DRAWER_CLOSE = "drawerClose";
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
-  const { tab, data } = useSelector((state: { Home: any }) => ({
+  const [loading, setLoading] = useState(false);
+  const { tab, data, currentChild } = useSelector((state: { Home: any }) => ({
     tab: state.Home.tab,
     data: state.Home.data,
+    currentChild: state.Home.currentChild,
   }));
 
   React.useEffect(() => {
     SplashScreen.hide();
-    dispatch(
-      HomeAPI(
-        2,
-        () => {},
-        () => {}
-      )
-    );
+    hitHomeAPI(0, 0);
     BackHandler.addEventListener("hardwareBackPress", () => {
       ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
       BackHandler.exitApp();
@@ -84,18 +80,31 @@ export default function App(props: AppProps) {
     return <HomeFlatlist item={item} navigation={props.navigation} />;
   };
 
+  const hitHomeAPI = (child_id: number, page: number) => {
+    setLoading(true);
+    dispatch(
+      HomeAPI(
+        child_id,
+        page,
+        () => setLoading(false),
+        () => setLoading(false)
+      )
+    );
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       bounces={false}
       keyboardShouldPersistTaps="handled"
+      style={{ backgroundColor: "white" }}
     >
       <StatusBar
         barStyle={"light-content"}
         backgroundColor={Colors.violet}
-        animated={true}
+        animated={loading}
       />
-      {console.log("rendered", tab)}
+      <CustomLoader loading={loading} />
       <View style={Styles.mainView}>
         <View style={Styles.extraHeader} />
         <View style={Styles.header}>
@@ -109,9 +118,13 @@ export default function App(props: AppProps) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={Styles.childHeader}
-              onPress={() => props.navigation.navigate(ScreenName.CHILD_MODAL)}
+              onPress={() =>
+                props.navigation.navigate(ScreenName.CHILD_MODAL, {
+                  child: data.children,
+                })
+              }
             >
-              <Text style={Styles.childHeaderText}>Alex </Text>
+              <Text style={Styles.childHeaderText}>{currentChild.name}</Text>
               <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
             </TouchableOpacity>
             <TouchableOpacity activeOpacity={0.8}>
@@ -136,13 +149,15 @@ export default function App(props: AppProps) {
             </TouchableOpacity>
           </View>
         </View>
-        <FlatList
-          data={data.activity}
-          keyExtractor={(item, index) => index.toString()}
-          bounces={false}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItems}
-        />
+        <View style={Styles.innerView}>
+          <FlatList
+            data={data.activity}
+            keyExtractor={(item, index) => index.toString()}
+            bounces={false}
+            showsVerticalScrollIndicator={false}
+            renderItem={renderItems}
+          />
+        </View>
       </View>
     </ScrollView>
   );
@@ -203,5 +218,15 @@ const Styles = StyleSheet.create({
   filterImg: {
     height: vw(28),
     width: vw(28),
+  },
+  innerView: {
+    width: "100%",
+  },
+  loader: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
 });

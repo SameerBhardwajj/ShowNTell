@@ -3,6 +3,7 @@ const initialState = {
   tab: true,
   forceRerendering: false,
   data: {},
+  currentChild: { child: 0, name: "All" },
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

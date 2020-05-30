@@ -10,6 +10,7 @@ import CustomPhoneField from "./CustomPhoneField";
 import CustomDate from "./CustomDate";
 import CustomTimeSlot from "./CustomTimeSlot";
 import CustomDOB from "./CustomDOB";
+import CustomLoader from "./CustomLoader";
 export {
   CustomButton,
   CustomToast,
@@ -23,4 +24,5 @@ export {
   CustomDate,
   CustomTimeSlot,
   CustomDOB,
+  CustomLoader,
 };

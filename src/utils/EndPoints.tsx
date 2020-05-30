@@ -19,7 +19,9 @@ export default {
     needHelp: "/api/v1/parent/need-help",
     testimonials:
       "https://snt-parent-api-test.mytle.com/api/v1/parent/testimonials",
-    HomeData: (child_id: number) =>
-      `/api/v1/parent/home-data?child_id=${child_id}`,
+    HomeData: (child_id: number, page: number) =>
+      child_id === 0
+        ? `/api/v1/parent/home-data`
+        : `/api/v1/parent/home-data?child_id=${child_id}&page=${page}`,
   },
 };
