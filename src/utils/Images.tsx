@@ -8,6 +8,7 @@ const Images = {
   Testimonial_Base: require("../Assets/Images/Testimonial-Base.png"),
   Colen_Bubble: require("../Assets/Images/Colen-Bubble.png"),
   back_icon: require("../Assets/Images/back-icon.png"),
+  Eye_close_icon: require("../Assets/Images/Eye_close_icon.png"),
   Eye_icon: require("../Assets/Images/Eye-icon.png"),
   Cancel_Icon: require("../Assets/Images/Cancel-Icon.png"),
   Dropdown_icon: require("../Assets/Images/Dropdown-icon.png"),

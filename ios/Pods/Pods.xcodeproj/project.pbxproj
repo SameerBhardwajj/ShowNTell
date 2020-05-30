@@ -6100,6 +6100,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A1D77384F48D73CFF592553E1CDC57A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A67DE1447F6E2B32E4311F1865648051 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -6326,7 +6333,8 @@
 				2859029E6009F1D342E00AA8382EB9DD /* ReactNativeLocalization.podspec */,
 				EA234EB39718A29FB4E47ACE64F0CC8E /* README.md */,
 			);
-			name = Pod;
+			name = Views;
+			path = React/Views;
 			sourceTree = "<group>";
 		};
 		12849DEF2ACADC6F949CE427E6A61DD6 /* Support Files */ = {
@@ -7107,7 +7115,8 @@
 				D705413FCF52CA7B94EABC415296565B /* README.md */,
 				857613E8DC2981EFB36C215AB400D437 /* RNGestureHandler.podspec */,
 			);
-			name = Pod;
+			name = CxxBridge;
+			path = React/CxxBridge;
 			sourceTree = "<group>";
 		};
 		4598ECF6EDAD651E25041BC12645E325 /* CoreModulesHeaders */ = {
@@ -7597,7 +7606,36 @@
 				1633F2872AD7183774CE904B99756B3F /* react-native-safe-area-context.podspec */,
 				327FDA713DDEB29AA1B529C2C69E828E /* README.md */,
 			);
-			name = Pod;
+			name = RNGestureHandler;
+			path = "../../node_modules/react-native-gesture-handler";
+			sourceTree = "<group>";
+		};
+		6370A4C19C802304B6293EB6E3F5BA55 /* RNShare */ = {
+			isa = PBXGroup;
+			children = (
+				5ABC998ECC6FBECBCC334AEA39120BA9 /* EmailShare.h */,
+				FD26B698634914BFF96EB12FC7070CC0 /* EmailShare.m */,
+				7D1DCE80CD8EA19D3EE45CDDDC43A83D /* FacebookStories.h */,
+				DD9EEBD10ED49DBBFD3CFB4A6F3D8F2C /* FacebookStories.m */,
+				AA2BFFA6D6B9A2363820DE995AFE243F /* GenericShare.h */,
+				DCFC56BF0620CE43154CEB729D0DE36F /* GenericShare.m */,
+				2827533803967FF1150DA052835AE6F4 /* GooglePlusShare.h */,
+				BF898224D2120592EAA0D639FBFD1C29 /* GooglePlusShare.m */,
+				E1F5C4274DF824889472593923699EEA /* InstagramShare.h */,
+				B24BEF5C0569080F978D73075C2557AB /* InstagramShare.m */,
+				7D566E0D7D193BCEB9F86FF43FA6AEC4 /* InstagramStories.h */,
+				EE45D6572209A4210D7026423DBCC507 /* InstagramStories.m */,
+				567C65D5BCD713D7F6D8A682BAC18FE2 /* RNShare.h */,
+				8FC0EF0C11BC9CD303719081C8FA3100 /* RNShare.m */,
+				2EC222DAB3456F75704AA3CE59771190 /* RNShareActivityItemSource.h */,
+				D54BDBEA3827CE553173F74D728A0F07 /* RNShareActivityItemSource.m */,
+				4D8B476BA39FB78C7A2417A554010066 /* WhatsAppShare.h */,
+				9678ED489AC39E2F3D947E3C6EB03CA2 /* WhatsAppShare.m */,
+				AD8EE4426C8A979BA7A7CB2E58073312 /* Pod */,
+				C0457A60FB43D223A1336EFD65A04509 /* Support Files */,
+			);
+			name = RNShare;
+			path = "../../node_modules/react-native-share";
 			sourceTree = "<group>";
 		};
 		6B81B122BDAB22065EBAC76ABD55AC6B /* React-jsinspector */ = {
@@ -7876,7 +7914,8 @@
 				D133E6A61979544F80C017A9A346C4BC /* README.md */,
 				9511F85C10E6A94417E22D9733B04346 /* RNShare.podspec */,
 			);
-			name = Pod;
+			name = Nodes;
+			path = Libraries/NativeAnimation/Nodes;
 			sourceTree = "<group>";
 		};
 		7983794CFE946BFA42DFE97A6CF89945 /* Support Files */ = {
@@ -8562,7 +8601,8 @@
 				7E936DB37855AAE42580905D64C6C94D /* README.md */,
 				BBE9D0151E707F70B98E703CC2C78351 /* rn-fetch-blob.podspec */,
 			);
-			name = Pod;
+			name = "react-native-date-picker";
+			path = "../../node_modules/react-native-date-picker";
 			sourceTree = "<group>";
 		};
 		AE23069FF92BCA2669D913D4E2CF23E5 /* Yoga */ = {
@@ -9482,7 +9522,8 @@
 			children = (
 				C795DBDA0D747E62D242F58DF970FD7D /* React-cxxreact.podspec */,
 			);
-			name = Pod;
+			name = RCTRequired;
+			path = "../../node_modules/react-native/Libraries/RCTRequired";
 			sourceTree = "<group>";
 		};
 		E340540301C00E2C5762CB2C5B35FDF7 /* Support Files */ = {
@@ -10335,7 +10376,8 @@
 			children = (
 				E0BF7C016AC0786FA2EEC65ED9990D7C /* React-jsiexecutor.podspec */,
 			);
-			name = Pod;
+			name = "React-CoreModules";
+			path = "../../node_modules/react-native/React/CoreModules";
 			sourceTree = "<group>";
 		};
 		F57817E008A44534FD391A6E87FFBF0A /* TextInput */ = {
@@ -11557,6 +11599,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C196B521B9FF902640A5FA601BC24044 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1C27A884D5F18745A6601D4965ED8F3 /* ReactNativeConfig.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C9705DFF01163610C96B7C2D18A00709 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -12687,17 +12737,17 @@
 		};
 		B6422EB0A585557ED42A07B5D023BD98 /* react-native-config */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C403D13E667501B08A211D4A311AC5F9 /* Build configuration list for PBXNativeTarget "react-native-config" */;
+			buildConfigurationList = BF9F65CEC1740AEADD6CDD8BA42E8534 /* Build configuration list for PBXNativeTarget "react-native-config" */;
 			buildPhases = (
-				A2448E0EB6D29A80BF5D40FFACFA1925 /* Headers */,
-				652D3C7DACB3C60043CAE1AA8439CB7C /* [CP-User] Config codegen */,
-				316E53BA497D804A0A9EB0FEE317476C /* Sources */,
-				54AB6AD9EAF31EAA1540CBC33187C33E /* Frameworks */,
+				C196B521B9FF902640A5FA601BC24044 /* Headers */,
+				C833B788E329DEECD7FE461EEFD5BD48 /* [CP-User] Config codegen */,
+				B83E6E946E92543CBEED973C1E7C29CC /* Sources */,
+				A1D77384F48D73CFF592553E1CDC57A3 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				0FAD9ABE71FA3475DE1421850B4CD8E1 /* PBXTargetDependency */,
+				024447AF5398FB18A1A18A87E2A4D6D1 /* PBXTargetDependency */,
 			);
 			name = "react-native-config";
 			productName = "react-native-config";
@@ -13214,7 +13264,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		652D3C7DACB3C60043CAE1AA8439CB7C /* [CP-User] Config codegen */ = {
+		C833B788E329DEECD7FE461EEFD5BD48 /* [CP-User] Config codegen */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -13412,15 +13462,6 @@
 				7C2D89A79A5CCE2428023B7CDC78BBBC /* YGLayout.m in Sources */,
 				A8F65854124450A07A7180E05C65D284 /* YGLayoutExtensions.swift in Sources */,
 				235AF40BD4F72FA49078428998D61FBD /* YogaKit-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		316E53BA497D804A0A9EB0FEE317476C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				300DEE4AF27B7E331C6EDBCFC66D0285 /* react-native-config-dummy.m in Sources */,
-				A8666DCD80BF8CB9023C01824A1EDE65 /* ReactNativeConfig.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -14027,6 +14068,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B83E6E946E92543CBEED973C1E7C29CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C5241AC4B02B6E8BFA3679A42355977 /* GeneratedDotEnv.m in Sources */,
+				163AFBE63D00412EDADA98550DFB9C81 /* react-native-config-dummy.m in Sources */,
+				6DD66AD7D13E7ED8D608190D36187B82 /* ReactNativeConfig.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		BC3714ABDF8F36F6986C057512938172 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -14366,6 +14417,12 @@
 			target = 1BEE828C124E6416179B904A9F66D794 /* React */;
 			targetProxy = 10AC45DE3E2B4156F4C1D366EC6D4CD3 /* PBXContainerItemProxy */;
 		};
+		024447AF5398FB18A1A18A87E2A4D6D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = React;
+			target = 1BEE828C124E6416179B904A9F66D794 /* React */;
+			targetProxy = 888603B6AF13F7C6B5A1480B7B3840D2 /* PBXContainerItemProxy */;
+		};
 		02DFF416522B3DEED41F27FA17D58131 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = React;
@@ -14437,12 +14494,6 @@
 			name = "Flipper-DoubleConversion";
 			target = D9245543B79C09FAC40FC8B9F291536A /* Flipper-DoubleConversion */;
 			targetProxy = 9D84ABF4A76D6C739349A75488A731AC /* PBXContainerItemProxy */;
-		};
-		0FAD9ABE71FA3475DE1421850B4CD8E1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = React;
-			target = 1BEE828C124E6416179B904A9F66D794 /* React */;
-			targetProxy = DCCFADB32AEE1624D663C9755205AF51 /* PBXContainerItemProxy */;
 		};
 		109AAD7F89F41A04284880BB80B4C074 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -16839,6 +16890,30 @@
 			};
 			name = Release;
 		};
+		6CDC8196BA0B61B2B0797B8A5AA2D31F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0DDB43A4403C2EEA2DCBBBC3014F699 /* react-native-config.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/react-native-config/react-native-config-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = react_native_config;
+				PRODUCT_NAME = "react-native-config";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		7517F9E40868037D9A09A37D9CF7879D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8F07E478403915359B294D8F89A55648 /* RNCAsyncStorage.xcconfig */;
@@ -16883,6 +16958,31 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		79076A9DD4CBD04C09819CA810AF7FF5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0DDB43A4403C2EEA2DCBBBC3014F699 /* react-native-config.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/react-native-config/react-native-config-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = react_native_config;
+				PRODUCT_NAME = "react-native-config";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
 		};
 		82E853AAD06F4C932AAEAEA9A8AE1EB4 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -19065,11 +19165,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C403D13E667501B08A211D4A311AC5F9 /* Build configuration list for PBXNativeTarget "react-native-config" */ = {
+		BF9F65CEC1740AEADD6CDD8BA42E8534 /* Build configuration list for PBXNativeTarget "react-native-config" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0AE6E0233221F3802BA8C9F75511ACD9 /* Debug */,
-				BB7F8B022F37320D52497E711FB8D805 /* Release */,
+				6CDC8196BA0B61B2B0797B8A5AA2D31F /* Debug */,
+				79076A9DD4CBD04C09819CA810AF7FF5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
