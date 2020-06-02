@@ -6,6 +6,7 @@ export interface AppProps {
   item: any;
   index: string;
   onPress: Function;
+  currentData: boolean;
 }
 
 export default function App(props: AppProps) {
@@ -17,7 +18,7 @@ export default function App(props: AppProps) {
     >
       <Image style={Styles.img} source={Images.History_Icon} />
       <Text numberOfLines={1} style={Styles.text}>
-        {props.item.name}
+        {props.item.description}
       </Text>
     </TouchableOpacity>
   );

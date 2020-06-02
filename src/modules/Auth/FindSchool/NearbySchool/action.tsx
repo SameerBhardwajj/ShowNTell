@@ -9,10 +9,12 @@ export const searchCenter = (query: string, callback: Function) => {
         dispatch({
           type: Action.SEARCH_CENTER,
           payload: {
-            searchList: success.data.results,
+            searchList: success.data.predictions,
           },
         });
-        callback(success);
+        console.log(success);
+
+        callback(success.data);
       },
       (error: any) => {
         dispatch({
@@ -21,6 +23,37 @@ export const searchCenter = (query: string, callback: Function) => {
             // isLoading: false,
           },
         });
+        console.log(error);
+
+        CustomToast(error);
+        callback([]);
+      }
+    );
+  };
+};
+
+export const getCoordinates = (place_id: string, callback: Function) => {
+  return (dispatch: Function, getState: Function) => {
+    API.googleSearchApiCall(
+      EndPoints.auth.centreCoordinates(place_id),
+      (success: any) => {
+        dispatch({
+          type: Action.SEARCH_CENTER,
+          payload: {
+            searchList: success.data.predictions,
+          },
+        });
+        callback(success.data);
+      },
+      (error: any) => {
+        dispatch({
+          type: Action.SEARCH_CENTER,
+          payload: {
+            // isLoading: false,
+          },
+        });
+        console.log(error);
+
         CustomToast(error);
         callback([]);
       }
@@ -32,16 +65,13 @@ export const recentSearch = (item: any, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
     const { recentList } = getState().NearbySchool;
     let temp = {
-      coordinates: item.geometry.location,
+      place_id: item.place_id,
     };
     let filteredList = recentList.filter(
-      (item: any) =>
-        item.geometry.location.lat !== temp.coordinates.lat &&
-        item.geometry.location.lng !== temp.coordinates.lng
+      (item: any) => item.place_id !== temp.place_id
     );
     filteredList.length >= 4 ? filteredList.pop() : null;
     filteredList.unshift(item);
-    debugger
     dispatch({
       type: Action.RECENT_SEARCH,
       payload: {

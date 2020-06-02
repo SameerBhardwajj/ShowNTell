@@ -4,7 +4,9 @@ export default {
   auth: {
     login: "/api/v1/parent/login",
     searchCentres: (query: string) =>
-      `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${GoogleAPI}`,
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPI}&input=${query}&sessiontoken=1234567890`,
+    centreCoordinates: (place_id: string) =>
+      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${place_id}&key=${GoogleAPI}`,
     nearByCentres: (lat: number, lon: number, page: number) =>
       `/api/v1/parent/nearbycenter?latitude=${lat}&longitude=${lon}&page=${page}`,
     centerList: (email: string) =>

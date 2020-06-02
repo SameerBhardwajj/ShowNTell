@@ -126,6 +126,7 @@ export default function App(props: AppProps) {
               }}
               check={checkpname}
               incorrectText={Strings.Name_error}
+              // mainViewStyle={{backgroundColor: 'red'}}
             />
             {/* Parent's phone no.----------- */}
             <CustomPhoneField

@@ -64,7 +64,9 @@ const requestLocationPermission = async (
         successCallback(position);
       },
       (error) => {
-        failureCallback(error.code);
+        failureCallback(error);
+        // console.warn(error);
+        
       },
       { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
     );

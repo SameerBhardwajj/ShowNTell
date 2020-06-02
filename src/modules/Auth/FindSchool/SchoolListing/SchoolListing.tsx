@@ -8,13 +8,14 @@ import {
   ActivityIndicator,
   Modal,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-native-date-picker";
 
 // custom imports
 import { CustomHeader, CustomButton } from "../../../../Components";
-import { Strings, vh, Colors, ScreenName } from "../../../../utils";
+import { Strings, vh, Colors, ScreenName, Images, vw } from "../../../../utils";
 import ListFlatlist from "./ListFlatlist";
 import { fetchSchoolList } from "./action";
 let slotDate = new Date();
@@ -135,33 +136,38 @@ export default function App(props: AppProps) {
               />
             </View>
             <Modal animationType="slide" transparent={true} visible={modalOpen}>
-              <TouchableOpacity
-                activeOpacity={1}
-                style={Styles.topModalView}
-                onPress={() => setModalOpen(false)}
-              />
-              <View style={Styles.modalView}>
-                <Text style={Styles.modalHeading}>{Strings.Select_Date}</Text>
-                <DatePicker
-                  minimumDate={slotDate}
-                  date={date}
-                  mode="date"
-                  onDateChange={(text: Date) => {
-                    setDate(text);
-                  }}
-                />
-                <CustomButton
-                  Text={Strings.View_Slots}
-                  onPress={() => {
-                    setModalOpen(false);
-                    setDate(new Date());
-                    props.navigation.navigate(ScreenName.DATE_TIME_SCHEDULE, {
-                      id: id,
-                      name: name,
-                      date: date.getDate(),
-                    });
-                  }}
-                />
+              <View style={Styles.mainModalView}>
+                <View />
+                <View style={Styles.modalView}>
+                  <Text style={Styles.modalHeading}>{Strings.Select_Date}</Text>
+                  <TouchableOpacity
+                    activeOpacity={1}
+                    style={Styles.topModalView}
+                    onPress={() => setModalOpen(false)}
+                  >
+                    <Image source={Images.Cancel_Icon} />
+                  </TouchableOpacity>
+                  <DatePicker
+                    minimumDate={slotDate}
+                    date={date}
+                    mode="date"
+                    onDateChange={(text: Date) => {
+                      setDate(text);
+                    }}
+                  />
+                  <CustomButton
+                    Text={Strings.View_Slots}
+                    onPress={() => {
+                      setModalOpen(false);
+                      setDate(new Date());
+                      props.navigation.navigate(ScreenName.DATE_TIME_SCHEDULE, {
+                        id: id,
+                        name: name,
+                        date: date,
+                      });
+                    }}
+                  />
+                </View>
               </View>
             </Modal>
           </View>
@@ -205,15 +211,21 @@ const Styles = StyleSheet.create({
     shadowRadius: 7.49,
     elevation: 5,
   },
-  topModalView: {
-    width: "100%",
-    flex: 0.65,
+  mainModalView: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: Colors.modalBg,
+  },
+  topModalView: {
+    position: "absolute",
+    right: 0,
+    padding: vh(20),
+    bottom: vh(290),
   },
   modalView: {
     backgroundColor: "white",
     width: "100%",
-    flex: 0.4,
     paddingVertical: vh(30),
     alignItems: "center",
     justifyContent: "flex-end",

@@ -7,8 +7,6 @@ import {
   Image,
   FlatList,
   Linking,
-  Platform,
-  PermissionsAndroid,
   ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,7 +28,7 @@ import {
 } from "../../../../utils";
 import RecentFlatlist from "./RecentFlatlist";
 import ResultFlatlist from "./ResultFlatlist";
-import { searchCenter, recentSearch } from "./action";
+import { searchCenter, recentSearch, getCoordinates } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -40,6 +38,9 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [currentData, setCurrentData] = useState(Object);
+  const [coordinates, setCoordinates] = useState(Object);
+  const [query, setQuery] = useState("");
+  const [data, setData] = useState([]);
 
   const { searchList, recentList } = useSelector(
     (state: { NearbySchool: any }) => ({
@@ -47,9 +48,6 @@ export default function App(props: AppProps) {
       recentList: state.NearbySchool.recentList,
     })
   );
-
-  const [query, setQuery] = useState("");
-  const [data, setData] = useState([]);
 
   const hitSearchAPI = () => {
     dispatch(
@@ -65,11 +63,17 @@ export default function App(props: AppProps) {
       <RecentFlatlist
         item={item}
         index={index}
+        currentData={isEmpty(coordinates)}
         onPress={() => {
-          setQuery(item.formatted_address);
+          setQuery(item.description);
           setCurrentData(item);
           let temp: never[] = [];
           setData(temp.concat(item));
+          dispatch(
+            getCoordinates(item.place_id, (data: any) => {
+              setCoordinates(data.result);
+            })
+          );
         }}
       />
     );
@@ -82,10 +86,15 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={() => {
-          setQuery(item.formatted_address);
+          setQuery(item.description);
           setCurrentData(item);
           let temp: never[] = [];
           setData(temp.concat(item));
+          dispatch(
+            getCoordinates(item.place_id, (data: any) => {
+              setCoordinates(data.result);
+            })
+          );
         }}
       />
     );
@@ -113,6 +122,13 @@ export default function App(props: AppProps) {
     );
   };
 
+  const isEmpty = (obj: object) => {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
+  };
+
   return (
     <View style={Styles.mainView}>
       <CustomHeader
@@ -131,17 +147,20 @@ export default function App(props: AppProps) {
             setQuery(""), setData([]);
           }}
           onSubmitEditing={() => {
-            setIsLoading(true);
-            dispatch(
-              recentSearch(currentData, (data: any) => {
-                setData([]);
-                setQuery("");
-                setIsLoading(false);
-                props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
-                  coordinates: currentData.geometry.location,
-                });
-              })
-            );
+            isEmpty(currentData)
+              ? null
+              : (setIsLoading(true),
+                dispatch(
+                  recentSearch(currentData, (data: any) => {
+                    setData([]);
+                    setQuery("");
+                    setCurrentData({});
+                    setIsLoading(false);
+                    props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
+                      coordinates: coordinates.geometry.location,
+                    });
+                  })
+                ));
           }}
         />
         {isLoading ? (
@@ -164,7 +183,7 @@ export default function App(props: AppProps) {
         </TouchableOpacity>
         <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
           {query.length !== 0 ? (
-            data.length === 0 ? (
+            !(data && data.length) ? (
               <View>
                 <Text style={Styles.headerText}>
                   {Strings.No_Location_Found}
