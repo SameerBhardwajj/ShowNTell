@@ -27,6 +27,9 @@ const googleSearchApiCall = (
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
       }
+      if (error.code === "ECONNABORTED") {
+        CustomToast(Strings.Timeout_error);
+      }
       errorCallback(error.response);
     });
 };
@@ -47,7 +50,7 @@ const postApiCall = (
   Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
-      console.log("res ", response);
+      console.warn("res ", response);
       successCallback(response);
     })
     .catch((error: any) => {
@@ -55,8 +58,11 @@ const postApiCall = (
       console.log("Error: ", error.response);
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
+      } else if (error.code === "ECONNABORTED") {
+        CustomToast(Strings.Timeout_error);
+      } else {
+        errorCallback(error.response);
       }
-      errorCallback(error.response);
     });
 };
 /**
@@ -84,6 +90,9 @@ const getApiCall = (
       debugger;
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
+      }
+      if (error.code === "ECONNABORTED") {
+        CustomToast(Strings.Timeout_error);
       }
       errorCallback(error.response);
     });

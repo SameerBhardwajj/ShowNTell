@@ -175,12 +175,16 @@ export default function App(props: AppProps) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={{ paddingHorizontal: vw(7) }}
-              onPress={() =>
+              onPress={() => {
+                setinput1("");
+                setinput2("");
+                setinput3("");
+                setinput4("");
                 props.navigation.navigate(ScreenName.REQUEST_NEW_CODE, {
                   type: 1,
                   path: ScreenName.PASSWORD_RESET_CODE,
-                })
-              }
+                });
+              }}
             >
               <Text style={Styles.requestNew}>{Strings.Request_New}</Text>
             </TouchableOpacity>
@@ -223,7 +227,7 @@ const Styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    marginTop: vw(30),
+    marginTop: vw(10),
   },
   didntReceive: {
     fontFamily: "Nunito-Regular",

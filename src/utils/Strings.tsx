@@ -203,6 +203,7 @@ const Strings = new LocalizedStrings({
     No_Internet: "No Internet! Please check your Internet Connection",
     Miles: "Miles",
     No_data_Found: "No data Found",
+    Timeout_error: "Response timout! Please try again later",
     Select_School: "Select School",
     Enter_password: "Enter Password",
     Please_enter_password: "Please enter your Password here",

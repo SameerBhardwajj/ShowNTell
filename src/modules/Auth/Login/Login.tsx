@@ -30,7 +30,7 @@ import {
   CustomInputText,
   CustomMenuList,
 } from "../../../Components";
-import { loginAPI, fetchSchoolList } from "./action";
+import { fetchSchoolList } from "./action";
 
 const SELECT_SCHOOL = "Select School";
 export interface AppProps {
@@ -52,6 +52,9 @@ export default function App(props: AppProps) {
 
   const resetAll = () => {
     setCheckEmail(true);
+    setEmail("");
+    setList([]);
+    setSchool(SELECT_SCHOOL)
     Keyboard.dismiss();
   };
 

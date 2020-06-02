@@ -68,11 +68,6 @@ export default function App(props: AppProps) {
   const [checkc3name, setCheckc3name] = useState(true);
   const [checkc4name, setCheckc4name] = useState(true);
   const [checkc5name, setCheckc5name] = useState(true);
-  const [checkc1DOB, setCheckc1DOB] = useState(true);
-  const [checkc2DOB, setCheckc2DOB] = useState(true);
-  const [checkc3DOB, setCheckc3DOB] = useState(true);
-  const [checkc4DOB, setCheckc4DOB] = useState(true);
-  const [checkc5DOB, setCheckc5DOB] = useState(true);
   const [counter, setCounter] = useState(1);
   const [currentChild, setCurrentChild] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);

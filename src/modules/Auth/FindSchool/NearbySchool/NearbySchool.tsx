@@ -8,6 +8,7 @@ import {
   FlatList,
   Linking,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -36,6 +37,7 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
+  const input1: any = React.createRef();
   const [isLoading, setIsLoading] = useState(false);
   const [currentData, setCurrentData] = useState(Object);
   const [coordinates, setCoordinates] = useState(Object);
@@ -66,6 +68,7 @@ export default function App(props: AppProps) {
         currentData={isEmpty(coordinates)}
         onPress={() => {
           setQuery(item.description);
+          input1.current.focus();
           setCurrentData(item);
           let temp: never[] = [];
           setData(temp.concat(item));
@@ -109,11 +112,25 @@ export default function App(props: AppProps) {
           coordinates: position,
         });
       },
-      (code: number) => {
+      (error: any) => {
         setIsLoading(false);
-        code === 2
+        error.code === 2
           ? CustomToast(Strings.Please_On_GPS)
-          : CustomToast(Strings.Unknown_error);
+          : error.code === 1
+          ? Alert.alert(
+              Strings.Permission_denied,
+              "",
+              [
+                { text: "OK", onPress: () => Linking.openSettings() },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+              ],
+              { cancelable: true }
+            )
+          : CustomToast(error.message);
       },
       () => {
         setIsLoading(false);
@@ -137,6 +154,7 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.innerView}>
         <CustomSearchBar
+          ref={input1}
           value={query}
           placeholder={Strings.Search_placeholder}
           onChangeText={(text: string) => {

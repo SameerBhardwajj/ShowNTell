@@ -78,7 +78,7 @@ export default function App(props: AppProps) {
         setList(list.concat(success.data.response));
       },
       (error: any) => {
-        CustomToast(error);
+        CustomToast(error.data.message);
       }
     );
   };
@@ -346,7 +346,7 @@ const Styles = StyleSheet.create({
   deviceView: {
     alignItems: "center",
     justifyContent: "center",
-    padding: vh(10),
+    // padding: vh(10),
     width: "30%",
     borderRadius: vh(8),
     height: vh(106),
@@ -354,7 +354,7 @@ const Styles = StyleSheet.create({
   text: {
     paddingTop: vh(14),
     fontFamily: "Nunito-Bold",
-    fontSize: vh(14),
+    fontSize: vh(13),
     textAlign: "center",
   },
   menuView: {

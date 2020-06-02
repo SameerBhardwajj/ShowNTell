@@ -3,6 +3,7 @@ import axios from "axios";
 
 const $http = axios.create({
   baseURL: Config.BASE_URL,
+  timeout: 30000,
   headers: {
     Authorization: "Basic Y29yZTpjb3Jl",
     "Content-Type": "application/json",

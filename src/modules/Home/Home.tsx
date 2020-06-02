@@ -50,8 +50,6 @@ export default function App(props: AppProps) {
             console.log("drawer open", tab);
           })
         );
-
-        debugger;
       }),
       props.navigation.addListener(DRAWER_CLOSE, (e: any) => {
         dispatch(
@@ -59,8 +57,6 @@ export default function App(props: AppProps) {
             console.log("drawer close", tab);
           })
         );
-
-        debugger;
       }));
 
     return unsubscribe;
@@ -107,6 +103,7 @@ export default function App(props: AppProps) {
               onPressCancel={() => setQuery("")}
               mainViewStyle={{ backgroundColor: "white", width: "87%" }}
               inputTextStyle={{ width: "64%" }}
+              onSubmitEditing={() => {}}
             />
             <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
               <Image source={Images.Filter_Icon} style={Styles.filterImg} />
@@ -133,7 +130,7 @@ const Styles = StyleSheet.create({
   },
   extraHeader: {
     width: "100%",
-    height: iPhoneX ? vh(20) : 0,
+    height: iPhoneX ? vh(30) : vh(10),
     backgroundColor: Colors.violet,
   },
   header: {
