@@ -13,6 +13,7 @@ export function App() {
 
 const $http = axios.create({
   baseURL: Config.BASE_URL,
+  timeout: 30000,
   headers: {
     Authorization:
       // token === ""

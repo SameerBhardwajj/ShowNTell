@@ -12,14 +12,17 @@ import {
   Keyboard,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { getManufacturer, getVersion, getSystemVersion } from "react-native-device-info";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  getModel,
+  getVersion,
+  getSystemVersion,
+} from "react-native-device-info";
+import { useDispatch } from "react-redux";
 
 // custom imports
 import {
   CustomHeader,
   CustomButton,
-  CustomMenuList,
   CustomInputText,
   CustomToast,
 } from "../../Components";
@@ -58,18 +61,12 @@ export default function App(props: AppProps) {
   const [cLength, setCLength] = useState(0);
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkName, setCheckName] = useState(true);
-  const [device, setDevice] = useState("");
   const [page, setPage] = useState(1);
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showList, setShowList] = useState(false);
 
   React.useEffect(() => {
-    getManufacturer()
-      .then((deviceName) => {
-        setDevice(deviceName);
-      })
-      .catch((err) => CustomToast(err));
     schoolAPI();
   }, []);
 
@@ -81,7 +78,7 @@ export default function App(props: AppProps) {
         setList(list.concat(success.data.response));
       },
       (error: any) => {
-        CustomToast(error);
+        CustomToast(error.data.message);
       }
     );
   };
@@ -100,7 +97,11 @@ export default function App(props: AppProps) {
   };
 
   const disable = () => {
-    return school !== SELECT_SCHOOL && email.length !== 0 && name.length !== 0;
+    return (
+      school !== SELECT_SCHOOL &&
+      email.trim().length !== 0 &&
+      name.trim().length !== 0
+    );
   };
 
   const check = () => {
@@ -109,7 +110,7 @@ export default function App(props: AppProps) {
         ? (setIsLoading(true),
           dispatch(
             needHelpAPI(
-              device,
+              getModel(),
               getSystemVersion(),
               getVersion(),
               center.toString(),
@@ -171,7 +172,7 @@ export default function App(props: AppProps) {
                 numberOfLines={1}
                 style={[Styles.text, { color: Colors.green, paddingTop: 0 }]}
               >
-                {device}
+                {getModel()}
               </Text>
             </View>
             {/* Version -------------------- */}
@@ -297,14 +298,17 @@ export default function App(props: AppProps) {
                   }}
                   style={Styles.textInputView}
                   multiline={true}
-                  onSubmitEditing={() => (disable() ? check() : null)}
+                  returnKeyType="next"
                 />
                 <Text style={Styles.character}>{cLength}/500 Characters</Text>
               </View>
             </View>
             <CustomButton
               Text={Strings.Submit}
-              onPress={() => (disable() ? check() : null)}
+              onPress={() => {
+                Keyboard.dismiss();
+                disable() ? check() : null;
+              }}
               activeOpacity={disable() ? 0.8 : 1}
               ButtonStyle={{
                 width: "100%",
@@ -342,7 +346,7 @@ const Styles = StyleSheet.create({
   deviceView: {
     alignItems: "center",
     justifyContent: "center",
-    padding: vh(10),
+    // padding: vh(10),
     width: "30%",
     borderRadius: vh(8),
     height: vh(106),
@@ -350,7 +354,7 @@ const Styles = StyleSheet.create({
   text: {
     paddingTop: vh(14),
     fontFamily: "Nunito-Bold",
-    fontSize: vh(14),
+    fontSize: vh(13),
     textAlign: "center",
   },
   menuView: {
@@ -379,7 +383,7 @@ const Styles = StyleSheet.create({
     top: vh(50),
     zIndex: 99,
     width: "100%",
-    backgroundColor: 'white',
+    backgroundColor: "white",
     height: vh(300),
     shadowColor: "#000",
     shadowOffset: {

@@ -82,7 +82,6 @@ export const loginAPI = (
           CustomToast(success.data.message);
           callback();
         }
-        debugger;
         callback();
       },
       (error: any) => {

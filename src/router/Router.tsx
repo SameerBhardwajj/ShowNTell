@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, Text, StyleSheet } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import { vh, Colors, Images, vw, ScreenName } from "../utils";
 import {
   createStackNavigator,

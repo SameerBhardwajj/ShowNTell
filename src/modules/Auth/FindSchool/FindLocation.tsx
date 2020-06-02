@@ -5,8 +5,7 @@ import {
   StyleSheet,
   Image,
   Linking,
-  Platform,
-  PermissionsAndroid,
+  Alert,
 } from "react-native";
 
 // custom imports
@@ -35,11 +34,25 @@ export default function App(props: AppProps) {
           coordinates: { lat: 41.063412, lng: -74.133544 },
         });
       },
-      (code: number) => {
+      (error: any) => {
         setIsLoading(false);
-        code === 2
+        error.code === 2
           ? CustomToast(Strings.Please_On_GPS)
-          : CustomToast(Strings.Unknown_error);
+          : error.code === 1
+          ? Alert.alert(
+              Strings.Permission_denied,
+              "",
+              [
+                { text: "OK", onPress: () => Linking.openSettings() },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+              ],
+              { cancelable: true }
+            )
+          : CustomToast(error.message);
       },
       () => {
         setIsLoading(false);

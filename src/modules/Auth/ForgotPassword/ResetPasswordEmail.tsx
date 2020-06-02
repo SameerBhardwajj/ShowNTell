@@ -46,7 +46,9 @@ export default function App(props: AppProps) {
               setIsLoading(false);
               props.navigation.navigate(ScreenName.PASSWORD_RESET_CODE);
             },
-            () => setIsLoading(false)
+            () => {
+              setIsLoading(false);
+            }
           )
         ))
       : null;
@@ -58,15 +60,15 @@ export default function App(props: AppProps) {
         title={Strings.Reset_Password}
         onPressBack={() => props.navigation.pop()}
       />
-      {isLoading ? (
-        <ActivityIndicator
-          color={Colors.violet}
-          animating={isLoading}
-          size="large"
-          style={Styles.indicator}
-        />
-      ) : null}
       <View style={Styles.innerView}>
+        {isLoading ? (
+          <ActivityIndicator
+            color={Colors.violet}
+            animating={isLoading}
+            size="large"
+            style={Styles.indicator}
+          />
+        ) : null}
         <Text style={Styles.welcome}>{Strings.hello}</Text>
         {/* <Text style={Styles.name}>Mr. Bob Parish</Text> */}
         <Text style={Styles.please}>{Strings.enter_email_passowrd_link}</Text>

@@ -171,7 +171,7 @@ const Styles = StyleSheet.create({
   },
   extraHeader: {
     width: "100%",
-    height: iPhoneX ? vh(20) : 0,
+    height: iPhoneX ? vh(30) : vh(10),
     backgroundColor: Colors.violet,
   },
   header: {

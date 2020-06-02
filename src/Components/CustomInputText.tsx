@@ -33,7 +33,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
     props.typePassword === undefined || props.typePassword === false;
 
   return (
-    <View style={props.mainViewStyle}>
+    <View style={[{ width: "100%" }, props.mainViewStyle]}>
       <View style={Styles.textView}>
         <Text
           style={[
@@ -44,7 +44,9 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           {props.titleText}
         </Text>
         {props.check ? null : (
-          <Text style={Styles.incorrectText}>{props.incorrectText}</Text>
+          <View style={{ width: "60%" }}>
+            <Text style={Styles.incorrectText}>{props.incorrectText}</Text>
+          </View>
         )}
       </View>
       <View
@@ -79,7 +81,10 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         {checkPassword ? null : (
           <TouchableOpacity
             activeOpacity={0.8}
-            style={{ paddingHorizontal: props.secureTextEntry ? vw(5) : vw(2), paddingTop: props.secureTextEntry ? vw(2) : vw(0)  }}
+            style={{
+              paddingHorizontal: props.secureTextEntry ? vw(5) : vw(2),
+              paddingTop: props.secureTextEntry ? vw(2) : vw(0),
+            }}
             onPress={() =>
               props.onPressEye === undefined ? null : props.onPressEye()
             }
@@ -142,6 +147,8 @@ const Styles = StyleSheet.create({
     fontSize: vh(12),
     color: Colors.pink,
     paddingLeft: vw(40),
+    width: "100%",
+    textAlign: "right",
   },
   imgEye: {
     height: vh(17),

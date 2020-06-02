@@ -172,12 +172,16 @@ export default function App(props: AppProps) {
             <TouchableOpacity
               activeOpacity={0.8}
               style={{ paddingHorizontal: vw(7) }}
-              onPress={() =>
+              onPress={() => {
+                setinput1("");
+                setinput2("");
+                setinput3("");
+                setinput4("");
                 props.navigation.navigate(ScreenName.REQUEST_NEW_CODE, {
                   type: 0,
                   path: ScreenName.ACCESS_CODE_VERIFICATION,
-                })
-              }
+                });
+              }}
             >
               <Text style={Styles.requestNew}>{Strings.Request_New}</Text>
             </TouchableOpacity>

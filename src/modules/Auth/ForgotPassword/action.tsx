@@ -33,9 +33,7 @@ export const forgotPassword = (
         }
       },
       (error: any) => {
-        error.status === 504
-          ? CustomToast("Error! Server timeout")
-          : CustomToast(error.data.message);
+        CustomToast(error.data.message);
         failCallback();
       }
     );

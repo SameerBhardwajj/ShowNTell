@@ -7,9 +7,8 @@ import {
   Image,
   FlatList,
   Linking,
-  Platform,
-  PermissionsAndroid,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -30,7 +29,7 @@ import {
 } from "../../../../utils";
 import RecentFlatlist from "./RecentFlatlist";
 import ResultFlatlist from "./ResultFlatlist";
-import { searchCenter, recentSearch } from "./action";
+import { searchCenter, recentSearch, getCoordinates } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -38,8 +37,12 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
+  const input1: any = React.createRef();
   const [isLoading, setIsLoading] = useState(false);
   const [currentData, setCurrentData] = useState(Object);
+  const [coordinates, setCoordinates] = useState(Object);
+  const [query, setQuery] = useState("");
+  const [data, setData] = useState([]);
 
   const { searchList, recentList } = useSelector(
     (state: { NearbySchool: any }) => ({
@@ -47,9 +50,6 @@ export default function App(props: AppProps) {
       recentList: state.NearbySchool.recentList,
     })
   );
-
-  const [query, setQuery] = useState("");
-  const [data, setData] = useState([]);
 
   const hitSearchAPI = () => {
     dispatch(
@@ -65,11 +65,18 @@ export default function App(props: AppProps) {
       <RecentFlatlist
         item={item}
         index={index}
+        currentData={isEmpty(coordinates)}
         onPress={() => {
-          setQuery(item.formatted_address);
+          setQuery(item.description);
+          input1.current.focus();
           setCurrentData(item);
           let temp: never[] = [];
           setData(temp.concat(item));
+          dispatch(
+            getCoordinates(item.place_id, (data: any) => {
+              setCoordinates(data.result);
+            })
+          );
         }}
       />
     );
@@ -82,10 +89,15 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={() => {
-          setQuery(item.formatted_address);
+          setQuery(item.description);
           setCurrentData(item);
           let temp: never[] = [];
           setData(temp.concat(item));
+          dispatch(
+            getCoordinates(item.place_id, (data: any) => {
+              setCoordinates(data.result);
+            })
+          );
         }}
       />
     );
@@ -100,17 +112,38 @@ export default function App(props: AppProps) {
           coordinates: position,
         });
       },
-      (code: number) => {
+      (error: any) => {
         setIsLoading(false);
-        code === 2
+        error.code === 2
           ? CustomToast(Strings.Please_On_GPS)
-          : CustomToast(Strings.Unknown_error);
+          : error.code === 1
+          ? Alert.alert(
+              Strings.Permission_denied,
+              "",
+              [
+                { text: "OK", onPress: () => Linking.openSettings() },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+              ],
+              { cancelable: true }
+            )
+          : CustomToast(error.message);
       },
       () => {
         setIsLoading(false);
         Linking.openSettings();
       }
     );
+  };
+
+  const isEmpty = (obj: object) => {
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+    return true;
   };
 
   return (
@@ -121,6 +154,7 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.innerView}>
         <CustomSearchBar
+          ref={input1}
           value={query}
           placeholder={Strings.Search_placeholder}
           onChangeText={(text: string) => {
@@ -131,17 +165,20 @@ export default function App(props: AppProps) {
             setQuery(""), setData([]);
           }}
           onSubmitEditing={() => {
-            setIsLoading(true);
-            dispatch(
-              recentSearch(currentData, (data: any) => {
-                setData([]);
-                setQuery("");
-                setIsLoading(false);
-                props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
-                  coordinates: currentData.geometry.location,
-                });
-              })
-            );
+            isEmpty(currentData)
+              ? null
+              : (setIsLoading(true),
+                dispatch(
+                  recentSearch(currentData, (data: any) => {
+                    setData([]);
+                    setQuery("");
+                    setCurrentData({});
+                    setIsLoading(false);
+                    props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
+                      coordinates: coordinates.geometry.location,
+                    });
+                  })
+                ));
           }}
         />
         {isLoading ? (
@@ -164,7 +201,7 @@ export default function App(props: AppProps) {
         </TouchableOpacity>
         <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
           {query.length !== 0 ? (
-            data.length === 0 ? (
+            !(data && data.length) ? (
               <View>
                 <Text style={Styles.headerText}>
                   {Strings.No_Location_Found}

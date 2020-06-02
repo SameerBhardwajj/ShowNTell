@@ -7,7 +7,14 @@ import {
   CustomButton,
   CustomTimeSlot,
 } from "../../../Components";
-import { Strings, vw, vh, Colors, ScreenName } from "../../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Colors,
+  ScreenName,
+  CommonFunctions,
+} from "../../../utils";
 
 const currentTime = new Date().getHours();
 export interface AppProps {
@@ -21,7 +28,7 @@ export default function App(props: AppProps) {
 
   const setDisabled = (time: number) => {
     let disable = false;
-    date !== new Date().getDate()
+    CommonFunctions.DateDifference(new Date(), date) > 0
       ? null
       : currentTime >= time
       ? (disable = true)
