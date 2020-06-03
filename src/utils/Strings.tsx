@@ -214,6 +214,9 @@ const Strings = new LocalizedStrings({
     Preferred_slot: "Please select a prefered time slot",
     DOB_incorrect: "DOB cannot be Empty",
     No_Location_Found: "No Location Found",
+    Home_Feed_Options: "Home Feed Options",
+    Reset: "Reset",
+    Apply: "Apply",
   },
 });
 export default Strings;

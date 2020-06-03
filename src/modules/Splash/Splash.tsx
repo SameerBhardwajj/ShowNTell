@@ -4,7 +4,7 @@ import SplashScreen from "react-native-splash-screen";
 import { useDispatch } from "react-redux";
 
 // custom imports
-import { Images, Colors, ScreenName } from "../../utils";
+import { Images, Colors, Constants } from "../../utils";
 import { updateSplash } from "./action";
 
 export interface AppProps {
@@ -13,10 +13,8 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   React.useEffect(() => {
-    setTimeout(() => {
-      SplashScreen.hide();
-      dispatch(updateSplash());
-    }, 2000);
+    SplashScreen.hide();
+    dispatch(updateSplash());
   }, []);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>

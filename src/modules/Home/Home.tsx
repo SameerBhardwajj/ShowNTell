@@ -11,6 +11,7 @@ import {
   StatusBar,
   BackHandler,
   ToastAndroid,
+  Modal,
 } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,9 +25,14 @@ import {
   vw,
   Strings,
   ScreenName,
-  ConstantName,
+  Constants,
 } from "../../utils";
-import { CustomSearchBar, CustomToast, CustomLoader } from "../../Components";
+import {
+  CustomSearchBar,
+  CustomToast,
+  CustomLoader,
+  CustomButton,
+} from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
 import { HomeAPI } from "./action";
 
@@ -42,38 +48,44 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  const { tab, data, currentChild } = useSelector((state: { Home: any }) => ({
-    tab: state.Home.tab,
-    data: state.Home.data,
-    currentChild: state.Home.currentChild,
-  }));
+  const [modalOpen, setModalOpen] = useState(false);
+  const { tab, data, currentChild, loginToken, loginData } = useSelector(
+    (state: { Home: any; Login: any }) => ({
+      tab: state.Home.tab,
+      data: state.Home.data,
+      currentChild: state.Home.currentChild,
+      loginToken: state.Login.loginToken,
+      loginData: state.Login.loginData,
+    })
+  );
 
   React.useEffect(() => {
     SplashScreen.hide();
-    hitHomeAPI(0, 0);
+    Constants.setAuthorizationToken(loginToken.length === 0 ? false : true);
+    hitHomeAPI(currentChild.child, 0);
     BackHandler.addEventListener("hardwareBackPress", () => {
       ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
       BackHandler.exitApp();
       return true;
     });
-    const unsubscribe =
-      (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
-        dispatch(
-          updateTab(true, () => {
-            console.warn("drawer open", tab);
-          })
-        );
-      }),
-      props.navigation.addListener(DRAWER_CLOSE, (e: any) => {
-        dispatch(
-          updateTab(false, () => {
-            console.warn("drawer close", tab);
-          })
-        );
-      }));
+    // const unsubscribe =
+    //   (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
+    //     dispatch(
+    //       updateTab(true, () => {
+    //         console.log("drawer open", tab);
+    //       })
+    //     );
+    //   }),
+    //   props.navigation.addListener(DRAWER_CLOSE, (e: any) => {
+    //     dispatch(
+    //       updateTab(false, () => {
+    //         console.log("drawer close", tab);
+    //       })
+    //     );
+    //   }));
 
-    return unsubscribe;
-  }, [props.navigation]);
+    // return unsubscribe;
+  }, [currentChild]);
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -120,7 +132,7 @@ export default function App(props: AppProps) {
               style={Styles.childHeader}
               onPress={() =>
                 props.navigation.navigate(ScreenName.CHILD_MODAL, {
-                  child: data.children,
+                  child: loginData.Children,
                 })
               }
             >
@@ -144,7 +156,10 @@ export default function App(props: AppProps) {
               inputTextStyle={{ width: "64%" }}
               onSubmitEditing={() => {}}
             />
-            <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => setModalOpen(true)}
+            >
               <Image source={Images.Filter_Icon} style={Styles.filterImg} />
             </TouchableOpacity>
           </View>
@@ -159,6 +174,39 @@ export default function App(props: AppProps) {
           />
         </View>
       </View>
+      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+        <View style={Styles.modalView}>
+          <View />
+          <View style={Styles.innerModalView}>
+            <View style={Styles.headingView}>
+              <Text style={Styles.childHeaderText}>
+                {Strings.Home_Feed_Options}
+              </Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => setModalOpen(false)}
+              >
+                <Image source={Images.Cancel_Icon} />
+              </TouchableOpacity>
+            </View>
+            <View style={{ height: 200 }} />
+            <View style={Styles.bottomView}>
+              
+              <CustomButton
+                lightBtn={true}
+                onPress={() => {}}
+                Text={Strings.Reset}
+                ButtonStyle={Styles.applyBtn}
+              />
+              <CustomButton
+                onPress={() => {}}
+                Text={Strings.Apply}
+                ButtonStyle={Styles.applyBtn}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScrollView>
   );
 }
@@ -228,5 +276,45 @@ const Styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+  },
+  modalView: {
+    flex: 1,
+    backgroundColor: Colors.modalBg,
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  innerModalView: {
+    backgroundColor: "white",
+    borderTopLeftRadius: vh(20),
+    borderTopRightRadius: vh(20),
+    width: "100%",
+  },
+  headingView: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: vh(20),
+    borderBottomWidth: vw(1),
+    borderColor: Colors.borderGrey,
+  },
+  bottomView: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    borderTopWidth: vw(1),
+    borderColor: Colors.borderGrey,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: -5,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4.65,
+    elevation: 7,
+  },
+  applyBtn: {
+    width: "40%",
+    marginVertical: vh(20),
   },
 });

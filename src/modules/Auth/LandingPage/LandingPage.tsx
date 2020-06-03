@@ -14,7 +14,15 @@ import { useDispatch, useSelector } from "react-redux";
 import SplashScreen from "react-native-splash-screen";
 
 // custom imports
-import { Images, vh, vw, Strings, Colors, ScreenName } from "../../../utils";
+import {
+  Images,
+  vh,
+  vw,
+  Strings,
+  Colors,
+  ScreenName,
+  Constants,
+} from "../../../utils";
 import { CustomButton, Customcartoon } from "../../../Components";
 import TestimonialList from "./TestimonialList";
 import { updateScrollRef, fetchTestimonials } from "./action";
@@ -42,9 +50,13 @@ export default function App(props: AppProps) {
   const [scroll, setScroll] = useState(true);
   const [counter, setCounter] = useState(true);
   const [data, setData] = useState([]);
+  const { loginToken } = useSelector((state: { Login: any }) => ({
+    loginToken: state.Login.loginToken,
+  }));
 
   useEffect(() => {
     SplashScreen.hide();
+    Constants.setAuthorizationToken(loginToken.length === 0 ? false : true);
     fetchTest();
     autoScroll();
     BackHandler.addEventListener("hardwareBackPress", () => {

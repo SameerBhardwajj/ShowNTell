@@ -1,34 +1,26 @@
 import Config from "react-native-config";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-
-let token: string;
-export function App() {
-  const { loginToken } = useSelector((state: { Login: any }) => ({
-    loginToken: state.Login.loginToken,
-  }));
-  token = loginToken;
-  return <></>;
-}
 
 const $http = axios.create({
   baseURL: Config.BASE_URL,
   timeout: 30000,
   headers: {
-    Authorization:
-      // token === ""
-      //   ? "Basic Y29yZTpjb3Jl"
-      //   : 
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInRpbWVTdGFtcCI6MTU4OTk1ODQ5NTg3MiwidHlwZSI6IlBBUkVOVCIsImlhdCI6MTU4OTk1ODQ5NSwiZXhwIjoxNTkwMjE3Njk1fQ.RNMzOIP0LmqGO4C9uk-crtg4lmqwjo7vFcNQmtlH-OI",
     "Content-Type": "application/json",
   },
 });
+
+const setAuthorizationToken = (token: boolean) => {
+  $http.defaults.headers.common.Authorization = token
+    ? "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInRpbWVTdGFtcCI6MTU4OTk1ODQ5NTg3MiwidHlwZSI6IlBBUkVOVCIsImlhdCI6MTU4OTk1ODQ5NSwiZXhwIjoxNTkwMjE3Njk1fQ.RNMzOIP0LmqGO4C9uk-crtg4lmqwjo7vFcNQmtlH-OI"
+    : "Basic Y29yZTpjb3Jl";
+};
 
 export default {
   successStatus: 200,
   unAuthorizedStatus: 401,
   notAuthorizedForInfo: 400,
   axiosInstance: $http,
+  setAuthorizationToken,
   status_code: {
     success: 200,
     successAction: 201,

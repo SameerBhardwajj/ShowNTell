@@ -33,11 +33,11 @@ export const HomeAPI = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.auth.HomeData(child_id, page),
+      EndPoints.home.HomeData(child_id, page),
       {},
       (success: any) => {
         if (success.data.code === 200) {
-          console.warn("mysuccess ", success.data.response);
+          console.log("mysuccess ", success.data.response);
           dispatch({
             type: Action.HOME_DATA,
             payload: {
