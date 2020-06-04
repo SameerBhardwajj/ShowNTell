@@ -1,10 +1,5 @@
 import { CustomToast } from "../../../Components";
 import { Action, API, EndPoints } from "../../../utils";
-export const updateScrollRef = (value: any) => {
-  return (dispatch: any) => {
-    dispatch({ type: Action.UPDATE_SCROLLREF, payload: { data: value } });
-  };
-};
 
 export const fetchTestimonials = (
   successCallback: Function,

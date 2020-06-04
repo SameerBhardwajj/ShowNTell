@@ -85,6 +85,7 @@ const Images = {
   penny_waving_character_description: require("../Assets/Images/penny_waving_character_description.png"),
   character_Description: require("../Assets/Images/character_Description.png"),
   Image_Placeholder: require("../Assets/Images/Image_Placeholder.png"),
+  Profile_Placeholder: require("../Assets/Images/Profile_Placeholder.png"),
 };
 
 export default Images;

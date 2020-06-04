@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
-import CountryPicker from "react-native-country-picker-modal";
+// import CountryPicker from "react-native-country-picker-modal";
 import { Strings, Colors, vw, vh } from "../utils";
 
 export interface AppProps {
@@ -14,17 +14,17 @@ export interface AppProps {
 }
 
 const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
-  const [countryCode, setCountryCode] = useState("US");
-  const [country, setCountry] = useState(null);
-  const withFilter = true;
-  const withCallingCode = true;
-  const withCallingCodeButton = true;
-  const withFlagButton = false;
-  const onSelect = (country: any) => {
-    setCountryCode(country.cca2);
-    props.onSelect(country.cca2);
-    setCountry(country);
-  };
+  // const [countryCode, setCountryCode] = useState("US");
+  // const [country, setCountry] = useState(null);
+  // const withFilter = true;
+  // const withCallingCode = true;
+  // const withCallingCodeButton = true;
+  // const withFlagButton = false;
+  // const onSelect = (country: any) => {
+  //   setCountryCode(country.cca2);
+  //   props.onSelect(country.cca2);
+  //   setCountry(country);
+  // };
   return (
     <View style={props.mainViewStyle}>
       <View style={Styles.textView}>
@@ -46,7 +46,7 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
           { borderColor: props.check ? Colors.borderGrey : Colors.pink },
         ]}
       >
-        <CountryPicker
+        {/* <CountryPicker
           {...{
             countryCode,
             withFilter,
@@ -56,7 +56,8 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
             onSelect,
           }}
           visible={false}
-        />
+        /> */}
+        <Text style={Styles.codeText}>+1</Text>
         <TextInput
           ref={ref}
           style={[
@@ -99,11 +100,16 @@ const Styles = StyleSheet.create({
     borderColor: Colors.borderGrey,
     paddingHorizontal: vw(20),
   },
+  codeText: {
+    fontSize: vh(16),
+    fontFamily: "Nunito-SemiBold",
+  },
   inputTxt: {
     height: vh(48),
     fontSize: vh(16),
     fontFamily: "Nunito-SemiBold",
     width: "93%",
+    paddingLeft: vw(5),
   },
   incorrectText: {
     fontFamily: "Nunito-Medium",

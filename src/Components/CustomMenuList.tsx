@@ -1,8 +1,7 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { Dropdown } from "react-native-material-dropdown";
-import { Strings, Colors, vw, vh, Images, API, EndPoints } from "../utils";
-import CustomToast from "./CustomToast";
+import { Strings, Colors, vw, vh, Images } from "../utils";
 
 export interface AppProps {
   titleText: string;
@@ -15,31 +14,6 @@ export interface AppProps {
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
-  // React.useEffect(() => {
-  //   API.getApiCall(
-  //     EndPoints.auth.centerList,
-  //     undefined,
-  //     (success: any) => {
-  //       let temp = success.data.response;
-  //       temp = temp.map((item: any) => {
-  //         return {
-  //           id: item.id,
-  //           value: item.name,
-  //           address1: item.address1,
-  //           phone: item.phone,
-  //           email: item.email,
-  //           center_image: item.center_image,
-  //           center_lat: item.center_lat,
-  //           center_long: item.center_long,
-  //           Centertype: item.Centertype,
-  //         };
-  //       });
-  //       setList(list.concat(temp));
-  //     },
-  //     (error: any) => CustomToast(error)
-  //   );
-  // }, []);
-
   return (
     <View style={[Styles.mainView, props.viewStyle]}>
       <View style={Styles.textView}>
@@ -55,40 +29,58 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           <Text style={Styles.incorrectText}>{Strings.SchoolName_error}</Text>
         )}
       </View>
-      <Dropdown
-        rippleOpacity={0}
-        rippleDuration={0}
-        renderBase={() => {
-          return (
-            <View style={Styles.inputTxtView}>
-              <Text
-                style={[
-                  Styles.centreTxt,
-                  {
-                    color:
-                      props.currentText === Strings.Select_School
-                        ? Colors.placeholderGrey
-                        : "black",
-                  },
-                ]}
-              >
-                {props.currentText}
-              </Text>
-              <Image source={Images.Dropdown_icon} />
-            </View>
-          );
-        }}
-        pickerStyle={[
-          { width: "85%", marginHorizontal: vw(22) },
-          props.dropDownView,
-        ]}
-        useNativeDriver={true}
-        containerStyle={{ width: "100%" }}
-        fontSize={vh(16)}
-        data={props.data}
-        itemCount={5}
-        onChangeText={(value, i, data) => props.onChangeText(value, i, data)}
-      />
+      {props.data.length > 1 ? (
+        <Dropdown
+          rippleOpacity={0}
+          rippleDuration={0}
+          renderBase={() => {
+            return (
+              <View style={Styles.inputTxtView}>
+                <Text
+                  style={[
+                    Styles.centreTxt,
+                    {
+                      color:
+                        props.currentText === Strings.Select_School
+                          ? Colors.placeholderGrey
+                          : "black",
+                    },
+                  ]}
+                >
+                  {props.currentText}
+                </Text>
+                <Image source={Images.Dropdown_icon} />
+              </View>
+            );
+          }}
+          pickerStyle={[
+            { width: "85%", marginHorizontal: vw(22) },
+            props.dropDownView,
+          ]}
+          useNativeDriver={true}
+          containerStyle={{ width: "100%" }}
+          fontSize={vh(16)}
+          data={props.data}
+          itemCount={5}
+          onChangeText={(value, i, data) => props.onChangeText(value, i, data)}
+        />
+      ) : (
+        <View style={Styles.inputTxtView}>
+          <Text
+            style={[
+              Styles.centreTxt,
+              {
+                color:
+                  props.currentText === Strings.Select_School
+                    ? Colors.placeholderGrey
+                    : "black",
+              },
+            ]}
+          >
+            {props.currentText}
+          </Text>
+        </View>
+      )}
     </View>
   );
 });

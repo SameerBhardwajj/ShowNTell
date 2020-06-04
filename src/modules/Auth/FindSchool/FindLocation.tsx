@@ -7,6 +7,7 @@ import {
   Linking,
   ActivityIndicator,
   Alert,
+  BackHandler,
 } from "react-native";
 
 // custom imports
@@ -26,13 +27,21 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const [isLoading, setIsLoading] = useState(false);
+
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
+  }, []);
+
   const requestLocationPermission = () => {
     setIsLoading(true);
     CommonFunctions.requestLocationPermission(
       (position: object) => {
         setIsLoading(false);
         props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
-          coordinates: { lat: 41.063412, lng: -74.133544 },
+          coordinates: position,
         });
       },
       (error: any) => {

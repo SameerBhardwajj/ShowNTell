@@ -73,14 +73,6 @@ export default function App(props: AppProps) {
         title={Strings.Enter_Password_Reset_Code}
         onPressBack={() => props.navigation.pop()}
       />
-      {isLoading ? (
-        <ActivityIndicator
-          color={Colors.violet}
-          animating={isLoading}
-          size="large"
-          style={Styles.indicator}
-        />
-      ) : null}
       <View style={Styles.innerView}>
         <Text style={Styles.welcome}>{Strings.Welcome}</Text>
         <Text style={Styles.name}>{name}</Text>
@@ -90,6 +82,14 @@ export default function App(props: AppProps) {
         </Text>
         {/* Access code box ------------------ */}
         <View style={Styles.codeView}>
+          {isLoading ? (
+            <ActivityIndicator
+              color={Colors.violet}
+              animating={isLoading}
+              size="large"
+              style={Styles.indicator}
+            />
+          ) : null}
           <CustomCodeBox
             ref={inputRef1}
             value={input1}

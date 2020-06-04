@@ -9,6 +9,7 @@ import {
   Linking,
   ActivityIndicator,
   Alert,
+  BackHandler,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -50,6 +51,13 @@ export default function App(props: AppProps) {
       recentList: state.NearbySchool.recentList,
     })
   );
+
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
+  }, []);
 
   const hitSearchAPI = () => {
     dispatch(

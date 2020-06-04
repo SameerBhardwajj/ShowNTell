@@ -27,8 +27,12 @@ export default function App(props: AppProps) {
   const { id, name, date } = props.route.params;
 
   const setDisabled = (time: number) => {
+    console.warn(CommonFunctions.DateDifference(new Date(), date));
+
     let disable = false;
-    CommonFunctions.DateDifference(new Date(), date) > 0
+    new Date() > date
+      ? CommonFunctions.DateDifference(new Date(), date) !== 0
+      : CommonFunctions.DateDifference(date, new Date()) !== 0
       ? null
       : currentTime >= time
       ? (disable = true)

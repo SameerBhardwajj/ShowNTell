@@ -14,10 +14,18 @@ import { useDispatch, useSelector } from "react-redux";
 import SplashScreen from "react-native-splash-screen";
 
 // custom imports
-import { Images, vh, vw, Strings, Colors, ScreenName } from "../../../utils";
+import {
+  Images,
+  vh,
+  vw,
+  Strings,
+  Colors,
+  ScreenName,
+  Constants,
+} from "../../../utils";
 import { CustomButton, Customcartoon } from "../../../Components";
 import TestimonialList from "./TestimonialList";
-import { updateScrollRef, fetchTestimonials } from "./action";
+import { fetchTestimonials } from "./action";
 
 export function isNullUndefined(item: any) {
   try {
@@ -42,17 +50,29 @@ export default function App(props: AppProps) {
   const [scroll, setScroll] = useState(true);
   const [counter, setCounter] = useState(true);
   const [data, setData] = useState([]);
+  const [exitCounter, setExitCounter] = useState(false);
+
+  const { loginToken } = useSelector((state: { Login: any }) => ({
+    loginToken: state.Login.loginToken,
+  }));
 
   useEffect(() => {
     SplashScreen.hide();
+    Constants.setAuthorizationToken(loginToken.length === 0 ? false : true);
     fetchTest();
     autoScroll();
     BackHandler.addEventListener("hardwareBackPress", () => {
-      ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
-      BackHandler.exitApp();
+      exitCounter
+        ? (ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT),
+          BackHandler.exitApp())
+        : (ToastAndroid.show("Press again to Exit", ToastAndroid.SHORT),
+          setExitCounter(true),
+          setTimeout(() => {
+            setExitCounter(false);
+          }, 2000));
       return true;
     });
-  }, [currentIndex]);
+  }, [currentIndex, exitCounter, data.length]);
 
   const fetchTest = () => {
     counter
@@ -81,8 +101,9 @@ export default function App(props: AppProps) {
 
   // Testimonial auto scroll -------------
   const autoScroll = () => {
-    data.length === 0 ? (setCounter(true), fetchTest()) : null;
-    scroll
+    data.length === 0
+      ? (setCounter(true), fetchTest())
+      : scroll
       ? setTimeout(() => {
           if (flatListRef.current) {
             if (currentIndex < data.length - 1) {

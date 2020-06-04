@@ -8,17 +8,19 @@ import {
   FlatList,
 } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
+import { useSelector } from "react-redux";
 import { vh, Colors, Images, vw, Strings, ScreenName } from "../utils";
 import DrawerFlatlist from "./DrawerFlatlist";
-
-const EMAIL = "Bob_Parish@gmail.com";
-const img =
-  "https://media.istockphoto.com/photos/portrait-of-smiling-handsome-man-in-blue-tshirt-standing-with-crossed-picture-id1045886560?k=6&m=1045886560&s=612x612&w=0&h=hXrxai1QKrfdqWdORI4TZ-M0ceCVakt4o6532vHaS3I=";
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  const { loginData, loginEmail } = useSelector((state: { Login: any }) => ({
+    loginData: state.Login.loginData,
+    loginEmail: state.Login.loginEmail,
+  }));
+
   const rendetItems = (rowData: any) => {
     const { item, index } = rowData;
     return (
@@ -51,10 +53,24 @@ export default function App(props: AppProps) {
             props.navigation.navigate(ScreenName.PROFILE);
           }}
         >
-          <Image source={{ uri: img }} style={Styles.img} />
+          <View style={Styles.img}>
+            <Image
+              source={
+                loginData.s3_photo_path === null
+                  ? Images.Profile_Placeholder
+                  : { uri: loginData.s3_photo_path }
+              }
+            />
+          </View>
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>
-            <Text style={Styles.name}>{Strings.Bob_Parish}</Text>
-            <Text style={Styles.email}>{EMAIL}</Text>
+            <Text style={Styles.name}>
+              {`${loginData.first_name} ${
+                loginData.middle_name === null
+                  ? ""
+                  : `${loginData.middle_name}${" "}`
+              }${loginData.last_name}`}
+            </Text>
+            <Text style={Styles.email}>{loginEmail}</Text>
           </View>
         </TouchableOpacity>
         <FlatList
@@ -87,9 +103,12 @@ const Styles = StyleSheet.create({
     alignItems: "center",
   },
   img: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: vh(32),
+    backgroundColor: "white",
     height: vh(64),
     width: vh(64),
-    borderRadius: vh(32),
   },
   name: {
     fontFamily: "Nunito-Bold",

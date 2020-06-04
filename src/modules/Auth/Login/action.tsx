@@ -76,6 +76,7 @@ export const loginAPI = (
             payload: {
               loginData: res,
               loginToken: res.jwttoken,
+              loginEmail: email,
             },
           });
         } else {

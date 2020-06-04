@@ -9,20 +9,15 @@ import {
   ScrollView,
   FlatList,
   StatusBar,
+  BackHandler,
+  ToastAndroid,
 } from "react-native";
+import SplashScreen from "react-native-splash-screen";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { updateTab } from "./action";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  vh,
-  Colors,
-  Images,
-  vw,
-  Strings,
-  ScreenName,
-  ConstantName,
-} from "../../utils";
+import { vh, Colors, Images, vw, Strings, Constants } from "../../utils";
 import { CustomSearchBar, CustomToast } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
 
@@ -37,12 +32,32 @@ const DRAWER_CLOSE = "drawerClose";
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
+  const [exitCounter, setExitCounter] = useState(false);
 
-  const { tab } = useSelector((state: { Home: any }) => ({
-    tab: state.Home.tab,
-  }));
+  const { tab, data, currentChild, loginToken, loginData } = useSelector(
+    (state: { Home: any; Login: any }) => ({
+      tab: state.Home.tab,
+      data: state.Home.data,
+      currentChild: state.Home.currentChild,
+      loginToken: state.Login.loginToken,
+      loginData: state.Login.loginData,
+    })
+  );
 
   React.useEffect(() => {
+    SplashScreen.hide();
+    Constants.setAuthorizationToken(loginToken.length === 0 ? false : true);
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      exitCounter
+        ? (ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT),
+          BackHandler.exitApp())
+        : (ToastAndroid.show("Press again to Exit", ToastAndroid.SHORT),
+          setExitCounter(true),
+          setTimeout(() => {
+            setExitCounter(false);
+          }, 2000));
+      return true;
+    });
     const unsubscribe =
       (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
         dispatch(
@@ -60,7 +75,7 @@ export default function App(props: AppProps) {
       }));
 
     return unsubscribe;
-  }, []);
+  }, [exitCounter]);
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
