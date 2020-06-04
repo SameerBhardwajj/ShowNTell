@@ -22,6 +22,8 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 project.pbxproj
+Podfile.lock
+Manifest.lock
 
 # Android/IntelliJ
 #
