@@ -76,6 +76,7 @@ export const recentSearch = (item: any, callback: Function) => {
       type: Action.RECENT_SEARCH,
       payload: {
         recentList: filteredList,
+        searchList: [],
       },
     });
     callback(filteredList);

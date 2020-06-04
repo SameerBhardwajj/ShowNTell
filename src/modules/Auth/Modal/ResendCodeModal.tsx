@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, BackHandler } from "react-native";
 
 // custom imports
 import { Images, vw, Strings, vh, Colors } from "../../../utils";
@@ -12,6 +12,12 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const { params } = props.route;
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
+  }, []);
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>

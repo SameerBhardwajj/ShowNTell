@@ -81,16 +81,16 @@ export default function App(props: AppProps) {
           {Strings.please_enter_code}
           {email}
         </Text>
-        {isLoading ? (
-          <ActivityIndicator
-            color={Colors.violet}
-            animating={isLoading}
-            size="large"
-            style={Styles.indicator}
-          />
-        ) : null}
         {/* Access code box ------------------ */}
         <View style={Styles.codeView}>
+          {isLoading ? (
+            <ActivityIndicator
+              color={Colors.violet}
+              animating={isLoading}
+              size="large"
+              style={Styles.indicator}
+            />
+          ) : null}
           <CustomCodeBox
             ref={inputRef1}
             value={input1}
@@ -224,7 +224,7 @@ const Styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    marginTop: vw(30),
+    marginTop: vw(10),
   },
   didntReceive: {
     fontFamily: "Nunito-Regular",

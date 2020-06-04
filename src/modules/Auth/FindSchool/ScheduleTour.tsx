@@ -86,7 +86,7 @@ export default function App(props: AppProps) {
 
   const navigating = () => {
     props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-      path: ScreenName.SCHOOL_LISTING,
+      path: ScreenName.LANDING_PAGE,
       msg: Strings.tour_success,
     });
   };
@@ -121,7 +121,6 @@ export default function App(props: AppProps) {
               }}
               check={checkpname}
               incorrectText={Strings.Name_error}
-              // mainViewStyle={{backgroundColor: 'red'}}
             />
             {/* Parent's phone no.----------- */}
             <CustomPhoneField

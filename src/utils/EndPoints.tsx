@@ -17,6 +17,7 @@ export default {
     verifyCode: "/api/v1/parent/verify-access-code",
     createPassword: "/api/v1/parent/create-password",
     forgotPassword: "/api/v1/parent/forgot-password",
+    verifyPincode: "/api/v1/parent/verify-pincode",
     resetPassword: "/api/v1/parent/reset-password",
     needHelp: "/api/v1/parent/need-help",
     testimonials:

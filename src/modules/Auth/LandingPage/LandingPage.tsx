@@ -25,7 +25,7 @@ import {
 } from "../../../utils";
 import { CustomButton, Customcartoon } from "../../../Components";
 import TestimonialList from "./TestimonialList";
-import { updateScrollRef, fetchTestimonials } from "./action";
+import { fetchTestimonials } from "./action";
 
 export function isNullUndefined(item: any) {
   try {
@@ -50,6 +50,8 @@ export default function App(props: AppProps) {
   const [scroll, setScroll] = useState(true);
   const [counter, setCounter] = useState(true);
   const [data, setData] = useState([]);
+  const [exitCounter, setExitCounter] = useState(false);
+
   const { loginToken } = useSelector((state: { Login: any }) => ({
     loginToken: state.Login.loginToken,
   }));
@@ -60,23 +62,29 @@ export default function App(props: AppProps) {
     fetchTest();
     autoScroll();
     BackHandler.addEventListener("hardwareBackPress", () => {
-      ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
-      BackHandler.exitApp();
+      exitCounter
+        ? (ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT),
+          BackHandler.exitApp())
+        : (ToastAndroid.show("Press again to Exit", ToastAndroid.SHORT),
+          setExitCounter(true),
+          setTimeout(() => {
+            setExitCounter(false);
+          }, 2000));
       return true;
     });
-  }, [currentIndex]);
+  }, [currentIndex, exitCounter, data.length]);
 
   const fetchTest = () => {
     counter
       ? dispatch(
-          fetchTestimonials(
-            (success: any) => {
-              setCounter(false);
-              setData(success);
-            },
-            () => {}
-          )
+        fetchTestimonials(
+          (success: any) => {
+            setCounter(false);
+            setData(success);
+          },
+          () => { }
         )
+      )
       : null;
   };
 
@@ -93,9 +101,10 @@ export default function App(props: AppProps) {
 
   // Testimonial auto scroll -------------
   const autoScroll = () => {
-    data.length === 0 ? (setCounter(true), fetchTest()) : null;
-    scroll
-      ? setTimeout(() => {
+    data.length === 0
+      ? (setCounter(true), fetchTest())
+      : scroll
+        ? setTimeout(() => {
           if (flatListRef.current) {
             if (currentIndex < data.length - 1) {
               setCurrentIndex(currentIndex + 1);
@@ -112,7 +121,7 @@ export default function App(props: AppProps) {
             }
           }
         }, 5000)
-      : null;
+        : null;
   };
 
   return (
@@ -133,7 +142,7 @@ export default function App(props: AppProps) {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           bounces={false}
-          onScrollToIndexFailed={(data) => {}}
+          onScrollToIndexFailed={(data) => { }}
           renderItem={renderItems}
         />
         {/* Login Custom Button ----------- */}

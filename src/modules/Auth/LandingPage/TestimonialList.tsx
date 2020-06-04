@@ -10,6 +10,7 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const { text, name } = props.item;
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -26,7 +27,7 @@ export default function App(props: AppProps) {
       <View style={Styles.testimonialTxtView}>
         <Text numberOfLines={5} style={Styles.testimonialtext}>
           {`"`}
-          {text}
+          {text.replace(/(<([^>]+)>)/gi, " ")}
           {`"`}
         </Text>
         <Text style={Styles.testimonialAuthor}>

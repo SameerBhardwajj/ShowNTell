@@ -82,7 +82,7 @@ export const fpverifyCode = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.postApiCall(
-      EndPoints.auth.verifyCode,
+      EndPoints.auth.verifyPincode,
       {
         access_code: code,
         guardian_id: id,
@@ -99,11 +99,13 @@ export const fpverifyCode = (
           });
           successCallback(success.data.response);
         } else {
+          debugger
           CustomToast(success.data.message);
           failCallback();
         }
       },
       (error: any) => {
+        debugger
         CustomToast(error.data.message);
         failCallback();
       }

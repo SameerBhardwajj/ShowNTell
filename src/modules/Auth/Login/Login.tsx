@@ -9,6 +9,7 @@ import {
   Dimensions,
   ActivityIndicator,
   Keyboard,
+  BackHandler,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch } from "react-redux";
@@ -54,7 +55,7 @@ export default function App(props: AppProps) {
     setCheckEmail(true);
     setEmail("");
     setList([]);
-    setSchool(SELECT_SCHOOL)
+    setSchool(SELECT_SCHOOL);
     Keyboard.dismiss();
   };
 
@@ -71,6 +72,13 @@ export default function App(props: AppProps) {
         : setCheckCenter(false)
       : setCheckEmail(false);
   };
+
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
+  }, [BackHandler]);
 
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
@@ -137,7 +145,9 @@ export default function App(props: AppProps) {
                               };
                             });
                             setList(temp);
-                            console.warn(data);
+                            setSchool(temp[0].value);
+                            setName(temp[0].parent.first_name);
+                            setCenter(temp[0].id);
                             setIsLoading(false);
                             temp.length === 0 ? setCheckEmail(false) : null;
                           },

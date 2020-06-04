@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   FlatList,
   Keyboard,
+  BackHandler,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
@@ -68,7 +69,11 @@ export default function App(props: AppProps) {
 
   React.useEffect(() => {
     schoolAPI();
-  }, []);
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop()
+      return true;
+    });
+  }, [BackHandler]);
 
   const schoolAPI = () => {
     API.getApiCall(
@@ -384,7 +389,7 @@ const Styles = StyleSheet.create({
     zIndex: 99,
     width: "100%",
     backgroundColor: "white",
-    height: vh(300),
+    height: vh(210),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

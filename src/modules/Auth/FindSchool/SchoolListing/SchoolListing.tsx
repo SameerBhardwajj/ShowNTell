@@ -9,6 +9,7 @@ import {
   Modal,
   TouchableOpacity,
   Image,
+  BackHandler,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-native-date-picker";
@@ -42,6 +43,10 @@ export default function App(props: AppProps) {
   useEffect(() => {
     getSlotDate();
     handleUrl();
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
   }, []);
 
   const getSlotDate = () => {

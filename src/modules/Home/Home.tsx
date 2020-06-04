@@ -49,6 +49,8 @@ export default function App(props: AppProps) {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [exitCounter, setExitCounter] = useState(false);
+
   const { tab, data, currentChild, loginToken, loginData } = useSelector(
     (state: { Home: any; Login: any }) => ({
       tab: state.Home.tab,
@@ -63,11 +65,6 @@ export default function App(props: AppProps) {
     SplashScreen.hide();
     Constants.setAuthorizationToken(loginToken.length === 0 ? false : true);
     hitHomeAPI(currentChild.child, 0);
-    BackHandler.addEventListener("hardwareBackPress", () => {
-      ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT);
-      BackHandler.exitApp();
-      return true;
-    });
     // const unsubscribe =
     //   (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
     //     dispatch(
@@ -85,7 +82,18 @@ export default function App(props: AppProps) {
     //   }));
 
     // return unsubscribe;
-  }, [currentChild]);
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      exitCounter
+        ? (ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT),
+          BackHandler.exitApp())
+        : (ToastAndroid.show("Press again to Exit", ToastAndroid.SHORT),
+          setExitCounter(true),
+          setTimeout(() => {
+            setExitCounter(false);
+          }, 2000));
+      return true;
+    });
+  }, [exitCounter, currentChild]);
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -154,7 +162,7 @@ export default function App(props: AppProps) {
               onPressCancel={() => setQuery("")}
               mainViewStyle={{ backgroundColor: "white", width: "87%" }}
               inputTextStyle={{ width: "64%" }}
-              onSubmitEditing={() => {}}
+              onSubmitEditing={() => { }}
             />
             <TouchableOpacity
               activeOpacity={0.8}
@@ -191,15 +199,15 @@ export default function App(props: AppProps) {
             </View>
             <View style={{ height: 200 }} />
             <View style={Styles.bottomView}>
-              
+
               <CustomButton
                 lightBtn={true}
-                onPress={() => {}}
+                onPress={() => { }}
                 Text={Strings.Reset}
                 ButtonStyle={Styles.applyBtn}
               />
               <CustomButton
-                onPress={() => {}}
+                onPress={() => { }}
                 Text={Strings.Apply}
                 ButtonStyle={Styles.applyBtn}
               />

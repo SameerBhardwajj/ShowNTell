@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, BackHandler } from "react-native";
 import { useDispatch } from "react-redux";
 
 // custom imports
@@ -13,6 +13,12 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
+  },[])
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>

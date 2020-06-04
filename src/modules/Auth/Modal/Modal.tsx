@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity, BackHandler } from "react-native";
 
 // custom imports
 import { Images, vw, Strings, vh, Colors } from "../../../utils";
@@ -12,6 +12,13 @@ export interface AppProps {
 export default function App(props: AppProps) {
   let value = props.route.params.type;
   let data: any;
+
+  React.useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
+  },[])
 
   switch (value) {
     case 1:
