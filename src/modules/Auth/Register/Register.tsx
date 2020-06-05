@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
   Keyboard,
   Dimensions,
-  ActivityIndicator,
   BackHandler,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -30,6 +29,7 @@ import {
   Customcartoon,
   CustomInputText,
   CustomMenuList,
+  CustomLoader,
 } from "../../../Components";
 import { register, fetchSchoolList } from "./action";
 
@@ -71,14 +71,7 @@ export default function App(props: AppProps) {
           <Image source={Images.back_icon} />
         </TouchableOpacity>
         <Customcartoon navigation={props.navigation} small={true} />
-        {isLoading ? (
-          <ActivityIndicator
-            color={Colors.violet}
-            animating={isLoading}
-            size="large"
-            style={Styles.indicator}
-          />
-        ) : null}
+        <CustomLoader loading={isLoading} />
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
             <Text style={Styles.loginText}>{Strings.register}</Text>
@@ -241,13 +234,5 @@ const Styles = StyleSheet.create({
     fontSize: vh(16),
     padding: vw(15),
     paddingTop: vh(10),
-  },
-  indicator: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
   },
 });

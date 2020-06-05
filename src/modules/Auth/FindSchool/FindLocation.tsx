@@ -5,13 +5,12 @@ import {
   StyleSheet,
   Image,
   Linking,
-  ActivityIndicator,
   Alert,
   BackHandler,
 } from "react-native";
 
 // custom imports
-import { CustomHeader, CustomButton, CustomToast } from "../../../Components";
+import { CustomHeader, CustomButton, CustomToast, CustomLoader } from "../../../Components";
 import {
   Strings,
   Images,
@@ -49,7 +48,7 @@ export default function App(props: AppProps) {
         error.code === 2
           ? CustomToast(Strings.Please_On_GPS)
           : error.code === 1
-          ? Alert.alert(
+            ? Alert.alert(
               Strings.Permission_denied,
               "",
               [
@@ -62,7 +61,7 @@ export default function App(props: AppProps) {
               ],
               { cancelable: true }
             )
-          : CustomToast(error.message);
+            : CustomToast(error.message);
       },
       () => {
         setIsLoading(false);
@@ -77,14 +76,7 @@ export default function App(props: AppProps) {
         title={Strings.Nearby_School}
         onPressBack={() => props.navigation.pop()}
       />
-      {isLoading ? (
-        <ActivityIndicator
-          color={Colors.violet}
-          animating={isLoading}
-          size="large"
-          style={Styles.indicator}
-        />
-      ) : null}
+      <CustomLoader loading={isLoading} />
       <Image source={Images.Location_Graphic} style={Styles.img} />
       <Text style={Styles.mainHeading}>{Strings.Allow_Location_Access}</Text>
       <Text style={Styles.titleHeading}>{Strings.to_locate_schools}</Text>
@@ -125,13 +117,5 @@ const Styles = StyleSheet.create({
     textAlign: "center",
     marginTop: vh(10),
     marginBottom: vh(28),
-  },
-  indicator: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
   },
 });

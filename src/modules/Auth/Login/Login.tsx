@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
-  ActivityIndicator,
   Keyboard,
   BackHandler,
 } from "react-native";
@@ -30,6 +29,7 @@ import {
   Customcartoon,
   CustomInputText,
   CustomMenuList,
+  CustomLoader
 } from "../../../Components";
 import { fetchSchoolList } from "./action";
 
@@ -87,14 +87,7 @@ export default function App(props: AppProps) {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={Styles.mainView}
       >
-        {isLoading ? (
-          <ActivityIndicator
-            color={Colors.violet}
-            animating={isLoading}
-            size="large"
-            style={Styles.indicator}
-          />
-        ) : null}
+        <CustomLoader loading={isLoading} />
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.backBtn}
@@ -230,14 +223,6 @@ const Styles = StyleSheet.create({
     top: iPhoneX ? vh(30) : vh(20),
     alignSelf: "flex-start",
     position: "absolute",
-  },
-  indicator: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
   },
   loginView: {
     backgroundColor: "white",

@@ -15,27 +15,41 @@ import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-native-date-picker";
 
 // custom imports
-import { CustomHeader, CustomButton } from "../../../../Components";
-import { Strings, vh, Colors, ScreenName, Images, vw } from "../../../../utils";
+import {
+  CustomHeader,
+  CustomButton,
+  CustomSearchBar,
+} from "../../../../Components";
+import {
+  Strings,
+  vh,
+  Colors,
+  ScreenName,
+  Images,
+  CommonFunctions,
+} from "../../../../utils";
 import ListFlatlist from "./ListFlatlist";
 import { fetchSchoolList } from "./action";
+import ResultFlatlist from "./ResultFlatlist";
+
 let slotDate = new Date();
 export interface AppProps {
   navigation?: any;
   route?: any;
 }
-
+// let temp: any[] = [];
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setisRefreshing] = useState(false);
-  const [pageNum, setpageNum] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   const [id, setId] = useState(0);
   const [name, setName] = useState("");
-
+  const [query, setQuery] = useState("");
+  const [temp, setTemp] = useState([]);
+  const [result, setResult] = useState([]);
   const { schoolList } = useSelector((state: { SchoolListing: any }) => ({
     schoolList: state.SchoolListing.schoolList,
   }));
@@ -48,6 +62,20 @@ export default function App(props: AppProps) {
       return true;
     });
   }, []);
+
+  const search = (query: string) => {
+    let tempDAta: any = temp;
+    console.warn("here ", temp);
+    console.warn("data here ", data);
+
+    tempDAta.sort((a: any, b: any) =>
+      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+    );
+    console.warn("temp ", tempDAta[0].name);
+
+    let res: any = CommonFunctions.binarySearch(query, temp);
+    setResult(res);
+  };
 
   const getSlotDate = () => {
     if (new Date().getHours() >= 18) {
@@ -62,17 +90,16 @@ export default function App(props: AppProps) {
   const handleUrl = () => {
     setIsLoading(true);
     dispatch(
-      fetchSchoolList(props.route.params.coordinates, pageNum, (data: any) => {
+      fetchSchoolList(props.route.params.coordinates, 1, (data: any) => {
         setData(data.concat(schoolList));
+        setTemp(temp.concat(schoolList));
         setIsLoading(false);
-        setpageNum(pageNum + 1);
         setisRefreshing(false);
       })
     );
   };
 
   const handleRefresh = () => {
-    setpageNum(1);
     setData([]);
     setisRefreshing(true);
     handleUrl();
@@ -88,6 +115,22 @@ export default function App(props: AppProps) {
           setId(item.id);
           setName(item.name);
           setModalOpen(true);
+        }}
+      />
+    );
+  };
+
+  const renderItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <ResultFlatlist
+        item={item}
+        index={index}
+        onPress={() => {
+          let emptyArr: never[] = [];
+          emptyArr.concat(item);
+          setData(emptyArr);
+          setQuery("");
         }}
       />
     );
@@ -120,61 +163,102 @@ export default function App(props: AppProps) {
           </View>
         ) : (
           <View style={Styles.innerView}>
-            <Text style={Styles.headingText}>{Strings.Choose_a_Center}</Text>
-            <View style={Styles.mainInnerView}>
-              <FlatList
-                showsVerticalScrollIndicator={false}
-                data={data}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderItemResult}
-                refreshing={isRefreshing}
-                onRefresh={handleRefresh}
-                onEndReached={handleUrl}
-                onEndReachedThreshold={0.5}
-                ListFooterComponent={
-                  <ActivityIndicator
-                    size="large"
-                    color={Colors.violet}
-                    animating={pageNum !== 1 && isLoading}
-                  />
-                }
-              />
-            </View>
-            <Modal animationType="slide" transparent={true} visible={modalOpen}>
-              <View style={Styles.mainModalView}>
-                <View />
-                <View style={Styles.modalView}>
-                  <Text style={Styles.modalHeading}>{Strings.Select_Date}</Text>
-                  <TouchableOpacity
-                    activeOpacity={1}
-                    style={Styles.topModalView}
-                    onPress={() => setModalOpen(false)}
-                  >
-                    <Image source={Images.Cancel_Icon} />
-                  </TouchableOpacity>
-                  <DatePicker
-                    minimumDate={slotDate}
-                    date={date}
-                    mode="date"
-                    onDateChange={(text: Date) => {
-                      setDate(text);
-                    }}
-                  />
-                  <CustomButton
-                    Text={Strings.View_Slots}
-                    onPress={() => {
-                      setModalOpen(false);
-                      setDate(new Date());
-                      props.navigation.navigate(ScreenName.DATE_TIME_SCHEDULE, {
-                        id: id,
-                        name: name,
-                        date: date,
-                      });
-                    }}
+            {/* <CustomSearchBar
+              placeholder={Strings.Search}
+              value={query}
+              onChangeText={(text: string) => {
+                setQuery(text), search(text);
+              }}
+              onPressCancel={() => setQuery("")}
+              onSubmitEditing={() => {}}
+            /> */}
+            {query.length !== 0 ? (
+              !(result && result.length) ? null : (
+                <FlatList
+                  style={{
+                    position: "absolute",
+                    width: "100%",
+                    zIndex: 99,
+                    top: vh(80),
+                  }}
+                  keyboardShouldPersistTaps="handled"
+                  showsVerticalScrollIndicator={false}
+                  bounces={false}
+                  data={result}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderItems}
+                />
+              )
+            ) : (
+              <View style={{ width: "100%" }}>
+                <Text style={Styles.headingText}>
+                  {Strings.Choose_a_Center}
+                </Text>
+                <View style={Styles.mainInnerView}>
+                  <FlatList
+                    showsVerticalScrollIndicator={false}
+                    data={data}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={renderItemResult}
+                    refreshing={isRefreshing}
+                    onRefresh={handleRefresh}
+                    onEndReached={handleUrl}
+                    onEndReachedThreshold={0.5}
+                    ListFooterComponent={
+                      <ActivityIndicator
+                        size="large"
+                        color={Colors.violet}
+                        animating={isLoading}
+                      />
+                    }
                   />
                 </View>
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalOpen}
+                >
+                  <View style={Styles.mainModalView}>
+                    <View />
+                    <View style={Styles.modalView}>
+                      <Text style={Styles.modalHeading}>
+                        {Strings.Select_Date}
+                      </Text>
+                      <TouchableOpacity
+                        activeOpacity={1}
+                        style={Styles.topModalView}
+                        onPress={() => setModalOpen(false)}
+                      >
+                        <Image source={Images.Cancel_Icon} />
+                      </TouchableOpacity>
+                      <DatePicker
+                        minimumDate={slotDate}
+                        date={date}
+                        mode="date"
+                        onDateChange={(text: Date) => {
+                          setDate(text);
+                        }}
+                      />
+                      <CustomButton
+                        Text={Strings.View_Slots}
+                        onPress={() => {
+                          setModalOpen(false);
+                          setDate(new Date());
+                          props.navigation.navigate(
+                            ScreenName.DATE_TIME_SCHEDULE,
+                            {
+                              id: id,
+                              name: name,
+                              date: date,
+                            }
+                          );
+                        }}
+                      />
+                    </View>
+                  </View>
+                </Modal>
               </View>
-            </Modal>
+            )}
           </View>
         )}
       </View>
@@ -204,6 +288,7 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     alignSelf: "flex-start",
+    // paddingVertical: vh(16),
     paddingBottom: vh(16),
   },
   mainInnerView: {

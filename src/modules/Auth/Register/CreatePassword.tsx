@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Keyboard,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, StyleSheet, Keyboard } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -14,6 +8,7 @@ import {
   CustomHeader,
   CustomInputText,
   CustomButton,
+  CustomLoader,
 } from "../../../Components";
 import {
   Strings,
@@ -82,14 +77,7 @@ export default function App(props: AppProps) {
           title={Strings.Create_Password}
           onPressBack={() => props.navigation.pop(3)}
         />
-        {isLoading ? (
-          <ActivityIndicator
-            color={Colors.violet}
-            animating={isLoading}
-            size="large"
-            style={Styles.indicator}
-          />
-        ) : null}
+        <CustomLoader loading={isLoading} />
         <View style={Styles.innerView}>
           <Text style={Styles.welcome}>{Strings.hello}</Text>
           <Text style={Styles.name}>{name}</Text>
@@ -170,13 +158,5 @@ const Styles = StyleSheet.create({
   },
   codeView: {
     marginVertical: vh(32),
-  },
-  indicator: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
   },
 });

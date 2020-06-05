@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  Keyboard,
-} from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { View, Text, StyleSheet, Keyboard } from "react-native";
+import { useDispatch } from "react-redux";
 
 // custom imports
 import {
   CustomHeader,
   CustomInputText,
   CustomButton,
+  CustomLoader,
 } from "../../../Components";
 import {
   Strings,
@@ -61,14 +56,7 @@ export default function App(props: AppProps) {
         onPressBack={() => props.navigation.pop()}
       />
       <View style={Styles.innerView}>
-        {isLoading ? (
-          <ActivityIndicator
-            color={Colors.violet}
-            animating={isLoading}
-            size="large"
-            style={Styles.indicator}
-          />
-        ) : null}
+        <CustomLoader loading={isLoading} />
         <Text style={Styles.welcome}>{Strings.hello}</Text>
         {/* <Text style={Styles.name}>Mr. Bob Parish</Text> */}
         <Text style={Styles.please}>{Strings.enter_email_passowrd_link}</Text>
@@ -133,13 +121,5 @@ const Styles = StyleSheet.create({
   codeView: {
     alignItems: "center",
     marginVertical: vh(32),
-  },
-  indicator: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
   },
 });
