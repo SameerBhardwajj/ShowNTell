@@ -5,12 +5,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
-  ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { CustomHeader, CustomCodeBox, CustomButton } from "../../../Components";
+import {
+  CustomHeader,
+  CustomCodeBox,
+  CustomButton,
+  CustomLoader,
+} from "../../../Components";
 import { Strings, vw, vh, Colors, ScreenName } from "../../../utils";
 import { fpverifyCode } from "../ForgotPassword/action";
 
@@ -49,7 +53,7 @@ export default function App(props: AppProps) {
     dispatch(
       fpverifyCode(
         enteredCode,
-        id,
+        id.toString(),
         (data: any) => {
           setIsLoading(false);
           props.navigation.navigate(ScreenName.RESET_PASSWORD, {
@@ -82,14 +86,7 @@ export default function App(props: AppProps) {
         </Text>
         {/* Access code box ------------------ */}
         <View style={Styles.codeView}>
-          {isLoading ? (
-            <ActivityIndicator
-              color={Colors.violet}
-              animating={isLoading}
-              size="large"
-              style={Styles.indicator}
-            />
-          ) : null}
+          <CustomLoader loading={isLoading} />
           <CustomCodeBox
             ref={inputRef1}
             value={input1}
@@ -237,13 +234,5 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(14),
     color: Colors.violet,
-  },
-  indicator: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
   },
 });

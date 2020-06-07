@@ -5,15 +5,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
-  ActivityIndicator,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 // custom imports
 import {
   CustomHeader,
   CustomButton,
   CustomInputText,
+  CustomLoader,
 } from "../../../Components";
 import {
   Strings,
@@ -65,14 +65,7 @@ export default function App(props: AppProps) {
           <Text style={Styles.name}>{params.name}</Text>
         )}
         <Text style={Styles.please}>{Strings.Please_enter_password}</Text>
-        {isLoading ? (
-          <ActivityIndicator
-            color={Colors.violet}
-            animating={isLoading}
-            size="large"
-            style={Styles.indicator}
-          />
-        ) : null}
+        <CustomLoader loading={isLoading} />
         {/* Password ------------------ */}
         <CustomInputText
           check={checkPassword}
@@ -89,7 +82,7 @@ export default function App(props: AppProps) {
           onSubmitEditing={() => check()}
           incorrectText={Strings.Password_length}
           returnKeyType="done"
-          mainViewStyle={{marginTop: vh(16)}}
+          mainViewStyle={{ marginTop: vh(16) }}
         />
         <View style={{ alignItems: "center" }}>
           {/* Verify Button ----------------- */}
@@ -158,14 +151,6 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(14),
     color: Colors.violet,
-  },
-  indicator: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
   },
   forgotView: {
     paddingHorizontal: vw(15),

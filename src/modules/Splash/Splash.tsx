@@ -4,7 +4,7 @@ import SplashScreen from "react-native-splash-screen";
 import { useDispatch } from "react-redux";
 
 // custom imports
-import { Images, Colors, Constants } from "../../utils";
+import { Images, Colors } from "../../utils";
 import { updateSplash } from "./action";
 
 export interface AppProps {

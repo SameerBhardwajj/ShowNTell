@@ -76,7 +76,7 @@ export const fpresendCode = (
 
 export const fpverifyCode = (
   code: string,
-  id: number,
+  id: string,
   successCallback: Function,
   failCallback: Function
 ) => {
@@ -84,7 +84,7 @@ export const fpverifyCode = (
     API.postApiCall(
       EndPoints.auth.verifyPincode,
       {
-        access_code: code,
+        pin_code: code,
         guardian_id: id,
       },
       (success: any) => {

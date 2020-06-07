@@ -20,10 +20,10 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-project.xcworkspace
-project.pbxproj
-Podfile.lock
-Manifest.lock
+*.project.xcworkspace
+*.project.pbxproj
+*.Podfile.lock
+*.Manifest.lock
 
 # Android/IntelliJ
 #

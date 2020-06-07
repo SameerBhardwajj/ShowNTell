@@ -6493,7 +6493,8 @@
 			children = (
 				F0E7E982E32ED692D1CD0C55C8137AD0 /* React-jsinspector.podspec */,
 			);
-			name = Pod;
+			name = Inspector;
+			path = React/Inspector;
 			sourceTree = "<group>";
 		};
 		0F5492AC40858781315A1592B1D75B83 /* Pod */ = {
@@ -6750,7 +6751,8 @@
 				2817B624BE59C8C9A359ADD41319AC89 /* react-native-date-picker.podspec */,
 				0F34E84D092E8DF18A2DF8D8D5BC5AE0 /* README.md */,
 			);
-			name = Pod;
+			name = "React-RCTBlob";
+			path = "../../node_modules/react-native/Libraries/Blob";
 			sourceTree = "<group>";
 		};
 		2545714DA7749770A281FAECEAEAD143 /* rn-fetch-blob */ = {
@@ -6782,7 +6784,8 @@
 			children = (
 				39BFC40DFB297903D90E983A8A82A085 /* React-RCTBlob.podspec */,
 			);
-			name = Pod;
+			name = RNSnackbar;
+			path = "../../node_modules/react-native-snackbar";
 			sourceTree = "<group>";
 		};
 		28E041B7A433CE0FF65B45AC1E558AF0 /* Pod */ = {
@@ -7366,8 +7369,7 @@
 				FF0E8139E0464320BEC72D4B667791A4 /* RCTSinglelineTextInputViewManager.h */,
 				6C0F2D4498EF227DC54312A243A501DC /* RCTUITextField.h */,
 			);
-			name = Singleline;
-			path = Singleline;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		574D7C74DF45D51086BE9ED4E4809D4E /* React-RCTVibration */ = {
@@ -7573,7 +7575,7 @@
 				D3EB679F9D005195A49914CAFFA1845A /* README.md */,
 				06B01F5FE22DF199FE0F5BB729896670 /* RNCMaskedView.podspec */,
 			);
-			name = Pod;
+			name = FKPortForwarding;
 			sourceTree = "<group>";
 		};
 		6BFA9C6B9D43CF83A5D02B19201D319B /* Support Files */ = {
@@ -8304,8 +8306,8 @@
 				3BF7D350B86172316A10FB56604A6F96 /* RCTFrameAnimation.m */,
 				A50259F1F8C6774BE2421EFB9CE575C3 /* RCTSpringAnimation.m */,
 			);
-			name = Drivers;
-			path = Drivers;
+			name = Yoga;
+			path = "../../node_modules/react-native/ReactCommon/yoga";
 			sourceTree = "<group>";
 		};
 		88788F5AC744377C4CD1BF5F4693E7DC /* Pod */ = {
@@ -9081,8 +9083,8 @@
 				6BF3BDBF84DE6A6FDED8D1BAC98540C2 /* glog.debug.xcconfig */,
 				F66AE2578B0C0B1B3B8E5454B1A0E0EB /* glog.release.xcconfig */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/glog";
+			name = FBLazyVector;
+			path = "../../node_modules/react-native/Libraries/FBLazyVector";
 			sourceTree = "<group>";
 		};
 		96916A08C7DE26B217FD43D81F29ADAB /* Flipper-DoubleConversion */ = {
@@ -9697,7 +9699,8 @@
 				9589B4768337C5688F4DC21991DC786A /* README.md */,
 				9EF0A2260EA28986AADD2BFA40968D31 /* RNImageCropPicker.podspec */,
 			);
-			name = Pod;
+			name = TextInput;
+			path = TextInput;
 			sourceTree = "<group>";
 		};
 		C3802233FE2A989E7417987363CE85F7 /* Pod */ = {
@@ -10251,7 +10254,7 @@
 				2A8AE1F8A0074DD47E563574EBA9B064 /* react-native-geolocation.podspec */,
 				0C64D5670758D87B3DD716270A0F9E0A /* README.md */,
 			);
-			name = Pod;
+			name = RCTVibrationHeaders;
 			sourceTree = "<group>";
 		};
 		E982098D530E6C7018EA491AF956CB04 /* Support Files */ = {
@@ -10464,8 +10467,77 @@
 				FA80F87ABACC8EF3B0D5C05531C71EEF /* RCTNativeModule.h */,
 				AEFFB5D499206970A8EB91B3F9AD75BF /* RCTNativeModule.mm */,
 			);
-			name = CxxModule;
-			path = React/CxxModule;
+			name = FlipperKitLayoutTextSearchable;
+			sourceTree = "<group>";
+		};
+		FCA58CC0D420DC5433C450E6428FF7C2 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				ACFC707ED3264FACE6A92D3A67730F27 /* Flipper-Glog-dummy.m */,
+				63C33E0512D13739FC2B0AFC39242B51 /* Flipper-Glog-prefix.pch */,
+				2B639130BA1227C0B800568D81F88525 /* Flipper-Glog.debug.xcconfig */,
+				22B27C5538F88D33A55938627435605C /* Flipper-Glog.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Flipper-Glog";
+			sourceTree = "<group>";
+		};
+		FD780E81299604F7385A1EC9442F9BEE /* Pods-ParentApp-tvOS */ = {
+			isa = PBXGroup;
+			children = (
+				AAF1469198F845F6291EF5C7E6B207FF /* Pods-ParentApp-tvOS-acknowledgements.markdown */,
+				6961A07420DDAD7CCF9BD7A78C8C8345 /* Pods-ParentApp-tvOS-acknowledgements.plist */,
+				62807CCDEB4C4E057862FF7A2BC6BEAC /* Pods-ParentApp-tvOS-dummy.m */,
+				443C89039C88834AA924A9A747E494C6 /* Pods-ParentApp-tvOS.debug.xcconfig */,
+				96F24544F77BC01302D7C70FD79790E1 /* Pods-ParentApp-tvOS.release.xcconfig */,
+			);
+			name = "Pods-ParentApp-tvOS";
+			path = "Target Support Files/Pods-ParentApp-tvOS";
+			sourceTree = "<group>";
+		};
+		FDFA9B57D5EDBDEB4A82C4763C04032A /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E9CBDA0702D347DABE6FCEE78226C7FD /* FlipperClient.h */,
+				E1371237BC121E5997407556C5E1FECC /* FlipperClient.mm */,
+				8BC690FB8CDCBB794070FA4AD9BC280A /* FlipperClient+Testing.h */,
+				A8D1587D16443E9CD690401807382482 /* FlipperConnection.h */,
+				6D1ECE3D8037B184D317E0879CFB3F39 /* FlipperCppBridgingConnection.h */,
+				C949F3099080F5AFE86055AE1C0DF0A2 /* FlipperCppBridgingConnection.mm */,
+				4347F008D4146D7A22DF66BECA1E64F6 /* FlipperCppBridgingResponder.h */,
+				55B058DE5A1DD4C537692D2BD877A228 /* FlipperCppBridgingResponder.mm */,
+				AEF058148EE8456D0C608FBE5946FAC4 /* FlipperCppWrapperPlugin.h */,
+				50FE632B32F00ED40A47168E01BFBC3F /* FlipperDiagnosticsViewController.h */,
+				D8C4AF871F71AC9192DC2B1BC6734BA3 /* FlipperDiagnosticsViewController.m */,
+				A6566CF67C84257DCF58A21E2045988B /* FlipperPlugin.h */,
+				BC2CB674C5C9F68E7A6D4A5009AA9D68 /* FlipperResponder.h */,
+				43EE6FAD73C10FE3A6FD230AA2FFD215 /* FlipperStateUpdateListener.h */,
+				E47A7D3CE41F24D294605DD349728474 /* FlipperUtil.m */,
+				72AAC8A9211B0DFADA6EC51E09DAD626 /* SKEnvironmentVariables.h */,
+				844ECAC68B213EA7D55ABF359386BFD1 /* SKEnvironmentVariables.m */,
+				15DF802000B07A774C89BDC6C0793E4B /* SKMacros.h */,
+				BB55EF35482EDF94C80E65F32D8A68BB /* SKStateUpdateCPPWrapper.h */,
+				746BD29B01060E0DEAE8F51A0780CF55 /* SKStateUpdateCPPWrapper.mm */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		FF235040C2E04B35E9D9915015FBBCD1 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				0349C479DB99217BDEF479300C931F5E /* LongLivedObject.cpp */,
+				43CDB2FE4A5EC576D138949AD68F3FD9 /* LongLivedObject.h */,
+				7F5F51F00692FB100F82773B457EC44F /* TurboCxxModule.cpp */,
+				63095CC7B9E81C367C0A5C0DF66CADEE /* TurboCxxModule.h */,
+				4A789E0E4F26FFBC8E39A4B1D9160E00 /* TurboModule.cpp */,
+				6BF47CCA3598A0FE4CC0437C783707A8 /* TurboModule.h */,
+				B2B1246F9A90AF12C47DBA24F1E2E3F0 /* TurboModuleBinding.cpp */,
+				875EEE765BFBFEEA48A4DD2F5F93DF69 /* TurboModuleBinding.h */,
+				A7A3A03E8E52CC62C4787A9A2A0FF84F /* TurboModuleUtils.cpp */,
+				3B43811E6C2B281AB990EBD881A1C43E /* TurboModuleUtils.h */,
+				45FD05FBE05DEB11CD5764D4E50886B5 /* platform */,
+			);
+			name = core;
 			sourceTree = "<group>";
 		};
 		FC089B74D6D04ADBCDF4127444650E31 /* Pod */ = {
@@ -15992,8 +16064,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		06E5CC20319D3C5A5752F82378AB5092 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -16092,8 +16165,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		19D07E0723ACD6367B87398F7C12A397 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -16115,6 +16189,19 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		20E143DDACBF763CE189D572B97F56B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 92D8233AEE6CEB651D0BB52962396222 /* FBLazyVector.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -16178,9 +16265,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		246C8E9B7CBE4CE3086524507EF07D93 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -16299,13 +16385,15 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		2DD3B3E55E0DE54B715EDD263302FB28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4D9250E29A4A91A04EC56F59E80E98B2 /* react-native-splash-screen.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -16320,11 +16408,10 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		2F58A388480ED692D19DBF1ACA01CDAC /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -16397,9 +16484,8 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		3828C7170227CDCD41DEB2E3ADDCFA0B /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -16411,9 +16497,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		3B11408A987600CF17834A12ACB0BA85 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -16436,8 +16521,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		3C4649A3B9F6D10172B52216E3F51536 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -16491,12 +16577,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1A68BF1185F94072424BFFCA6516A1F5 /* React-cxxreact.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				GCC_PREFIX_HEADER = "Target Support Files/React-cxxreact/React-cxxreact-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-ParentApp-ParentAppTests/Pods-ParentApp-ParentAppTests.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
@@ -16505,12 +16594,9 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		41BF4582831EF4A42B86FAE95C34F270 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -16530,9 +16616,8 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		460E5B983B06215983CF9EB0D57735D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -16601,8 +16686,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		4DA658AA86951595FD48313A89A876C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -16612,13 +16698,13 @@
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/React-RCTSettings/React-RCTSettings-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/React-CoreModules/React-CoreModules-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = RCTSettings;
-				PRODUCT_NAME = "React-RCTSettings";
+				PRODUCT_MODULE_NAME = CoreModules;
+				PRODUCT_NAME = "React-CoreModules";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -16649,8 +16735,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		4F1DDC581D418A4933503877B3D2FB11 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -16705,7 +16792,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = bundle;
 			};
-			name = Release;
+			name = Debug;
 		};
 		5AC65802188BF8D7329E0AC835E785DA /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -16728,9 +16815,8 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		5B600D420EDED0DE10681F4C62E35BAA /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -16778,9 +16864,8 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		638D6811D5DEB51F88E341B550144349 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -16827,8 +16912,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 		63A09902AF68C960ED8C1A83A0B976A8 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -16964,6 +17050,7 @@
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				GCC_PREFIX_HEADER = "Target Support Files/React-jsinspector/React-jsinspector-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MODULEMAP_FILE = Headers/Public/yoga/Yoga.modulemap;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
@@ -17067,6 +17154,19 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		871FD87E13F4D7A3D6B04D63420ABC9D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1433880946C8D208BBC9752565F86040 /* RCTRequired.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -17317,7 +17417,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
@@ -17642,6 +17742,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FFFC5F044CED59B23B73100E5C23C87E /* RNImageCropPicker.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -17655,9 +17756,6 @@
 				PRODUCT_NAME = RNImageCropPicker;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -18031,7 +18129,7 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		BAA9E9147CC403FE3623EFEEC82CA22A /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -18092,9 +18190,8 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		BDD77B618048AD46E38AD8D81294355B /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -18282,9 +18379,8 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		D47B6A741E7257E06FEAB0CC05922ED0 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -18379,9 +18475,8 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Debug;
 		};
 		E22A32D4CE5493E476B512C815A609E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -18549,8 +18644,6 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -18560,6 +18653,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 956D9FDDDD419E0F0A9F792139B4208A /* rn-fetch-blob.debug.xcconfig */;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -18573,9 +18667,6 @@
 				PRODUCT_NAME = "rn-fetch-blob";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -18684,6 +18775,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC3D6582ADDDA9F42BF418103EA15A3F /* Flipper-DoubleConversion.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -18698,33 +18790,34 @@
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FF36262F2570D56DEE21899AB4C85F3B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74F2E245CBF1F4B277EC0C0E5149EC3F /* Pods-ParentApp-tvOSTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/RNCMaskedView/RNCMaskedView-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = RNCMaskedView;
+				PRODUCT_NAME = RNCMaskedView;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
-		};
-		FEBB5A7E79CDA06662993E06F6434DFA /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74F2E245CBF1F4B277EC0C0E5149EC3F /* Pods-ParentApp-tvOSTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
 		};
 		FF36262F2570D56DEE21899AB4C85F3B /* Release */ = {
 			isa = XCBuildConfiguration;

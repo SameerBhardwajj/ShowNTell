@@ -6,7 +6,6 @@ import {
   Image,
   TextInput,
   Platform,
-  ActivityIndicator,
   TouchableOpacity,
   FlatList,
   Keyboard,
@@ -26,6 +25,7 @@ import {
   CustomButton,
   CustomInputText,
   CustomToast,
+  CustomLoader,
 } from "../../Components";
 import {
   Strings,
@@ -70,7 +70,7 @@ export default function App(props: AppProps) {
   React.useEffect(() => {
     schoolAPI();
     BackHandler.addEventListener("hardwareBackPress", () => {
-      props.navigation.pop()
+      props.navigation.pop();
       return true;
     });
   }, [BackHandler]);
@@ -152,14 +152,7 @@ export default function App(props: AppProps) {
               : props.navigation.pop()
           }
         />
-        {isLoading ? (
-          <ActivityIndicator
-            color={Colors.violet}
-            animating={isLoading}
-            size="large"
-            style={Styles.indicator}
-          />
-        ) : null}
+        <CustomLoader loading={isLoading} />
         <View style={Styles.innerView}>
           <View style={Styles.deviceMainView}>
             {/* Device -------------------- */}
@@ -351,7 +344,6 @@ const Styles = StyleSheet.create({
   deviceView: {
     alignItems: "center",
     justifyContent: "center",
-    // padding: vh(10),
     width: "30%",
     borderRadius: vh(8),
     height: vh(106),
@@ -435,13 +427,5 @@ const Styles = StyleSheet.create({
     fontSize: vh(14),
     fontFamily: "Nunito-Regular",
     alignSelf: "flex-end",
-  },
-  indicator: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
   },
 });

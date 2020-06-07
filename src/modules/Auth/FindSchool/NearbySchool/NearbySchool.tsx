@@ -7,7 +7,6 @@ import {
   Image,
   FlatList,
   Linking,
-  ActivityIndicator,
   Alert,
   BackHandler,
 } from "react-native";
@@ -18,6 +17,7 @@ import {
   CustomHeader,
   CustomSearchBar,
   CustomToast,
+  CustomLoader,
 } from "../../../../Components";
 import {
   Strings,
@@ -189,14 +189,7 @@ export default function App(props: AppProps) {
                 ));
           }}
         />
-        {isLoading ? (
-          <ActivityIndicator
-            color={Colors.violet}
-            animating={isLoading}
-            size="large"
-            style={Styles.indicator}
-          />
-        ) : null}
+        <CustomLoader loading={isLoading} />
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
@@ -278,13 +271,5 @@ const Styles = StyleSheet.create({
     color: Colors.lightGrey,
     fontSize: vh(14),
     marginTop: vh(20),
-  },
-  indicator: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    zIndex: 99,
   },
 });
