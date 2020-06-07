@@ -162,7 +162,7 @@ export default function App(props: AppProps) {
               onPressCancel={() => setQuery("")}
               mainViewStyle={{ backgroundColor: "white", width: "87%" }}
               inputTextStyle={{ width: "64%" }}
-              onSubmitEditing={() => { }}
+              onSubmitEditing={() => {}}
             />
             <TouchableOpacity
               activeOpacity={0.8}
@@ -197,17 +197,21 @@ export default function App(props: AppProps) {
                 <Image source={Images.Cancel_Icon} />
               </TouchableOpacity>
             </View>
-            <View style={{ height: 200 }} />
+            <View style={Styles.filterView}>
+              <View style={Styles.leftFilter}>
+                
+              </View>
+              <View style={Styles.rightFilter}></View>
+            </View>
             <View style={Styles.bottomView}>
-
               <CustomButton
                 lightBtn={true}
-                onPress={() => { }}
+                onPress={() => {}}
                 Text={Strings.Reset}
                 ButtonStyle={Styles.applyBtn}
               />
               <CustomButton
-                onPress={() => { }}
+                onPress={() => {}}
                 Text={Strings.Apply}
                 ButtonStyle={Styles.applyBtn}
               />
@@ -305,21 +309,33 @@ const Styles = StyleSheet.create({
     borderBottomWidth: vw(1),
     borderColor: Colors.borderGrey,
   },
+  filterView: {
+    flexDirection: "row",
+  },
   bottomView: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+    paddingBottom: vh(20),
     borderTopWidth: vw(1),
     borderColor: Colors.borderGrey,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: -5,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 4.65,
-    elevation: 7,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: -5,
+    // },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 4.65,
+    // elevation: 7,
+  },
+  leftFilter: {
+height: 100,
+backgroundColor: Colors.lightPink,
+width: vw(120)
+  },
+  rightFilter: {
+height: 100
   },
   applyBtn: {
     width: "40%",

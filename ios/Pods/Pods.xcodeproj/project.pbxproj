@@ -3395,13 +3395,6 @@
 			remoteGlobalIDString = 1BEE828C124E6416179B904A9F66D794;
 			remoteInfo = React;
 		};
-		DCCFADB32AEE1624D663C9755205AF51 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1BEE828C124E6416179B904A9F66D794;
-			remoteInfo = React;
-		};
 		DD5210D113FB5480D0E6BFF1CDE4245F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -7550,8 +7543,7 @@
 				562454667B0B5C6769C77D020F5A5D24 /* README.md */,
 				193C0BE0D4248A104A3E1FD701885AD8 /* RNGestureHandler.podspec */,
 			);
-			name = Text;
-			path = Text;
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		6AE2CC66562EFF86B0B88E8788319F41 /* Flipper-Glog */ = {
@@ -9756,8 +9748,7 @@
 			children = (
 				8C3DA3A4B6BC876DD8099E1D43B61262 /* FBReactNativeSpec.podspec */,
 			);
-			name = ScrollView;
-			path = ScrollView;
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		C72A38B997ABFF1B08722E565C8D5471 /* RCTVibrationHeaders */ = {
@@ -10316,8 +10307,7 @@
 			children = (
 				63C05D4DB53F0EFF6A00E9C22060864D /* React-RCTImage.podspec */,
 			);
-			name = "Support Files";
-			path = "../../../../ios/Pods/Target Support Files/React-RCTVibration";
+			name = Pod;
 			sourceTree = "<group>";
 		};
 		EE5CCD9DEAAC045BBD38F013416B1DC8 /* Pod */ = {
@@ -14557,12 +14547,6 @@
 			name = "Flipper-DoubleConversion";
 			target = D9245543B79C09FAC40FC8B9F291536A /* Flipper-DoubleConversion */;
 			targetProxy = 9D84ABF4A76D6C739349A75488A731AC /* PBXContainerItemProxy */;
-		};
-		0FAD9ABE71FA3475DE1421850B4CD8E1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = React;
-			target = 1BEE828C124E6416179B904A9F66D794 /* React */;
-			targetProxy = DCCFADB32AEE1624D663C9755205AF51 /* PBXContainerItemProxy */;
 		};
 		0FAD9ABE71FA3475DE1421850B4CD8E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
