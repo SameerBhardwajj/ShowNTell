@@ -68,7 +68,7 @@ const Styles = StyleSheet.create({
     width: "67%",
   },
   imgView: {
-    paddingHorizontal: vw(20),
+    paddingHorizontal: vw(15),
   },
   img: {
     height: vh(20),
