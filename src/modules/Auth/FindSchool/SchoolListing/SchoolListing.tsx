@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Image,
   BackHandler,
+  Keyboard,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-native-date-picker";
@@ -37,7 +38,6 @@ export interface AppProps {
   navigation?: any;
   route?: any;
 }
-// let temp: any[] = [];
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
@@ -64,16 +64,12 @@ export default function App(props: AppProps) {
   }, []);
 
   const search = (query: string) => {
-    let tempDAta: any = temp;
-    console.warn("here ", temp);
-    console.warn("data here ", data);
-
+    let tempDAta: any = data.slice(0);
     tempDAta.sort((a: any, b: any) =>
       a.name > b.name ? 1 : b.name > a.name ? -1 : 0
     );
-    console.warn("temp ", tempDAta[0].name);
 
-    let res: any = CommonFunctions.binarySearch(query, temp);
+    let res: any = CommonFunctions.binarySearch(query, tempDAta);
     setResult(res);
   };
 
@@ -105,7 +101,7 @@ export default function App(props: AppProps) {
     handleUrl();
   };
 
-  const renderItemResult = (rowData: any) => {
+  const renderItems = (rowData: any) => {
     const { item, index } = rowData;
     return (
       <ListFlatlist
@@ -120,17 +116,18 @@ export default function App(props: AppProps) {
     );
   };
 
-  const renderItems = (rowData: any) => {
+  const renderItemResult = (rowData: any) => {
     const { item, index } = rowData;
     return (
       <ResultFlatlist
         item={item}
         index={index}
         onPress={() => {
-          let emptyArr: never[] = [];
-          emptyArr.concat(item);
-          setData(emptyArr);
+          let emptyArr: any = [];
+          setTemp(emptyArr.concat(item));
           setQuery("");
+          setResult([]);
+          Keyboard.dismiss();
         }}
       />
     );
@@ -140,6 +137,7 @@ export default function App(props: AppProps) {
     <ScrollView
       bounces={false}
       showsVerticalScrollIndicator={false}
+      keyboardShouldPersistTaps="handled"
       contentContainerStyle={{ flex: 1 }}
     >
       <View style={Styles.mainView}>
@@ -163,15 +161,17 @@ export default function App(props: AppProps) {
           </View>
         ) : (
           <View style={Styles.innerView}>
-            {/* <CustomSearchBar
+            <CustomSearchBar
               placeholder={Strings.Search}
               value={query}
               onChangeText={(text: string) => {
                 setQuery(text), search(text);
               }}
-              onPressCancel={() => setQuery("")}
-              onSubmitEditing={() => {}}
-            /> */}
+              onPressCancel={() => {
+                setQuery(""), setTemp([]);
+              }}
+              onSubmitEditing={() => Keyboard.dismiss()}
+            />
             {query.length !== 0 ? (
               !(result && result.length) ? null : (
                 <FlatList
@@ -186,7 +186,7 @@ export default function App(props: AppProps) {
                   bounces={false}
                   data={result}
                   keyExtractor={(item, index) => index.toString()}
-                  renderItem={renderItems}
+                  renderItem={renderItemResult}
                 />
               )
             ) : (
@@ -196,21 +196,11 @@ export default function App(props: AppProps) {
                 </Text>
                 <View style={Styles.mainInnerView}>
                   <FlatList
-                    showsVerticalScrollIndicator={false}
-                    data={data}
+                    bounces={false}
+                    showsVerticalScrollIndicator={true}
+                    data={temp.length === 0 ? data : temp}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={renderItemResult}
-                    refreshing={isRefreshing}
-                    onRefresh={handleRefresh}
-                    onEndReached={handleUrl}
-                    onEndReachedThreshold={0.5}
-                    ListFooterComponent={
-                      <ActivityIndicator
-                        size="large"
-                        color={Colors.violet}
-                        animating={isLoading}
-                      />
-                    }
+                    renderItem={renderItems}
                   />
                 </View>
                 <Modal
@@ -282,14 +272,13 @@ const Styles = StyleSheet.create({
     paddingHorizontal: vh(16),
     alignItems: "center",
     width: "100%",
-    marginBottom: vh(100),
+    marginBottom: vh(300),
   },
   headingText: {
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     alignSelf: "flex-start",
-    // paddingVertical: vh(16),
-    paddingBottom: vh(16),
+    paddingVertical: vh(16),
   },
   mainInnerView: {
     shadowColor: "#000",

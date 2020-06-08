@@ -10,6 +10,7 @@ import {
   FlatList,
   Keyboard,
   BackHandler,
+  Modal,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
@@ -26,6 +27,7 @@ import {
   CustomInputText,
   CustomToast,
   CustomLoader,
+  CustomSearchBar,
 } from "../../Components";
 import {
   Strings,
@@ -38,6 +40,7 @@ import {
   ConstantName,
   API,
   EndPoints,
+  CommonFunctions,
 } from "../../utils";
 import { needHelpAPI } from "./action";
 import SchoolFlatlist from "./SchoolFlatlist";
@@ -66,6 +69,8 @@ export default function App(props: AppProps) {
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showList, setShowList] = useState(false);
+  const [query, setQuery] = useState("");
+  const [searchData, setSearchData] = useState([]);
 
   React.useEffect(() => {
     schoolAPI();
@@ -81,6 +86,7 @@ export default function App(props: AppProps) {
       {},
       (success: any) => {
         setList(list.concat(success.data.response));
+        setSearchData(searchData.concat(success.data.response));
       },
       (error: any) => {
         CustomToast(error.data.message);
@@ -95,7 +101,11 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={() => {
-          setShowList(!showList), setCenter(item.id), setSchool(item.name);
+          setShowList(!showList),
+            setCenter(item.id),
+            setSchool(item.name),
+            setQuery(""),
+            setSearchData(list);
         }}
       />
     );
@@ -134,6 +144,15 @@ export default function App(props: AppProps) {
           ))
         : setCheckEmail(false)
       : setCheckName(false);
+  };
+
+  const search = (query: string) => {
+    let temp = list.slice(0);
+    temp.sort((a: any, b: any) =>
+      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+    );
+    let res: any = CommonFunctions.binarySearch(query, temp);
+    setSearchData(res);
   };
 
   return (
@@ -233,24 +252,6 @@ export default function App(props: AppProps) {
               <Text style={Styles.schoolText}>{school}</Text>
               <Image source={Images.Dropdown_icon} />
             </TouchableOpacity>
-            {/* School Flatlist -------------- */}
-            {showList && list.length > 1 ? (
-              <View style={Styles.flatlistView}>
-                <FlatList
-                  nestedScrollEnabled={true}
-                  data={list}
-                  keyExtractor={(item, index) => index.toString()}
-                  showsVerticalScrollIndicator={false}
-                  bounces={false}
-                  renderItem={renderItems}
-                  onEndReached={() => {
-                    setPage(page + 1), schoolAPI();
-                  }}
-                  onEndReachedThreshold={1}
-                />
-              </View>
-            ) : null}
-
             <CustomInputText
               ref={input1}
               mainViewStyle={Styles.menuView}
@@ -320,6 +321,44 @@ export default function App(props: AppProps) {
           </View>
         </View>
       </View>
+      <Modal animationType="slide" transparent={true} visible={showList}>
+        <View style={Styles.flatlistView}>
+          <TouchableOpacity
+            style={{ padding: vw(20), alignSelf: "flex-end" }}
+            activeOpacity={0.8}
+            onPress={() => {
+              setQuery("");
+              setSearchData(list);
+              setShowList(false);
+            }}
+          >
+            <Image source={Images.Cancel_Icon} />
+          </TouchableOpacity>
+          <CustomSearchBar
+            value={query}
+            onChangeText={(text: string) => {
+              setQuery(text);
+              text.length === 0 ? setSearchData(list.slice(0)) : null;
+              search(text);
+            }}
+            placeholder={Strings.Search}
+            onSubmitEditing={() => Keyboard.dismiss()}
+            onPressCancel={() => {
+              setQuery(""), setSearchData([]);
+            }}
+            mainViewStyle={{ width: "80%", alignSelf: "center" }}
+          />
+          <FlatList
+            nestedScrollEnabled={true}
+            data={query.length === 0 ? list : searchData}
+            keyboardShouldPersistTaps="handled"
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={true}
+            bounces={false}
+            renderItem={renderItems}
+          />
+        </View>
+      </Modal>
     </KeyboardAwareScrollView>
   );
 }
@@ -376,20 +415,10 @@ const Styles = StyleSheet.create({
     color: Colors.lightBlack,
   },
   flatlistView: {
-    position: "absolute",
-    top: vh(50),
-    zIndex: 99,
+    paddingVertical: vh(30),
     width: "100%",
     backgroundColor: "white",
-    height: vh(210),
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 7.49,
-    elevation: 5,
+    height: "100%",
   },
   helpView: {
     alignItems: "center",
