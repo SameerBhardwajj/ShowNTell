@@ -28,5 +28,7 @@ export default {
       child_id === 0
         ? `/api/v1/parent/home-data`
         : `/api/v1/parent/home-data?child_id=${child_id}&page=${page}`,
+    filterData: (classroom: number) =>
+      `/api/v1/parent/filter-data?classroom_id=${classroom}`,
   },
 };

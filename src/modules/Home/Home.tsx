@@ -34,7 +34,7 @@ import {
   CustomButton,
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
-import { HomeAPI } from "./action";
+import { HomeAPI, HomeFilter } from "./action";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -112,6 +112,17 @@ export default function App(props: AppProps) {
     );
   };
 
+  const hitHomeFilter = (classroomd_id: number) => {
+    setLoading(true);
+    dispatch(
+      HomeFilter(
+        classroomd_id,
+        () => setLoading(false),
+        () => setLoading(false)
+      )
+    );
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -166,7 +177,9 @@ export default function App(props: AppProps) {
             />
             <TouchableOpacity
               activeOpacity={0.8}
-              onPress={() => setModalOpen(true)}
+              onPress={() => {
+                console.warn(currentChild), setModalOpen(true);
+              }}
             >
               <Image source={Images.Filter_Icon} style={Styles.filterImg} />
             </TouchableOpacity>
@@ -198,9 +211,7 @@ export default function App(props: AppProps) {
               </TouchableOpacity>
             </View>
             <View style={Styles.filterView}>
-              <View style={Styles.leftFilter}>
-                
-              </View>
+              <View style={Styles.leftFilter}></View>
               <View style={Styles.rightFilter}></View>
             </View>
             <View style={Styles.bottomView}>
@@ -330,12 +341,12 @@ const Styles = StyleSheet.create({
     // elevation: 7,
   },
   leftFilter: {
-height: 100,
-backgroundColor: Colors.lightPink,
-width: vw(120)
+    height: 100,
+    backgroundColor: Colors.lightPink,
+    width: vw(120),
   },
   rightFilter: {
-height: 100
+    height: 100,
   },
   applyBtn: {
     width: "40%",

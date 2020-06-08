@@ -145,7 +145,7 @@ export default class AppComponent extends React.Component<AppProps, any> {
 
   TabNavigator = () => (
     <TabStack.Navigator
-      headerMode="none"
+      // headerMode="none"
       initialRouteName={ScreenName.HOME}
       tabBarOptions={{
         style: Styles.tabView,
