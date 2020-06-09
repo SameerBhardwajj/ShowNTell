@@ -217,6 +217,9 @@ const Strings = new LocalizedStrings({
     Home_Feed_Options: "Home Feed Options",
     Reset: "Reset",
     Apply: "Apply",
+    Activity_Category: "Activity Category",
+    Date: "Date",
+    Activity_Types: "Activity Types",
   },
 });
 export default Strings;

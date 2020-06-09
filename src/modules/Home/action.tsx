@@ -37,15 +37,15 @@ export const HomeAPI = (
       {},
       (success: any) => {
         if (success.data.code === 200) {
-          console.log("mysuccess ", success.data.response);
+          console.warn("mysuccess ", success.data.response);
           dispatch({
             type: Action.HOME_DATA,
             payload: {
               data: success.data.response,
             },
           });
-
-          successCallback();
+          debugger;
+          successCallback(success.data.response);
         } else {
           CustomToast(success.data.message);
           failureCallback();
@@ -53,12 +53,12 @@ export const HomeAPI = (
       },
       (error: any) => {
         console.log("error ", error);
-        dispatch({
-          type: Action.HOME_DATA,
-          payload: {
-            // isLoading: false,
-          },
-        });
+        // dispatch({
+        //   type: Action.HOME_DATA,
+        //   payload: {
+        //     // isLoading: false,
+        //   },
+        // });
         CustomToast(error.data.message);
         failureCallback();
       }
@@ -81,7 +81,7 @@ export const HomeFilter = (
           dispatch({
             type: Action.HOME_DATA,
             payload: {
-              data: success.data.response,
+              filterData: success.data.response,
             },
           });
 
@@ -93,12 +93,12 @@ export const HomeFilter = (
       },
       (error: any) => {
         console.log("error ", error);
-        dispatch({
-          type: Action.HOME_DATA,
-          payload: {
-            // isLoading: false,
-          },
-        });
+        // dispatch({
+        //   type: Action.HOME_DATA,
+        //   payload: {
+        //     // isLoading: false,
+        //   },
+        // });
         CustomToast(error.data.message);
         failureCallback();
       }

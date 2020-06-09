@@ -35,6 +35,7 @@ import {
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
 import { HomeAPI, HomeFilter } from "./action";
+import FilterModal from "./FilterModal";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -47,7 +48,9 @@ const DRAWER_CLOSE = "drawerClose";
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
+  const [homeData, setHomeData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isRefreshing, setRefreshing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [exitCounter, setExitCounter] = useState(false);
 
@@ -64,6 +67,7 @@ export default function App(props: AppProps) {
   React.useEffect(() => {
     SplashScreen.hide();
     Constants.setAuthorizationToken(loginToken.length === 0 ? false : true);
+    debugger;
     hitHomeAPI(currentChild.child, 0);
     // const unsubscribe =
     //   (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
@@ -101,13 +105,23 @@ export default function App(props: AppProps) {
   };
 
   const hitHomeAPI = (child_id: number, page: number) => {
-    setLoading(true);
+    console.warn(isRefreshing);
+    
+    isRefreshing ? null : setLoading(true);
+    console.warn(child_id, page);
     dispatch(
       HomeAPI(
         child_id,
         page,
-        () => setLoading(false),
-        () => setLoading(false)
+        (data: any) => {
+          setLoading(false);
+          setRefreshing(false);
+          // console.warn('my datra',data);
+          data.length === 0 ? null : setHomeData(data.activity.rows);
+        },
+        () => {
+          setLoading(false), setRefreshing(false);
+        }
       )
     );
   };
@@ -124,113 +138,94 @@ export default function App(props: AppProps) {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-      keyboardShouldPersistTaps="handled"
-      style={{ backgroundColor: "white" }}
-    >
+    // <ScrollView
+    //   showsVerticalScrollIndicator={false}
+    //   bounces={true}
+    //   keyboardShouldPersistTaps="handled"
+
+    // >
+    <View style={Styles.mainView}>
       <StatusBar
         barStyle={"light-content"}
         backgroundColor={Colors.violet}
         animated={loading}
       />
-      <CustomLoader loading={loading} />
-      <View style={Styles.mainView}>
-        <View style={Styles.extraHeader} />
-        <View style={Styles.header}>
-          <View style={Styles.upperHeader}>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => props.navigation.toggleDrawer()}
-            >
-              <Image source={Images.Hamburger} style={Styles.hamburgerImg} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={Styles.childHeader}
-              onPress={() =>
-                props.navigation.navigate(ScreenName.CHILD_MODAL, {
-                  child: loginData.Children,
-                })
-              }
-            >
-              <Text style={Styles.childHeaderText}>{currentChild.name}</Text>
-              <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
-            </TouchableOpacity>
-            <TouchableOpacity activeOpacity={0.8}>
-              <Image
-                source={Images.Notification_Icon}
-                style={Styles.imgHeader}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={[Styles.upperHeader, { marginTop: vh(10) }]}>
-            <CustomSearchBar
-              value={query}
-              placeholder={Strings.Search}
-              onChangeText={(text: string) => setQuery(text)}
-              onPressCancel={() => setQuery("")}
-              mainViewStyle={{ backgroundColor: "white", width: "87%" }}
-              inputTextStyle={{ width: "64%" }}
-              onSubmitEditing={() => {}}
-            />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => {
-                console.warn(currentChild), setModalOpen(true);
-              }}
-            >
-              <Image source={Images.Filter_Icon} style={Styles.filterImg} />
-            </TouchableOpacity>
-          </View>
+      {/* <View style={Styles.mainView}> */}
+      <View style={Styles.extraHeader} />
+      <View style={Styles.header}>
+        <View style={Styles.upperHeader}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => props.navigation.toggleDrawer()}
+          >
+            <Image source={Images.Hamburger} style={Styles.hamburgerImg} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={Styles.childHeader}
+            onPress={() =>
+              props.navigation.navigate(ScreenName.CHILD_MODAL, {
+                child: loginData.Children,
+              })
+            }
+          >
+            <Text style={Styles.childHeaderText}>{currentChild.name}</Text>
+            <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
+          </TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.8}>
+            <Image source={Images.Notification_Icon} style={Styles.imgHeader} />
+          </TouchableOpacity>
         </View>
-        <View style={Styles.innerView}>
-          <FlatList
-            data={data.activity}
-            keyExtractor={(item, index) => index.toString()}
-            bounces={false}
-            showsVerticalScrollIndicator={false}
-            renderItem={renderItems}
+        <View style={[Styles.upperHeader, { marginTop: vh(10) }]}>
+          <CustomSearchBar
+            value={query}
+            placeholder={Strings.Search}
+            onChangeText={(text: string) => setQuery(text)}
+            onPressCancel={() => setQuery("")}
+            mainViewStyle={{ backgroundColor: "white", width: "87%" }}
+            inputTextStyle={{ width: "64%" }}
+            onSubmitEditing={() => {}}
           />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              console.warn(currentChild), setModalOpen(true);
+              dispatch(
+                HomeFilter(
+                  51,
+                  () => {},
+                  () => {}
+                )
+              );
+            }}
+          >
+            <Image source={Images.Filter_Icon} style={Styles.filterImg} />
+          </TouchableOpacity>
         </View>
       </View>
+      <View style={Styles.innerView}>
+        <CustomLoader loading={loading} />
+        <FlatList
+          data={homeData}
+          keyExtractor={(item, index) => index.toString()}
+          refreshing={isRefreshing}
+          onRefresh={() => {
+            setRefreshing(true), hitHomeAPI(currentChild.child, 0);
+          }}
+          bounces={true}
+          showsVerticalScrollIndicator={false}
+          renderItem={renderItems}
+          nestedScrollEnabled={true}
+        />
+      </View>
+      {/* </View> */}
       <Modal animationType="slide" transparent={true} visible={modalOpen}>
         <View style={Styles.modalView}>
           <View />
-          <View style={Styles.innerModalView}>
-            <View style={Styles.headingView}>
-              <Text style={Styles.childHeaderText}>
-                {Strings.Home_Feed_Options}
-              </Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => setModalOpen(false)}
-              >
-                <Image source={Images.Cancel_Icon} />
-              </TouchableOpacity>
-            </View>
-            <View style={Styles.filterView}>
-              <View style={Styles.leftFilter}></View>
-              <View style={Styles.rightFilter}></View>
-            </View>
-            <View style={Styles.bottomView}>
-              <CustomButton
-                lightBtn={true}
-                onPress={() => {}}
-                Text={Strings.Reset}
-                ButtonStyle={Styles.applyBtn}
-              />
-              <CustomButton
-                onPress={() => {}}
-                Text={Strings.Apply}
-                ButtonStyle={Styles.applyBtn}
-              />
-            </View>
-          </View>
+          <FilterModal setModalOpen={(value: boolean) => setModalOpen(value)} />
         </View>
       </Modal>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -305,51 +300,5 @@ const Styles = StyleSheet.create({
     backgroundColor: Colors.modalBg,
     alignItems: "center",
     justifyContent: "space-between",
-  },
-  innerModalView: {
-    backgroundColor: "white",
-    borderTopLeftRadius: vh(20),
-    borderTopRightRadius: vh(20),
-    width: "100%",
-  },
-  headingView: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: vh(20),
-    borderBottomWidth: vw(1),
-    borderColor: Colors.borderGrey,
-  },
-  filterView: {
-    flexDirection: "row",
-  },
-  bottomView: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-evenly",
-    paddingBottom: vh(20),
-    borderTopWidth: vw(1),
-    borderColor: Colors.borderGrey,
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: -5,
-    // },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 4.65,
-    // elevation: 7,
-  },
-  leftFilter: {
-    height: 100,
-    backgroundColor: Colors.lightPink,
-    width: vw(120),
-  },
-  rightFilter: {
-    height: 100,
-  },
-  applyBtn: {
-    width: "40%",
-    marginVertical: vh(20),
   },
 });
