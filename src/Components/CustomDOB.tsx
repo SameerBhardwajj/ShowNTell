@@ -1,12 +1,12 @@
 import * as React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { vh, Strings, vw, Colors } from "../utils";
+import { vh, Strings, vw, Colors, CommonFunctions } from "../utils";
 
 export interface AppProps {
   check: boolean;
   titleText: string;
   onPress: Function;
-  value: string;
+  value: Date;
 }
 
 export default function App(props: AppProps) {
@@ -33,7 +33,9 @@ export default function App(props: AppProps) {
         activeOpacity={0.8}
         onPress={() => props.onPress()}
       >
-        <Text style={Styles.dobText}>{props.value}</Text>
+        <Text style={Styles.dobText}>
+          {CommonFunctions.DateFormatter(props.value)}
+        </Text>
       </TouchableOpacity>
     </View>
   );

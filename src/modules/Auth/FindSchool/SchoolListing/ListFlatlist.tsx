@@ -81,8 +81,20 @@ export default function App(props: AppProps) {
             ButtonStyle={Styles.btn}
           />
           <CustomButton
-            Text={Strings.Schedule_a_Tour}
-            onPress={() => props.openModal()}
+            Text={
+              item.calendar_id === null
+                ? Strings.General_Info
+                : Strings.Schedule_a_Tour
+            }
+            onPress={() =>
+              item.calendar_id === null
+                ? props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
+                    id: item.location_id,
+                    date: null,
+                    time: null,
+                  })
+                : props.openModal()
+            }
             ButtonStyle={Styles.btn}
           />
         </View>

@@ -24,19 +24,32 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const [time, setTime] = useState(0);
-  const { id, name, date } = props.route.params;
+  const { id, date } = props.route.params;
 
   const setDisabled = (time: number) => {
-    console.warn(CommonFunctions.DateDifference(new Date(), date));
+    console.warn(
+      CommonFunctions.DateDifference(new Date(), date),
+      new Date().getDate() > date.getDate()
+    );
 
     let disable = false;
-    new Date() > date
-      ? CommonFunctions.DateDifference(new Date(), date) !== 0
-      : CommonFunctions.DateDifference(date, new Date()) !== 0
-      ? null
-      : currentTime >= time
-      ? (disable = true)
+    // new Date().getDate() < date.getDate()
+    //   ? CommonFunctions.DateDifference(new Date(), date) !== 0
+    //   : CommonFunctions.DateDifference(date, new Date()) !== 0
+    //   ? null
+    //   : currentTime >= time
+    //   ? (disable = true)
+    //   : null;
+    console.warn(id, new Date().getDate(), date.getDate());
+
+    new Date().getDate() === date.getDate() &&
+    new Date().getMonth() === date.getMonth() &&
+    new Date().getFullYear() === date.getFullYear()
+      ? currentTime >= time
+        ? (disable = true)
+        : null
       : null;
+
     return disable;
   };
 
@@ -94,7 +107,6 @@ export default function App(props: AppProps) {
               ? null
               : props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
                   id: id,
-                  name: name,
                   date: date,
                   time: time,
                 })
@@ -111,9 +123,8 @@ export default function App(props: AppProps) {
           onPress={() =>
             props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
               id: id,
-              name: name,
-              date: date,
-              time: 0,
+              date: null,
+              time: null,
             })
           }
           lightBtn={true}

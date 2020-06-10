@@ -21,5 +21,6 @@ export default {
     resetPassword: "/api/v1/parent/reset-password",
     needHelp: "/api/v1/parent/need-help",
     testimonials: "/api/v1/parent/testimonials",
+    scheduleTour: "/api/v1/parent/schedule-tour",
   },
 };

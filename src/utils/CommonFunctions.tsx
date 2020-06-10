@@ -34,6 +34,28 @@ const DateFormatter = (date: Date) => {
   return `${wMonths[month]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
+const dateTypeFormat = (date: Date, format: string) => {
+  let d = `${date.getDate() < 10 ? "0" : ""}${date.getDate()}`;
+  let m = `${date.getMonth() < 10 ? "0" : ""}${date.getMonth()}`;
+  let y = date.getFullYear();
+  let myDate;
+  format === "dmy"
+    ? (myDate = `${d}-${m}-${y}`)
+    : format === "mdy"
+    ? (myDate = `${m}-${d}-${y}`)
+    : (myDate = `${y}-${m}-${d}`);
+  return myDate;
+};
+
+const timeFormatter = (date: Date) => {
+  const hour = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
+  const min = date.getMinutes();
+  const time = date.getHours() > 12 ? "pm" : "am";
+  return `${hour < 10 ? "0" + hour : hour}:${
+    min < 10 ? "0" + min : min
+  } ${time}`;
+};
+
 const requestLocationPermission = async (
   successCallback: Function,
   failureCallback: Function,
@@ -139,9 +161,24 @@ const binarySearch = (needle: string, haystack: Array<any>) => {
   }
 };
 
+const isNullUndefined = (item: any) => {
+  try {
+    if (item == null || item == "" || item == 0 || item == undefined) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    return true;
+  }
+};
+
 export default {
   DateDifference,
   DateFormatter,
   requestLocationPermission,
   binarySearch,
+  timeFormatter,
+  dateTypeFormat,
+  isNullUndefined,
 };
