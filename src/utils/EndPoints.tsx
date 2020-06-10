@@ -20,8 +20,8 @@ export default {
     verifyPincode: "/api/v1/parent/verify-pincode",
     resetPassword: "/api/v1/parent/reset-password",
     needHelp: "/api/v1/parent/need-help",
-    testimonials:
-      "https://snt-parent-api-test.mytle.com/api/v1/parent/testimonials",
+    testimonials: "/api/v1/parent/testimonials",
+    scheduleTour: "/api/v1/parent/schedule-tour",
   },
   home: {
     HomeData: (child_id: number, page: number) =>

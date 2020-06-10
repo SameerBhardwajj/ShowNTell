@@ -33,6 +33,16 @@ import ListFlatlist from "./ListFlatlist";
 import { fetchSchoolList } from "./action";
 import ResultFlatlist from "./ResultFlatlist";
 
+const getSlotDate = () => {
+  if (new Date().getHours() >= 18) {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    slotDate = tomorrow;
+  }
+  return slotDate;
+};
+
 let slotDate = new Date();
 export interface AppProps {
   navigation?: any;
@@ -44,9 +54,8 @@ export default function App(props: AppProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setisRefreshing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(getSlotDate());
   const [id, setId] = useState(0);
-  const [name, setName] = useState("");
   const [query, setQuery] = useState("");
   const [temp, setTemp] = useState([]);
   const [result, setResult] = useState([]);
@@ -71,16 +80,6 @@ export default function App(props: AppProps) {
 
     let res: any = CommonFunctions.binarySearch(query, tempDAta);
     setResult(res);
-  };
-
-  const getSlotDate = () => {
-    if (new Date().getHours() >= 18) {
-      const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      slotDate = tomorrow;
-    }
-    return slotDate;
   };
 
   const handleUrl = () => {
@@ -108,8 +107,7 @@ export default function App(props: AppProps) {
         navigation={props.navigation}
         item={item}
         openModal={() => {
-          setId(item.id);
-          setName(item.name);
+          setId(item.location_id);
           setModalOpen(true);
         }}
       />
@@ -222,7 +220,7 @@ export default function App(props: AppProps) {
                         <Image source={Images.Cancel_Icon} />
                       </TouchableOpacity>
                       <DatePicker
-                        minimumDate={slotDate}
+                        minimumDate={getSlotDate()}
                         date={date}
                         mode="date"
                         onDateChange={(text: Date) => {
@@ -233,12 +231,12 @@ export default function App(props: AppProps) {
                         Text={Strings.View_Slots}
                         onPress={() => {
                           setModalOpen(false);
-                          setDate(new Date());
+                          setDate(getSlotDate());
+                          console.warn(date, getSlotDate());
                           props.navigation.navigate(
                             ScreenName.DATE_TIME_SCHEDULE,
                             {
                               id: id,
-                              name: name,
                               date: date,
                             }
                           );

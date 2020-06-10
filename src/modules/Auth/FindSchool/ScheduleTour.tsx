@@ -17,6 +17,8 @@ import {
   CustomInputText,
   CustomPhoneField,
   CustomDOB,
+  CustomToast,
+  CustomLoader,
 } from "../../../Components";
 import {
   Strings,
@@ -27,6 +29,8 @@ import {
   ScreenName,
   ConstantName,
   CommonFunctions,
+  API,
+  EndPoints,
 } from "../../../utils";
 
 const US = "US";
@@ -50,15 +54,15 @@ export default function App(props: AppProps) {
   const [zipcode, setZipcode] = useState("");
   const [email, setEmail] = useState("");
   const [c1name, setC1name] = useState("");
-  const [c1DOB, setc1DOB] = useState(CommonFunctions.DateFormatter(new Date()));
+  const [c1DOB, setc1DOB] = useState(new Date());
   const [c2name, setC2name] = useState("");
-  const [c2DOB, setc2DOB] = useState(CommonFunctions.DateFormatter(new Date()));
+  const [c2DOB, setc2DOB] = useState(new Date());
   const [c3name, setC3name] = useState("");
-  const [c3DOB, setc3DOB] = useState(CommonFunctions.DateFormatter(new Date()));
+  const [c3DOB, setc3DOB] = useState(new Date());
   const [c4name, setC4name] = useState("");
-  const [c4DOB, setc4DOB] = useState(CommonFunctions.DateFormatter(new Date()));
+  const [c4DOB, setc4DOB] = useState(new Date());
   const [c5name, setC5name] = useState("");
-  const [c5DOB, setc5DOB] = useState(CommonFunctions.DateFormatter(new Date()));
+  const [c5DOB, setc5DOB] = useState(new Date());
   const [checkpname, setCheckPname] = useState(true);
   const [checkphone, setCheckphone] = useState(true);
   const [checkzipcode, setCheckzipcode] = useState(true);
@@ -71,8 +75,9 @@ export default function App(props: AppProps) {
   const [counter, setCounter] = useState(1);
   const [currentChild, setCurrentChild] = useState(1);
   const [modalOpen, setModalOpen] = useState(false);
-  const [countryCode, setCountryCode] = useState(US);
-  const [date, setDate] = useState(new Date());
+  const [todayDate, setDate] = useState(new Date());
+  const [isLoading, setLoading] = useState(false);
+  const { id, date, time } = props.route.params;
 
   const disable = () => {
     return (
@@ -85,10 +90,78 @@ export default function App(props: AppProps) {
   };
 
   const navigating = () => {
-    props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-      path: ScreenName.LANDING_PAGE,
-      msg: Strings.tour_success,
+    Keyboard.dismiss();
+
+    let childArr: any[] = [];
+    childArr = childArr.concat({
+      child_name: c1name,
+      child_dob: `${CommonFunctions.dateTypeFormat(c1DOB, "dmy")}`,
     });
+
+    counter > 1
+      ? (childArr = childArr.concat({
+          child_name: c2name,
+          child_dob: `${CommonFunctions.dateTypeFormat(c2DOB, "dmy")}`,
+        }))
+      : null;
+
+    counter > 2
+      ? (childArr = childArr.concat({
+          child_name: c3name,
+          child_dob: `${CommonFunctions.dateTypeFormat(c3DOB, "dmy")}`,
+        }))
+      : null;
+
+    counter > 3
+      ? (childArr = childArr.concat({
+          child_name: c4name,
+          child_dob: `${CommonFunctions.dateTypeFormat(c4DOB, "dmy")}`,
+        }))
+      : null;
+
+    counter > 4
+      ? (childArr = childArr.concat({
+          child_name: c5name,
+          child_dob: `${CommonFunctions.dateTypeFormat(c5DOB, "dmy")}`,
+        }))
+      : null;
+
+    let params = {
+      center_id: id,
+      name: pname,
+      phone_number: "+1-" + phone,
+      zip_code: zipcode,
+      email: email,
+      schedule_date_time: `${CommonFunctions.dateTypeFormat(
+        date,
+        "dmy"
+      )} ${CommonFunctions.timeFormatter(new Date(date.setHours(time)))}`,
+      children: childArr,
+    };
+    setLoading(true);
+    API.postApiCall(
+      EndPoints.auth.scheduleTour,
+      params,
+      (success: any) => {
+        console.log("success ", success.data.response);
+        if (success.data.code === 200) {
+          setLoading(false);
+          props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+            path: ScreenName.LANDING_PAGE,
+            msg: Strings.tour_success,
+          });
+        } else {
+          debugger;
+          CustomToast(success.data.message);
+          setLoading(false);
+        }
+      },
+      (error: any) => {
+        debugger;
+        CustomToast(error.data.message);
+        setLoading(false);
+      }
+    );
   };
 
   return (
@@ -105,6 +178,7 @@ export default function App(props: AppProps) {
           notifyNumber={3}
         />
         <View style={Styles.innerView}>
+          <CustomLoader loading={isLoading} />
           <View style={{ width: "100%" }}>
             {/* Parent's name ---------- */}
             <CustomInputText
@@ -124,7 +198,7 @@ export default function App(props: AppProps) {
             />
             {/* Parent's phone no.----------- */}
             <CustomPhoneField
-              onSelect={(code: any) => setCountryCode(code)}
+              onSelect={() => {}}
               value={phone}
               ref={input2}
               onChangeText={(text: string) => {
@@ -403,22 +477,21 @@ export default function App(props: AppProps) {
             <View style={Styles.modalView}>
               <DatePicker
                 maximumDate={new Date()}
-                date={date}
+                date={todayDate}
                 mode="date"
                 onDateChange={(text: Date) => {
                   console.log("date  ", text);
                   setDate(text);
                   currentChild === 1
-                    ? (setc1DOB(CommonFunctions.DateFormatter(text)),
-                      console.warn(text))
+                    ? setc1DOB(text)
                     : currentChild === 2
-                    ? setc2DOB(CommonFunctions.DateFormatter(text))
+                    ? setc2DOB(text)
                     : currentChild === 3
-                    ? setc3DOB(CommonFunctions.DateFormatter(text))
+                    ? setc3DOB(text)
                     : currentChild === 4
-                    ? setc4DOB(CommonFunctions.DateFormatter(text))
+                    ? setc4DOB(text)
                     : currentChild === 5
-                    ? setc5DOB(CommonFunctions.DateFormatter(text))
+                    ? setc5DOB(text)
                     : null;
                 }}
               />

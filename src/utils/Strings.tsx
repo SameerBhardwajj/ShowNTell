@@ -220,6 +220,7 @@ const Strings = new LocalizedStrings({
     Activity_Category: "Activity Category",
     Date: "Date",
     Activity_Types: "Activity Types",
+    General_Info: "General Info",
   },
 });
 export default Strings;

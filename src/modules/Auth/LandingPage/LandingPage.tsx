@@ -6,9 +6,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   StatusBar,
-  FlatList,
   ToastAndroid,
   BackHandler,
+  Image,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import SplashScreen from "react-native-splash-screen";
@@ -23,21 +23,9 @@ import {
   ScreenName,
   Constants,
 } from "../../../utils";
-import { CustomButton, Customcartoon } from "../../../Components";
-import TestimonialList from "./TestimonialList";
+import { CustomButton, Customcartoon, CustomLoader } from "../../../Components";
+import Swiper from "react-native-swiper";
 import { fetchTestimonials } from "./action";
-
-export function isNullUndefined(item: any) {
-  try {
-    if (item == null || item == "" || item == 0 || item == undefined) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (err) {
-    return true;
-  }
-}
 
 export interface AppProps {
   navigation?: any;
@@ -45,9 +33,6 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const flatListRef: any = React.useRef();
-  const [currentIndex, setCurrentIndex] = useState(1);
-  const [scroll, setScroll] = useState(true);
   const [counter, setCounter] = useState(true);
   const [data, setData] = useState([]);
   const [exitCounter, setExitCounter] = useState(false);
@@ -60,7 +45,6 @@ export default function App(props: AppProps) {
     SplashScreen.hide();
     Constants.setAuthorizationToken(loginToken.length === 0 ? false : true);
     fetchTest();
-    autoScroll();
     BackHandler.addEventListener("hardwareBackPress", () => {
       exitCounter
         ? (ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT),
@@ -72,7 +56,7 @@ export default function App(props: AppProps) {
           }, 2000));
       return true;
     });
-  }, [currentIndex, exitCounter, data.length]);
+  }, [exitCounter]);
 
   const fetchTest = () => {
     counter
@@ -88,40 +72,12 @@ export default function App(props: AppProps) {
       : null;
   };
 
-  const renderItems = (rowData: any) => {
-    const { item, index } = rowData;
-    return (
-      <TestimonialList
-        item={item}
-        index={index}
-        scrollableTest={() => setScroll(false)}
-      />
-    );
+  const inactiveDotColor = () => {
+    return <View />;
   };
 
-  // Testimonial auto scroll -------------
-  const autoScroll = () => {
-    data.length === 0
-      ? (setCounter(true), fetchTest())
-      : scroll
-        ? setTimeout(() => {
-          if (flatListRef.current) {
-            if (currentIndex < data.length - 1) {
-              setCurrentIndex(currentIndex + 1);
-              flatListRef.current.scrollToIndex({
-                index: currentIndex,
-                animated: true,
-              });
-            } else {
-              setCurrentIndex(0);
-              flatListRef.current.scrollToIndex({
-                index: currentIndex,
-                animated: true,
-              });
-            }
-          }
-        }, 5000)
-        : null;
+  const activeDotColor = () => {
+    return <View />;
   };
 
   return (
@@ -134,17 +90,49 @@ export default function App(props: AppProps) {
       {/* Custom Cartoon view ------------- */}
       <Customcartoon navigation={props.navigation} small={false} />
       <View style={Styles.loginView}>
-        {/* testimonial Flatlist -------------- */}
-        <FlatList
-          ref={flatListRef}
-          data={data.length === 0 ? DATA : data}
-          keyExtractor={(item, index) => index.toString()}
+        {/* testimonial -------------- */}
+        <Swiper
+          showsButtons={false}
+          loop={true}
+          key={data.length}
           horizontal={true}
-          showsHorizontalScrollIndicator={false}
-          bounces={false}
-          onScrollToIndexFailed={(data) => { }}
-          renderItem={renderItems}
-        />
+          autoplay={true}
+          activeDot={activeDotColor()}
+          dot={inactiveDotColor()}
+          removeClippedSubviews={false}
+          autoplayTimeout={3}
+        >
+          {data.length === 0 ? (
+            <CustomLoader loading={true} />
+          ) : (
+            data.map((item: any) => (
+              <View style={Styles.testimonialView}>
+                <Image
+                  source={Images.Testimonial_Base}
+                  resizeMode="contain"
+                  resizeMethod="resize"
+                  style={Styles.testimonialImg}
+                />
+                <Image
+                  source={Images.Colen_Bubble}
+                  style={Styles.testimonialColen}
+                />
+                <View style={Styles.testimonialTxtView}>
+                  <Text numberOfLines={5} style={Styles.testimonialtext}>
+                    {`"`}
+                    {item.text.replace(/(<([^>]+)>)/gi, " ")}
+                    {`"`}
+                  </Text>
+                  <Text style={Styles.testimonialAuthor}>
+                    {item.name === "" ? "" : "- "}
+                    {item.name}
+                  </Text>
+                  {/* <Text style={Styles.testimonialCentre}>{centre}</Text> */}
+                </View>
+              </View>
+            ))
+          )}
+        </Swiper>
         {/* Login Custom Button ----------- */}
         <CustomButton
           Text={Strings.login}
@@ -182,6 +170,7 @@ const Styles = StyleSheet.create({
     borderRadius: vw(10),
     alignItems: "center",
     marginBottom: vh(30),
+    height: vh(420),
   },
   btnText: {
     fontFamily: "Nunito-Bold",
@@ -189,6 +178,40 @@ const Styles = StyleSheet.create({
     padding: vw(28),
     paddingTop: vh(10),
   },
+  testimonialView: {
+    width: vw(330),
+    alignItems: "center",
+    marginBottom: vh(20),
+    marginHorizontal: vw(20),
+    marginTop: vh(8),
+  },
+  testimonialImg: {
+    marginTop: vw(40),
+    width: "100%",
+    height: vw(180),
+  },
+  testimonialColen: {
+    position: "absolute",
+    alignSelf: "center",
+    marginTop: vw(15),
+  },
+  testimonialTxtView: {
+    position: "absolute",
+    marginHorizontal: vw(30),
+    marginTop: vw(75),
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  testimonialtext: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vw(16),
+    textAlign: "center",
+  },
+  testimonialAuthor: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vw(16),
+    textAlign: "center",
+    color: Colors.pink,
+    paddingTop: vh(2),
+  },
 });
-
-const DATA = [{ text: "", name: "" }];
