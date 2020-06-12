@@ -46,5 +46,6 @@ export default {
   TOP_TAB_NAVIGATOR: "TopTabNavigator",
   CONTACT_MODAL: "ContactModal",
   CHILD_MODAL: "ChildModal",
+  HOME_CHILD_MODAL: "HomeChildModal",
   ENTER_PASSWORD: "EnterPassword",
 };

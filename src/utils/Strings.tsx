@@ -114,6 +114,7 @@ const Strings = new LocalizedStrings({
     lunch_description:
       "This will help Alex in getting along with other children and importance of eating together.",
     Announcement: "Announcement",
+    Announcements: "Announcements",
     anonsmtDescription:
       "Parent workshop has been conducted in the school premisis on 07th February. Make sure all of you attent the workshop from 10AM onwards.",
     Question_of_the_Day: "Question of the Day",
@@ -221,6 +222,10 @@ const Strings = new LocalizedStrings({
     Date: "Date",
     Activity_Types: "Activity Types",
     General_Info: "General Info",
+    Activities: "Activities",
+    In_Time: "In Time",
+    Out_Time: "Out Time",
+    Not_Available: "Not Available",
   },
 });
 export default Strings;

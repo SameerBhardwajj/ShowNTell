@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import { Colors, vh, Images, vw, ScreenName } from "../../utils";
 
 export interface AppProps {
@@ -23,6 +24,12 @@ export interface AppProps {
 const iPhoneX = Dimensions.get("window").height >= 812;
 
 export default function App(props: AppProps) {
+  const { otherCurrentChild, loginData } = useSelector(
+    (state: { Home: any; Login: any }) => ({
+      otherCurrentChild: state.Home.otherCurrentChild,
+      loginData: state.Login.loginData,
+    })
+  );
   return (
     <View style={Styles.mainOuterView}>
       <View style={Styles.extraHeader} />
@@ -32,12 +39,22 @@ export default function App(props: AppProps) {
         </Text>
         {props.child ? (
           <TouchableOpacity
-            activeOpacity={0.8}
+            activeOpacity={loginData.Children.length > 1 ? 0.8 : 1}
             style={Styles.childHeader}
-            onPress={() => props.navigation.navigate(ScreenName.CHILD_MODAL)}
+            onPress={() =>
+              loginData.Children.length > 1
+                ? props.navigation.navigate(ScreenName.CHILD_MODAL, {
+                    child: loginData.Children,
+                  })
+                : null
+            }
           >
-            <Text style={Styles.childHeaderText}>Alex </Text>
-            <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
+            <Text style={Styles.childHeaderText} numberOfLines={1}>
+              {otherCurrentChild.name}
+            </Text>
+            {loginData.Children.length > 1 ? (
+              <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
+            ) : null}
           </TouchableOpacity>
         ) : null}
         {props.hideBackButton ? null : (
@@ -117,10 +134,11 @@ const Styles = StyleSheet.create({
   childHeader: {
     flexDirection: "row",
     position: "absolute",
+    maxWidth: vw(120),
     right: vw(16),
     top: vh(33),
     paddingVertical: vw(3),
-    paddingHorizontal: vw(10),
+    paddingHorizontal: vw(15),
     backgroundColor: "white",
     borderRadius: vh(20),
     alignItems: "center",

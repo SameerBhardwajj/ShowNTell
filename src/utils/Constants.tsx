@@ -9,9 +9,9 @@ const $http = axios.create({
   },
 });
 
-const setAuthorizationToken = (token: boolean) => {
+const setAuthorizationToken = (token: boolean, myToken: string) => {
   $http.defaults.headers.common.Authorization = token
-    ? "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInRpbWVTdGFtcCI6MTU4OTk1ODQ5NTg3MiwidHlwZSI6IlBBUkVOVCIsImlhdCI6MTU4OTk1ODQ5NSwiZXhwIjoxNTkwMjE3Njk1fQ.RNMzOIP0LmqGO4C9uk-crtg4lmqwjo7vFcNQmtlH-OI"
+    ? `Bearer ${myToken}`
     : "Basic Y29yZTpjb3Jl";
 };
 

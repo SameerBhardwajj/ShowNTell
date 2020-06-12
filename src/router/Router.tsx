@@ -53,6 +53,7 @@ import GalleryDetails from "../modules/PhotoLibrary/GalleryDetails";
 import CreateAbsence from "../modules/Absence/CreateAbsence";
 import ChildModal from "../Components/CustomHeader/ChildModal";
 import EnterPassword from "../modules/Auth/Login/EnterPassword";
+import HomeChildModal from "../modules/Home/HomeChildModal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -155,7 +156,7 @@ export default class AppComponent extends React.Component<AppProps, any> {
         labelStyle: {
           fontFamily: "Nunito-SemiBold",
           fontSize: vh(12),
-          marginBottom: vh(10),
+          marginBottom: vh(20),
           textTransform: "capitalize",
         },
       }}
@@ -364,6 +365,11 @@ export default class AppComponent extends React.Component<AppProps, any> {
                 options={this.modal}
               />
               <RootStack.Screen
+                name={ScreenName.HOME_CHILD_MODAL}
+                component={HomeChildModal}
+                options={this.modal}
+              />
+              <RootStack.Screen
                 name={ScreenName.ABSENCE_NOTIFICATION_MODAL}
                 component={AbsenceNotificationModal}
                 options={this.modal}
@@ -388,7 +394,7 @@ export default class AppComponent extends React.Component<AppProps, any> {
 
 const Styles = StyleSheet.create({
   tabView: {
-    height: vh(70),
+    height: vh(80),
     alignItems: "center",
     backgroundColor: "white",
     shadowColor: "#000",
@@ -401,5 +407,6 @@ const Styles = StyleSheet.create({
     elevation: 7,
     borderTopLeftRadius: vh(20),
     borderTopRightRadius: vh(20),
+
   },
 });

@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  ScrollView,
   FlatList,
   StatusBar,
   BackHandler,
@@ -17,7 +16,7 @@ import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { updateTab } from "./action";
+import { updateTab, updateChild } from "./action";
 import {
   vh,
   Colors,
@@ -26,6 +25,7 @@ import {
   Strings,
   ScreenName,
   Constants,
+  CommonFunctions,
 } from "../../utils";
 import {
   CustomSearchBar,
@@ -34,8 +34,8 @@ import {
   CustomButton,
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
-import { HomeAPI, HomeFilter } from "./action";
-import FilterModal from "./FilterModal";
+import { HomeAPI, HomeFilter, updateOtherChild } from "./action";
+import FilterModal from "./Filter/FilterModal";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -54,21 +54,53 @@ export default function App(props: AppProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [exitCounter, setExitCounter] = useState(false);
 
-  const { tab, data, currentChild, loginToken, loginData } = useSelector(
-    (state: { Home: any; Login: any }) => ({
-      tab: state.Home.tab,
-      data: state.Home.data,
-      currentChild: state.Home.currentChild,
-      loginToken: state.Login.loginToken,
-      loginData: state.Login.loginData,
-    })
-  );
+  const {
+    tab,
+    data,
+    currentChild,
+    loginToken,
+    loginData,
+    otherCurrentChild,
+  } = useSelector((state: { Home: any; Login: any }) => ({
+    tab: state.Home.tab,
+    data: state.Home.data,
+    currentChild: state.Home.currentChild,
+    loginToken: state.Login.loginToken,
+    loginData: state.Login.loginData,
+    otherCurrentChild: state.Home.otherCurrentChild,
+  }));
 
   React.useEffect(() => {
     SplashScreen.hide();
-    Constants.setAuthorizationToken(loginToken.length === 0 ? false : true);
-    debugger;
-    hitHomeAPI(currentChild.child, 0);
+    Constants.setAuthorizationToken(
+      loginToken.length === 0 ? false : true,
+      loginToken
+    );
+    setLoading(true);
+    console.warn("child ", currentChild);
+
+    loginData.Children.length > 1
+      ? hitHomeAPI(currentChild.child, 0)
+      : dispatch(
+          updateChild(
+            {
+              child: loginData.Children[0].id,
+              name: loginData.Children[0].first_name,
+              classroom: loginData.Children[0].classroom_id,
+            },
+            () =>
+              dispatch(
+                updateOtherChild(
+                  {
+                    child: loginData.Children[0].id,
+                    name: loginData.Children[0].first_name,
+                    classroom: loginData.Children[0].classroom_id,
+                  },
+                  () => hitHomeAPI(loginData.Children[0].id, 0)
+                )
+              )
+          )
+        );
     // const unsubscribe =
     //   (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
     //     dispatch(
@@ -105,9 +137,6 @@ export default function App(props: AppProps) {
   };
 
   const hitHomeAPI = (child_id: number, page: number) => {
-    console.warn(isRefreshing);
-    
-    isRefreshing ? null : setLoading(true);
     console.warn(child_id, page);
     dispatch(
       HomeAPI(
@@ -116,8 +145,17 @@ export default function App(props: AppProps) {
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
-          // console.warn('my datra',data);
           data.length === 0 ? null : setHomeData(data.activity.rows);
+          console.warn("len ", data.activity.rows);
+          // CommonFunctions.isEmpty(otherCurrentChild)
+          //   ? dispatch(
+          //       updateOtherChild({
+          //         child: loginData.Children[0].id,
+          //         name: loginData.Children[0].first_name,
+          //         classroom: loginData.Children[0].classroom_id,
+          //       }, () => {})
+          //     )
+          //   : null;
         },
         () => {
           setLoading(false), setRefreshing(false);
@@ -126,11 +164,11 @@ export default function App(props: AppProps) {
     );
   };
 
-  const hitHomeFilter = (classroomd_id: number) => {
+  const hitHomeFilter = () => {
     setLoading(true);
     dispatch(
       HomeFilter(
-        classroomd_id,
+        currentChild.classroom,
         () => setLoading(false),
         () => setLoading(false)
       )
@@ -138,19 +176,12 @@ export default function App(props: AppProps) {
   };
 
   return (
-    // <ScrollView
-    //   showsVerticalScrollIndicator={false}
-    //   bounces={true}
-    //   keyboardShouldPersistTaps="handled"
-
-    // >
     <View style={Styles.mainView}>
       <StatusBar
         barStyle={"light-content"}
         backgroundColor={Colors.violet}
         animated={loading}
       />
-      {/* <View style={Styles.mainView}> */}
       <View style={Styles.extraHeader} />
       <View style={Styles.header}>
         <View style={Styles.upperHeader}>
@@ -161,16 +192,20 @@ export default function App(props: AppProps) {
             <Image source={Images.Hamburger} style={Styles.hamburgerImg} />
           </TouchableOpacity>
           <TouchableOpacity
-            activeOpacity={0.8}
+            activeOpacity={loginData.Children.length > 1 ? 0.8 : 1}
             style={Styles.childHeader}
             onPress={() =>
-              props.navigation.navigate(ScreenName.CHILD_MODAL, {
-                child: loginData.Children,
-              })
+              loginData.Children.length > 1
+                ? props.navigation.navigate(ScreenName.HOME_CHILD_MODAL, {
+                    child: loginData.Children,
+                  })
+                : null
             }
           >
             <Text style={Styles.childHeaderText}>{currentChild.name}</Text>
-            <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
+            {loginData.Children.length > 1 ? (
+              <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
+            ) : null}
           </TouchableOpacity>
           <TouchableOpacity activeOpacity={0.8}>
             <Image source={Images.Notification_Icon} style={Styles.imgHeader} />
@@ -189,14 +224,10 @@ export default function App(props: AppProps) {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => {
-              console.warn(currentChild), setModalOpen(true);
-              dispatch(
-                HomeFilter(
-                  51,
-                  () => {},
-                  () => {}
-                )
-              );
+              // console.warn(currentChild),
+              currentChild.classroom === 0
+                ? CustomToast("Please change Child")
+                : (setModalOpen(true), hitHomeFilter());
             }}
           >
             <Image source={Images.Filter_Icon} style={Styles.filterImg} />
@@ -287,6 +318,8 @@ const Styles = StyleSheet.create({
   },
   innerView: {
     width: "100%",
+    // marginBottom: vh(170),
+    flex: 1,
   },
   loader: {
     position: "absolute",

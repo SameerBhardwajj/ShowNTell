@@ -15,7 +15,7 @@ const DateDifference = (date1: any, date2: any) => {
 };
 
 const DateFormatter = (date: Date) => {
-  let wMonths = [
+  const wMonths = [
     "Jan",
     "Feb",
     "Mar",
@@ -29,31 +29,44 @@ const DateFormatter = (date: Date) => {
     "Nov",
     "Dec",
   ];
-
   let month = date.getMonth();
   return `${wMonths[month]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
+const DateMonthFormatter = (date: Date) => {
+  const wMonths = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  let month = date.getMonth();
+  return `${wMonths[month]}, ${date.getFullYear()}`;
+};
+
 const dateTypeFormat = (date: Date, format: string) => {
-  let d = `${date.getDate() < 10 ? "0" : ""}${date.getDate()}`;
-  let m = `${date.getMonth() < 10 ? "0" : ""}${date.getMonth()}`;
-  let y = date.getFullYear();
+  let testDateUtc = moment.utc(date);
   let myDate;
   format === "dmy"
-    ? (myDate = `${d}-${m}-${y}`)
+    ? (myDate = moment(testDateUtc).local().format("DD-MM-YYYY"))
     : format === "mdy"
-    ? (myDate = `${m}-${d}-${y}`)
-    : (myDate = `${y}-${m}-${d}`);
+    ? (myDate = moment(testDateUtc).local().format("MM-DD-YYYY"))
+    : (myDate = moment(testDateUtc).local().format("YYYY-MM-DD"));
   return myDate;
 };
 
 const timeFormatter = (date: Date) => {
-  const hour = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-  const min = date.getMinutes();
-  const time = date.getHours() > 12 ? "pm" : "am";
-  return `${hour < 10 ? "0" + hour : hour}:${
-    min < 10 ? "0" + min : min
-  } ${time}`;
+  let testDateUtc = moment.utc(date);
+  let localTime = moment(testDateUtc).local().format("hh:mm A");
+  return localTime;
 };
 
 const requestLocationPermission = async (
@@ -173,6 +186,13 @@ const isNullUndefined = (item: any) => {
   }
 };
 
+const isEmpty = (obj: object) => {
+  for (var key in obj) {
+    if (obj.hasOwnProperty(key)) return false;
+  }
+  return true;
+};
+
 export default {
   DateDifference,
   DateFormatter,
@@ -181,4 +201,6 @@ export default {
   binarySearch,
   dateTypeFormat,
   isNullUndefined,
+  DateMonthFormatter,
+  isEmpty,
 };

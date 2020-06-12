@@ -22,6 +22,7 @@ export default {
     needHelp: "/api/v1/parent/need-help",
     testimonials: "/api/v1/parent/testimonials",
     scheduleTour: "/api/v1/parent/schedule-tour",
+    logout: "/api/v1/parent/logout",
   },
   home: {
     HomeData: (child_id: number, page: number) =>
@@ -30,5 +31,11 @@ export default {
         : `/api/v1/parent/home-data?child_id=${child_id}&page=${page}`,
     filterData: (classroom: number) =>
       `/api/v1/parent/filter-data?classroom_id=${classroom}`,
+  },
+  attendance: {
+    viewAttendance: (type: string, id: number, date: string) =>
+      id === 0
+        ? `/api/v1/parent/attendance?type=${type}&date=${date}`
+        : `/api/v1/parent/attendance?type=${type}&child_id=${id}&date=${date}`,
   },
 };

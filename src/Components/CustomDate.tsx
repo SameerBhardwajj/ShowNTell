@@ -15,13 +15,14 @@ export interface AppProps {
   heading: string;
   getDate: Function;
   minDate?: Date;
+  mainViewStyle?: object;
 }
 
 export default function App(props: AppProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   return (
-    <View style={Styles.mainView}>
+    <View style={[Styles.mainView, props.mainViewStyle]}>
       <Text style={Styles.titleTxt}>{props.heading}</Text>
       <TouchableOpacity
         style={Styles.inputTxt}
@@ -93,13 +94,12 @@ const Styles = StyleSheet.create({
   },
   topModalView: {
     width: "100%",
-    flex: 0.8,
-    backgroundColor: "transparent",
+    flex: 1,
+    backgroundColor: Colors.modalBg
   },
   modalView: {
     backgroundColor: "white",
     width: "100%",
-    flex: 0.2,
     paddingVertical: vh(30),
     alignItems: "center",
     justifyContent: "flex-end",

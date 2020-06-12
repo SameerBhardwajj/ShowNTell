@@ -29,5 +29,6 @@ const Colors = {
   modalBg2: "rgba(0,0,0,0.2)",
   chatBorderGrey: "rgb(210, 210, 210)",
   creamWhite: "rgb(250, 250, 250)",
+  veryLightBorder: "rgb(238, 238, 238)",
 };
 export default Colors;

@@ -43,7 +43,10 @@ export default function App(props: AppProps) {
 
   useEffect(() => {
     SplashScreen.hide();
-    Constants.setAuthorizationToken(loginToken.length === 0 ? false : true);
+    Constants.setAuthorizationToken(
+      loginToken.length === 0 ? false : true,
+      loginToken
+    );
     fetchTest();
     BackHandler.addEventListener("hardwareBackPress", () => {
       exitCounter
@@ -61,14 +64,14 @@ export default function App(props: AppProps) {
   const fetchTest = () => {
     counter
       ? dispatch(
-        fetchTestimonials(
-          (success: any) => {
-            setCounter(false);
-            setData(success);
-          },
-          () => { }
+          fetchTestimonials(
+            (success: any) => {
+              setCounter(false);
+              setData(success);
+            },
+            () => {}
+          )
         )
-      )
       : null;
   };
 

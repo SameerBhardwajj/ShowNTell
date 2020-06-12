@@ -8,35 +8,105 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  FlatList,
 } from "react-native";
+import moment from "moment";
 import DatePicker from "react-native-date-picker";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { useDispatch, useSelector } from "react-redux";
-import { vh, Colors, Images, vw, Strings } from "../../utils";
-import { CustomButton, CustomHeader } from "../../Components";
+import {
+  vh,
+  Colors,
+  Images,
+  vw,
+  Strings,
+  CommonFunctions,
+  ScreenName,
+} from "../../utils";
+import { CustomButton, CustomHeader, CustomLoader } from "../../Components";
 import { updateTab } from "../Home/action";
+import { viewAttendance } from "./action";
+import AttendanceList from "./AttendanceList";
+import AttendanceMonth from "./AttendanceMonth";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
+const DATE_TYPE = "by_date";
+const MONTH_TYPE = "by_month";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
-  const [viewByDate, setViewByDate] = useState(true);
+  const [viewByDate, setViewByDate] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [isLoading, setLoading] = useState(false);
+  const [isRefreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
-  const { tab } = useSelector((state: { Home: any }) => ({
-    tab: state.Home.tab,
-  }));
+  const { tab, otherCurrentChild, data } = useSelector(
+    (state: { Home: any; Attendance: any }) => ({
+      tab: state.Home.tab,
+      otherCurrentChild: state.Home.otherCurrentChild,
+      data: state.Attendance.data,
+    })
+  );
 
   useEffect(() => {
-    dispatch(updateTab(true, () => {}));
-  }, []);
+    // dispatch(updateTab(true, () => {}));
+
+    setLoading(true);
+    hitAttendance();
+  }, [otherCurrentChild, viewByDate]);
+
+  const hitAttendance = () => {
+    dispatch(
+      viewAttendance(
+        viewByDate ? DATE_TYPE : MONTH_TYPE,
+        otherCurrentChild.child,
+        CommonFunctions.dateTypeFormat(date, "ymd"),
+        () => {
+          {
+            setLoading(false), setRefreshing(false);
+          }
+        },
+        () => {
+          {
+            setLoading(false), setRefreshing(false);
+          }
+        }
+      )
+    );
+  };
+
+  const renderItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <AttendanceList
+        index={index}
+        item={item}
+        currentChild={otherCurrentChild.child}
+        allData={data}
+      />
+    );
+  };
+
+  const renderMonthItem = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <AttendanceMonth
+        index={index}
+        item={item}
+        currentChild={otherCurrentChild.child}
+        allData={data}
+      />
+    );
+  };
 
   return (
     <View style={Styles.mainView}>
@@ -47,8 +117,10 @@ export default function App(props: AppProps) {
         child={true}
         navigation={props.navigation}
       />
+      <CustomLoader loading={isLoading} />
+      {/* view by date and month ------------------ */}
       <View style={Styles.viewByView}>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={Styles.mainViewBy}>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => setViewByDate(true)}
@@ -69,7 +141,7 @@ export default function App(props: AppProps) {
           <Text style={Styles.viewByText}>{Strings.View_by_Date}</Text>
         </View>
         <View style={Styles.separator} />
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={Styles.mainViewBy}>
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => setViewByDate(false)}
@@ -90,107 +162,88 @@ export default function App(props: AppProps) {
           <Text style={Styles.viewByText}>{Strings.View_by_Month}</Text>
         </View>
       </View>
+      {/* View by Date ------------------------- */}
       {viewByDate ? (
-        <View style={{ alignItems: "center", width: "100%" }}>
-          <View style={Styles.attenanceView}>
-            <Text style={Styles.attendenceHeading}>Feb 27, 2020</Text>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={Styles.calenderStyle}
-              onPress={() => setModalOpen(true)}
-            >
-              <Image source={Images.Calendar_Icon} style={{ padding: 13 }} />
-            </TouchableOpacity>
-          </View>
-          <View style={Styles.timeView}>
-            <View style={Styles.inTimeView}>
-              <Image source={Images.In_Time_Icon} />
-              <Text style={Styles.inTimeText}>In Time</Text>
-              <Text style={Styles.inTime}>10:15 AM</Text>
-            </View>
-            <View style={Styles.separatorView} />
-            <View style={Styles.inTimeView}>
-              <Image source={Images.Out_Time_Icon} />
-              <Text style={Styles.inTimeText}>Out Time</Text>
-              <Text style={Styles.inTime}>10:15 AM</Text>
-            </View>
-          </View>
-          <View style={Styles.timeView}>
-            <View style={Styles.inTimeView}>
-              <Image source={Images.In_Time_Icon} />
-              <Text style={Styles.inTimeText}>In Time</Text>
-              <Text style={Styles.inTime}>10:15 AM</Text>
-            </View>
-            <View style={Styles.separatorView} />
-            <View style={Styles.inTimeView}>
-              <Image source={Images.Out_Time_Icon} />
-              <Text style={Styles.inTimeText}>Out Time</Text>
-              <Text style={Styles.inTime}>10:15 AM</Text>
-            </View>
-          </View>
-          <Modal animationType="slide" transparent={true} visible={modalOpen}>
-            <TouchableOpacity
-              style={Styles.topModalView}
-              onPress={() => setModalOpen(false)}
-            />
-            <View style={Styles.modalView}>
-              <DatePicker
-                maximumDate={new Date()}
-                date={date}
-                mode="date"
-                onDateChange={(text: Date) => {
-                  setDate(text);
-                }}
-              />
-              <CustomButton
-                Text="Set Date"
-                onPress={() => setModalOpen(false)}
-              />
-            </View>
-          </Modal>
+        <View style={Styles.monthView}>
+          <FlatList
+            ListHeaderComponent={() => {
+              return (
+                <View style={Styles.headingView}>
+                  {otherCurrentChild.child === 0 ? null : data.length ===
+                    0 ? null : (
+                    <Text style={Styles.attendenceHeading}>
+                      {data[0].Classroom.name}
+                    </Text>
+                  )}
+                  <View style={Styles.attenanceView}>
+                    <Text style={Styles.attendenceHeading}>
+                      {CommonFunctions.DateFormatter(currentDate)}
+                    </Text>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      style={Styles.calenderStyle}
+                      onPress={() => setModalOpen(true)}
+                    >
+                      <Image
+                        source={Images.Calendar_Icon}
+                        style={{ padding: 13 }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            }}
+            data={data}
+            showsVerticalScrollIndicator={false}
+            refreshing={isRefreshing}
+            onRefresh={() => {
+              setRefreshing(true), hitAttendance();
+            }}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItems}
+          />
         </View>
       ) : (
-        <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
-          <View style={{ alignItems: "center", width: "100%" }}>
-            <View style={Styles.attenanceView}>
-              <Text style={Styles.attendenceHeading}>February, 2020</Text>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={Styles.calenderStyle}
-                onPress={() => setModalOpen(true)}
-              >
-                <Image source={Images.Calendar_Icon} style={{ padding: 13 }} />
-              </TouchableOpacity>
-            </View>
-            <Text style={Styles.attendenceDate}>Feb 27, Friday</Text>
-            <View style={Styles.timeView}>
-              <View style={Styles.inTimeView}>
-                <Image source={Images.In_Time_Icon} />
-                <Text style={Styles.inTimeText}>In Time</Text>
-                <Text style={Styles.inTime}>10:15 AM</Text>
-              </View>
-              <View style={Styles.separatorView} />
-              <View style={Styles.inTimeView}>
-                <Image source={Images.Out_Time_Icon} />
-                <Text style={Styles.inTimeText}>Out Time</Text>
-                <Text style={Styles.inTime}>10:15 AM</Text>
-              </View>
-            </View>
-            <View style={Styles.timeView}>
-              <View style={Styles.inTimeView}>
-                <Image source={Images.In_Time_Icon} />
-                <Text style={Styles.inTimeText}>In Time</Text>
-                <Text style={Styles.inTime}>10:15 AM</Text>
-              </View>
-              <View style={Styles.separatorView} />
-              <View style={Styles.inTimeView}>
-                <Image source={Images.Out_Time_Icon} />
-                <Text style={Styles.inTimeText}>Out Time</Text>
-                <Text style={Styles.inTime}>10:15 AM</Text>
-              </View>
-            </View>
-            <View style={Styles.finalSeparator} />
-            <View style={Styles.absenceMainView}>
+        <View style={Styles.monthView}>
+          {/* View by Month ------------------------- */}
+          <FlatList
+            ListHeaderComponent={() => {
+              return (
+                <View style={Styles.headingView}>
+                  {otherCurrentChild.child === 0 ? null : data.length ===
+                    0 ? null : (
+                    <Text style={Styles.attendenceHeading}>
+                      {data[0].Classroom.name}
+                    </Text>
+                  )}
+                  <View style={Styles.attenanceView}>
+                    <Text style={Styles.attendenceHeading}>
+                      {CommonFunctions.DateMonthFormatter(currentMonth)}
+                    </Text>
+                    <TouchableOpacity
+                      activeOpacity={0.8}
+                      style={Styles.calenderStyle}
+                      onPress={() => setModalOpen(true)}
+                    >
+                      <Image
+                        source={Images.Calendar_Icon}
+                        style={{ padding: 13 }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              );
+            }}
+            data={data}
+            refreshing={isRefreshing}
+            onRefresh={() => {
+              setRefreshing(true), hitAttendance();
+            }}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderMonthItem}
+          />
+          {/* absence -------------------------------------------- */}
+          {/* <View style={Styles.absenceMainView}>
               <Text style={[Styles.attendenceDate, { marginLeft: 0 }]}>
                 Feb 26, Friday
               </Text>
@@ -199,7 +252,9 @@ export default function App(props: AppProps) {
                   style={Styles.absentIcon}
                   activeOpacity={0.8}
                   onPress={() =>
-                    props.navigation.navigate("AbsenceNotificationModal")
+                    props.navigation.navigate(
+                      ScreenName.ABSENCE_NOTIFICATION_MODAL
+                    )
                   }
                 >
                   <Image
@@ -211,30 +266,33 @@ export default function App(props: AppProps) {
                   {Strings.Absence_Notification}
                 </Text>
               </View>
-            </View>
-            <Modal animationType="slide" transparent={true} visible={modalOpen}>
-              <TouchableOpacity
-                style={Styles.topModalView}
-                onPress={() => setModalOpen(false)}
-              />
-              <View style={Styles.modalView}>
-                <DatePicker
-                  maximumDate={new Date()}
-                  date={month}
-                  mode="date"
-                  onDateChange={(text: Date) => {
-                    setMonth(text);
-                  }}
-                />
-                <CustomButton
-                  Text="Set Month"
-                  onPress={() => setModalOpen(false)}
-                />
-              </View>
-            </Modal>
-          </View>
-        </ScrollView>
+            </View> */}
+        </View>
       )}
+      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+        <TouchableOpacity
+          style={Styles.topModalView}
+          onPress={() => setModalOpen(false)}
+        />
+        <View style={Styles.modalView}>
+          <DatePicker
+            maximumDate={new Date()}
+            date={date}
+            mode="date"
+            onDateChange={(text: Date) => {
+              setDate(text);
+            }}
+          />
+          <CustomButton
+            Text="Set Date"
+            onPress={() => {
+              viewByDate ? setCurrentDate(date) : setCurrentMonth(date),
+                hitAttendance(),
+                setModalOpen(false);
+            }}
+          />
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -273,6 +331,12 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
+  mainViewBy: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "50%",
+    justifyContent: "center",
+  },
   viewByText: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
@@ -291,12 +355,14 @@ const Styles = StyleSheet.create({
     height: "60%",
     backgroundColor: Colors.darkFadedPink,
   },
+  headingView: {
+    paddingTop: vh(16),
+    paddingHorizontal: vw(16),
+  },
   attenanceView: {
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: vh(16),
-    paddingHorizontal: vw(16),
     paddingBottom: vh(8),
   },
   attendenceHeading: {
@@ -310,44 +376,6 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     padding: vh(20),
   },
-  timeView: {
-    paddingHorizontal: vw(16),
-    marginVertical: vh(8),
-    width: "90%",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "white",
-    borderRadius: vh(10),
-    justifyContent: "space-around",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 4.65,
-    elevation: 4,
-  },
-  inTimeView: {
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: vh(25),
-  },
-  inTimeText: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: vh(14),
-    color: Colors.lightGrey,
-    marginVertical: vh(11),
-  },
-  inTime: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(16),
-  },
-  separatorView: {
-    width: vw(1),
-    height: "80%",
-    backgroundColor: Colors.separator,
-  },
   attendenceDate: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
@@ -356,11 +384,10 @@ const Styles = StyleSheet.create({
     marginLeft: vw(16),
     alignSelf: "flex-start",
   },
-  finalSeparator: {
-    width: "90%",
-    marginVertical: vh(20),
-    backgroundColor: Colors.separator,
-    height: vw(1),
+  monthView: {
+    width: "100%",
+    marginBottom: vh(20),
+    flex: 1,
   },
   absenceMainView: {
     alignItems: "center",
@@ -391,7 +418,7 @@ const Styles = StyleSheet.create({
   topModalView: {
     width: "100%",
     flex: 0.65,
-    backgroundColor: "transparent",
+    backgroundColor: Colors.modalBg,
   },
   modalView: {
     backgroundColor: "white",

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { vw, vh, Colors } from "../../utils";
-import { updateOtherChild } from "../../modules/Home/action";
+import { updateChild } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -13,8 +13,8 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const { otherCurrentChild } = useSelector((state: { Home: any }) => ({
-    otherCurrentChild: state.Home.otherCurrentChild,
+  const { currentChild } = useSelector((state: { Home: any }) => ({
+    currentChild: state.Home.currentChild,
   }));
   return (
     <View style={Styles.mainView}>
@@ -25,10 +25,7 @@ export default function App(props: AppProps) {
             activeOpacity={0.8}
             onPress={() => {
               dispatch(
-                updateOtherChild(
-                  { child: 0, name: "All", classroom: 0 },
-                  () => {}
-                )
+                updateChild({ child: 0, name: "All", classroom: 0 }, () => {})
               ),
                 props.navigation.pop();
             }}
@@ -36,10 +33,7 @@ export default function App(props: AppProps) {
             <Text
               style={[
                 Styles.nameText,
-                {
-                  color:
-                    otherCurrentChild.child === 0 ? Colors.violet : "black",
-                },
+                { color: currentChild.child === 0 ? Colors.violet : "black" },
               ]}
             >
               All
@@ -54,10 +48,11 @@ export default function App(props: AppProps) {
               activeOpacity={0.8}
               onPress={() => {
                 dispatch(
-                  updateOtherChild(
+                  updateChild(
                     {
                       child: item.id,
                       name: `${item.first_name}`,
+                      classroom: item.classroom_id,
                     },
                     () => {}
                   )
@@ -70,9 +65,7 @@ export default function App(props: AppProps) {
                   Styles.nameText,
                   {
                     color:
-                      otherCurrentChild.child === item.id
-                        ? Colors.violet
-                        : "black",
+                      currentChild.child === item.id ? Colors.violet : "black",
                   },
                 ]}
               >{`${item.first_name} ${item.last_name}`}</Text>

@@ -1,10 +1,18 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, BackHandler } from "react-native";
 import { useDispatch } from "react-redux";
 
 // custom imports
-import { vw, Strings, vh, Colors, ScreenName } from "../../../utils";
-import { CustomButton } from "../../../Components";
+import {
+  vw,
+  Strings,
+  vh,
+  Colors,
+  ScreenName,
+  API,
+  EndPoints,
+} from "../../../utils";
+import { CustomButton, CustomToast, CustomLoader } from "../../../Components";
 import { updateLogin } from "../Login/action";
 
 export interface AppProps {
@@ -13,19 +21,35 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
   React.useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", () => {
       props.navigation.pop();
       return true;
     });
-  },[])
+  }, []);
   return (
     <View style={Styles.mainView}>
+      <CustomLoader loading={isLoading} />
       <View style={Styles.modalView}>
         <Text style={Styles.bubbleMsgText}>{Strings.logout_msg}</Text>
         <CustomButton
           Text={Strings.Yes_Logout}
-          onPress={() => dispatch(updateLogin({}, ""))}
+          onPress={() => {
+            setLoading(true);
+            API.postApiCall(
+              EndPoints.auth.logout,
+              {
+                device_id: "12",
+              },
+              () => {
+                setLoading(false), dispatch(updateLogin({}, ""));
+              },
+              (error: any) => {
+                setLoading(false), CustomToast(error.data.message);
+              }
+            );
+          }}
         />
         <CustomButton
           Text={Strings.No}

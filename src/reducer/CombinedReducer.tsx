@@ -8,6 +8,7 @@ import LandingPage from "../modules/Auth/LandingPage/reducer";
 import SchoolListing from "../modules/Auth/FindSchool/SchoolListing/reducer";
 import NearbySchool from "../modules/Auth/FindSchool/NearbySchool/reducer";
 import ForgotPassword from "../modules/Auth/ForgotPassword/reducer";
+import Attendance from "../modules/Attendance/reducer";
 const CombinedReducer = combineReducers({
   Home,
   Splash,
@@ -18,6 +19,7 @@ const CombinedReducer = combineReducers({
   LandingPage,
   SchoolListing,
   NearbySchool,
+  Attendance,
 });
 
 export default CombinedReducer;

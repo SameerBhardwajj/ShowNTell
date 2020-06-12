@@ -14,7 +14,7 @@ export const updateTab = (value: boolean, callback: Function) => {
   };
 };
 
-export const updateChild = (value: object) => {
+export const updateChild = (value: object, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
     dispatch({
       type: Action.UPDATE_TAB,
@@ -22,6 +22,19 @@ export const updateChild = (value: object) => {
         currentChild: value,
       },
     });
+    callback();
+  };
+};
+
+export const updateOtherChild = (value: object, callback: Function) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        otherCurrentChild: value,
+      },
+    });
+    callback();
   };
 };
 
@@ -36,16 +49,16 @@ export const HomeAPI = (
       EndPoints.home.HomeData(child_id, page),
       {},
       (success: any) => {
+        const res = success.data.response;
         if (success.data.code === 200) {
-          console.warn("mysuccess ", success.data.response);
+          console.warn("mysuccess ", res);
           dispatch({
             type: Action.HOME_DATA,
             payload: {
-              data: success.data.response,
+              data: res,
             },
           });
-          debugger;
-          successCallback(success.data.response);
+          successCallback(res);
         } else {
           CustomToast(success.data.message);
           failureCallback();

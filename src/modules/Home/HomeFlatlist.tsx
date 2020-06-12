@@ -67,7 +67,7 @@ export default function App(props: AppProps) {
                   </Text>
                 </Text>
               </TouchableOpacity>
-              <Text style={Styles.category}>{item.ActivityValue.name}</Text>
+              <Text style={Styles.category}>{item.ActivityValue.name === null ? '' : item.ActivityValue.name}</Text>
               <Text style={Styles.content}>{item.ActivitySubValue.name}</Text>
               <Text style={Styles.time}>
                 {CommonFunctions.DateFormatter(new Date(item.activity_dt))}
@@ -146,7 +146,7 @@ const Styles = StyleSheet.create({
       width: 0,
       height: 3,
     },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.15,
     shadowRadius: 4.65,
     elevation: 7,
   },
