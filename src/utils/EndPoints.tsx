@@ -25,10 +25,17 @@ export default {
     logout: "/api/v1/parent/logout",
   },
   home: {
-    HomeData: (child_id: number, page: number) =>
+    HomeData: (
+      child_id: number,
+      page: number,
+      activity: any,
+      date: string
+    ) =>
       child_id === 0
         ? `/api/v1/parent/home-data`
-        : `/api/v1/parent/home-data?child_id=${child_id}&page=${page}`,
+        : `/api/v1/parent/home-data?child_id=${child_id}&page=${page}${
+            activity === null ? "" : `&activity_value_id=${activity}`
+          }${date.length === 0 ? "" : `&date=${activity}`}`,
     filterData: (classroom: number) =>
       `/api/v1/parent/filter-data?classroom_id=${classroom}`,
   },

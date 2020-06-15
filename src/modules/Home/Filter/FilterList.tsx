@@ -57,7 +57,6 @@ const Styles = StyleSheet.create({
   activityView: {
     width: "70%",
     marginTop: vh(14),
-    // backgroundColor: 'blue'
   },
   activityHeadView: {
     flexDirection: "row",

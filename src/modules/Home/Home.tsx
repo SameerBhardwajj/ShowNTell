@@ -34,7 +34,7 @@ import {
   CustomButton,
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
-import { HomeAPI, HomeFilter, updateOtherChild } from "./action";
+import { HomeAPI, updateOtherChild } from "./action";
 import FilterModal from "./Filter/FilterModal";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
@@ -61,6 +61,8 @@ export default function App(props: AppProps) {
     loginToken,
     loginData,
     otherCurrentChild,
+    myFilter,
+    filterNum
   } = useSelector((state: { Home: any; Login: any }) => ({
     tab: state.Home.tab,
     data: state.Home.data,
@@ -68,6 +70,8 @@ export default function App(props: AppProps) {
     loginToken: state.Login.loginToken,
     loginData: state.Login.loginData,
     otherCurrentChild: state.Home.otherCurrentChild,
+    myFilter: state.Home.myFilter,
+    filterNum: state.Home.filterNum,
   }));
 
   React.useEffect(() => {
@@ -142,20 +146,12 @@ export default function App(props: AppProps) {
       HomeAPI(
         child_id,
         page,
+        null,
+        "",
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
           data.length === 0 ? null : setHomeData(data.activity.rows);
-          console.warn("len ", data.activity.rows);
-          // CommonFunctions.isEmpty(otherCurrentChild)
-          //   ? dispatch(
-          //       updateOtherChild({
-          //         child: loginData.Children[0].id,
-          //         name: loginData.Children[0].first_name,
-          //         classroom: loginData.Children[0].classroom_id,
-          //       }, () => {})
-          //     )
-          //   : null;
         },
         () => {
           setLoading(false), setRefreshing(false);
@@ -164,13 +160,21 @@ export default function App(props: AppProps) {
     );
   };
 
-  const hitHomeFilter = () => {
-    setLoading(true);
+  const hitFilterAPI = (activity: any, date: string) => {
     dispatch(
-      HomeFilter(
-        currentChild.classroom,
-        () => setLoading(false),
-        () => setLoading(false)
+      HomeAPI(
+        currentChild.child,
+        0,
+        activity,
+        date === undefined ? "" : date,
+        (data: any) => {
+          setLoading(false);
+          setRefreshing(false);
+          data.length === 0 ? null : setHomeData(data.activity.rows);
+        },
+        () => {
+          setLoading(false), setRefreshing(false);
+        }
       )
     );
   };
@@ -227,7 +231,7 @@ export default function App(props: AppProps) {
               // console.warn(currentChild),
               currentChild.classroom === 0
                 ? CustomToast("Please change Child")
-                : (setModalOpen(true), hitHomeFilter());
+                : setModalOpen(true);
             }}
           >
             <Image source={Images.Filter_Icon} style={Styles.filterImg} />
@@ -253,7 +257,14 @@ export default function App(props: AppProps) {
       <Modal animationType="slide" transparent={true} visible={modalOpen}>
         <View style={Styles.modalView}>
           <View />
-          <FilterModal setModalOpen={(value: boolean) => setModalOpen(value)} />
+          <FilterModal
+            setModalOpen={(value: boolean) => setModalOpen(value)}
+            applyFilter={(value: any) => {
+              console.warn(myFilter.date);
+              console.warn(value);
+              hitFilterAPI(value, myFilter.date);
+            }}
+          />
         </View>
       </Modal>
     </View>

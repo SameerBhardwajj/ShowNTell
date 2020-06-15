@@ -15,8 +15,15 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
-        <Image source={Images.Activity_Detail_Graphic} style={Styles.img} />
-        <Text style={Styles.bubbleText}>{params.name}</Text>
+        <Image
+          source={
+            params.icon === null
+              ? Images.Activity_Detail_Graphic
+              : { uri: params.icon }
+          }
+          style={Styles.img}
+        />
+        {/* <Text style={Styles.bubbleText}>{params.name}</Text> */}
         <Text style={Styles.bubbleMsgText}>{params.msg}</Text>
         <TouchableOpacity
           activeOpacity={0.8}

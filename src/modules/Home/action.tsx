@@ -41,12 +41,14 @@ export const updateOtherChild = (value: object, callback: Function) => {
 export const HomeAPI = (
   child_id: number,
   page: number,
+  activity: any,
+  date: string,
   successCallback: Function,
   failureCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.home.HomeData(child_id, page),
+      EndPoints.home.HomeData(child_id, page, activity, date),
       {},
       (success: any) => {
         const res = success.data.response;
@@ -98,7 +100,7 @@ export const HomeFilter = (
             },
           });
 
-          successCallback();
+          successCallback(success.data.response);
         } else {
           CustomToast(success.data.message);
           failureCallback();
@@ -116,5 +118,33 @@ export const HomeFilter = (
         failureCallback();
       }
     );
+  };
+};
+
+export const addFilter = (
+  activity: Array<any>,
+  date: string,
+  callback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        myFilter: { activity: activity, date: date },
+      },
+    });
+    callback();
+  };
+};
+
+export const countFilter = (value: number, callback: Function) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        filterNum: value,
+      },
+    });
+    callback();
   };
 };

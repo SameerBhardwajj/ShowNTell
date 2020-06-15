@@ -6,6 +6,8 @@ const initialState = {
   currentChild: { child: 0, name: "All", classroom: 0 },
   otherCurrentChild: { child: 0, name: "All", classroom: 0 },
   filterData: {},
+  myFilter: { activityt: [], date: "" },
+  filterNum: 0,
 };
 const Reducer = (state = initialState, action: any) => {
   console.warn(action, action.payload);

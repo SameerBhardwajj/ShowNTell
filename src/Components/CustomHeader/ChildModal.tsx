@@ -18,6 +18,11 @@ export default function App(props: AppProps) {
   }));
   return (
     <View style={Styles.mainView}>
+      <TouchableOpacity
+        style={{ backgroundColor: Colors.modalBg, width: '100%', flex: 1 }}
+        activeOpacity={0.8}
+        onPress={() => props.navigation.pop()}
+      />
       <View style={Styles.modalView}>
         {props.route.params.child.length > 1 ? (
           <TouchableOpacity
@@ -89,8 +94,7 @@ const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-end",
-    backgroundColor: Colors.modalBg,
+    justifyContent: "space-between",
   },
   modalView: {
     backgroundColor: "white",

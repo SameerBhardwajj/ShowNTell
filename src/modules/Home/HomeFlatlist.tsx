@@ -54,8 +54,8 @@ export default function App(props: AppProps) {
                 activeOpacity={0.8}
                 onPress={() =>
                   props.navigation.navigate(ScreenName.ACTIVITY_MODAL, {
-                    name: Strings.lunch_name,
-                    msg: Strings.lunch_msg,
+                    icon: props.item.ActivityCategory.icon_url,
+                    msg: props.item.ActivityCategory.description,
                   })
                 }
               >
@@ -67,7 +67,11 @@ export default function App(props: AppProps) {
                   </Text>
                 </Text>
               </TouchableOpacity>
-              <Text style={Styles.category}>{item.ActivityValue.name === null ? '' : item.ActivityValue.name}</Text>
+              <Text style={Styles.category}>
+                {item.ActivityValue.name === null
+                  ? ""
+                  : item.ActivityValue.name}
+              </Text>
               <Text style={Styles.content}>{item.ActivitySubValue.name}</Text>
               <Text style={Styles.time}>
                 {CommonFunctions.DateFormatter(new Date(item.activity_dt))}

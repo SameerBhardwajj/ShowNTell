@@ -26,12 +26,15 @@ import {
   CustomLoader,
 } from "../../../Components";
 import FilterList from "./FilterList";
+import { HomeFilter, countFilter, addFilter } from "../action";
 
 export interface AppProps {
   setModalOpen: Function;
+  applyFilter: Function;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
   const [current, setCurrent] = useState(1);
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
@@ -42,9 +45,30 @@ export default function App(props: AppProps) {
   const [reset, setReset] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
-  const { filterData } = useSelector((state: { Home: any }) => ({
-    filterData: state.Home.filterData,
-  }));
+  const { filterData, filterNum, currentChild, myFilter } = useSelector(
+    (state: { Home: any }) => ({
+      filterData: state.Home.filterData,
+      filterNum: state.Home.filterNum,
+      currentChild: state.Home.currentChild,
+      myFilter: state.Home.myFilter,
+    })
+  );
+
+  React.useEffect(() => {
+    hitHomeFilter();
+    // console.warn(str.join(","));
+    // str = str.concat("8");
+    // str = str.concat("6");
+    // console.warn(str.join(","));
+    // console.warn("sort ", str.sort().join(","));
+
+    // console.warn(filterData.activityCategory);
+    // filterData.activityCategory.map((item: any) => {
+    //   item.ActivityValuesOri.map((item: any) => {
+    //     console.warn(item.id);
+    //   });
+    // });
+  }, []);
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -56,6 +80,40 @@ export default function App(props: AppProps) {
     setactivityType1(true);
     setactivityType2(true);
     setactivityType3(true);
+  };
+
+  const hitHomeFilter = () => {
+    filterNum === 0
+      ? (setLoading(true),
+        dispatch(
+          HomeFilter(
+            currentChild.classroom,
+            (filterData: any) => {
+              let counter = 0;
+              let temp: Array<any> = [];
+              filterData.activityCategory.map((item: any) => {
+                item.ActivityValuesOri.map((item: any) => {
+                  temp = temp.concat(item.id.toString());
+                  counter = counter + 1;
+                });
+              });
+              console.warn("temp ", temp.sort().join(","), temp);
+              filterNum !== counter
+                ? dispatch(
+                    addFilter(temp, myFilter.date, () => {
+                      dispatch(
+                        countFilter(counter, () => {
+                          setLoading(false);
+                        })
+                      );
+                    })
+                  )
+                : null;
+            },
+            () => setLoading(false)
+          )
+        ))
+      : null;
   };
 
   return (
@@ -245,7 +303,14 @@ export default function App(props: AppProps) {
           ButtonStyle={Styles.applyBtn}
         />
         <CustomButton
-          onPress={() => {}}
+          onPress={() => {
+            props.setModalOpen(false),
+              props.applyFilter(
+                filterNum === myFilter.activity.length
+                  ? null
+                  : myFilter.activity.join(",")
+              );
+          }}
           Text={Strings.Apply}
           ButtonStyle={Styles.applyBtn}
         />
@@ -294,20 +359,11 @@ const Styles = StyleSheet.create({
     paddingBottom: 0,
     width: "100%",
   },
-  activityView: {
-    width: "70%",
-    marginTop: vh(14),
-    // backgroundColor: 'blue'
-  },
   activityHeadView: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-  },
-  activityHeadText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(16),
   },
   subActivityText: {
     fontFamily: "Nunito-SemiBold",
