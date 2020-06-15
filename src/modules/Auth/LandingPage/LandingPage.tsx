@@ -107,12 +107,14 @@ export default function App(props: AppProps) {
           ) : (
             data.map((item: any) => (
               <View style={Styles.testimonialView}>
-                <Image
-                  source={Images.Testimonial_Base}
-                  resizeMode="contain"
-                  resizeMethod="resize"
-                  style={Styles.testimonialImg}
-                />
+                <View style={Styles.testimonialImg}>
+                  <Image
+                    source={Images.Testimonial_Base}
+                    resizeMode="contain"
+                    resizeMethod="resize"
+                    // style={{height: '100%', width: '100%'}}
+                  />
+                </View>
                 <Image
                   source={Images.Colen_Bubble}
                   style={Styles.testimonialColen}
@@ -181,14 +183,18 @@ const Styles = StyleSheet.create({
   testimonialView: {
     width: vw(330),
     alignItems: "center",
-    marginBottom: vh(20),
+    paddingBottom: vh(20),
     marginHorizontal: vw(20),
     marginTop: vh(8),
+    backgroundColor: "blue",
   },
   testimonialImg: {
     marginTop: vw(40),
     width: "100%",
-    height: vw(180),
+    height: vh(180),
+    backgroundColor: "red",
+    alignItems: "center",
+    // justifyContent: "center",
   },
   testimonialColen: {
     position: "absolute",

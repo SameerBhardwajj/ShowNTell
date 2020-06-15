@@ -31,7 +31,7 @@ export const fetchTestimonials = (
             fetchTest: false,
           },
         });
-        CustomToast(error.data.message);
+        CustomToast(error);
         failCallback([]);
       }
     );

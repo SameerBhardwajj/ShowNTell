@@ -81,14 +81,21 @@ export default function App(props: AppProps) {
   }, [BackHandler]);
 
   const schoolAPI = () => {
+    setIsLoading(true);
     API.getApiCall(
       EndPoints.auth.fetchAllCenters(page),
       {},
       (success: any) => {
-        setList(list.concat(success.data.response));
-        setSearchData(searchData.concat(success.data.response));
+        let temp = success.data.response.slice(0);
+        temp.sort((a: any, b: any) =>
+          a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        );
+        setList(temp);
+        setSearchData(temp);
+        setIsLoading(false);
       },
       (error: any) => {
+        setIsLoading(false);
         CustomToast(error.data.message);
       }
     );
@@ -147,11 +154,7 @@ export default function App(props: AppProps) {
   };
 
   const search = (query: string) => {
-    let temp = list.slice(0);
-    temp.sort((a: any, b: any) =>
-      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-    );
-    let res: any = CommonFunctions.binarySearch(query, temp);
+    let res: any = CommonFunctions.binarySearch(query, list);
     setSearchData(res);
   };
 
