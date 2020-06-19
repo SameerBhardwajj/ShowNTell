@@ -30,7 +30,7 @@ const googleSearchApiCall = (
       if (error.code === "ECONNABORTED") {
         CustomToast(Strings.Timeout_error);
       }
-      errorCallback(error.response);
+      errorCallback(error);
     });
 };
 
@@ -61,7 +61,7 @@ const postApiCall = (
       } else if (error.code === "ECONNABORTED") {
         CustomToast(Strings.Timeout_error);
       } else {
-        errorCallback(error.response);
+        errorCallback(error);
       }
     });
 };
@@ -87,14 +87,13 @@ const getApiCall = (
     .catch((error: any) => {
       console.warn("error", error);
       console.log("Error: ", error);
-      debugger;
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
       }
       if (error.code === "ECONNABORTED") {
         CustomToast(Strings.Timeout_error);
       }
-      errorCallback(error.response);
+      errorCallback(error);
     });
 };
 /**

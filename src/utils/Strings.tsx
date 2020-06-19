@@ -215,6 +215,7 @@ const Strings = new LocalizedStrings({
     DOB_incorrect: "DOB cannot be Empty",
     No_Location_Found: "No Location Found",
     General_Info: "General Info",
+    Testimonials_unavailable: "Testimonials Unavailable!",
   },
 });
 export default Strings;

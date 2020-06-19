@@ -1,7 +1,11 @@
 import { Action, API, EndPoints } from "../../../../utils";
 import { CustomToast } from "../../../../Components";
 
-export const searchCenter = (query: string, callback: Function) => {
+export const searchCenter = (
+  query: string,
+  successCallback: Function,
+  FailureCallback: Function
+) => {
   return (dispatch: Function, getState: Function) => {
     API.googleSearchApiCall(
       EndPoints.auth.searchCentres(query),
@@ -14,7 +18,7 @@ export const searchCenter = (query: string, callback: Function) => {
         });
         console.log(success);
 
-        callback(success.data);
+        successCallback(success.data);
       },
       (error: any) => {
         dispatch({
@@ -23,10 +27,11 @@ export const searchCenter = (query: string, callback: Function) => {
             // isLoading: false,
           },
         });
-        console.log(error);
-
-        CustomToast(error);
-        callback([]);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.message);
+        }
+        FailureCallback([]);
       }
     );
   };
@@ -52,9 +57,10 @@ export const getCoordinates = (place_id: string, callback: Function) => {
             // isLoading: false,
           },
         });
-        console.log(error);
-
-        CustomToast(error);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.message);
+        }
         callback([]);
       }
     );

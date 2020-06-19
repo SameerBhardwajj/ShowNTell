@@ -42,7 +42,10 @@ export const needHelpAPI = (
           type: Action.NEED_HELP,
           payload: {},
         });
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.message);
+        }
         failCallback([]);
       }
     );

@@ -33,7 +33,10 @@ export const forgotPassword = (
         }
       },
       (error: any) => {
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.message);
+        }
         failCallback();
       }
     );
@@ -67,7 +70,10 @@ export const fpresendCode = (
         }
       },
       (error: any) => {
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.message);
+        }
         failCallback();
       }
     );
@@ -99,14 +105,15 @@ export const fpverifyCode = (
           });
           successCallback(success.data.response);
         } else {
-          debugger
           CustomToast(success.data.message);
           failCallback();
         }
       },
       (error: any) => {
-        debugger
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.message);
+        }
         failCallback();
       }
     );
@@ -146,9 +153,10 @@ export const resetPassword = (
         }
       },
       (error: any) => {
-        console.warn("my ", error);
-
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.message);
+        }
         failCallback();
       }
     );

@@ -36,6 +36,7 @@ export default function App(props: AppProps) {
   const [counter, setCounter] = useState(true);
   const [data, setData] = useState([]);
   const [exitCounter, setExitCounter] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
 
   const { loginToken } = useSelector((state: { Login: any }) => ({
     loginToken: state.Login.loginToken,
@@ -66,7 +67,9 @@ export default function App(props: AppProps) {
               setCounter(false);
               setData(success);
             },
-            () => {}
+            () => {
+              setUnavailable(true);
+            }
           )
         )
       : null;
@@ -103,7 +106,13 @@ export default function App(props: AppProps) {
           autoplayTimeout={3}
         >
           {data.length === 0 ? (
-            <CustomLoader loading={true} />
+            unavailable ? (
+              <Text style={Styles.testText}>
+                {Strings.Testimonials_unavailable}
+              </Text>
+            ) : (
+              <CustomLoader loading={true} />
+            )
           ) : (
             data.map((item: any) => (
               <View style={Styles.testimonialView}>
@@ -186,15 +195,19 @@ const Styles = StyleSheet.create({
     paddingBottom: vh(20),
     marginHorizontal: vw(20),
     marginTop: vh(8),
-    // backgroundColor: "blue",
   },
   testimonialImg: {
     marginTop: vw(40),
     width: "100%",
     height: vh(180),
-    // backgroundColor: "red",
     alignItems: "center",
-    // justifyContent: "center",
+  },
+  testText: {
+    alignSelf: "center",
+    paddingTop: vh(80),
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    color: Colors.violet,
   },
   testimonialColen: {
     position: "absolute",

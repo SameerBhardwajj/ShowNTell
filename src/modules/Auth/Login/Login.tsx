@@ -29,7 +29,7 @@ import {
   Customcartoon,
   CustomInputText,
   CustomMenuList,
-  CustomLoader
+  CustomLoader,
 } from "../../../Components";
 import { fetchSchoolList } from "./action";
 
@@ -82,19 +82,27 @@ export default function App(props: AppProps) {
 
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
+      <CustomLoader loading={isLoading} />
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={Styles.backBtn}
+        onPress={() => props.navigation.pop()}
+      >
+        <Image source={Images.back_icon} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          marginTop: vh(70),
+        }}
+        onPress={() => {}}
+      >
+      </TouchableOpacity>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        keyboardShouldPersistTaps="handled"
+        keyboardShouldPersistTaps="never"
         contentContainerStyle={Styles.mainView}
       >
-        <CustomLoader loading={isLoading} />
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={Styles.backBtn}
-          onPress={() => props.navigation.pop()}
-        >
-          <Image source={Images.back_icon} />
-        </TouchableOpacity>
+        {/* <View style={Styles.mainView}> */}
         <Customcartoon navigation={props.navigation} small={true} />
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
@@ -124,30 +132,33 @@ export default function App(props: AppProps) {
                 onBlur={() => {
                   Keyboard.dismiss();
                   email.length !== 0
-                    ? (setIsLoading(true),
-                      dispatch(
-                        fetchSchoolList(
-                          email,
-                          (data: any) => {
-                            let temp = data;
-                            temp = temp.map((item: any) => {
-                              return {
-                                id: item.id,
-                                value: item.name,
-                                parent: item.Parent,
-                              };
-                            });
-                            setList(temp);
-                            setSchool(temp[0].value);
-                            setName(temp[0].parent.first_name);
-                            setCenter(temp[0].id);
-                            setIsLoading(false);
-                            temp.length === 0 ? setCheckEmail(false) : null;
-                          },
-                          () => setIsLoading(false)
-                        )
-                      ))
-                    : null;
+                    ? validate(ConstantName.EMAIL, email)
+                      ? (Keyboard.dismiss(),
+                        setIsLoading(true),
+                        dispatch(
+                          fetchSchoolList(
+                            email,
+                            (data: any) => {
+                              let temp = data;
+                              temp = temp.map((item: any) => {
+                                return {
+                                  id: item.id,
+                                  value: item.name,
+                                  parent: item.Parent,
+                                };
+                              });
+                              setList(temp);
+                              setSchool(temp[0].value);
+                              setName(temp[0].parent.first_name);
+                              setCenter(temp[0].id);
+                              setIsLoading(false);
+                              temp.length === 0 ? setCheckEmail(false) : null;
+                            },
+                            () => setIsLoading(false)
+                          )
+                        ))
+                      : setCheckEmail(false)
+                    : setCheckEmail(false);
                 }}
               />
               {/* School center list ------------- */}
@@ -205,6 +216,7 @@ export default function App(props: AppProps) {
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
           </TouchableOpacity>
         </View>
+        {/* </View> */}
       </KeyboardAwareScrollView>
     </ImageBackground>
   );
@@ -223,6 +235,8 @@ const Styles = StyleSheet.create({
     top: iPhoneX ? vh(30) : vh(20),
     alignSelf: "flex-start",
     position: "absolute",
+    height: vh(50),
+    width: vh(50),
   },
   loginView: {
     backgroundColor: "white",

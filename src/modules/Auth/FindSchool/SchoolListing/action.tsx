@@ -1,4 +1,5 @@
 import { Action, API, EndPoints } from "../../../../utils";
+import { CustomToast } from "../../../../Components";
 
 export const fetchSchoolList = (
   value: any,
@@ -29,6 +30,10 @@ export const fetchSchoolList = (
             // isLoading: false,
           },
         });
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.message);
+        }
         callback([]);
       }
     );

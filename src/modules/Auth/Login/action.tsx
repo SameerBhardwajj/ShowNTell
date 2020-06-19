@@ -43,7 +43,10 @@ export const fetchSchoolList = (
             schoolList: [],
           },
         });
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.message);
+        }
         failCallback([]);
       }
     );
@@ -93,7 +96,10 @@ export const loginAPI = (
             // isLoading: false,
           },
         });
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.message);
+        }
         callback();
       }
     );
