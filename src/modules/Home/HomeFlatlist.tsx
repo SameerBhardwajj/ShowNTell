@@ -11,11 +11,9 @@ import {
 } from "../../utils";
 import { CustomButton, CustomToast } from "../../Components";
 
-const LUNCH = "Lunch";
-const ANNOUNCEMENT = "Announcement";
-const QOA = "QOA";
-const child =
-  "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80";
+const ACTIVITY = "ACTIVITY";
+const ANNOUNCEMENT = "ANNOUNCEMENT";
+const QOTD = "QOTD";
 export interface AppProps {
   navigation?: any;
   item: any;
@@ -23,111 +21,140 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const { navigation, item } = props;
+  console.warn(item.activity_status_id === 3);
+
   return (
     <View style={Styles.innerView}>
-      {/* Lunch View */}
-      {/* {item.activityType === LUNCH ? ( */}
-      <View style={Styles.mainInnerView}>
-        <View style={Styles.imgView}>
-          <Image
-            source={
-              item.s3_photo_path === null
-                ? Images.Image_Placeholder
-                : { uri: item.s3_photo_path }
-            }
-            style={item.s3_photo_path === null ? {} : {}}
-          />
+      {/* Activity View ------------------ */}
+      {item.type === ACTIVITY ? (
+        <View style={Styles.mainInnerView}>
+          <View style={Styles.imgView}>
+            <Image
+              source={
+                item.activity_status_id === "3" ||
+                item.child_activity_image === null
+                  ? Images.Image_Placeholder
+                  : { uri: item.child_activity_image }
+              }
+              style={
+                item.activity_status_id === "3" ||
+                item.child_activity_image === null
+                  ? {}
+                  : Styles.imgActivity
+              }
+            />
+          </View>
+          <View style={Styles.lunchView}>
+            <View style={Styles.nameView}>
+              <View style={Styles.childAvatar}>
+                <Image
+                  source={
+                    item.Child.child_image === null
+                      ? Images.Profile_Placeholder
+                      : { uri: item.Child.s3_photo_path }
+                  }
+                />
+              </View>
+              <View style={Styles.centerNameView}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() =>
+                    props.navigation.navigate(ScreenName.ACTIVITY_MODAL, {
+                      icon: CommonFunctions.isNullUndefined(
+                        props.item.category_icon_url
+                      )
+                        ? null
+                        : props.item.category_icon_url,
+                      msg: props.item.category_description,
+                    })
+                  }
+                >
+                  <Text style={Styles.name}>
+                    {item.Child.first_name} {item.Child.last_name}
+                    {" . "}
+                    <Text style={{ color: Colors.orange }}>
+                      {item.category_name}{" "}
+                      <Text style={Styles.category}>
+                        {item.activity_name === null ? "" : item.activity_name}
+                      </Text>
+                    </Text>
+                  </Text>
+                </TouchableOpacity>
+                <Text style={Styles.content}>{item.sub_activity_name}</Text>
+                <Text style={Styles.time}>
+                  {CommonFunctions.DateFormatter(new Date(item.create_dt))}
+                  {Strings.at}
+                  {CommonFunctions.timeFormatter(new Date(item.create_dt))}
+                </Text>
+              </View>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={Styles.ElipsisImg}
+                onPress={() =>
+                  navigation.navigate(ScreenName.SHARE_MODAL, {
+                    img: item.child_activity_image,
+                    categoryName: item.category_name,
+                    activityName: item.activity_name,
+                    childName: `${item.Child.first_name} ${item.Child.last_name}`,
+                  })
+                }
+              >
+                <Image source={Images.Elipsis} style={{ padding: vh(1) }} />
+              </TouchableOpacity>
+            </View>
+            {CommonFunctions.isNullUndefined(item.description) ? null : (
+              <Text style={Styles.description}>{item.description}</Text>
+            )}
+          </View>
         </View>
-        <View style={Styles.lunchView}>
-          <View style={Styles.nameView}>
+      ) : null}
+      {/* Announcements ---------------------- */}
+      {item.type === ANNOUNCEMENT ? (
+        <View style={[Styles.mainInnerView, Styles.announcementView]}>
+          <Text style={Styles.title}>{Strings.Announcement}</Text>
+          <Text style={Styles.timeBlack}>
+            {CommonFunctions.DateFormatter(new Date(item.create_dt))} .{" "}
+            {CommonFunctions.timeFormatter(new Date(item.create_dt))}
+          </Text>
+          <Text style={[Styles.annTitle, { paddingTop: vh(10) }]}>
+            {item.title}
+          </Text>
+          <Text style={Styles.annDescription}>{item.description}</Text>
+          <Image style={Styles.imgAnn} source={Images.Announcement_Icon} />
+        </View>
+      ) : null}
+      {/* Question of the Day --------------------- */}
+      {item.type === QOTD ? (
+        <View style={[Styles.mainInnerView, Styles.viewQOD]}>
+          <View style={{ flexDirection: "row" }}>
             <View style={Styles.childAvatar}>
               <Image
                 source={
-                  item.Child.s3_photo_path === null
+                  item.Child.child_image === null
                     ? Images.Profile_Placeholder
                     : { uri: item.Child.s3_photo_path }
                 }
               />
             </View>
-            <View style={Styles.centerNameView}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() =>
-                  props.navigation.navigate(ScreenName.ACTIVITY_MODAL, {
-                    icon: props.item.ActivityCategory.icon_url,
-                    msg: props.item.ActivityCategory.description,
-                  })
-                }
-              >
-                <Text style={Styles.name}>
-                  {item.Child.first_name} {item.Child.last_name}
-                  {" . "}
-                  <Text style={{ color: Colors.orange }}>
-                    {item.ActivityCategory.name}
-                  </Text>
-                </Text>
-              </TouchableOpacity>
-              <Text style={Styles.category}>
-                {item.ActivityValue.name === null
-                  ? ""
-                  : item.ActivityValue.name}
-              </Text>
-              <Text style={Styles.content}>{item.ActivitySubValue.name}</Text>
-              <Text style={Styles.time}>
-                {CommonFunctions.DateFormatter(new Date(item.activity_dt))}
-                {Strings.at}
-                {CommonFunctions.timeFormatter(new Date(item.activity_dt))}
-              </Text>
-            </View>
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={Styles.ElipsisImg}
-              onPress={() => navigation.navigate(ScreenName.SHARE_MODAL)}
-            >
-              <Image source={Images.Elipsis} style={{ padding: vh(1) }} />
-            </TouchableOpacity>
-          </View>
-          {item.ActivityValue.description === null ? null : (
-            <Text style={Styles.description}>
-              {item.ActivityValue.description}
-            </Text>
-          )}
-        </View>
-      </View>
-      {/* ) : null} */}
-      {/* Announcements */}
-      {/* {item.activityType === ANNOUNCEMENT ? (
-        <View style={[Styles.mainInnerView, Styles.announcementView]}>
-          <Text style={Styles.title}>{Strings.Announcement}</Text>
-          <Text style={Styles.timeBlack}>
-            {item.date} . {item.time}
-          </Text>
-          <Text style={[Styles.timeBlack, { paddingTop: vh(30) }]}>
-            {item.description}
-          </Text>
-          <Image style={Styles.imgAnn} source={Images.Announcement_Icon} />
-        </View>
-      ) : null} */}
-      {/* Question of the Day */}
-      {/* {item.activityType === QOA ? (
-        <View style={[Styles.mainInnerView, Styles.viewQOD]}>
-          <View style={{ flexDirection: "row" }}>
-            <Image source={{uri: child}} style={Styles.childAvatar} />
             <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
-              <Text style={Styles.name}>{item.name}</Text>
-              <Text style={Styles.classText}>{item.class}</Text>
+              <Text style={Styles.name}>
+                {item.Child.first_name} {item.Child.last_name}
+              </Text>
+              <Text style={Styles.classText}>{item.classroom_name}</Text>
             </View>
           </View>
           <Text style={[Styles.title, { color: Colors.waterBlue }]}>
             {Strings.Question_of_the_Day}
           </Text>
-          <Text style={Styles.timeBlack}>{Strings.QOD_category}</Text>
+          {CommonFunctions.isNullUndefined(item.category_name) ? null : (
+            <Text style={Styles.timeBlack}>{item.category_name}</Text>
+          )}
           <Text style={Styles.time}>
-            {item.date}
+            {CommonFunctions.DateFormatter(new Date(item.create_dt))}
             {Strings.at}
-            {item.time}
+            {CommonFunctions.timeFormatter(new Date(item.create_dt))}
           </Text>
-          <Text style={Styles.timeBlack}>{item.description}</Text>
+          <Text style={Styles.timeBlack}>{item.QuestionOfTheDay.question}</Text>
           <Image style={Styles.imgAnn} source={Images.Announcement_light} />
           <CustomButton
             ButtonStyle={Styles.btnQOD}
@@ -135,7 +162,7 @@ export default function App(props: AppProps) {
             onPress={() => {}}
           />
         </View>
-      ) : null} */}
+      ) : null}
     </View>
   );
 }
@@ -172,6 +199,12 @@ const Styles = StyleSheet.create({
     borderBottomWidth: vw(1),
     borderColor: Colors.borderGrey,
   },
+  imgActivity: {
+    height: "100%",
+    width: "100%",
+    borderTopLeftRadius: vh(10),
+    borderTopRightRadius: vh(10),
+  },
   lunchView: {
     padding: vh(16),
     alignItems: "center",
@@ -190,6 +223,7 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: vw(1),
     borderColor: Colors.borderGrey,
+    backgroundColor: "white",
   },
   name: {
     fontFamily: "Nunito-Bold",
@@ -204,6 +238,7 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(14),
     paddingVertical: vh(2),
+    color: "black",
   },
   content: {
     fontFamily: "Nunito-Regular",
@@ -212,7 +247,7 @@ const Styles = StyleSheet.create({
     paddingVertical: vh(2),
   },
   time: {
-    fontFamily: "Nunito-Regular",
+    fontFamily: "Frutiger",
     fontSize: vh(14),
     color: Colors.lightGrey,
     paddingVertical: vh(5),
@@ -238,8 +273,16 @@ const Styles = StyleSheet.create({
     fontSize: vh(20),
     color: Colors.green,
   },
+  annTitle: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+  },
+  annDescription: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(14),
+  },
   timeBlack: {
-    fontFamily: "Nunito-Regular",
+    fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
     paddingVertical: vh(5),
   },
@@ -252,6 +295,10 @@ const Styles = StyleSheet.create({
     backgroundColor: Colors.lightWaterBlue,
     padding: vh(16),
     alignItems: "flex-start",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
   },
   btnQOD: {
     backgroundColor: Colors.waterBlue,

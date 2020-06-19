@@ -53,6 +53,8 @@
 		<string>Nunito-SemiBoldItalic.ttf</string>
 		<string>Nunito-Medium.ttf</string>
 		<string>frutiger.ttf</string>
+		<string>Frutiger_bold.ttf</string>
+		<string>Frutiger.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

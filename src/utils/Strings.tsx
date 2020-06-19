@@ -226,6 +226,9 @@ const Strings = new LocalizedStrings({
     In_Time: "In Time",
     Out_Time: "Out Time",
     Not_Available: "Not Available",
+    EmptyActivityType: "Please select atleast 1 Activity Type",
+    invalidDate: `Please change the date ! To Date can't be less than From date`,
+    Category_Unavailable: "No Category or Activity Found!",
   },
 });
 export default Strings;

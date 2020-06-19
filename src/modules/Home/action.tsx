@@ -42,13 +42,15 @@ export const HomeAPI = (
   child_id: number,
   page: number,
   activity: any,
-  date: string,
+  fromDate: string,
+  toDate: string,
+  type: string,
   successCallback: Function,
   failureCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.home.HomeData(child_id, page, activity, date),
+      EndPoints.home.HomeData(child_id, page, activity, fromDate, toDate, type),
       {},
       (success: any) => {
         const res = success.data.response;
@@ -123,14 +125,21 @@ export const HomeFilter = (
 
 export const addFilter = (
   activity: Array<any>,
-  date: string,
+  fromDate: string,
+  toDate: string,
+  type: Array<any>,
   callback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
     dispatch({
       type: Action.UPDATE_TAB,
       payload: {
-        myFilter: { activity: activity, date: date },
+        myFilter: {
+          activity: activity,
+          fromDate: fromDate,
+          toDate: toDate,
+          type: type,
+        },
       },
     });
     callback();

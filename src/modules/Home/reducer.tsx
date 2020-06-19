@@ -6,7 +6,7 @@ const initialState = {
   currentChild: { child: 0, name: "All", classroom: 0 },
   otherCurrentChild: { child: 0, name: "All", classroom: 0 },
   filterData: {},
-  myFilter: { activityt: [], date: "" },
+  myFilter: { activity: [], fromDate: "", toDate: "", type: [] },
   filterNum: 0,
 };
 const Reducer = (state = initialState, action: any) => {

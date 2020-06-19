@@ -1188,6 +1188,14 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
+"@types/react-native-snackbar-component@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-snackbar-component/-/react-native-snackbar-component-1.1.0.tgz#382a80427f7c549685b6e0ab3a8728a41a9b00f2"
+  integrity sha512-Ab8efW5C1pEk8c5gwbRBzkmJCNWHbp6Ck/BIoNCrXDZqxlYYvXqUtX7IgcSyUsEJqb3CUfp51RNIcuKjMN+vzA==
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
+
 "@types/react-native@*", "@types/react-native@^0.62.0":
   version "0.62.7"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.62.7.tgz#bfc5ed03ba576f288603daa3f67f0f67d9a8bf57"
@@ -5483,7 +5491,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.4"
 
-prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.9, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5691,6 +5699,13 @@ react-native-share@^3.3.0:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-3.3.1.tgz#7214497147b1e061ccf8bc1562b3c6fa4b876788"
   integrity sha512-dVIJkS/BFSljSnCqi3Uwf2r+SrP4K1Xc4kHelZsHDrzU61C0OhgMcrlxzbRj3uzmsaQJ624GkxK1t17Js0bPMA==
+
+react-native-snackbar-component@^1.1.10:
+  version "1.1.10"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar-component/-/react-native-snackbar-component-1.1.10.tgz#6b648db35d85c111356ad108061d802945105308"
+  integrity sha512-GdQXatex09gLF3rUOL4gqWmicgxGeegDjye9PM1SaIfM9nGTVOo8QWUsJGANO1Cwy7NuY1v2O7RD81TnXjVagQ==
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-snackbar@^2.2.0:
   version "2.2.0"

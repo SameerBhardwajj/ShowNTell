@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 // custom imports
-import { Images, vw, vh, Colors } from "../../utils";
+import { Images, vw, vh, Colors, CommonFunctions } from "../../utils";
 
 export interface AppProps {
   navigation?: any;
@@ -17,7 +17,7 @@ export default function App(props: AppProps) {
       <View style={Styles.modalView}>
         <Image
           source={
-            params.icon === null
+            CommonFunctions.isNullUndefined(params.icon)
               ? Images.Activity_Detail_Graphic
               : { uri: params.icon }
           }

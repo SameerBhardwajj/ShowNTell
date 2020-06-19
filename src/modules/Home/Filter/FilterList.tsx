@@ -55,14 +55,12 @@ export default function App(props: AppProps) {
 }
 const Styles = StyleSheet.create({
   activityView: {
-    width: "70%",
+    width: "100%",
     marginTop: vh(14),
   },
   activityHeadView: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
-    width: "100%",
   },
   activityHeadText: {
     fontFamily: "Nunito-Bold",

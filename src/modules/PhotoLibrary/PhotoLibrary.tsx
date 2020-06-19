@@ -10,6 +10,7 @@ import {
   Linking,
   Platform,
   PermissionsAndroid,
+  Modal,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import RNFetchBlob from "rn-fetch-blob";
@@ -17,8 +18,8 @@ import CameraRoll from "@react-native-community/cameraroll";
 
 // custom imports
 import { updateTab } from "../Home/action";
-import { updateLibrary } from "./action";
-import { CustomHeader, CustomToast } from "../../Components";
+import { updateLibrary, PhotoLibraryAPI } from "./action";
+import { CustomHeader, CustomToast, CustomLoader } from "../../Components";
 import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 import GalleryFlatlist from "./GalleryFlatlist";
 
@@ -35,17 +36,30 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [select, setSelect] = useState(false);
   const [selected, setSelected] = useState(false);
-  const { tab, libraryData } = useSelector(
+  const [isLoading, setLoading] = useState(false);
+  const { tab, libraryData, otherCurrentChild } = useSelector(
     (state: { Home: any; PhotoLibrary: any }) => ({
       tab: state.Home.tab,
       libraryData: state.PhotoLibrary.libraryData,
+      otherCurrentChild: state.Home.otherCurrentChild,
     })
   );
 
   useEffect(() => {
-    dispatch(updateLibrary(DATA));
+    // dispatch(updateLibrary(DATA));
+    console.warn(libraryData.length);
+
     dispatch(updateTab(true, () => {}));
-  }, [tab]);
+    setLoading(true);
+    dispatch(
+      PhotoLibraryAPI(
+        otherCurrentChild.child,
+        0,
+        () => setLoading(false),
+        () => setLoading(false)
+      )
+    );
+  }, []);
 
   const arrangeData = () => {
     let data = libraryData;
@@ -53,7 +67,6 @@ export default function App(props: AppProps) {
     for (let i = 0; i < data.length; i++) {
       dataArray.push([data[i], data[(i += 1)], data[(i += 1)]]);
     }
-    console.log("data ", dataArray);
     return dataArray;
   };
 
@@ -66,17 +79,19 @@ export default function App(props: AppProps) {
         index={index}
         navigation={props.navigation}
         select={select}
-        onPress={(data: any, dataIndex: number) =>
-          select
-            ? ((dataArray[index][dataIndex].selected = !dataArray[index][
-                dataIndex
-              ].selected),
-              console.warn(dataArray[index][dataIndex].selected))
-            : (dispatch(updateTab(false, () => {})),
-              props.navigation.navigate(ScreenName.GALLERY_DETAILS, {
-                item: data,
-              }))
-        }
+        data={libraryData.length === 0 ? [] : arrangeData()}
+        // onLongPress={() => setSelect(true)}
+        // onPress={(data: any, dataIndex: number) =>
+        //   select
+        //     ? ((dataArray[index][dataIndex].selected = !dataArray[index][
+        //         dataIndex
+        //       ].selected),
+        //       console.warn(dataArray[index][dataIndex].selected))
+        //     : (dispatch(updateTab(false, () => {})),
+        //       props.navigation.navigate(ScreenName.GALLERY_DETAILS, {
+        //         item: data,
+        //       }))
+        // }
       />
     );
   };
@@ -110,14 +125,15 @@ export default function App(props: AppProps) {
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      bounces={false}
-      contentContainerStyle={[
-        Styles.mainView,
-        { paddingBottom: select ? vh(200) : vh(130) },
-      ]}
-    >
+    // <ScrollView
+    //   showsVerticalScrollIndicator={false}
+    //   bounces={false}
+    //   contentContainerStyle={[
+    //     Styles.mainView,
+    //     { paddingBottom: select ? vh(200) : vh(130) },
+    //   ]}
+    // >
+    <View style={Styles.mainView}>
       <CustomHeader
         hideBackButton={true}
         title={Strings.Photo_Library}
@@ -126,11 +142,14 @@ export default function App(props: AppProps) {
         child={true}
         navigation={props.navigation}
       />
+      <CustomLoader loading={isLoading} />
       <View style={Styles.innerView}>
-        <View style={Styles.headingView}>
-          <Text style={Styles.dateText}>18 Jan, 2020</Text>
-          <TouchableOpacity
+        {/* <View style={Styles.headingView}> */}
+        {/* <Text style={Styles.dateText}>18 Jan, 2020</Text> */}
+        {/* <TouchableOpacity
             onPress={() => {
+              console.warn("here");
+
               setSelect(!select),
                 dispatch(
                   updateTab(!tab, () => {
@@ -148,42 +167,32 @@ export default function App(props: AppProps) {
                 Select
               </Text>
             )}
-          </TouchableOpacity>
-        </View>
-        <FlatList
-          bounces={false}
-          horizontal={false}
-          showsVerticalScrollIndicator={false}
-          data={arrangeData()}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItems}
-        />
+          </TouchableOpacity> */}
+        {/* </View> */}
+        {isLoading ? null : (
+          <FlatList
+            bounces={false}
+            horizontal={false}
+            showsVerticalScrollIndicator={false}
+            data={libraryData.length === 0 ? [] : arrangeData()}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItems}
+          />
+        )}
       </View>
       {select ? (
         <View style={Styles.bottomMain}>
-          <View style={Styles.bottomView}>
-            <TouchableOpacity
-              style={Styles.btnView}
-              activeOpacity={0.8}
-              onPress={() => CustomToast()}
-            >
-              <Image
-                source={Images.Delete_Icon}
-                style={[Styles.btn, { width: vh(21) }]}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={Styles.btnView}
-              activeOpacity={0.8}
-              // onPress={() => saveToCameraRoll(img)}
-              onPress={() => CustomToast()}
-            >
-              <Image source={Images.download_Icon} style={Styles.btn} />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={Styles.btnView}
+            activeOpacity={0.8}
+            // onPress={() => saveToCameraRoll(img)
+            onPress={() => console.warn(dataArray)}
+          >
+            <Image source={Images.download_Icon} style={Styles.btn} />
+          </TouchableOpacity>
         </View>
       ) : null}
-    </ScrollView>
+    </View>
   );
 }
 
@@ -213,31 +222,26 @@ export const Styles = StyleSheet.create({
   bottomMain: {
     position: "absolute",
     width: "100%",
-    bottom: -1,
+    bottom: 0,
     borderTopLeftRadius: vh(10),
     borderTopRightRadius: vh(10),
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: 2,
     },
-    shadowOpacity: 0.08,
+    shadowOpacity: 0.3,
     shadowRadius: 4.65,
     elevation: 7,
-  },
-  bottomView: {
-    width: "100%",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
     backgroundColor: "white",
-    paddingHorizontal: vw(24),
-    paddingVertical: vh(10),
-    borderTopLeftRadius: vh(10),
-    borderTopRightRadius: vh(10),
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 0,
   },
   btnView: {
-    padding: vh(12),
+    paddingVertical: vh(12),
+    width: "100%",
+    alignItems: "center",
   },
   btn: {
     height: vh(22),
@@ -245,90 +249,3 @@ export const Styles = StyleSheet.create({
     tintColor: Colors.violet,
   },
 });
-
-const DATA = [
-  {
-    img: img,
-    // img: 0,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img2,
-    // img: 1,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img,
-    // img: 2,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img2,
-    // img: 3,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img,
-    // img: 4,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img2,
-    // img: 5,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img,
-    // img: 6,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img2,
-    // img: 7,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img,
-    // img: 8,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img2,
-    // img: 3,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img,
-    // img: 4,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-  {
-    img: img2,
-    // img: 5,
-    heading: "Lunch Time",
-    category: "Healthy • Fresh and Green",
-    selected: false,
-  },
-];

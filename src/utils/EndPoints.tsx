@@ -1,4 +1,5 @@
 import Config from "react-native-config";
+import CommonFunctions from "./CommonFunctions";
 const GoogleAPI = Config.GOOGLE_KEY;
 export default {
   auth: {
@@ -29,20 +30,44 @@ export default {
       child_id: number,
       page: number,
       activity: any,
-      date: string
+      fromDate: string,
+      toDate: string,
+      type: string
     ) =>
-      child_id === 0
-        ? `/api/v1/parent/home-data`
-        : `/api/v1/parent/home-data?child_id=${child_id}&page=${page}${
-            activity === null ? "" : `&activity_value_id=${activity}`
-          }${date.length === 0 ? "" : `&date=${activity}`}`,
+      `/api/v1/parent/home-data?page=${page}${
+        child_id === 0 ? "" : `&child_id=${child_id}`
+      }${
+        CommonFunctions.isNullUndefined(activity)
+          ? ""
+          : `&activity_value_id=${activity}`
+      }${
+        CommonFunctions.isNullUndefined(fromDate)
+          ? ""
+          : `&from_date=${fromDate}`
+      }${CommonFunctions.isNullUndefined(toDate) ? "" : `&to_date=${toDate}`}${
+        CommonFunctions.isNullUndefined(type) ? "" : `&type=${type}`
+      }`,
     filterData: (classroom: number) =>
-      `/api/v1/parent/filter-data?classroom_id=${classroom}`,
+      classroom === 0
+        ? `/api/v1/parent/filter-data`
+        : `/api/v1/parent/filter-data?classroom_id=${classroom}`,
   },
   attendance: {
     viewAttendance: (type: string, id: number, date: string) =>
       id === 0
         ? `/api/v1/parent/attendance?type=${type}&date=${date}`
         : `/api/v1/parent/attendance?type=${type}&child_id=${id}&date=${date}`,
+  },
+  photoLibrary: {
+    gallery: (childID: number, page: number) =>
+      childID === 0
+        ? `/api/v1/parent/photo-gallery`
+        : `/api/v1/parent/photo-gallery?child_id=${childID}&page=${page}`,
+  },
+  drawer: {
+    announcement: (childID: number, page: number) =>
+      childID === 0
+        ? `/api/v1/parent/list-announcement`
+        : `/api/v1/parent/list-announcement?child_id=${childID}&page=${page}`,
   },
 };

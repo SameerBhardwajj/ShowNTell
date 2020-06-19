@@ -62,24 +62,14 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           style={Styles.btnView}
           activeOpacity={0.8}
-          onPress={() => saveToCameraRoll(item.img)}
+          onPress={() => saveToCameraRoll(item.s3_photo_path)}
         >
           <Image source={Images.download_Icon} style={Styles.btn} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={Styles.btnView}
-          activeOpacity={0.8}
-          onPress={() => CustomToast()}
-        >
-          <Image
-            source={Images.Delete_Icon}
-            style={[Styles.btn, { width: vh(21) }]}
-          />
-        </TouchableOpacity>
       </View>
-      <Text style={Styles.heading}>{item.heading}</Text>
-      <Text style={Styles.category}>{item.category}</Text>
-      <Image source={{ uri: item.img }} style={Styles.img} />
+      <Text style={Styles.heading}>{item.ActivityCategory.name}</Text>
+      <Text style={Styles.category}>{item.ActivityCategory.description}</Text>
+      <Image source={{ uri: item.s3_photo_path }} style={Styles.img} />
     </View>
   );
 }
@@ -117,8 +107,8 @@ const Styles = StyleSheet.create({
     paddingLeft: vh(16),
   },
   img: {
-    height: "40%",
     width: "100%",
+    height: vh(220),
     marginTop: vh(80),
   },
 });

@@ -19,7 +19,7 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.mainView}>
       <TouchableOpacity
-        style={{ backgroundColor: Colors.modalBg, width: "100%", flex: 1 }}
+        style={{ width: "100%", flex: 1 }}
         activeOpacity={0.8}
         onPress={() => props.navigation.pop()}
       />
@@ -88,13 +88,14 @@ const Styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "space-between",
+    backgroundColor: Colors.modalBg
   },
   modalView: {
     backgroundColor: "white",
     width: "100%",
     alignItems: "center",
     justifyContent: "space-evenly",
-    borderRadius: vw(10),
+    borderRadius: vw(20),
   },
   nameText: {
     fontFamily: "Nunito-Bold",

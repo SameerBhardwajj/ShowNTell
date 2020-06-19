@@ -15,12 +15,13 @@ export interface AppProps {
   heading: string;
   getDate: Function;
   minDate?: Date;
+  maxDate?: Date;
   mainViewStyle?: object;
+  date: Date;
 }
 
 export default function App(props: AppProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [date, setDate] = useState(new Date());
   return (
     <View style={[Styles.mainView, props.mainViewStyle]}>
       <Text style={Styles.titleTxt}>{props.heading}</Text>
@@ -30,7 +31,7 @@ export default function App(props: AppProps) {
         onPress={() => setModalOpen(true)}
       >
         <Text style={Styles.dobText}>
-          {CommonFunctions.DateFormatter(date)}
+          {CommonFunctions.DateFormatter(props.date)}
         </Text>
         <Image source={Images.Calendar_Icon} style={Styles.iconImage} />
       </TouchableOpacity>
@@ -41,13 +42,11 @@ export default function App(props: AppProps) {
         />
         <View style={Styles.modalView}>
           <DatePicker
-            minimumDate={
-              props.minDate === undefined ? new Date() : props.minDate
-            }
-            date={date}
+            minimumDate={props.minDate}
+            maximumDate={props.maxDate}
+            date={props.date}
             mode="date"
             onDateChange={(text: Date) => {
-              setDate(text);
               props.getDate(text);
             }}
           />
@@ -95,7 +94,7 @@ const Styles = StyleSheet.create({
   topModalView: {
     width: "100%",
     flex: 1,
-    backgroundColor: Colors.modalBg
+    backgroundColor: Colors.modalBg,
   },
   modalView: {
     backgroundColor: "white",

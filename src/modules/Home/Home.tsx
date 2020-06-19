@@ -34,8 +34,9 @@ import {
   CustomButton,
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
-import { HomeAPI, updateOtherChild } from "./action";
+import { HomeAPI, updateOtherChild, addFilter } from "./action";
 import FilterModal from "./Filter/FilterModal";
+import { invalid } from "moment";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -62,7 +63,7 @@ export default function App(props: AppProps) {
     loginData,
     otherCurrentChild,
     myFilter,
-    filterNum
+    filterNum,
   } = useSelector((state: { Home: any; Login: any }) => ({
     tab: state.Home.tab,
     data: state.Home.data,
@@ -141,17 +142,19 @@ export default function App(props: AppProps) {
   };
 
   const hitHomeAPI = (child_id: number, page: number) => {
-    console.warn(child_id, page);
+    setLoading(true);
     dispatch(
       HomeAPI(
         child_id,
         page,
-        null,
+        "",
+        "",
+        "",
         "",
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
-          data.length === 0 ? null : setHomeData(data.activity.rows);
+          data.length === 0 ? null : setHomeData(data.rows);
         },
         () => {
           setLoading(false), setRefreshing(false);
@@ -160,17 +163,27 @@ export default function App(props: AppProps) {
     );
   };
 
-  const hitFilterAPI = (activity: any, date: string) => {
+  const hitFilterAPI = (
+    activity: string,
+    fromDate: string,
+    toDate: string,
+    type: string
+  ) => {
+    console.warn("final   ", activity, fromDate, toDate, type);
+
+    setLoading(true);
     dispatch(
       HomeAPI(
         currentChild.child,
         0,
         activity,
-        date === undefined ? "" : date,
+        fromDate,
+        toDate,
+        type,
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
-          data.length === 0 ? null : setHomeData(data.activity.rows);
+          data.length === 0 ? null : setHomeData(data.rows);
         },
         () => {
           setLoading(false), setRefreshing(false);
@@ -227,42 +240,64 @@ export default function App(props: AppProps) {
           />
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => {
-              // console.warn(currentChild),
-              currentChild.classroom === 0
-                ? CustomToast("Please change Child")
-                : setModalOpen(true);
-            }}
+            onPress={() => setModalOpen(true)}
           >
             <Image source={Images.Filter_Icon} style={Styles.filterImg} />
           </TouchableOpacity>
         </View>
       </View>
+      <CustomLoader loading={loading} />
       <View style={Styles.innerView}>
-        <CustomLoader loading={loading} />
-        <FlatList
-          data={homeData}
-          keyExtractor={(item, index) => index.toString()}
-          refreshing={isRefreshing}
-          onRefresh={() => {
-            setRefreshing(true), hitHomeAPI(currentChild.child, 0);
-          }}
-          bounces={true}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderItems}
-          nestedScrollEnabled={true}
-        />
+        {loading ? null : homeData.length === 0 ? (
+          <View style={Styles.emptyData}>
+            <Text>{Strings.No_data_Found}</Text>
+          </View>
+        ) : (
+          <FlatList
+            data={homeData}
+            keyExtractor={(item, index) => index.toString()}
+            refreshing={isRefreshing}
+            onRefresh={() => {
+              setRefreshing(true), hitHomeAPI(currentChild.child, 0);
+            }}
+            bounces={true}
+            showsVerticalScrollIndicator={false}
+            renderItem={renderItems}
+            nestedScrollEnabled={true}
+          />
+        )}
       </View>
-      {/* </View> */}
       <Modal animationType="slide" transparent={true} visible={modalOpen}>
         <View style={Styles.modalView}>
           <View />
           <FilterModal
             setModalOpen={(value: boolean) => setModalOpen(value)}
-            applyFilter={(value: any) => {
-              console.warn(myFilter.date);
-              console.warn(value);
-              hitFilterAPI(value, myFilter.date);
+            resetFilter={() => {
+              setModalOpen(false), hitHomeAPI(currentChild.child, 0);
+            }}
+            applyFilter={(value: any, Activitytype: Array<any>, dates: any) => {
+              console.warn("incoming  ", dates);
+
+              let to = CommonFunctions.isEmpty(dates)
+                ? ""
+                : CommonFunctions.dateTypeFormat(new Date(dates.toDate), "ymd");
+              let from = CommonFunctions.isEmpty(dates)
+                ? ""
+                : CommonFunctions.dateTypeFormat(
+                    new Date(dates.fromDate),
+                    "ymd"
+                  );
+              console.warn(
+                "check  ",
+                CommonFunctions.DateDifference(dates.fromDate, new Date())
+              );
+
+              dispatch(
+                addFilter(myFilter.activity, from, to, Activitytype, () => {
+                  console.warn(" filter redux ...", myFilter);
+                  hitFilterAPI(value, from, to, Activitytype.join(","));
+                })
+              );
             }}
           />
         </View>
@@ -329,8 +364,13 @@ const Styles = StyleSheet.create({
   },
   innerView: {
     width: "100%",
-    // marginBottom: vh(170),
     flex: 1,
+  },
+  emptyData: {
+    width: "100%",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   loader: {
     position: "absolute",

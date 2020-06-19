@@ -65,7 +65,7 @@ const Styles = StyleSheet.create({
     height: vh(46),
     fontSize: vh(14),
     fontFamily: "Nunito-SemiBold",
-    width: "67%",
+    width: "58%",
   },
   imgView: {
     paddingHorizontal: vw(15),

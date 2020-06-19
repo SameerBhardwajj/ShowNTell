@@ -24,6 +24,7 @@ import {
   CustomSearchBar,
   CustomDate,
   CustomLoader,
+  CustomToast,
 } from "../../../Components";
 import FilterList from "./FilterList";
 import { HomeFilter, countFilter, addFilter } from "../action";
@@ -31,20 +32,10 @@ import { HomeFilter, countFilter, addFilter } from "../action";
 export interface AppProps {
   setModalOpen: Function;
   applyFilter: Function;
+  resetFilter: Function;
 }
 
 export default function App(props: AppProps) {
-  const dispatch = useDispatch();
-  const [current, setCurrent] = useState(1);
-  const [fromDate, setFromDate] = useState(new Date());
-  const [toDate, setToDate] = useState(new Date());
-  const [days, setDays] = useState("0");
-  const [activityType1, setactivityType1] = useState(true);
-  const [activityType2, setactivityType2] = useState(true);
-  const [activityType3, setactivityType3] = useState(true);
-  const [reset, setReset] = useState(false);
-  const [isLoading, setLoading] = useState(true);
-
   const { filterData, filterNum, currentChild, myFilter } = useSelector(
     (state: { Home: any }) => ({
       filterData: state.Home.filterData,
@@ -54,20 +45,46 @@ export default function App(props: AppProps) {
     })
   );
 
-  React.useEffect(() => {
-    hitHomeFilter();
-    // console.warn(str.join(","));
-    // str = str.concat("8");
-    // str = str.concat("6");
-    // console.warn(str.join(","));
-    // console.warn("sort ", str.sort().join(","));
+  const dispatch = useDispatch();
+  const [current, setCurrent] = useState(1);
+  const [fromDate, setFromDate] = useState(new Date());
+  const [toDate, setToDate] = useState(new Date());
+  const [days, setDays] = useState(0);
+  const [activityType1, setactivityType1] = useState(false);
+  const [activityType2, setactivityType2] = useState(false);
+  const [activityType3, setactivityType3] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [category, setCategory] = useState(Object);
+  const [query, setQuery] = useState("");
+  const [searchData, setSearchData] = useState([]);
+  const [tempData, setTempData] = useState([]);
+  const [dateApply, setdateApply] = useState(false);
 
-    // console.warn(filterData.activityCategory);
-    // filterData.activityCategory.map((item: any) => {
-    //   item.ActivityValuesOri.map((item: any) => {
-    //     console.warn(item.id);
-    //   });
-    // });
+  const TYPE1 = "ANNOUNCEMENT";
+  const TYPE2 = "ACTIVITY";
+  const TYPE3 = "QOTD";
+
+  React.useEffect(() => {
+    myFilter.type.length === 0
+      ? null
+      : (myFilter.type.includes(TYPE1) ? setactivityType1(true) : null,
+        myFilter.type.includes(TYPE2) ? setactivityType2(true) : null,
+        myFilter.type.includes(TYPE3) ? setactivityType3(true) : null);
+    console.warn(
+      "type   ",
+      myFilter.type.includes(TYPE1),
+      myFilter.type.includes(TYPE2),
+      myFilter.type.includes(TYPE3),
+      myFilter.type.length === 0
+    );
+
+    CommonFunctions.isNullUndefined(myFilter.fromDate)
+      ? null
+      : (setFromDate(new Date(myFilter.fromDate)),
+        setToDate(new Date(myFilter.toDate)),
+        setdateApply(true));
+    setCategory(myFilter);
+    hitHomeFilter();
   }, []);
 
   const renderItems = (rowData: any) => {
@@ -75,45 +92,101 @@ export default function App(props: AppProps) {
     return <FilterList item={item} index={index} />;
   };
 
-  const resetting = () => {
-    setReset(true);
-    setactivityType1(true);
-    setactivityType2(true);
-    setactivityType3(true);
-  };
-
   const hitHomeFilter = () => {
-    filterNum === 0
-      ? (setLoading(true),
-        dispatch(
-          HomeFilter(
-            currentChild.classroom,
-            (filterData: any) => {
-              let counter = 0;
-              let temp: Array<any> = [];
-              filterData.activityCategory.map((item: any) => {
-                item.ActivityValuesOri.map((item: any) => {
-                  temp = temp.concat(item.id.toString());
-                  counter = counter + 1;
-                });
+    setLoading(true),
+      dispatch(
+        HomeFilter(
+          currentChild.classroom,
+          (filterData: any) => {
+            let counter = 0;
+            let temp: Array<any> = [];
+            let searchArr: any = [];
+            filterData.activityCategory.map((items: any) => {
+              searchArr.includes(items.name)
+                ? null
+                : (searchArr = searchArr.concat({
+                    name: items.name,
+                    id: items.id,
+                  }));
+              items.ActivityValuesOri.map((item: any) => {
+                temp = temp.concat(item.id.toString());
+                counter = counter + 1;
+                searchArr.includes(item.name)
+                  ? null
+                  : (searchArr = searchArr.concat({
+                      name: item.name,
+                      id: items.id,
+                    }));
               });
-              console.warn("temp ", temp.sort().join(","), temp);
-              filterNum !== counter
-                ? dispatch(
-                    addFilter(temp, myFilter.date, () => {
+            });
+            setTempData(
+              searchArr.sort((a: any, b: any) =>
+                a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+              )
+            );
+            filterNum !== counter
+              ? dispatch(
+                  addFilter(
+                    temp,
+                    myFilter.fromDate,
+                    myFilter.toDate,
+                    myFilter.type,
+                    () => {
                       dispatch(
                         countFilter(counter, () => {
                           setLoading(false);
                         })
                       );
-                    })
+                    }
                   )
-                : null;
-            },
-            () => setLoading(false)
-          )
-        ))
-      : null;
+                )
+              : null;
+          },
+          () => setLoading(false)
+        )
+      );
+  };
+
+  const onlyUnique = (value: number, index: number, self: any) => {
+    return self.indexOf(value) === index;
+  };
+
+  const searching = (query: string) => {
+    let currData: any = [];
+    let temp: any[] = [];
+    temp = CommonFunctions.binarySearch(query, tempData);
+    temp.map((item: any) => {
+      currData = currData.concat(item.id);
+    });
+    currData = currData.filter(onlyUnique);
+    let newSearch: any = [];
+    currData.map((items: any) => {
+      filterData.activityCategory.map((item: any) => {
+        items === item.id ? (newSearch = newSearch.concat(item)) : null;
+      });
+    });
+    setSearchData(newSearch);
+  };
+
+  const checkActivityTypes = () => {
+    let arr: any[] = [];
+    activityType1 ? (arr = arr.concat(TYPE1)) : null;
+    activityType2 ? (arr = arr.concat(TYPE2)) : null;
+    activityType3 ? (arr = arr.concat(TYPE3)) : null;
+    console.warn("arr   ", arr);
+
+    // dispatch(
+    //   addFilter(
+    //     myFilter.activity,
+    //     myFilter.fromDate,
+    //     myFilter.toDate,
+    //     arr,
+    //     () => {
+    //       console.warn("successssssss");
+    //     }
+    //   )
+    // );
+    return arr;
   };
 
   return (
@@ -122,7 +195,23 @@ export default function App(props: AppProps) {
         <Text style={Styles.childHeaderText}>{Strings.Home_Feed_Options}</Text>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => props.setModalOpen(false)}
+          onPress={() => {
+            console.warn(category);
+            dispatch(
+              addFilter(
+                category.activity,
+                category.fromDate,
+                category.toDate,
+                category.type,
+                () => {
+                  console.warn(category);
+
+                  console.warn("no updates");
+                }
+              )
+            );
+            props.setModalOpen(false);
+          }}
         >
           <Image source={Images.Cancel_Icon} />
         </TouchableOpacity>
@@ -171,19 +260,30 @@ export default function App(props: AppProps) {
           // Activity Category --------------------
           <View style={Styles.rightFilter}>
             <CustomSearchBar
-              value=""
+              value={query}
               placeholder={Strings.Search}
-              onChangeText={() => {}}
-              onPressCancel={() => {}}
+              onChangeText={(text: string) => {
+                setQuery(text), searching(text);
+              }}
+              onPressCancel={() => {
+                setQuery(""), setSearchData([]);
+              }}
               onSubmitEditing={() => Keyboard.dismiss()}
-              mainViewStyle={{ width: "68%", marginBottom: vh(10) }}
+              mainViewStyle={{ marginBottom: vh(10) }}
             />
             {CommonFunctions.isEmpty(filterData) ? (
               <CustomLoader loading={isLoading} />
+            ) : query.length !== 0 && searchData.length === 0 ? (
+              <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Text>{Strings.Category_Unavailable}</Text>
+              </View>
             ) : (
               <FlatList
+                keyboardShouldPersistTaps="handled"
                 bounces={false}
-                data={filterData.activityCategory}
+                data={
+                  query.length === 0 ? filterData.activityCategory : searchData
+                }
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItems}
               />
@@ -193,25 +293,25 @@ export default function App(props: AppProps) {
           // Date Category --------------------
           <View style={Styles.rightFilter}>
             <CustomDate
+              date={fromDate}
               heading={Strings.From}
+              maxDate={new Date()}
               getDate={(date: Date) => {
                 setFromDate(date);
-                setDays(
-                  CommonFunctions.DateDifference(fromDate, date).toString()
-                );
+                setDays(CommonFunctions.DateDifference(date, toDate));
+                setdateApply(true);
               }}
-              mainViewStyle={{ marginTop: 0, width: "68%" }}
+              mainViewStyle={{ marginTop: 0 }}
             />
             <CustomDate
+              date={toDate}
               heading={Strings.To}
-              minDate={fromDate}
+              maxDate={new Date()}
               getDate={(date: Date) => {
                 setToDate(date);
-                setDays(
-                  CommonFunctions.DateDifference(fromDate, date).toString()
-                );
+                setDays(CommonFunctions.DateDifference(fromDate, date));
+                setdateApply(true);
               }}
-              mainViewStyle={{ width: "68%" }}
             />
           </View>
         ) : (
@@ -298,18 +398,42 @@ export default function App(props: AppProps) {
       <View style={Styles.bottomView}>
         <CustomButton
           lightBtn={true}
-          onPress={() => props.setModalOpen(false)}
+          onPress={() => {
+            dispatch(
+              addFilter([], "", "", [], () => {
+                console.warn("resertt ", myFilter);
+              })
+            );
+            props.resetFilter();
+          }}
           Text={Strings.Reset}
           ButtonStyle={Styles.applyBtn}
         />
         <CustomButton
           onPress={() => {
-            props.setModalOpen(false),
-              props.applyFilter(
-                filterNum === myFilter.activity.length
-                  ? null
-                  : myFilter.activity.join(",")
-              );
+            console.warn("cat  ", myFilter.activity);
+
+            props.setModalOpen(false);
+            props.applyFilter(
+              myFilter.activity.sort().join(","),
+              checkActivityTypes(),
+              dateApply ? { fromDate: fromDate, toDate: toDate } : {}
+            );
+
+            // ? CustomToast(Strings.EmptyActivityType)
+            // : days < 0
+            // ? CustomToast(Strings.invalidDate)
+            // : (props.setModalOpen(false),
+            //   setCategory(myFilter),
+            //   props.applyFilter(
+            //     filterNum === myFilter.activity.length
+            //       ? null
+            //       : myFilter.activity.join(","),
+            //     checkActivityTypes(),
+            //     CommonFunctions.DateDifference(fromDate, new Date()) > 0
+            //       ? { fromDate: fromDate, toDate: toDate }
+            //       : {}
+            //   ));
           }}
           Text={Strings.Apply}
           ButtonStyle={Styles.applyBtn}
@@ -342,10 +466,11 @@ const Styles = StyleSheet.create({
   filterView: {
     flexDirection: "row",
     height: vh(480),
+    width: "100%",
   },
   leftFilter: {
     backgroundColor: Colors.lightPink,
-    width: vw(120),
+    width: "30%",
   },
   categoryView: {
     justifyContent: "center",
@@ -357,7 +482,7 @@ const Styles = StyleSheet.create({
   rightFilter: {
     padding: vh(16),
     paddingBottom: 0,
-    width: "100%",
+    width: "70%",
   },
   activityHeadView: {
     flexDirection: "row",
@@ -386,14 +511,6 @@ const Styles = StyleSheet.create({
     paddingBottom: vh(20),
     borderTopWidth: vw(1),
     borderColor: Colors.borderGrey,
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: -5,
-    // },
-    // shadowOpacity: 0.5,
-    // shadowRadius: 4.65,
-    // elevation: 7,
   },
   applyBtn: {
     width: "40%",

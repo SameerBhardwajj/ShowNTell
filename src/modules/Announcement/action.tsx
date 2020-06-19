@@ -1,25 +1,24 @@
-import { Action, API, EndPoints, CommonFunctions } from "../../utils";
+import { Action, API, EndPoints } from "../../utils";
 import { CustomToast } from "../../Components";
 
-export const viewAttendance = (
-  type: string,
+export const hitAnnouncementAPI = (
   child_id: number,
-  date: string,
+  page: number,
   successCallback: Function,
   failureCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.attendance.viewAttendance(type, child_id, date),
+      EndPoints.drawer.announcement(child_id, page),
       {},
       (success: any) => {
         let res = success.data.response;
         if (success.data.code === 200) {
           console.log("mysuccess ", res);
           dispatch({
-            type: Action.VIEW_ATTENDANCE,
+            type: Action.ANNOUNCEMENT,
             payload: {
-              data: CommonFunctions.isEmpty(res) ? [] : res,
+              data: res.rows,
             },
           });
 
@@ -32,7 +31,7 @@ export const viewAttendance = (
       (error: any) => {
         console.log("error ", error);
         dispatch({
-          type: Action.VIEW_ATTENDANCE,
+          type: Action.ANNOUNCEMENT,
           payload: {
             data: [],
           },

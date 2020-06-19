@@ -18,13 +18,16 @@ const TYPE_TEXT = "text";
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
-  const openShare = (titles: string, urls: string) => {
-    const url = urls;
-    const title = titles;
-    const message = Strings.Please_check_this;
+  const { params } = props.route;
+
+  const openShare = () => {
+    const url = params.img;
+    const title = params.categoryName;
+    const message = params.activityName;
     const options = Platform.select({
       ios: {
         activityItemSources: [
@@ -45,7 +48,7 @@ export default function App(props: AppProps) {
             placeholderItem: { type: TYPE_TEXT, content: message },
             item: {
               default: { type: TYPE_TEXT, content: message },
-              message: null, // Specify no text to share via Messages app.
+              message: message, // Specify no text to share via Messages app.
             },
           },
         ],
@@ -53,7 +56,7 @@ export default function App(props: AppProps) {
       default: {
         title,
         subject: title,
-        message: `${message} ${url}`,
+        message: `${message} ${url} ${params.childName}`,
       },
     });
     // @ts-ignore
@@ -72,7 +75,7 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.shareView}
-          onPress={() => openShare(Strings.Alex_doing_Lunch, img)}
+          onPress={() => openShare()}
         >
           <Text style={Styles.bubbleMsgText}>{Strings.Share}</Text>
         </TouchableOpacity>
@@ -107,7 +110,7 @@ const Styles = StyleSheet.create({
   },
   modalView: {
     backgroundColor: "white",
-    width: "90%",
+    width: "95%",
     alignItems: "center",
     borderRadius: vw(20),
     paddingHorizontal: vw(18),
@@ -127,7 +130,7 @@ const Styles = StyleSheet.create({
     backgroundColor: Colors.separator,
   },
   cancelView: {
-    width: "90%",
+    width: "95%",
     paddingVertical: vh(13),
     backgroundColor: "white",
     marginTop: vh(10),

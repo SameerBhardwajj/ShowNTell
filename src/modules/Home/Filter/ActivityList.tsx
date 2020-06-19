@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { vh, Images } from "../../../utils";
+import { vh, Images, CommonFunctions } from "../../../utils";
 import { addFilter } from "../action";
 
 export interface AppProps {
@@ -11,14 +11,22 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const [check, setCheck] = useState(true);
+  const [check, setCheck] = useState(false);
   const { myFilter } = useSelector((state: { Home: any }) => ({
     myFilter: state.Home.myFilter,
   }));
 
   React.useEffect(() => {
+    console.warn(' check  ', check);
+    console.warn('len  ',myFilter.activity.length, myFilter.activity);
+    
     let temp: any = myFilter.activity;
-    temp.includes(props.item.id.toString()) ? null : setCheck(false);
+    myFilter.activity.length === 0
+      ? null
+      : temp.includes(props.item.id.toString())
+      ? (setCheck(true), console.warn('here')
+      )
+      : null;
   }, [myFilter]);
 
   return (
@@ -34,12 +42,28 @@ export default function App(props: AppProps) {
           if (!check) {
             temp = temp.concat(`${props.item.id}`);
             temp.sort();
-            dispatch(addFilter(temp, myFilter.date, () => setCheck(!check)));
+            dispatch(
+              addFilter(
+                temp,
+                myFilter.fromDate,
+                myFilter.toDate,
+                myFilter.type,
+                () => setCheck(!check)
+              )
+            );
           } else {
             temp = temp.filter(
               (item: any) => !item.includes(parseInt(props.item.id.toString()))
             );
-            dispatch(addFilter(temp, myFilter.date, () => setCheck(!check)));
+            dispatch(
+              addFilter(
+                temp,
+                myFilter.date,
+                myFilter.toDate,
+                myFilter.type,
+                () => setCheck(!check)
+              )
+            );
           }
         }}
       >

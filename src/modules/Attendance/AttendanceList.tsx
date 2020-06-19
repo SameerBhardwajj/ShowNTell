@@ -2,6 +2,8 @@ import * as React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { vh, Colors, Images, vw, Strings, CommonFunctions } from "../../utils";
 
+const ATTENDANCE = "ATTENDANCE";
+
 export interface AppProps {
   item: any;
   index: string;
@@ -18,30 +20,29 @@ export default function App(props: AppProps) {
           resizeMethod="resize"
           resizeMode="contain"
           source={
-            props.item.Child.s3_photo_path === null
+            props.item.s3_photo_path === null
               ? Images.Profile_Placeholder
-              : { uri: props.item.Child.s3_photo_path }
+              : { uri: props.item.s3_photo_path }
           }
         />
         <View>
           <Text style={[Styles.attendenceDate, { marginVertical: 0 }]}>
-            {props.item.Child.first_name} {props.item.Child.last_name}
+            {props.item.first_name} {props.item.last_name}
           </Text>
           <Text style={[Styles.attendenceDate, { marginVertical: 0 }]}>
-            {props.item.Classroom.name}
+            {props.item.classroom_name}
           </Text>
         </View>
       </View>
     );
   };
-
   return (
     <View style={Styles.mainView}>
       {props.currentChild === 0
         ? parseInt(props.index) === 0
           ? childData()
-          : props.item.Child.first_name ===
-            props.allData[parseInt(props.index) - 1].Child.first_name
+          : props.item.first_name ===
+            props.allData[parseInt(props.index) - 1].first_name
           ? null
           : childData()
         : null}
@@ -50,7 +51,7 @@ export default function App(props: AppProps) {
           <Image source={Images.In_Time_Icon} />
           <Text style={Styles.inTimeText}>{Strings.In_Time}</Text>
           <Text style={Styles.inTime}>
-            {props.item.in_date_time === null
+            {CommonFunctions.isNullUndefined(props.item.in_date_time)
               ? Strings.Not_Available
               : CommonFunctions.timeFormatter(
                   new Date(props.item.in_date_time)
@@ -62,7 +63,7 @@ export default function App(props: AppProps) {
           <Image source={Images.Out_Time_Icon} />
           <Text style={Styles.inTimeText}>{Strings.Out_Time}</Text>
           <Text style={Styles.inTime}>
-            {props.item.out_date_time === null
+            {CommonFunctions.isNullUndefined(props.item.out_date_time)
               ? Strings.Not_Available
               : CommonFunctions.timeFormatter(
                   new Date(props.item.out_date_time)

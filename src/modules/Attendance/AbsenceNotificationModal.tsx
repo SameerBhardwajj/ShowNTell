@@ -2,13 +2,15 @@ import * as React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 // custom imports
-import { Images, vw, Strings, vh, Colors } from "../../utils";
+import { Images, vw, Strings, vh, Colors, CommonFunctions } from "../../utils";
 
 export interface AppProps {
   navigation?: any;
+  route?: any;
 }
 
 export default function App(props: AppProps) {
+  const { item } = props.route.params;
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
@@ -25,19 +27,24 @@ export default function App(props: AppProps) {
           <View style={Styles.msgUpperView}>
             <View>
               <Text style={Styles.fromText}>{Strings.From}</Text>
-              <Text style={Styles.dateText}>Feb 26, 2020</Text>
+              <Text style={Styles.dateText}>
+                {CommonFunctions.DateFormatter(new Date(item.absence_from))}
+              </Text>
             </View>
             <View style={Styles.separatorDateView} />
             <View>
-              <Text style={Styles.fromText}>{Strings.From}</Text>
-              <Text style={Styles.dateText}>Feb 26, 2020</Text>
+              <Text style={Styles.fromText}>{Strings.To}</Text>
+              <Text style={Styles.dateText}>
+                {CommonFunctions.DateFormatter(new Date(item.absence_to))}
+              </Text>
             </View>
           </View>
-          <Text style={Styles.msgText}>
-            This is to inform you that my ward would be travelling outside
-            station and would be unavailable for the mentioned dates.
+          <Text style={Styles.msgText}>{item.absence_description}</Text>
+          <Text style={Styles.footerText}>
+            {CommonFunctions.DateFormatter(new Date(item.absence_create_date))}
+            {" . "}
+            {CommonFunctions.timeFormatter(new Date(item.absence_create_date))}
           </Text>
-          <Text style={Styles.footerText}>Feb 25, 2020 05:00 PM</Text>
         </View>
       </View>
     </View>
@@ -59,6 +66,7 @@ const Styles = StyleSheet.create({
     borderTopLeftRadius: vh(10),
     paddingVertical: vh(21),
     paddingHorizontal: vw(16),
+    paddingBottom: vh(40),
   },
   cancelBtn: {
     position: "absolute",

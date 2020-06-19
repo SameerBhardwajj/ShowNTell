@@ -10,7 +10,8 @@ const DateDifference = (date1: any, date2: any) => {
   date1 = new Date(date1);
   date2 = new Date(date2);
   let timediff = date2 - date1;
-  if (isNaN(timediff)) return 0;
+  if (isNaN(timediff)) return -1;
+  else if (timediff < 0) return -1;
   else return Math.floor(timediff / day) + 1;
 };
 
@@ -65,7 +66,7 @@ const dateTypeFormat = (date: Date, format: string) => {
 
 const timeFormatter = (date: Date) => {
   let testDateUtc = moment.utc(date);
-  let localTime = moment(testDateUtc).local().format("hh:mm A");
+  let localTime = moment(testDateUtc).format("hh:mm A");
   return localTime;
 };
 

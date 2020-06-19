@@ -1,11 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { updateTab } from "../Home/action";
-import { useDispatch } from "react-redux";
-import { CustomHeader } from "../../Components";
-import { Strings, vw, vh, Colors, ScreenName } from "../../utils";
+import { CustomHeader, CustomLoader } from "../../Components";
+import {
+  Strings,
+  vw,
+  vh,
+  Colors,
+  ScreenName,
+  CommonFunctions,
+} from "../../utils";
+import { hitAnnouncementAPI } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -13,25 +21,57 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
+  const {
+    tab,
+    data,
+    currentChild,
+    loginToken,
+    loginData,
+    otherCurrentChild,
+    myFilter,
+    filterNum,
+  } = useSelector((state: { Home: any; Login: any; Announcement: any }) => ({
+    tab: state.Home.tab,
+    data: state.Announcement.data,
+    currentChild: state.Home.currentChild,
+    loginToken: state.Login.loginToken,
+    loginData: state.Login.loginData,
+    otherCurrentChild: state.Home.otherCurrentChild,
+    myFilter: state.Home.myFilter,
+    filterNum: state.Home.filterNum,
+  }));
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
-    dispatch(updateTab(true, () => {}));
-  }, []);
+    // dispatch(updateTab(true, () => {}));
+    setLoading(true);
+    dispatch(
+      hitAnnouncementAPI(
+        otherCurrentChild.child,
+        0,
+        () => setLoading(false),
+        () => setLoading(false)
+      )
+    );
+  }, [otherCurrentChild]);
   return (
     <View style={Styles.mainView}>
       <CustomHeader
         title={Strings.Announcement}
         onPressBack={() => props.navigation.navigate(ScreenName.HOME)}
+        child={true}
+        navigation={props.navigation}
       />
+      <CustomLoader loading={loading} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         bounces={false}
         contentContainerStyle={Styles.scrollStyle}
       >
-        {DATA.map((item, index) => (
+        {data.map((item: any, index: number) => (
           <View style={Styles.innerView}>
-            {item.date.length !== 0 ? (
+            {/* {item.date.length !== 0 ? (
               <Text style={Styles.heading}>{item.date}</Text>
-            ) : null}
+            ) : null} */}
             <View
               style={[
                 Styles.contentView,
@@ -45,8 +85,13 @@ export default function App(props: AppProps) {
                 },
               ]}
             >
-              <Text style={Styles.content}>{item.content}</Text>
-              <Text style={Styles.time}>{item.time}</Text>
+              <Text style={Styles.heading}>{item.Announcement.title}</Text>
+              <Text style={Styles.content}>
+                {item.Announcement.description}
+              </Text>
+              <Text style={Styles.time}>
+                {CommonFunctions.timeFormatter(new Date(item.create_dt))}
+              </Text>
             </View>
           </View>
         ))}
@@ -57,9 +102,13 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
+    alignItems: "center",
     backgroundColor: "white",
   },
   scrollStyle: {
+    // alignItems: "center",
+    width: '100%',
+    flex:1,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -71,6 +120,7 @@ const Styles = StyleSheet.create({
   },
   innerView: {
     padding: vh(16),
+    alignItems: 'center',
     width: "100%",
     shadowColor: "#000",
     shadowOffset: {

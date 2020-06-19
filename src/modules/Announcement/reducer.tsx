@@ -5,7 +5,7 @@ const initialState = {
 const Reducer = (state = initialState, action: any) => {
   console.warn(action, action.payload);
   switch (action.type) {
-    case Action.VIEW_ATTENDANCE:
+    case Action.ANNOUNCEMENT:
       return { ...state, ...action.payload };
     default:
       return state;

@@ -1,12 +1,15 @@
 import * as React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { vh, Colors, Images, vw, Strings, CommonFunctions } from "../../utils";
+
+const ATTENDANCE = "ATTENDANCE";
 
 export interface AppProps {
   item: any;
   index: string;
   currentChild: number;
   allData: any;
+  onPressAbsence: Function;
 }
 
 export default function App(props: AppProps) {
@@ -18,68 +21,88 @@ export default function App(props: AppProps) {
           resizeMethod="resize"
           resizeMode="contain"
           source={
-            props.item.Child.s3_photo_path === null
+            props.item.s3_photo_path === null
               ? Images.Profile_Placeholder
-              : { uri: props.item.Child.s3_photo_path }
+              : { uri: props.item.s3_photo_path }
           }
         />
         <View>
           <Text style={Styles.nameText}>
-            {props.item.Child.first_name} {props.item.Child.last_name}
+            {props.item.first_name} {props.item.last_name}
           </Text>
-          <Text style={Styles.classroomText}>{props.item.Classroom.name}</Text>
+          <Text style={Styles.classroomText}>{props.item.classroom_name}</Text>
         </View>
       </View>
     );
   };
+
   return (
     <View style={Styles.mainView}>
       {parseInt(props.index) === 0 ? (
         <Text style={Styles.attendenceDate}>
-          {props.item.in_date_time_format}
+          {CommonFunctions.DateFormatter(new Date(props.item.in_date_time))}
         </Text>
-      ) : props.item.in_date_time_format !==
-        props.allData[parseInt(props.index) - 1].in_date_time_format ? (
+      ) : CommonFunctions.DateDifference(
+          new Date(props.item.in_date_time),
+          new Date(props.allData[parseInt(props.index) - 1].in_date_time)
+        ) === 0 ? (
         <Text style={Styles.attendenceDate}>
-          {props.item.in_date_time_format}
+          {CommonFunctions.DateFormatter(new Date(props.item.in_date_time))}
         </Text>
       ) : null}
       {props.currentChild === 0
         ? parseInt(props.index) === 0
           ? childData()
-          : props.item.Child.first_name ===
-            props.allData[parseInt(props.index) - 1].Child.first_name
+          : props.item.first_name ===
+            props.allData[parseInt(props.index) - 1].first_name
           ? null
           : childData()
         : null}
-      <View style={Styles.timeView}>
-        <View style={Styles.inTimeView}>
-          <Image source={Images.In_Time_Icon} />
-          <Text style={Styles.inTimeText}>{Strings.In_Time}</Text>
-          <Text style={Styles.inTime}>
-            {props.item.in_date_time === null
-              ? Strings.Not_Available
-              : CommonFunctions.timeFormatter(
-                  new Date(props.item.in_date_time)
-                )}
-          </Text>
+      {props.item.type === ATTENDANCE ? (
+        <View style={Styles.timeView}>
+          <View style={Styles.inTimeView}>
+            <Image source={Images.In_Time_Icon} />
+            <Text style={Styles.inTimeText}>{Strings.In_Time}</Text>
+            <Text style={Styles.inTime}>
+              {CommonFunctions.isNullUndefined(props.item.in_date_time)
+                ? Strings.Not_Available
+                : CommonFunctions.timeFormatter(
+                    new Date(props.item.in_date_time)
+                  )}
+            </Text>
+          </View>
+          <View style={Styles.separatorView} />
+          <View style={Styles.inTimeView}>
+            <Image source={Images.Out_Time_Icon} />
+            <Text style={Styles.inTimeText}>{Strings.Out_Time}</Text>
+            <Text style={Styles.inTime}>
+              {CommonFunctions.isNullUndefined(props.item.out_date_time)
+                ? Strings.Not_Available
+                : CommonFunctions.timeFormatter(
+                    new Date(props.item.out_date_time)
+                  )}
+            </Text>
+          </View>
         </View>
-        <View style={Styles.separatorView} />
-        <View style={Styles.inTimeView}>
-          <Image source={Images.Out_Time_Icon} />
-          <Text style={Styles.inTimeText}>{Strings.Out_Time}</Text>
-          <Text style={Styles.inTime}>
-            {props.item.out_date_time === null
-              ? Strings.Not_Available
-              : CommonFunctions.timeFormatter(
-                  new Date(props.item.out_date_time)
-                )}
-          </Text>
+      ) : (
+        <View style={Styles.timeView}>
+          <TouchableOpacity
+            style={Styles.absenceView}
+            activeOpacity={0.8}
+            onPress={() => props.onPressAbsence()}
+          >
+            <Image source={Images.Absent_Icon} style={{ padding: vh(25) }} />
+            <Text style={Styles.absenceText}>
+              {Strings.Absence_Notification}
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
+      )}
       {props.allData.length - 1 !== parseInt(props.index) &&
-      props.item.in_date_time_format !==
-        props.allData[parseInt(props.index) + 1].in_date_time_format ? (
+      CommonFunctions.DateDifference(
+        new Date(props.item.in_date_time),
+        new Date(props.allData[parseInt(props.index) + 1].in_date_time)
+      ) === 0 ? (
         <View style={Styles.finalSeparator} />
       ) : null}
     </View>
@@ -163,5 +186,31 @@ const Styles = StyleSheet.create({
     marginVertical: vh(20),
     backgroundColor: Colors.separator,
     height: vw(1),
+  },
+  absenceMainView: {
+    alignItems: "center",
+    width: "100%",
+    paddingHorizontal: vw(16),
+  },
+  absenceView: {
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "center",
+    backgroundColor: Colors.lightPink,
+    borderRadius: vh(10),
+    paddingTop: vh(28),
+    paddingBottom: vh(28),
+  },
+  absenceText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(20),
+    color: Colors.pink,
+    paddingTop: vh(20)
+  },
+  absentIcon: {
+    height: vh(80),
+    width: vh(80),
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

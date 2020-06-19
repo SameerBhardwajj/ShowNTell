@@ -104,6 +104,11 @@ export default function App(props: AppProps) {
         item={item}
         currentChild={otherCurrentChild.child}
         allData={data}
+        onPressAbsence={() =>
+          props.navigation.navigate(ScreenName.ABSENCE_NOTIFICATION_MODAL, {
+            item: item,
+          })
+        }
       />
     );
   };
@@ -165,108 +170,88 @@ export default function App(props: AppProps) {
       {/* View by Date ------------------------- */}
       {viewByDate ? (
         <View style={Styles.monthView}>
-          <FlatList
-            ListHeaderComponent={() => {
-              return (
-                <View style={Styles.headingView}>
-                  {otherCurrentChild.child === 0 ? null : data.length ===
-                    0 ? null : (
-                    <Text style={Styles.attendenceHeading}>
-                      {data[0].Classroom.name}
-                    </Text>
-                  )}
-                  <View style={Styles.attenanceView}>
-                    <Text style={Styles.attendenceHeading}>
-                      {CommonFunctions.DateFormatter(currentDate)}
-                    </Text>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      style={Styles.calenderStyle}
-                      onPress={() => setModalOpen(true)}
-                    >
-                      <Image
-                        source={Images.Calendar_Icon}
-                        style={{ padding: 13 }}
-                      />
-                    </TouchableOpacity>
+          {isLoading ? null : (
+            <FlatList
+              ListHeaderComponent={() => {
+                return (
+                  <View style={Styles.headingView}>
+                    {otherCurrentChild.child === 0 ? null : data.length ===
+                      0 ? null : (
+                      <Text style={Styles.attendenceHeading}>
+                        {data[0].classroom_name}
+                      </Text>
+                    )}
+                    <View style={Styles.attenanceView}>
+                      <Text style={Styles.attendenceHeading}>
+                        {CommonFunctions.DateFormatter(currentDate)}
+                      </Text>
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        style={Styles.calenderStyle}
+                        onPress={() => setModalOpen(true)}
+                      >
+                        <Image
+                          source={Images.Calendar_Icon}
+                          style={{ padding: 13 }}
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
-              );
-            }}
-            data={data}
-            showsVerticalScrollIndicator={false}
-            refreshing={isRefreshing}
-            onRefresh={() => {
-              setRefreshing(true), hitAttendance();
-            }}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItems}
-          />
+                );
+              }}
+              data={data}
+              showsVerticalScrollIndicator={false}
+              refreshing={isRefreshing}
+              onRefresh={() => {
+                setRefreshing(true), hitAttendance();
+              }}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItems}
+            />
+          )}
         </View>
       ) : (
         <View style={Styles.monthView}>
           {/* View by Month ------------------------- */}
-          <FlatList
-            ListHeaderComponent={() => {
-              return (
-                <View style={Styles.headingView}>
-                  {otherCurrentChild.child === 0 ? null : data.length ===
-                    0 ? null : (
-                    <Text style={Styles.attendenceHeading}>
-                      {data[0].Classroom.name}
-                    </Text>
-                  )}
-                  <View style={Styles.attenanceView}>
-                    <Text style={Styles.attendenceHeading}>
-                      {CommonFunctions.DateMonthFormatter(currentMonth)}
-                    </Text>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      style={Styles.calenderStyle}
-                      onPress={() => setModalOpen(true)}
-                    >
-                      <Image
-                        source={Images.Calendar_Icon}
-                        style={{ padding: 13 }}
-                      />
-                    </TouchableOpacity>
+          {isLoading ? null : (
+            <FlatList
+              ListHeaderComponent={() => {
+                return (
+                  <View style={Styles.headingView}>
+                    {otherCurrentChild.child === 0 ? null : data.length ===
+                      0 ? null : (
+                      <Text style={Styles.attendenceHeading}>
+                        {data[0].classroom_name}
+                      </Text>
+                    )}
+                    <View style={Styles.attenanceView}>
+                      <Text style={Styles.attendenceHeading}>
+                        {CommonFunctions.DateMonthFormatter(currentMonth)}
+                      </Text>
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        style={Styles.calenderStyle}
+                        onPress={() => setModalOpen(true)}
+                      >
+                        <Image
+                          source={Images.Calendar_Icon}
+                          style={{ padding: 13 }}
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
-                </View>
-              );
-            }}
-            data={data}
-            refreshing={isRefreshing}
-            onRefresh={() => {
-              setRefreshing(true), hitAttendance();
-            }}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderMonthItem}
-          />
+                );
+              }}
+              data={data}
+              refreshing={isRefreshing}
+              onRefresh={() => {
+                setRefreshing(true), hitAttendance();
+              }}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderMonthItem}
+            />
+          )}
           {/* absence -------------------------------------------- */}
-          {/* <View style={Styles.absenceMainView}>
-              <Text style={[Styles.attendenceDate, { marginLeft: 0 }]}>
-                Feb 26, Friday
-              </Text>
-              <View style={Styles.absenceView}>
-                <TouchableOpacity
-                  style={Styles.absentIcon}
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    props.navigation.navigate(
-                      ScreenName.ABSENCE_NOTIFICATION_MODAL
-                    )
-                  }
-                >
-                  <Image
-                    source={Images.Absent_Icon}
-                    style={{ padding: vh(25) }}
-                  />
-                </TouchableOpacity>
-                <Text style={Styles.absenceText}>
-                  {Strings.Absence_Notification}
-                </Text>
-              </View>
-            </View> */}
         </View>
       )}
       <Modal animationType="slide" transparent={true} visible={modalOpen}>
@@ -388,32 +373,6 @@ const Styles = StyleSheet.create({
     width: "100%",
     marginBottom: vh(20),
     flex: 1,
-  },
-  absenceMainView: {
-    alignItems: "center",
-    width: "100%",
-    paddingHorizontal: vw(16),
-    marginBottom: vh(20),
-  },
-  absenceView: {
-    alignItems: "center",
-    width: "100%",
-    justifyContent: "center",
-    backgroundColor: Colors.lightPink,
-    borderRadius: vh(10),
-    paddingTop: vh(8),
-    paddingBottom: vh(28),
-  },
-  absenceText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(20),
-    color: Colors.pink,
-  },
-  absentIcon: {
-    height: vh(80),
-    width: vh(80),
-    alignItems: "center",
-    justifyContent: "center",
   },
   topModalView: {
     width: "100%",
