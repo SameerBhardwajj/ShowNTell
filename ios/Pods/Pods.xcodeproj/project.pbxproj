@@ -5909,6 +5909,8 @@
 		FFB0ED38341A786D27F5C6DE23084DEC /* RCTDevLoadingView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTDevLoadingView.m; sourceTree = "<group>"; };
 		FFC0DFA5F6C914C9FFB3D65D3D4A2997 /* Libgen.cpp */ = {isa = PBXFileReference; includeInIndex = 1; name = Libgen.cpp; path = folly/portability/Libgen.cpp; sourceTree = "<group>"; };
 		FFDC7746794AB17CFB7150820479DF40 /* libFlipper-RSocket.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libFlipper-RSocket.a"; path = "libFlipper-RSocket.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FFFD582854D5DB9EE2F611CA0DE64F8B /* RCTNativeAnimatedNodesManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = RCTNativeAnimatedNodesManager.m; sourceTree = "<group>"; };
+		FFFF383ECC52A0DE12A1437848489D00 /* TurboModuleBinding.cpp */ = {isa = PBXFileReference; includeInIndex = 1; name = TurboModuleBinding.cpp; path = turbomodule/core/TurboModuleBinding.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -7610,7 +7612,8 @@
 				F132DB9003B82886088B4D996590E666 /* react-native-splash-screen.podspec */,
 				3BD0BB0C7DDCFD22F0106A4A771A67E9 /* README.md */,
 			);
-			name = Pod;
+			name = TextInput;
+			path = TextInput;
 			sourceTree = "<group>";
 		};
 		571440D96CE3159CE6FEF84E27BC0AE2 /* Support Files */ = {
@@ -7772,8 +7775,8 @@
 				A1F1FFFB500EC50E6F041D8D3B96D439 /* RCTTypeSafety.debug.xcconfig */,
 				59BC134C57D6259F4A803710467A7D18 /* RCTTypeSafety.release.xcconfig */,
 			);
-			name = "Support Files";
-			path = "../../../../ios/Pods/Target Support Files/RCTTypeSafety";
+			name = internal;
+			path = yoga/internal;
 			sourceTree = "<group>";
 		};
 		65656476F1ACDB1BCCD06A694CF092F4 /* ScrollView */ = {
@@ -7817,7 +7820,8 @@
 				6CD4DC31FAFF446B41F39588350B6F30 /* react-native-cameraroll.podspec */,
 				67539327BC1F99F3905BAD5694B11972 /* README.md */,
 			);
-			name = Pod;
+			name = RNGestureHandler;
+			path = "../../node_modules/react-native-gesture-handler";
 			sourceTree = "<group>";
 		};
 		6AE2CC66562EFF86B0B88E8788319F41 /* Flipper-Glog */ = {
@@ -8314,7 +8318,8 @@
 			children = (
 				50CD0D329777C99B382ADBEC5F68CA5C /* FBLazyVector.podspec */,
 			);
-			name = Pod;
+			name = "Support Files";
+			path = "../../ios/Pods/Target Support Files/ReactNativeLocalization";
 			sourceTree = "<group>";
 		};
 		85723712DF0B0A73A48E920DC80E02BA /* Support Files */ = {
@@ -8391,7 +8396,8 @@
 			children = (
 				B3ACE4583376E57BF6AD42EFE06EF31A /* React-RCTBlob.podspec */,
 			);
-			name = Pod;
+			name = "React-CoreModules";
+			path = "../../node_modules/react-native/React/CoreModules";
 			sourceTree = "<group>";
 		};
 		8C655C2B766108C6723196503EEBDE42 /* Support Files */ = {
@@ -9267,7 +9273,8 @@
 			children = (
 				24FC5DABB7614893EE55BE3923D4E777 /* Yoga.podspec */,
 			);
-			name = Pod;
+			name = RawText;
+			path = RawText;
 			sourceTree = "<group>";
 		};
 		9E35C35576B9053B621415B92330AE82 /* BaseText */ = {
@@ -9882,11 +9889,16 @@
 			path = Multiline;
 			sourceTree = "<group>";
 		};
-		D89477F20FB1DE18A04690586D7808C4 /* Frameworks */ = {
+		D9C438F7436CC4DCC1CCEC2799A1A4A3 /* Text */ = {
 			isa = PBXGroup;
 			children = (
+				E0B124D491471863BD7137EBC51B3D3F /* NSTextStorage+FontScaling.h */,
+				B27FA1F4F800399CA9DA5F6FB1FC88BE /* RCTTextShadowView.h */,
+				1D08541DDC206FE199E62BDA3C94BD49 /* RCTTextView.h */,
+				42AA9915556BCB365F18EBB4585C7C12 /* RCTTextViewManager.h */,
 			);
-			name = Frameworks;
+			name = Text;
+			path = Libraries/Text/Text;
 			sourceTree = "<group>";
 		};
 		D8B48AD539B82C024A5177A37B77824B /* Pod */ = {
@@ -16429,6 +16441,30 @@
 			};
 			name = Debug;
 		};
+		37AB1A22DF7F354F7827F0EEE3D5EBA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B7D86F303C5F95688D60DF4BDE6E2A11 /* react-native-config.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/react-native-config/react-native-config-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = react_native_config;
+				PRODUCT_NAME = "react-native-config";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		3828C7170227CDCD41DEB2E3ADDCFA0B /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 552DCF5AA109570909A52DE3ECCCEE6C /* React-RCTActionSheet.release.xcconfig */;
@@ -16659,6 +16695,31 @@
 		4E989BE403A6A48FEA6EE3C4E6602791 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 150ED586438D1FF9F0A42CF5360BB075 /* react-native-config.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/react-native-config/react-native-config-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = react_native_config;
+				PRODUCT_NAME = "react-native-config";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4E989BE403A6A48FEA6EE3C4E6602791 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C2391DAFD21583D70C46B414AFC22A64 /* react-native-config.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";

@@ -58,20 +58,26 @@ export default function App(props: AppProps) {
 
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
+      <CustomLoader loading={isLoading} />
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={Styles.backBtn}
+        onPress={() => props.navigation.pop()}
+      >
+        <Image source={Images.back_icon} />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          marginTop: vh(70),
+        }}
+        onPress={() => {}}
+      ></TouchableOpacity>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={Styles.mainView}
       >
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={Styles.backBtn}
-          onPress={() => props.navigation.pop()}
-        >
-          <Image source={Images.back_icon} />
-        </TouchableOpacity>
         <Customcartoon navigation={props.navigation} small={true} />
-        <CustomLoader loading={isLoading} />
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
             <Text style={Styles.loginText}>{Strings.register}</Text>
@@ -99,30 +105,32 @@ export default function App(props: AppProps) {
                 onBlur={() => {
                   Keyboard.dismiss();
                   email.length !== 0
-                    ? (setIsLoading(true),
-                      dispatch(
-                        fetchSchoolList(
-                          email,
-                          (data: any) => {
-                            let temp = data;
-                            temp = temp.map((item: any) => {
-                              return {
-                                id: item.id,
-                                value: item.name,
-                              };
-                            });
-                            setList(temp);
-                            setCenter(temp[0].id);
-                            setSchool(temp[0].value);
-                            setIsLoading(false);
-                            temp.length === 0
-                              ? setCheckcheckEmail(false)
-                              : null;
-                          },
-                          () => setIsLoading(false)
-                        )
-                      ))
-                    : null;
+                    ? validate(ConstantName.EMAIL, email)
+                      ? (setIsLoading(true),
+                        dispatch(
+                          fetchSchoolList(
+                            email,
+                            (data: any) => {
+                              let temp = data;
+                              temp = temp.map((item: any) => {
+                                return {
+                                  id: item.id,
+                                  value: item.name,
+                                };
+                              });
+                              setList(temp);
+                              setCenter(temp[0].id);
+                              setSchool(temp[0].value);
+                              setIsLoading(false);
+                              temp.length === 0
+                                ? setCheckcheckEmail(false)
+                                : null;
+                            },
+                            () => setIsLoading(false)
+                          )
+                        ))
+                      : setCheckcheckEmail(false)
+                    : setCheckcheckEmail(false);
                 }}
               />
               {/* School center list ------------- */}

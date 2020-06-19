@@ -81,14 +81,21 @@ export default function App(props: AppProps) {
   }, [BackHandler]);
 
   const schoolAPI = () => {
+    setIsLoading(true);
     API.getApiCall(
       EndPoints.auth.fetchAllCenters(page),
       {},
       (success: any) => {
-        setList(list.concat(success.data.response));
-        setSearchData(searchData.concat(success.data.response));
+        let temp = success.data.response.slice(0);
+        temp.sort((a: any, b: any) =>
+          a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+        );
+        setList(temp);
+        setSearchData(temp);
+        setIsLoading(false);
       },
       (error: any) => {
+        setIsLoading(false);
         CustomToast(error.data.message);
       }
     );
@@ -147,182 +154,190 @@ export default function App(props: AppProps) {
   };
 
   const search = (query: string) => {
-    let temp = list.slice(0);
-    temp.sort((a: any, b: any) =>
-      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-    );
-    let res: any = CommonFunctions.binarySearch(query, temp);
+    let res: any = CommonFunctions.binarySearch(query, list);
     setSearchData(res);
   };
 
   return (
-    <KeyboardAwareScrollView
-      keyboardShouldPersistTaps="handled"
-      bounces={false}
-      horizontal={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={Styles.mainView}>
-        <CustomHeader
-          title={Strings.Need_Help}
-          onPressBack={() =>
-            props.route.params.path === ScreenName.TAB_NAVIGATOR
-              ? props.navigation.navigate(ScreenName.TAB_NAVIGATOR)
-              : props.navigation.pop()
-          }
-        />
-        <CustomLoader loading={isLoading} />
-        <View style={Styles.innerView}>
-          <View style={Styles.deviceMainView}>
-            {/* Device -------------------- */}
-            <View
-              style={[
-                Styles.deviceView,
-                { backgroundColor: Colors.lightGreen },
-              ]}
-            >
-              <Image source={Images.Phone_Icon} />
-              <Text style={[Styles.text, { color: Colors.green }]}>
-                {Strings.Device}
-              </Text>
-              <Text
-                numberOfLines={1}
-                style={[Styles.text, { color: Colors.green, paddingTop: 0 }]}
-              >
-                {getModel()}
-              </Text>
-            </View>
-            {/* Version -------------------- */}
-            <View
-              style={[Styles.deviceView, { backgroundColor: Colors.lightPink }]}
-            >
-              <Image
-                source={
-                  Platform.OS === "ios"
-                    ? Images.IOS_Version_icon
-                    : Images.Android_verson_Icon
-                }
-                style={{ tintColor: Colors.pink }}
-              />
-              <Text
+    <View style={Styles.mainView}>
+      <CustomHeader
+        title={Strings.Need_Help}
+        onPressBack={() =>
+          props.route.params.path === ScreenName.TAB_NAVIGATOR
+            ? props.navigation.navigate(ScreenName.TAB_NAVIGATOR)
+            : props.navigation.pop()
+        }
+      />
+      <CustomLoader loading={isLoading} />
+      <View style={{ flex: 1, width: "100%" }}>
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps="handled"
+          bounces={false}
+          horizontal={false}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={Styles.innerView}>
+            <View style={Styles.deviceMainView}>
+              {/* Device -------------------- */}
+              <View
                 style={[
-                  Styles.text,
-                  {
-                    color: Colors.pink,
-                    textTransform:
-                      Platform.OS === "ios" ? "uppercase" : "capitalize",
-                  },
+                  Styles.deviceView,
+                  { backgroundColor: Colors.lightGreen },
                 ]}
               >
-                {Platform.OS}
-                {"\nV "}
-                {getSystemVersion()}
-              </Text>
-            </View>
-            {/* Application -------------------- */}
-            <View
-              style={[
-                Styles.deviceView,
-                { backgroundColor: Colors.lightWaterBlue },
-              ]}
-            >
-              <Image
-                source={Images.Application_icon}
-                style={{ tintColor: Colors.waterBlue }}
-              />
-              <Text style={[Styles.text, { color: Colors.waterBlue }]}>
-                {APPLICATION}
-                {"V "}
-                {getVersion()}
-              </Text>
-            </View>
-          </View>
-          <View style={{ width: "100%" }}>
-            {/* School name --------------------- */}
-            <Text style={[Styles.titleTxt, Styles.menuView]}>
-              {Strings.School_Name}
-            </Text>
-            <TouchableOpacity
-              style={Styles.inputTxtView}
-              activeOpacity={0.8}
-              onPress={() => {
-                setShowList(true), Keyboard.dismiss();
-              }}
-            >
-              <Text style={Styles.schoolText}>{school}</Text>
-              <Image source={Images.Dropdown_icon} />
-            </TouchableOpacity>
-            <CustomInputText
-              ref={input1}
-              mainViewStyle={Styles.menuView}
-              value={name}
-              onChangeText={(text: string) => {
-                checkName ? null : setCheckName(true), setName(text);
-              }}
-              onSubmitEditing={() => {
-                validate(ConstantName.NAME, name)
-                  ? input2.current.focus()
-                  : setCheckName(false);
-              }}
-              titleText={Strings.Parent_Name}
-              check={checkName}
-              incorrectText={Strings.Name_error}
-            />
-            <CustomInputText
-              ref={input2}
-              mainViewStyle={Styles.menuView}
-              value={email}
-              onChangeText={(text: string) => {
-                checkEmail ? null : setCheckEmail(true), setEmail(text);
-              }}
-              onSubmitEditing={() => {
-                validate(ConstantName.EMAIL, email)
-                  ? input3.current.focus()
-                  : setCheckEmail(false);
-              }}
-              titleText={Strings.Parent_email}
-              check={checkEmail}
-              incorrectText={Strings.Email_error}
-            />
-            <View style={Styles.helpView}>
-              <Text style={Styles.titleTxt}>{Strings.How_can_we_help_you}</Text>
-              <View style={Styles.innerHelpView}>
-                <TextInput
-                  ref={input3}
-                  maxLength={500}
-                  value={help}
-                  onChangeText={(text: string) => {
-                    cLength <= 500 ? setHelp(text) : null,
-                      setCLength(text.length);
-                  }}
-                  style={Styles.textInputView}
-                  multiline={true}
-                  returnKeyType="next"
+                <Image source={Images.Phone_Icon} />
+                <Text style={[Styles.text, { color: Colors.green }]}>
+                  {Strings.Device}
+                </Text>
+                <Text
+                  numberOfLines={1}
+                  style={[Styles.text, { color: Colors.green, paddingTop: 0 }]}
+                >
+                  {getModel()}
+                </Text>
+              </View>
+              {/* Version -------------------- */}
+              <View
+                style={[
+                  Styles.deviceView,
+                  { backgroundColor: Colors.lightPink },
+                ]}
+              >
+                <Image
+                  source={
+                    Platform.OS === "ios"
+                      ? Images.IOS_Version_icon
+                      : Images.Android_verson_Icon
+                  }
+                  style={{ tintColor: Colors.pink }}
                 />
-                <Text style={Styles.character}>{cLength}/500 Characters</Text>
+                <Text
+                  style={[
+                    Styles.text,
+                    {
+                      color: Colors.pink,
+                      textTransform:
+                        Platform.OS === "ios" ? "uppercase" : "capitalize",
+                    },
+                  ]}
+                >
+                  {Platform.OS}
+                  {"\nV "}
+                  {getSystemVersion()}
+                </Text>
+              </View>
+              {/* Application -------------------- */}
+              <View
+                style={[
+                  Styles.deviceView,
+                  { backgroundColor: Colors.lightWaterBlue },
+                ]}
+              >
+                <Image
+                  source={Images.Application_icon}
+                  style={{ tintColor: Colors.waterBlue }}
+                />
+                <Text style={[Styles.text, { color: Colors.waterBlue }]}>
+                  {APPLICATION}
+                  {"V "}
+                  {getVersion()}
+                </Text>
               </View>
             </View>
-            <CustomButton
-              Text={Strings.Submit}
-              onPress={() => {
-                Keyboard.dismiss();
-                disable() ? check() : null;
-              }}
-              activeOpacity={disable() ? 0.8 : 1}
-              ButtonStyle={{
-                width: "100%",
-                alignSelf: "center",
-                marginTop: vh(30),
-                backgroundColor: disable()
-                  ? Colors.violet
-                  : Colors.disableViolet,
-              }}
-            />
+            <View style={{ width: "100%" }}>
+              {/* School name --------------------- */}
+              <Text style={[Styles.titleTxt, Styles.menuView]}>
+                {Strings.School_Name}
+              </Text>
+              <TouchableOpacity
+                style={Styles.inputTxtView}
+                activeOpacity={0.8}
+                onPress={() => {
+                  setShowList(true), Keyboard.dismiss();
+                }}
+              >
+                <Text style={Styles.schoolText}>{school}</Text>
+                <Image source={Images.Dropdown_icon} />
+              </TouchableOpacity>
+              <CustomInputText
+                ref={input1}
+                mainViewStyle={Styles.menuView}
+                value={name}
+                onChangeText={(text: string) => {
+                  checkName ? null : setCheckName(true), setName(text);
+                }}
+                onSubmitEditing={() => {
+                  validate(ConstantName.NAME, name)
+                    ? input2.current.focus()
+                    : setCheckName(false);
+                }}
+                titleText={Strings.Parent_Name}
+                check={checkName}
+                incorrectText={Strings.Name_error}
+              />
+              <CustomInputText
+                ref={input2}
+                mainViewStyle={Styles.menuView}
+                value={email}
+                onChangeText={(text: string) => {
+                  checkEmail ? null : setCheckEmail(true), setEmail(text);
+                }}
+                onSubmitEditing={() => {
+                  validate(ConstantName.EMAIL, email)
+                    ? input3.current.focus()
+                    : setCheckEmail(false);
+                }}
+                titleText={Strings.Parent_email}
+                check={checkEmail}
+                incorrectText={Strings.Email_error}
+              />
+              <View style={Styles.helpView}>
+                <Text style={Styles.titleTxt}>
+                  {Strings.How_can_we_help_you}
+                </Text>
+                <View style={Styles.innerHelpView}>
+                  <TextInput
+                    ref={input3}
+                    maxLength={500}
+                    value={help}
+                    onChangeText={(text: string) => {
+                      cLength <= 500 ? setHelp(text) : null,
+                        setCLength(text.length);
+                    }}
+                    style={Styles.textInputView}
+                    multiline={true}
+                    returnKeyType="next"
+                  />
+                  <Text style={Styles.character}>{cLength}/500 Characters</Text>
+                </View>
+              </View>
+              <CustomButton
+                Text={Strings.Submit}
+                onPress={() => {
+                  Keyboard.dismiss();
+                  disable() ? check() : null;
+                }}
+                activeOpacity={disable() ? 0.8 : 1}
+                ButtonStyle={{
+                  width: "100%",
+                  alignSelf: "center",
+                  marginTop: vh(30),
+                  backgroundColor: disable()
+                    ? Colors.violet
+                    : Colors.disableViolet,
+                }}
+              />
+            </View>
           </View>
-        </View>
+        </KeyboardAwareScrollView>
       </View>
       <Modal animationType="slide" transparent={true} visible={showList}>
-        <View style={Styles.flatlistView}>
+        <KeyboardAwareScrollView
+          bounces={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={Styles.flatlistView}
+        >
+          {/* <View style={Styles.flatlistView}> */}
           <TouchableOpacity
             style={{ padding: vw(20), alignSelf: "flex-end" }}
             activeOpacity={0.8}
@@ -357,9 +372,10 @@ export default function App(props: AppProps) {
             bounces={false}
             renderItem={renderItems}
           />
-        </View>
+          {/* </View> */}
+        </KeyboardAwareScrollView>
       </Modal>
-    </KeyboardAwareScrollView>
+    </View>
   );
 }
 const Styles = StyleSheet.create({

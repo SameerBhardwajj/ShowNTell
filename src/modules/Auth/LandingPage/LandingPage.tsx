@@ -36,6 +36,7 @@ export default function App(props: AppProps) {
   const [counter, setCounter] = useState(true);
   const [data, setData] = useState([]);
   const [exitCounter, setExitCounter] = useState(false);
+  const [unavailable, setUnavailable] = useState(false);
 
   const { loginToken } = useSelector((state: { Login: any }) => ({
     loginToken: state.Login.loginToken,
@@ -69,7 +70,9 @@ export default function App(props: AppProps) {
               setCounter(false);
               setData(success);
             },
-            () => {}
+            () => {
+              setUnavailable(true);
+            }
           )
         )
       : null;
@@ -106,16 +109,24 @@ export default function App(props: AppProps) {
           autoplayTimeout={3}
         >
           {data.length === 0 ? (
-            <CustomLoader loading={true} />
+            unavailable ? (
+              <Text style={Styles.testText}>
+                {Strings.Testimonials_unavailable}
+              </Text>
+            ) : (
+              <CustomLoader loading={true} />
+            )
           ) : (
             data.map((item: any) => (
               <View style={Styles.testimonialView}>
-                <Image
-                  source={Images.Testimonial_Base}
-                  resizeMode="contain"
-                  resizeMethod="resize"
-                  style={Styles.testimonialImg}
-                />
+                <View style={Styles.testimonialImg}>
+                  <Image
+                    source={Images.Testimonial_Base}
+                    resizeMode="contain"
+                    resizeMethod="resize"
+                    // style={{height: '100%', width: '100%'}}
+                  />
+                </View>
                 <Image
                   source={Images.Colen_Bubble}
                   style={Styles.testimonialColen}
@@ -184,14 +195,22 @@ const Styles = StyleSheet.create({
   testimonialView: {
     width: vw(330),
     alignItems: "center",
-    marginBottom: vh(20),
+    paddingBottom: vh(20),
     marginHorizontal: vw(20),
     marginTop: vh(8),
   },
   testimonialImg: {
     marginTop: vw(40),
     width: "100%",
-    height: vw(180),
+    height: vh(180),
+    alignItems: "center",
+  },
+  testText: {
+    alignSelf: "center",
+    paddingTop: vh(80),
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    color: Colors.violet,
   },
   testimonialColen: {
     position: "absolute",

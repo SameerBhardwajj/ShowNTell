@@ -1,10 +1,26 @@
 import * as React from "react";
-import { View, Text, Linking, Platform, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Linking,
+  Platform,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import Swiper from "react-native-swiper";
 
 // custom imports
 import { CustomButton } from "../../../../Components";
-import { Strings, vw, vh, Images, Colors, ScreenName } from "../../../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Images,
+  Colors,
+  ScreenName,
+  CommonFunctions,
+} from "../../../../utils";
 const IOS = "ios";
 const MAP_SCHEME = "maps:0,0?q=";
 const GEO_SCHEME = "geo:0,0?q=";
@@ -69,10 +85,16 @@ export default function App(props: AppProps) {
             style={Styles.locationText}
           >{`${item.address1} ${item.address2} ${item.city}`}</Text>
         </View>
-        <View style={Styles.locationView}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={Styles.locationView}
+          onPress={() =>
+            CommonFunctions.callNumber(parseInt(item.phone.replaceAll("-", "")))
+          }
+        >
           <Image source={Images.Phone_small} style={Styles.img3} />
           <Text style={Styles.locationText}>{`${item.phone}`}</Text>
-        </View>
+        </TouchableOpacity>
         {/* <Text style={Styles.description}>{}</Text> */}
         <View style={Styles.btnView}>
           <CustomButton
@@ -158,7 +180,7 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    marginVertical: vh(4),
+    paddingVertical: vh(4),
   },
   img1: {
     height: vw(15),

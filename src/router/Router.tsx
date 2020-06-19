@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, StatusBar } from "react-native";
 import { vh, Colors, Images, vw, ScreenName } from "../utils";
 import {
   createStackNavigator,
@@ -146,7 +146,6 @@ export default class AppComponent extends React.Component<AppProps, any> {
 
   TabNavigator = () => (
     <TabStack.Navigator
-      // headerMode="none"
       initialRouteName={ScreenName.HOME}
       tabBarOptions={{
         style: Styles.tabView,
@@ -242,6 +241,7 @@ export default class AppComponent extends React.Component<AppProps, any> {
   public render() {
     return (
       <NavigationContainer>
+        <StatusBar barStyle={"light-content"} backgroundColor={Colors.violet} />
         <RootStack.Navigator headerMode="none">
           {this.props.splash ? (
             <RootStack.Screen

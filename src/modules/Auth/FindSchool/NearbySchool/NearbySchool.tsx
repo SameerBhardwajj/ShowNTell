@@ -9,6 +9,7 @@ import {
   Linking,
   Alert,
   BackHandler,
+  Keyboard,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -61,9 +62,15 @@ export default function App(props: AppProps) {
 
   const hitSearchAPI = () => {
     dispatch(
-      searchCenter(query, () => {
-        setData(searchList);
-      })
+      searchCenter(
+        query,
+        () => {
+          setData(searchList);
+        },
+        () => {
+          Keyboard.dismiss();
+        }
+      )
     );
   };
 
@@ -211,6 +218,7 @@ export default function App(props: AppProps) {
             ) : (
               <FlatList
                 keyboardShouldPersistTaps="handled"
+                nestedScrollEnabled={true}
                 showsVerticalScrollIndicator={false}
                 bounces={false}
                 data={data}
@@ -221,6 +229,7 @@ export default function App(props: AppProps) {
           ) : (
             <FlatList
               keyboardShouldPersistTaps="handled"
+              nestedScrollEnabled={true}
               ListHeaderComponent={
                 recentList.length === 0 ? null : (
                   <Text style={Styles.headerText}>

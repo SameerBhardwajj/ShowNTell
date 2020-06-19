@@ -165,20 +165,21 @@ export default function App(props: AppProps) {
   };
 
   return (
-    <KeyboardAwareScrollView
-      keyboardShouldPersistTaps={"handled"}
-      bounces={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={Styles.mainView}>
-        <CustomHeader
-          title={Strings.Schedule_a_Tour}
-          onPressBack={() => props.navigation.pop()}
-          notify={true}
-          notifyNumber={3}
-        />
-        <View style={Styles.innerView}>
-          <CustomLoader loading={isLoading} />
+    <View style={Styles.mainView}>
+      <CustomHeader
+        title={Strings.Schedule_a_Tour}
+        onPressBack={() => props.navigation.pop()}
+        notify={true}
+        notifyNumber={3}
+      />
+      <CustomLoader loading={isLoading} />
+      <View style={{ flex: 1, width: "100%" }}>
+        <KeyboardAwareScrollView
+          keyboardShouldPersistTaps={"handled"}
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={Styles.innerView}
+        >
           <View style={{ width: "100%" }}>
             {/* Parent's name ---------- */}
             <CustomInputText
@@ -501,9 +502,9 @@ export default function App(props: AppProps) {
               />
             </View>
           </Modal>
-        </View>
+        </KeyboardAwareScrollView>
       </View>
-    </KeyboardAwareScrollView>
+    </View>
   );
 }
 const Styles = StyleSheet.create({

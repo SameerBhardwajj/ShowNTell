@@ -179,6 +179,7 @@ export default function App(props: AppProps) {
                     zIndex: 99,
                     top: vh(80),
                   }}
+                  nestedScrollEnabled={true}
                   keyboardShouldPersistTaps="handled"
                   showsVerticalScrollIndicator={false}
                   bounces={false}

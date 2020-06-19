@@ -229,6 +229,7 @@ const Strings = new LocalizedStrings({
     EmptyActivityType: "Please select atleast 1 Activity Type",
     invalidDate: `Please change the date ! To Date can't be less than From date`,
     Category_Unavailable: "No Category or Activity Found!",
+    Testimonials_unavailable: "Testimonials Unavailable!",
   },
 });
 export default Strings;

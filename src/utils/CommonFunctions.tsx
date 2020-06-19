@@ -1,6 +1,7 @@
 import moment from "moment";
-import { Platform, PermissionsAndroid } from "react-native";
+import { Platform, PermissionsAndroid, Linking } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
+import CustomToast from "../Components/CustomToast";
 
 const DateDifference = (date1: any, date2: any) => {
   let second = 1000,
@@ -193,6 +194,24 @@ const isEmpty = (obj: object) => {
   }
   return true;
 };
+const callNumber = (phone: number) => {
+  console.log("callNumber ----> ", phone);
+  let phoneNumber: string;
+  if (Platform.OS !== "android") {
+    phoneNumber = `telprompt:${phone}`;
+  } else {
+    phoneNumber = `tel:${phone}`;
+  }
+  Linking.canOpenURL(phoneNumber)
+    .then((supported) => {
+      if (!supported) {
+        CustomToast("Phone number is not supported");
+      } else {
+        return Linking.openURL(phoneNumber);
+      }
+    })
+    .catch((err) => CustomToast(err));
+};
 
 export default {
   DateDifference,
@@ -204,4 +223,5 @@ export default {
   isNullUndefined,
   DateMonthFormatter,
   isEmpty,
+  callNumber,
 };
