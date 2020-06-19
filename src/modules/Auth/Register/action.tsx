@@ -34,7 +34,7 @@ export const fetchSchoolList = (
         });
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback([]);
       }
@@ -78,7 +78,7 @@ export const register = (
       (error: any) => {
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback();
       }
@@ -116,7 +116,7 @@ export const resendCode = (
       (error: any) => {
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback();
       }
@@ -157,7 +157,7 @@ export const verifyCode = (
       (error: any) => {
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback();
       }
@@ -201,7 +201,7 @@ export const createPassword = (
       (error: any) => {
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback();
       }

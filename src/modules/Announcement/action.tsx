@@ -36,7 +36,10 @@ export const hitAnnouncementAPI = (
             data: [],
           },
         });
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.data.message);
+        }
         failureCallback();
       }
     );

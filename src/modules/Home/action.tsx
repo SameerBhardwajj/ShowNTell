@@ -69,14 +69,10 @@ export const HomeAPI = (
         }
       },
       (error: any) => {
-        console.log("error ", error);
-        // dispatch({
-        //   type: Action.HOME_DATA,
-        //   payload: {
-        //     // isLoading: false,
-        //   },
-        // });
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.data.message);
+        }
         failureCallback();
       }
     );
@@ -109,14 +105,10 @@ export const HomeFilter = (
         }
       },
       (error: any) => {
-        console.log("error ", error);
-        // dispatch({
-        //   type: Action.HOME_DATA,
-        //   payload: {
-        //     // isLoading: false,
-        //   },
-        // });
-        CustomToast(error.data.message);
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.data.message);
+        }
         failureCallback();
       }
     );

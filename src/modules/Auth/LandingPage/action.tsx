@@ -33,7 +33,7 @@ export const fetchTestimonials = (
         });
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback([]);
       }

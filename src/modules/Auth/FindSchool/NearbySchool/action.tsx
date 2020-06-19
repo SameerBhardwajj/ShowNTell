@@ -59,7 +59,7 @@ export const getCoordinates = (place_id: string, callback: Function) => {
         });
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         callback([]);
       }

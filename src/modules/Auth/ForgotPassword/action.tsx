@@ -35,7 +35,7 @@ export const forgotPassword = (
       (error: any) => {
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback();
       }
@@ -72,7 +72,7 @@ export const fpresendCode = (
       (error: any) => {
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback();
       }
@@ -112,7 +112,7 @@ export const fpverifyCode = (
       (error: any) => {
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback();
       }
@@ -155,7 +155,7 @@ export const resetPassword = (
       (error: any) => {
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback();
       }

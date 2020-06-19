@@ -151,14 +151,12 @@ export default function App(props: AppProps) {
             msg: Strings.tour_success,
           });
         } else {
-          debugger;
           CustomToast(success.data.message);
           setLoading(false);
         }
       },
       (error: any) => {
-        debugger;
-        CustomToast(error.data.message);
+        CustomToast(error.response.data.message);
         setLoading(false);
       }
     );

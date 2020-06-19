@@ -45,7 +45,7 @@ export const fetchSchoolList = (
         });
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         failCallback([]);
       }
@@ -71,9 +71,10 @@ export const loginAPI = (
         device_token: "asdasda",
       },
       (success: any) => {
+        debugger;
         console.log("success ", success);
         const res = success.data.response;
-        if (success.data.message === "Login Successfully!!") {
+        if (success.data.code === 200) {
           dispatch({
             type: Action.USER_LOGIN,
             payload: {
@@ -89,16 +90,17 @@ export const loginAPI = (
         callback();
       },
       (error: any) => {
-        console.log("error ", error);
-        dispatch({
-          type: Action.USER_LOGIN,
-          payload: {
-            // isLoading: false,
-          },
-        });
+        debugger;
+        console.warn("my error ", error.response);
+        // dispatch({
+        //   type: Action.USER_LOGIN,
+        //   payload: {
+        //     // isLoading: false,
+        //   },
+        // });
         if (error.message === "Network Error") {
         } else {
-          CustomToast(error.response.message);
+          CustomToast(error.response.data.message);
         }
         callback();
       }
