@@ -23,17 +23,17 @@
 		404E3A8EE4AC4808BD51EA03 /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8DDE3A1E4A424299A1320382 /* Nunito-ExtraLightItalic.ttf */; };
 		4D221C2F7C22485F783514FA /* libPods-ParentApp-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E62B5F55DCE0198BAC048E6B /* libPods-ParentApp-tvOS.a */; };
 		6742307A28F34A37D7D74C1B /* libPods-ParentApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0A3CB5D4A026F090F26BAC /* libPods-ParentApp.a */; };
+		7A4308EA327B47CABC24810E /* Frutiger.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E0E4305992C4ADCACD57205 /* Frutiger.ttf */; };
 		951D7B384B90508160B2BAD8 /* libPods-ParentApp-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 73A34D17626758CCA43930A2 /* libPods-ParentApp-tvOSTests.a */; };
 		9E3092AFFF764FA19205C084 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BE30625F0C614E50B0C4ED5C /* Nunito-Bold.ttf */; };
 		A4B7D6E2D9BB4843A39AAFA5 /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 209466169D294440A6ECBB57 /* Nunito-ExtraLight.ttf */; };
+		ABEEB6BD228944CB9819ED82 /* Frutiger_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A31000720974A26AF6AC6C5 /* Frutiger_bold.ttf */; };
 		BA6A68BBC5CE4330AF87B84A /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C88E61AD9749469FB0B9BE06 /* Nunito-ExtraBoldItalic.ttf */; };
 		BFECDE86AB1A41B1B61BC90A /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D303964DB707444C89F53F90 /* Nunito-Regular.ttf */; };
 		C33F0123D8C74E019102E88E /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1CF41D6D16984BAA8E7BC915 /* Nunito-ExtraBold.ttf */; };
 		C8B34C435697459EA83FE1EA /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 069673C4F75C4EE1A76C4315 /* Nunito-Light.ttf */; };
 		DA7C5012B71E483C9B2C5098 /* Nunito-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2097757AD69E44A09CFF6B1C /* Nunito-Medium.ttf */; };
 		FFE73F447BDA4782B9E83E81 /* frutiger.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6571BFB300854A42A809FC0C /* frutiger.ttf */; };
-		ABEEB6BD228944CB9819ED82 /* Frutiger_bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A31000720974A26AF6AC6C5 /* Frutiger_bold.ttf */; };
-		7A4308EA327B47CABC24810E /* Frutiger.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E0E4305992C4ADCACD57205 /* Frutiger.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +60,7 @@
 		00E356F21AD99517003FC87E /* ParentAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParentAppTests.m; sourceTree = "<group>"; };
 		069673C4F75C4EE1A76C4315 /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../src/Assets/Fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 		09130A3FB147C1DDAA4216FB /* Pods-ParentApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ParentApp-tvOS/Pods-ParentApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		0A31000720974A26AF6AC6C5 /* Frutiger_bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Frutiger_bold.ttf; path = ../src/Assets/Fonts/Frutiger_bold.ttf; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* ParentApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParentApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ParentApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ParentApp/AppDelegate.m; sourceTree = "<group>"; };
@@ -76,6 +77,7 @@
 		2D02E47B1E0B4A5D006451C7 /* ParentApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ParentApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ParentApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ParentApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EFE8D821875EAC4FA4F1864 /* Pods-ParentApp-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ParentApp-tvOS/Pods-ParentApp-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		5E0E4305992C4ADCACD57205 /* Frutiger.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Frutiger.ttf; path = ../src/Assets/Fonts/Frutiger.ttf; sourceTree = "<group>"; };
 		6571BFB300854A42A809FC0C /* frutiger.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = frutiger.ttf; path = ../src/Assets/Fonts/frutiger.ttf; sourceTree = "<group>"; };
 		6A0A3CB5D4A026F090F26BAC /* libPods-ParentApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ParentApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		73A34D17626758CCA43930A2 /* libPods-ParentApp-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ParentApp-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,8 +95,6 @@
 		F01A07B74BA7688944BF90D8 /* Pods-ParentApp-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ParentApp-tvOSTests/Pods-ParentApp-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F7F3E846B67B4A3087FFC6A4 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../src/Assets/Fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
 		FE2FF180E46EE15943A43491 /* Pods-ParentApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp.release.xcconfig"; path = "Target Support Files/Pods-ParentApp/Pods-ParentApp.release.xcconfig"; sourceTree = "<group>"; };
-		0A31000720974A26AF6AC6C5 /* Frutiger_bold.ttf */ = {isa = PBXFileReference; name = "Frutiger_bold.ttf"; path = "../src/Assets/Fonts/Frutiger_bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5E0E4305992C4ADCACD57205 /* Frutiger.ttf */ = {isa = PBXFileReference; name = "Frutiger.ttf"; path = "../src/Assets/Fonts/Frutiger.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -752,7 +752,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.parent.tle.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tle.parentv3;
 				PRODUCT_NAME = ParentApp;
 				PROVISIONING_PROFILE_SPECIFIER = "Parent V3 development";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -778,7 +778,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.parent.tle.dev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tle.parentv3;
 				PRODUCT_NAME = ParentApp;
 				PROVISIONING_PROFILE_SPECIFIER = "Parent V3 app store";
 				SWIFT_VERSION = 5.0;
