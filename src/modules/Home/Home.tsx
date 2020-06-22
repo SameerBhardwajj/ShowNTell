@@ -32,11 +32,11 @@ import {
   CustomToast,
   CustomLoader,
   CustomButton,
+  CustomNoData,
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
 import { HomeAPI, updateOtherChild, addFilter } from "./action";
 import FilterModal from "./Filter/FilterModal";
-import { invalid } from "moment";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -81,7 +81,7 @@ export default function App(props: AppProps) {
       loginToken.length === 0 ? false : true,
       loginToken
     );
-    setLoading(true);
+    // setLoading(true);
     console.warn("child ", currentChild);
 
     loginData.Children.length > 1
@@ -141,16 +141,10 @@ export default function App(props: AppProps) {
     return <HomeFlatlist item={item} navigation={props.navigation} />;
   };
 
-  const hitHomeAPI = (child_id: number, page: number) => {
+  const hitHomeAPI = (child_id?: number, page?: number) => {
     setLoading(true);
     dispatch(
       HomeAPI(
-        child_id,
-        page,
-        "",
-        "",
-        "",
-        "",
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
@@ -158,28 +152,24 @@ export default function App(props: AppProps) {
         },
         () => {
           setLoading(false), setRefreshing(false);
-        }
+        },
+        child_id,
+        page
       )
     );
   };
 
   const hitFilterAPI = (
-    activity: string,
-    fromDate: string,
-    toDate: string,
-    type: string
+    activity?: string,
+    fromDate?: string,
+    toDate?: string,
+    type?: string
   ) => {
     console.warn("final   ", activity, fromDate, toDate, type);
 
     setLoading(true);
     dispatch(
       HomeAPI(
-        currentChild.child,
-        0,
-        activity,
-        fromDate,
-        toDate,
-        type,
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
@@ -187,7 +177,36 @@ export default function App(props: AppProps) {
         },
         () => {
           setLoading(false), setRefreshing(false);
-        }
+        },
+        currentChild.child,
+        0,
+        activity,
+        fromDate,
+        toDate,
+        type
+      )
+    );
+  };
+
+  const hitSearchAPI = (query?: string) => {
+    setLoading(true);
+    dispatch(
+      HomeAPI(
+        (data: any) => {
+          setLoading(false);
+          setRefreshing(false);
+          data.length === 0 ? null : setHomeData(data.rows);
+        },
+        () => {
+          setLoading(false), setRefreshing(false);
+        },
+        currentChild.child,
+        0,
+        myFilter.activity,
+        myFilter.fromDate,
+        myFilter.toDate,
+        myFilter.type,
+        query
       )
     );
   };
@@ -232,8 +251,12 @@ export default function App(props: AppProps) {
           <CustomSearchBar
             value={query}
             placeholder={Strings.Search}
-            onChangeText={(text: string) => setQuery(text)}
-            onPressCancel={() => setQuery("")}
+            onChangeText={(text: string) => {
+              setQuery(text), hitSearchAPI(text);
+            }}
+            onPressCancel={() => {
+              setQuery(""), hitSearchAPI();
+            }}
             mainViewStyle={{ backgroundColor: "white", width: "87%" }}
             inputTextStyle={{ width: "64%" }}
             onSubmitEditing={() => {}}
@@ -249,9 +272,7 @@ export default function App(props: AppProps) {
       <CustomLoader loading={loading} />
       <View style={Styles.innerView}>
         {loading ? null : homeData.length === 0 ? (
-          <View style={Styles.emptyData}>
-            <Text>{Strings.No_data_Found}</Text>
-          </View>
+          <CustomNoData />
         ) : (
           <FlatList
             data={homeData}

@@ -24,7 +24,12 @@ import {
   CommonFunctions,
   ScreenName,
 } from "../../utils";
-import { CustomButton, CustomHeader, CustomLoader } from "../../Components";
+import {
+  CustomButton,
+  CustomHeader,
+  CustomLoader,
+  CustomNoData,
+} from "../../Components";
 import { updateTab } from "../Home/action";
 import { viewAttendance } from "./action";
 import AttendanceList from "./AttendanceList";
@@ -170,7 +175,9 @@ export default function App(props: AppProps) {
       {/* View by Date ------------------------- */}
       {viewByDate ? (
         <View style={Styles.monthView}>
-          {isLoading ? null : (
+          {isLoading ? null : data.length === 0 ? (
+            <CustomNoData />
+          ) : (
             <FlatList
               ListHeaderComponent={() => {
                 return (
@@ -213,7 +220,9 @@ export default function App(props: AppProps) {
       ) : (
         <View style={Styles.monthView}>
           {/* View by Month ------------------------- */}
-          {isLoading ? null : (
+          {isLoading ? null : data.length === 0 ? (
+            <CustomNoData />
+          ) : (
             <FlatList
               ListHeaderComponent={() => {
                 return (
@@ -301,6 +310,11 @@ const Styles = StyleSheet.create({
     width: "100%",
     paddingTop: vh(20),
     flexDirection: "row",
+  },
+  noDataView: {
+    alignItems: "center",
+    justifyContent: "center",
+    flex: 1,
   },
   headerText: {
     fontFamily: "Nunito-Bold",

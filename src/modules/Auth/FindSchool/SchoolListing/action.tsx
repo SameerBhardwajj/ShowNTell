@@ -3,14 +3,12 @@ import { CustomToast } from "../../../../Components";
 
 export const fetchSchoolList = (
   value: any,
-  page: number,
-  callback: Function
+  successCallback: Function,
+  failureCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.warn(page);
-
     API.getApiCall(
-      EndPoints.auth.nearByCentres(value.lat, value.lng, page),
+      EndPoints.auth.nearByCentres(value.lat, value.lng),
       {},
       (success: any) => {
         console.log("success ", success.data.response);
@@ -20,21 +18,22 @@ export const fetchSchoolList = (
             schoolList: success.data.response,
           },
         });
-        callback(success.data.response);
+        successCallback(success.data.response);
       },
       (error: any) => {
         console.log("error ", error);
-        dispatch({
-          type: Action.FETCH_SCHOOL_LIST,
-          payload: {
-            // isLoading: false,
-          },
-        });
+        console.warn("errrr..................");
+        // dispatch({
+        //   type: Action.FETCH_SCHOOL_LIST,
+        //   payload: {
+        //     // isLoading: false,
+        //   },
+        // });
         if (error.message === "Network Error") {
         } else {
           CustomToast(error.response.data.message);
         }
-        callback([]);
+        failureCallback();
       }
     );
   };

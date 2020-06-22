@@ -83,7 +83,7 @@ export default function App(props: AppProps) {
   const schoolAPI = () => {
     setIsLoading(true);
     API.getApiCall(
-      EndPoints.auth.fetchAllCenters(page),
+      EndPoints.auth.fetchAllCenters,
       {},
       (success: any) => {
         let temp = success.data.response.slice(0);

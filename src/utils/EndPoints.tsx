@@ -8,11 +8,11 @@ export default {
       `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPI}&input=${query}&sessiontoken=1234567890`,
     centreCoordinates: (place_id: string) =>
       `https://maps.googleapis.com/maps/api/place/details/json?placeid=${place_id}&key=${GoogleAPI}`,
-    nearByCentres: (lat: number, lon: number, page: number) =>
-      `/api/v1/parent/nearbycenter?latitude=${lat}&longitude=${lon}&page=${page}`,
+    nearByCentres: (lat: number, lon: number) =>
+      `/api/v1/parent/nearbycenter?latitude=${lat}&longitude=${lon}`,
     centerList: (email: string) =>
       `/api/v1/parent/centers-by-email?email=${email}`,
-    fetchAllCenters: (page: number) => `/api/v1/parent/centers?page=${page}`,
+    fetchAllCenters: `/api/v1/parent/centers`,
     register: "/api/v1/parent/register",
     resendCode: "/api/v1/parent/resend-access-code",
     verifyCode: "/api/v1/parent/verify-access-code",
@@ -27,15 +27,18 @@ export default {
   },
   home: {
     HomeData: (
-      child_id: number,
-      page: number,
-      activity: any,
-      fromDate: string,
-      toDate: string,
-      type: string
+      child_id?: number,
+      page?: number,
+      activity?: any,
+      fromDate?: string,
+      toDate?: string,
+      type?: string,
+      searchKey?: string
     ) =>
       `/api/v1/parent/home-data?page=${page}${
-        child_id === 0 ? "" : `&child_id=${child_id}`
+        CommonFunctions.isNullUndefined(activity) || child_id === 0
+          ? ""
+          : `&child_id=${child_id}`
       }${
         CommonFunctions.isNullUndefined(activity)
           ? ""
@@ -46,11 +49,16 @@ export default {
           : `&from_date=${fromDate}`
       }${CommonFunctions.isNullUndefined(toDate) ? "" : `&to_date=${toDate}`}${
         CommonFunctions.isNullUndefined(type) ? "" : `&type=${type}`
+      }${
+        CommonFunctions.isNullUndefined(searchKey)
+          ? ""
+          : `&searchKey=${searchKey}`
       }`,
     filterData: (classroom: number) =>
       classroom === 0
         ? `/api/v1/parent/filter-data`
         : `/api/v1/parent/filter-data?classroom_id=${classroom}`,
+    weDidIt: `/api/v1/parent/we-did-it`,
   },
   attendance: {
     viewAttendance: (type: string, id: number, date: string) =>

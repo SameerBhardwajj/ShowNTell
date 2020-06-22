@@ -85,19 +85,20 @@ export default function App(props: AppProps) {
   const handleUrl = () => {
     setIsLoading(true);
     dispatch(
-      fetchSchoolList(props.route.params.coordinates, 1, (data: any) => {
-        setData(data.concat(schoolList));
-        setTemp(temp.concat(schoolList));
-        setIsLoading(false);
-        setisRefreshing(false);
-      })
+      fetchSchoolList(
+        props.route.params.coordinates,
+        (data: any) => {
+          setData(data.concat(schoolList));
+          setTemp(temp.concat(schoolList));
+          setIsLoading(false);
+          setisRefreshing(false);
+        },
+        () => {
+          setIsLoading(false);
+          setisRefreshing(false);
+        }
+      )
     );
-  };
-
-  const handleRefresh = () => {
-    setData([]);
-    setisRefreshing(true);
-    handleUrl();
   };
 
   const renderItems = (rowData: any) => {
@@ -179,7 +180,6 @@ export default function App(props: AppProps) {
                     zIndex: 99,
                     top: vh(80),
                   }}
-                  nestedScrollEnabled={true}
                   keyboardShouldPersistTaps="handled"
                   showsVerticalScrollIndicator={false}
                   bounces={false}
@@ -233,7 +233,9 @@ export default function App(props: AppProps) {
                         onPress={() => {
                           setModalOpen(false);
                           setDate(getSlotDate());
-                          console.warn(date, getSlotDate());
+                          console.warn(id, date);
+
+                          console.warn(date, getSlotDate(), id);
                           props.navigation.navigate(
                             ScreenName.DATE_TIME_SCHEDULE,
                             {

@@ -127,22 +127,26 @@ export default function App(props: AppProps) {
       : null;
 
     let params = {
-      center_id: id,
+      center_id: parseInt(id),
       name: pname,
       phone_number: "+1-" + phone,
       zip_code: zipcode,
       email: email,
-      schedule_date_time: `${CommonFunctions.dateTypeFormat(
-        date,
-        "dmy"
-      )} ${CommonFunctions.timeFormatter(new Date(date.setHours(time)))}`,
+      schedule_date_time: CommonFunctions.isNullUndefined(date)
+        ? ""
+        : `${CommonFunctions.dateTypeFormat(
+            date,
+            "dmy"
+          )} ${CommonFunctions.timeFormatter(new Date(date.setHours(time)))}`,
       children: childArr,
     };
     setLoading(true);
+    debugger
     API.postApiCall(
       EndPoints.auth.scheduleTour,
       params,
       (success: any) => {
+        debugger
         console.log("success ", success.data.response);
         if (success.data.code === 200) {
           setLoading(false);
@@ -156,6 +160,7 @@ export default function App(props: AppProps) {
         }
       },
       (error: any) => {
+        debugger
         CustomToast(error.response.data.message);
         setLoading(false);
       }

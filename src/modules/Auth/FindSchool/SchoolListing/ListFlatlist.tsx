@@ -108,14 +108,18 @@ export default function App(props: AppProps) {
                 ? Strings.General_Info
                 : Strings.Schedule_a_Tour
             }
-            onPress={() =>
+            onPress={() =>{
+              console.warn(item.id);
+              console.warn(item);
+              
+              
               item.calendar_id === null
                 ? props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
-                    id: item.location_id,
+                    id: item.id,
                     date: null,
                     time: null,
                   })
-                : props.openModal()
+                : props.openModal()}
             }
             ButtonStyle={Styles.btn}
           />

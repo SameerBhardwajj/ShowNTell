@@ -89,11 +89,17 @@ const requestLocationPermission = async (
     }
   }
   if (!hasPermission) {
+    console.warn('no permisssion');
+    
     permissionError();
   }
   if (hasPermission) {
+    console.warn('here');
+    
     Geolocation.getCurrentPosition(
       (info) => {
+        console.warn('get position', info);
+        
         let position = {
           latitude: info.coords.latitude,
           longitude: info.coords.longitude,
@@ -101,6 +107,8 @@ const requestLocationPermission = async (
         successCallback(position);
       },
       (error) => {
+        console.warn('err ',error );
+        
         failureCallback(error);
         // console.warn(error);
       },

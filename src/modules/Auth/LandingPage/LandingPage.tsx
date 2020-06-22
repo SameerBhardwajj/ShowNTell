@@ -23,7 +23,12 @@ import {
   ScreenName,
   Constants,
 } from "../../../utils";
-import { CustomButton, Customcartoon, CustomLoader } from "../../../Components";
+import {
+  CustomButton,
+  Customcartoon,
+  CustomLoader,
+  CustomNoData,
+} from "../../../Components";
 import Swiper from "react-native-swiper";
 import { fetchTestimonials } from "./action";
 
@@ -110,21 +115,19 @@ export default function App(props: AppProps) {
         >
           {data.length === 0 ? (
             unavailable ? (
-              <Text style={Styles.testText}>
-                {Strings.Testimonials_unavailable}
-              </Text>
+              <CustomNoData />
             ) : (
               <CustomLoader loading={true} />
             )
           ) : (
             data.map((item: any) => (
               <View style={Styles.testimonialView}>
-                <View style={Styles.testimonialImg}>
+                <View style={{ paddingTop: vw(40) }}>
                   <Image
                     source={Images.Testimonial_Base}
                     resizeMode="contain"
                     resizeMethod="resize"
-                    // style={{height: '100%', width: '100%'}}
+                    style={{ height: "100%" }}
                   />
                 </View>
                 <Image
@@ -184,7 +187,7 @@ const Styles = StyleSheet.create({
     borderRadius: vw(10),
     alignItems: "center",
     marginBottom: vh(30),
-    height: vh(420),
+    height: vw(470),
   },
   btnText: {
     fontFamily: "Nunito-Bold",
@@ -195,14 +198,13 @@ const Styles = StyleSheet.create({
   testimonialView: {
     width: vw(330),
     alignItems: "center",
-    paddingBottom: vh(20),
     marginHorizontal: vw(20),
-    marginTop: vh(8),
+    height: vw(220),
   },
   testimonialImg: {
     marginTop: vw(40),
     width: "100%",
-    height: vh(180),
+    height: "100%",
     alignItems: "center",
   },
   testText: {

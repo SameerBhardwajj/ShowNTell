@@ -11,6 +11,7 @@ import CustomDate from "./CustomDate";
 import CustomTimeSlot from "./CustomTimeSlot";
 import CustomDOB from "./CustomDOB";
 import CustomLoader from "./CustomLoader";
+import CustomNoData from "./CustomNoData";
 export {
   CustomButton,
   CustomToast,
@@ -25,4 +26,5 @@ export {
   CustomTimeSlot,
   CustomDOB,
   CustomLoader,
+  CustomNoData,
 };

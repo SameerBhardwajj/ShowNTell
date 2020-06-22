@@ -19,6 +19,7 @@ import {
   CustomSearchBar,
   CustomToast,
   CustomLoader,
+  CustomNoData,
 } from "../../../../Components";
 import {
   Strings,
@@ -210,15 +211,10 @@ export default function App(props: AppProps) {
         <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
           {query.length !== 0 ? (
             !(data && data.length) ? (
-              <View>
-                <Text style={Styles.headerText}>
-                  {Strings.No_Location_Found}
-                </Text>
-              </View>
+              <CustomNoData />
             ) : (
               <FlatList
                 keyboardShouldPersistTaps="handled"
-                nestedScrollEnabled={true}
                 showsVerticalScrollIndicator={false}
                 bounces={false}
                 data={data}
@@ -229,7 +225,6 @@ export default function App(props: AppProps) {
           ) : (
             <FlatList
               keyboardShouldPersistTaps="handled"
-              nestedScrollEnabled={true}
               ListHeaderComponent={
                 recentList.length === 0 ? null : (
                   <Text style={Styles.headerText}>

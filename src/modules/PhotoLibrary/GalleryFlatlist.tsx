@@ -72,7 +72,7 @@ export default function App(props: AppProps) {
                 Styles.bigView,
                 { borderColor: select && selected1 ? Colors.orange : "white" },
               ]}
-              onLongPress={() => setSelected1(!selected1)}
+              // onLongPress={() => setSelected1(!selected1)}
               onPress={() =>
                 select
                   ? setSelected1(!selected1)
@@ -100,7 +100,7 @@ export default function App(props: AppProps) {
                     borderColor: select && selected2 ? Colors.orange : "white",
                   },
                 ]}
-                onLongPress={() => setSelected1(!selected2)}
+                // onLongPress={() => setSelected1(!selected2)}
                 onPress={() =>
                   select
                     ? setSelected2(!selected2)
@@ -127,7 +127,7 @@ export default function App(props: AppProps) {
                     borderColor: select && selected3 ? Colors.orange : "white",
                   },
                 ]}
-                onLongPress={() => setSelected1(!selected3)}
+                // onLongPress={() => setSelected1(!selected3)}
                 onPress={() =>
                   select
                     ? setSelected3(!selected3)
@@ -159,7 +159,7 @@ export default function App(props: AppProps) {
                     borderColor: select && selected1 ? Colors.orange : "white",
                   },
                 ]}
-                onLongPress={() => setSelected1(!selected1)}
+                // onLongPress={() => setSelected1(!selected1)}
                 onPress={() =>
                   select
                     ? setSelected1(!selected1)
@@ -186,7 +186,7 @@ export default function App(props: AppProps) {
                     borderColor: select && selected2 ? Colors.orange : "white",
                   },
                 ]}
-                onLongPress={() => setSelected1(!selected2)}
+                // onLongPress={() => setSelected1(!selected2)}
                 onPress={() =>
                   select
                     ? setSelected2(!selected2)
@@ -212,7 +212,7 @@ export default function App(props: AppProps) {
                 Styles.bigView,
                 { borderColor: select && selected3 ? Colors.orange : "white" },
               ]}
-              onLongPress={() => setSelected1(!selected3)}
+              // onLongPress={() => setSelected1(!selected3)}
               onPress={() =>
                 select
                   ? setSelected3(!selected3)

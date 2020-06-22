@@ -39,18 +39,27 @@ export const updateOtherChild = (value: object, callback: Function) => {
 };
 
 export const HomeAPI = (
-  child_id: number,
-  page: number,
-  activity: any,
-  fromDate: string,
-  toDate: string,
-  type: string,
   successCallback: Function,
-  failureCallback: Function
+  failureCallback: Function,
+  child_id?: number,
+  page?: number,
+  activity?: any,
+  fromDate?: string,
+  toDate?: string,
+  type?: string,
+  searchKey?: string
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.home.HomeData(child_id, page, activity, fromDate, toDate, type),
+      EndPoints.home.HomeData(
+        child_id,
+        page,
+        activity,
+        fromDate,
+        toDate,
+        type,
+        searchKey
+      ),
       {},
       (success: any) => {
         const res = success.data.response;
@@ -147,5 +156,36 @@ export const countFilter = (value: number, callback: Function) => {
       },
     });
     callback();
+  };
+};
+
+export const weDidItAPI = (
+  id: string,
+  successCallback: Function,
+  failCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.home.weDidIt,
+      {
+        id: id,
+      },
+      (success: any) => {
+        console.log("success ", success.data.response);
+        if (success.data.code === 200) {
+          successCallback(success.data.response);
+        } else {
+          CustomToast(success.data.message);
+          failCallback();
+        }
+      },
+      (error: any) => {
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error.response.data.message);
+        }
+        failCallback([]);
+      }
+    );
   };
 };
