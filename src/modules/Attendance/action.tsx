@@ -37,10 +37,7 @@ export const viewAttendance = (
             data: [],
           },
         });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failureCallback();
       }
     );

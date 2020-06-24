@@ -1,5 +1,5 @@
 import { CustomToast } from "../../../Components";
-import { Action, API, EndPoints } from "../../../utils";
+import { Action, API, EndPoints, CommonFunctions } from "../../../utils";
 import { Platform } from "react-native";
 
 export const updateLogin = (data: object, token: string) => {
@@ -45,10 +45,7 @@ export const fetchSchoolList = (
             schoolList: [],
           },
         });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback([]);
       }
     );
@@ -65,16 +62,16 @@ export const loginAPI = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     console.warn(deviceID, token);
-    
+
     API.postApiCall(
       EndPoints.auth.login,
       {
         email: email,
         password: password,
         center_id: id,
-        device_id: '12',
+        device_id: "12",
         device_name: Platform.OS,
-        device_token: 'asasd',
+        device_token: "asasd",
       },
       (success: any) => {
         debugger;
@@ -96,18 +93,7 @@ export const loginAPI = (
         callback();
       },
       (error: any) => {
-        debugger;
-        console.warn("my error ", error.response);
-        // dispatch({
-        //   type: Action.USER_LOGIN,
-        //   payload: {
-        //     // isLoading: false,
-        //   },
-        // });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         callback();
       }
     );

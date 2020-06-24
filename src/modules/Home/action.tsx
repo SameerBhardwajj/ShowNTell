@@ -1,4 +1,4 @@
-import { Action, API, EndPoints } from "../../utils";
+import { Action, API, EndPoints, CommonFunctions } from "../../utils";
 import { CustomToast } from "../../Components";
 
 export const updateTab = (value: boolean, callback: Function) => {
@@ -25,18 +25,6 @@ export const updateChild = (value: object, callback: Function) => {
     callback();
   };
 };
-
-// export const updateOtherChild = (value: object, callback: Function) => {
-//   return (dispatch: Function, getState: Function) => {
-//     dispatch({
-//       type: Action.UPDATE_TAB,
-//       payload: {
-//         otherCurrentChild: value,
-//       },
-//     });
-//     callback();
-//   };
-// };
 
 export const HomeAPI = (
   successCallback: Function,
@@ -80,10 +68,7 @@ export const HomeAPI = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failureCallback();
       }
     );
@@ -116,10 +101,7 @@ export const HomeFilter = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failureCallback();
       }
     );
@@ -186,10 +168,7 @@ export const weDidItAPI = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback([]);
       }
     );

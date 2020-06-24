@@ -1,5 +1,5 @@
 import { CustomToast } from "../../../Components";
-import { Action, API, EndPoints } from "../../../utils";
+import { Action, API, EndPoints, CommonFunctions } from "../../../utils";
 
 export const fetchSchoolList = (
   email: string,
@@ -32,10 +32,7 @@ export const fetchSchoolList = (
             schoolList: [],
           },
         });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback([]);
       }
     );
@@ -76,10 +73,7 @@ export const register = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );
@@ -114,10 +108,7 @@ export const resendCode = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );
@@ -155,10 +146,7 @@ export const verifyCode = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );
@@ -199,10 +187,7 @@ export const createPassword = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );

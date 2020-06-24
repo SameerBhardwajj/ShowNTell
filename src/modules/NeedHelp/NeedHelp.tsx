@@ -337,7 +337,6 @@ export default function App(props: AppProps) {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={Styles.flatlistView}
         >
-          {/* <View style={Styles.flatlistView}> */}
           <TouchableOpacity
             style={{ padding: vw(20), alignSelf: "flex-end" }}
             activeOpacity={0.8}
@@ -361,7 +360,7 @@ export default function App(props: AppProps) {
             onPressCancel={() => {
               setQuery(""), setSearchData([]);
             }}
-            mainViewStyle={{ width: "80%", alignSelf: "center" }}
+            mainViewStyle={{ width: "90%", alignSelf: "center" }}
           />
           <FlatList
             nestedScrollEnabled={true}
@@ -372,7 +371,6 @@ export default function App(props: AppProps) {
             bounces={false}
             renderItem={renderItems}
           />
-          {/* </View> */}
         </KeyboardAwareScrollView>
       </Modal>
     </View>

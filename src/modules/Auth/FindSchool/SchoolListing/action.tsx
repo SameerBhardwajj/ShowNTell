@@ -1,5 +1,4 @@
-import { Action, API, EndPoints } from "../../../../utils";
-import { CustomToast } from "../../../../Components";
+import { Action, API, EndPoints, CommonFunctions } from "../../../../utils";
 
 export const fetchSchoolList = (
   value: any,
@@ -21,18 +20,7 @@ export const fetchSchoolList = (
         successCallback(success.data.response);
       },
       (error: any) => {
-        console.log("error ", error);
-        console.warn("errrr..................");
-        // dispatch({
-        //   type: Action.FETCH_SCHOOL_LIST,
-        //   payload: {
-        //     // isLoading: false,
-        //   },
-        // });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failureCallback();
       }
     );
@@ -59,18 +47,7 @@ export const fetchSlotDates = (
         successCallback(success.data.Status.OK);
       },
       (error: any) => {
-        console.log("error ", error);
-        console.warn("errrr..................");
-        // dispatch({
-        //   type: Action.FETCH_SCHOOL_LIST,
-        //   payload: {
-        //     // isLoading: false,
-        //   },
-        // });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error);
-        }
+        CommonFunctions.handleError(error);
         failureCallback();
       }
     );
@@ -98,18 +75,7 @@ export const fetchSlotTime = (
         successCallback(success.data.Status.OK.times);
       },
       (error: any) => {
-        console.log("error ", error);
-        console.warn("errrr..................");
-        // dispatch({
-        //   type: Action.FETCH_SCHOOL_LIST,
-        //   payload: {
-        //     // isLoading: false,
-        //   },
-        // });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error);
-        }
+        CommonFunctions.handleError(error);
         failureCallback();
       }
     );

@@ -1,4 +1,4 @@
-import { Action, API, EndPoints } from "../../utils";
+import { Action, API, EndPoints, CommonFunctions } from "../../utils";
 import { CustomToast } from "../../Components";
 
 export const hitAnnouncementAPI = (
@@ -36,10 +36,7 @@ export const hitAnnouncementAPI = (
             data: [],
           },
         });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failureCallback();
       }
     );

@@ -222,6 +222,13 @@ const callNumber = (phone: number) => {
     .catch((err) => CustomToast(err));
 };
 
+const handleError = (error: any) => {
+  if (error.message === "Network Error" || error.code === "ECONNABORTED") {
+  } else {
+    CustomToast(error.response.data.message);
+  }
+};
+
 export default {
   DateDifference,
   DateFormatter,
@@ -233,4 +240,5 @@ export default {
   DateMonthFormatter,
   isEmpty,
   callNumber,
+  handleError,
 };

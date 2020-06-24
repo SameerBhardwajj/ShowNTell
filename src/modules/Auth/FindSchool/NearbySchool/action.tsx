@@ -1,5 +1,4 @@
-import { Action, API, EndPoints } from "../../../../utils";
-import { CustomToast } from "../../../../Components";
+import { Action, API, EndPoints, CommonFunctions } from "../../../../utils";
 
 export const searchCenter = (
   query: string,
@@ -24,13 +23,10 @@ export const searchCenter = (
         dispatch({
           type: Action.SEARCH_CENTER,
           payload: {
-            // isLoading: false,
+            searchList: [],
           },
         });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.message);
-        }
+        CommonFunctions.handleError(error);
         FailureCallback([]);
       }
     );
@@ -54,13 +50,10 @@ export const getCoordinates = (place_id: string, callback: Function) => {
         dispatch({
           type: Action.SEARCH_CENTER,
           payload: {
-            // isLoading: false,
+            searchList: [],
           },
         });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         callback([]);
       }
     );

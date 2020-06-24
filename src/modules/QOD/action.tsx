@@ -1,5 +1,5 @@
 import { CustomToast } from "../../Components";
-import { Action, API, EndPoints } from "../../utils";
+import { Action, API, EndPoints, CommonFunctions } from "../../utils";
 
 export const hitQOTDApi = (
   successCallback: Function,
@@ -35,10 +35,7 @@ export const hitQOTDApi = (
             data: [],
           },
         });
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );

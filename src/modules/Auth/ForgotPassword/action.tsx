@@ -1,5 +1,5 @@
 import { CustomToast } from "../../../Components";
-import { Action, API, EndPoints } from "../../../utils";
+import { Action, API, EndPoints, CommonFunctions } from "../../../utils";
 
 export const forgotPassword = (
   email: string,
@@ -33,10 +33,7 @@ export const forgotPassword = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );
@@ -70,10 +67,7 @@ export const fpresendCode = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );
@@ -110,10 +104,7 @@ export const fpverifyCode = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );
@@ -153,10 +144,7 @@ export const resetPassword = (
         }
       },
       (error: any) => {
-        if (error.message === "Network Error") {
-        } else {
-          CustomToast(error.response.data.message);
-        }
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );
