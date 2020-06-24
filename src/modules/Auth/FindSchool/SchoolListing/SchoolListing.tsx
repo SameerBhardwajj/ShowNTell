@@ -20,6 +20,8 @@ import {
   CustomHeader,
   CustomButton,
   CustomSearchBar,
+  CustomLoader,
+  CustomNoData,
 } from "../../../../Components";
 import {
   Strings,
@@ -28,10 +30,12 @@ import {
   ScreenName,
   Images,
   CommonFunctions,
+  vw,
 } from "../../../../utils";
 import ListFlatlist from "./ListFlatlist";
-import { fetchSchoolList } from "./action";
+import { fetchSchoolList, fetchSlotDates } from "./action";
 import ResultFlatlist from "./ResultFlatlist";
+import SlotFlatlist from "./SlotFlatlist";
 
 const getSlotDate = () => {
   if (new Date().getHours() >= 18) {
@@ -51,7 +55,9 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
+  const [slot, setSlot] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [slotLoading, setSlotLoading] = useState(false);
   const [isRefreshing, setisRefreshing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [date, setDate] = useState(getSlotDate());
@@ -59,9 +65,13 @@ export default function App(props: AppProps) {
   const [query, setQuery] = useState("");
   const [temp, setTemp] = useState([]);
   const [result, setResult] = useState([]);
-  const { schoolList } = useSelector((state: { SchoolListing: any }) => ({
-    schoolList: state.SchoolListing.schoolList,
-  }));
+  const [calenderId, setCalenderId] = useState(0);
+  const { schoolList, slotDates } = useSelector(
+    (state: { SchoolListing: any }) => ({
+      schoolList: state.SchoolListing.schoolList,
+      slotDates: state.SchoolListing.slotDates,
+    })
+  );
 
   useEffect(() => {
     getSlotDate();
@@ -101,6 +111,21 @@ export default function App(props: AppProps) {
     );
   };
 
+  const fetchSlot = (id: number) => {
+    setSlotLoading(true);
+    dispatch(
+      fetchSlotDates(
+        id,
+        () => {
+          setSlotLoading(false);
+        },
+        () => {
+          setSlotLoading(false);
+        }
+      )
+    );
+  };
+
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
     return (
@@ -110,6 +135,8 @@ export default function App(props: AppProps) {
         openModal={() => {
           setId(item.location_id);
           setModalOpen(true);
+          setCalenderId(item.calendar_id);
+          fetchSlot(item.calendar_id);
         }}
       />
     );
@@ -128,6 +155,18 @@ export default function App(props: AppProps) {
           setResult([]);
           Keyboard.dismiss();
         }}
+      />
+    );
+  };
+
+  const renderSlotItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <SlotFlatlist
+        item={item}
+        index={index}
+        current={slot}
+        setCurrent={(index: string) => setSlot(parseInt(index))}
       />
     );
   };
@@ -220,14 +259,19 @@ export default function App(props: AppProps) {
                       >
                         <Image source={Images.Cancel_Icon} />
                       </TouchableOpacity>
-                      <DatePicker
-                        minimumDate={getSlotDate()}
-                        date={date}
-                        mode="date"
-                        onDateChange={(text: Date) => {
-                          setDate(text);
-                        }}
-                      />
+                      <View style={{ flex: 1, width: "90%" }}>
+                        {slotLoading ? (
+                          <CustomLoader loading={true} />
+                        ) : slotDates.length === 0 ? (
+                          <CustomNoData />
+                        ) : (
+                          <FlatList
+                            data={slotDates}
+                            keyExtractor={(item, index) => index.toString()}
+                            renderItem={renderSlotItems}
+                          />
+                        )}
+                      </View>
                       <CustomButton
                         Text={Strings.View_Slots}
                         onPress={() => {
@@ -239,8 +283,8 @@ export default function App(props: AppProps) {
                           props.navigation.navigate(
                             ScreenName.DATE_TIME_SCHEDULE,
                             {
-                              id: id,
-                              date: date,
+                              id: calenderId,
+                              date: slotDates[slot].date,
                             }
                           );
                         }}
@@ -297,22 +341,25 @@ const Styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: Colors.modalBg,
   },
-  topModalView: {
-    position: "absolute",
-    right: 0,
-    padding: vh(20),
-    bottom: vh(290),
-  },
   modalView: {
     backgroundColor: "white",
+    flex: 0.8,
     width: "100%",
     paddingVertical: vh(30),
     alignItems: "center",
     justifyContent: "flex-end",
     flexDirection: "column",
+    borderTopLeftRadius: vw(20),
+    borderTopRightRadius: vw(20),
   },
   modalHeading: {
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
+  },
+  topModalView: {
+    position: "absolute",
+    right: 0,
+    padding: vh(20),
+    top: vh(10),
   },
 });

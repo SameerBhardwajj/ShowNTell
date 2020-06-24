@@ -26,22 +26,22 @@ export const updateChild = (value: object, callback: Function) => {
   };
 };
 
-export const updateOtherChild = (value: object, callback: Function) => {
-  return (dispatch: Function, getState: Function) => {
-    dispatch({
-      type: Action.UPDATE_TAB,
-      payload: {
-        otherCurrentChild: value,
-      },
-    });
-    callback();
-  };
-};
+// export const updateOtherChild = (value: object, callback: Function) => {
+//   return (dispatch: Function, getState: Function) => {
+//     dispatch({
+//       type: Action.UPDATE_TAB,
+//       payload: {
+//         otherCurrentChild: value,
+//       },
+//     });
+//     callback();
+//   };
+// };
 
 export const HomeAPI = (
   successCallback: Function,
   failureCallback: Function,
-  child_id?: number,
+  child_id: number,
   page?: number,
   activity?: any,
   fromDate?: string,
@@ -50,6 +50,8 @@ export const HomeAPI = (
   searchKey?: string
 ) => {
   return (dispatch: Function, getState: Function) => {
+    console.warn("check  ....  ", child_id);
+
     API.getApiCall(
       EndPoints.home.HomeData(
         child_id,
@@ -172,6 +174,10 @@ export const weDidItAPI = (
       },
       (success: any) => {
         console.log("success ", success.data.response);
+        dispatch({
+          type: Action.UPDATE_TAB,
+          payload: {},
+        });
         if (success.data.code === 200) {
           successCallback(success.data.response);
         } else {

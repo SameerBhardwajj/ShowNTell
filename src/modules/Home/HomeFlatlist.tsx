@@ -17,11 +17,12 @@ const QOTD = "QOTD";
 export interface AppProps {
   navigation?: any;
   item: any;
+  weDidIt: Function;
 }
 
 export default function App(props: AppProps) {
   const { navigation, item } = props;
-  console.warn(item.activity_status_id === 3);
+  console.warn("acti   ", item.activity_description);
 
   return (
     <View style={Styles.innerView}>
@@ -82,9 +83,9 @@ export default function App(props: AppProps) {
                 </TouchableOpacity>
                 <Text style={Styles.content}>{item.sub_activity_name}</Text>
                 <Text style={Styles.time}>
-                  {CommonFunctions.DateFormatter(new Date(item.create_dt))}
+                  {CommonFunctions.DateFormatter(item.create_dt)}
                   {Strings.at}
-                  {CommonFunctions.timeFormatter(new Date(item.create_dt))}
+                  {CommonFunctions.timeFormatter(item.create_dt)}
                 </Text>
               </View>
               <TouchableOpacity
@@ -102,8 +103,12 @@ export default function App(props: AppProps) {
                 <Image source={Images.Elipsis} style={{ padding: vh(1) }} />
               </TouchableOpacity>
             </View>
-            {CommonFunctions.isNullUndefined(item.description) ? null : (
-              <Text style={Styles.description}>{item.description}</Text>
+            {CommonFunctions.isNullUndefined(
+              item.activity_description
+            ) ? null : (
+              <Text style={Styles.description}>
+                {item.activity_description}
+              </Text>
             )}
           </View>
         </View>
@@ -111,6 +116,23 @@ export default function App(props: AppProps) {
       {/* Announcements ---------------------- */}
       {item.type === ANNOUNCEMENT ? (
         <View style={[Styles.mainInnerView, Styles.announcementView]}>
+          <View style={{ flexDirection: "row" }}>
+            <View style={Styles.childAvatar}>
+              <Image
+                source={
+                  item.Child.child_image === null
+                    ? Images.Profile_Placeholder
+                    : { uri: item.Child.s3_photo_path }
+                }
+              />
+            </View>
+            <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
+              <Text style={Styles.name}>
+                {item.Child.first_name} {item.Child.last_name}
+              </Text>
+              <Text style={Styles.classText}>{item.Child.Classroom.name}</Text>
+            </View>
+          </View>
           <Text style={Styles.title}>{Strings.Announcement}</Text>
           <Text style={Styles.timeBlack}>
             {CommonFunctions.DateFormatter(new Date(item.create_dt))} .{" "}
@@ -157,9 +179,20 @@ export default function App(props: AppProps) {
           <Text style={Styles.timeBlack}>{item.QuestionOfTheDay.question}</Text>
           <Image style={Styles.imgAnn} source={Images.Announcement_light} />
           <CustomButton
+            activeOpacity={
+              CommonFunctions.isNullUndefined(item.acknowledged_at) ? 0.8 : 1
+            }
             ButtonStyle={Styles.btnQOD}
-            Text={Strings.We_did_it}
-            onPress={() => {}}
+            Text={
+              CommonFunctions.isNullUndefined(item.acknowledged_at)
+                ? Strings.We_did_it
+                : Strings.Done
+            }
+            onPress={() => {
+              CommonFunctions.isNullUndefined(item.acknowledged_at)
+                ? props.weDidIt(item.id)
+                : null;
+            }}
           />
         </View>
       ) : null}
@@ -207,7 +240,6 @@ const Styles = StyleSheet.create({
   },
   lunchView: {
     padding: vh(16),
-    alignItems: "center",
     width: "100%",
   },
   nameView: {

@@ -22,6 +22,9 @@ export default {
     resetPassword: "/api/v1/parent/reset-password",
     needHelp: "/api/v1/parent/need-help",
     testimonials: "/api/v1/parent/testimonials",
+    getSlotDate: (id: number) => `/schedule-a-tour/dates.json?calendarID=${id}`,
+    getSlotTime: (id: number, date: string) =>
+      `/schedule-a-tour/get_times.json?calendarID=${id}&date=${date}`,
     scheduleTour: "/api/v1/parent/schedule-tour",
     logout: "/api/v1/parent/logout",
   },
@@ -36,9 +39,7 @@ export default {
       searchKey?: string
     ) =>
       `/api/v1/parent/home-data?page=${page}${
-        CommonFunctions.isNullUndefined(activity) || child_id === 0
-          ? ""
-          : `&child_id=${child_id}`
+        CommonFunctions.isNullUndefined(child_id) ? "" : `&child_id=${child_id}`
       }${
         CommonFunctions.isNullUndefined(activity)
           ? ""
@@ -77,5 +78,11 @@ export default {
       childID === 0
         ? `/api/v1/parent/list-announcement`
         : `/api/v1/parent/list-announcement?child_id=${childID}&page=${page}`,
+    qotd: (child_id?: number, type?: string) =>
+      `/api/v1/parent/list-question-of-the-day?${
+        CommonFunctions.isNullUndefined(child_id) || child_id === 0
+          ? ""
+          : `&child_id=${child_id}`
+      }${CommonFunctions.isNullUndefined(type) ? "" : `&type=${type}`}`,
   },
 };

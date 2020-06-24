@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Colors, vh, Images, vw, ScreenName } from "../../utils";
+import { Colors, vh, Images, vw, ScreenName, Strings } from "../../utils";
 
 export interface AppProps {
   title: string;
@@ -19,14 +19,16 @@ export interface AppProps {
   textStyle?: Object;
   hideBackButton?: boolean;
   child?: boolean;
+  clear?: boolean;
+  onPressClear?: Function;
 }
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 
 export default function App(props: AppProps) {
-  const { otherCurrentChild, loginData } = useSelector(
+  const { currentChild, loginData } = useSelector(
     (state: { Home: any; Login: any }) => ({
-      otherCurrentChild: state.Home.otherCurrentChild,
+      currentChild: state.Home.currentChild,
       loginData: state.Login.loginData,
     })
   );
@@ -37,6 +39,7 @@ export default function App(props: AppProps) {
         <Text numberOfLines={1} style={[Styles.text, props.textStyle]}>
           {props.title}
         </Text>
+        {/* child dropdown ------------------------ */}
         {props.child ? (
           <TouchableOpacity
             activeOpacity={loginData.Children.length > 1 ? 0.8 : 1}
@@ -50,13 +53,26 @@ export default function App(props: AppProps) {
             }
           >
             <Text style={Styles.childHeaderText} numberOfLines={1}>
-              {otherCurrentChild.name}
+              {currentChild.name}
             </Text>
             {loginData.Children.length > 1 ? (
               <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
             ) : null}
           </TouchableOpacity>
         ) : null}
+        {/* clear button ------------------------ */}
+        {props.clear ? (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() =>
+              props.onPressClear === undefined ? null : props.onPressClear()
+            }
+            style={Styles.clearView}
+          >
+            <Text style={Styles.clearText}>{Strings.Clear}</Text>
+          </TouchableOpacity>
+        ) : null}
+        {/* back button ------------------------ */}
         {props.hideBackButton ? null : (
           <TouchableOpacity
             activeOpacity={0.8}
@@ -66,6 +82,7 @@ export default function App(props: AppProps) {
             <Image source={Images.back_icon} style={Styles.btn} />
           </TouchableOpacity>
         )}
+        {/* notify ------------------------ */}
         {props.notify ? (
           <View style={Styles.notifyView}>
             <Text style={Styles.notifyText}>{props.notifyNumber}/3</Text>
@@ -158,5 +175,15 @@ const Styles = StyleSheet.create({
   topModalView: {
     width: "100%",
     backgroundColor: Colors.modalBg2,
+  },
+  clearView: {
+    position: "absolute",
+    right: vw(16),
+    top: vh(33),
+  },
+  clearText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    color: "white",
   },
 });

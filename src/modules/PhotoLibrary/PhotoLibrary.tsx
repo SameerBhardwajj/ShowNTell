@@ -20,7 +20,15 @@ import CameraRoll from "@react-native-community/cameraroll";
 import { updateTab } from "../Home/action";
 import { updateLibrary, PhotoLibraryAPI } from "./action";
 import { CustomHeader, CustomToast, CustomLoader } from "../../Components";
-import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Images,
+  Colors,
+  ScreenName,
+  CommonFunctions,
+} from "../../utils";
 import GalleryFlatlist from "./GalleryFlatlist";
 
 export interface AppProps {

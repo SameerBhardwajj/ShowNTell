@@ -38,3 +38,80 @@ export const fetchSchoolList = (
     );
   };
 };
+
+export const fetchSlotDates = (
+  id: number,
+  successCallback: Function,
+  failureCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.getClientApiCall(
+      EndPoints.auth.getSlotDate(id),
+      {},
+      (success: any) => {
+        console.log("success ", success);
+        dispatch({
+          type: Action.FETCH_SCHOOL_LIST,
+          payload: {
+            slotDates: success.data.Status.OK,
+          },
+        });
+        successCallback(success.data.Status.OK);
+      },
+      (error: any) => {
+        console.log("error ", error);
+        console.warn("errrr..................");
+        // dispatch({
+        //   type: Action.FETCH_SCHOOL_LIST,
+        //   payload: {
+        //     // isLoading: false,
+        //   },
+        // });
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error);
+        }
+        failureCallback();
+      }
+    );
+  };
+};
+
+export const fetchSlotTime = (
+  id: number,
+  date: string,
+  successCallback: Function,
+  failureCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.getClientApiCall(
+      EndPoints.auth.getSlotTime(id, date),
+      {},
+      (success: any) => {
+        console.log("success ", success);
+        dispatch({
+          type: Action.FETCH_SCHOOL_LIST,
+          payload: {
+            slotTime: success.data.Status.OK.times,
+          },
+        });
+        successCallback(success.data.Status.OK.times);
+      },
+      (error: any) => {
+        console.log("error ", error);
+        console.warn("errrr..................");
+        // dispatch({
+        //   type: Action.FETCH_SCHOOL_LIST,
+        //   payload: {
+        //     // isLoading: false,
+        //   },
+        // });
+        if (error.message === "Network Error") {
+        } else {
+          CustomToast(error);
+        }
+        failureCallback();
+      }
+    );
+  };
+};

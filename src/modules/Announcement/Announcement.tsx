@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { updateTab } from "../Home/action";
-import { CustomHeader, CustomLoader } from "../../Components";
+import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
 import {
   Strings,
   vw,
@@ -12,6 +12,7 @@ import {
   Colors,
   ScreenName,
   CommonFunctions,
+  Images,
 } from "../../utils";
 import { hitAnnouncementAPI } from "./action";
 
@@ -21,43 +22,34 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const {
-    tab,
-    data,
-    currentChild,
-    loginToken,
-    loginData,
-    otherCurrentChild,
-    myFilter,
-    filterNum,
-  } = useSelector((state: { Home: any; Login: any; Announcement: any }) => ({
-    tab: state.Home.tab,
-    data: state.Announcement.data,
-    currentChild: state.Home.currentChild,
-    loginToken: state.Login.loginToken,
-    loginData: state.Login.loginData,
-    otherCurrentChild: state.Home.otherCurrentChild,
-    myFilter: state.Home.myFilter,
-    filterNum: state.Home.filterNum,
-  }));
+  const { tab, data, loginToken, loginData, currentChild } = useSelector(
+    (state: { Home: any; Login: any; Announcement: any }) => ({
+      tab: state.Home.tab,
+      data: state.Announcement.data,
+      loginToken: state.Login.loginToken,
+      loginData: state.Login.loginData,
+      currentChild: state.Home.currentChild,
+    })
+  );
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     // dispatch(updateTab(true, () => {}));
     setLoading(true);
     dispatch(
       hitAnnouncementAPI(
-        otherCurrentChild.child,
+        currentChild.child,
         0,
         () => setLoading(false),
         () => setLoading(false)
       )
     );
-  }, [otherCurrentChild]);
+  }, [currentChild]);
   return (
     <View style={Styles.mainView}>
       <CustomHeader
         title={Strings.Announcement}
         onPressBack={() => props.navigation.navigate(ScreenName.HOME)}
+        textStyle={{ alignSelf: "flex-start", paddingLeft: vw(50) }}
         child={true}
         navigation={props.navigation}
       />
@@ -67,34 +59,66 @@ export default function App(props: AppProps) {
         bounces={false}
         contentContainerStyle={Styles.scrollStyle}
       >
-        {data.map((item: any, index: number) => (
-          <View style={Styles.innerView}>
-            {/* {item.date.length !== 0 ? (
-              <Text style={Styles.heading}>{item.date}</Text>
-            ) : null} */}
-            <View
-              style={[
-                Styles.contentView,
-                {
-                  backgroundColor:
-                    index % 3 === 0
-                      ? Colors.lightWaterBlue
-                      : index % 2 === 0
-                      ? Colors.lightPink
-                      : Colors.lightGreen,
-                },
-              ]}
-            >
-              <Text style={Styles.heading}>{item.Announcement.title}</Text>
-              <Text style={Styles.content}>
-                {item.Announcement.description}
+        {loading ? null : CommonFunctions.isNullUndefined(data) ? (
+          <CustomNoData />
+        ) : (
+          data.map((item: any, index: number) => (
+            <View style={Styles.innerView}>
+              <Text style={Styles.heading}>
+                {CommonFunctions.dateTypeFormat(new Date(), "dmy") ===
+                CommonFunctions.dateTypeFormat(new Date(item.create_dt), "dmy")
+                  ? "Today"
+                  : CommonFunctions.DateFormatter(new Date(item.create_dt))}
               </Text>
-              <Text style={Styles.time}>
-                {CommonFunctions.timeFormatter(new Date(item.create_dt))}
-              </Text>
+              <View
+                style={[
+                  Styles.contentView,
+                  {
+                    backgroundColor:
+                      index % 3 === 0
+                        ? Colors.lightWaterBlue
+                        : index % 2 === 0
+                        ? Colors.lightPink
+                        : Colors.lightGreen,
+                  },
+                ]}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <Image
+                    source={
+                      CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
+                        ? Images.Profile_Placeholder
+                        : { uri: item.Child.s3_photo_path }
+                    }
+                    resizeMethod="resize"
+                    resizeMode="center"
+                    style={Styles.childAvatar}
+                  />
+                  <View
+                    style={[
+                      Styles.centerNameView,
+                      { justifyContent: "center" },
+                    ]}
+                  >
+                    <Text style={Styles.name}>
+                      {item.Child.first_name} {item.Child.last_name}
+                    </Text>
+                    <Text style={Styles.classText}>
+                      {item.Child.Classroom.name}
+                    </Text>
+                  </View>
+                </View>
+                <Text style={Styles.heading}>{item.Announcement.title}</Text>
+                <Text style={Styles.content}>
+                  {item.Announcement.description}
+                </Text>
+                <Text style={Styles.time}>
+                  {CommonFunctions.timeFormatter(new Date(item.create_dt))}
+                </Text>
+              </View>
             </View>
-          </View>
-        ))}
+          ))
+        )}
       </ScrollView>
     </View>
   );
@@ -107,20 +131,45 @@ const Styles = StyleSheet.create({
   },
   scrollStyle: {
     // alignItems: "center",
-    width: '100%',
-    flex:1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 4.65,
-    elevation: 7,
+    width: "100%",
+    flex: 1,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 3,
+    // },
+    // shadowOpacity: 0.08,
+    // shadowRadius: 4.65,
+    // elevation: 7,
+  },
+  childAvatar: {
+    height: vh(60),
+    width: vh(60),
+    borderRadius: vh(30),
+    marginBottom: vh(10),
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: vw(1),
+    borderColor: Colors.borderGrey,
+    backgroundColor: "white",
+  },
+  centerNameView: {
+    alignItems: "flex-start",
+    width: "75%",
+    paddingHorizontal: vw(15),
+  },
+  name: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+  },
+  classText: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(14),
+    paddingVertical: vh(5),
   },
   innerView: {
     padding: vh(16),
-    alignItems: 'center',
+    alignItems: "center",
     width: "100%",
     shadowColor: "#000",
     shadowOffset: {
@@ -139,13 +188,14 @@ const Styles = StyleSheet.create({
   heading: {
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
+    alignSelf: "flex-start",
   },
   content: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
   },
   time: {
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: "Frutiger",
     fontSize: vh(14),
     paddingTop: vh(10),
     color: Colors.lightBlack,

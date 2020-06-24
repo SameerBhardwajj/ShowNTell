@@ -17,17 +17,20 @@ export default function App(props: AppProps) {
   }));
 
   React.useEffect(() => {
-    console.warn(' check  ', check);
-    console.warn('len  ',myFilter.activity.length, myFilter.activity);
-    
+    console.warn(" check  ", check);
+    console.warn("len  ", myFilter.activity.length, myFilter.activity);
+
     let temp: any = myFilter.activity;
-    myFilter.activity.length === 0
+    CommonFunctions.isNullUndefined(temp)
       ? null
       : temp.includes(props.item.id.toString())
-      ? (setCheck(true), console.warn('here')
-      )
+      ? (setCheck(true), console.warn(temp.includes(props.item.id.toString())))
       : null;
-  }, [myFilter]);
+    console.warn(
+      "checking.. ",
+      CommonFunctions.isNullUndefined(myFilter.activity)
+    );
+  }, []);
 
   return (
     <View style={Styles.activityHeadView}>
@@ -40,6 +43,7 @@ export default function App(props: AppProps) {
         onPress={() => {
           let temp: Array<any> = myFilter.activity;
           if (!check) {
+            console.warn("not of check");
             temp = temp.concat(`${props.item.id}`);
             temp.sort();
             dispatch(
@@ -52,6 +56,7 @@ export default function App(props: AppProps) {
               )
             );
           } else {
+            console.warn("ok of check");
             temp = temp.filter(
               (item: any) => !item.includes(parseInt(props.item.id.toString()))
             );

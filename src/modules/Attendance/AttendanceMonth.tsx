@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import moment from "moment";
 import { vh, Colors, Images, vw, Strings, CommonFunctions } from "../../utils";
 
 const ATTENDANCE = "ATTENDANCE";
@@ -13,6 +14,10 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const timeFormatter = (date: Date) => {
+    return moment.utc(date).format("hh:mm A");
+  };
+
   const childData = () => {
     return (
       <View style={Styles.imgView}>
@@ -40,16 +45,24 @@ export default function App(props: AppProps) {
     <View style={Styles.mainView}>
       {parseInt(props.index) === 0 ? (
         <Text style={Styles.attendenceDate}>
-          {CommonFunctions.DateFormatter(new Date(props.item.in_date_time))}
+          {props.item.type === ATTENDANCE
+            ? CommonFunctions.DateFormatter(props.item.in_date_time)
+            : CommonFunctions.DateFormatter(props.item.date)}
         </Text>
-      ) : CommonFunctions.DateDifference(
+      ) : CommonFunctions.dateTypeFormat(
+          new Date(props.allData[parseInt(props.index) - 1].in_date_time),
+          "dmy"
+        ) ===
+        CommonFunctions.dateTypeFormat(
           new Date(props.item.in_date_time),
-          new Date(props.allData[parseInt(props.index) - 1].in_date_time)
-        ) === 0 ? (
+          "dmy"
+        ) ? null : (
         <Text style={Styles.attendenceDate}>
-          {CommonFunctions.DateFormatter(new Date(props.item.in_date_time))}
+          {props.item.type === ATTENDANCE
+            ? CommonFunctions.DateFormatter(props.item.in_date_time)
+            : CommonFunctions.DateFormatter(props.item.date)}
         </Text>
-      ) : null}
+      )}
       {props.currentChild === 0
         ? parseInt(props.index) === 0
           ? childData()
@@ -66,9 +79,7 @@ export default function App(props: AppProps) {
             <Text style={Styles.inTime}>
               {CommonFunctions.isNullUndefined(props.item.in_date_time)
                 ? Strings.Not_Available
-                : CommonFunctions.timeFormatter(
-                    new Date(props.item.in_date_time)
-                  )}
+                : timeFormatter(props.item.in_date_time)}
             </Text>
           </View>
           <View style={Styles.separatorView} />
@@ -78,9 +89,7 @@ export default function App(props: AppProps) {
             <Text style={Styles.inTime}>
               {CommonFunctions.isNullUndefined(props.item.out_date_time)
                 ? Strings.Not_Available
-                : CommonFunctions.timeFormatter(
-                    new Date(props.item.out_date_time)
-                  )}
+                : timeFormatter(props.item.in_date_time)}
             </Text>
           </View>
         </View>
@@ -99,12 +108,16 @@ export default function App(props: AppProps) {
         </View>
       )}
       {props.allData.length - 1 !== parseInt(props.index) &&
-      CommonFunctions.DateDifference(
+      CommonFunctions.dateTypeFormat(
         new Date(props.item.in_date_time),
-        new Date(props.allData[parseInt(props.index) + 1].in_date_time)
-      ) === 0 ? (
+        "dmy"
+      ) ===
+        CommonFunctions.dateTypeFormat(
+          new Date(props.allData[parseInt(props.index) + 1].in_date_time),
+          "dmy"
+        ) ? null : (
         <View style={Styles.finalSeparator} />
-      ) : null}
+      )}
     </View>
   );
 }
@@ -205,7 +218,7 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(20),
     color: Colors.pink,
-    paddingTop: vh(20)
+    paddingTop: vh(20),
   },
   absentIcon: {
     height: vh(80),

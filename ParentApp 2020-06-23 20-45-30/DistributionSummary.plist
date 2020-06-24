@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ParentApp.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>04F2EB8BF2B4EF35CB4DEB629F20B22B02F14152</string>
+				<key>dateExpires</key>
+				<string>24/02/21</string>
+				<key>type</key>
+				<string>Apple Distribution</string>
+			</dict>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>23FC5W285E.com.showntell.beta</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>23FC5W285E</string>
+				<key>get-task-allow</key>
+				<false/>
+				<key>keychain-access-groups</key>
+				<array>
+					<string>23FC5W285E.com.showntell.beta</string>
+				</array>
+			</dict>
+			<key>name</key>
+			<string>ParentApp.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>12dfa1ec-cbf6-4710-82f2-16206c9ec987</string>
+				<key>name</key>
+				<string>Show N Tell Dist Beta</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>23FC5W285E</string>
+				<key>name</key>
+				<string>Peeyush Singh</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

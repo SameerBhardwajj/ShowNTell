@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
+import moment from "moment";
 import { vh, Colors, Images, vw, Strings, CommonFunctions } from "../../utils";
 
 const ATTENDANCE = "ATTENDANCE";
@@ -12,6 +13,10 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const timeFormatter = (date: Date) => {
+    return moment.utc(date).format("hh:mm A");
+  };
+
   const childData = () => {
     return (
       <View style={Styles.imgView}>
@@ -53,9 +58,7 @@ export default function App(props: AppProps) {
           <Text style={Styles.inTime}>
             {CommonFunctions.isNullUndefined(props.item.in_date_time)
               ? Strings.Not_Available
-              : CommonFunctions.timeFormatter(
-                  new Date(props.item.in_date_time)
-                )}
+              : timeFormatter(props.item.in_date_time)}
           </Text>
         </View>
         <View style={Styles.separatorView} />
@@ -65,9 +68,7 @@ export default function App(props: AppProps) {
           <Text style={Styles.inTime}>
             {CommonFunctions.isNullUndefined(props.item.out_date_time)
               ? Strings.Not_Available
-              : CommonFunctions.timeFormatter(
-                  new Date(props.item.out_date_time)
-                )}
+              : timeFormatter(props.item.out_date_time)}
           </Text>
         </View>
       </View>

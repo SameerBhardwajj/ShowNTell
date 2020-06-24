@@ -55,7 +55,7 @@ const postApiCall = (
     })
     .catch((error: any) => {
       console.warn("error", error);
-      console.log("Error: ", error.config);
+      console.log("Error.response.config ", error.response.config);
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
       } else if (error.code === "ECONNABORTED") {
@@ -86,7 +86,7 @@ const getApiCall = (
     })
     .catch((error: any) => {
       console.warn("error", error);
-      console.log("Error: ", error.config);
+      console.log("Error.response.config ", error.response.config);
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
       }
@@ -96,120 +96,29 @@ const getApiCall = (
       errorCallback(error);
     });
 };
-/**
- *
- * @param endPoint api end point
- * @param params api request data
- * @param successCallback function for handle success response
- * @param errorCallback function for handle error response
- */
-const deleteApiCall = (
-  endPoint: string,
-  params: string = "",
-  successCallback: Function,
-  errorCallback: Function
-) => {
-  Constants.axiosInstance
-    .delete(endPoint + params, {})
-    .then((response: any) => {
-      successCallback(response);
-    })
-    .catch((error: any) => {
-      if (error.code === "ECONNABORTED") {
-        let payload = {
-          data: {
-            status: 408,
-          },
-        };
-        errorCallback(payload);
-      } else if (error.response) {
-        errorCallback(error.response);
-      } else if (!error.response) {
-        let payload = {
-          data: {
-            status: "",
-          },
-        };
-        errorCallback(payload);
-      }
-    });
-};
 
-/**
- *
- * @param endPoint api end point
- * @param params api request data
- * @param successCallback function for handle success response
- * @param errorCallback function for handle error response
- */
-const patchApiCall = (
+const getClientApiCall = (
   endPoint: string,
   params: object,
   successCallback: Function,
   errorCallback: Function
 ) => {
-  Constants.axiosInstance
-    .patch(endPoint, params)
+  Constants.clientAxiosInstance
+    .get(endPoint, params)
     .then((response: any) => {
+      console.warn("Success: ", response);
       successCallback(response);
     })
     .catch((error: any) => {
-      if (error.code === "ECONNABORTED") {
-        let payload = {
-          data: {
-            status: 408,
-          },
-        };
-        errorCallback(payload);
-      } else if (error.response) {
-        errorCallback(error.response);
-      } else if (!error.response) {
-        let payload = {
-          data: {
-            status: "",
-          },
-        };
-        errorCallback(payload);
+      console.warn("error", error);
+      console.log("Error.response.config ", error);
+      if (error.message === "Network Error") {
+        CustomToast(Strings.No_Internet);
       }
-    });
-};
-
-/**
- *
- * @param endPoint api end point
- * @param params api request data
- * @param successCallback function for handle success response
- * @param errorCallback function for handle error response
- */
-const putApiCall = (
-  endPoint: string,
-  params: object,
-  successCallback: Function,
-  errorCallback: Function
-) => {
-  Constants.axiosInstance
-    .put(endPoint, params)
-    .then((response: any) => {
-      successCallback(response);
-    })
-    .catch((error: any) => {
       if (error.code === "ECONNABORTED") {
-        let payload = {
-          data: {
-            status: 408,
-          },
-        };
-        errorCallback(payload);
-      } else if (error.response) {
-        errorCallback(error.response);
-      } else if (!error.response) {
-        let payload = {
-          data: {
-            status: "",
-          },
-        };
-        errorCallback(payload);
+        CustomToast(Strings.Timeout_error);
       }
+      errorCallback(error);
     });
 };
 
@@ -219,8 +128,6 @@ const putApiCall = (
 export default {
   postApiCall,
   getApiCall,
-  patchApiCall,
-  putApiCall,
-  deleteApiCall,
   googleSearchApiCall,
+  getClientApiCall,
 };

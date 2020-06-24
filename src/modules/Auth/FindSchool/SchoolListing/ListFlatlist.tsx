@@ -88,9 +88,13 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.locationView}
-          onPress={() =>
-            CommonFunctions.callNumber(parseInt(item.phone.replaceAll("-", "")))
-          }
+          onPress={() => {
+            CommonFunctions.isNullUndefined(item.phone)
+              ? null
+              : CommonFunctions.callNumber(
+                  parseInt(item.phone.replace(/-/g, ""))
+                );
+          }}
         >
           <Image source={Images.Phone_small} style={Styles.img3} />
           <Text style={Styles.locationText}>{`${item.phone}`}</Text>
@@ -108,19 +112,18 @@ export default function App(props: AppProps) {
                 ? Strings.General_Info
                 : Strings.Schedule_a_Tour
             }
-            onPress={() =>{
+            onPress={() => {
               console.warn(item.id);
               console.warn(item);
-              
-              
+
               item.calendar_id === null
                 ? props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
                     id: item.id,
                     date: null,
                     time: null,
                   })
-                : props.openModal()}
-            }
+                : props.openModal();
+            }}
             ButtonStyle={Styles.btn}
           />
         </View>

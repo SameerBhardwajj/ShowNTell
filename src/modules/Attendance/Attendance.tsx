@@ -54,26 +54,25 @@ export default function App(props: AppProps) {
   const [isRefreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
-  const { tab, otherCurrentChild, data } = useSelector(
+  const { tab, currentChild, data } = useSelector(
     (state: { Home: any; Attendance: any }) => ({
       tab: state.Home.tab,
-      otherCurrentChild: state.Home.otherCurrentChild,
+      currentChild: state.Home.currentChild,
       data: state.Attendance.data,
     })
   );
 
   useEffect(() => {
     // dispatch(updateTab(true, () => {}));
-
-    setLoading(true);
     hitAttendance();
-  }, [otherCurrentChild, viewByDate]);
+  }, [currentChild, viewByDate]);
 
   const hitAttendance = () => {
+    setLoading(true);
     dispatch(
       viewAttendance(
         viewByDate ? DATE_TYPE : MONTH_TYPE,
-        otherCurrentChild.child,
+        currentChild.child,
         CommonFunctions.dateTypeFormat(date, "ymd"),
         () => {
           {
@@ -95,7 +94,7 @@ export default function App(props: AppProps) {
       <AttendanceList
         index={index}
         item={item}
-        currentChild={otherCurrentChild.child}
+        currentChild={currentChild.child}
         allData={data}
       />
     );
@@ -107,7 +106,7 @@ export default function App(props: AppProps) {
       <AttendanceMonth
         index={index}
         item={item}
-        currentChild={otherCurrentChild.child}
+        currentChild={currentChild.child}
         allData={data}
         onPressAbsence={() =>
           props.navigation.navigate(ScreenName.ABSENCE_NOTIFICATION_MODAL, {
@@ -127,7 +126,6 @@ export default function App(props: AppProps) {
         child={true}
         navigation={props.navigation}
       />
-      <CustomLoader loading={isLoading} />
       {/* view by date and month ------------------ */}
       <View style={Styles.viewByView}>
         <View style={Styles.mainViewBy}>
@@ -173,39 +171,33 @@ export default function App(props: AppProps) {
         </View>
       </View>
       {/* View by Date ------------------------- */}
+      <View style={Styles.headingView}>
+        {currentChild.child === 0 ? null : data.length === 0 ? null : (
+          <Text style={Styles.attendenceHeading}>{data[0].classroom_name}</Text>
+        )}
+        <View style={Styles.attenanceView}>
+          <Text style={Styles.attendenceHeading}>
+            {viewByDate
+              ? CommonFunctions.DateFormatter(currentDate)
+              : CommonFunctions.DateMonthFormatter(currentMonth)}
+          </Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={Styles.calenderStyle}
+            onPress={() => setModalOpen(true)}
+          >
+            <Image source={Images.Calendar_Icon} style={{ padding: 13 }} />
+          </TouchableOpacity>
+        </View>
+      </View>
       {viewByDate ? (
         <View style={Styles.monthView}>
-          {isLoading ? null : data.length === 0 ? (
+          {isLoading ? (
+            <CustomLoader loading={isLoading} />
+          ) : data.length === 0 ? (
             <CustomNoData />
           ) : (
             <FlatList
-              ListHeaderComponent={() => {
-                return (
-                  <View style={Styles.headingView}>
-                    {otherCurrentChild.child === 0 ? null : data.length ===
-                      0 ? null : (
-                      <Text style={Styles.attendenceHeading}>
-                        {data[0].classroom_name}
-                      </Text>
-                    )}
-                    <View style={Styles.attenanceView}>
-                      <Text style={Styles.attendenceHeading}>
-                        {CommonFunctions.DateFormatter(currentDate)}
-                      </Text>
-                      <TouchableOpacity
-                        activeOpacity={0.8}
-                        style={Styles.calenderStyle}
-                        onPress={() => setModalOpen(true)}
-                      >
-                        <Image
-                          source={Images.Calendar_Icon}
-                          style={{ padding: 13 }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                );
-              }}
               data={data}
               showsVerticalScrollIndicator={false}
               refreshing={isRefreshing}
@@ -220,37 +212,13 @@ export default function App(props: AppProps) {
       ) : (
         <View style={Styles.monthView}>
           {/* View by Month ------------------------- */}
-          {isLoading ? null : data.length === 0 ? (
+
+          {isLoading ? (
+            <CustomLoader loading={isLoading} />
+          ) : data.length === 0 ? (
             <CustomNoData />
           ) : (
             <FlatList
-              ListHeaderComponent={() => {
-                return (
-                  <View style={Styles.headingView}>
-                    {otherCurrentChild.child === 0 ? null : data.length ===
-                      0 ? null : (
-                      <Text style={Styles.attendenceHeading}>
-                        {data[0].classroom_name}
-                      </Text>
-                    )}
-                    <View style={Styles.attenanceView}>
-                      <Text style={Styles.attendenceHeading}>
-                        {CommonFunctions.DateMonthFormatter(currentMonth)}
-                      </Text>
-                      <TouchableOpacity
-                        activeOpacity={0.8}
-                        style={Styles.calenderStyle}
-                        onPress={() => setModalOpen(true)}
-                      >
-                        <Image
-                          source={Images.Calendar_Icon}
-                          style={{ padding: 13 }}
-                        />
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                );
-              }}
               data={data}
               refreshing={isRefreshing}
               onRefresh={() => {
@@ -357,6 +325,7 @@ const Styles = StyleSheet.create({
   headingView: {
     paddingTop: vh(16),
     paddingHorizontal: vw(16),
+    alignSelf: "flex-start",
   },
   attenanceView: {
     width: "100%",

@@ -10,6 +10,7 @@ import NearbySchool from "../modules/Auth/FindSchool/NearbySchool/reducer";
 import ForgotPassword from "../modules/Auth/ForgotPassword/reducer";
 import Attendance from "../modules/Attendance/reducer";
 import Announcement from "../modules/Announcement/reducer";
+import QOTD from "../modules/QOD/reducer";
 const CombinedReducer = combineReducers({
   Home,
   Splash,
@@ -22,6 +23,7 @@ const CombinedReducer = combineReducers({
   NearbySchool,
   Attendance,
   Announcement,
+  QOTD,
 });
 
 export default CombinedReducer;

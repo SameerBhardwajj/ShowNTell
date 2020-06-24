@@ -15,11 +15,17 @@ const setAuthorizationToken = (token: boolean, myToken: string) => {
     : "Basic Y29yZTpjb3Jl";
 };
 
+const clientHttp = axios.create({
+  baseURL: Config.CLIENT_BASE_URL,
+  timeout: 30000,
+});
+
 export default {
   successStatus: 200,
   unAuthorizedStatus: 401,
   notAuthorizedForInfo: 400,
   axiosInstance: $http,
+  clientAxiosInstance: clientHttp,
   setAuthorizationToken,
   status_code: {
     success: 200,

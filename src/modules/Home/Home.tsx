@@ -35,7 +35,7 @@ import {
   CustomNoData,
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
-import { HomeAPI, updateOtherChild, addFilter } from "./action";
+import { HomeAPI, addFilter, weDidItAPI } from "./action";
 import FilterModal from "./Filter/FilterModal";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
@@ -61,7 +61,6 @@ export default function App(props: AppProps) {
     currentChild,
     loginToken,
     loginData,
-    otherCurrentChild,
     myFilter,
     filterNum,
   } = useSelector((state: { Home: any; Login: any }) => ({
@@ -70,7 +69,6 @@ export default function App(props: AppProps) {
     currentChild: state.Home.currentChild,
     loginToken: state.Login.loginToken,
     loginData: state.Login.loginData,
-    otherCurrentChild: state.Home.otherCurrentChild,
     myFilter: state.Home.myFilter,
     filterNum: state.Home.filterNum,
   }));
@@ -93,17 +91,17 @@ export default function App(props: AppProps) {
               name: loginData.Children[0].first_name,
               classroom: loginData.Children[0].classroom_id,
             },
-            () =>
-              dispatch(
-                updateOtherChild(
-                  {
-                    child: loginData.Children[0].id,
-                    name: loginData.Children[0].first_name,
-                    classroom: loginData.Children[0].classroom_id,
-                  },
-                  () => hitHomeAPI(loginData.Children[0].id, 0)
-                )
-              )
+            () => hitHomeAPI(loginData.Children[0].id, 0)
+            // dispatch(
+            //   updateOtherChild(
+            //     {
+            //       child: loginData.Children[0].id,
+            //       name: loginData.Children[0].first_name,
+            //       classroom: loginData.Children[0].classroom_id,
+            //     },
+            //     () => hitHomeAPI(loginData.Children[0].id, 0)
+            //   )
+            // )
           )
         );
     // const unsubscribe =
@@ -138,17 +136,34 @@ export default function App(props: AppProps) {
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
-    return <HomeFlatlist item={item} navigation={props.navigation} />;
+    return (
+      <HomeFlatlist
+        weDidIt={(id: string) => {
+          setLoading(true);
+          dispatch(
+            weDidItAPI(
+              id,
+              () => hitSearchAPI(),
+              () => {
+                setLoading(false);
+              }
+            )
+          );
+        }}
+        item={item}
+        navigation={props.navigation}
+      />
+    );
   };
 
-  const hitHomeAPI = (child_id?: number, page?: number) => {
+  const hitHomeAPI = (child_id: number, page?: number) => {
     setLoading(true);
     dispatch(
       HomeAPI(
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
-          data.length === 0 ? null : setHomeData(data.rows);
+          data.length === 0 ? setHomeData([]) : setHomeData(data.rows);
         },
         () => {
           setLoading(false), setRefreshing(false);
@@ -173,7 +188,7 @@ export default function App(props: AppProps) {
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
-          data.length === 0 ? null : setHomeData(data.rows);
+          data.length === 0 ? setHomeData([]) : setHomeData(data.rows);
         },
         () => {
           setLoading(false), setRefreshing(false);
@@ -195,7 +210,7 @@ export default function App(props: AppProps) {
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
-          data.length === 0 ? null : setHomeData(data.rows);
+          data.length === 0 ? setHomeData([]) : setHomeData(data.rows);
         },
         () => {
           setLoading(false), setRefreshing(false);
@@ -232,7 +247,7 @@ export default function App(props: AppProps) {
             style={Styles.childHeader}
             onPress={() =>
               loginData.Children.length > 1
-                ? props.navigation.navigate(ScreenName.HOME_CHILD_MODAL, {
+                ? props.navigation.navigate(ScreenName.CHILD_MODAL, {
                     child: loginData.Children,
                   })
                 : null
@@ -269,8 +284,8 @@ export default function App(props: AppProps) {
           </TouchableOpacity>
         </View>
       </View>
-      <CustomLoader loading={loading} />
       <View style={Styles.innerView}>
+        <CustomLoader loading={loading} />
         {loading ? null : homeData.length === 0 ? (
           <CustomNoData />
         ) : (

@@ -4,7 +4,7 @@ const initialState = {
   forceRerendering: false,
   data: {},
   currentChild: { child: 0, name: "All", classroom: 0 },
-  otherCurrentChild: { child: 0, name: "All", classroom: 0 },
+  // otherCurrentChild: { child: 0, name: "All", classroom: 0 },
   filterData: {},
   myFilter: { activity: [], fromDate: "", toDate: "", type: [] },
   filterNum: 0,

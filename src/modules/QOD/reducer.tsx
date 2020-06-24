@@ -1,13 +1,11 @@
-import { Action } from "../../../../utils";
+import { Action } from "../../utils";
 const initialState = {
-  schoolList: [],
-  isLoading: false,
-  slotDates: [],
-  slotTime: [],
+  data: [],
 };
+
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case Action.FETCH_SCHOOL_LIST:
+    case Action.QOTD:
       return { ...state, ...action.payload };
     default:
       return state;

@@ -1,11 +1,7 @@
 import { CustomToast } from "../../../Components";
 import { Action, API, EndPoints } from "../../../utils";
 import { Platform } from "react-native";
-import {
-  getDeviceId,
-  getDeviceToken,
-  isEmulatorSync,
-} from "react-native-device-info";
+
 export const updateLogin = (data: object, token: string) => {
   return (dispatch: any, getState: any) => {
     dispatch({
@@ -63,18 +59,22 @@ export const loginAPI = (
   email: string,
   password: string,
   id: string,
+  deviceID: string,
+  token: string,
   callback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
+    console.warn(deviceID, token);
+    
     API.postApiCall(
       EndPoints.auth.login,
       {
         email: email,
         password: password,
         center_id: id,
-        device_id: isEmulatorSync() ? "12" : getDeviceId(),
+        device_id: '12',
         device_name: Platform.OS,
-        device_token: isEmulatorSync() ? "asdasda" : getDeviceToken(),
+        device_token: 'asasd',
       },
       (success: any) => {
         debugger;

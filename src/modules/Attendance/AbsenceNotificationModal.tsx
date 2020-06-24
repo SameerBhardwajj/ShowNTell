@@ -28,22 +28,22 @@ export default function App(props: AppProps) {
             <View>
               <Text style={Styles.fromText}>{Strings.From}</Text>
               <Text style={Styles.dateText}>
-                {CommonFunctions.DateFormatter(new Date(item.absence_from))}
+                {CommonFunctions.DateFormatter(item.absence_from)}
               </Text>
             </View>
             <View style={Styles.separatorDateView} />
             <View>
               <Text style={Styles.fromText}>{Strings.To}</Text>
               <Text style={Styles.dateText}>
-                {CommonFunctions.DateFormatter(new Date(item.absence_to))}
+                {CommonFunctions.DateFormatter(item.absence_to)}
               </Text>
             </View>
           </View>
           <Text style={Styles.msgText}>{item.absence_description}</Text>
           <Text style={Styles.footerText}>
-            {CommonFunctions.DateFormatter(new Date(item.absence_create_date))}
+            {CommonFunctions.DateFormatter(item.absence_create_date)}
             {" . "}
-            {CommonFunctions.timeFormatter(new Date(item.absence_create_date))}
+            {CommonFunctions.timeFormatter(item.absence_create_date)}
           </Text>
         </View>
       </View>

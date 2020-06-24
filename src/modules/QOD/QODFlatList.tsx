@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, Image } from "react-native";
-import { Colors, Images, Strings } from "../../utils";
+import { Colors, Images, Strings, CommonFunctions } from "../../utils";
 import { CustomButton } from "../../Components";
 import { Styles } from "./QOD";
 
-const child =
-  "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80";
 export interface AppProps {
   item: any;
   index: string;
+  weDidIt: Function;
 }
 
 export default function App(props: AppProps) {
-  const [did, setDid] = useState(false);
   const { item } = props;
   const index = parseInt(props.index);
   const Color =
@@ -30,25 +28,60 @@ export default function App(props: AppProps) {
   return (
     <View style={[Styles.cardView, { backgroundColor: lightColor }]}>
       <View style={{ flexDirection: "row" }}>
-        <Image source={{uri: child}} style={Styles.childAvatar} />
+        <Image
+          resizeMethod="resize"
+          resizeMode="center"
+          source={
+            CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
+              ? Images.Profile_Placeholder
+              : { uri: item.Child.s3_photo_path }
+          }
+          style={Styles.childAvatar}
+        />
         <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
-          <Text style={Styles.name}>{item.name}</Text>
-          <Text style={Styles.classText}>{item.category}</Text>
+          <Text style={Styles.name}>
+            {item.Child.first_name} {item.Child.last_name}
+          </Text>
+          {/* <Text style={Styles.classText}>{item.class}</Text> */}
         </View>
       </View>
-      <Text style={Styles.questionText}>{item.question}</Text>
-      <Text style={Styles.timeBlack}>{Strings.QOD_category}</Text>
-      <Text style={Styles.time}>{item.dateTime}</Text>
+      <Text style={Styles.questionText}>
+        {item.QuestionOfTheDayActivity.QuestionOfTheDay.question}
+      </Text>
+      <Text style={Styles.timeBlack}>
+        {item.QuestionOfTheDayActivity.ActivityValue.name}
+      </Text>
+      <Text style={Styles.time}>
+        {CommonFunctions.DateFormatter(new Date(item.date))}
+        {Strings.at}
+        {CommonFunctions.timeFormatter(new Date(item.date))}
+      </Text>
       <CustomButton
-        Text={did ? Strings.Done : Strings.We_did_it}
+        Text={
+          CommonFunctions.isNullUndefined(item.acknowledged_at)
+            ? Strings.We_did_it
+            : Strings.Done
+        }
         btnColor={Color}
-        activeOpacity={did ? 1 : 0.8}
+        activeOpacity={
+          CommonFunctions.isNullUndefined(item.acknowledged_at) ? 0.8 : 1
+        }
         ButtonStyle={[
           Styles.btnQOD,
-          { backgroundColor: did ? lightColor : Color },
+          {
+            backgroundColor: CommonFunctions.isNullUndefined(
+              item.acknowledged_at
+            )
+              ? lightColor
+              : Color,
+          },
         ]}
-        lightBtn={did}
-        onPress={() => (did ? null : setDid(true))}
+        lightBtn={CommonFunctions.isNullUndefined(item.acknowledged_at)}
+        onPress={() =>
+          CommonFunctions.isNullUndefined(item.acknowledged_at)
+            ? props.weDidIt(item.id)
+            : null
+        }
       />
     </View>
   );

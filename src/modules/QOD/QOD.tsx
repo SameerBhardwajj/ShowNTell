@@ -5,33 +5,82 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Modal,
 } from "react-native";
 
 // custom imports
-import { updateTab } from "../Home/action";
+import { updateTab, weDidItAPI } from "../Home/action";
+import { hitQOTDApi } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 import { vh, Colors, Images, vw, Strings, ScreenName } from "../../utils";
-import { CustomHeader } from "../../Components";
+import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
 import QODFlatList from "./QODFlatList";
+import FilterModal from "./FilterModal";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
-  const [reRender, setReRender] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [clear, setClear] = useState(false);
   const dispatch = useDispatch();
-  const { tab } = useSelector((state: { Home: any }) => ({
-    tab: state.Home.tab,
-  }));
+
+  const WEDIDIT = "wedidit";
+  const DONE = "done";
+
+  const { tab, data, otherCurrentChild } = useSelector(
+    (state: { Home: any; QOTD: any }) => ({
+      tab: state.Home.tab,
+      data: state.QOTD.data,
+      otherCurrentChild: state.Home.otherCurrentChild,
+    })
+  );
 
   useEffect(() => {
-    dispatch(updateTab(true, () => {}));
-  }, []);
+    // dispatch(updateTab(true, () => {}));
+    hitQOTD();
+  }, [otherCurrentChild]);
+
+  const hitQOTD = (type?: string) => {
+    setLoading(true);
+    dispatch(
+      hitQOTDApi(
+        () => {
+          setLoading(false);
+        },
+        () => {
+          setLoading(false);
+        },
+        otherCurrentChild.child,
+        type
+      )
+    );
+  };
+
+  const hitWeDidIt = (id: string) => {
+    setLoading(true);
+    dispatch(
+      weDidItAPI(
+        id,
+        () => hitQOTD(),
+        () => {
+          setLoading(false);
+        }
+      )
+    );
+  };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
-    return <QODFlatList item={item} index={index} />;
+    return (
+      <QODFlatList
+        item={item}
+        index={index}
+        weDidIt={(id: number) => hitWeDidIt(id.toString())}
+      />
+    );
   };
 
   return (
@@ -40,26 +89,46 @@ export default function App(props: AppProps) {
         title={Strings.QOD_label}
         onPressBack={() => props.navigation.navigate(ScreenName.HOME)}
         textStyle={{ alignSelf: "flex-start", paddingLeft: vw(50) }}
-        child={true}
+        child={!clear}
         navigation={props.navigation}
+        clear={clear}
+        onPressClear={() => {
+          setClear(!clear);
+          hitQOTD();
+        }}
       />
       <View style={Styles.mainInnerView}>
-        <FlatList
-          contentContainerStyle={{ paddingBottom: vh(100) }}
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-          data={DATA}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItems}
-        />
+        {loading ? (
+          <CustomLoader loading={loading} />
+        ) : data.length === 0 ? (
+          <CustomNoData />
+        ) : (
+          <FlatList
+            contentContainerStyle={{ paddingBottom: vh(80) }}
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            data={data}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItems}
+          />
+        )}
       </View>
       <TouchableOpacity
         activeOpacity={0.8}
         style={Styles.filter}
-        onPress={() => props.navigation.navigate(ScreenName.FILTER_MODAL)}
+        onPress={() => setModalOpen(true)}
       >
         <Image source={Images.Elipsis_Options} />
       </TouchableOpacity>
+      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+        <FilterModal
+          setModal={(value: boolean) => setModalOpen(value)}
+          onPress={(value: boolean) => {
+            setClear(!clear);
+            setModalOpen(false), hitQOTD(value ? WEDIDIT : DONE);
+          }}
+        />
+      </Modal>
     </View>
   );
 }
@@ -72,8 +141,9 @@ export const Styles = StyleSheet.create({
   mainInnerView: {
     paddingVertical: vh(8),
     paddingHorizontal: vw(16),
-    marginBottom: vh(85),
+    marginBottom: vh(35),
     width: "100%",
+    flex: 1,
   },
   cardView: {
     marginVertical: vh(8),
@@ -85,6 +155,11 @@ export const Styles = StyleSheet.create({
     width: vh(64),
     borderRadius: vh(32),
     marginBottom: vh(10),
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: vw(1),
+    borderColor: Colors.borderGrey,
+    backgroundColor: "white",
   },
   centerNameView: {
     alignItems: "flex-start",

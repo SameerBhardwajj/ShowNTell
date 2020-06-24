@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
   CustomHeader,
   CustomButton,
   CustomTimeSlot,
+  CustomNoData,
+  CustomLoader,
 } from "../../../Components";
 import {
   Strings,
@@ -15,6 +18,8 @@ import {
   ScreenName,
   CommonFunctions,
 } from "../../../utils";
+import { fetchSlotTime } from "./SchoolListing/action";
+import SlotTimeFlatlist from "./SlotTimeFlatlist";
 
 const currentTime = new Date().getHours();
 export interface AppProps {
@@ -23,34 +28,64 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const [time, setTime] = useState(0);
+  const dispatch = useDispatch();
+  const [time, setTime] = useState(-1);
+  const [isLoading, setIsLoading] = useState(false);
   const { id, date } = props.route.params;
+  const { slotTime } = useSelector((state: { SchoolListing: any }) => ({
+    slotTime: state.SchoolListing.slotTime,
+  }));
 
-  const setDisabled = (time: number) => {
-    console.warn(
-      CommonFunctions.DateDifference(new Date(), date),
-      new Date().getDate() > date.getDate()
+  // const setDisabled = (time: number) => {
+  //   console.warn(
+  //     CommonFunctions.DateDifference(new Date(), date),
+  //     new Date().getDate() > date.getDate()
+  //   );
+
+  //   let disable = false;
+  //   // new Date().getDate() < date.getDate()
+  //   //   ? CommonFunctions.DateDifference(new Date(), date) !== 0
+  //   //   : CommonFunctions.DateDifference(date, new Date()) !== 0
+  //   //   ? null
+  //   //   : currentTime >= time
+  //   //   ? (disable = true)
+  //   //   : null;
+  //   console.warn(id, new Date().getDate(), date.getDate());
+
+  //   new Date().getDate() === date.getDate() &&
+  //   new Date().getMonth() === date.getMonth() &&
+  //   new Date().getFullYear() === date.getFullYear()
+  //     ? currentTime >= time
+  //       ? (disable = true)
+  //       : null
+  //     : null;
+
+  //   return disable;
+  // };
+
+  React.useEffect(() => {
+    dispatch(
+      fetchSlotTime(
+        id,
+        date,
+        () => {
+          console.warn("slot", slotTime);
+        },
+        () => {}
+      )
     );
+  }, []);
 
-    let disable = false;
-    // new Date().getDate() < date.getDate()
-    //   ? CommonFunctions.DateDifference(new Date(), date) !== 0
-    //   : CommonFunctions.DateDifference(date, new Date()) !== 0
-    //   ? null
-    //   : currentTime >= time
-    //   ? (disable = true)
-    //   : null;
-    console.warn(id, new Date().getDate(), date.getDate());
-
-    new Date().getDate() === date.getDate() &&
-    new Date().getMonth() === date.getMonth() &&
-    new Date().getFullYear() === date.getFullYear()
-      ? currentTime >= time
-        ? (disable = true)
-        : null
-      : null;
-
-    return disable;
+  const renderSlotItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <SlotTimeFlatlist
+        item={item}
+        index={index}
+        current={time}
+        setCurrent={(index: string) => setTime(parseInt(index))}
+      />
+    );
   };
 
   return (
@@ -63,58 +98,34 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.innerView}>
         <Text style={Styles.heading}>{Strings.Preferred_slot}</Text>
-        <CustomTimeSlot
-          time="11:00 am"
-          pressed={time === 11 ? true : false}
-          disabled={setDisabled(11)}
-          onPress={() => setTime(11)}
-        />
-        <CustomTimeSlot
-          time="12:00 am"
-          pressed={time === 12 ? true : false}
-          disabled={setDisabled(12)}
-          onPress={() => setTime(12)}
-        />
-        <CustomTimeSlot
-          time="02:00 pm"
-          pressed={time === 2 ? true : false}
-          disabled={setDisabled(14)}
-          onPress={() => setTime(2)}
-        />
-        <CustomTimeSlot
-          time="04:00 pm"
-          pressed={time === 4 ? true : false}
-          disabled={setDisabled(16)}
-          onPress={() => setTime(4)}
-        />
-        <CustomTimeSlot
-          time="05:00 pm"
-          pressed={time === 5 ? true : false}
-          disabled={setDisabled(17)}
-          onPress={() => setTime(5)}
-        />
-        <CustomTimeSlot
-          time="06:00 pm"
-          pressed={time === 6 ? true : false}
-          disabled={setDisabled(18)}
-          onPress={() => setTime(6)}
-        />
+        {isLoading ? (
+          <CustomLoader loading={true} />
+        ) : slotTime.length === 0 ? (
+          <CustomNoData />
+        ) : (
+          <FlatList
+            data={slotTime}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderSlotItems}
+          />
+        )}
         <CustomButton
           Text={Strings.Next}
-          activeOpacity={time === 0 ? 1 : 0.8}
+          activeOpacity={time === -1 ? 1 : 0.8}
           onPress={() =>
-            time === 0
+            time === -1
               ? null
               : props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
                   id: id,
                   date: date,
-                  time: time,
+                  time: slotTime[time].time,
                 })
           }
           ButtonStyle={{
+            alignSelf: "center",
             width: "100%",
             marginTop: vh(30),
-            backgroundColor: time === 0 ? Colors.disableViolet : Colors.violet,
+            backgroundColor: time === -1 ? Colors.disableViolet : Colors.violet,
           }}
         />
         <Text style={Styles.orText}>{Strings.Or}</Text>
@@ -128,7 +139,7 @@ export default function App(props: AppProps) {
             })
           }
           lightBtn={true}
-          ButtonStyle={{ width: "100%" }}
+          ButtonStyle={{ width: "100%", alignSelf: "center" }}
         />
       </View>
     </View>
@@ -141,10 +152,10 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
   },
   innerView: {
-    alignItems: "center",
     paddingHorizontal: vw(16),
     paddingVertical: vh(20),
     width: "100%",
+    maxHeight: "88%",
   },
   heading: {
     fontFamily: "Nunito-Bold",
@@ -159,5 +170,6 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
     color: Colors.lightGrey,
+    alignSelf: "center",
   },
 });

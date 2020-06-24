@@ -17,6 +17,7 @@ const DateDifference = (date1: any, date2: any) => {
 };
 
 const DateFormatter = (date: Date) => {
+  let myDate = moment.utc(date);
   const wMonths = [
     "Jan",
     "Feb",
@@ -31,8 +32,8 @@ const DateFormatter = (date: Date) => {
     "Nov",
     "Dec",
   ];
-  let month = date.getMonth();
-  return `${wMonths[month]} ${date.getDate()}, ${date.getFullYear()}`;
+  let month = myDate.month();
+  return `${wMonths[month]} ${myDate.date()}, ${myDate.year()}`;
 };
 
 const DateMonthFormatter = (date: Date) => {
@@ -89,17 +90,17 @@ const requestLocationPermission = async (
     }
   }
   if (!hasPermission) {
-    console.warn('no permisssion');
-    
+    console.warn("no permisssion");
+
     permissionError();
   }
   if (hasPermission) {
-    console.warn('here');
-    
+    console.warn("here");
+
     Geolocation.getCurrentPosition(
       (info) => {
-        console.warn('get position', info);
-        
+        console.warn("get position", info);
+
         let position = {
           latitude: info.coords.latitude,
           longitude: info.coords.longitude,
@@ -107,8 +108,8 @@ const requestLocationPermission = async (
         successCallback(position);
       },
       (error) => {
-        console.warn('err ',error );
-        
+        console.warn("err ", error);
+
         failureCallback(error);
         // console.warn(error);
       },

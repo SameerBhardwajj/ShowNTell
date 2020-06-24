@@ -6,19 +6,19 @@ import { Images, vw, Strings, vh, Colors } from "../../utils";
 import { CustomButton } from "../../Components";
 
 export interface AppProps {
-  navigation?: any;
+  onPress: Function;
+  setModal: Function;
 }
 
 export default function App(props: AppProps) {
-  const [did, setDid] = React.useState(false);
-  const [done, setDone] = React.useState(false);
+  const [did, setDid] = React.useState(true);
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.cancelBtn}
-          onPress={() => props.navigation.pop()}
+          onPress={() => props.setModal(false)}
         >
           <Image source={Images.Cancel_Icon} />
         </TouchableOpacity>
@@ -29,7 +29,7 @@ export default function App(props: AppProps) {
           <TouchableOpacity
             style={Styles.boxView}
             activeOpacity={0.8}
-            onPress={() => setDid(!did)}
+            onPress={() => setDid(true)}
           >
             <Image
               source={did ? Images.Check_Box_Active : Images.Check_Box_inactive}
@@ -46,11 +46,11 @@ export default function App(props: AppProps) {
           <TouchableOpacity
             style={Styles.boxView}
             activeOpacity={0.8}
-            onPress={() => setDone(!done)}
+            onPress={() => setDid(false)}
           >
             <Image
               source={
-                done ? Images.Check_Box_Active : Images.Check_Box_inactive
+                !did ? Images.Check_Box_Active : Images.Check_Box_inactive
               }
             />
           </TouchableOpacity>
@@ -58,7 +58,7 @@ export default function App(props: AppProps) {
         <CustomButton
           ButtonStyle={{ width: "100%" }}
           Text={Strings.proceed}
-          onPress={() => props.navigation.pop()}
+          onPress={() => props.onPress(did)}
         />
       </View>
     </View>

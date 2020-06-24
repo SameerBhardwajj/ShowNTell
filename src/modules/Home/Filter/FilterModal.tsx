@@ -70,13 +70,6 @@ export default function App(props: AppProps) {
       : (myFilter.type.includes(TYPE1) ? setactivityType1(true) : null,
         myFilter.type.includes(TYPE2) ? setactivityType2(true) : null,
         myFilter.type.includes(TYPE3) ? setactivityType3(true) : null);
-    console.warn(
-      "type   ",
-      myFilter.type.includes(TYPE1),
-      myFilter.type.includes(TYPE2),
-      myFilter.type.includes(TYPE3),
-      myFilter.type.length === 0
-    );
 
     CommonFunctions.isNullUndefined(myFilter.fromDate)
       ? null
@@ -124,7 +117,9 @@ export default function App(props: AppProps) {
                 a.name > b.name ? 1 : b.name > a.name ? -1 : 0
               )
             );
-            filterNum !== counter
+            console.warn("count ", filterNum !== counter, filterNum, counter);
+
+            filterNum !== counter && filterNum !== 0
               ? dispatch(
                   addFilter(
                     temp,
@@ -173,19 +168,6 @@ export default function App(props: AppProps) {
     activityType1 ? (arr = arr.concat(TYPE1)) : null;
     activityType2 ? (arr = arr.concat(TYPE2)) : null;
     activityType3 ? (arr = arr.concat(TYPE3)) : null;
-    console.warn("arr   ", arr);
-
-    // dispatch(
-    //   addFilter(
-    //     myFilter.activity,
-    //     myFilter.fromDate,
-    //     myFilter.toDate,
-    //     arr,
-    //     () => {
-    //       console.warn("successssssss");
-    //     }
-    //   )
-    // );
     return arr;
   };
 
@@ -196,18 +178,13 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            console.warn(category);
             dispatch(
               addFilter(
                 category.activity,
                 category.fromDate,
                 category.toDate,
                 category.type,
-                () => {
-                  console.warn(category);
-
-                  console.warn("no updates");
-                }
+                () => {}
               )
             );
             props.setModalOpen(false);
@@ -296,8 +273,8 @@ export default function App(props: AppProps) {
               date={fromDate}
               heading={Strings.From}
               maxDate={new Date()}
-              getDate={(date: Date) => {
-                setFromDate(date);
+              getDate={(date: string) => {
+                setFromDate(new Date(date));
                 setDays(CommonFunctions.DateDifference(date, toDate));
                 setdateApply(true);
               }}
@@ -306,9 +283,10 @@ export default function App(props: AppProps) {
             <CustomDate
               date={toDate}
               heading={Strings.To}
+              minDate={fromDate}
               maxDate={new Date()}
-              getDate={(date: Date) => {
-                setToDate(date);
+              getDate={(date: string) => {
+                setToDate(new Date(date));
                 setDays(CommonFunctions.DateDifference(fromDate, date));
                 setdateApply(true);
               }}
@@ -399,11 +377,7 @@ export default function App(props: AppProps) {
         <CustomButton
           lightBtn={true}
           onPress={() => {
-            dispatch(
-              addFilter([], "", "", [], () => {
-                console.warn("resertt ", myFilter);
-              })
-            );
+            dispatch(addFilter([], "", "", [], () => {}));
             props.resetFilter();
           }}
           Text={Strings.Reset}
