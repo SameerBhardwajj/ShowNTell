@@ -39,7 +39,6 @@ export const HomeAPI = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     console.warn("check  ....  ", child_id);
-
     API.getApiCall(
       EndPoints.home.HomeData(
         child_id,
@@ -58,10 +57,10 @@ export const HomeAPI = (
           dispatch({
             type: Action.HOME_DATA,
             payload: {
-              data: res,
+              data: res.rows,
             },
           });
-          successCallback(res);
+          successCallback(res.rows);
         } else {
           CustomToast(success.data.message);
           failureCallback();

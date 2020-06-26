@@ -7,9 +7,20 @@ export const updateLibrary = (value: Array<any>) => {
       type: Action.UPDATE_LIBRARY,
       payload: {
         libraryData: value,
-        forceRerendering: !getState().PhotoLibrary.forceRerendering,
       },
     });
+  };
+};
+
+export const updateDownload = (value: Array<any>, callback: Function) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_LIBRARY,
+      payload: {
+        downloadGallery: value,
+      },
+    });
+    callback();
   };
 };
 
@@ -40,7 +51,7 @@ export const PhotoLibraryAPI = (
         }
       },
       (error: any) => {
-        console.log("error ", error);
+        console.warn("error ", error);
         dispatch({
           type: Action.UPDATE_LIBRARY,
           payload: {

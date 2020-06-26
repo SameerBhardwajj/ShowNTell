@@ -11,6 +11,7 @@ import {
   CommonFunctions,
 } from "../../utils";
 import { updateTab } from "../Home/action";
+import { updateDownload } from "./action";
 
 export interface AppProps {
   item: any;
@@ -26,15 +27,14 @@ export default function App(props: AppProps) {
   const [selected1, setSelected1] = useState(false);
   const [selected2, setSelected2] = useState(false);
   const [selected3, setSelected3] = useState(false);
-  // const [select, setSelect] = useState(false);
   const index = parseInt(props.index);
   const { navigation, item, select } = props;
   const dispatch = useDispatch();
-  const { tab, libraryData, otherCurrentChild } = useSelector(
+  const { tab, libraryData, downloadGallery } = useSelector(
     (state: { Home: any; PhotoLibrary: any }) => ({
       tab: state.Home.tab,
       libraryData: state.PhotoLibrary.libraryData,
-      otherCurrentChild: state.Home.otherCurrentChild,
+      downloadGallery: state.PhotoLibrary.downloadGallery,
     })
   );
 
@@ -44,25 +44,35 @@ export default function App(props: AppProps) {
       : null;
   }, [select]);
 
-  // console.warn('my    ',index, item);
+  const addToDownload = (imagePath: string) => {
+    let temp = downloadGallery;
+    temp = temp.concat(imagePath);
+    dispatch(
+      updateDownload(temp, () => {
+        console.warn("add  ", downloadGallery);
+      })
+    );
+  };
+
+  const removeFromDownload = (imagePath: string) => {
+    let temp = downloadGallery;
+    temp = temp.filter((item: any) => !item.includes(imagePath));
+    dispatch(
+      updateDownload(temp, () => {
+        console.warn("remove  ", downloadGallery);
+      })
+    );
+  };
 
   return (
     <View style={Styles.mainView}>
-      {index === 0 ? (
+      {!CommonFunctions.isNullUndefined(item) && index === 0 ? (
         <View style={Styles.headingView}>
           <Text style={Styles.dateText}>
-            {CommonFunctions.DateFormatter(new Date(item[0].activity_dt))}
+            {CommonFunctions.DateFormatter(item[0].activity_dt)}
           </Text>
         </View>
-      ) : 
-      // item[index].activity_dt !== undefined ? (
-      //   item[index].activity_dt === props.data[index - 1].activity_dt ? null : (
-      //     <Text style={Styles.dateText}>
-      //       {CommonFunctions.DateFormatter(new Date(item[index].activity_dt))}
-      //     </Text>
-      //   )
-      // ) :
-       null}
+      ) : null}
       {index % 2 === 0 ? (
         <View style={Styles.picsView}>
           {props.item[0] !== undefined ? (
@@ -70,12 +80,17 @@ export default function App(props: AppProps) {
               activeOpacity={0.8}
               style={[
                 Styles.bigView,
-                { borderColor: select && selected1 ? Colors.orange : "white" },
+                {
+                  borderColor: select && selected1 ? Colors.orange : "white",
+                },
               ]}
               // onLongPress={() => setSelected1(!selected1)}
               onPress={() =>
                 select
-                  ? setSelected1(!selected1)
+                  ? (setSelected1(!selected1),
+                    !selected1
+                      ? addToDownload(props.item[0].s3_photo_path)
+                      : removeFromDownload(props.item[0].s3_photo_path))
                   : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                       item: item[0],
                     })
@@ -103,7 +118,10 @@ export default function App(props: AppProps) {
                 // onLongPress={() => setSelected1(!selected2)}
                 onPress={() =>
                   select
-                    ? setSelected2(!selected2)
+                    ? (setSelected2(!selected2),
+                      !selected2
+                        ? addToDownload(props.item[1].s3_photo_path)
+                        : removeFromDownload(props.item[1].s3_photo_path))
                     : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                         item: item[1],
                       })
@@ -130,7 +148,10 @@ export default function App(props: AppProps) {
                 // onLongPress={() => setSelected1(!selected3)}
                 onPress={() =>
                   select
-                    ? setSelected3(!selected3)
+                    ? (setSelected3(!selected3),
+                      !selected3
+                        ? addToDownload(props.item[2].s3_photo_path)
+                        : removeFromDownload(props.item[2].s3_photo_path))
                     : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                         item: item[2],
                       })
@@ -162,7 +183,10 @@ export default function App(props: AppProps) {
                 // onLongPress={() => setSelected1(!selected1)}
                 onPress={() =>
                   select
-                    ? setSelected1(!selected1)
+                    ? (setSelected1(!selected1),
+                      !selected1
+                        ? addToDownload(props.item[0].s3_photo_path)
+                        : removeFromDownload(props.item[0].s3_photo_path))
                     : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                         item: item[0],
                       })
@@ -189,7 +213,10 @@ export default function App(props: AppProps) {
                 // onLongPress={() => setSelected1(!selected2)}
                 onPress={() =>
                   select
-                    ? setSelected2(!selected2)
+                    ? (setSelected2(!selected2),
+                      !selected2
+                        ? addToDownload(props.item[1].s3_photo_path)
+                        : removeFromDownload(props.item[1].s3_photo_path))
                     : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                         item: item[1],
                       })
@@ -215,7 +242,10 @@ export default function App(props: AppProps) {
               // onLongPress={() => setSelected1(!selected3)}
               onPress={() =>
                 select
-                  ? setSelected3(!selected3)
+                  ? (setSelected3(!selected3),
+                    !selected3
+                      ? addToDownload(props.item[2].s3_photo_path)
+                      : removeFromDownload(props.item[2].s3_photo_path))
                   : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                       item: item[2],
                     })
@@ -239,12 +269,12 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    alignItems: "center",
     width: "100%",
+    padding: vw(1),
   },
   headingView: {
     alignItems: "center",
-    // justifyContent: "space-between",
+    justifyContent: "space-between",
     flexDirection: "row",
     width: "100%",
   },
@@ -252,22 +282,24 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     color: Colors.lightBlack,
-    paddingVertical: vh(16),
+    paddingVertical: vh(14),
   },
   picsView: {
     flexDirection: "row",
-    width: "95%",
-    height: vh(198),
+    width: "100%",
+    maxHeight: vh(198),
+    minHeight: vh(95),
     justifyContent: "space-between",
-    marginBottom: vh(16),
+    paddingBottom: vh(5),
   },
   bigView: {
     height: "100%",
-    width: vw(175),
+    width: vw(190),
     borderRadius: vh(12),
     alignItems: "center",
     justifyContent: "center",
     borderWidth: vh(3),
+    backgroundColor: Colors.veryLightBorder,
   },
   bigImg: {
     height: "100%",
@@ -275,12 +307,13 @@ const Styles = StyleSheet.create({
     borderRadius: vh(10),
   },
   smallView: {
-    height: "46%",
-    width: vw(175),
+    height: vh(95),
+    width: vw(190),
     borderRadius: vh(12),
     alignItems: "center",
     justifyContent: "center",
     borderWidth: vh(3),
+    backgroundColor: Colors.veryLightBorder,
   },
   smallImg: {
     height: "100%",

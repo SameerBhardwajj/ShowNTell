@@ -176,7 +176,11 @@ export default function App(props: AppProps) {
             {Strings.at}
             {CommonFunctions.timeFormatter(new Date(item.create_dt))}
           </Text>
-          <Text style={Styles.timeBlack}>{item.QuestionOfTheDay.question}</Text>
+          {CommonFunctions.isNullUndefined(item.QuestionOfTheDay) ? null : (
+            <Text style={Styles.timeBlack}>
+              {item.QuestionOfTheDay.question}
+            </Text>
+          )}
           <Image style={Styles.imgAnn} source={Images.Announcement_light} />
           <CustomButton
             activeOpacity={

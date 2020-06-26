@@ -15,7 +15,7 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const timeFormatter = (date: Date) => {
-    return moment.utc(date).format("hh:mm A");
+    return moment.utc(date).local().format("hh:mm A");
   };
 
   const childData = () => {

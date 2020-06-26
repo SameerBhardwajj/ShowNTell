@@ -80,11 +80,16 @@ export default function App(props: AppProps) {
       loginToken
     );
     // setLoading(true);
-    console.warn("child ", currentChild);
-
+    console.warn(
+      "child ",
+      currentChild,
+      loginData.Children.length > 1,
+      loginData.Children.length
+    );
     loginData.Children.length > 1
       ? hitHomeAPI(currentChild.child, 0)
-      : dispatch(
+      : loginData.Children[0].id !== currentChild.child
+      ? dispatch(
           updateChild(
             {
               child: loginData.Children[0].id,
@@ -92,18 +97,9 @@ export default function App(props: AppProps) {
               classroom: loginData.Children[0].classroom_id,
             },
             () => hitHomeAPI(loginData.Children[0].id, 0)
-            // dispatch(
-            //   updateOtherChild(
-            //     {
-            //       child: loginData.Children[0].id,
-            //       name: loginData.Children[0].first_name,
-            //       classroom: loginData.Children[0].classroom_id,
-            //     },
-            //     () => hitHomeAPI(loginData.Children[0].id, 0)
-            //   )
-            // )
           )
-        );
+        )
+      : hitHomeAPI(currentChild.child, 0);
     // const unsubscribe =
     //   (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
     //     dispatch(
@@ -163,7 +159,7 @@ export default function App(props: AppProps) {
         (data: any) => {
           setLoading(false);
           setRefreshing(false);
-          data.length === 0 ? setHomeData([]) : setHomeData(data.rows);
+          data.length === 0 ? setHomeData([]) : setHomeData(data);
         },
         () => {
           setLoading(false), setRefreshing(false);

@@ -5,11 +5,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Linking,
+  PermissionsAndroid,
 } from "react-native";
 import Share from "react-native-share";
+import RNFetchBlob from "rn-fetch-blob";
+import CameraRoll from "@react-native-community/cameraroll";
 
 // custom imports
-import { vw, Strings, vh, Colors } from "../../utils";
+import { vw, Strings, vh, Colors, CommonFunctions } from "../../utils";
+import { CustomToast } from "../../Components";
 
 const img =
   "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg";
@@ -69,6 +74,34 @@ export default function App(props: AppProps) {
       });
   };
 
+  const saveToCameraRoll = async (image: string) => {
+    let permission;
+    if (Platform.OS === "android") {
+      permission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      );
+      if (!permission) {
+        Linking.openSettings();
+      }
+      if (permission === PermissionsAndroid.RESULTS.GRANTED) {
+        RNFetchBlob.config({
+          fileCache: true,
+          appendExt: "jpg",
+        })
+          .fetch("GET", image)
+          .then((res) => {
+            CameraRoll.saveToCameraRoll(res.path())
+              .then(() => CustomToast(Strings.image_saved))
+              .catch((err) => CustomToast(err));
+          });
+      }
+    } else {
+      CameraRoll.saveToCameraRoll(image)
+        .then(() => CustomToast(Strings.image_saved))
+        .catch((error) => CustomToast(error));
+    }
+  };
+
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
@@ -83,7 +116,12 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.shareView}
-          onPress={() => props.navigation.pop()}
+          onPress={() => {
+            CommonFunctions.isNullUndefined(params.img)
+              ? CustomToast("Image not available")
+              : saveToCameraRoll(params.img),
+              props.navigation.pop();
+          }}
         >
           <Text style={Styles.bubbleMsgText}>
             {Strings.Save_to_Photo_Library}

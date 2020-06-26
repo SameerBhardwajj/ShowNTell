@@ -97,7 +97,7 @@ export default function App(props: AppProps) {
           }}
         >
           <Image source={Images.Phone_small} style={Styles.img3} />
-          <Text style={Styles.locationText}>{`${item.phone}`}</Text>
+          <Text style={Styles.phoneText}>{`${item.phone}`}</Text>
         </TouchableOpacity>
         {/* <Text style={Styles.description}>{}</Text> */}
         <View style={Styles.btnView}>
@@ -206,6 +206,13 @@ const Styles = StyleSheet.create({
     fontSize: vh(14),
     alignSelf: "flex-start",
     paddingLeft: vw(8),
+  },
+  phoneText: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(14),
+    alignSelf: "flex-start",
+    paddingLeft: vw(8),
+    color: Colors.violet,
   },
   description: {
     fontFamily: "Nunito-Regular",

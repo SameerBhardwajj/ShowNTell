@@ -68,7 +68,7 @@ const dateTypeFormat = (date: Date, format: string) => {
 
 const timeFormatter = (date: Date) => {
   let testDateUtc = moment.utc(date);
-  let localTime = moment(testDateUtc).format("hh:mm A");
+  let localTime = moment(testDateUtc).local().format("hh:mm A");
   return localTime;
 };
 

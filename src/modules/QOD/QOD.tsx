@@ -30,18 +30,18 @@ export default function App(props: AppProps) {
   const WEDIDIT = "wedidit";
   const DONE = "done";
 
-  const { tab, data, otherCurrentChild } = useSelector(
+  const { tab, data, currentChild } = useSelector(
     (state: { Home: any; QOTD: any }) => ({
       tab: state.Home.tab,
       data: state.QOTD.data,
-      otherCurrentChild: state.Home.otherCurrentChild,
+      currentChild: state.Home.currentChild,
     })
   );
 
   useEffect(() => {
     // dispatch(updateTab(true, () => {}));
     hitQOTD();
-  }, [otherCurrentChild]);
+  }, [currentChild]);
 
   const hitQOTD = (type?: string) => {
     setLoading(true);
@@ -53,7 +53,7 @@ export default function App(props: AppProps) {
         () => {
           setLoading(false);
         },
-        otherCurrentChild.child,
+        currentChild.child,
         type
       )
     );

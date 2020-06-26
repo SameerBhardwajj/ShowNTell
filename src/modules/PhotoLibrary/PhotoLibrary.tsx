@@ -5,12 +5,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  ScrollView,
   FlatList,
   Linking,
   Platform,
   PermissionsAndroid,
-  Modal,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import RNFetchBlob from "rn-fetch-blob";
@@ -18,18 +16,10 @@ import CameraRoll from "@react-native-community/cameraroll";
 
 // custom imports
 import { updateTab } from "../Home/action";
-import { updateLibrary, PhotoLibraryAPI } from "./action";
+import { updateLibrary, PhotoLibraryAPI, updateDownload } from "./action";
 import { CustomHeader, CustomToast, CustomLoader } from "../../Components";
-import {
-  Strings,
-  vw,
-  vh,
-  Images,
-  Colors,
-  ScreenName,
-  CommonFunctions,
-} from "../../utils";
-import GalleryFlatlist from "./GalleryFlatlist";
+import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
+import SectionListing from "./SectionListing";
 
 export interface AppProps {
   navigation?: any;
@@ -43,63 +33,63 @@ let dataArray = new Array();
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [select, setSelect] = useState(false);
-  const [selected, setSelected] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const { tab, libraryData, otherCurrentChild } = useSelector(
+  const { tab, libraryData, currentChild } = useSelector(
     (state: { Home: any; PhotoLibrary: any }) => ({
       tab: state.Home.tab,
       libraryData: state.PhotoLibrary.libraryData,
-      otherCurrentChild: state.Home.otherCurrentChild,
+      currentChild: state.Home.currentChild,
     })
   );
 
   useEffect(() => {
-    // dispatch(updateLibrary(DATA));
-    console.warn(libraryData.length);
-
     dispatch(updateTab(true, () => {}));
     setLoading(true);
     dispatch(
       PhotoLibraryAPI(
-        otherCurrentChild.child,
+        currentChild.child,
         0,
         () => setLoading(false),
         () => setLoading(false)
       )
     );
-  }, []);
+  }, [currentChild]);
 
-  const arrangeData = () => {
-    let data = libraryData;
-    dataArray = new Array();
-    for (let i = 0; i < data.length; i++) {
-      dataArray.push([data[i], data[(i += 1)], data[(i += 1)]]);
+  const groupingData = (arr: any) => {
+    let temp = new Array().slice(0);
+    let i = 0;
+    if (arr.length !== 0) {
+      arr.map((item: any, index: number) => {
+        if (!CommonFunctions.isNullUndefined(item.s3_photo_path)) {
+          if (
+            index !== 0 &&
+            item.activity_date.toString() !=
+              arr[index - 1].activity_date.toString()
+          ) {
+            i++;
+            temp[i] = [];
+          }
+          CommonFunctions.isNullUndefined(temp[i])
+            ? (temp.push([]), temp[i].push(item))
+            : temp[i].push(item);
+        }
+      });
     }
-    return dataArray;
+    temp.filter((item) => item !== undefined);
+    console.log("temp ", temp);
+
+    return temp;
   };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
-
+    console.warn("my .... ", item);
     return (
-      <GalleryFlatlist
-        item={item}
+      <SectionListing
         index={index}
+        item={item}
         navigation={props.navigation}
         select={select}
-        data={libraryData.length === 0 ? [] : arrangeData()}
-        // onLongPress={() => setSelect(true)}
-        // onPress={(data: any, dataIndex: number) =>
-        //   select
-        //     ? ((dataArray[index][dataIndex].selected = !dataArray[index][
-        //         dataIndex
-        //       ].selected),
-        //       console.warn(dataArray[index][dataIndex].selected))
-        //     : (dispatch(updateTab(false, () => {})),
-        //       props.navigation.navigate(ScreenName.GALLERY_DETAILS, {
-        //         item: data,
-        //       }))
-        // }
       />
     );
   };
@@ -133,14 +123,6 @@ export default function App(props: AppProps) {
   };
 
   return (
-    // <ScrollView
-    //   showsVerticalScrollIndicator={false}
-    //   bounces={false}
-    //   contentContainerStyle={[
-    //     Styles.mainView,
-    //     { paddingBottom: select ? vh(200) : vh(130) },
-    //   ]}
-    // >
     <View style={Styles.mainView}>
       <CustomHeader
         hideBackButton={true}
@@ -151,38 +133,35 @@ export default function App(props: AppProps) {
         navigation={props.navigation}
       />
       <CustomLoader loading={isLoading} />
-      <View style={Styles.innerView}>
-        {/* <View style={Styles.headingView}> */}
-        {/* <Text style={Styles.dateText}>18 Jan, 2020</Text> */}
-        {/* <TouchableOpacity
+      <View style={[Styles.innerView, { marginBottom: select ? vh(50) : 0 }]}>
+        <View style={Styles.headingView}>
+          <TouchableOpacity
+            activeOpacity={0.8}
             onPress={() => {
-              console.warn("here");
-
               setSelect(!select),
                 dispatch(
                   updateTab(!tab, () => {
                     console.warn(tab);
+                    select
+                      ? dispatch(
+                          updateDownload([], () => {
+                            console.warn("empty");
+                          })
+                        )
+                      : null;
                   })
                 );
             }}
           >
-            {select ? (
-              <Text style={[Styles.dateText, { color: Colors.violet }]}>
-                Cancel
-              </Text>
-            ) : (
-              <Text style={[Styles.dateText, { color: Colors.violet }]}>
-                Select
-              </Text>
-            )}
-          </TouchableOpacity> */}
-        {/* </View> */}
-        {isLoading ? null : (
+            <Text style={Styles.dateText}>{select ? "Cancel" : "Select"}</Text>
+          </TouchableOpacity>
+        </View>
+        {isLoading ? null : libraryData.length === 0 ? null : (
           <FlatList
             bounces={false}
             horizontal={false}
             showsVerticalScrollIndicator={false}
-            data={libraryData.length === 0 ? [] : arrangeData()}
+            data={groupingData(libraryData)}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItems}
           />
@@ -211,21 +190,21 @@ export const Styles = StyleSheet.create({
     backgroundColor: "white",
   },
   innerView: {
-    alignItems: "center",
     paddingHorizontal: vh(10),
     width: "100%",
+    flex: 1,
   },
   headingView: {
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     flexDirection: "row",
     width: "100%",
   },
   dateText: {
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
-    color: Colors.lightBlack,
-    paddingVertical: vh(16),
+    color: Colors.violet,
+    paddingTop: vh(16),
   },
   bottomMain: {
     position: "absolute",
@@ -255,5 +234,7 @@ export const Styles = StyleSheet.create({
     height: vh(22),
     width: vh(22),
     tintColor: Colors.violet,
+    alignSelf: "flex-end",
+    marginRight: vw(20),
   },
 });

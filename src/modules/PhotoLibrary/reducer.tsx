@@ -1,6 +1,7 @@
 import { Action } from "../../utils";
 const initialState = {
   libraryData: [],
+  downloadGallery: [],
   forceRerendering: false,
 };
 const Reducer = (state = initialState, action: any) => {
