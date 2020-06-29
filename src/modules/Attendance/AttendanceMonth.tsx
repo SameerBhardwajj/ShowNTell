@@ -41,6 +41,15 @@ export default function App(props: AppProps) {
     );
   };
 
+  const dateGap = () => {
+    return (
+      CommonFunctions.dateTypeFormat(
+        props.allData[parseInt(props.index) - 1].in_date_time,
+        "dmy"
+      ) === CommonFunctions.dateTypeFormat(props.item.in_date_time, "dmy")
+    );
+  };
+
   return (
     <View style={Styles.mainView}>
       {parseInt(props.index) === 0 ? (
@@ -49,14 +58,7 @@ export default function App(props: AppProps) {
             ? CommonFunctions.DateFormatter(props.item.in_date_time)
             : CommonFunctions.DateFormatter(props.item.date)}
         </Text>
-      ) : CommonFunctions.dateTypeFormat(
-          new Date(props.allData[parseInt(props.index) - 1].in_date_time),
-          "dmy"
-        ) ===
-        CommonFunctions.dateTypeFormat(
-          new Date(props.item.in_date_time),
-          "dmy"
-        ) ? null : (
+      ) : dateGap() ? null : (
         <Text style={Styles.attendenceDate}>
           {props.item.type === ATTENDANCE
             ? CommonFunctions.DateFormatter(props.item.in_date_time)
@@ -67,7 +69,7 @@ export default function App(props: AppProps) {
         ? parseInt(props.index) === 0
           ? childData()
           : props.item.first_name ===
-            props.allData[parseInt(props.index) - 1].first_name
+              props.allData[parseInt(props.index) - 1].first_name && dateGap()
           ? null
           : childData()
         : null}
@@ -108,16 +110,13 @@ export default function App(props: AppProps) {
         </View>
       )}
       {props.allData.length - 1 !== parseInt(props.index) &&
-      CommonFunctions.dateTypeFormat(
-        new Date(props.item.in_date_time),
-        "dmy"
-      ) ===
+      CommonFunctions.dateTypeFormat(props.item.in_date_time, "dmy") !==
         CommonFunctions.dateTypeFormat(
-          new Date(props.allData[parseInt(props.index) + 1].in_date_time),
+          props.allData[parseInt(props.index) + 1].in_date_time,
           "dmy"
-        ) ? null : (
+        ) ? (
         <View style={Styles.finalSeparator} />
-      )}
+      ) : null}
     </View>
   );
 }

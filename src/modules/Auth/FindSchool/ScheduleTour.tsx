@@ -195,7 +195,6 @@ export default function App(props: AppProps) {
             />
             {/* Parent's phone no.----------- */}
             <CustomPhoneField
-              onSelect={() => {}}
               value={phone}
               ref={input2}
               onChangeText={(text: string) => {

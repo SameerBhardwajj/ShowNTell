@@ -6,17 +6,11 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
-  Linking,
-  Platform,
-  PermissionsAndroid,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import RNFetchBlob from "rn-fetch-blob";
-import CameraRoll from "@react-native-community/cameraroll";
 
 // custom imports
-import { updateTab } from "../Home/action";
-import { updateLibrary, PhotoLibraryAPI, updateDownload } from "./action";
+import { PhotoLibraryAPI, updateDownload, updateSelect } from "./action";
 import { CustomHeader, CustomToast, CustomLoader } from "../../Components";
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 import SectionListing from "./SectionListing";
@@ -24,36 +18,85 @@ import SectionListing from "./SectionListing";
 export interface AppProps {
   navigation?: any;
 }
-const img =
-  "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg";
-const img2 =
-  "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg";
-let dataArray = new Array();
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const [select, setSelect] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const { tab, libraryData, currentChild } = useSelector(
+  const [page, setPage] = useState(1);
+  const [data, setData] = useState([]);
+  const [loadMore, setLoadMore] = useState(true);
+  const { currentChild, downloadGallery, select } = useSelector(
     (state: { Home: any; PhotoLibrary: any }) => ({
       tab: state.Home.tab,
-      libraryData: state.PhotoLibrary.libraryData,
       currentChild: state.Home.currentChild,
+      downloadGallery: state.PhotoLibrary.downloadGallery,
+      select: state.PhotoLibrary.select,
     })
   );
 
   useEffect(() => {
-    dispatch(updateTab(true, () => {}));
+    // dispatch(updateTab(true, () => {}));
+    setData([]);
+    setPage(1);
+    setData([]);
     setLoading(true);
+    hitPhotoLibraryAPI();
+  }, [currentChild]);
+
+  const hitPhotoLibraryAPI = () => {
+    console.warn(page);
+
     dispatch(
       PhotoLibraryAPI(
         currentChild.child,
-        0,
-        () => setLoading(false),
+        page,
+        (res: ConcatArray<never>) => {
+          console.warn("res  ", res);
+
+          setData(data.concat(res));
+          setPage(page + 1);
+          setLoading(false);
+        },
         () => setLoading(false)
       )
     );
-  }, [currentChild]);
+  };
+
+  const downloadAll = async () => {
+    let temp = downloadGallery;
+    Promise.all(
+      temp.map(async (img: string) => {
+        let result = await new Promise((resolve, reject) => {
+          CommonFunctions.saveToCameraRoll(
+            img,
+            () => {
+              resolve();
+            },
+            (error: any) => {
+              console.warn("m error .. ", error);
+              reject();
+            }
+          );
+        });
+      })
+    )
+      .then(() => {
+        CustomToast("All images are successfully saved !");
+        emptyTheGallery();
+      })
+      .catch((error: any) => {
+        console.warn("m error .. ", error);
+        emptyTheGallery();
+      });
+  };
+
+  const emptyTheGallery = () => {
+    dispatch(
+      updateDownload([], () => {
+        console.warn("empty");
+      })
+    );
+  };
 
   const groupingData = (arr: any) => {
     let temp = new Array().slice(0);
@@ -76,50 +119,14 @@ export default function App(props: AppProps) {
       });
     }
     temp.filter((item) => item !== undefined);
-    console.log("temp ", temp);
-
     return temp;
   };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
-    console.warn("my .... ", item);
     return (
-      <SectionListing
-        index={index}
-        item={item}
-        navigation={props.navigation}
-        select={select}
-      />
+      <SectionListing index={index} item={item} navigation={props.navigation} />
     );
-  };
-
-  const saveToCameraRoll = async (image: string) => {
-    let permission;
-    if (Platform.OS === "android") {
-      permission = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-      if (!permission) {
-        Linking.openSettings();
-      }
-      if (permission === PermissionsAndroid.RESULTS.GRANTED) {
-        RNFetchBlob.config({
-          fileCache: true,
-          appendExt: "jpg",
-        })
-          .fetch("GET", image)
-          .then((res) => {
-            CameraRoll.saveToCameraRoll(res.path())
-              .then(() => CustomToast(Strings.image_saved))
-              .catch((err) => CustomToast(err));
-          });
-      }
-    } else {
-      CameraRoll.saveToCameraRoll(image)
-        .then(() => CustomToast(Strings.image_saved))
-        .catch((error) => CustomToast(error));
-    }
   };
 
   return (
@@ -138,30 +145,20 @@ export default function App(props: AppProps) {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => {
-              setSelect(!select),
-                dispatch(
-                  updateTab(!tab, () => {
-                    console.warn(tab);
-                    select
-                      ? dispatch(
-                          updateDownload([], () => {
-                            console.warn("empty");
-                          })
-                        )
-                      : null;
-                  })
-                );
+              select ? emptyTheGallery() : null;
+              dispatch(updateSelect(!select));
             }}
           >
             <Text style={Styles.dateText}>{select ? "Cancel" : "Select"}</Text>
           </TouchableOpacity>
         </View>
-        {isLoading ? null : libraryData.length === 0 ? null : (
+        {isLoading ? null : data.length === 0 ? null : (
           <FlatList
-            bounces={false}
-            horizontal={false}
             showsVerticalScrollIndicator={false}
-            data={groupingData(libraryData)}
+            bounces={false}
+            onEndReached={hitPhotoLibraryAPI}
+            onEndReachedThreshold={0.5}
+            data={groupingData(data)}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItems}
           />
@@ -172,8 +169,11 @@ export default function App(props: AppProps) {
           <TouchableOpacity
             style={Styles.btnView}
             activeOpacity={0.8}
-            // onPress={() => saveToCameraRoll(img)
-            onPress={() => console.warn(dataArray)}
+            onPress={() => {
+              CustomToast("Download Start...");
+              downloadAll();
+              dispatch(updateSelect(false));
+            }}
           >
             <Image source={Images.download_Icon} style={Styles.btn} />
           </TouchableOpacity>

@@ -39,17 +39,19 @@ export default {
       searchKey?: string
     ) =>
       `/api/v1/parent/home-data?page=${page}${
-        CommonFunctions.isNullUndefined(child_id) ? "" : `&child_id=${child_id}`
-      }${
         CommonFunctions.isNullUndefined(activity)
           ? ""
           : `&activity_value_id=${activity}`
       }${
+        CommonFunctions.isNullUndefined(child_id) || child_id === 0
+          ? ""
+          : `&child_id=${child_id}`
+      }${
         CommonFunctions.isNullUndefined(fromDate)
           ? ""
           : `&from_date=${fromDate}`
-      }${CommonFunctions.isNullUndefined(toDate) ? "" : `&to_date=${toDate}`}${
-        CommonFunctions.isNullUndefined(type) ? "" : `&type=${type}`
+      }${CommonFunctions.isNullUndefined(type) ? "" : `&type=${type}`}${
+        CommonFunctions.isNullUndefined(toDate) ? "" : `&to_date=${toDate}`
       }${
         CommonFunctions.isNullUndefined(searchKey)
           ? ""
@@ -70,7 +72,7 @@ export default {
   photoLibrary: {
     gallery: (childID: number, page: number) =>
       childID === 0
-        ? `/api/v1/parent/photo-gallery`
+        ? `/api/v1/parent/photo-gallery?page=${page}`
         : `/api/v1/parent/photo-gallery?child_id=${childID}&page=${page}`,
   },
   drawer: {

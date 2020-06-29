@@ -123,6 +123,8 @@ export default function App(props: AppProps) {
     setIsLoading(true);
     CommonFunctions.requestLocationPermission(
       (position: object) => {
+        console.warn(position);
+        
         setIsLoading(false);
         props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
           coordinates: position,

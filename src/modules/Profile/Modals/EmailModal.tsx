@@ -85,7 +85,6 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "flex-end",
     backgroundColor: Colors.modalBg2,
   },

@@ -10,17 +10,13 @@ import {
   ScreenName,
   CommonFunctions,
 } from "../../utils";
-import { updateTab } from "../Home/action";
-import { updateDownload } from "./action";
+import { updateDownload, updateSelect } from "./action";
 
 export interface AppProps {
   item: any;
   index: string;
-  // onPress: Function;
-  select: boolean;
   navigation: any;
   data: any;
-  // onLongPress: Function;
 }
 
 export default function App(props: AppProps) {
@@ -28,40 +24,52 @@ export default function App(props: AppProps) {
   const [selected2, setSelected2] = useState(false);
   const [selected3, setSelected3] = useState(false);
   const index = parseInt(props.index);
-  const { navigation, item, select } = props;
+  const { navigation, item } = props;
   const dispatch = useDispatch();
-  const { tab, libraryData, downloadGallery } = useSelector(
+  const { downloadGallery, select } = useSelector(
     (state: { Home: any; PhotoLibrary: any }) => ({
-      tab: state.Home.tab,
-      libraryData: state.PhotoLibrary.libraryData,
       downloadGallery: state.PhotoLibrary.downloadGallery,
+      select: state.PhotoLibrary.select,
     })
   );
 
   useEffect(() => {
-    select === true
+    select
       ? (setSelected1(false), setSelected2(false), setSelected3(false))
       : null;
   }, [select]);
 
-  const addToDownload = (imagePath: string) => {
+  const addToDownload = (index: number) => {
+    let imagePath = props.item[index].s3_photo_path;
     let temp = downloadGallery;
     temp = temp.concat(imagePath);
-    dispatch(
-      updateDownload(temp, () => {
-        console.warn("add  ", downloadGallery);
-      })
-    );
+    dispatch(updateDownload(temp, () => {}));
   };
 
-  const removeFromDownload = (imagePath: string) => {
+  const removeFromDownload = (index: number) => {
+    let imagePath = props.item[index].s3_photo_path;
     let temp = downloadGallery;
     temp = temp.filter((item: any) => !item.includes(imagePath));
-    dispatch(
-      updateDownload(temp, () => {
-        console.warn("remove  ", downloadGallery);
-      })
-    );
+    dispatch(updateDownload(temp, () => {}));
+  };
+
+  const byLongPress = () => {
+    select ? null : dispatch(updateSelect(true));
+  };
+
+  const mySelect = (index: number) => {
+    index === 1
+      ? (!selected1 ? addToDownload(0) : removeFromDownload(0),
+        setSelected1(!selected1))
+      : null;
+    index === 2
+      ? (!selected2 ? addToDownload(1) : removeFromDownload(1),
+        setSelected2(!selected2))
+      : null;
+    index === 3
+      ? (!selected3 ? addToDownload(2) : removeFromDownload(2),
+        setSelected3(!selected3))
+      : null;
   };
 
   return (
@@ -84,13 +92,12 @@ export default function App(props: AppProps) {
                   borderColor: select && selected1 ? Colors.orange : "white",
                 },
               ]}
-              // onLongPress={() => setSelected1(!selected1)}
+              onLongPress={() => {
+                byLongPress(), mySelect(1);
+              }}
               onPress={() =>
                 select
-                  ? (setSelected1(!selected1),
-                    !selected1
-                      ? addToDownload(props.item[0].s3_photo_path)
-                      : removeFromDownload(props.item[0].s3_photo_path))
+                  ? mySelect(1)
                   : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                       item: item[0],
                     })
@@ -115,13 +122,12 @@ export default function App(props: AppProps) {
                     borderColor: select && selected2 ? Colors.orange : "white",
                   },
                 ]}
-                // onLongPress={() => setSelected1(!selected2)}
+                onLongPress={() => {
+                  byLongPress(), mySelect(2);
+                }}
                 onPress={() =>
                   select
-                    ? (setSelected2(!selected2),
-                      !selected2
-                        ? addToDownload(props.item[1].s3_photo_path)
-                        : removeFromDownload(props.item[1].s3_photo_path))
+                    ? mySelect(2)
                     : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                         item: item[1],
                       })
@@ -145,13 +151,12 @@ export default function App(props: AppProps) {
                     borderColor: select && selected3 ? Colors.orange : "white",
                   },
                 ]}
-                // onLongPress={() => setSelected1(!selected3)}
+                onLongPress={() => {
+                  byLongPress(), mySelect(3);
+                }}
                 onPress={() =>
                   select
-                    ? (setSelected3(!selected3),
-                      !selected3
-                        ? addToDownload(props.item[2].s3_photo_path)
-                        : removeFromDownload(props.item[2].s3_photo_path))
+                    ? mySelect(3)
                     : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                         item: item[2],
                       })
@@ -180,13 +185,12 @@ export default function App(props: AppProps) {
                     borderColor: select && selected1 ? Colors.orange : "white",
                   },
                 ]}
-                // onLongPress={() => setSelected1(!selected1)}
+                onLongPress={() => {
+                  byLongPress(), mySelect(1);
+                }}
                 onPress={() =>
                   select
-                    ? (setSelected1(!selected1),
-                      !selected1
-                        ? addToDownload(props.item[0].s3_photo_path)
-                        : removeFromDownload(props.item[0].s3_photo_path))
+                    ? mySelect(1)
                     : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                         item: item[0],
                       })
@@ -210,13 +214,12 @@ export default function App(props: AppProps) {
                     borderColor: select && selected2 ? Colors.orange : "white",
                   },
                 ]}
-                // onLongPress={() => setSelected1(!selected2)}
+                onLongPress={() => {
+                  byLongPress(), mySelect(2);
+                }}
                 onPress={() =>
                   select
-                    ? (setSelected2(!selected2),
-                      !selected2
-                        ? addToDownload(props.item[1].s3_photo_path)
-                        : removeFromDownload(props.item[1].s3_photo_path))
+                    ? mySelect(2)
                     : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                         item: item[1],
                       })
@@ -239,13 +242,12 @@ export default function App(props: AppProps) {
                 Styles.bigView,
                 { borderColor: select && selected3 ? Colors.orange : "white" },
               ]}
-              // onLongPress={() => setSelected1(!selected3)}
+              onLongPress={() => {
+                byLongPress(), mySelect(3);
+              }}
               onPress={() =>
                 select
-                  ? (setSelected3(!selected3),
-                    !selected3
-                      ? addToDownload(props.item[2].s3_photo_path)
-                      : removeFromDownload(props.item[2].s3_photo_path))
+                  ? mySelect(3)
                   : navigation.navigate(ScreenName.GALLERY_DETAILS, {
                       item: item[2],
                     })

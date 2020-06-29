@@ -6,11 +6,13 @@ export const fetchSchoolList = (
   failureCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
+    console.warn('value  ', value);
+    
     API.getApiCall(
       EndPoints.auth.nearByCentres(value.lat, value.lng),
       {},
       (success: any) => {
-        console.log("success ", success.data.response);
+        console.warn("success ", success.data.response);
         dispatch({
           type: Action.FETCH_SCHOOL_LIST,
           payload: {

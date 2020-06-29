@@ -230,6 +230,10 @@ const Strings = new LocalizedStrings({
     invalidDate: `Please change the date ! To Date can't be less than From date`,
     Category_Unavailable: "No Category or Activity Found!",
     Testimonials_unavailable: "Testimonials Unavailable!",
+    Address1: "Address 1",
+    Address2: "Address 2",
+    City: "City",
+    State: "State",
   },
 });
 export default Strings;

@@ -5,18 +5,12 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Linking,
-  Platform,
-  PermissionsAndroid,
   Dimensions,
 } from "react-native";
-import RNFetchBlob from "rn-fetch-blob";
-import CameraRoll from "@react-native-community/cameraroll";
 
 // custom imports
-import { updateTab } from "../Home/action";
 import { CustomHeader, CustomToast } from "../../Components";
-import { Strings, vw, vh, Images, Colors, validate } from "../../utils";
+import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -27,34 +21,6 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const { item } = props.route.params;
 
-  const saveToCameraRoll = async (image: string) => {
-    let permission;
-    if (Platform.OS === "android") {
-      permission = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-      if (!permission) {
-        Linking.openSettings();
-      }
-      if (permission === PermissionsAndroid.RESULTS.GRANTED) {
-        RNFetchBlob.config({
-          fileCache: true,
-          appendExt: "jpg",
-        })
-          .fetch("GET", image)
-          .then((res) => {
-            CameraRoll.saveToCameraRoll(res.path())
-              .then(() => CustomToast(Strings.image_saved))
-              .catch((err) => CustomToast(err));
-          });
-      }
-    } else {
-      CameraRoll.saveToCameraRoll(image)
-        .then(() => CustomToast(Strings.image_saved))
-        .catch((error) => CustomToast(error));
-    }
-  };
-
   return (
     <View style={Styles.mainView}>
       <CustomHeader title="" onPressBack={() => props.navigation.pop()} />
@@ -62,7 +28,17 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           style={Styles.btnView}
           activeOpacity={0.8}
-          onPress={() => saveToCameraRoll(item.s3_photo_path)}
+          onPress={() =>
+            CommonFunctions.saveToCameraRoll(
+              item.s3_photo_path,
+              () => {
+                CustomToast(Strings.image_saved);
+              },
+              (error: any) => {
+                console.warn("error ", error);
+              }
+            )
+          }
         >
           <Image source={Images.download_Icon} style={Styles.btn} />
         </TouchableOpacity>
@@ -76,7 +52,6 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    // alignItems: "center",
     backgroundColor: "white",
   },
   mainBtnView: {

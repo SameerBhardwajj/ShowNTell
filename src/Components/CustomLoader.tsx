@@ -4,13 +4,14 @@ import { Colors } from "../utils";
 
 export interface AppProps {
   loading: boolean;
+  color?: string;
 }
 
 export default function App(props: AppProps) {
   if (props.loading) {
     return (
       <ActivityIndicator
-        color={Colors.violet}
+        color={props.color === undefined ? Colors.violet : props.color}
         size="large"
         animating={props.loading}
         style={{

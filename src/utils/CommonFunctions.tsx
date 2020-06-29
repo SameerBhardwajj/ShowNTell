@@ -1,6 +1,8 @@
 import moment from "moment";
 import { Platform, PermissionsAndroid, Linking } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
+import RNFetchBlob from "rn-fetch-blob";
+import CameraRoll from "@react-native-community/cameraroll";
 import CustomToast from "../Components/CustomToast";
 
 const DateDifference = (date1: any, date2: any) => {
@@ -17,7 +19,7 @@ const DateDifference = (date1: any, date2: any) => {
 };
 
 const DateFormatter = (date: Date) => {
-  let myDate = moment.utc(date);
+  let myDate = moment.utc(date).local()
   const wMonths = [
     "Jan",
     "Feb",
@@ -55,7 +57,7 @@ const DateMonthFormatter = (date: Date) => {
   return `${wMonths[month]}, ${date.getFullYear()}`;
 };
 
-const dateTypeFormat = (date: Date, format: string) => {
+const dateTypeFormat = (date: string, format: string) => {
   let testDateUtc = moment.utc(date);
   let myDate;
   format === "dmy"
@@ -229,6 +231,38 @@ const handleError = (error: any) => {
   }
 };
 
+const saveToCameraRoll = async (
+  image: string,
+  successCallback: Function,
+  failureCallback: Function
+) => {
+  let permission;
+  if (Platform.OS === "android") {
+    permission = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+    );
+    if (!permission) {
+      Linking.openSettings();
+    }
+    if (permission === PermissionsAndroid.RESULTS.GRANTED) {
+      RNFetchBlob.config({
+        fileCache: true,
+        appendExt: "jpg",
+      })
+        .fetch("GET", image)
+        .then((res) => {
+          CameraRoll.saveToCameraRoll(res.path())
+            .then(() => successCallback())
+            .catch((err) => failureCallback(err));
+        });
+    }
+  } else {
+    CameraRoll.saveToCameraRoll(image)
+      .then(() => successCallback())
+      .catch((error) => CustomToast(error));
+  }
+};
+
 export default {
   DateDifference,
   DateFormatter,
@@ -241,4 +275,5 @@ export default {
   isEmpty,
   callNumber,
   handleError,
+  saveToCameraRoll,
 };

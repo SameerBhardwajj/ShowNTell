@@ -219,7 +219,6 @@ const Styles = StyleSheet.create({
     elevation: 7,
   },
   mainInnerView: {
-    alignItems: "center",
     backgroundColor: "white",
     width: "100%",
     marginVertical: vh(15),
@@ -266,8 +265,7 @@ const Styles = StyleSheet.create({
     fontSize: vh(16),
   },
   centerNameView: {
-    alignItems: "flex-start",
-    width: "75%",
+    width: "72%",
     paddingHorizontal: vw(15),
   },
   category: {
@@ -292,6 +290,7 @@ const Styles = StyleSheet.create({
     height: vh(40),
     alignItems: "center",
     padding: vh(10),
+    paddingTop: vh(3)
   },
   description: {
     fontFamily: "Nunito-Regular",

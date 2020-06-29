@@ -3,14 +3,12 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   Dimensions,
   TouchableOpacity,
   Image,
   Modal,
   FlatList,
 } from "react-native";
-import moment from "moment";
 import DatePicker from "react-native-date-picker";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -47,7 +45,6 @@ export default function App(props: AppProps) {
   const [viewByDate, setViewByDate] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [month, setMonth] = useState(new Date());
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isLoading, setLoading] = useState(false);
@@ -73,16 +70,12 @@ export default function App(props: AppProps) {
       viewAttendance(
         viewByDate ? DATE_TYPE : MONTH_TYPE,
         currentChild.child,
-        CommonFunctions.dateTypeFormat(date, "ymd"),
+        CommonFunctions.dateTypeFormat(date.toLocaleDateString(), "ymd"),
         () => {
-          {
-            setLoading(false), setRefreshing(false);
-          }
+          setLoading(false), setRefreshing(false);
         },
         () => {
-          {
-            setLoading(false), setRefreshing(false);
-          }
+          setLoading(false), setRefreshing(false);
         }
       )
     );
@@ -186,7 +179,10 @@ export default function App(props: AppProps) {
             style={Styles.calenderStyle}
             onPress={() => setModalOpen(true)}
           >
-            <Image source={Images.Calendar_Icon} style={{ padding: 13 }} />
+            <Image
+              source={Images.Calendar_Icon}
+              style={{ padding: 13, height: vh(21), width: vh(21) }}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -343,6 +339,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: vh(20),
+    paddingHorizontal: vw(25),
   },
   attendenceDate: {
     fontFamily: "Nunito-SemiBold",

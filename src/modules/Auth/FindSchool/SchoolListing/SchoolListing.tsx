@@ -151,7 +151,7 @@ export default function App(props: AppProps) {
         onPress={() => {
           let emptyArr: any = [];
           setTemp(emptyArr.concat(item));
-          setQuery("");
+          setQuery(item.name);
           setResult([]);
           Keyboard.dismiss();
         }}
@@ -210,23 +210,21 @@ export default function App(props: AppProps) {
               }}
               onSubmitEditing={() => Keyboard.dismiss()}
             />
-            {query.length !== 0 ? (
-              !(result && result.length) ? null : (
-                <FlatList
-                  style={{
-                    position: "absolute",
-                    width: "100%",
-                    zIndex: 99,
-                    top: vh(80),
-                  }}
-                  keyboardShouldPersistTaps="handled"
-                  showsVerticalScrollIndicator={false}
-                  bounces={false}
-                  data={result}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={renderItemResult}
-                />
-              )
+            {result.length !== 0 ? (
+              <FlatList
+                style={{
+                  position: "absolute",
+                  width: "100%",
+                  zIndex: 99,
+                  top: vh(80),
+                }}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+                bounces={false}
+                data={result}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItemResult}
+              />
             ) : (
               <View style={{ width: "100%" }}>
                 <Text style={Styles.headingText}>

@@ -42,7 +42,7 @@ export const HomeAPI = (
     API.getApiCall(
       EndPoints.home.HomeData(
         child_id,
-        page,
+        0,
         activity,
         fromDate,
         toDate,

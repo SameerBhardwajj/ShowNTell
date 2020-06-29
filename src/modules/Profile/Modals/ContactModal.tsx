@@ -37,7 +37,6 @@ export default function App(props: AppProps) {
   const [checkphone1, setCheckPhone1] = useState(true);
   const [checkphone2, setCheckPhone2] = useState(true);
   const [checkphone3, setCheckPhone3] = useState(true);
-  const [countryCode, setCountryCode] = useState("US");
   const [phone1, setPhone1] = useState(props.phone1);
   const [phone2, setPhone2] = useState(props.phone2);
   const [phone3, setPhone3] = useState(props.phone3);
@@ -73,7 +72,6 @@ export default function App(props: AppProps) {
             {/* phone number ---------------- */}
             <CustomPhoneField
               title={Strings.Phone_Number}
-              onSelect={(code: any) => setCountryCode(code)}
               value={phone1}
               ref={inputRef1}
               onChangeText={(text: string) => {
@@ -90,7 +88,6 @@ export default function App(props: AppProps) {
             {/* mobile number ---------------- */}
             <CustomPhoneField
               title={Strings.Mobile_Number}
-              onSelect={(code: any) => setCountryCode(code)}
               value={phone2}
               ref={inputRef2}
               onChangeText={(text: string) => {
@@ -107,7 +104,6 @@ export default function App(props: AppProps) {
             {/* other number ---------------- */}
             <CustomPhoneField
               title={Strings.Other_Number}
-              onSelect={(code: any) => setCountryCode(code)}
               value={phone3}
               ref={inputRef3}
               onChangeText={(text: string) => {
@@ -144,7 +140,6 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "flex-end",
     backgroundColor: Colors.modalBg2,
   },
@@ -172,7 +167,7 @@ const Styles = StyleSheet.create({
     width: "100%",
     backgroundColor: Colors.separator,
     marginVertical: vh(20),
-    alignSelf: 'center'
+    alignSelf: "center",
   },
   msgView: {
     width: "100%",

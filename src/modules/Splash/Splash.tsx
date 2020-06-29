@@ -13,8 +13,8 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   React.useEffect(() => {
-    SplashScreen.hide();
     dispatch(updateSplash());
+    SplashScreen.hide();
   }, []);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>

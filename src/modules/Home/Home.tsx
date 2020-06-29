@@ -29,10 +29,9 @@ import {
 } from "../../utils";
 import {
   CustomSearchBar,
-  CustomToast,
   CustomLoader,
-  CustomButton,
   CustomNoData,
+  CustomToast,
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
 import { HomeAPI, addFilter, weDidItAPI } from "./action";
@@ -49,9 +48,8 @@ const DRAWER_CLOSE = "drawerClose";
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
-  const [homeData, setHomeData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isRefreshing, setRefreshing] = useState(false);
+  // const [isRefreshing, setRefreshing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [exitCounter, setExitCounter] = useState(false);
 
@@ -158,11 +156,10 @@ export default function App(props: AppProps) {
       HomeAPI(
         (data: any) => {
           setLoading(false);
-          setRefreshing(false);
-          data.length === 0 ? setHomeData([]) : setHomeData(data);
+          // setRefreshing(false);
         },
         () => {
-          setLoading(false), setRefreshing(false);
+          setLoading(false);
         },
         child_id,
         page
@@ -183,11 +180,10 @@ export default function App(props: AppProps) {
       HomeAPI(
         (data: any) => {
           setLoading(false);
-          setRefreshing(false);
-          data.length === 0 ? setHomeData([]) : setHomeData(data.rows);
+          // setRefreshing(false);
         },
         () => {
-          setLoading(false), setRefreshing(false);
+          setLoading(false);
         },
         currentChild.child,
         0,
@@ -205,11 +201,10 @@ export default function App(props: AppProps) {
       HomeAPI(
         (data: any) => {
           setLoading(false);
-          setRefreshing(false);
-          data.length === 0 ? setHomeData([]) : setHomeData(data.rows);
+          // setRefreshing(false);
         },
         () => {
-          setLoading(false), setRefreshing(false);
+          setLoading(false);
         },
         currentChild.child,
         0,
@@ -254,7 +249,7 @@ export default function App(props: AppProps) {
               <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
             ) : null}
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8}>
+          <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
             <Image source={Images.Notification_Icon} style={Styles.imgHeader} />
           </TouchableOpacity>
         </View>
@@ -281,18 +276,19 @@ export default function App(props: AppProps) {
         </View>
       </View>
       <View style={Styles.innerView}>
-        <CustomLoader loading={loading} />
-        {loading ? null : homeData.length === 0 ? (
+        {loading ? (
+          <CustomLoader loading={loading} />
+        ) : data.length === 0 ? (
           <CustomNoData />
         ) : (
           <FlatList
-            data={homeData}
+            data={data}
             keyExtractor={(item, index) => index.toString()}
-            refreshing={isRefreshing}
-            onRefresh={() => {
-              setRefreshing(true), hitHomeAPI(currentChild.child, 0);
-            }}
-            bounces={true}
+            // refreshing={isRefreshing}
+            // onRefresh={() => {
+            //   hitHomeAPI(currentChild.child, 0);
+            // }}
+            bounces={false}
             showsVerticalScrollIndicator={false}
             renderItem={renderItems}
             nestedScrollEnabled={true}
@@ -308,21 +304,14 @@ export default function App(props: AppProps) {
               setModalOpen(false), hitHomeAPI(currentChild.child, 0);
             }}
             applyFilter={(value: any, Activitytype: Array<any>, dates: any) => {
-              console.warn("incoming  ", dates);
+              console.warn("incoming  ", value, dates, Activitytype);
 
               let to = CommonFunctions.isEmpty(dates)
                 ? ""
-                : CommonFunctions.dateTypeFormat(new Date(dates.toDate), "ymd");
+                : CommonFunctions.dateTypeFormat(dates.toDate, "ymd");
               let from = CommonFunctions.isEmpty(dates)
                 ? ""
-                : CommonFunctions.dateTypeFormat(
-                    new Date(dates.fromDate),
-                    "ymd"
-                  );
-              console.warn(
-                "check  ",
-                CommonFunctions.DateDifference(dates.fromDate, new Date())
-              );
+                : CommonFunctions.dateTypeFormat(dates.fromDate, "ymd");
 
               dispatch(
                 addFilter(myFilter.activity, from, to, Activitytype, () => {

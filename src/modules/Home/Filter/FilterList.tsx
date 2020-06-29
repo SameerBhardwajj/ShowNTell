@@ -7,7 +7,7 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-import { vh, Images } from "../../../utils";
+import { vh, Images, vw } from "../../../utils";
 import ActivityList from "./ActivityList";
 
 export interface AppProps {
@@ -25,23 +25,21 @@ export default function App(props: AppProps) {
 
   return (
     <View style={Styles.activityView}>
-      <View style={Styles.activityHeadView}>
+      <TouchableOpacity
+        style={Styles.activityHeadView}
+        activeOpacity={0.8}
+        onPress={() => setShow(!show)}
+      >
         <View>
           <Text style={Styles.activityHeadText}>{props.item.name}</Text>
         </View>
-        <TouchableOpacity
+        <Image
+          source={Images.Drop_Down_icon}
           style={Styles.iconView}
-          activeOpacity={0.8}
-          onPress={() => setShow(!show)}
-        >
-          <Image
-            source={Images.Drop_Down_icon}
-            style={{ alignSelf: "center" }}
-            resizeMode="center"
-            resizeMethod="resize"
-          />
-        </TouchableOpacity>
-      </View>
+          resizeMode="center"
+          resizeMethod="resize"
+        />
+      </TouchableOpacity>
       {show && (
         <FlatList
           data={props.item.ActivityValuesOri}
@@ -67,9 +65,6 @@ const Styles = StyleSheet.create({
     fontSize: vh(16),
   },
   iconView: {
-    paddingHorizontal: vh(14),
-    paddingVertical: vh(8),
-    alignItems: "center",
-    justifyContent: "center",
+    alignSelf: "center",
   },
 });

@@ -1,17 +1,6 @@
 import { Action, API, EndPoints, CommonFunctions } from "../../utils";
 import { CustomToast } from "../../Components";
 
-export const updateLibrary = (value: Array<any>) => {
-  return (dispatch: Function, getState: Function) => {
-    dispatch({
-      type: Action.UPDATE_LIBRARY,
-      payload: {
-        libraryData: value,
-      },
-    });
-  };
-};
-
 export const updateDownload = (value: Array<any>, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
     dispatch({
@@ -21,6 +10,17 @@ export const updateDownload = (value: Array<any>, callback: Function) => {
       },
     });
     callback();
+  };
+};
+
+export const updateSelect = (value: boolean) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_LIBRARY,
+      payload: {
+        select: value,
+      },
+    });
   };
 };
 
@@ -46,7 +46,7 @@ export const PhotoLibraryAPI = (
           });
           successCallback(res);
         } else {
-          CustomToast(success.data.message);
+          page === 0 ? CustomToast(success.data.message) : null;
           failureCallback();
         }
       },

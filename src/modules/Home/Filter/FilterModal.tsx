@@ -24,7 +24,6 @@ import {
   CustomSearchBar,
   CustomDate,
   CustomLoader,
-  CustomToast,
 } from "../../../Components";
 import FilterList from "./FilterList";
 import { HomeFilter, countFilter, addFilter } from "../action";
@@ -78,7 +77,7 @@ export default function App(props: AppProps) {
         setdateApply(true));
     setCategory(myFilter);
     hitHomeFilter();
-  }, []);
+  }, [query]);
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -100,6 +99,7 @@ export default function App(props: AppProps) {
                 : (searchArr = searchArr.concat({
                     name: items.name,
                     id: items.id,
+                    aid: items.id,
                   }));
               items.ActivityValuesOri.map((item: any) => {
                 temp = temp.concat(item.id.toString());
@@ -109,6 +109,7 @@ export default function App(props: AppProps) {
                   : (searchArr = searchArr.concat({
                       name: item.name,
                       id: items.id,
+                      aid: item.id,
                     }));
               });
             });
@@ -147,20 +148,34 @@ export default function App(props: AppProps) {
   };
 
   const searching = (query: string) => {
-    let currData: any = [];
-    let temp: any[] = [];
-    temp = CommonFunctions.binarySearch(query, tempData);
-    temp.map((item: any) => {
-      currData = currData.concat(item.id);
-    });
-    currData = currData.filter(onlyUnique);
-    let newSearch: any = [];
-    currData.map((items: any) => {
-      filterData.activityCategory.map((item: any) => {
-        items === item.id ? (newSearch = newSearch.concat(item)) : null;
+    if (query.length === 0) setSearchData(filterData.activityCategory);
+    else {
+      let myFilterData: any = new Object();
+      Object.assign(myFilterData, filterData);
+      let currData: any = [];
+      let currAct: any = [];
+      let temp: any[] = [];
+      temp = CommonFunctions.binarySearch(query, tempData);
+      temp.map((item: any) => {
+        currAct = currAct.concat(item.id);
       });
-    });
-    setSearchData(newSearch);
+      currAct = currAct.filter(onlyUnique);
+      temp.map((item: any) => {
+        currData = currData.concat(item.aid);
+      });
+      let newSearch: any = [];
+      currAct.map((items: any) => {
+        myFilterData.activityCategory.map((item: any) => {
+          items === item.id ? (newSearch = newSearch.concat(item)) : null;
+        });
+      });
+      newSearch.map((item: any) => {
+        item.ActivityValuesOri = item.ActivityValuesOri.filter((items: any) =>
+          currData.includes(items.id)
+        );
+      });
+      setSearchData(newSearch);
+    }
   };
 
   const checkActivityTypes = () => {
@@ -240,7 +255,7 @@ export default function App(props: AppProps) {
               value={query}
               placeholder={Strings.Search}
               onChangeText={(text: string) => {
-                setQuery(text), searching(text);
+                setQuery(text.trim()), searching(text.trim());
               }}
               onPressCancel={() => {
                 setQuery(""), setSearchData([]);
@@ -250,7 +265,7 @@ export default function App(props: AppProps) {
             />
             {CommonFunctions.isEmpty(filterData) ? (
               <CustomLoader loading={isLoading} />
-            ) : query.length !== 0 && searchData.length === 0 ? (
+            ) : query.trim() !== "" && searchData.length === 0 ? (
               <View style={{ alignItems: "center", justifyContent: "center" }}>
                 <Text>{Strings.Category_Unavailable}</Text>
               </View>
@@ -258,8 +273,9 @@ export default function App(props: AppProps) {
               <FlatList
                 keyboardShouldPersistTaps="handled"
                 bounces={false}
+                showsVerticalScrollIndicator={false}
                 data={
-                  query.length === 0 ? filterData.activityCategory : searchData
+                  query.trim() === "" ? filterData.activityCategory : searchData
                 }
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItems}

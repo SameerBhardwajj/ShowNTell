@@ -30,7 +30,7 @@ export default function App(props: AppProps) {
   }, []);
   return (
     <View style={Styles.mainView}>
-      <CustomLoader loading={isLoading} />
+      <CustomLoader loading={isLoading} color='white'/>
       <View style={Styles.modalView}>
         <Text style={Styles.bubbleMsgText}>{Strings.logout_msg}</Text>
         <CustomButton

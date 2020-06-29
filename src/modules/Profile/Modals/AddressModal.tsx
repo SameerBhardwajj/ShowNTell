@@ -7,15 +7,20 @@ import { CustomInputText, CustomButton } from "../../../Components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export interface AppProps {
-  navigation?: any;
-  address: string;
-  setAddress: Function;
   setModalOpen: Function;
 }
 
 export default function App(props: AppProps) {
-  const [address, setAddress] = useState(props.address);
   const inputRef1: any = React.createRef();
+  const inputRef2: any = React.createRef();
+  const inputRef3: any = React.createRef();
+  const inputRef4: any = React.createRef();
+  const inputRef5: any = React.createRef();
+  const [address1, setAddress1] = useState("555 Main Street");
+  const [address2, setAddress2] = useState("Willington");
+  const [city, setCity] = useState("Los Angeles");
+  const [state, setState] = useState("California");
+  const [zipcode, setZipcode] = useState("1234567");
 
   return (
     <KeyboardAwareScrollView
@@ -37,16 +42,73 @@ export default function App(props: AppProps) {
           <View style={Styles.msgView}>
             <CustomInputText
               ref={inputRef1}
-              titleText={""}
-              value={address}
-              onChangeText={(text: string) => setAddress(text)}
+              titleText={Strings.Address1}
+              value={address1}
+              onChangeText={(text: string) => setAddress1(text)}
               onSubmitEditing={() => {
-                props.setAddress(address);
-                props.setModalOpen();
+                setAddress1(address1.trim());
+                inputRef2.current.focus()
               }}
               check={true}
               incorrectText={Strings.Address_Details}
-              keyboardType={'default'}
+              keyboardType={"default"}
+              mainViewStyle={Styles.textInputView}
+            />
+            <CustomInputText
+              ref={inputRef2}
+              titleText={Strings.Address2}
+              value={address2}
+              onChangeText={(text: string) => setAddress2(text)}
+              onSubmitEditing={() => {
+                setAddress2(address2.trim());
+                inputRef3.current.focus()
+              }}
+              check={true}
+              incorrectText={Strings.Address_Details}
+              keyboardType={"default"}
+              mainViewStyle={Styles.textInputView}
+            />
+            <CustomInputText
+              ref={inputRef3}
+              titleText={Strings.City}
+              value={city}
+              onChangeText={(text: string) => setCity(text)}
+              onSubmitEditing={() => {
+                setCity(city.trim());
+                inputRef4.current.focus()
+              }}
+              check={true}
+              incorrectText={Strings.Address_Details}
+              keyboardType={"default"}
+              mainViewStyle={Styles.textInputView}
+            />
+            <CustomInputText
+              ref={inputRef4}
+              titleText={Strings.State}
+              value={state}
+              onChangeText={(text: string) => setState(text)}
+              onSubmitEditing={() => {
+                setState(state);
+                inputRef5.current.focus()
+              }}
+              check={true}
+              incorrectText={Strings.Address_Details}
+              keyboardType={"default"}
+              mainViewStyle={Styles.textInputView}
+            />
+            <CustomInputText
+              ref={inputRef5}
+              titleText={Strings.Zip_Code}
+              value={zipcode}
+              onChangeText={(text: string) => setZipcode(text)}
+              onSubmitEditing={() => {
+                setZipcode(zipcode);
+                
+              }}
+              check={true}
+              incorrectText={Strings.Address_Details}
+              keyboardType={"phone-pad"}
+              mainViewStyle={Styles.textInputView}
             />
           </View>
           <View style={Styles.btnView}>
@@ -59,7 +121,6 @@ export default function App(props: AppProps) {
             <CustomButton
               Text={Strings.Update}
               onPress={() => {
-                props.setAddress(address);
                 props.setModalOpen();
               }}
               ButtonStyle={{ width: "45%" }}
@@ -74,7 +135,6 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    alignItems: "center",
     justifyContent: "flex-end",
     backgroundColor: Colors.modalBg2,
   },
@@ -82,10 +142,13 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
     width: "100%",
     alignItems: "center",
-    borderTopRightRadius: vh(10),
-    borderTopLeftRadius: vh(10),
+    borderTopRightRadius: vh(15),
+    borderTopLeftRadius: vh(15),
     paddingVertical: vh(21),
     paddingHorizontal: vw(16),
+  },
+  textInputView: {
+    marginBottom: vh(6),
   },
   cancelBtn: {
     position: "absolute",
@@ -101,7 +164,7 @@ const Styles = StyleSheet.create({
     height: vw(1),
     width: "100%",
     backgroundColor: Colors.separator,
-    marginTop: vh(20),
+    marginVertical: vh(20),
   },
   msgView: {
     width: "100%",

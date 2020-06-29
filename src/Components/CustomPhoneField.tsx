@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
-// import CountryPicker from "react-native-country-picker-modal";
 import { Strings, Colors, vw, vh } from "../utils";
 
 export interface AppProps {
-  onSelect: Function;
   value: string;
   onChangeText: Function;
   check: boolean;
@@ -14,17 +12,6 @@ export interface AppProps {
 }
 
 const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
-  // const [countryCode, setCountryCode] = useState("US");
-  // const [country, setCountry] = useState(null);
-  // const withFilter = true;
-  // const withCallingCode = true;
-  // const withCallingCodeButton = true;
-  // const withFlagButton = false;
-  // const onSelect = (country: any) => {
-  //   setCountryCode(country.cca2);
-  //   props.onSelect(country.cca2);
-  //   setCountry(country);
-  // };
   return (
     <View style={props.mainViewStyle}>
       <View style={Styles.textView}>
@@ -46,18 +33,7 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
           { borderColor: props.check ? Colors.borderGrey : Colors.pink },
         ]}
       >
-        {/* <CountryPicker
-          {...{
-            countryCode,
-            withFilter,
-            withCallingCode,
-            withCallingCodeButton,
-            withFlagButton,
-            onSelect,
-          }}
-          visible={false}
-        /> */}
-        <Text style={Styles.codeText}>+1</Text>
+        <Text style={Styles.codeText}>+1 -</Text>
         <TextInput
           ref={ref}
           style={[
@@ -115,12 +91,5 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Medium",
     fontSize: vh(12),
     color: Colors.pink,
-  },
-  eyeIcon: {
-    paddingHorizontal: vw(5),
-  },
-  imgEye: {
-    height: vh(17),
-    width: vh(25),
   },
 });

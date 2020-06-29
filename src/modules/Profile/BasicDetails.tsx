@@ -25,7 +25,11 @@ export default function App(props: AppProps) {
   const [phone1, setPhone1] = useState("9876543210");
   const [phone2, setPhone2] = useState("9876543210");
   const [phone3, setPhone3] = useState("9876543210");
-  const [address, setAddress] = useState("555 Main Street, Willington, FL-315");
+  const [address1, setAddress1] = useState("555 Main Street");
+  const [address2, setAddress2] = useState("Willington");
+  const [city, setCity] = useState("Los Angeles");
+  const [state, setState] = useState("California");
+  const [zipcode, setZipcode] = useState("1234567");
   const [email, setEmail] = useState("Bob.Parish@gmail.com");
 
   return (
@@ -71,7 +75,7 @@ export default function App(props: AppProps) {
         </View>
         <View style={[Styles.itemView, { alignItems: "flex-start" }]}>
           <Image source={Images.Location_Pin_Icon} />
-          <Text style={Styles.itemText}>{address}</Text>
+          <Text style={Styles.itemText}>{address1}</Text>
         </View>
       </View>
       <View style={Styles.contactView}>
@@ -133,8 +137,6 @@ export default function App(props: AppProps) {
           />
         ) : currentModal == 2 ? (
           <AddressModal
-            address={address}
-            setAddress={(text: string) => setAddress(text)}
             setModalOpen={() => setModalOpen(false)}
           />
         ) : (
