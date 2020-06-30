@@ -95,34 +95,49 @@ export default function App(props: AppProps) {
     let childArr: any[] = [];
     childArr = childArr.concat({
       child_name: c1name,
-      child_dob: `${CommonFunctions.dateTypeFormat(c1DOB, "dmy")}`,
+      child_dob: `${CommonFunctions.dateTypeFormat(
+        c1DOB.toLocaleString(),
+        "dmy"
+      )}`,
     });
 
     counter > 1
       ? (childArr = childArr.concat({
           child_name: c2name,
-          child_dob: `${CommonFunctions.dateTypeFormat(c2DOB, "dmy")}`,
+          child_dob: `${CommonFunctions.dateTypeFormat(
+            c2DOB.toLocaleString(),
+            "dmy"
+          )}`,
         }))
       : null;
 
     counter > 2
       ? (childArr = childArr.concat({
           child_name: c3name,
-          child_dob: `${CommonFunctions.dateTypeFormat(c3DOB, "dmy")}`,
+          child_dob: `${CommonFunctions.dateTypeFormat(
+            c3DOB.toLocaleString(),
+            "dmy"
+          )}`,
         }))
       : null;
 
     counter > 3
       ? (childArr = childArr.concat({
           child_name: c4name,
-          child_dob: `${CommonFunctions.dateTypeFormat(c4DOB, "dmy")}`,
+          child_dob: `${CommonFunctions.dateTypeFormat(
+            c4DOB.toLocaleString(),
+            "dmy"
+          )}`,
         }))
       : null;
 
     counter > 4
       ? (childArr = childArr.concat({
           child_name: c5name,
-          child_dob: `${CommonFunctions.dateTypeFormat(c5DOB, "dmy")}`,
+          child_dob: `${CommonFunctions.dateTypeFormat(
+            c5DOB.toLocaleString(),
+            "dmy"
+          )}`,
         }))
       : null;
 

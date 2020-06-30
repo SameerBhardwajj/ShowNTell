@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 
 // custom imports
-import { vw, vh, Strings, Images, Colors } from "../../utils";
+import { vw, vh, Strings, Images, Colors, CommonFunctions } from "../../utils";
 
 const teacher =
   "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
@@ -14,33 +14,34 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const item = props.currentChild === parseInt(props.index) ? props.item : null;
+  console.warn("item  ", item);
 
-  if (item === null) return null;
-  else
-    return (
-      <>
-        <Text style={Styles.nameText}>{item.name}</Text>
-        <View>
-          <View style={Styles.itemView}>
-            <Image source={Images.DOB_Icon} />
-            <Text style={Styles.DOBText}>{item.dob}</Text>
-          </View>
-          <View style={Styles.itemView}>
-            <Image source={Images.Center_Icon} />
-            <Text style={Styles.DOBText}>{item.class}</Text>
-          </View>
+  return (
+    <View style={{ flex: 1, backgroundColor: "white", width: "100%" }}>
+      <Text style={Styles.nameText}>{item.name}</Text>
+      <View>
+        <View style={Styles.itemView}>
+          <Image source={Images.DOB_Icon} />
+          <Text style={Styles.DOBText}>
+            {CommonFunctions.DateFormatter(item.dob)}
+          </Text>
         </View>
-        <View style={Styles.separatorView} />
-        <Text style={Styles.DOBText2}>{Strings.Medical_Information}</Text>
-        <View>
-          {item.disease.map((data: any) => (
-            <View style={Styles.itemView}>
-              <Image source={Images.Virus_icon} />
-              <Text style={Styles.DOBText}>{data}</Text>
-            </View>
-          ))}
+        <View style={Styles.itemView}>
+          <Image source={Images.Center_Icon} />
+          <Text style={Styles.DOBText}>{item.Classroom.name}</Text>
         </View>
-        <View style={Styles.separatorView} />
+      </View>
+      <View style={Styles.separatorView} />
+      <Text style={Styles.DOBText2}>{Strings.Medical_Information}</Text>
+      <View>
+        {item.ChildMedicals.map((data: any) => (
+          <View style={Styles.itemView}>
+            <Image source={Images.Virus_icon} />
+            <Text style={Styles.DOBText}>{data.MedicalCondition.name}</Text>
+          </View>
+        ))}
+      </View>
+      {/* <View style={Styles.separatorView} />
         <Text style={Styles.DOBText2}>{Strings.Teachers_Information}</Text>
         <View style={Styles.avatarView}>
           <Image source={{ uri: teacher }} style={Styles.childAvatar} />
@@ -48,9 +49,9 @@ export default function App(props: AppProps) {
             <Text style={Styles.name}>{item.teacherName}</Text>
             <Text style={Styles.classText}>{item.teacherClass}</Text>
           </View>
-        </View>
-      </>
-    );
+        </View> */}
+    </View>
+  );
 }
 
 const Styles = StyleSheet.create({

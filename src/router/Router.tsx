@@ -53,7 +53,7 @@ import GalleryDetails from "../modules/PhotoLibrary/GalleryDetails";
 import CreateAbsence from "../modules/Absence/CreateAbsence";
 import ChildModal from "../Components/CustomHeader/ChildModal";
 import EnterPassword from "../modules/Auth/Login/EnterPassword";
-import HomeChildModal from "../modules/Home/HomeChildModal";
+import ScheduleChildModal from "../modules/ClassroomSchedule/ScheduleChildModal";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -365,8 +365,8 @@ export default class AppComponent extends React.Component<AppProps, any> {
                 options={this.modal}
               />
               <RootStack.Screen
-                name={ScreenName.HOME_CHILD_MODAL}
-                component={HomeChildModal}
+                name={ScreenName.SCHEDULE_CHILD_MODAL}
+                component={ScheduleChildModal}
                 options={this.modal}
               />
               <RootStack.Screen
@@ -407,6 +407,5 @@ const Styles = StyleSheet.create({
     elevation: 7,
     borderTopLeftRadius: vh(20),
     borderTopRightRadius: vh(20),
-
   },
 });

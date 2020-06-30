@@ -5,34 +5,46 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  ScrollView,
 } from "react-native";
+import { useSelector } from "react-redux";
 
 // custom imports
-import { vw, vh, Colors } from "../../utils";
+import { vw, vh, Colors, Images, CommonFunctions } from "../../utils";
 import ChildrenFlatlist from "./ChildrenFlatlist";
 
 export interface AppProps {}
 
 export default function App(props: AppProps) {
+  const { data } = useSelector((state: { Profile: any }) => ({
+    data: state.Profile.data,
+  }));
   const [currentChild, setCurrentChild] = useState(0);
 
   const renderChild = (rowData: any) => {
     const { item, index } = rowData;
+    console.warn("child item  ", item);
+
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => setCurrentChild(parseInt(index))}
+        onPress={() => {
+          setCurrentChild(item.id), console.warn(item.id);
+        }}
+        style={[
+          Styles.mainImageView,
+          { borderWidth: item.id === currentChild ? vw(5) : 0 },
+        ]}
       >
         <Image
-          source={{ uri: item.img }}
+          source={
+            CommonFunctions.isNullUndefined(item.s3_photo_path)
+              ? Images.Profile_Placeholder
+              : { uri: item.s3_photo_path }
+          }
           resizeMethod="resize"
           resizeMode="cover"
-          style={[
-            Styles.imageView,
-            {
-              borderWidth: parseInt(index) === currentChild ? vw(5) : 0,
-            },
-          ]}
+          style={Styles.imageView}
         />
       </TouchableOpacity>
     );
@@ -46,31 +58,36 @@ export default function App(props: AppProps) {
   };
 
   return (
-    <View style={Styles.mainView}>
-      <View style={Styles.contactView}>
-        <FlatList
-          showsHorizontalScrollIndicator={false}
-          horizontal={true}
-          bounces={false}
-          // ItemSeparatorComponent={() => (
-          //   <View style={{ paddingHorizontal: vw(10) }} />
-          // )}
-          data={DATA}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderChild}
-        />
-        <View style={Styles.childView}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      bounces={false}
+      horizontal={false}
+      showsVerticalScrollIndicator={false}
+    >
+      <View style={Styles.mainView}>
+        <View style={Styles.contactView}>
+          {/* <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
             bounces={false}
-            horizontal={false}
-            data={DATA}
+            data={data.Children}
             keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItems}
+            renderItem={renderChild}
           />
+          <View style={Styles.childView}>
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+              horizontal={false}
+              data={data.Children}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItems}
+            />
+          </View> */}
+
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 const Styles = StyleSheet.create({
@@ -80,21 +97,30 @@ const Styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   contactView: {
-    backgroundColor: "transparent",
+    backgroundColor: "red",
     paddingTop: vh(8),
     alignItems: "center",
     width: "100%",
+    flex: 1,
     borderRadius: vh(8),
     marginBottom: vh(16),
     paddingHorizontal: vw(16),
+  },
+  mainImageView: {
+    borderRadius: vh(50),
+    borderColor: Colors.violet,
+    marginHorizontal: vw(15),
+    marginTop: vh(10),
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    height: vh(80),
+    width: vh(80),
   },
   imageView: {
     height: vh(80),
     width: vh(80),
     borderRadius: vh(40),
-    borderColor: Colors.violet,
-    marginHorizontal: vw(15),
-    marginTop: vh(10),
   },
   childView: {
     width: "100%",
@@ -166,55 +192,55 @@ const Styles = StyleSheet.create({
 });
 
 // API Data
-const DATA = [
-  {
-    img:
-      "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-    name: "Alex Parish",
-    dob: "February 21, 2016",
-    class: "Infant - A",
-    disease: ["Asthama", "Skin Rashes", "Food Poisioning"],
-    teacherName: "Natasha Jacobs",
-    teacherClass: "Infant A",
-  },
-  {
-    img:
-      "https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    name: "Alex",
-    dob: "February 21, 2016",
-    class: "Infant - A",
-    disease: ["Asthama", "Skin Rashes"],
-    teacherName: "Natasha Jacobs",
-    teacherClass: "Infant A",
-  },
-  {
-    img:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQfHtQL_rkve2SB0gLi7Ev37CWhwa2gEpmKwuuMsjgGG7zsx1lF&usqp=CAU",
-    name: "Parish",
-    dob: "February 21, 2016",
-    class: "Infant - A",
-    disease: ["Asthama", "Skin Rashes"],
-    teacherName: "Natasha Jacobs",
-    teacherClass: "Infant A",
-  },
-  {
-    img:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRumf07Mflse2OBnmdZcrB_u30MamZw-KnJVVluhdFzkz9y_Zg4&usqp=CAU",
-    name: "Sam",
-    dob: "February 21, 2016",
-    class: "Infant - A",
-    disease: ["Asthama", "Skin Rashes"],
-    teacherName: "Natasha Jacobs",
-    teacherClass: "Infant A",
-  },
-  {
-    img:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgWrsvt5Ch52QWa-rO1d6rr14WXY8Wf5X_FBI4YYg5RX5FTrW7&usqp=CAU",
-    name: "Raj",
-    dob: "February 21, 2016",
-    class: "Infant - A",
-    disease: ["Asthama", "Skin Rashes"],
-    teacherName: "Natasha Jacobs",
-    teacherClass: "Infant A",
-  },
-];
+// const DATA = [
+//   {
+//     img:
+//       "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+//     name: "Alex Parish",
+//     dob: "February 21, 2016",
+//     class: "Infant - A",
+//     disease: ["Asthama", "Skin Rashes", "Food Poisioning"],
+//     teacherName: "Natasha Jacobs",
+//     teacherClass: "Infant A",
+//   },
+//   {
+//     img:
+//       "https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+//     name: "Alex",
+//     dob: "February 21, 2016",
+//     class: "Infant - A",
+//     disease: ["Asthama", "Skin Rashes"],
+//     teacherName: "Natasha Jacobs",
+//     teacherClass: "Infant A",
+//   },
+//   {
+//     img:
+//       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQfHtQL_rkve2SB0gLi7Ev37CWhwa2gEpmKwuuMsjgGG7zsx1lF&usqp=CAU",
+//     name: "Parish",
+//     dob: "February 21, 2016",
+//     class: "Infant - A",
+//     disease: ["Asthama", "Skin Rashes"],
+//     teacherName: "Natasha Jacobs",
+//     teacherClass: "Infant A",
+//   },
+//   {
+//     img:
+//       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRumf07Mflse2OBnmdZcrB_u30MamZw-KnJVVluhdFzkz9y_Zg4&usqp=CAU",
+//     name: "Sam",
+//     dob: "February 21, 2016",
+//     class: "Infant - A",
+//     disease: ["Asthama", "Skin Rashes"],
+//     teacherName: "Natasha Jacobs",
+//     teacherClass: "Infant A",
+//   },
+//   {
+//     img:
+//       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgWrsvt5Ch52QWa-rO1d6rr14WXY8Wf5X_FBI4YYg5RX5FTrW7&usqp=CAU",
+//     name: "Raj",
+//     dob: "February 21, 2016",
+//     class: "Infant - A",
+//     disease: ["Asthama", "Skin Rashes"],
+//     teacherName: "Natasha Jacobs",
+//     teacherClass: "Infant A",
+//   },
+// ];

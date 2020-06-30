@@ -11,6 +11,8 @@ import ForgotPassword from "../modules/Auth/ForgotPassword/reducer";
 import Attendance from "../modules/Attendance/reducer";
 import Announcement from "../modules/Announcement/reducer";
 import QOTD from "../modules/QOD/reducer";
+import Profile from "../modules/Profile/reducer";
+import ClassroomSchedule from "../modules/ClassroomSchedule/reducer";
 const CombinedReducer = combineReducers({
   Home,
   Splash,
@@ -24,6 +26,8 @@ const CombinedReducer = combineReducers({
   Attendance,
   Announcement,
   QOTD,
+  Profile,
+  ClassroomSchedule,
 });
 
 export default CombinedReducer;

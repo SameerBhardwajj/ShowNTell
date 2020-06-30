@@ -6,148 +6,215 @@ import {
   TouchableOpacity,
   Image,
   Modal,
+  ScrollView,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom Imports
-import { vw, vh, Strings, Images, Colors, ScreenName } from "../../utils";
+import { vw, vh, Strings, Images, Colors, CommonFunctions } from "../../utils";
 import ContactModal from "./Modals/ContactModal";
 import AddressModal from "./Modals/AddressModal";
 import EmailModal from "./Modals/EmailModal";
+import { hiBasicDetails, updateProfile } from "./action";
+import { CustomLoader } from "../../Components";
 
-export interface AppProps {
-  navigation?: any;
-}
+export interface AppProps {}
 
 export default function App(props: AppProps) {
-  const [receiveEmail, setReceiveEmail] = useState(false);
+  const { data } = useSelector((state: { Profile: any }) => ({
+    data: state.Profile.data,
+  }));
+
+  const [receiveEmail, setReceiveEmail] = useState(
+    data.receive_daily_email ? true : false
+  );
   const [modalOpen, setModalOpen] = useState(false);
   const [currentModal, setCurrentModal] = useState(1);
-  const [phone1, setPhone1] = useState("9876543210");
-  const [phone2, setPhone2] = useState("9876543210");
-  const [phone3, setPhone3] = useState("9876543210");
-  const [address1, setAddress1] = useState("555 Main Street");
-  const [address2, setAddress2] = useState("Willington");
-  const [city, setCity] = useState("Los Angeles");
-  const [state, setState] = useState("California");
-  const [zipcode, setZipcode] = useState("1234567");
-  const [email, setEmail] = useState("Bob.Parish@gmail.com");
+  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const hitGetProfile = () => {
+    setLoading(true);
+    dispatch(
+      hiBasicDetails(
+        () => {
+          setLoading(false);
+          console.warn("data ", data);
+        },
+        (err: any) => {
+          setLoading(false);
+          console.warn("err", err);
+        }
+      )
+    );
+  };
 
   return (
-    <View style={Styles.mainView}>
-      <View style={Styles.contactView}>
-        <View style={Styles.commonView}>
-          <Text style={Styles.headingText}>{Strings.Contact_Details}</Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={Styles.editView}
-            onPress={() => {
-              setCurrentModal(1), setModalOpen(true);
-            }}
-          >
-            <Image source={Images.Edit_Image} />
-          </TouchableOpacity>
-        </View>
-        <View style={Styles.itemView}>
-          <Image source={Images.Phone_Icon_blue} />
-          <Text style={Styles.itemText}>{phone1}</Text>
-        </View>
-        <View style={Styles.itemView}>
-          <Image source={Images.Mobile_Icon} />
-          <Text style={Styles.itemText}>{phone2}</Text>
-        </View>
-        <View style={Styles.itemView}>
-          <Image source={Images.Home_Icom} />
-          <Text style={Styles.itemText}>{phone3}</Text>
-        </View>
-      </View>
-      <View style={Styles.contactView}>
-        <View style={Styles.commonView}>
-          <Text style={Styles.headingText}>{Strings.Address_Details}</Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={Styles.editView}
-            onPress={() => {
-              setCurrentModal(2), setModalOpen(true);
-            }}
-          >
-            <Image source={Images.Edit_Image} />
-          </TouchableOpacity>
-        </View>
-        <View style={[Styles.itemView, { alignItems: "flex-start" }]}>
-          <Image source={Images.Location_Pin_Icon} />
-          <Text style={Styles.itemText}>{address1}</Text>
-        </View>
-      </View>
-      <View style={Styles.contactView}>
-        <View style={Styles.commonView}>
-          <Text style={Styles.headingText}>{Strings.Email}</Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={Styles.editView}
-            onPress={() => {
-              setCurrentModal(3), setModalOpen(true);
-            }}
-          >
-            <Image source={Images.Edit_Image} />
-          </TouchableOpacity>
-        </View>
-        <View style={Styles.itemView}>
-          <Image source={Images.Mail_Icon} />
-          <Text style={Styles.itemText}>{email}</Text>
-        </View>
-      </View>
-      <View style={Styles.contactView}>
-        <View style={Styles.commonView}>
-          <Text style={Styles.headingText}>{Strings.Activity_Preferences}</Text>
-          <TouchableOpacity activeOpacity={0.8} style={Styles.editView}>
-            <Image source={Images.Edit_Image} />
-          </TouchableOpacity>
-        </View>
-        <View style={Styles.toggleView}>
-          <Text style={[Styles.itemText, { paddingLeft: 0 }]}>
-            {Strings.Receive_Daily_Emails}
-          </Text>
-          <TouchableOpacity
-            style={Styles.emailBtn}
-            activeOpacity={0.8}
-            onPress={() => setReceiveEmail(!receiveEmail)}
-          >
-            {receiveEmail ? (
-              <Image source={Images.Toggle_on} />
-            ) : (
-              <Image source={Images.Toggle_off} />
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      bounces={false}
+      horizontal={false}
+      showsVerticalScrollIndicator={false}
+    >
+      {isLoading ? (
+        <CustomLoader loading={isLoading} />
+      ) : (
+        <View style={Styles.mainView}>
+          {/* Contact numbers ----------------------- */}
+          <View style={Styles.contactView}>
+            <View style={Styles.commonView}>
+              <Text style={Styles.headingText}>{Strings.Contact_Details}</Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={Styles.editView}
+                onPress={() => {
+                  setCurrentModal(1), setModalOpen(true);
+                }}
+              >
+                <Image source={Images.Edit_Image} />
+              </TouchableOpacity>
+            </View>
+            {CommonFunctions.isNullUndefined(data.primary_phone) ? null : (
+              <View style={Styles.itemView}>
+                <Image source={Images.Phone_Icon_blue} />
+                <Text style={Styles.itemText}>
+                  +1 - {data.primary_phone.replace(/-/g, "")}
+                </Text>
+              </View>
             )}
-          </TouchableOpacity>
+            {CommonFunctions.isNullUndefined(data.work_phone) ? null : (
+              <View style={Styles.itemView}>
+                <Image source={Images.Mobile_Icon} />
+                <Text style={Styles.itemText}>
+                  +1 - {data.work_phone.replace(/-/g, "")}
+                </Text>
+              </View>
+            )}
+            {CommonFunctions.isNullUndefined(data.secondary_phone) ? null : (
+              <View style={Styles.itemView}>
+                <Image source={Images.Home_Icom} />
+                <Text style={Styles.itemText}>
+                  +1 - {data.secondary_phone.replace(/-/g, "")}
+                </Text>
+              </View>
+            )}
+          </View>
+          {/* Address ----------------------- */}
+          <View style={Styles.contactView}>
+            <View style={Styles.commonView}>
+              <Text style={Styles.headingText}>{Strings.Address_Details}</Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={Styles.editView}
+                onPress={() => {
+                  setCurrentModal(2), setModalOpen(true);
+                }}
+              >
+                <Image source={Images.Edit_Image} />
+              </TouchableOpacity>
+            </View>
+            <View style={[Styles.itemView, { alignItems: "flex-start" }]}>
+              <Image source={Images.Location_Pin_Icon} />
+              <Text style={Styles.itemText}>{`${data.address1}, ${
+                CommonFunctions.isNullUndefined(data.address2)
+                  ? ""
+                  : `${data.address2},`
+              } ${data.city}, ${
+                CommonFunctions.isNullUndefined(data.State)
+                  ? ""
+                  : `${data.State.state_name}`
+              } - ${data.postal_code}`}</Text>
+            </View>
+          </View>
+          {/* Email ----------------------- */}
+          <View style={Styles.contactView}>
+            <View style={Styles.commonView}>
+              <Text style={Styles.headingText}>{Strings.Email}</Text>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                style={Styles.editView}
+                onPress={() => {
+                  setCurrentModal(3), setModalOpen(true);
+                }}
+              >
+                <Image source={Images.Edit_Image} />
+              </TouchableOpacity>
+            </View>
+            <View style={[Styles.itemView, { alignItems: "flex-start" }]}>
+              <Image source={Images.Mail_Icon} />
+              <Text style={Styles.itemText}>{data.email}</Text>
+            </View>
+          </View>
+          {/* Activity Preference ----------------------- */}
+          <View style={Styles.contactView}>
+            <View style={Styles.commonView}>
+              <Text style={Styles.headingText}>
+                {Strings.Activity_Preferences}
+              </Text>
+              <TouchableOpacity activeOpacity={0.8} style={Styles.editView}>
+                <Image source={Images.Edit_Image} />
+              </TouchableOpacity>
+            </View>
+            <View style={Styles.toggleView}>
+              <Text style={[Styles.itemText, { paddingLeft: 0 }]}>
+                {Strings.Receive_Daily_Emails}
+              </Text>
+              <TouchableOpacity
+                style={Styles.emailBtn}
+                activeOpacity={0.8}
+                onPress={() => {
+                  dispatch(
+                    updateProfile(
+                      {
+                        type: "activity_preference",
+                        receive_daily_email: receiveEmail ? 0 : 1,
+                      },
+                      () => {},
+                      () => {}
+                    )
+                  ),
+                    setReceiveEmail(!receiveEmail);
+                }}
+              >
+                {receiveEmail ? (
+                  <Image source={Images.Toggle_on} />
+                ) : (
+                  <Image source={Images.Toggle_off} />
+                )}
+              </TouchableOpacity>
+            </View>
+          </View>
+          <Modal animationType="slide" transparent={true} visible={modalOpen}>
+            <TouchableOpacity
+              style={Styles.topModalView}
+              onPress={() => setModalOpen(false)}
+            />
+            {currentModal === 1 ? (
+              <ContactModal
+                setModalOpen={() => setModalOpen(false)}
+                updateModal={() => {
+                  setModalOpen(false), hitGetProfile();
+                }}
+              />
+            ) : currentModal == 2 ? (
+              <AddressModal
+                setModalOpen={() => setModalOpen(false)}
+                updateModal={() => {
+                  setModalOpen(false), hitGetProfile();
+                }}
+              />
+            ) : (
+              <EmailModal
+                setModalOpen={() => setModalOpen(false)}
+                updateModal={() => {
+                  setModalOpen(false), hitGetProfile();
+                }}
+              />
+            )}
+          </Modal>
         </View>
-      </View>
-      <Modal animationType="slide" transparent={true} visible={modalOpen}>
-        <TouchableOpacity
-          style={Styles.topModalView}
-          onPress={() => setModalOpen(false)}
-        />
-        {currentModal === 1 ? (
-          <ContactModal
-            phone1={phone1}
-            phone2={phone2}
-            phone3={phone3}
-            setPhone={(text1: string, text2: string, text3: string) => {
-              setPhone1(text1), setPhone2(text2), setPhone3(text3);
-            }}
-            setModalOpen={() => setModalOpen(false)}
-          />
-        ) : currentModal == 2 ? (
-          <AddressModal
-            setModalOpen={() => setModalOpen(false)}
-          />
-        ) : (
-          <EmailModal
-            email={email}
-            setEmail={(text: string) => setEmail(text)}
-            setModalOpen={() => setModalOpen(false)}
-          />
-        )}
-      </Modal>
-    </View>
+      )}
+    </ScrollView>
   );
 }
 
@@ -170,7 +237,6 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
     padding: vh(16),
     paddingTop: vh(6),
-    alignItems: "center",
     width: "100%",
     borderRadius: vh(8),
     marginBottom: vh(16),
@@ -191,15 +257,14 @@ const Styles = StyleSheet.create({
     paddingRight: 0,
   },
   itemView: {
-    width: "100%",
-    alignItems: "center",
+    width: "85%",
     flexDirection: "row",
-    justifyContent: "flex-start",
     paddingTop: vh(10),
+    alignItems: "center",
   },
   itemText: {
     fontFamily: "Nunito-SemiBold",
-    fontSize: vh(18),
+    fontSize: vh(17),
     paddingLeft: vw(10),
   },
   toggleView: {

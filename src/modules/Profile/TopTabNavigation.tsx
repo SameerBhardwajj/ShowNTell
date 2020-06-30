@@ -1,11 +1,7 @@
 import * as React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createStackNavigator,
-  TransitionPresets,
-} from "@react-navigation/stack";
+import { TransitionPresets } from "@react-navigation/stack";
 
 // custom Imports
 import BasicDetails from "./BasicDetails";
@@ -34,7 +30,6 @@ export default function App(props: AppProps) {
   return (
     <NavigationContainer independent={true}>
       <TopTabStack.Navigator
-        headerMode="none"
         initialRouteName={ScreenName.BASIC_DETAILS}
         lazy={true}
         tabBarOptions={{
@@ -50,7 +45,6 @@ export default function App(props: AppProps) {
             borderBottomEndRadius: vw(15),
             borderBottomStartRadius: vw(15),
           },
-          backgroundColor: Colors.violet,
           activeTintColor: "white",
           inactiveTintColor: Colors.lightViolet,
           labelStyle: {

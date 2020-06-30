@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Keyboard,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
@@ -17,35 +18,67 @@ import {
   Colors,
   validate,
   ConstantName,
+  CommonFunctions,
 } from "../../../utils";
-import { CustomPhoneField, CustomButton } from "../../../Components";
+import {
+  CustomPhoneField,
+  CustomButton,
+  CustomLoader,
+} from "../../../Components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { updateProfile } from "../action";
 
 export interface AppProps {
   navigation?: any;
-  phone1: string;
-  phone2: string;
-  phone3: string;
-  setPhone: Function;
   setModalOpen: Function;
+  updateModal: Function;
 }
 
 export default function App(props: AppProps) {
+  const { data } = useSelector((state: { Profile: any }) => ({
+    data: state.Profile.data,
+  }));
+  const dispatch = useDispatch();
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
   const inputRef3: any = React.createRef();
   const [checkphone1, setCheckPhone1] = useState(true);
   const [checkphone2, setCheckPhone2] = useState(true);
   const [checkphone3, setCheckPhone3] = useState(true);
-  const [phone1, setPhone1] = useState(props.phone1);
-  const [phone2, setPhone2] = useState(props.phone2);
-  const [phone3, setPhone3] = useState(props.phone3);
+  const [phone1, setPhone1] = useState(data.primary_phone);
+  const [phone2, setPhone2] = useState(data.work_phone);
+  const [phone3, setPhone3] = useState(data.secondary_phone);
+  const [isLoading, setLoading] = useState(false);
 
   const validateAll = () => {
     phone1.length === 0 || validate(ConstantName.PHONE, phone1)
       ? phone2.length === 0 || validate(ConstantName.PHONE, phone2)
         ? phone3.length === 0 || validate(ConstantName.PHONE, phone3)
-          ? (props.setPhone(phone1, phone2, phone3), props.setModalOpen())
+          ? (setLoading(true),
+            dispatch(
+              updateProfile(
+                {
+                  type: "contact_detail",
+                  primary_phone: CommonFunctions.isNullUndefined(phone1)
+                    ? ""
+                    : phone1,
+                  work_phone: CommonFunctions.isNullUndefined(phone2)
+                    ? ""
+                    : phone2,
+                  secondary_phone: CommonFunctions.isNullUndefined(phone3)
+                    ? ""
+                    : phone3,
+                },
+                () => {
+                  setLoading(false);
+                  props.updateModal();
+                },
+                (err: any) => {
+                  console.warn("err", err);
+                  setLoading(false);
+                }
+              )
+            ))
           : (setCheckPhone3(false), inputRef3.current.focus())
         : (setCheckPhone2(false), inputRef2.current.focus())
       : (setCheckPhone1(false), inputRef1.current.focus());
@@ -57,6 +90,7 @@ export default function App(props: AppProps) {
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={Styles.mainView}
     >
+      <CustomLoader loading={isLoading} />
       <View style={Styles.mainView}>
         <View style={Styles.modalView}>
           <TouchableOpacity
@@ -83,7 +117,7 @@ export default function App(props: AppProps) {
                   ? inputRef2.current.focus()
                   : (setCheckPhone1(false), inputRef1.current.focus());
               }}
-              mainViewStyle={{ width: "100%" }}
+              mainViewStyle={{ width: "100%", marginVertical: vh(4) }}
             />
             {/* mobile number ---------------- */}
             <CustomPhoneField
@@ -99,7 +133,7 @@ export default function App(props: AppProps) {
                   ? inputRef3.current.focus()
                   : (setCheckPhone2(false), inputRef2.current.focus());
               }}
-              mainViewStyle={{ width: "100%" }}
+              mainViewStyle={{ width: "100%", marginVertical: vh(4) }}
             />
             {/* other number ---------------- */}
             <CustomPhoneField
@@ -115,7 +149,7 @@ export default function App(props: AppProps) {
                   ? validateAll()
                   : (setCheckPhone3(false), inputRef3.current.focus());
               }}
-              mainViewStyle={{ width: "100%" }}
+              mainViewStyle={{ width: "100%", marginVertical: vh(4) }}
             />
           </View>
           <View style={Styles.btnView}>

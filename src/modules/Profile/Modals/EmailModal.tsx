@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
@@ -10,25 +12,51 @@ import {
   Colors,
   validate,
   ConstantName,
+  CommonFunctions,
 } from "../../../utils";
-import { CustomInputText, CustomButton } from "../../../Components";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  CustomInputText,
+  CustomButton,
+  CustomLoader,
+} from "../../../Components";
+import { updateProfile } from "../action";
 
 export interface AppProps {
   navigation?: any;
-  email: string;
-  setEmail: Function;
   setModalOpen: Function;
+  updateModal: Function;
 }
 
 export default function App(props: AppProps) {
-  const [email, setEmail] = useState(props.email);
+  const { data } = useSelector((state: { Profile: any }) => ({
+    data: state.Profile.data,
+  }));
+
+  const [email, setEmail] = useState(data.email);
   const [checkEmail, setCheckEmail] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const inputRef1: any = React.createRef();
+  const dispatch = useDispatch();
 
   const validateAll = () => {
     validate(ConstantName.EMAIL, email)
-      ? (props.setEmail(email), props.setModalOpen())
+      ? (setLoading(true),
+        dispatch(
+          updateProfile(
+            {
+              type: "email",
+              email: email,
+            },
+            () => {
+              setLoading(false);
+              props.updateModal();
+            },
+            (err: any) => {
+              console.warn("err", err);
+              setLoading(false);
+            }
+          )
+        ))
       : (setCheckEmail(false), inputRef1.current.focus());
   };
 
@@ -38,6 +66,7 @@ export default function App(props: AppProps) {
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={Styles.mainView}
     >
+      <CustomLoader loading={isLoading} />
       <View style={Styles.mainView}>
         <View style={Styles.modalView}>
           <TouchableOpacity

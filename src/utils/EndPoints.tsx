@@ -86,5 +86,15 @@ export default {
           ? ""
           : `&child_id=${child_id}`
       }${CommonFunctions.isNullUndefined(type) ? "" : `&type=${type}`}`,
+    profileDetails: `/api/v1/parent/get-basic-detail`,
+    updateProfile: `/api/v1/parent/update-basic-detail`,
+    classroomSchedule: (classID: number) =>
+      `/api/v1/parent/classroom-schedule?classroom_id=${classID}`,
+    fetchStates: `/api/v1/parent/states`,
+    uploadImage: {
+      uploadCDN: `/api/v1/parent/image/upload`,
+      inlineCDN: (img: string) => `/api/v1/parent/image/inline?guid=${img}`,
+      uploadProfileImage: `/api/v1/parent/profile-image`,
+    },
   },
 };

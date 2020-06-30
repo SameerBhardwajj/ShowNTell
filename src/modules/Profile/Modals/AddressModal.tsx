@@ -1,26 +1,116 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Keyboard,
+  Modal,
+  FlatList,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
-import { Images, vw, Strings, vh, Colors } from "../../../utils";
-import { CustomInputText, CustomButton } from "../../../Components";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {
+  Images,
+  vw,
+  Strings,
+  vh,
+  Colors,
+  validate,
+  CommonFunctions,
+  ConstantName,
+} from "../../../utils";
+import {
+  CustomInputText,
+  CustomButton,
+  CustomLoader,
+} from "../../../Components";
+import { updateProfile, fetchStatesAPI } from "../action";
+import StateList from "./StateList";
 
 export interface AppProps {
   setModalOpen: Function;
+  updateModal: Function;
 }
 
 export default function App(props: AppProps) {
+  const { data, stateList } = useSelector((state: { Profile: any }) => ({
+    data: state.Profile.data,
+    stateList: state.Profile.stateList,
+  }));
+
+  const dispatch = useDispatch();
   const inputRef1: any = React.createRef();
   const inputRef2: any = React.createRef();
   const inputRef3: any = React.createRef();
-  const inputRef4: any = React.createRef();
   const inputRef5: any = React.createRef();
-  const [address1, setAddress1] = useState("555 Main Street");
-  const [address2, setAddress2] = useState("Willington");
-  const [city, setCity] = useState("Los Angeles");
-  const [state, setState] = useState("California");
-  const [zipcode, setZipcode] = useState("1234567");
+  const [address1, setAddress1] = useState(data.address1);
+  const [address2, setAddress2] = useState(data.address2);
+  const [city, setCity] = useState(data.city);
+  const [state, setState] = useState(data.State.state_name);
+  const [zipcode, setZipcode] = useState(data.postal_code);
+  const [checkZipcode, setCheckZipcode] = useState(true);
+  const [isLoading, setLoading] = useState(false);
+  const [showList, setShowList] = useState(false);
+
+  useEffect(() => {
+    dispatch(
+      fetchStatesAPI(
+        () => {},
+        (e: any) => {
+          console.warn("state error ", e);
+        }
+      )
+    );
+  }, []);
+
+  const validateAll = () => {
+    validate(ConstantName.ZIPCODE, zipcode)
+      ? (setLoading(true),
+        dispatch(
+          updateProfile(
+            {
+              type: "address_detail",
+              countryCode: "",
+              city: CommonFunctions.isNullUndefined(city) ? "" : city,
+              zipCode: CommonFunctions.isNullUndefined(zipcode) ? "" : zipcode,
+              state: CommonFunctions.isNullUndefined(state) ? "" : state,
+              address1: CommonFunctions.isNullUndefined(address1)
+                ? ""
+                : address1,
+              address2: CommonFunctions.isNullUndefined(address2)
+                ? ""
+                : address2,
+            },
+            () => {
+              setLoading(false);
+              props.updateModal();
+            },
+            (err: any) => {
+              console.warn("err", err);
+              setLoading(false);
+            }
+          )
+        ))
+      : (setCheckZipcode(false), inputRef5.current.focus());
+  };
+
+  const renderItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <StateList
+        item={item}
+        index={index}
+        onPress={() => {
+          setState(item.state_name);
+          setShowList(false);
+        }}
+      />
+    );
+  };
 
   return (
     <KeyboardAwareScrollView
@@ -28,6 +118,7 @@ export default function App(props: AppProps) {
       keyboardShouldPersistTaps="handled"
       contentContainerStyle={Styles.mainView}
     >
+      <CustomLoader loading={isLoading} />
       <View style={Styles.mainView}>
         <View style={Styles.modalView}>
           <TouchableOpacity
@@ -47,7 +138,7 @@ export default function App(props: AppProps) {
               onChangeText={(text: string) => setAddress1(text)}
               onSubmitEditing={() => {
                 setAddress1(address1.trim());
-                inputRef2.current.focus()
+                inputRef2.current.focus();
               }}
               check={true}
               incorrectText={Strings.Address_Details}
@@ -61,7 +152,7 @@ export default function App(props: AppProps) {
               onChangeText={(text: string) => setAddress2(text)}
               onSubmitEditing={() => {
                 setAddress2(address2.trim());
-                inputRef3.current.focus()
+                inputRef3.current.focus();
               }}
               check={true}
               incorrectText={Strings.Address_Details}
@@ -75,38 +166,38 @@ export default function App(props: AppProps) {
               onChangeText={(text: string) => setCity(text)}
               onSubmitEditing={() => {
                 setCity(city.trim());
-                inputRef4.current.focus()
+                Keyboard.dismiss();
               }}
               check={true}
               incorrectText={Strings.Address_Details}
               keyboardType={"default"}
               mainViewStyle={Styles.textInputView}
             />
-            <CustomInputText
-              ref={inputRef4}
-              titleText={Strings.State}
-              value={state}
-              onChangeText={(text: string) => setState(text)}
-              onSubmitEditing={() => {
-                setState(state);
-                inputRef5.current.focus()
+            <Text style={Styles.menuView}>{Strings.State}</Text>
+            <TouchableOpacity
+              style={Styles.inputTxtView}
+              activeOpacity={0.8}
+              onPress={() => {
+                setShowList(true), Keyboard.dismiss();
               }}
-              check={true}
-              incorrectText={Strings.Address_Details}
-              keyboardType={"default"}
-              mainViewStyle={Styles.textInputView}
-            />
+            >
+              <Text style={Styles.schoolText}>{state}</Text>
+              <Image source={Images.Dropdown_icon} />
+            </TouchableOpacity>
             <CustomInputText
               ref={inputRef5}
               titleText={Strings.Zip_Code}
               value={zipcode}
-              onChangeText={(text: string) => setZipcode(text)}
+              onChangeText={(text: string) => {
+                checkZipcode ? null : setCheckZipcode(true), setZipcode(text);
+              }}
               onSubmitEditing={() => {
-                setZipcode(zipcode);
-                
+                validate(ConstantName.ZIPCODE, zipcode)
+                  ? validateAll()
+                  : setCheckZipcode(false);
               }}
               check={true}
-              incorrectText={Strings.Address_Details}
+              incorrectText={Strings.Zipcode_error}
               keyboardType={"phone-pad"}
               mainViewStyle={Styles.textInputView}
             />
@@ -121,13 +212,53 @@ export default function App(props: AppProps) {
             <CustomButton
               Text={Strings.Update}
               onPress={() => {
-                props.setModalOpen();
+                validateAll();
               }}
               ButtonStyle={{ width: "45%" }}
             />
           </View>
         </View>
       </View>
+      <Modal animationType="slide" transparent={true} visible={showList}>
+        <KeyboardAwareScrollView
+          bounces={false}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={Styles.flatlistView}
+        >
+          <TouchableOpacity
+            style={{ padding: vw(20), alignSelf: "flex-end" }}
+            activeOpacity={0.8}
+            onPress={() => {
+              setShowList(false);
+            }}
+          >
+            <Image source={Images.Cancel_Icon} />
+          </TouchableOpacity>
+          {/* <CustomSearchBar
+            value={query}
+            onChangeText={(text: string) => {
+              setQuery(text);
+              text.length === 0 ? setSearchData(list.slice(0)) : null;
+              search(text);
+            }}
+            placeholder={Strings.Search}
+            onSubmitEditing={() => Keyboard.dismiss()}
+            onPressCancel={() => {
+              setQuery(""), setSearchData([]);
+            }}
+            mainViewStyle={{ width: "90%", alignSelf: "center" }}
+          /> */}
+          <FlatList
+            nestedScrollEnabled={true}
+            data={stateList}
+            keyboardShouldPersistTaps="handled"
+            keyExtractor={(item, index) => index.toString()}
+            showsVerticalScrollIndicator={true}
+            bounces={false}
+            renderItem={renderItems}
+          />
+        </KeyboardAwareScrollView>
+      </Modal>
     </KeyboardAwareScrollView>
   );
 }
@@ -159,6 +290,38 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     alignSelf: "flex-start",
+  },
+  menuView: {
+    marginTop: vh(6),
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(14),
+    alignSelf: "flex-start",
+    color: Colors.titleColor,
+  },
+  inputTxtView: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+    backgroundColor: Colors.veryLightGrey,
+    height: vh(48),
+    marginTop: vh(10),
+    marginBottom: vh(26),
+    borderRadius: vh(50),
+    borderWidth: vh(1),
+    borderColor: Colors.borderGrey,
+    paddingHorizontal: vw(25),
+  },
+  schoolText: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(16),
+    color: Colors.lightBlack,
+  },
+  flatlistView: {
+    paddingVertical: vh(30),
+    width: "100%",
+    backgroundColor: "white",
+    height: "100%",
   },
   separatorView: {
     height: vw(1),

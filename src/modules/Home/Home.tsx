@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { updateTab, updateChild } from "./action";
+import { updateClassChild } from "../ClassroomSchedule/action";
 import {
   vh,
   Colors,
@@ -61,15 +62,19 @@ export default function App(props: AppProps) {
     loginData,
     myFilter,
     filterNum,
-  } = useSelector((state: { Home: any; Login: any }) => ({
-    tab: state.Home.tab,
-    data: state.Home.data,
-    currentChild: state.Home.currentChild,
-    loginToken: state.Login.loginToken,
-    loginData: state.Login.loginData,
-    myFilter: state.Home.myFilter,
-    filterNum: state.Home.filterNum,
-  }));
+    classroomChild,
+  } = useSelector(
+    (state: { Home: any; Login: any; ClassroomSchedule: any }) => ({
+      tab: state.Home.tab,
+      data: state.Home.data,
+      currentChild: state.Home.currentChild,
+      loginToken: state.Login.loginToken,
+      loginData: state.Login.loginData,
+      myFilter: state.Home.myFilter,
+      filterNum: state.Home.filterNum,
+      classroomChild: state.ClassroomSchedule.classroomChild,
+    })
+  );
 
   React.useEffect(() => {
     SplashScreen.hide();
@@ -84,6 +89,20 @@ export default function App(props: AppProps) {
       loginData.Children.length > 1,
       loginData.Children.length
     );
+
+    CommonFunctions.isEmpty(classroomChild)
+      ? dispatch(
+          updateClassChild(
+            {
+              id: loginData.Children[0].id,
+              name: loginData.Children[0].first_name,
+              classroom: loginData.Children[0].classroom_id,
+            },
+            () => {}
+          )
+        )
+      : null;
+
     loginData.Children.length > 1
       ? hitHomeAPI(currentChild.child, 0)
       : loginData.Children[0].id !== currentChild.child

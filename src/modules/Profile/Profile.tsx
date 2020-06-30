@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,68 +9,135 @@ import {
   Modal,
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { CustomHeader } from "../../Components";
-import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
+import { CustomHeader, CustomLoader } from "../../Components";
+import {
+  Strings,
+  vw,
+  vh,
+  Images,
+  Colors,
+  ScreenName,
+  CommonFunctions,
+} from "../../utils";
 import TopTabNavigation from "./TopTabNavigation";
+import {
+  hiBasicDetails,
+  hitUploadCDNapi,
+  hitUploadImage,
+  hitInlineCDNapi,
+} from "./action";
 
-const img =
-  "https://media.istockphoto.com/photos/portrait-of-smiling-handsome-man-in-blue-tshirt-standing-with-crossed-picture-id1045886560?k=6&m=1045886560&s=612x612&w=0&h=hXrxai1QKrfdqWdORI4TZ-M0ceCVakt4o6532vHaS3I=";
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
-  const [profilePic, setProfilePic] = useState("");
+  const { data } = useSelector((state: { Profile: any }) => ({
+    data: state.Profile.data,
+  }));
+  const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    dispatch(
+      hiBasicDetails(
+        () => {
+          setLoading(false);
+          console.warn("data ", data);
+        },
+        (err: any) => {
+          setLoading(false);
+          console.warn("err", err);
+        }
+      )
+    );
+  }, []);
 
   const ImagePick = () => {
     ImagePicker.openPicker({
       cropping: true,
     }).then((image: any) => {
-      setProfilePic(image.path);
+      setLoading(true);
+      // setProfilePic(image.path);
+      console.log("image  ", image.path);
+
+      dispatch(
+        hitUploadCDNapi(
+          image.path,
+          (data: any) => {
+            console.warn(data);
+            hitInlineCDNapi(
+              data.key,
+              () => {
+                hitUploadImage(
+                  data.key,
+                  () => {
+                    setLoading(false);
+                  },
+                  (e: any) => {
+                    setLoading(false);
+                    console.warn("error2  ", e);
+                  }
+                );
+              },
+              (e: any) => {
+                setLoading(false);
+                console.warn("error2  ", e);
+              }
+            );
+          },
+          (e: any) => {
+            setLoading(false);
+            console.warn("error1  ", e);
+          }
+        )
+      );
     });
   };
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      bounces={false}
-      horizontal={false}
-      showsVerticalScrollIndicator={false}
-    >
-      <View style={Styles.mainView}>
-        <CustomHeader
-          title={Strings.My_Profile}
-          onPressBack={() => props.navigation.pop()}
-        />
-        <View style={Styles.profilePicView}>
-          <View>
+    <View style={Styles.mainView}>
+      <CustomLoader loading={isLoading} />
+      <CustomHeader
+        title={Strings.My_Profile}
+        onPressBack={() => props.navigation.pop()}
+      />
+      <View style={Styles.profilePicView}>
+        <View style={Styles.profilePic}>
+          <Image
+            source={
+              CommonFunctions.isNullUndefined(data.s3_photo_path)
+                ? Images.Profile_Placeholder
+                : { uri: data.s3_photo_path }
+            }
+            resizeMethod="resize"
+            resizeMode="cover"
+            style={Styles.pic}
+          />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={Styles.editView}
+            onPress={() => ImagePick()}
+          >
             <Image
-              source={
-                profilePic.length === 0 ? { uri: img } : { uri: profilePic }
-              }
-              style={Styles.profilePic}
+              source={Images.Edit_Image}
+              style={Styles.editImg}
+              resizeMode="center"
             />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={Styles.editView}
-              onPress={() => ImagePick()}
-            >
-              <Image
-                source={Images.Edit_Image}
-                style={Styles.editImg}
-                resizeMode="center"
-              />
-            </TouchableOpacity>
-          </View>
-          <Text style={Styles.nameText}>{Strings.Bob_Parish}</Text>
+          </TouchableOpacity>
         </View>
-        <View style={{ height: "100%", width: "100%" }}>
-          <TopTabNavigation />
-        </View>
+        <Text style={Styles.nameText}>
+          {data.first_name} {data.last_name}
+        </Text>
       </View>
-    </ScrollView>
+      <View style={{ flex: 1, width: "100%" }}>
+        <TopTabNavigation />
+      </View>
+    </View>
   );
 }
 const Styles = StyleSheet.create({
@@ -87,6 +154,14 @@ const Styles = StyleSheet.create({
     paddingVertical: vh(20),
   },
   profilePic: {
+    height: vh(120),
+    width: vh(120),
+    borderRadius: vh(60),
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  pic: {
     height: vh(120),
     width: vh(120),
     borderRadius: vh(60),
