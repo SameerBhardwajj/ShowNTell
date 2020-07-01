@@ -93,7 +93,7 @@ export default function App(props: AppProps) {
         navigation={props.navigation}
         clear={clear}
         onPressClear={() => {
-          setClear(!clear);
+          setClear(false);
           hitQOTD();
         }}
       />
@@ -124,7 +124,7 @@ export default function App(props: AppProps) {
         <FilterModal
           setModal={(value: boolean) => setModalOpen(value)}
           onPress={(value: boolean) => {
-            setClear(!clear);
+            setClear(true);
             setModalOpen(false), hitQOTD(value ? WEDIDIT : DONE);
           }}
         />

@@ -50,9 +50,11 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
-  // const [isRefreshing, setRefreshing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [exitCounter, setExitCounter] = useState(false);
+  const [page, setPage] = useState(0);
+  const [homeData, setHomeData] = useState([]);
+  const [loadMore, setLoadMore] = useState(true);
 
   const {
     tab,
@@ -83,26 +85,13 @@ export default function App(props: AppProps) {
       loginToken
     );
     // setLoading(true);
-    console.warn(
-      "child ",
-      currentChild,
-      loginData.Children.length > 1,
-      loginData.Children.length
-    );
-
-    CommonFunctions.isEmpty(classroomChild)
-      ? dispatch(
-          updateClassChild(
-            {
-              id: loginData.Children[0].id,
-              name: loginData.Children[0].first_name,
-              classroom: loginData.Children[0].classroom_id,
-            },
-            () => {}
-          )
-        )
-      : null;
-
+    // console.warn(
+    //   "child ",
+    //   currentChild,
+    //   loginData.Children.length > 1,
+    //   loginData.Children.length
+    // );
+    setPage(0);
     loginData.Children.length > 1
       ? hitHomeAPI(currentChild.child, 0)
       : loginData.Children[0].id !== currentChild.child
@@ -169,19 +158,26 @@ export default function App(props: AppProps) {
     );
   };
 
-  const hitHomeAPI = (child_id: number, page?: number) => {
+  const hitHomeAPI = (child_id: number, pageNum?: number) => {
+    console.warn("my page  ", page);
+
     setLoading(true);
     dispatch(
       HomeAPI(
         (data: any) => {
-          setLoading(false);
+          console.log("home data   ", data);
+
+          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           // setRefreshing(false);
+          setHomeData(homeData.concat(data));
+          setPage(page + 1);
+          setLoading(false);
         },
         () => {
           setLoading(false);
         },
         child_id,
-        page
+        pageNum
       )
     );
   };
@@ -198,14 +194,18 @@ export default function App(props: AppProps) {
     dispatch(
       HomeAPI(
         (data: any) => {
-          setLoading(false);
+          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+
+          setHomeData(homeData.concat(data));
+          setPage(page + 1);
           // setRefreshing(false);
+          setLoading(false);
         },
         () => {
           setLoading(false);
         },
         currentChild.child,
-        0,
+        page,
         activity,
         fromDate,
         toDate,
@@ -219,14 +219,18 @@ export default function App(props: AppProps) {
     dispatch(
       HomeAPI(
         (data: any) => {
+          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
+          setHomeData(homeData.concat(data));
+          setPage(page + 1);
           // setRefreshing(false);
+          setLoading(false);
         },
         () => {
           setLoading(false);
         },
         currentChild.child,
-        0,
+        page,
         myFilter.activity,
         myFilter.fromDate,
         myFilter.toDate,
@@ -244,6 +248,7 @@ export default function App(props: AppProps) {
         animated={loading}
       />
       <View style={Styles.extraHeader} />
+      <CustomLoader loading={loading} />
       <View style={Styles.header}>
         <View style={Styles.upperHeader}>
           <TouchableOpacity
@@ -277,10 +282,10 @@ export default function App(props: AppProps) {
             value={query}
             placeholder={Strings.Search}
             onChangeText={(text: string) => {
-              setQuery(text), hitSearchAPI(text);
+              setQuery(text), hitSearchAPI(text), setPage(0);
             }}
             onPressCancel={() => {
-              setQuery(""), hitSearchAPI();
+              setQuery(""), hitSearchAPI(), setPage(0);
             }}
             mainViewStyle={{ backgroundColor: "white", width: "87%" }}
             inputTextStyle={{ width: "64%" }}
@@ -295,22 +300,19 @@ export default function App(props: AppProps) {
         </View>
       </View>
       <View style={Styles.innerView}>
-        {loading ? (
-          <CustomLoader loading={loading} />
-        ) : data.length === 0 ? (
+        {homeData.length === 0 ? (
           <CustomNoData />
         ) : (
           <FlatList
-            data={data}
+            data={homeData}
             keyExtractor={(item, index) => index.toString()}
-            // refreshing={isRefreshing}
-            // onRefresh={() => {
-            //   hitHomeAPI(currentChild.child, 0);
-            // }}
             bounces={false}
-            showsVerticalScrollIndicator={false}
             renderItem={renderItems}
             nestedScrollEnabled={true}
+            onEndReached={() =>
+              loadMore ? hitHomeAPI(currentChild.child, page + 1) : null
+            }
+            onEndReachedThreshold={0.5}
           />
         )}
       </View>
@@ -331,7 +333,7 @@ export default function App(props: AppProps) {
               let from = CommonFunctions.isEmpty(dates)
                 ? ""
                 : CommonFunctions.dateTypeFormat(dates.fromDate, "ymd");
-
+              setPage(0);
               dispatch(
                 addFilter(myFilter.activity, from, to, Activitytype, () => {
                   console.warn(" filter redux ...", myFilter);

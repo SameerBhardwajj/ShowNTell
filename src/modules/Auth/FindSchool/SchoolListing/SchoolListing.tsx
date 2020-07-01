@@ -58,7 +58,7 @@ export default function App(props: AppProps) {
   const [slot, setSlot] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [slotLoading, setSlotLoading] = useState(false);
-  const [isRefreshing, setisRefreshing] = useState(false);
+  // const [isRefreshing, setisRefreshing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [date, setDate] = useState(getSlotDate());
   const [id, setId] = useState(0);
@@ -101,11 +101,11 @@ export default function App(props: AppProps) {
           setData(data.concat(schoolList));
           setTemp(temp.concat(schoolList));
           setIsLoading(false);
-          setisRefreshing(false);
+          // setisRefreshing(false);
         },
         () => {
           setIsLoading(false);
-          setisRefreshing(false);
+          // setisRefreshing(false);
         }
       )
     );
@@ -149,6 +149,8 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={() => {
+          console.warn("pressed");
+
           let emptyArr: any = [];
           setTemp(emptyArr.concat(item));
           setQuery(item.name);
@@ -219,7 +221,7 @@ export default function App(props: AppProps) {
                   top: vh(80),
                 }}
                 keyboardShouldPersistTaps="handled"
-                showsVerticalScrollIndicator={false}
+                // showsVerticalScrollIndicator={false}
                 bounces={false}
                 data={result}
                 keyExtractor={(item, index) => index.toString()}
