@@ -22,7 +22,7 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [loadMore, setLoadMore] = useState(true);
   const { currentChild, downloadGallery, select } = useSelector(
@@ -37,7 +37,7 @@ export default function App(props: AppProps) {
   useEffect(() => {
     // dispatch(updateTab(true, () => {}));
     setData([]);
-    setPage(1);
+    setPage(0);
     setData([]);
     setLoading(true);
     hitPhotoLibraryAPI();

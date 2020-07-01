@@ -26,16 +26,9 @@ export default function App(props: AppProps) {
         <View style={Styles.msgView}>
           <View style={Styles.msgUpperView}>
             <View>
-              <Text style={Styles.fromText}>{Strings.From}</Text>
+              <Text style={Styles.fromText}>{Strings.Date}</Text>
               <Text style={Styles.dateText}>
-                {CommonFunctions.DateFormatter(item.absence_from)}
-              </Text>
-            </View>
-            <View style={Styles.separatorDateView} />
-            <View>
-              <Text style={Styles.fromText}>{Strings.To}</Text>
-              <Text style={Styles.dateText}>
-                {CommonFunctions.DateFormatter(item.absence_to)}
+                {CommonFunctions.DateFormatter(item.date)}
               </Text>
             </View>
           </View>

@@ -53,13 +53,16 @@ export default function App(props: AppProps) {
             props.navigation.navigate(ScreenName.PROFILE);
           }}
         >
-          <View style={Styles.img}>
+          <View style={Styles.imgView}>
             <Image
               source={
                 loginData.s3_photo_path === null
                   ? Images.Profile_Placeholder
                   : { uri: loginData.s3_photo_path }
               }
+              resizeMode="cover"
+              resizeMethod="resize"
+              style={Styles.img}
             />
           </View>
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>
@@ -102,11 +105,16 @@ const Styles = StyleSheet.create({
     paddingHorizontal: vw(16),
     alignItems: "center",
   },
-  img: {
+  imgView: {
     alignItems: "center",
     justifyContent: "center",
     borderRadius: vh(32),
     backgroundColor: "white",
+    height: vh(64),
+    width: vh(64),
+  },
+  img: {
+    borderRadius: vh(32),
     height: vh(64),
     width: vh(64),
   },

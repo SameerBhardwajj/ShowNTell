@@ -22,7 +22,6 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const { navigation, item } = props;
-  console.warn("acti   ", item.activity_description);
 
   return (
     <View style={Styles.innerView}>

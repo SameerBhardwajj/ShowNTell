@@ -44,9 +44,9 @@ export default function App(props: AppProps) {
   const dateGap = () => {
     return (
       CommonFunctions.dateTypeFormat(
-        props.allData[parseInt(props.index) - 1].in_date_time,
+        props.allData[parseInt(props.index) - 1].date,
         "dmy"
-      ) === CommonFunctions.dateTypeFormat(props.item.in_date_time, "dmy")
+      ) === CommonFunctions.dateTypeFormat(props.item.date, "dmy")
     );
   };
 
@@ -54,15 +54,11 @@ export default function App(props: AppProps) {
     <View style={Styles.mainView}>
       {parseInt(props.index) === 0 ? (
         <Text style={Styles.attendenceDate}>
-          {props.item.type === ATTENDANCE
-            ? CommonFunctions.DateFormatter(props.item.in_date_time)
-            : CommonFunctions.DateFormatter(props.item.date)}
+          {CommonFunctions.DateFormatter(props.item.date)}
         </Text>
       ) : dateGap() ? null : (
         <Text style={Styles.attendenceDate}>
-          {props.item.type === ATTENDANCE
-            ? CommonFunctions.DateFormatter(props.item.in_date_time)
-            : CommonFunctions.DateFormatter(props.item.date)}
+          {CommonFunctions.DateFormatter(props.item.date)}
         </Text>
       )}
       {props.currentChild === 0

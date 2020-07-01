@@ -38,11 +38,11 @@ export const HomeAPI = (
   searchKey?: string
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.warn("check  ....  ", child_id);
+    // console.warn("check  ....  ", child_id);
     API.getApiCall(
       EndPoints.home.HomeData(
         child_id,
-        0,
+        page,
         activity,
         fromDate,
         toDate,
@@ -53,7 +53,7 @@ export const HomeAPI = (
       (success: any) => {
         const res = success.data.response;
         if (success.data.code === 200) {
-          console.warn("mysuccess ", res);
+          // console.warn("mysuccess ", res);
           dispatch({
             type: Action.HOME_DATA,
             payload: {
