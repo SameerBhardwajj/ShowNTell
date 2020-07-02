@@ -51,6 +51,16 @@ export const HomeAPI = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     // console.warn("check  ....  ", child_id);
+    let params = {
+      child_id,
+      page,
+      activity,
+      fromDate,
+      toDate,
+      type,
+      searchKey,
+    };
+    debugger;
     API.getApiCall(
       EndPoints.home.HomeData(
         child_id,

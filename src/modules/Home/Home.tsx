@@ -334,7 +334,7 @@ export default function App(props: AppProps) {
                 hitHomeAPI(currentChild.child, 0);
             }}
             applyFilter={(value: any, Activitytype: Array<any>, dates: any) => {
-              console.warn("incoming  ", value, dates, Activitytype);
+              console.log("incoming  ", value, dates, Activitytype);
 
               let to = CommonFunctions.isEmpty(dates)
                 ? ""

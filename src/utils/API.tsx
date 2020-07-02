@@ -50,7 +50,7 @@ const postApiCall = (
   Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
-      console.warn("res ", response);
+      console.log("res ", response);
       successCallback(response);
     })
     .catch((error: any) => {
