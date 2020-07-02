@@ -16,7 +16,7 @@ import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { updateTab, updateChild } from "./action";
+import { updateTab, updateChild, updatePage } from "./action";
 import {
   vh,
   Colors,
@@ -51,7 +51,8 @@ export default function App(props: AppProps) {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [exitCounter, setExitCounter] = useState(false);
-  const [page, setPage] = useState(0);
+  const [filterPage, setFilterPage] = useState(0);
+  const [SearchPage, setSearchPage] = useState(0);
   const [homeData, setHomeData] = useState([]);
   const [loadMore, setLoadMore] = useState(true);
 
@@ -63,6 +64,7 @@ export default function App(props: AppProps) {
     loginData,
     myFilter,
     filterNum,
+    page,
   } = useSelector((state: { Home: any; Login: any }) => ({
     tab: state.Home.tab,
     data: state.Home.data,
@@ -71,6 +73,7 @@ export default function App(props: AppProps) {
     loginData: state.Login.loginData,
     myFilter: state.Home.myFilter,
     filterNum: state.Home.filterNum,
+    page: state.Home.page,
   }));
 
   React.useEffect(() => {
@@ -86,7 +89,7 @@ export default function App(props: AppProps) {
     //   loginData.Children.length > 1,
     //   loginData.Children.length
     // );
-    setPage(0);
+    dispatch(updatePage(0, () => {}));
     loginData.Children.length > 1
       ? hitHomeAPI(currentChild.child, 0)
       : loginData.Children[0].id !== currentChild.child
@@ -153,7 +156,7 @@ export default function App(props: AppProps) {
     );
   };
 
-  const hitHomeAPI = (child_id: number, pageNum?: number) => {
+  const hitHomeAPI = (child_id: number, pageNum: number) => {
     console.warn("my page  ", page);
 
     setLoading(true);
@@ -164,8 +167,10 @@ export default function App(props: AppProps) {
 
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           // setRefreshing(false);
-          setHomeData(homeData.concat(data));
-          setPage(page + 1);
+          pageNum === 0
+            ? setHomeData(data)
+            : setHomeData(homeData.concat(data));
+          dispatch(updatePage(pageNum + 1, () => {}));
           setLoading(false);
         },
         () => {
@@ -183,16 +188,17 @@ export default function App(props: AppProps) {
     toDate?: string,
     type?: string
   ) => {
-    console.warn("final   ", activity, fromDate, toDate, type);
-
+    console.warn("my page filter ", filterPage);
     setLoading(true);
     dispatch(
       HomeAPI(
         (data: any) => {
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
-
-          setHomeData(homeData.concat(data));
-          setPage(page + 1);
+          filterPage === 0
+            ? setHomeData(data)
+            : setHomeData(homeData.concat(data));
+          // dispatch(updatePage(page + 1, () => {}));
+          setFilterPage(filterPage + 1);
           // setRefreshing(false);
           setLoading(false);
         },
@@ -200,7 +206,7 @@ export default function App(props: AppProps) {
           setLoading(false);
         },
         currentChild.child,
-        page,
+        filterPage,
         activity,
         fromDate,
         toDate,
@@ -210,14 +216,18 @@ export default function App(props: AppProps) {
   };
 
   const hitSearchAPI = (query?: string) => {
+    console.warn("my page search ", SearchPage);
     setLoading(true);
     dispatch(
       HomeAPI(
         (data: any) => {
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
-          setHomeData(homeData.concat(data));
-          setPage(page + 1);
+          SearchPage === 0
+            ? setHomeData(data)
+            : setHomeData(homeData.concat(data));
+          // dispatch(updatePage(page + 1, () => {}));
+          setSearchPage(SearchPage + 1);
           // setRefreshing(false);
           setLoading(false);
         },
@@ -225,7 +235,7 @@ export default function App(props: AppProps) {
           setLoading(false);
         },
         currentChild.child,
-        page,
+        SearchPage,
         myFilter.activity,
         myFilter.fromDate,
         myFilter.toDate,
@@ -277,10 +287,12 @@ export default function App(props: AppProps) {
             value={query}
             placeholder={Strings.Search}
             onChangeText={(text: string) => {
-              setQuery(text), hitSearchAPI(text), setPage(0);
+              setQuery(text),
+                hitSearchAPI(text),
+                dispatch(updatePage(0, () => {}));
             }}
             onPressCancel={() => {
-              setQuery(""), hitSearchAPI(), setPage(0);
+              setQuery(""), hitSearchAPI(), dispatch(updatePage(0, () => {}));
             }}
             mainViewStyle={{ backgroundColor: "white", width: "87%" }}
             inputTextStyle={{ width: "64%" }}
@@ -317,7 +329,9 @@ export default function App(props: AppProps) {
           <FilterModal
             setModalOpen={(value: boolean) => setModalOpen(value)}
             resetFilter={() => {
-              setModalOpen(false), hitHomeAPI(currentChild.child, 0);
+              setModalOpen(false),
+                dispatch(updatePage(0, () => {})),
+                hitHomeAPI(currentChild.child, 0);
             }}
             applyFilter={(value: any, Activitytype: Array<any>, dates: any) => {
               console.warn("incoming  ", value, dates, Activitytype);
@@ -328,11 +342,15 @@ export default function App(props: AppProps) {
               let from = CommonFunctions.isEmpty(dates)
                 ? ""
                 : CommonFunctions.dateTypeFormat(dates.fromDate, "ymd");
-              setPage(0);
+              setFilterPage(0);
               dispatch(
-                addFilter(myFilter.activity, from, to, Activitytype, () => {
-                  console.warn(" filter redux ...", myFilter);
-                  hitFilterAPI(value, from, to, Activitytype.join(","));
+                updatePage(0, () => {
+                  dispatch(
+                    addFilter(myFilter.activity, from, to, Activitytype, () => {
+                      console.warn(" filter redux ...", myFilter);
+                      hitFilterAPI(value, from, to, Activitytype.join(","));
+                    })
+                  );
                 })
               );
             }}

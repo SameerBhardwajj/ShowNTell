@@ -26,6 +26,18 @@ export const updateChild = (value: object, callback: Function) => {
   };
 };
 
+export const updatePage = (value: number, callback: Function) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        page: value,
+      },
+    });
+    callback();
+  };
+};
+
 export const HomeAPI = (
   successCallback: Function,
   failureCallback: Function,

@@ -409,21 +409,6 @@ export default function App(props: AppProps) {
               checkActivityTypes(),
               dateApply ? { fromDate: fromDate, toDate: toDate } : {}
             );
-
-            // ? CustomToast(Strings.EmptyActivityType)
-            // : days < 0
-            // ? CustomToast(Strings.invalidDate)
-            // : (props.setModalOpen(false),
-            //   setCategory(myFilter),
-            //   props.applyFilter(
-            //     filterNum === myFilter.activity.length
-            //       ? null
-            //       : myFilter.activity.join(","),
-            //     checkActivityTypes(),
-            //     CommonFunctions.DateDifference(fromDate, new Date()) > 0
-            //       ? { fromDate: fromDate, toDate: toDate }
-            //       : {}
-            //   ));
           }}
           Text={Strings.Apply}
           ButtonStyle={Styles.applyBtn}
