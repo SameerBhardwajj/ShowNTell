@@ -198,7 +198,7 @@ export default function App(props: AppProps) {
               }}
               check={true}
               incorrectText={Strings.Zipcode_error}
-              keyboardType={"phone-pad"}
+              keyboardType={'number-pad'}
               mainViewStyle={Styles.textInputView}
             />
           </View>

@@ -1,13 +1,13 @@
 import { CustomToast } from "../../Components";
 import { Action, API, EndPoints, CommonFunctions } from "../../utils";
 
-export const hiBasicDetails = (
+export const getCannedMsgs = (
   successCallback: Function,
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.drawer.profileDetails,
+      EndPoints.drawer.chat.cannedMsg,
       {},
       (success: any) => {
         console.warn("success ", success);
@@ -15,9 +15,9 @@ export const hiBasicDetails = (
         const res = success.data.response;
         if (success.data.code === 200) {
           dispatch({
-            type: Action.PROFILE,
+            type: Action.CHAT,
             payload: {
-              data: res,
+              cannedMsg: res,
             },
           });
           successCallback(success.data.response);
@@ -30,9 +30,9 @@ export const hiBasicDetails = (
         console.log("err ", error);
 
         dispatch({
-          type: Action.PROFILE,
+          type: Action.CHAT,
           payload: {
-            data: {},
+            cannedMsg: [],
           },
         });
         CommonFunctions.handleError(error);

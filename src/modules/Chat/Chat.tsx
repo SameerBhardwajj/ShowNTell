@@ -7,26 +7,51 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  FlatList,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { updateTab } from "../Home/action";
-import { useDispatch } from "react-redux";
-import { CustomHeader } from "../../Components";
+import { CustomHeader, CustomSeparator } from "../../Components";
 import { Strings, vw, vh, Colors, ScreenName, Images } from "../../utils";
+import { getCannedMsgs } from "./action";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  const { cannedMsg } = useSelector((state: { Chat: any }) => ({
+    cannedMsg: state.Chat.cannedMsg,
+  }));
   const dispatch = useDispatch();
   const [msg, setMsg] = useState("");
 
   useEffect(() => {
-    dispatch(updateTab(true, () => {}));
+    // dispatch(updateTab(true, () => {}));
+    dispatch(
+      getCannedMsgs(
+        () => {},
+        () => {}
+      )
+    );
   }, []);
+
+  const renderCannedMgs = (rowData: any) => {
+    const { item, index } = rowData;
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => {}}
+        style={[Styles.mainImageView]}
+      >
+        <Text>{item.message}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={Styles.mainView}>
       <CustomHeader
@@ -37,7 +62,12 @@ export default function App(props: AppProps) {
         showsVerticalScrollIndicator={false}
         bounces={false}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ width: "100%", height: "100%" }}
+        contentContainerStyle={{
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
         <View style={Styles.scrollStyle}>
           {DATA.map((item, index) => (
@@ -65,16 +95,25 @@ export default function App(props: AppProps) {
           ))}
         </View>
         <View style={Styles.bottomView}>
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal={true}
+            bounces={false}
+            data={cannedMsg}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderCannedMgs}
+          />
+          <CustomSeparator />
           <View style={Styles.warningView}>
             <Text style={Styles.warningText}>{Strings.Chat_warning}</Text>
           </View>
-          <View style={{ width: "100%" }}>
+          <View style={{ width: "100%", alignItems: "center" }}>
             <TextInput
               value={msg}
               placeholder={Strings.Write_here}
               onChangeText={(text) => setMsg(text)}
               style={Styles.inputTxt}
-              // multiline
+              multiline
             />
             <TouchableOpacity style={Styles.sendBtnView}>
               <Image source={Images.Send_Icon} style={Styles.sendBtn} />
@@ -91,7 +130,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
   },
   scrollStyle: {
-    flex: 0.7,
+    height: "70%",
     width: "100%",
     shadowColor: "#000",
     shadowOffset: {
@@ -134,11 +173,22 @@ const Styles = StyleSheet.create({
     color: Colors.lightBlack,
   },
   bottomView: {
-    flex: 0.3,
+    height: "100%",
     width: "100%",
     alignItems: "center",
     padding: vh(16),
     backgroundColor: "white",
+  },
+  mainImageView: {
+    borderRadius: vh(50),
+    borderColor: Colors.violet,
+    marginHorizontal: vw(15),
+    marginTop: vh(10),
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "red",
+    height: vh(20),
+    width: vh(80),
   },
   warningView: {
     padding: vh(12),
@@ -161,17 +211,18 @@ const Styles = StyleSheet.create({
     marginTop: vh(10),
     marginBottom: vh(15),
     backgroundColor: Colors.veryLightGrey,
-    alignItems: "flex-start",
-    justifyContent: "center",
+    // alignItems: "center",
+    // justifyContent: "center",
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
+    paddingTop: vh(10),
   },
   sendBtnView: {
     position: "absolute",
     right: 0,
     top: 0,
     paddingHorizontal: vw(16),
-    paddingVertical: vh(15)
+    paddingVertical: vh(16),
   },
   sendBtn: {
     height: vh(32),

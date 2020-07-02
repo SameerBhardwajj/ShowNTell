@@ -12,6 +12,7 @@ import CustomTimeSlot from "./CustomTimeSlot";
 import CustomDOB from "./CustomDOB";
 import CustomLoader from "./CustomLoader";
 import CustomNoData from "./CustomNoData";
+import CustomSeparator from "./CustomSeparator";
 export {
   CustomButton,
   CustomToast,
@@ -27,4 +28,5 @@ export {
   CustomDOB,
   CustomLoader,
   CustomNoData,
+  CustomSeparator,
 };

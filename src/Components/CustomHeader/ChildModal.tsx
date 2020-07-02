@@ -96,7 +96,8 @@ const Styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-evenly",
-    borderRadius: vw(20),
+    borderTopLeftRadius: vw(20),
+    borderTopRightRadius: vw(20),
   },
   nameText: {
     fontFamily: "Nunito-Bold",

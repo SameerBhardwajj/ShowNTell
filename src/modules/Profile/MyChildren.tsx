@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -19,7 +19,11 @@ export default function App(props: AppProps) {
   const { data } = useSelector((state: { Profile: any }) => ({
     data: state.Profile.data,
   }));
-  const [currentChild, setCurrentChild] = useState(0);
+  const [currentChild, setCurrentChild] = useState(data.Family.Children[0].id);
+
+  useEffect(() => {
+    console.warn("my datta  ", data);
+  }, []);
 
   const renderChild = (rowData: any) => {
     const { item, index } = rowData;
@@ -44,7 +48,11 @@ export default function App(props: AppProps) {
           }
           resizeMethod="resize"
           resizeMode="cover"
-          style={Styles.imageView}
+          style={
+            CommonFunctions.isNullUndefined(item.s3_photo_path)
+              ? {}
+              : Styles.imageView
+          }
         />
       </TouchableOpacity>
     );
@@ -66,11 +74,11 @@ export default function App(props: AppProps) {
     >
       <View style={Styles.mainView}>
         <View style={Styles.contactView}>
-          {/* <FlatList
+          <FlatList
             showsHorizontalScrollIndicator={false}
             horizontal={true}
             bounces={false}
-            data={data.Children}
+            data={data.Family.Children}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderChild}
           />
@@ -79,12 +87,11 @@ export default function App(props: AppProps) {
               showsVerticalScrollIndicator={false}
               bounces={false}
               horizontal={false}
-              data={data.Children}
+              data={data.Family.Children}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItems}
             />
-          </View> */}
-
+          </View>
         </View>
       </View>
     </ScrollView>
@@ -97,7 +104,7 @@ const Styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   contactView: {
-    backgroundColor: "red",
+    backgroundColor: "transparent",
     paddingTop: vh(8),
     alignItems: "center",
     width: "100%",
@@ -192,55 +199,55 @@ const Styles = StyleSheet.create({
 });
 
 // API Data
-// const DATA = [
-//   {
-//     img:
-//       "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-//     name: "Alex Parish",
-//     dob: "February 21, 2016",
-//     class: "Infant - A",
-//     disease: ["Asthama", "Skin Rashes", "Food Poisioning"],
-//     teacherName: "Natasha Jacobs",
-//     teacherClass: "Infant A",
-//   },
-//   {
-//     img:
-//       "https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-//     name: "Alex",
-//     dob: "February 21, 2016",
-//     class: "Infant - A",
-//     disease: ["Asthama", "Skin Rashes"],
-//     teacherName: "Natasha Jacobs",
-//     teacherClass: "Infant A",
-//   },
-//   {
-//     img:
-//       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQfHtQL_rkve2SB0gLi7Ev37CWhwa2gEpmKwuuMsjgGG7zsx1lF&usqp=CAU",
-//     name: "Parish",
-//     dob: "February 21, 2016",
-//     class: "Infant - A",
-//     disease: ["Asthama", "Skin Rashes"],
-//     teacherName: "Natasha Jacobs",
-//     teacherClass: "Infant A",
-//   },
-//   {
-//     img:
-//       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRumf07Mflse2OBnmdZcrB_u30MamZw-KnJVVluhdFzkz9y_Zg4&usqp=CAU",
-//     name: "Sam",
-//     dob: "February 21, 2016",
-//     class: "Infant - A",
-//     disease: ["Asthama", "Skin Rashes"],
-//     teacherName: "Natasha Jacobs",
-//     teacherClass: "Infant A",
-//   },
-//   {
-//     img:
-//       "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgWrsvt5Ch52QWa-rO1d6rr14WXY8Wf5X_FBI4YYg5RX5FTrW7&usqp=CAU",
-//     name: "Raj",
-//     dob: "February 21, 2016",
-//     class: "Infant - A",
-//     disease: ["Asthama", "Skin Rashes"],
-//     teacherName: "Natasha Jacobs",
-//     teacherClass: "Infant A",
-//   },
-// ];
+const DATA = [
+  {
+    img:
+      "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+    name: "Alex Parish",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: ["Asthama", "Skin Rashes", "Food Poisioning"],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
+  {
+    img:
+      "https://images.pexels.com/photos/35537/child-children-girl-happy.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+    name: "Alex",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: ["Asthama", "Skin Rashes"],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
+  {
+    img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQfHtQL_rkve2SB0gLi7Ev37CWhwa2gEpmKwuuMsjgGG7zsx1lF&usqp=CAU",
+    name: "Parish",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: ["Asthama", "Skin Rashes"],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
+  {
+    img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRumf07Mflse2OBnmdZcrB_u30MamZw-KnJVVluhdFzkz9y_Zg4&usqp=CAU",
+    name: "Sam",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: ["Asthama", "Skin Rashes"],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
+  {
+    img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQgWrsvt5Ch52QWa-rO1d6rr14WXY8Wf5X_FBI4YYg5RX5FTrW7&usqp=CAU",
+    name: "Raj",
+    dob: "February 21, 2016",
+    class: "Infant - A",
+    disease: ["Asthama", "Skin Rashes"],
+    teacherName: "Natasha Jacobs",
+    teacherClass: "Infant A",
+  },
+];

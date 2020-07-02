@@ -64,10 +64,17 @@ export default function App(props: AppProps) {
       setLoading(true);
       // setProfilePic(image.path);
       console.log("image  ", image.path);
-
+      var formdata = new FormData();
+      console.log("boundary:", formdata);
+      formdata.append("file", {
+        uri: image.path.replace("file://", ""),
+        name: "test" + ".jpeg",
+        type: "image/jpeg",
+      });
+      
       dispatch(
         hitUploadCDNapi(
-          image.path,
+          formdata,
           (data: any) => {
             console.warn(data);
             hitInlineCDNapi(
@@ -80,7 +87,7 @@ export default function App(props: AppProps) {
                   },
                   (e: any) => {
                     setLoading(false);
-                    console.warn("error2  ", e);
+                    console.warn("error3  ", e);
                   }
                 );
               },

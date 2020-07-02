@@ -4,8 +4,6 @@ import { View, Text, Image, StyleSheet } from "react-native";
 // custom imports
 import { vw, vh, Strings, Images, Colors, CommonFunctions } from "../../utils";
 
-const teacher =
-  "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
 export interface AppProps {
   item: any;
   index: string;
@@ -13,12 +11,15 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const item = props.currentChild === parseInt(props.index) ? props.item : null;
-  console.warn("item  ", item);
+  const { item } = props;
 
-  return (
+  return props.currentChild !== item.id ? (
+    <View />
+  ) : (
     <View style={{ flex: 1, backgroundColor: "white", width: "100%" }}>
-      <Text style={Styles.nameText}>{item.name}</Text>
+      <Text style={Styles.nameText}>
+        {item.first_name} {item.last_name}
+      </Text>
       <View>
         <View style={Styles.itemView}>
           <Image source={Images.DOB_Icon} />
@@ -34,22 +35,44 @@ export default function App(props: AppProps) {
       <View style={Styles.separatorView} />
       <Text style={Styles.DOBText2}>{Strings.Medical_Information}</Text>
       <View>
-        {item.ChildMedicals.map((data: any) => (
-          <View style={Styles.itemView}>
-            <Image source={Images.Virus_icon} />
-            <Text style={Styles.DOBText}>{data.MedicalCondition.name}</Text>
-          </View>
-        ))}
+        {item.ChildMedicals.length === 0 ? (
+          <Text style={Styles.DOBText}>NA</Text>
+        ) : (
+          item.ChildMedicals.map((data: any) => (
+            <View style={Styles.itemView}>
+              <Image source={Images.Virus_icon} />
+              <Text style={Styles.DOBText}>{data.MedicalCondition.name}</Text>
+            </View>
+          ))
+        )}
       </View>
-      {/* <View style={Styles.separatorView} />
-        <Text style={Styles.DOBText2}>{Strings.Teachers_Information}</Text>
+      <View style={Styles.separatorView} />
+      <Text style={Styles.DOBText2}>{Strings.Teachers_Information}</Text>
+      {CommonFunctions.isNullUndefined(item.Employee) ? (
+        <Text style={Styles.classText}>NA</Text>
+      ) : (
         <View style={Styles.avatarView}>
-          <Image source={{ uri: teacher }} style={Styles.childAvatar} />
+          <Image
+            source={
+              CommonFunctions.isNullUndefined(item.Employee.s3_photo_path)
+                ? Images.Profile_Placeholder
+                : { uri: item.Employee.s3_photo_path }
+            }
+            style={[
+              Styles.avatarBorder,
+              CommonFunctions.isNullUndefined(item.Employee.s3_photo_path)
+                ? {}
+                : Styles.childAvatar,
+            ]}
+          />
           <View style={Styles.centerNameView}>
-            <Text style={Styles.name}>{item.teacherName}</Text>
-            <Text style={Styles.classText}>{item.teacherClass}</Text>
+            <Text style={Styles.name}>
+              {item.Employee.first_name} {item.Employee.last_name}
+            </Text>
+            <Text style={Styles.classText}>{item.Classroom.name}</Text>
           </View>
-        </View> */}
+        </View>
+      )}
     </View>
   );
 }
@@ -91,6 +114,10 @@ const Styles = StyleSheet.create({
   childAvatar: {
     height: vh(64),
     width: vh(64),
+  },
+  avatarBorder: {
+    borderColor: Colors.borderGrey,
+    borderWidth: vw(1),
     borderRadius: vh(32),
   },
   name: {

@@ -115,15 +115,17 @@ export default function App(props: AppProps) {
             </View>
             <View style={[Styles.itemView, { alignItems: "flex-start" }]}>
               <Image source={Images.Location_Pin_Icon} />
-              <Text style={Styles.itemText}>{`${data.address1}, ${
-                CommonFunctions.isNullUndefined(data.address2)
-                  ? ""
-                  : `${data.address2},`
-              } ${data.city}, ${
-                CommonFunctions.isNullUndefined(data.State)
-                  ? ""
-                  : `${data.State.state_name}`
-              } - ${data.postal_code}`}</Text>
+              {CommonFunctions.isNullUndefined(data.address1) ? null : (
+                <Text style={Styles.itemText}>{`${data.address1}, ${
+                  CommonFunctions.isNullUndefined(data.address2)
+                    ? ""
+                    : `${data.address2},`
+                } ${data.city}, ${
+                  CommonFunctions.isNullUndefined(data.State)
+                    ? ""
+                    : `${data.State.state_name}`
+                } - ${data.postal_code}`}</Text>
+              )}
             </View>
           </View>
           {/* Email ----------------------- */}
@@ -142,7 +144,9 @@ export default function App(props: AppProps) {
             </View>
             <View style={[Styles.itemView, { alignItems: "flex-start" }]}>
               <Image source={Images.Mail_Icon} />
-              <Text style={Styles.itemText}>{data.email}</Text>
+              {CommonFunctions.isNullUndefined(data.email) ? null : (
+                <Text style={Styles.itemText}>{data.email}</Text>
+              )}
             </View>
           </View>
           {/* Activity Preference ----------------------- */}

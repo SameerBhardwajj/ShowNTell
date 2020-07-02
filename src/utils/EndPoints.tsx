@@ -96,5 +96,8 @@ export default {
       inlineCDN: (img: string) => `/api/v1/parent/image/inline?guid=${img}`,
       uploadProfileImage: `/api/v1/parent/profile-image`,
     },
+    chat: {
+      cannedMsg: `/api/v1/parent/chat-canned-messages`,
+    },
   },
 };

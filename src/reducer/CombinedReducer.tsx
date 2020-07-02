@@ -13,6 +13,7 @@ import Announcement from "../modules/Announcement/reducer";
 import QOTD from "../modules/QOD/reducer";
 import Profile from "../modules/Profile/reducer";
 import ClassroomSchedule from "../modules/ClassroomSchedule/reducer";
+import Chat from "../modules/Chat/reducer";
 const CombinedReducer = combineReducers({
   Home,
   Splash,
@@ -28,6 +29,7 @@ const CombinedReducer = combineReducers({
   QOTD,
   Profile,
   ClassroomSchedule,
+  Chat,
 });
 
 export default CombinedReducer;

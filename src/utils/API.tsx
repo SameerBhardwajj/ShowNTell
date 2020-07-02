@@ -122,6 +122,31 @@ const getClientApiCall = (
     });
 };
 
+const postProfileApi = (
+  endPoint: string,
+  params: object,
+  successCallback: Function,
+  errorCallback: Function
+) => {
+  Constants.axiosProfileInstance
+    .post(endPoint, params)
+    .then((response: any) => {
+      console.warn("res ", response);
+      successCallback(response);
+    })
+    .catch((error: any) => {
+      console.warn("error", error);
+      console.log("Error.response.config ", error.response.config);
+      if (error.message === "Network Error") {
+        CustomToast(Strings.No_Internet);
+      } else if (error.code === "ECONNABORTED") {
+        CustomToast(Strings.Timeout_error);
+      } else {
+        errorCallback(error);
+      }
+    });
+};
+
 /**
  * export all function
  */
@@ -130,4 +155,5 @@ export default {
   getApiCall,
   googleSearchApiCall,
   getClientApiCall,
+  postProfileApi,
 };

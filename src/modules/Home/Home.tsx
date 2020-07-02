@@ -85,6 +85,20 @@ export default function App(props: AppProps) {
       loginToken
     );
     // setLoading(true);
+
+    CommonFunctions.isEmpty(classroomChild)
+      ? dispatch(
+          updateClassChild(
+            {
+              id: loginData.Children[0].id,
+              name: loginData.Children[0].first_name,
+              classroom: loginData.Children[0].classroom_id,
+            },
+            () => {}
+          )
+        )
+      : null;
+
     // console.warn(
     //   "child ",
     //   currentChild,
