@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1082193980667",
+    "firebase_url": "https://showntell-parent.firebaseio.com",
+    "project_id": "showntell-parent",
+    "storage_bucket": "showntell-parent.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082193980667:android:ecccf926e213892674545e",
+        "android_client_info": {
+          "package_name": "com.parentapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082193980667-1femj6hl52p7h9j0p3jqklgigg9s5chj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8vZG_8Z_o3J4JY6k1GUJa6mhNW8j0Rsg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082193980667-1femj6hl52p7h9j0p3jqklgigg9s5chj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

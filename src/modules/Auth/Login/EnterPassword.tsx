@@ -6,12 +6,15 @@ import {
   TouchableOpacity,
   Keyboard,
   Platform,
+  Clipboard,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import {
   getDeviceId,
   getDeviceToken,
   isEmulatorSync,
+  getDeviceName,
+  getBrand,
 } from "react-native-device-info";
 
 // custom imports
@@ -32,6 +35,7 @@ import {
   CommonFunctions,
 } from "../../../utils";
 import { updateLogin, loginAPI } from "./action";
+import FirebaseServices from "../../../utils/FirebaseServices";
 
 export interface AppProps {
   navigation?: any;
@@ -43,45 +47,48 @@ export default function App(props: AppProps) {
   const [isLoading, setIsLoading] = useState(false);
   const input2: any = React.createRef();
   const [password, setPassword] = useState("");
-  const [deviceID, setDeviceID] = useState("");
-  const [token, setToken] = useState("");
   const [checkPassword, setCheckPassword] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
   const { params } = props.route;
 
-  React.useEffect(() => {
-    isEmulatorSync()
-      ? setDeviceID("12")
-      : CommonFunctions.isNullUndefined(getDeviceId())
-      ? setDeviceID("12")
-      : setDeviceID(getDeviceId());
-    isEmulatorSync()
-      ? setToken("asdasda")
-      : CommonFunctions.isNullUndefined(getDeviceToken())
-      ? setToken("asdasda")
-      : getDeviceToken().then((token: string) => {
-          setToken(token);
-        });
-    console.warn("ok  ", deviceID, token);
-  }, []);
+  React.useEffect(() => {}, []);
 
   const check = () => {
     Keyboard.dismiss();
     validate(ConstantName.PASSWORD, password)
-      ? (setIsLoading(true),
-        dispatch(
-          loginAPI(
-            params.email,
-            password,
-            params.center.toString(),
-            deviceID,
-            Platform.OS === "ios" ? token : "asasd",
-            () => {
-              setIsLoading(false);
-            }
-          )
-        ))
+      ? (setIsLoading(true), getTokens())
       : setCheckPassword(false);
+  };
+
+  const getTokens = () => {
+    // isEmulatorSync()
+    //   ? HitLogin(getDeviceId(), "asasd", getBrand())
+    //   : 
+      Platform.OS === "ios"
+      ? getDeviceToken().then((token: string) => {
+          HitLogin(getDeviceId(), token, getBrand());
+        })
+      : FirebaseServices.getToken((myToken: string) => {
+          HitLogin(getDeviceId(), myToken, getBrand());
+          Clipboard.setString(myToken);
+          console.warn(getDeviceId(), myToken, getBrand());
+        });
+  };
+
+  const HitLogin = (deviceID: string, token: string, deviceName: string) => {
+    dispatch(
+      loginAPI(
+        params.email,
+        password,
+        params.center.toString(),
+        deviceID,
+        token,
+        deviceName,
+        () => {
+          setIsLoading(false);
+        }
+      )
+    );
   };
 
   return (

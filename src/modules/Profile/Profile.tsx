@@ -62,7 +62,6 @@ export default function App(props: AppProps) {
       cropping: true,
     }).then((image: any) => {
       setLoading(true);
-      // setProfilePic(image.path);
       console.log("image  ", image.path);
       var formdata = new FormData();
       console.log("boundary:", formdata);
@@ -71,7 +70,7 @@ export default function App(props: AppProps) {
         name: "test" + ".jpeg",
         type: "image/jpeg",
       });
-      
+
       dispatch(
         hitUploadCDNapi(
           formdata,

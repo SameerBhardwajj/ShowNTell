@@ -58,10 +58,11 @@ export const loginAPI = (
   id: string,
   deviceID: string,
   token: string,
+  deviceName: string,
   callback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.warn(deviceID, token);
+    console.warn('id  ',deviceID,'token  ', token,'name  ', deviceName);
 
     API.postApiCall(
       EndPoints.auth.login,
@@ -69,9 +70,10 @@ export const loginAPI = (
         email: email,
         password: password,
         center_id: id,
-        device_id: "12",
-        device_name: Platform.OS,
-        device_token: "asasd",
+        device_id: deviceID,
+        device_name: deviceName,
+        device_platform: Platform.OS,
+        device_token: token,
       },
       (success: any) => {
         debugger;

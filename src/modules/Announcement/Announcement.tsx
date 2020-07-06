@@ -65,8 +65,10 @@ export default function App(props: AppProps) {
           data.map((item: any, index: number) => (
             <View style={Styles.innerView}>
               <Text style={Styles.heading}>
-                {CommonFunctions.dateTypeFormat(new Date(), "dmy") ===
-                CommonFunctions.dateTypeFormat(new Date(item.create_dt), "dmy")
+                {CommonFunctions.dateTypeFormat(
+                  new Date().toDateString(),
+                  "dmy"
+                ) === CommonFunctions.dateTypeFormat(item.create_dt, "dmy")
                   ? "Today"
                   : CommonFunctions.DateFormatter(new Date(item.create_dt))}
               </Text>

@@ -47,7 +47,7 @@ export default function App(props: AppProps) {
         onPress={() => {}}
         style={[Styles.mainImageView]}
       >
-        <Text>{item.message}</Text>
+        <Text style={Styles.cannedText}>{item.message}</Text>
       </TouchableOpacity>
     );
   };
@@ -69,40 +69,18 @@ export default function App(props: AppProps) {
           justifyContent: "space-between",
         }}
       >
-        <View style={Styles.scrollStyle}>
-          {DATA.map((item, index) => (
-            <View style={Styles.innerView}>
-              {item.date.length !== 0 ? (
-                <Text style={Styles.heading}>{item.date}</Text>
-              ) : null}
-              <View
-                style={[
-                  Styles.contentView,
-                  {
-                    backgroundColor:
-                      index % 3 === 0
-                        ? Colors.lightWaterBlue
-                        : index % 2 === 0
-                        ? Colors.lightPink
-                        : Colors.lightGreen,
-                  },
-                ]}
-              >
-                <Text style={Styles.content}>{item.content}</Text>
-                <Text style={Styles.time}>{item.time}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
+        <View style={Styles.scrollStyle}></View>
         <View style={Styles.bottomView}>
-          <FlatList
-            showsHorizontalScrollIndicator={false}
-            horizontal={true}
-            bounces={false}
-            data={cannedMsg}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderCannedMgs}
-          />
+          <View style={{ width: "100%", alignItems: "center" }}>
+            <FlatList
+              showsHorizontalScrollIndicator={false}
+              horizontal={true}
+              bounces={false}
+              data={cannedMsg}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderCannedMgs}
+            />
+          </View>
           <CustomSeparator />
           <View style={Styles.warningView}>
             <Text style={Styles.warningText}>{Strings.Chat_warning}</Text>
@@ -127,50 +105,19 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   scrollStyle: {
-    height: "70%",
+    height: "60%",
     width: "100%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  innerView: {
-    padding: vh(16),
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 4.65,
-    elevation: 7,
-  },
-  contentView: {
-    padding: vw(20),
-    borderRadius: vh(10),
-    marginTop: vh(15),
-  },
-  heading: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(16),
-  },
-  content: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: vh(14),
-  },
-  time: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: vh(14),
-    paddingTop: vh(10),
-    color: Colors.lightBlack,
+    backgroundColor: "transparent",
   },
   bottomView: {
     height: "100%",
@@ -182,13 +129,17 @@ const Styles = StyleSheet.create({
   mainImageView: {
     borderRadius: vh(50),
     borderColor: Colors.violet,
-    marginHorizontal: vw(15),
-    marginTop: vh(10),
+    marginHorizontal: vw(4),
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "red",
-    height: vh(20),
-    width: vh(80),
+    backgroundColor: Colors.fadedPink,
+    padding: vh(13),
+    marginBottom: vh(10),
+  },
+  cannedText: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(16),
+    color: Colors.violet,
   },
   warningView: {
     padding: vh(12),
