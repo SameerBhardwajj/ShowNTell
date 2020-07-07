@@ -50,19 +50,19 @@ export default function App(props: AppProps) {
   const { params } = props.route;
 
   React.useEffect(() => {
-    isEmulatorSync()
-      ? setDeviceID("12")
-      : CommonFunctions.isNullUndefined(getDeviceId())
-      ? setDeviceID("12")
-      : setDeviceID(getDeviceId());
-    isEmulatorSync()
-      ? setToken("asdasda")
-      : CommonFunctions.isNullUndefined(getDeviceToken())
-      ? setToken("asdasda")
-      : getDeviceToken().then((token: string) => {
-          setToken(token);
-        });
-    console.warn("ok  ", deviceID, token);
+    // isEmulatorSync()
+    //   ? setDeviceID("12")
+    //   : CommonFunctions.isNullUndefined(getDeviceId())
+    //   ? setDeviceID("12")
+    //   : setDeviceID(getDeviceId());
+    // isEmulatorSync()
+    //   ? setToken("asdasda")
+    //   : CommonFunctions.isNullUndefined(getDeviceToken())
+    //   ? setToken("asdasda")
+    //   : getDeviceToken().then((token: string) => {
+    //       setToken(token);
+    //     });
+    // console.warn("ok  ", deviceID, token);
   }, []);
 
   const check = () => {

@@ -63,6 +63,7 @@ export default function App(props: AppProps) {
   const [query, setQuery] = useState("");
   const [temp, setTemp] = useState([]);
   const [result, setResult] = useState([]);
+  const [showResult, setShowResult] = useState(false);
   const [calenderId, setCalenderId] = useState(0);
   const { schoolList, slotDates } = useSelector(
     (state: { SchoolListing: any }) => ({
@@ -150,7 +151,7 @@ export default function App(props: AppProps) {
         index={index}
         onPress={() => {
           console.warn("pressed");
-
+          setShowResult(true);
           let emptyArr: any = [];
           setTemp(emptyArr.concat(item));
           setQuery(item.name);
@@ -208,7 +209,7 @@ export default function App(props: AppProps) {
                 setQuery(text), search(text);
               }}
               onPressCancel={() => {
-                setQuery(""), setTemp([]);
+                setQuery(""), setTemp([]), setShowResult(false);
               }}
               onSubmitEditing={() => Keyboard.dismiss()}
             />
@@ -221,6 +222,10 @@ export default function App(props: AppProps) {
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItemResult}
               />
+            ) : query.length !== 0 && !showResult ? (
+              <View style={{ height: "100%", width: "100%" }}>
+                <Text>{Strings.No_data_Found}</Text>
+              </View>
             ) : (
               <View style={{ width: "100%" }}>
                 <Text style={Styles.headingText}>
