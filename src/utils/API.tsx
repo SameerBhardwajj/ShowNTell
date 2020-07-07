@@ -54,8 +54,9 @@ const postApiCall = (
       successCallback(response);
     })
     .catch((error: any) => {
+      debugger
       console.warn("error", error);
-      console.log("Error.response.config ", error.response.config);
+      console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
       } else if (error.code === "ECONNABORTED") {
@@ -122,29 +123,58 @@ const getClientApiCall = (
     });
 };
 
-const postProfileApi = (
+// const postProfileApi = (
+//   endPoint: string,
+//   params: object,
+//   successCallback: Function,
+//   errorCallback: Function
+// ) => {
+//   Constants.axiosProfileInstance
+//     .post(endPoint, params)
+//     .then((response: any) => {
+//       console.warn("res ", response);
+//       successCallback(response);
+//     })
+//     .catch((error: any) => {
+//       console.warn("error", error);
+//       console.log("Error.response.config ", error.response.config);
+//       if (error.message === "Network Error") {
+//         CustomToast(Strings.No_Internet);
+//       } else if (error.code === "ECONNABORTED") {
+//         CustomToast(Strings.Timeout_error);
+//       } else {
+//         errorCallback(error);
+//       }
+//     });
+// };
+
+const fileUpload = (
   endPoint: string,
-  params: object,
+  data: any,
+  // params: any,
   successCallback: Function,
   errorCallback: Function
 ) => {
-  Constants.axiosProfileInstance
-    .post(endPoint, params)
-    .then((response: any) => {
-      console.warn("res ", response);
-      successCallback(response);
+  Constants.axiosInstance
+    .post(endPoint, data, {
+      headers: { "Content-Type": "multipart/form-data" },
+      // params,
     })
-    .catch((error: any) => {
-      console.warn("error", error);
-      console.log("Error.response.config ", error.response.config);
-      if (error.message === "Network Error") {
-        CustomToast(Strings.No_Internet);
-      } else if (error.code === "ECONNABORTED") {
-        CustomToast(Strings.Timeout_error);
-      } else {
+    .then(
+      (response: any) => {
+        console.log(response);
+
+        successCallback(response);
+      },
+      (error: any) => {
+        // if (error.message == "Network Error") {
+        //     Utils.Constant.showSnackbar("No internet")
+        //     }
+        console.log(error);
+
         errorCallback(error);
       }
-    });
+    );
 };
 
 /**
@@ -155,5 +185,6 @@ export default {
   getApiCall,
   googleSearchApiCall,
   getClientApiCall,
-  postProfileApi,
+  // postProfileApi,
+  fileUpload,
 };

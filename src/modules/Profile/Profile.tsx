@@ -63,8 +63,16 @@ export default function App(props: AppProps) {
     }).then((image: any) => {
       setLoading(true);
       console.log("image  ", image.path);
+
+      // var formdata = new FormData();
+      // console.log("boundary:", formdata);
+      // formdata.append("file", {
+      //   uri: image.path.replace("file://", ""),
+      //   name: "test" + ".jpeg",
+      //   type: "image/jpeg",
+      // });
+
       var formdata = new FormData();
-      console.log("boundary:", formdata);
       formdata.append("file", {
         uri: image.path.replace("file://", ""),
         name: "test" + ".jpeg",
@@ -75,26 +83,29 @@ export default function App(props: AppProps) {
         hitUploadCDNapi(
           formdata,
           (data: any) => {
-            console.warn(data);
-            hitInlineCDNapi(
-              data.key,
-              () => {
-                hitUploadImage(
-                  data.key,
-                  () => {
-                    setLoading(false);
-                  },
-                  (e: any) => {
-                    setLoading(false);
-                    console.warn("error3  ", e);
-                  }
-                );
-              },
-              (e: any) => {
-                setLoading(false);
-                console.warn("error2  ", e);
-              }
+            console.warn("my  ", data.key);
+            dispatch(
+              hitUploadImage(
+                data.key,
+                () => {
+                  setLoading(false);
+                },
+                (e: any) => {
+                  setLoading(false);
+                  console.warn("error3  ", e);
+                }
+              )
             );
+            // dispatch(
+            //   hitInlineCDNapi(
+            //     data.key,
+            //     () => {},
+            //     (e: any) => {
+            //       setLoading(false);
+            //       console.warn("error2  ", e);
+            //     }
+            //   )
+            // );
           },
           (e: any) => {
             setLoading(false);
@@ -102,6 +113,17 @@ export default function App(props: AppProps) {
           }
         )
       );
+
+      // dispatch(
+      //   hitUploadCDNapi(
+      //     formdata,
+      //     // {type: "watermark"},
+      //     // "",
+      //     // "",
+      //     (response: any) => {},
+      //     () => {}
+      //   )
+      // );
     });
   };
 

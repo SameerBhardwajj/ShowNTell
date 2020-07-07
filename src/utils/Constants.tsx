@@ -9,16 +9,8 @@ const $http = axios.create({
   },
 });
 
-const $httpProfile = axios.create({
-  baseURL: Config.BASE_URL,
-  timeout: 30000,
-});
-
 const setAuthorizationToken = (token: boolean, myToken: string) => {
   $http.defaults.headers.common.Authorization = token
-    ? `Bearer ${myToken}`
-    : "Basic Y29yZTpjb3Jl";
-  $httpProfile.defaults.headers.common.Authorization = token
     ? `Bearer ${myToken}`
     : "Basic Y29yZTpjb3Jl";
 };
@@ -33,7 +25,6 @@ export default {
   unAuthorizedStatus: 401,
   notAuthorizedForInfo: 400,
   axiosInstance: $http,
-  axiosProfileInstance: $httpProfile,
   clientAxiosInstance: clientHttp,
   setAuthorizationToken,
   status_code: {

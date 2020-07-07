@@ -108,19 +108,49 @@ export const fetchStatesAPI = (
   };
 };
 
+// export const hitUploadCDNapi = (
+//   file: FormData,
+//   successCallback: Function,
+//   failCallback: Function
+// ) => {
+//   return (dispatch: Function, getState: Function) => {
+//     API.postProfileApi(
+//       EndPoints.drawer.uploadImage.uploadCDN,
+//       { file: file },
+//       (success: any) => {
+//         console.warn("success ", success);
+
+//         const res = success.data.response;
+//         if (success.data.code === 200) {
+//           successCallback(success.data.response);
+//         } else {
+//           CustomToast(success.data.message);
+//           failCallback();
+//         }
+//       },
+//       (error: any) => {
+//         console.log("err ", error);
+//         CommonFunctions.handleError(error);
+//         failCallback(error);
+//       }
+//     );
+//   };
+// };
+
 export const hitUploadCDNapi = (
-  file: FormData,
+  data: any,
+  // params: any,
   successCallback: Function,
   failCallback: Function
 ) => {
-  return (dispatch: Function, getState: Function) => {
-    API.postProfileApi(
-      EndPoints.drawer.uploadImage.uploadCDN,
-      { file: file },
-      (success: any) => {
-        console.warn("success ", success);
+  console.warn("my data   ", data);
 
-        const res = success.data.response;
+  return (dispatch: Function) => {
+    API.fileUpload(
+      EndPoints.drawer.uploadImage.uploadCDN,
+      data,
+      // params,
+      (success: any) => {
         if (success.data.code === 200) {
           successCallback(success.data.response);
         } else {
@@ -129,9 +159,8 @@ export const hitUploadCDNapi = (
         }
       },
       (error: any) => {
-        console.log("err ", error);
         CommonFunctions.handleError(error);
-        failCallback(error);
+        failCallback();
       }
     );
   };
@@ -142,6 +171,8 @@ export const hitInlineCDNapi = (
   successCallback: Function,
   failCallback: Function
 ) => {
+  console.warn("step 2");
+
   return (dispatch: Function, getState: Function) => {
     API.postApiCall(
       EndPoints.drawer.uploadImage.inlineCDN(file),
@@ -158,7 +189,7 @@ export const hitInlineCDNapi = (
         }
       },
       (error: any) => {
-        console.log("err ", error);
+        console.warn("err ", error);
         CommonFunctions.handleError(error);
         failCallback(error);
       }

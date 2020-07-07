@@ -12,7 +12,6 @@ import { useDispatch } from "react-redux";
 import {
   getDeviceId,
   getDeviceToken,
-  isEmulatorSync,
   getDeviceName,
   getBrand,
 } from "react-native-device-info";
@@ -23,6 +22,7 @@ import {
   CustomButton,
   CustomInputText,
   CustomLoader,
+  CustomToast,
 } from "../../../Components";
 import {
   Strings,
@@ -61,14 +61,12 @@ export default function App(props: AppProps) {
   };
 
   const getTokens = () => {
-    // isEmulatorSync()
-    //   ? HitLogin(getDeviceId(), "asasd", getBrand())
-    //   : 
-      Platform.OS === "ios"
-      ? getDeviceToken().then((token: string) => {
-          HitLogin(getDeviceId(), token, getBrand());
-        })
-      : FirebaseServices.getToken((myToken: string) => {
+    Platform.OS === "ios"
+      ? // getDeviceToken().then((token: string) => {
+        // CustomToast(`${getDeviceId()}, ${token}, ${getBrand()}`);
+        HitLogin(getDeviceId(), "asasd", getBrand())
+      : // })
+        FirebaseServices.getToken((myToken: string) => {
           HitLogin(getDeviceId(), myToken, getBrand());
           Clipboard.setString(myToken);
           console.warn(getDeviceId(), myToken, getBrand());
