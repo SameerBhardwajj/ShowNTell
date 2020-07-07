@@ -55,7 +55,7 @@ const postApiCall = (
     })
     .catch((error: any) => {
       console.warn("error", error);
-      console.log("Error.response.config ", error.response.config);
+      console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
       } else if (error.code === "ECONNABORTED") {
