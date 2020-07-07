@@ -212,16 +212,10 @@ export default function App(props: AppProps) {
               }}
               onSubmitEditing={() => Keyboard.dismiss()}
             />
-            {query.length !== 0 ? (
+            {result.length !== 0 ? (
               <FlatList
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  zIndex: 99,
-                  top: vh(80),
-                }}
+                style={Styles.resultListView}
                 keyboardShouldPersistTaps="handled"
-                // showsVerticalScrollIndicator={false}
                 bounces={false}
                 data={result}
                 keyExtractor={(item, index) => index.toString()}
@@ -318,6 +312,12 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     marginBottom: vh(300),
+  },
+  resultListView: {
+    position: "absolute",
+    width: "100%",
+    zIndex: 99,
+    top: vh(80),
   },
   headingText: {
     fontFamily: "Nunito-Bold",
