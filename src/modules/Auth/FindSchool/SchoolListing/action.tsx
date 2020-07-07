@@ -6,20 +6,24 @@ export const fetchSchoolList = (
   failureCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.warn('value  ', value);
-    
+    console.warn("value  ", value);
+
     API.getApiCall(
       EndPoints.auth.nearByCentres(value.lat, value.lng),
       {},
       (success: any) => {
-        console.warn("success ", success.data.response);
-        dispatch({
-          type: Action.FETCH_SCHOOL_LIST,
-          payload: {
-            schoolList: success.data.response,
-          },
-        });
-        successCallback(success.data.response);
+        if (success.data.code === 200) {
+          console.warn("success ", success.data.response);
+          dispatch({
+            type: Action.FETCH_SCHOOL_LIST,
+            payload: {
+              schoolList: success.data.response,
+            },
+          });
+          successCallback(success.data.response);
+        } else {
+          failureCallback();
+        }
       },
       (error: any) => {
         CommonFunctions.handleError(error);

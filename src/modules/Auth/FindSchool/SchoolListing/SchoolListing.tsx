@@ -13,7 +13,6 @@ import {
   Keyboard,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import DatePicker from "react-native-date-picker";
 
 // custom imports
 import {
@@ -58,13 +57,13 @@ export default function App(props: AppProps) {
   const [slot, setSlot] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [slotLoading, setSlotLoading] = useState(false);
-  // const [isRefreshing, setisRefreshing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [date, setDate] = useState(getSlotDate());
   const [id, setId] = useState(0);
   const [query, setQuery] = useState("");
   const [temp, setTemp] = useState([]);
   const [result, setResult] = useState([]);
+  const [showResult, setShowResult] = useState(false);
   const [calenderId, setCalenderId] = useState(0);
   const { schoolList, slotDates } = useSelector(
     (state: { SchoolListing: any }) => ({
@@ -98,14 +97,16 @@ export default function App(props: AppProps) {
       fetchSchoolList(
         props.route.params.coordinates,
         (data: any) => {
+          console.warn("data  ", data);
+
           setData(data.concat(schoolList));
           setTemp(temp.concat(schoolList));
           setIsLoading(false);
-          // setisRefreshing(false);
         },
         () => {
+          setData([]);
+          setTemp([]);
           setIsLoading(false);
-          // setisRefreshing(false);
         }
       )
     );
@@ -150,7 +151,7 @@ export default function App(props: AppProps) {
         index={index}
         onPress={() => {
           console.warn("pressed");
-
+          setShowResult(true);
           let emptyArr: any = [];
           setTemp(emptyArr.concat(item));
           setQuery(item.name);
@@ -196,7 +197,7 @@ export default function App(props: AppProps) {
                 size="large"
               />
             ) : (
-              <Text>{Strings.No_data_Found}</Text>
+              <CustomNoData />
             )}
           </View>
         ) : (
@@ -208,25 +209,23 @@ export default function App(props: AppProps) {
                 setQuery(text), search(text);
               }}
               onPressCancel={() => {
-                setQuery(""), setTemp([]);
+                setQuery(""), setTemp([]), setShowResult(false);
               }}
               onSubmitEditing={() => Keyboard.dismiss()}
             />
             {result.length !== 0 ? (
               <FlatList
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  zIndex: 99,
-                  top: vh(80),
-                }}
+                style={Styles.resultListView}
                 keyboardShouldPersistTaps="handled"
-                // showsVerticalScrollIndicator={false}
                 bounces={false}
                 data={result}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItemResult}
               />
+            ) : query.length !== 0 && !showResult ? (
+              <View style={{ height: "100%", width: "100%" }}>
+                <Text>{Strings.No_data_Found}</Text>
+              </View>
             ) : (
               <View style={{ width: "100%" }}>
                 <Text style={Styles.headingText}>
@@ -318,6 +317,12 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     marginBottom: vh(300),
+  },
+  resultListView: {
+    position: "absolute",
+    width: "100%",
+    zIndex: 99,
+    top: vh(80),
   },
   headingText: {
     fontFamily: "Nunito-Bold",

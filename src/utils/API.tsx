@@ -50,7 +50,7 @@ const postApiCall = (
   Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
-      console.warn("res ", response);
+      console.log("res ", response);
       successCallback(response);
     })
     .catch((error: any) => {
@@ -86,8 +86,9 @@ const getApiCall = (
       successCallback(response);
     })
     .catch((error: any) => {
+      debugger
       // console.warn("error", error.code);
-      console.log("Error.response.config ", error.response);
+      console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
       }

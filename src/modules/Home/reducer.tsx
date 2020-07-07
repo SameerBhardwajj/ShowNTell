@@ -4,13 +4,12 @@ const initialState = {
   forceRerendering: false,
   data: {},
   currentChild: { child: 0, name: "All", classroom: 0 },
-  // otherCurrentChild: { child: 0, name: "All", classroom: 0 },
   filterData: {},
   myFilter: { activity: [], fromDate: "", toDate: "", type: [] },
   filterNum: 0,
+  page: 0,
 };
 const Reducer = (state = initialState, action: any) => {
-  console.warn(action, action.payload);
   switch (action.type) {
     case Action.UPDATE_TAB:
       return { ...state, ...action.payload };

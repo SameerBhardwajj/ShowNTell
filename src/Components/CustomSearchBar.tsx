@@ -24,7 +24,7 @@ export interface AppProps {
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
   return (
     <View style={[Styles.inputTxtView, props.mainViewStyle]}>
-      <View style={Styles.imgView}>
+      <View>
         <Image source={Images.Search_Icon} style={Styles.img} />
       </View>
       <TextInput
@@ -38,15 +38,17 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         returnKeyType={"go"}
         onSubmitEditing={() => props.onSubmitEditing()}
       />
-      {props.value.length === 0 ? null : (
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => props.onPressCancel()}
-          style={Styles.imgView}
-        >
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() =>
+          props.value.length === 0 ? null : props.onPressCancel()
+        }
+        style={{width: vw(20)}}
+      >
+        {props.value.length === 0 ? null : (
           <Image source={Images.Cancel_Icon} />
-        </TouchableOpacity>
-      )}
+        )}
+      </TouchableOpacity>
     </View>
   );
 });
@@ -60,15 +62,14 @@ const Styles = StyleSheet.create({
     borderRadius: vh(50),
     height: vh(48),
     width: "100%",
+    justifyContent: "space-around",
+    paddingHorizontal: vw(10),
   },
   inputTxt: {
     height: vh(46),
     fontSize: vh(14),
     fontFamily: "Nunito-SemiBold",
-    width: vw(260),
-  },
-  imgView: {
-    paddingHorizontal: vw(15),
+    width: "75%",
   },
   img: {
     height: vh(20),

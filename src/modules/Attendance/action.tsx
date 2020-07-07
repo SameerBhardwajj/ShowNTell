@@ -13,9 +13,11 @@ export const viewAttendance = (
       EndPoints.attendance.viewAttendance(type, child_id, date),
       {},
       (success: any) => {
+        console.warn(type, child_id, date);
+        
         let res = success.data.response;
         if (success.data.code === 200) {
-          console.log("mysuccess ", res);
+          console.warn("mysuccess ", res);
           dispatch({
             type: Action.VIEW_ATTENDANCE,
             payload: {

@@ -62,7 +62,7 @@ export const loginAPI = (
   callback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.warn('id  ',deviceID,'token  ', token,'name  ', deviceName);
+    console.warn("id  ", deviceID, "token  ", token, "name  ", deviceName);
 
     API.postApiCall(
       EndPoints.auth.login,
@@ -95,6 +95,7 @@ export const loginAPI = (
         callback();
       },
       (error: any) => {
+        debugger;
         CommonFunctions.handleError(error);
         callback();
       }

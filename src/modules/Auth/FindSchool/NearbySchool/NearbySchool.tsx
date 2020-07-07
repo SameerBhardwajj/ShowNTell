@@ -19,7 +19,6 @@ import {
   CustomSearchBar,
   CustomToast,
   CustomLoader,
-  CustomNoData,
 } from "../../../../Components";
 import {
   Strings,
@@ -123,8 +122,6 @@ export default function App(props: AppProps) {
     setIsLoading(true);
     CommonFunctions.requestLocationPermission(
       (position: object) => {
-        console.warn(position);
-        
         setIsLoading(false);
         props.navigation.navigate(ScreenName.SCHOOL_LISTING, {
           coordinates: position,
@@ -213,7 +210,7 @@ export default function App(props: AppProps) {
         <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
           {query.length !== 0 ? (
             !(data && data.length) ? (
-              <CustomNoData />
+            <Text style={{alignSelf: 'center', paddingTop: vh(10)}}>{Strings.No_data_Found}</Text>
             ) : (
               <FlatList
                 keyboardShouldPersistTaps="handled"
