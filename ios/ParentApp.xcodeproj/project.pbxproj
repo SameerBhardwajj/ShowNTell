@@ -801,7 +801,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.showntell.beta;
 				PRODUCT_NAME = ParentApp;
-				PROVISIONING_PROFILE_SPECIFIER = "Show N Tell Dist Beta";
+				PROVISIONING_PROFILE_SPECIFIER = "Show N Tell AppStore Beta";
 				SWIFT_OBJC_BRIDGING_HEADER = "ParentApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
