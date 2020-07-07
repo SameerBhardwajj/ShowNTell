@@ -70,7 +70,8 @@ export const loginAPI = (
         password: password,
         center_id: id,
         device_id: "12",
-        device_name: Platform.OS,
+        device_name:"vivo",
+        device_platform: Platform.OS,
         device_token: "asasd",
       },
       (success: any) => {

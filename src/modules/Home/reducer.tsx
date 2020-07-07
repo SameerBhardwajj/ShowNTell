@@ -10,7 +10,6 @@ const initialState = {
   page: 0,
 };
 const Reducer = (state = initialState, action: any) => {
-  console.warn(action, action.payload);
   switch (action.type) {
     case Action.UPDATE_TAB:
       return { ...state, ...action.payload };

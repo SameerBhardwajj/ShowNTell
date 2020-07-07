@@ -6,7 +6,6 @@ const initialState = {
   forceRerendering: false,
 };
 const Reducer = (state = initialState, action: any) => {
-  console.log(action, state.libraryData);
   switch (action.type) {
     case Action.UPDATE_LIBRARY:
       return { ...state, ...action.payload };

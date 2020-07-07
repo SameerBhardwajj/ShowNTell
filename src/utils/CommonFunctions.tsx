@@ -97,15 +97,15 @@ const requestLocationPermission = async (
     permissionError();
   }
   if (hasPermission) {
-    console.warn("here");
+    console.warn("permission granted");
 
     Geolocation.getCurrentPosition(
       (info) => {
         console.warn("get position", info);
 
         let position = {
-          latitude: info.coords.latitude,
-          longitude: info.coords.longitude,
+          lat: info.coords.latitude,
+          lng: info.coords.longitude,
         };
         successCallback(position);
       },
@@ -115,7 +115,7 @@ const requestLocationPermission = async (
         failureCallback(error);
         // console.warn(error);
       },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 }
+      { enableHighAccuracy: true, timeout: 20000 }
     );
   }
 };
