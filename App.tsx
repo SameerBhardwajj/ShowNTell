@@ -18,11 +18,13 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "@aws-amplify/pushnotification";
 import { Platform } from "react-native";
 
-PushNotification.requestIOSPermissions({
-  alert: true,
-  badge: true,
-  sound: false,
-});
+Platform.OS === "ios"
+  ? PushNotification.requestIOSPermissions({
+      alert: true,
+      badge: true,
+      sound: false,
+    })
+  : null;
 
 PushNotification.onNotification((notification: any) => {
   if (notification.foreground) {

@@ -59,6 +59,7 @@ export default function App(props: AppProps) {
                     {
                       child: item.id,
                       name: `${item.first_name}`,
+                      classroom: item.classroom_id,
                     },
                     () => {}
                   )

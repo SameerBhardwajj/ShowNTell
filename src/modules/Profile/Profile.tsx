@@ -143,7 +143,7 @@ export default function App(props: AppProps) {
                 : { uri: data.s3_photo_path }
             }
             resizeMethod="resize"
-            resizeMode="cover"
+            resizeMode="center"
             style={Styles.pic}
           />
           <TouchableOpacity

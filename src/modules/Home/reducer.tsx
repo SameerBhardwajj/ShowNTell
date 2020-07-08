@@ -8,6 +8,7 @@ const initialState = {
   myFilter: { activity: [], fromDate: "", toDate: "", type: [] },
   filterNum: 0,
   page: 0,
+  searchQuery: "",
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

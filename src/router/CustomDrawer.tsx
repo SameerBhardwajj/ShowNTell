@@ -60,7 +60,7 @@ export default function App(props: AppProps) {
                   ? Images.Profile_Placeholder
                   : { uri: loginData.s3_photo_path }
               }
-              resizeMode="cover"
+              resizeMode="center"
               resizeMethod="resize"
               style={Styles.img}
             />

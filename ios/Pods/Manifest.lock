@@ -397,11 +397,10 @@ PODS:
     - React
   - RNDeviceInfo (5.5.7):
     - React
-  - RNFBApp (6.7.1):
+  - RNFBApp (6.3.4):
     - Firebase/Core (~> 6.13.0)
     - React
-  - RNFBMessaging (6.7.1):
-    - Firebase/Core (~> 6.13.0)
+  - RNFBMessaging (6.3.4):
     - Firebase/Messaging (~> 6.13.0)
     - React
     - RNFBApp
@@ -688,8 +687,8 @@ SPEC CHECKSUMS:
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPushNotificationIOS: d5fd66aed4e03c6491ca0c6111a03d4f6455ff6c
   RNDeviceInfo: e2102056bde3ad5d137fd029d8d431510a00486a
-  RNFBApp: 7b539bb25520fa73d6a240f5c6ea569e27683645
-  RNFBMessaging: c55142d3b2d34d706bf12bd5eef9ef35254c2df1
+  RNFBApp: 7d4006751de8bb5cafa2e8d2e7d94ee250df81db
+  RNFBMessaging: 51cc7f6beaf4c4feac6f18ea941bba5854e3d9c6
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNImageCropPicker: a606d65f71c6c05caa3c850c16fb1ba2a4718608
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff

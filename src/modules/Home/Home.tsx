@@ -16,7 +16,6 @@ import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-// import { updateTab, updateChild } from "./action";
 import { updateClassChild } from "../ClassroomSchedule/action";
 import { updateTab, updateChild, updatePage } from "./action";
 import {
@@ -36,7 +35,7 @@ import {
   CustomToast,
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
-import { HomeAPI, addFilter, weDidItAPI } from "./action";
+import { HomeAPI, addFilter, weDidItAPI, updateQuery } from "./action";
 import FilterModal from "./Filter/FilterModal";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
@@ -53,8 +52,6 @@ export default function App(props: AppProps) {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [exitCounter, setExitCounter] = useState(false);
-  const [filterPage, setFilterPage] = useState(0);
-  const [SearchPage, setSearchPage] = useState(0);
   const [homeData, setHomeData] = useState([]);
   const [loadMore, setLoadMore] = useState(true);
 
@@ -68,6 +65,7 @@ export default function App(props: AppProps) {
     filterNum,
     classroomChild,
     page,
+    searchQuery,
   } = useSelector(
     (state: { Home: any; Login: any; ClassroomSchedule: any }) => ({
       tab: state.Home.tab,
@@ -79,6 +77,7 @@ export default function App(props: AppProps) {
       filterNum: state.Home.filterNum,
       page: state.Home.page,
       classroomChild: state.ClassroomSchedule.classroomChild,
+      searchQuery: state.Home.searchQuery,
     })
   );
 
@@ -88,7 +87,7 @@ export default function App(props: AppProps) {
       loginToken.length === 0 ? false : true,
       loginToken
     );
-    // setLoading(true);
+    setLoading(true);
 
     CommonFunctions.isEmpty(classroomChild)
       ? dispatch(
@@ -102,16 +101,8 @@ export default function App(props: AppProps) {
           )
         )
       : null;
-
-    // console.warn(
-    //   "child ",
-    //   currentChild,
-    //   loginData.Children.length > 1,
-    //   loginData.Children.length
-    // );
-    dispatch(updatePage(0, () => {}));
     loginData.Children.length > 1
-      ? hitHomeAPI(currentChild.child, 0)
+      ? hitHomeAPI(currentChild.child)
       : loginData.Children[0].id !== currentChild.child
       ? dispatch(
           updateChild(
@@ -120,10 +111,10 @@ export default function App(props: AppProps) {
               name: loginData.Children[0].first_name,
               classroom: loginData.Children[0].classroom_id,
             },
-            () => hitHomeAPI(loginData.Children[0].id, 0)
+            () => hitHomeAPI(loginData.Children[0].id)
           )
         )
-      : hitHomeAPI(currentChild.child, 0);
+      : hitHomeAPI(currentChild.child);
     // const unsubscribe =
     //   (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
     //     dispatch(
@@ -163,7 +154,7 @@ export default function App(props: AppProps) {
           dispatch(
             weDidItAPI(
               id,
-              () => hitSearchAPI(),
+              () => hitHomeAPI(currentChild.child),
               () => {
                 setLoading(false);
               }
@@ -176,9 +167,7 @@ export default function App(props: AppProps) {
     );
   };
 
-  const hitHomeAPI = (child_id: number, pageNum: number) => {
-    console.warn("my page  ", page);
-
+  const hitHomeAPI = (child_id: number) => {
     setLoading(true);
     dispatch(
       HomeAPI(
@@ -186,18 +175,47 @@ export default function App(props: AppProps) {
           console.log("home data   ", data);
 
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
-          // setRefreshing(false);
-          pageNum === 0
-            ? setHomeData(data)
-            : setHomeData(homeData.concat(data));
-          dispatch(updatePage(pageNum + 1, () => {}));
+          setHomeData(data);
+          dispatch(updatePage(1, () => {}));
           setLoading(false);
         },
         () => {
           setLoading(false);
         },
         child_id,
-        pageNum
+        0,
+        myFilter.activity,
+        myFilter.fromDate,
+        myFilter.toDate,
+        myFilter.type
+      )
+    );
+  };
+
+  const NewhitHomeAPI = () => {
+    console.warn("my page  ", page);
+    setLoading(true);
+    dispatch(
+      HomeAPI(
+        (data: any) => {
+          console.log("home data   ", data);
+          console.warn("load more  ", !loadMore);
+
+          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+          setHomeData(homeData.concat(data));
+          dispatch(updatePage(page + 1, () => {}));
+          setLoading(false);
+        },
+        () => {
+          setLoading(false);
+        },
+        currentChild.child,
+        page + 1,
+        myFilter.activity,
+        myFilter.fromDate,
+        myFilter.toDate,
+        myFilter.type,
+        searchQuery
       )
     );
   };
@@ -208,25 +226,20 @@ export default function App(props: AppProps) {
     toDate?: string,
     type?: string
   ) => {
-    console.warn("my page filter ", filterPage);
     setLoading(true);
     dispatch(
       HomeAPI(
         (data: any) => {
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
-          filterPage === 0
-            ? setHomeData(data)
-            : setHomeData(homeData.concat(data));
-          // dispatch(updatePage(page + 1, () => {}));
-          setFilterPage(filterPage + 1);
-          // setRefreshing(false);
+          setHomeData(data);
+          dispatch(updatePage(1, () => {}));
           setLoading(false);
         },
         () => {
           setLoading(false);
         },
         currentChild.child,
-        filterPage,
+        0,
         activity,
         fromDate,
         toDate,
@@ -235,27 +248,24 @@ export default function App(props: AppProps) {
     );
   };
 
-  const hitSearchAPI = (query?: string) => {
-    console.warn("my page search ", SearchPage);
+  const hitSearchAPI = (query: string) => {
     setLoading(true);
     dispatch(
       HomeAPI(
         (data: any) => {
+          console.log("search ", data);
+          dispatch(updateQuery(query, () => {}));
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
-          SearchPage === 0
-            ? setHomeData(data)
-            : setHomeData(homeData.concat(data));
-          // dispatch(updatePage(page + 1, () => {}));
-          setSearchPage(SearchPage + 1);
-          // setRefreshing(false);
+          setHomeData(data);
+          dispatch(updatePage(1, () => {}));
           setLoading(false);
         },
         () => {
           setLoading(false);
         },
         currentChild.child,
-        SearchPage,
+        0,
         myFilter.activity,
         myFilter.fromDate,
         myFilter.toDate,
@@ -273,7 +283,6 @@ export default function App(props: AppProps) {
         animated={loading}
       />
       <View style={Styles.extraHeader} />
-      <CustomLoader loading={loading} />
       <View style={Styles.header}>
         <View style={Styles.upperHeader}>
           <TouchableOpacity
@@ -307,12 +316,12 @@ export default function App(props: AppProps) {
             value={query}
             placeholder={Strings.Search}
             onChangeText={(text: string) => {
-              setQuery(text),
-                hitSearchAPI(text),
-                dispatch(updatePage(0, () => {}));
+              setQuery(text);
+              hitSearchAPI(text);
             }}
             onPressCancel={() => {
-              setQuery(""), hitSearchAPI(), dispatch(updatePage(0, () => {}));
+              setQuery("");
+              hitHomeAPI(currentChild.child);
             }}
             mainViewStyle={{ backgroundColor: "white", width: "87%" }}
             inputTextStyle={{ width: "64%" }}
@@ -327,7 +336,8 @@ export default function App(props: AppProps) {
         </View>
       </View>
       <View style={Styles.innerView}>
-        {homeData.length === 0 ? (
+        <CustomLoader loading={loading} />
+        {homeData.length === 0 && !loading ? (
           <CustomNoData />
         ) : (
           <FlatList
@@ -336,10 +346,15 @@ export default function App(props: AppProps) {
             bounces={false}
             renderItem={renderItems}
             nestedScrollEnabled={true}
-            onEndReached={() =>
-              loadMore ? hitHomeAPI(currentChild.child, page + 1) : null
-            }
+            onEndReached={() => (loadMore ? NewhitHomeAPI() : null)}
             onEndReachedThreshold={0.5}
+            // ListFooterComponent={() => {
+            //   if (loadMore && !loading) {
+            //     return <CustomLoader loading={true} />;
+            //   } else {
+            //     return null;
+            //   }
+            // }}
           />
         )}
       </View>
@@ -349,9 +364,7 @@ export default function App(props: AppProps) {
           <FilterModal
             setModalOpen={(value: boolean) => setModalOpen(value)}
             resetFilter={() => {
-              setModalOpen(false),
-                dispatch(updatePage(0, () => {})),
-                hitHomeAPI(currentChild.child, 0);
+              setModalOpen(false), hitHomeAPI(currentChild.child);
             }}
             applyFilter={(value: any, Activitytype: Array<any>, dates: any) => {
               console.log("incoming  ", value, dates, Activitytype);
@@ -362,7 +375,6 @@ export default function App(props: AppProps) {
               let from = CommonFunctions.isEmpty(dates)
                 ? ""
                 : CommonFunctions.dateTypeFormat(dates.fromDate, "ymd");
-              setFilterPage(0);
               dispatch(
                 updatePage(0, () => {
                   dispatch(

@@ -38,6 +38,18 @@ export const updatePage = (value: number, callback: Function) => {
   };
 };
 
+export const updateQuery = (value: string, callback: Function) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        searchQuery: value,
+      },
+    });
+    callback();
+  };
+};
+
 export const HomeAPI = (
   successCallback: Function,
   failureCallback: Function,
@@ -50,17 +62,6 @@ export const HomeAPI = (
   searchKey?: string
 ) => {
   return (dispatch: Function, getState: Function) => {
-    // console.warn("check  ....  ", child_id);
-    let params = {
-      child_id,
-      page,
-      activity,
-      fromDate,
-      toDate,
-      type,
-      searchKey,
-    };
-    debugger;
     API.getApiCall(
       EndPoints.home.HomeData(
         child_id,
