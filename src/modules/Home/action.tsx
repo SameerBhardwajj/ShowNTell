@@ -81,6 +81,7 @@ export const HomeAPI = (
             type: Action.HOME_DATA,
             payload: {
               data: res.rows,
+              chatEnable: res.permission.chatWithParent === 0 ? false : true,
             },
           });
           successCallback(res.rows);

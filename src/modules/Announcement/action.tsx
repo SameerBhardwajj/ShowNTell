@@ -8,6 +8,8 @@ export const hitAnnouncementAPI = (
   failureCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
+    console.warn("page ", page);
+
     API.getApiCall(
       EndPoints.drawer.announcement(child_id, page),
       {},
@@ -15,14 +17,18 @@ export const hitAnnouncementAPI = (
         let res = success.data.response;
         if (success.data.code === 200) {
           console.log("mysuccess ", res);
+          const { data } = getState().Announcement;
+          let finalArray = [];
+          page === 0
+            ? (finalArray = res.rows)
+            : (finalArray = data.concat(res.rows));
           dispatch({
             type: Action.ANNOUNCEMENT,
             payload: {
-              data: res.rows,
+              data: finalArray,
             },
           });
-
-          successCallback();
+          successCallback(res.rows);
         } else {
           CustomToast(success.data.message);
           failureCallback();

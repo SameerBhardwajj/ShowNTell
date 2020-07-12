@@ -98,6 +98,8 @@ export default {
     },
     chat: {
       cannedMsg: `/api/v1/parent/chat-canned-messages`,
+      sendMsg: `/api/v1/parent/send-message`,
+      getMsg: (page: number) => `/api/v1/parent/get-chat-message?page=${page}`,
     },
   },
 };

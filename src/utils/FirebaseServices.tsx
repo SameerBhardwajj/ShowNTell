@@ -11,10 +11,7 @@ class FirebaseService {
     if (!firebase.apps.length) {
       firebase.initializeApp({
         apiKey: "AIzaSyD8vZG_8Z_o3J4JY6k1GUJa6mhNW8j0Rsg",
-        appId:
-          Platform.OS === "ios"
-            ? "1:1082193980667:ios:d9774d687f14b1de74545e"
-            : "1:1082193980667:android:ecccf926e213892674545e",
+        appId: "1:1082193980667:android:ecccf926e213892674545e",
         databaseURL: "https://showntell-parent.firebaseio.com",
         messagingSenderId: "1082193980667",
         projectId: "showntell-parent",
@@ -26,6 +23,14 @@ class FirebaseService {
   // checking permissions for FCM
   async checkPermission(callback: Function) {
     const enabled = await messaging().hasPermission();
+    console.warn(enabled);
+    const mtOPermission = await messaging().registerForRemoteNotifications();
+    console.warn(
+      "isRegister   ",
+      mtOPermission,
+      messaging().isRegisteredForRemoteNotifications
+    );
+
     if (enabled) {
       this.getToken((token: string) => callback(token));
     } else {
@@ -59,6 +64,26 @@ class FirebaseService {
       console.log("permission rejected");
     }
   }
+
+  requestNotification = (callback: Function) => {
+    messaging()
+      .requestPermission()
+      .then(() => {
+        messaging()
+          .registerForRemoteNotifications()
+          .then(() => {
+            messaging()
+              .getToken()
+              .then((token) => {
+                callback(token);
+              });
+          });
+      })
+      .catch((error) => {
+        // User has rejected permissions
+        console.log(error);
+      });
+  };
 
   // foreground notification message
   async readForegroundNotification() {

@@ -14,17 +14,17 @@ export default function App(props: AppProps) {
   const { item } = props;
   const index = parseInt(props.index);
   const Color =
-    index % 3 === 0
+    (index + 1) % 3 === 1
+      ? Colors.orange
+      : (index + 1) % 3 === 2
       ? Colors.waterBlue
-      : index % 2 === 0
-      ? Colors.green
-      : Colors.orange;
+      : Colors.green;
   const lightColor =
-    index % 3 === 0
+    (index + 1) % 3 === 1
+      ? Colors.lightOrange
+      : (index + 1) % 3 === 2
       ? Colors.lightWaterBlue
-      : index % 2 === 0
-      ? Colors.lightGreen
-      : Colors.lightOrange;
+      : Colors.lightGreen;
   return (
     <View style={[Styles.cardView, { backgroundColor: lightColor }]}>
       <View style={{ flexDirection: "row" }}>

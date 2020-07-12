@@ -7,6 +7,7 @@ import {
   Keyboard,
   Platform,
   Clipboard,
+  NativeModules,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import {
@@ -15,6 +16,7 @@ import {
   getDeviceName,
   getBrand,
 } from "react-native-device-info";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 // custom imports
 import {
@@ -62,13 +64,20 @@ export default function App(props: AppProps) {
 
   const getTokens = () => {
     Platform.OS === "ios"
-      ? // getDeviceToken().then((token: string) => {
-        // CustomToast(`${getDeviceId()}, ${token}, ${getBrand()}`);
-        HitLogin(getDeviceId(), "asasd", getBrand())
-      : // })
-        FirebaseServices.getToken((myToken: string) => {
+      ? 
+      // PushNotificationIOS.requestPermissions()
+      //     .then(() => {
+      //       PushNotificationIOS.addEventListener("register", (token) => {
+              // CustomToast(`token  ${token}`);
+              HitLogin(getDeviceId(), 'asasd', getBrand())
+            // });
+          // })
+          // .catch((error) => {
+          //   console.warn("error ", error);
+          // })
+      : FirebaseServices.getToken((myToken: string) => {
           HitLogin(getDeviceId(), myToken, getBrand());
-          Clipboard.setString(myToken);
+          // Clipboard.setString(myToken);
           console.warn(getDeviceId(), myToken, getBrand());
         });
   };

@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -21,6 +22,8 @@ import {
   Images,
   CommonFunctions,
 } from "../../utils";
+
+const iPhoneX = Dimensions.get("window").height >= 812;
 
 export interface AppProps {
   navigation?: any;
@@ -54,19 +57,19 @@ export default function App(props: AppProps) {
   }, [classroomChild]);
 
   const bgColor = (index: number) => {
-    return index % 3 === 0
-      ? Colors.lightPink
-      : index % 2 === 0
+    return index % 3 === 1
+      ? Colors.lightWaterBlue
+      : index % 3 === 2
       ? Colors.lightGreen
-      : Colors.lightWaterBlue;
+      : Colors.lightPink;
   };
 
   const newColor = (index: number) => {
-    return index % 3 === 0
-      ? Colors.pink
-      : index % 2 === 0
+    return index % 3 === 1
+      ? Colors.waterBlue
+      : index % 3 === 2
       ? Colors.green
-      : Colors.waterBlue;
+      : Colors.pink;
   };
 
   return (
@@ -134,6 +137,7 @@ const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
     backgroundColor: "white",
+    paddingBottom: iPhoneX ? vh(30) : vh(10),
   },
   innerView: {
     width: "100%",
@@ -152,16 +156,17 @@ const Styles = StyleSheet.create({
     borderTopRightRadius: vh(10),
   },
   childHeader: {
-    paddingVertical: vh(2),
-    paddingHorizontal: vw(15),
+    flexDirection: "row",
+    position: "absolute",
+    maxWidth: vw(120),
+    right: vw(20),
+    top: iPhoneX ? vh(40) : vh(30),
+    paddingVertical: vw(3),
+    paddingHorizontal: vw(10),
     backgroundColor: "white",
     borderRadius: vh(20),
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "row",
-    position: "absolute",
-    right: vw(20),
-    top: vh(40),
   },
   childHeaderText: {
     fontFamily: "Nunito-Bold",
@@ -169,7 +174,7 @@ const Styles = StyleSheet.create({
   },
   dropdown: {
     height: vh(8),
-    width: vh(14),
+    width: vh(15),
     marginHorizontal: vw(5),
   },
   heading: {

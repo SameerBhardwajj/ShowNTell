@@ -16,35 +16,88 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateTab } from "../Home/action";
 import { CustomHeader, CustomSeparator } from "../../Components";
 import { Strings, vw, vh, Colors, ScreenName, Images } from "../../utils";
-import { getCannedMsgs } from "./action";
+import { getCannedMsgs, sendMsg, getMsgs } from "./action";
+import MsgFlatlist from "./MsgFlatlist";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
-  const { cannedMsg } = useSelector((state: { Chat: any }) => ({
+  const { cannedMsg, chatData } = useSelector((state: { Chat: any }) => ({
     cannedMsg: state.Chat.cannedMsg,
+    chatData: state.Chat.chatData,
   }));
   const dispatch = useDispatch();
   const [msg, setMsg] = useState("");
+  const [msgID, setMsgID] = useState("");
+  const [page, setPage] = useState(0);
+  const [time, settime] = useState(0);
 
   useEffect(() => {
     // dispatch(updateTab(true, () => {}));
+    time >= 0
+      ? setTimeout(() => {
+          console.warn(time);
+          settime(time + 1);
+        }, 3000)
+      : null;
     dispatch(
       getCannedMsgs(
         () => {},
         () => {}
       )
     );
-  }, []);
+    hitGetMsgsAPI(0);
+  }, [time]);
+
+  const hitGetMsgsAPI = (page: number) => {
+    console.warn("page ", page);
+
+    dispatch(
+      getMsgs(
+        page,
+        () => {
+          setPage(page + 1);
+        },
+        () => {}
+      )
+    );
+  };
+
+  const sendMsgs = (msg: string, msgID: string) => {
+    setMsgID("");
+    setMsg("");
+    dispatch(
+      sendMsg(
+        msgID.length === 0
+          ? { canned_message_id: "", message: msg }
+          : { canned_message_id: msgID, message: "" },
+        () => {
+          hitGetMsgsAPI(0);
+          console.warn("ok");
+        },
+        () => {
+          console.warn("error");
+        }
+      )
+    );
+  };
+
+  const renderItems = (rowData: any) => {
+    const { item, index } = rowData;
+    return <MsgFlatlist item={item} index={index} allData={chatData} />;
+  };
 
   const renderCannedMgs = (rowData: any) => {
     const { item, index } = rowData;
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => {}}
+        onPress={() => {
+          setMsg(item.message);
+          setMsgID(item.id);
+        }}
         style={[Styles.mainImageView]}
       >
         <Text style={Styles.cannedText}>{item.message}</Text>
@@ -62,15 +115,35 @@ export default function App(props: AppProps) {
         showsVerticalScrollIndicator={false}
         bounces={false}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          width: "100%",
-          height: "100%",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
+        contentContainerStyle={Styles.scrollmainView}
       >
-        <View style={Styles.scrollStyle}></View>
+        {/* Chat Msgs --------------------- */}
+        <View
+          style={[
+            Styles.scrollStyle,
+            chatData.length === 0
+              ? { alignItems: "center", justifyContent: "center" }
+              : {},
+          ]}
+        >
+          {chatData.length === 0 ? (
+            <Text style={Styles.noChatText}>No Chat Available</Text>
+          ) : (
+            <FlatList
+              keyboardShouldPersistTaps="handled"
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+              inverted
+              data={chatData}
+              onEndReached={() => hitGetMsgsAPI(page)}
+              onEndReachedThreshold={0.5}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItems}
+            />
+          )}
+        </View>
         <View style={Styles.bottomView}>
+          {/* Canned Msgs ------------------ */}
           <View style={{ width: "100%", alignItems: "center" }}>
             <FlatList
               showsHorizontalScrollIndicator={false}
@@ -85,15 +158,23 @@ export default function App(props: AppProps) {
           <View style={Styles.warningView}>
             <Text style={Styles.warningText}>{Strings.Chat_warning}</Text>
           </View>
+          {/* Send Msgs ----------------------- */}
           <View style={{ width: "100%", alignItems: "center" }}>
             <TextInput
               value={msg}
               placeholder={Strings.Write_here}
-              onChangeText={(text) => setMsg(text)}
+              onChangeText={(text) => {
+                setMsg(text);
+                setMsgID("");
+              }}
               style={Styles.inputTxt}
               multiline
             />
-            <TouchableOpacity style={Styles.sendBtnView}>
+            <TouchableOpacity
+              style={Styles.sendBtnView}
+              activeOpacity={0.8}
+              onPress={() => (msg.length === 0 ? null : sendMsgs(msg, msgID))}
+            >
               <Image source={Images.Send_Icon} style={Styles.sendBtn} />
             </TouchableOpacity>
           </View>
@@ -105,22 +186,25 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 4.65,
-    elevation: 7,
   },
   scrollStyle: {
-    height: "60%",
+    height: "65%",
     width: "100%",
-    backgroundColor: "transparent",
+    backgroundColor: Colors.creamWhite,
+    marginVertical: vw(1),
+  },
+  scrollmainView: {
+    width: "100%",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  noChatText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    color: Colors.violet,
   },
   bottomView: {
-    height: "100%",
     width: "100%",
     alignItems: "center",
     padding: vh(16),
@@ -134,7 +218,6 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: Colors.fadedPink,
     padding: vh(13),
-    marginBottom: vh(10),
   },
   cannedText: {
     fontFamily: "Nunito-SemiBold",
@@ -162,8 +245,6 @@ const Styles = StyleSheet.create({
     marginTop: vh(10),
     marginBottom: vh(15),
     backgroundColor: Colors.veryLightGrey,
-    // alignItems: "center",
-    // justifyContent: "center",
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
     paddingTop: vh(10),
@@ -180,30 +261,3 @@ const Styles = StyleSheet.create({
     width: vh(32),
   },
 });
-
-const DATA = [
-  {
-    date: "Today",
-    content:
-      "Parent workshop has been conducted in the school premisis on 07th February. Make sure all of you attent the workshop from 10AM onwards.",
-    time: "10:00 AM",
-  },
-  {
-    date: "Yesterday",
-    content:
-      "We will be celebrating X-Mas tomorrow. Please bring some candles and be dressed up. Let’s Celebrate the festival together.",
-    time: "10:00 AM",
-  },
-  {
-    date: "Jan 20, 2020",
-    content:
-      "Parent workshop has been conducted in the school premisis on 27th january. Make sure all of you attent the workshop from 10AM onwards.",
-    time: "10:00 AM",
-  },
-  {
-    date: "",
-    content:
-      "Parent workshop has been conducted in the school premisis on 27th january. Make sure all of you attent the workshop from 10AM onwards.",
-    time: "10:00 AM",
-  },
-];

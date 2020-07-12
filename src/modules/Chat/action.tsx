@@ -42,14 +42,14 @@ export const getCannedMsgs = (
   };
 };
 
-export const updateProfile = (
+export const sendMsg = (
   data: Object,
   successCallback: Function,
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.postApiCall(
-      EndPoints.drawer.updateProfile,
+      EndPoints.drawer.chat.sendMsg,
       data,
       (success: any) => {
         if (success.data.code === 200) {
@@ -67,28 +67,33 @@ export const updateProfile = (
   };
 };
 
-export const fetchStatesAPI = (
+export const getMsgs = (
+  page: number,
   successCallback: Function,
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.drawer.fetchStates,
+      EndPoints.drawer.chat.getMsg(page),
       {},
       (success: any) => {
         console.warn("success ", success);
 
         const res = success.data.response;
         if (success.data.code === 200) {
+          const { chatData } = getState().Chat;
+          let finalArray = [];
+          page === 0 ? (finalArray = res) : (finalArray = chatData.concat(res));
+
           dispatch({
-            type: Action.PROFILE,
+            type: Action.CHAT,
             payload: {
-              stateList: res,
+              chatData: finalArray,
             },
           });
-          successCallback(success.data.response);
+          successCallback(finalArray);
         } else {
-          CustomToast(success.data.message);
+          page === 0 ? CustomToast(success.data.message) : null;
           failCallback();
         }
       },
@@ -96,98 +101,11 @@ export const fetchStatesAPI = (
         console.log("err ", error);
 
         dispatch({
-          type: Action.PROFILE,
+          type: Action.CHAT,
           payload: {
-            stateList: [],
+            chatData: [],
           },
         });
-        CommonFunctions.handleError(error);
-        failCallback(error);
-      }
-    );
-  };
-};
-
-export const hitUploadCDNapi = (
-  file: FormData,
-  successCallback: Function,
-  failCallback: Function
-) => {
-  return (dispatch: Function, getState: Function) => {
-    API.postProfileApi(
-      EndPoints.drawer.uploadImage.uploadCDN,
-      { file: file },
-      (success: any) => {
-        console.warn("success ", success);
-
-        const res = success.data.response;
-        if (success.data.code === 200) {
-          successCallback(success.data.response);
-        } else {
-          CustomToast(success.data.message);
-          failCallback();
-        }
-      },
-      (error: any) => {
-        console.log("err ", error);
-        CommonFunctions.handleError(error);
-        failCallback(error);
-      }
-    );
-  };
-};
-
-export const hitInlineCDNapi = (
-  file: string,
-  successCallback: Function,
-  failCallback: Function
-) => {
-  return (dispatch: Function, getState: Function) => {
-    API.postApiCall(
-      EndPoints.drawer.uploadImage.inlineCDN(file),
-      {},
-      (success: any) => {
-        console.warn("success ", success);
-
-        const res = success.data.response;
-        if (success.data.code === 200) {
-          successCallback(success.data.response);
-        } else {
-          CustomToast(success.data.message);
-          failCallback();
-        }
-      },
-      (error: any) => {
-        console.log("err ", error);
-        CommonFunctions.handleError(error);
-        failCallback(error);
-      }
-    );
-  };
-};
-
-export const hitUploadImage = (
-  file: string,
-  successCallback: Function,
-  failCallback: Function
-) => {
-  return (dispatch: Function, getState: Function) => {
-    API.postApiCall(
-      EndPoints.drawer.uploadImage.uploadCDN,
-      { image: file },
-      (success: any) => {
-        console.warn("success ", success);
-
-        const res = success.data.response;
-        if (success.data.code === 200) {
-          successCallback(success.data.response);
-        } else {
-          CustomToast(success.data.message);
-          failCallback();
-        }
-      },
-      (error: any) => {
-        console.log("err ", error);
         CommonFunctions.handleError(error);
         failCallback(error);
       }

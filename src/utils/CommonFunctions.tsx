@@ -19,7 +19,7 @@ const DateDifference = (date1: any, date2: any) => {
 };
 
 const DateFormatter = (date: Date) => {
-  let myDate = moment.utc(date).local();
+  let myDate = moment.utc(date);
   const wMonths = [
     "Jan",
     "Feb",
@@ -75,9 +75,21 @@ const timeFormatter = (date: Date) => {
 };
 
 const timeConverter = (date: string) => {
-  let testDateUtc = moment.utc("1998-03-13T" + date + "Z");
-  let localTime = moment(testDateUtc).local().format("h A");
+  let testDateUtc = moment(date, "hh:mm:ss");
+  let localTime = moment(testDateUtc).format("h:mm A");
   return localTime;
+};
+
+const dayDateFormatter = (date: Date) => {
+  let testDateUtc = moment.utc(date).local().format("MM-DD-YYYY");
+  let LocalDay = null;
+  moment(new Date()).format("MM-DD-YYYY") === testDateUtc
+    ? (LocalDay = "Today")
+    : null;
+  moment(new Date()).add(-1, "days").format("MM-DD-YYYY") === testDateUtc
+    ? (LocalDay = "Yesterday")
+    : null;
+  return LocalDay;
 };
 
 const requestLocationPermission = async (
@@ -275,6 +287,7 @@ export default {
   requestLocationPermission,
   timeFormatter,
   timeConverter,
+  dayDateFormatter,
   binarySearch,
   dateTypeFormat,
   isNullUndefined,

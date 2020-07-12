@@ -116,7 +116,6 @@ export default function App(props: AppProps) {
             />
             {/* phone number ---------------- */}
             <CustomPhoneField
-              onSelect={(code: any) => setCountryCode(code)}
               value={phone}
               ref={inputRef2}
               onChangeText={(text: string) => {

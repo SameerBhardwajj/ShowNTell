@@ -35,13 +35,15 @@ export const PhotoLibraryAPI = (
       EndPoints.photoLibrary.gallery(child_id, page),
       {},
       (success: any) => {
+        const { libraryData } = getState().PhotoLibrary;
         const res = success.data.response;
         if (success.data.code === 200) {
           console.warn("mysuccess ", res);
+          let finalData: Array<any> = libraryData.concat(res);
           dispatch({
             type: Action.UPDATE_LIBRARY,
             payload: {
-              libraryData: res,
+              libraryData: finalData,
             },
           });
           successCallback(res);

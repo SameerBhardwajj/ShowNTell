@@ -1,7 +1,7 @@
 import { Action } from "../../utils";
 const initialState = {
   cannedMsg: [],
-  stateList: [],
+  chatData: [],
 };
 
 const Reducer = (state = initialState, action: any) => {

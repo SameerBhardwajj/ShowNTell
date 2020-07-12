@@ -9,6 +9,7 @@ const initialState = {
   filterNum: 0,
   page: 0,
   searchQuery: "",
+  chatEnable: true,
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

@@ -11,15 +11,32 @@ import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { useSelector } from "react-redux";
 import { vh, Colors, Images, vw, Strings, ScreenName } from "../utils";
 import DrawerFlatlist from "./DrawerFlatlist";
+
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
-  const { loginData, loginEmail } = useSelector((state: { Login: any }) => ({
-    loginData: state.Login.loginData,
-    loginEmail: state.Login.loginEmail,
-  }));
+  const { loginData, loginEmail, chatEnable } = useSelector(
+    (state: { Login: any; Home: any }) => ({
+      loginData: state.Login.loginData,
+      loginEmail: state.Login.loginEmail,
+      chatEnable: state.Home.chatEnable,
+    })
+  );
+
+  const chat = {
+    icon: Images.Chat_Icon,
+    size: { height: vh(23), width: vh(25) },
+    label: Strings.Chat,
+    path: ScreenName.CHAT,
+  };
+
+  const finalData = [chat].concat(DATA);
+
+  React.useEffect(() => {
+    console.warn("updated chat ", chatEnable);
+  }, [chatEnable]);
 
   const rendetItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -77,7 +94,10 @@ export default function App(props: AppProps) {
           </View>
         </TouchableOpacity>
         <FlatList
-          data={DATA}
+          data={chatEnable ? finalData : DATA}
+          ItemSeparatorComponent={() => {
+            return <View style={Styles.separator} />;
+          }}
           keyExtractor={(item, index) => index.toString()}
           contentContainerStyle={{
             paddingBottom: vh(50),
@@ -128,15 +148,15 @@ const Styles = StyleSheet.create({
     fontSize: vh(14),
     color: "white",
   },
+  separator: {
+    height: vw(1),
+    width: "90%",
+    backgroundColor: Colors.veryLightGrey,
+    alignSelf: "center",
+  },
 });
 
 const DATA = [
-  {
-    icon: Images.Chat_Icon,
-    size: { height: vh(23), width: vh(25) },
-    label: Strings.Chat,
-    path: ScreenName.CHAT,
-  },
   {
     icon: Images.QA_Icon,
     size: { height: vh(27), width: vh(25) },

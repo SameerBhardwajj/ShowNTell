@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* ParentAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ParentAppTests.m */; };
-		0C32000824AF001600D1EB3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0C32000724AF001600D1EB3C /* GoogleService-Info.plist */; };
+		0CB7F44524B6FD0700A02FBA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0CB7F44424B6FD0700A02FBA /* GoogleService-Info.plist */; };
+		0CB7F45924B7AB0B00A02FBA /* libRNCPushNotificationIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CB7F45824B7AB0B00A02FBA /* libRNCPushNotificationIOS.a */; };
 		12F248E32F8F4CEE893D48E5 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F7F3E846B67B4A3087FFC6A4 /* Nunito-BoldItalic.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
@@ -62,8 +63,10 @@
 		069673C4F75C4EE1A76C4315 /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../src/Assets/Fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 		09130A3FB147C1DDAA4216FB /* Pods-ParentApp-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParentApp-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ParentApp-tvOS/Pods-ParentApp-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		0A31000720974A26AF6AC6C5 /* Frutiger_bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Frutiger_bold.ttf; path = ../src/Assets/Fonts/Frutiger_bold.ttf; sourceTree = "<group>"; };
-		0C32000724AF001600D1EB3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0C32000924AF08CC00D1EB3C /* ParentApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = ParentApp.entitlements; path = ParentApp/ParentApp.entitlements; sourceTree = "<group>"; };
+		0CB7F44424B6FD0700A02FBA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../.Trash/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		0CB7F45424B7968100A02FBA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		0CB7F45824B7AB0B00A02FBA /* libRNCPushNotificationIOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNCPushNotificationIOS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* ParentApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParentApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ParentApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ParentApp/AppDelegate.m; sourceTree = "<group>"; };
@@ -113,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CB7F45924B7AB0B00A02FBA /* libRNCPushNotificationIOS.a in Frameworks */,
 				6742307A28F34A37D7D74C1B /* libPods-ParentApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,6 +172,13 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		0CB7F44624B7877F00A02FBA /* DeviceToken */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DeviceToken;
+			sourceTree = "<group>";
+		};
 		136974DB63EA481BB824089F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -198,7 +209,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				0C32000724AF001600D1EB3C /* GoogleService-Info.plist */,
+				0CB7F44424B6FD0700A02FBA /* GoogleService-Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -208,6 +219,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0CB7F45824B7AB0B00A02FBA /* libRNCPushNotificationIOS.a */,
+				0CB7F45424B7968100A02FBA /* WebKit.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				6A0A3CB5D4A026F090F26BAC /* libPods-ParentApp.a */,
@@ -228,6 +241,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				0CB7F44624B7877F00A02FBA /* DeviceToken */,
 				13B07FAE1A68108700A75B9A /* ParentApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ParentAppTests */,
@@ -409,7 +423,7 @@
 				BFECDE86AB1A41B1B61BC90A /* Nunito-Regular.ttf in Resources */,
 				3D92C011FDB049E8B182FED3 /* Nunito-SemiBold.ttf in Resources */,
 				2A49A8173E914E95800A679A /* Nunito-SemiBoldItalic.ttf in Resources */,
-				0C32000824AF001600D1EB3C /* GoogleService-Info.plist in Resources */,
+				0CB7F44524B6FD0700A02FBA /* GoogleService-Info.plist in Resources */,
 				DA7C5012B71E483C9B2C5098 /* Nunito-Medium.ttf in Resources */,
 				FFE73F447BDA4782B9E83E81 /* frutiger.ttf in Resources */,
 				ABEEB6BD228944CB9819ED82 /* Frutiger_bold.ttf in Resources */,
@@ -756,7 +770,7 @@
 				CODE_SIGN_ENTITLEMENTS = ParentApp/ParentApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development: Peeyush Singh (98CJYZMVCK)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.4;
+				CURRENT_PROJECT_VERSION = 1.8;
 				DEVELOPMENT_TEAM = 23FC5W285E;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -790,7 +804,7 @@
 				CODE_SIGN_ENTITLEMENTS = ParentApp/ParentApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Distribution: Peeyush Singh (23FC5W285E)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.4;
+				CURRENT_PROJECT_VERSION = 1.8;
 				DEVELOPMENT_TEAM = 23FC5W285E;
 				INFOPLIST_FILE = ParentApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

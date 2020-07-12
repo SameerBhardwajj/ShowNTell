@@ -23,22 +23,20 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
-  const [data, setData] = useState([]);
   const [loadMore, setLoadMore] = useState(true);
-  const { currentChild, downloadGallery, select } = useSelector(
+  const { currentChild, downloadGallery, select, libraryData } = useSelector(
     (state: { Home: any; PhotoLibrary: any }) => ({
       tab: state.Home.tab,
       currentChild: state.Home.currentChild,
       downloadGallery: state.PhotoLibrary.downloadGallery,
       select: state.PhotoLibrary.select,
+      libraryData: state.PhotoLibrary.libraryData,
     })
   );
 
   useEffect(() => {
     // dispatch(updateTab(true, () => {}));
-    setData([]);
     setPage(0);
-    setData([]);
     setLoading(true);
     hitPhotoLibraryAPI();
   }, [currentChild]);
@@ -52,8 +50,6 @@ export default function App(props: AppProps) {
         page,
         (res: ConcatArray<never>) => {
           console.warn("res  ", res);
-
-          setData(data.concat(res));
           setPage(page + 1);
           setLoading(false);
         },
@@ -152,13 +148,13 @@ export default function App(props: AppProps) {
             <Text style={Styles.dateText}>{select ? "Cancel" : "Select"}</Text>
           </TouchableOpacity>
         </View>
-        {isLoading ? null : data.length === 0 ? null : (
+        {isLoading ? null : libraryData.length === 0 ? null : (
           <FlatList
             showsVerticalScrollIndicator={false}
             bounces={false}
             onEndReached={hitPhotoLibraryAPI}
             onEndReachedThreshold={0.5}
-            data={groupingData(data)}
+            data={groupingData(libraryData)}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItems}
           />
