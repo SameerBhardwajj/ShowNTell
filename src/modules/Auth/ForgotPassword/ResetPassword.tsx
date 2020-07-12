@@ -8,6 +8,7 @@ import {
   CustomInputText,
   CustomButton,
   CustomLoader,
+  CustomToast,
 } from "../../../Components";
 import {
   Strings,
@@ -65,17 +66,6 @@ export default function App(props: AppProps) {
       : setCheckPassword1(false);
   };
 
-  // const check = () => {
-  //   validate(ConstantName.PASSWORD, password1)
-  //     ? validate(ConstantName.PASSWORD, password2)
-  //       ? password1 === password2
-  //         ? (Keyboard.dismiss(),
-  //           props.navigation.navigate(ScreenName.CREATE_PASSWORD_MODAL))
-  //         : setCheckPassword2(false)
-  //       : setCheckPassword2(false)
-  //     : setCheckPassword1(false);
-  // };
-
   return (
     <View style={Styles.mainView}>
       <CustomHeader
@@ -95,12 +85,12 @@ export default function App(props: AppProps) {
           check={checkPassword1}
           secureTextEntry={secureEntry1}
           onPressEye={() => setsecureEntry1(!secureEntry1)}
-          incorrectText={Strings.Password_length}
+          incorrectText={""}
           returnKeyType="next"
           onSubmitEditing={() =>
             validate(ConstantName.PASSWORD, password1)
               ? inputRef2.current.focus()
-              : setCheckPassword1(false)
+              : (CustomToast(Strings.Password_length), setCheckPassword1(false))
           }
         />
         <CustomInputText

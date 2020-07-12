@@ -186,7 +186,7 @@ const Strings = new LocalizedStrings({
     Class_Schedule: "Class Schedule",
     Email_error: "Email is Incorrect",
     Email_empty: "Email cannot be Empty",
-    Password_length: "Password must contain 6-12\ncharacters",
+    Password_length: "Password should contain atleast 1 capital letter, 1 numeral, 1 special symbol and minimum 8 characters",
     Password_mismatch: "Password Mismatch",
     Phone_error: "Phone no is incorrect",
     Permission_denied: "Please allow to access your Location from Settings",
