@@ -108,35 +108,6 @@ export const fetchStatesAPI = (
   };
 };
 
-// export const hitUploadCDNapi = (
-//   file: FormData,
-//   successCallback: Function,
-//   failCallback: Function
-// ) => {
-//   return (dispatch: Function, getState: Function) => {
-//     API.postProfileApi(
-//       EndPoints.drawer.uploadImage.uploadCDN,
-//       { file: file },
-//       (success: any) => {
-//         console.warn("success ", success);
-
-//         const res = success.data.response;
-//         if (success.data.code === 200) {
-//           successCallback(success.data.response);
-//         } else {
-//           CustomToast(success.data.message);
-//           failCallback();
-//         }
-//       },
-//       (error: any) => {
-//         console.log("err ", error);
-//         CommonFunctions.handleError(error);
-//         failCallback(error);
-//       }
-//     );
-//   };
-// };
-
 export const hitUploadCDNapi = (
   data: any,
   // params: any,
@@ -166,37 +137,6 @@ export const hitUploadCDNapi = (
   };
 };
 
-export const hitInlineCDNapi = (
-  file: string,
-  successCallback: Function,
-  failCallback: Function
-) => {
-  console.warn("step 2");
-
-  return (dispatch: Function, getState: Function) => {
-    API.postApiCall(
-      EndPoints.drawer.uploadImage.inlineCDN(file),
-      {},
-      (success: any) => {
-        console.warn("success ", success);
-
-        const res = success.data.response;
-        if (success.data.code === 200) {
-          successCallback(success.data.response);
-        } else {
-          CustomToast(success.data.message);
-          failCallback();
-        }
-      },
-      (error: any) => {
-        console.warn("err ", error);
-        CommonFunctions.handleError(error);
-        failCallback(error);
-      }
-    );
-  };
-};
-
 export const hitUploadImage = (
   file: string,
   successCallback: Function,
@@ -204,7 +144,7 @@ export const hitUploadImage = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.postApiCall(
-      EndPoints.drawer.uploadImage.uploadCDN,
+      EndPoints.drawer.uploadImage.uploadProfileImage,
       { image: file },
       (success: any) => {
         console.warn("success ", success);

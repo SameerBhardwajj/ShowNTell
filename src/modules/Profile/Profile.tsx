@@ -23,12 +23,7 @@ import {
   CommonFunctions,
 } from "../../utils";
 import TopTabNavigation from "./TopTabNavigation";
-import {
-  hiBasicDetails,
-  hitUploadCDNapi,
-  hitUploadImage,
-  hitInlineCDNapi,
-} from "./action";
+import { hiBasicDetails, hitUploadCDNapi, hitUploadImage } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -43,6 +38,10 @@ export default function App(props: AppProps) {
 
   useEffect(() => {
     setLoading(true);
+    HitProfileAPI();
+  }, []);
+
+  const HitProfileAPI = () => {
     dispatch(
       hiBasicDetails(
         () => {
@@ -55,22 +54,13 @@ export default function App(props: AppProps) {
         }
       )
     );
-  }, []);
+  };
 
   const ImagePick = () => {
     ImagePicker.openPicker({
       cropping: true,
     }).then((image: any) => {
       setLoading(true);
-      console.log("image  ", image.path);
-
-      // var formdata = new FormData();
-      // console.log("boundary:", formdata);
-      // formdata.append("file", {
-      //   uri: image.path.replace("file://", ""),
-      //   name: "test" + ".jpeg",
-      //   type: "image/jpeg",
-      // });
 
       var formdata = new FormData();
       formdata.append("file", {
@@ -88,7 +78,7 @@ export default function App(props: AppProps) {
               hitUploadImage(
                 data.key,
                 () => {
-                  setLoading(false);
+                  HitProfileAPI();
                 },
                 (e: any) => {
                   setLoading(false);
@@ -96,16 +86,6 @@ export default function App(props: AppProps) {
                 }
               )
             );
-            // dispatch(
-            //   hitInlineCDNapi(
-            //     data.key,
-            //     () => {},
-            //     (e: any) => {
-            //       setLoading(false);
-            //       console.warn("error2  ", e);
-            //     }
-            //   )
-            // );
           },
           (e: any) => {
             setLoading(false);
@@ -113,17 +93,6 @@ export default function App(props: AppProps) {
           }
         )
       );
-
-      // dispatch(
-      //   hitUploadCDNapi(
-      //     formdata,
-      //     // {type: "watermark"},
-      //     // "",
-      //     // "",
-      //     (response: any) => {},
-      //     () => {}
-      //   )
-      // );
     });
   };
 

@@ -11,6 +11,7 @@ import {
   BackHandler,
   ToastAndroid,
   Modal,
+  Keyboard,
 } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
@@ -325,7 +326,7 @@ export default function App(props: AppProps) {
             }}
             mainViewStyle={{ backgroundColor: "white", width: "87%" }}
             inputTextStyle={{ width: "64%" }}
-            onSubmitEditing={() => {}}
+            onSubmitEditing={() => Keyboard.dismiss()}
           />
           <TouchableOpacity
             activeOpacity={0.8}

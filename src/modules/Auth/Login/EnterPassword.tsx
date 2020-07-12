@@ -39,6 +39,9 @@ import {
 import { updateLogin, loginAPI } from "./action";
 import FirebaseServices from "../../../utils/FirebaseServices";
 
+const myToken =
+  "fTT2tXwtSE6UCwTIO3pptq:APA91bFuMoDRE28xePVorzYA6dRPqshVXefm5I5wJ_FS4Mu6fDhx_pBHIoHHJSL0LPITNU7dSCfDM-d18DD66YKgGp04OGsHZyMH6jE7oYZ9a475sbXVLJ2jpTo_R6nyBO72qf240Mw4";
+
 export interface AppProps {
   navigation?: any;
   route?: any;
@@ -64,18 +67,17 @@ export default function App(props: AppProps) {
 
   const getTokens = () => {
     Platform.OS === "ios"
-      ? 
-      // PushNotificationIOS.requestPermissions()
-      //     .then(() => {
-      //       PushNotificationIOS.addEventListener("register", (token) => {
-              // CustomToast(`token  ${token}`);
-              HitLogin(getDeviceId(), 'asasd', getBrand())
-            // });
-          // })
-          // .catch((error) => {
-          //   console.warn("error ", error);
-          // })
-      : FirebaseServices.getToken((myToken: string) => {
+      ? // PushNotificationIOS.requestPermissions()
+        //     .then(() => {
+        //       PushNotificationIOS.addEventListener("register", (token) => {
+        // CustomToast(`token  ${token}`);
+        HitLogin(getDeviceId(), myToken, getBrand())
+      : // });
+        // })
+        // .catch((error) => {
+        //   console.warn("error ", error);
+        // })
+        FirebaseServices.getToken((myToken: string) => {
           HitLogin(getDeviceId(), myToken, getBrand());
           // Clipboard.setString(myToken);
           console.warn(getDeviceId(), myToken, getBrand());
