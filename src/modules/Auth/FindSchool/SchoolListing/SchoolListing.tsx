@@ -224,7 +224,7 @@ export default function App(props: AppProps) {
               />
             ) : query.length !== 0 && !showResult ? (
               <View style={{ height: "100%", width: "100%" }}>
-                <Text>{Strings.No_data_Found}</Text>
+                <Text style={Styles.noDataTxt}>{Strings.No_data_Found}</Text>
               </View>
             ) : (
               <View style={{ width: "100%" }}>
@@ -339,6 +339,13 @@ const Styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 7.49,
     elevation: 5,
+  },
+  noDataTxt: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    color: Colors.violet,
+    alignSelf: "center",
+    paddingTop: vh(10)
   },
   mainModalView: {
     flex: 1,

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, BackHandler } from "react-native";
 import { useDispatch } from "react-redux";
+import { getDeviceId } from "react-native-device-info";
 
 // custom imports
 import {
@@ -30,7 +31,7 @@ export default function App(props: AppProps) {
   }, []);
   return (
     <View style={Styles.mainView}>
-      <CustomLoader loading={isLoading} color='white'/>
+      <CustomLoader loading={isLoading} color="white" />
       <View style={Styles.modalView}>
         <Text style={Styles.bubbleMsgText}>{Strings.logout_msg}</Text>
         <CustomButton
@@ -40,7 +41,7 @@ export default function App(props: AppProps) {
             API.postApiCall(
               EndPoints.auth.logout,
               {
-                device_id: "12",
+                device_id: getDeviceId(),
               },
               () => {
                 setLoading(false), dispatch(updateLogin({}, ""));

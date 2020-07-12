@@ -77,6 +77,7 @@ export default function App(props: AppProps) {
         title={Strings.Enter_Password_Reset_Code}
         onPressBack={() => props.navigation.pop()}
       />
+      <CustomLoader loading={isLoading} />
       <View style={Styles.innerView}>
         <Text style={Styles.welcome}>{Strings.Welcome}</Text>
         <Text style={Styles.name}>{name}</Text>
@@ -86,7 +87,6 @@ export default function App(props: AppProps) {
         </Text>
         {/* Access code box ------------------ */}
         <View style={Styles.codeView}>
-          <CustomLoader loading={isLoading} />
           <CustomCodeBox
             ref={inputRef1}
             value={input1}
