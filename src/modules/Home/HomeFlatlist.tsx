@@ -28,22 +28,15 @@ export default function App(props: AppProps) {
       {/* Activity View ------------------ */}
       {item.type === ACTIVITY ? (
         <View style={Styles.mainInnerView}>
-          <View style={Styles.imgView}>
-            <Image
-              source={
-                item.activity_status_id === "3" ||
-                item.child_activity_image === null
-                  ? Images.Image_Placeholder
-                  : { uri: item.child_activity_image }
-              }
-              style={
-                item.activity_status_id === "3" ||
-                item.child_activity_image === null
-                  ? {}
-                  : Styles.imgActivity
-              }
-            />
-          </View>
+          {item.activity_status_id === "3" ||
+          item.child_activity_image === null ? null : (
+            <View style={Styles.imgView}>
+              <Image
+                source={{ uri: item.child_activity_image }}
+                style={Styles.imgActivity}
+              />
+            </View>
+          )}
           <View style={Styles.lunchView}>
             <View style={Styles.nameView}>
               <View style={Styles.childAvatar}>
@@ -71,7 +64,7 @@ export default function App(props: AppProps) {
                 >
                   <Text style={Styles.name}>
                     {item.Child.first_name} {item.Child.last_name}
-                    {" . "}
+                    <Text style={Styles.dotTxt}>{" . "}</Text>
                     <Text style={{ color: Colors.orange }}>
                       {item.category_name}{" "}
                       <Text style={Styles.category}>
@@ -134,7 +127,8 @@ export default function App(props: AppProps) {
           </View>
           <Text style={Styles.title}>{Strings.Announcement}</Text>
           <Text style={Styles.timeBlack}>
-            {CommonFunctions.DateFormatter(new Date(item.create_dt))} .{" "}
+            {CommonFunctions.DateFormatter(new Date(item.create_dt))}{" "}
+            <Text style={Styles.dotTxt}>{" . "}</Text>
             {CommonFunctions.timeFormatter(new Date(item.create_dt))}
           </Text>
           <Text style={[Styles.annTitle, { paddingTop: vh(10) }]}>
@@ -222,6 +216,8 @@ const Styles = StyleSheet.create({
     width: "100%",
     marginVertical: vh(15),
     borderRadius: vh(10),
+    borderWidth: vw(1),
+    borderColor: Colors.chatBorderGrey,
   },
   imgView: {
     width: "100%",
@@ -239,6 +235,11 @@ const Styles = StyleSheet.create({
     width: "100%",
     borderTopLeftRadius: vh(10),
     borderTopRightRadius: vh(10),
+  },
+  dotTxt: {
+    fontWeight: "900",
+    marginBottom: vw(10),
+    fontSize: vh(30),
   },
   lunchView: {
     padding: vh(16),
@@ -289,7 +290,7 @@ const Styles = StyleSheet.create({
     height: vh(40),
     alignItems: "center",
     padding: vh(10),
-    paddingTop: vh(3)
+    paddingTop: vh(3),
   },
   description: {
     fontFamily: "Nunito-Regular",

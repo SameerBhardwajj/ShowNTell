@@ -72,6 +72,15 @@ export default function App(props: AppProps) {
       : null;
   };
 
+  // console.warn(
+  //   "date ",
+  //   CommonFunctions.DateFormatter(item[0].activity_dt),
+  //   !CommonFunctions.isNullUndefined(item) && index === 0
+  // );
+
+  // console.log('value  ',item);
+  
+
   return (
     <View style={Styles.mainView}>
       {!CommonFunctions.isNullUndefined(item) && index === 0 ? (

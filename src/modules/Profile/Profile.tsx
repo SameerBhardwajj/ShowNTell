@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  ScrollView,
   Modal,
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
@@ -13,17 +12,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { CustomHeader, CustomLoader } from "../../Components";
-import {
-  Strings,
-  vw,
-  vh,
-  Images,
-  Colors,
-  ScreenName,
-  CommonFunctions,
-} from "../../utils";
+import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 import TopTabNavigation from "./TopTabNavigation";
 import { hiBasicDetails, hitUploadCDNapi, hitUploadImage } from "./action";
+import ProfileModal from "./ProfileModal";
 
 export interface AppProps {
   navigation?: any;
@@ -35,6 +27,7 @@ export default function App(props: AppProps) {
   }));
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -68,24 +61,13 @@ export default function App(props: AppProps) {
         name: "test" + ".jpeg",
         type: "image/jpeg",
       });
-
+      setModalOpen(false);
       dispatch(
         hitUploadCDNapi(
           formdata,
           (data: any) => {
             console.warn("my  ", data.key);
-            dispatch(
-              hitUploadImage(
-                data.key,
-                () => {
-                  HitProfileAPI();
-                },
-                (e: any) => {
-                  setLoading(false);
-                  console.warn("error3  ", e);
-                }
-              )
-            );
+            updateImage(data.key);
           },
           (e: any) => {
             setLoading(false);
@@ -94,6 +76,21 @@ export default function App(props: AppProps) {
         )
       );
     });
+  };
+
+  const updateImage = (img: string) => {
+    dispatch(
+      hitUploadImage(
+        img,
+        () => {
+          HitProfileAPI();
+        },
+        (e: any) => {
+          setLoading(false);
+          console.warn("error3  ", e);
+        }
+      )
+    );
   };
 
   return (
@@ -112,13 +109,17 @@ export default function App(props: AppProps) {
                 : { uri: data.s3_photo_path }
             }
             resizeMethod="resize"
-            resizeMode="center"
+            resizeMode={
+              CommonFunctions.isNullUndefined(data.s3_photo_path)
+                ? "center"
+                : "cover"
+            }
             style={Styles.pic}
           />
           <TouchableOpacity
             activeOpacity={0.8}
             style={Styles.editView}
-            onPress={() => ImagePick()}
+            onPress={() => setModalOpen(true)}
           >
             <Image
               source={Images.Edit_Image}
@@ -134,6 +135,13 @@ export default function App(props: AppProps) {
       <View style={{ flex: 1, width: "100%" }}>
         <TopTabNavigation />
       </View>
+      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+        <ProfileModal
+          closeModal={() => setModalOpen(false)}
+          updateProfile={() => ImagePick()}
+          deleteProfile={() => updateImage("")}
+        />
+      </Modal>
     </View>
   );
 }

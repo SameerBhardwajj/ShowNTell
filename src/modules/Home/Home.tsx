@@ -177,8 +177,8 @@ export default function App(props: AppProps) {
 
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setHomeData(data);
-          dispatch(updatePage(1, () => {}));
           setLoading(false);
+          // dispatch(updatePage(1, () => {}));
         },
         () => {
           setLoading(false);
@@ -194,24 +194,23 @@ export default function App(props: AppProps) {
   };
 
   const NewhitHomeAPI = () => {
-    console.warn("my page  ", page);
-    setLoading(true);
+    console.log("sending my page  ", page);
+    // setLoading(true);
     dispatch(
       HomeAPI(
         (data: any) => {
           console.log("home data   ", data);
-          console.warn("load more  ", !loadMore);
 
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setHomeData(homeData.concat(data));
-          dispatch(updatePage(page + 1, () => {}));
+          // dispatch(updatePage(page + 1, () => {}));
           setLoading(false);
         },
         () => {
           setLoading(false);
         },
         currentChild.child,
-        page + 1,
+        page,
         myFilter.activity,
         myFilter.fromDate,
         myFilter.toDate,
@@ -233,7 +232,7 @@ export default function App(props: AppProps) {
         (data: any) => {
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setHomeData(data);
-          dispatch(updatePage(1, () => {}));
+          // dispatch(updatePage(1, () => {}));
           setLoading(false);
         },
         () => {
@@ -259,7 +258,7 @@ export default function App(props: AppProps) {
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
           setHomeData(data);
-          dispatch(updatePage(1, () => {}));
+          // dispatch(updatePage(1, () => {}));
           setLoading(false);
         },
         () => {
@@ -365,7 +364,9 @@ export default function App(props: AppProps) {
           <FilterModal
             setModalOpen={(value: boolean) => setModalOpen(value)}
             resetFilter={() => {
-              setModalOpen(false), hitHomeAPI(currentChild.child);
+              setModalOpen(false);
+              // hitHomeAPI(currentChild.child);
+              hitFilterAPI();
             }}
             applyFilter={(value: any, Activitytype: Array<any>, dates: any) => {
               console.log("incoming  ", value, dates, Activitytype);
@@ -376,16 +377,16 @@ export default function App(props: AppProps) {
               let from = CommonFunctions.isEmpty(dates)
                 ? ""
                 : CommonFunctions.dateTypeFormat(dates.fromDate, "ymd");
+              // dispatch(
+              //   updatePage(0, () => {
               dispatch(
-                updatePage(0, () => {
-                  dispatch(
-                    addFilter(myFilter.activity, from, to, Activitytype, () => {
-                      console.warn(" filter redux ...", myFilter);
-                      hitFilterAPI(value, from, to, Activitytype.join(","));
-                    })
-                  );
+                addFilter(myFilter.activity, from, to, Activitytype, () => {
+                  console.warn(" filter redux ...", myFilter);
+                  hitFilterAPI(value, from, to, Activitytype.join(","));
                 })
               );
+              // })
+              // );
             }}
           />
         </View>

@@ -68,6 +68,7 @@ export default function App(props: AppProps) {
   }, []);
 
   const validateAll = () => {
+    Keyboard.dismiss();
     validate(ConstantName.ZIPCODE, zipcode)
       ? (setLoading(true),
         dispatch(
@@ -198,7 +199,7 @@ export default function App(props: AppProps) {
               }}
               check={true}
               incorrectText={Strings.Zipcode_error}
-              keyboardType={'number-pad'}
+              keyboardType={"number-pad"}
               mainViewStyle={Styles.textInputView}
             />
           </View>

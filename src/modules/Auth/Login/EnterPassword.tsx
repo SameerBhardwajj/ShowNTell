@@ -40,7 +40,7 @@ import { updateLogin, loginAPI } from "./action";
 import FirebaseServices from "../../../utils/FirebaseServices";
 
 const myToken =
-  "fTT2tXwtSE6UCwTIO3pptq:APA91bFuMoDRE28xePVorzYA6dRPqshVXefm5I5wJ_FS4Mu6fDhx_pBHIoHHJSL0LPITNU7dSCfDM-d18DD66YKgGp04OGsHZyMH6jE7oYZ9a475sbXVLJ2jpTo_R6nyBO72qf240Mw4";
+  "02fa3877720c0d02c84d51fa7718d9274c4e4cab10051ba93ca1e56238d905ca";
 
 export interface AppProps {
   navigation?: any;

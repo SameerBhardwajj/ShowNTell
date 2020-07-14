@@ -51,8 +51,9 @@ export default function App(props: AppProps) {
   const [isLoading, setLoading] = useState(false);
 
   const validateAll = () => {
+    Keyboard.dismiss();
     phone1.length === 0 || validate(ConstantName.PHONE, phone1)
-      ? phone2.length === 0 || validate(ConstantName.PHONE, phone2)
+      ? phone2.length === 0 && validate(ConstantName.PHONE, phone2)
         ? phone3.length === 0 || validate(ConstantName.PHONE, phone3)
           ? (setLoading(true),
             dispatch(
@@ -106,7 +107,7 @@ export default function App(props: AppProps) {
             {/* phone number ---------------- */}
             <CustomPhoneField
               title={Strings.Phone_Number}
-              value={phone1}
+              value={phone1.replace(/-/g, "")}
               ref={inputRef1}
               onChangeText={(text: string) => {
                 checkphone1 ? null : setCheckPhone1(true), setPhone1(text);
@@ -122,23 +123,26 @@ export default function App(props: AppProps) {
             {/* mobile number ---------------- */}
             <CustomPhoneField
               title={Strings.Mobile_Number}
-              value={phone2}
+              value={phone2.replace(/-/g, "")}
               ref={inputRef2}
               onChangeText={(text: string) => {
                 checkphone2 ? null : setCheckPhone2(true), setPhone2(text);
               }}
               check={checkphone2}
               onSubmitEditing={() => {
-                phone2.length === 0 || validate(ConstantName.PHONE, phone2)
+                phone2.length === 0 && validate(ConstantName.PHONE, phone2)
                   ? inputRef3.current.focus()
                   : (setCheckPhone2(false), inputRef2.current.focus());
               }}
+              incorrectMsg={
+                phone2.length === 0 ? Strings.Phone_Empty : undefined
+              }
               mainViewStyle={{ width: "100%", marginVertical: vh(4) }}
             />
             {/* other number ---------------- */}
             <CustomPhoneField
               title={Strings.Other_Number}
-              value={phone3}
+              value={phone3.replace(/-/g, "")}
               ref={inputRef3}
               onChangeText={(text: string) => {
                 checkphone3 ? null : setCheckPhone3(true), setPhone3(text);

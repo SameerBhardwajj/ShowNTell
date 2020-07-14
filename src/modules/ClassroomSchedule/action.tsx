@@ -35,6 +35,12 @@ export const hitClassScheduleAPI = (
           });
           successCallback(success.data.response);
         } else {
+          dispatch({
+            type: Action.CLASSROOM_SCHEDULE,
+            payload: {
+              data: [],
+            },
+          });
           CustomToast(success.data.message);
           failCallback();
         }

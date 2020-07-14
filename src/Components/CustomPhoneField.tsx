@@ -9,6 +9,7 @@ export interface AppProps {
   onSubmitEditing: Function;
   mainViewStyle?: any;
   title?: string;
+  incorrectMsg?: string;
 }
 
 const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
@@ -24,7 +25,11 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
           {props.title === undefined ? Strings.parentPhone : props.title}
         </Text>
         {props.check ? null : (
-          <Text style={Styles.incorrectText}>{Strings.Phone_error}</Text>
+          <Text style={Styles.incorrectText}>
+            {props.incorrectMsg === undefined
+              ? Strings.Phone_error
+              : props.incorrectMsg}
+          </Text>
         )}
       </View>
       <View

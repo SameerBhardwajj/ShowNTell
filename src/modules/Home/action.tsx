@@ -76,12 +76,15 @@ export const HomeAPI = (
       (success: any) => {
         const res = success.data.response;
         if (success.data.code === 200) {
+          console.log("receiving page num ", page);
+
           // console.warn("mysuccess ", res);
           dispatch({
             type: Action.HOME_DATA,
             payload: {
               data: res.rows,
               chatEnable: res.permission.chatWithParent === 0 ? false : true,
+              page: page === undefined ? 0 : page + 1,
             },
           });
           successCallback(res.rows);
@@ -119,11 +122,23 @@ export const HomeFilter = (
 
           successCallback(success.data.response);
         } else {
+          dispatch({
+            type: Action.HOME_DATA,
+            payload: {
+              filterData: [],
+            },
+          });
           CustomToast(success.data.message);
           failureCallback();
         }
       },
       (error: any) => {
+        dispatch({
+          type: Action.HOME_DATA,
+          payload: {
+            filterData: [],
+          },
+        });
         CommonFunctions.handleError(error);
         failureCallback();
       }

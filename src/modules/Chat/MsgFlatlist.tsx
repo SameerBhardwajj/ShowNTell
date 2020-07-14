@@ -51,7 +51,7 @@ export default function App(props: AppProps) {
                 backgroundColor: Colors.fadedPink,
                 alignSelf: "flex-start",
                 borderBottomLeftRadius: 0,
-                borderBottomRightRadius: vw(8)
+                borderBottomRightRadius: vw(8),
               }
             : {},
         ]}
@@ -76,8 +76,8 @@ export default function App(props: AppProps) {
         <TextInput
           value={
             props.item.message === null
-              ? props.item.canned_message
-              : props.item.message
+              ? props.item.canned_message.trim()
+              : props.item.message.trim()
           }
           multiline={true}
           editable={false}

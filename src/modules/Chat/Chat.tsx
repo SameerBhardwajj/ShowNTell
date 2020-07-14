@@ -173,7 +173,9 @@ export default function App(props: AppProps) {
             <TouchableOpacity
               style={Styles.sendBtnView}
               activeOpacity={0.8}
-              onPress={() => (msg.length === 0 ? null : sendMsgs(msg, msgID))}
+              onPress={() =>
+                msg.trim().length === 0 ? null : sendMsgs(msg.trim(), msgID)
+              }
             >
               <Image source={Images.Send_Icon} style={Styles.sendBtn} />
             </TouchableOpacity>

@@ -38,10 +38,10 @@ export default function App(props: AppProps) {
     // dispatch(updateTab(true, () => {}));
     setPage(0);
     setLoading(true);
-    hitPhotoLibraryAPI();
+    hitPhotoLibraryAPI(0);
   }, [currentChild]);
 
-  const hitPhotoLibraryAPI = () => {
+  const hitPhotoLibraryAPI = (page: number) => {
     console.warn(page);
 
     dispatch(
@@ -152,7 +152,7 @@ export default function App(props: AppProps) {
           <FlatList
             showsVerticalScrollIndicator={false}
             bounces={false}
-            onEndReached={hitPhotoLibraryAPI}
+            onEndReached={() => hitPhotoLibraryAPI(page)}
             onEndReachedThreshold={0.5}
             data={groupingData(libraryData)}
             keyExtractor={(item, index) => index.toString()}

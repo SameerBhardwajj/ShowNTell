@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Keyboard,
+} from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -39,6 +46,7 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
 
   const validateAll = () => {
+    Keyboard.dismiss();
     validate(ConstantName.EMAIL, email)
       ? (setLoading(true),
         dispatch(

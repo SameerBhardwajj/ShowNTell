@@ -42,7 +42,7 @@ export default function App(props: AppProps) {
           <Text style={Styles.name}>
             {item.Child.first_name} {item.Child.last_name}
           </Text>
-          {/* <Text style={Styles.classText}>{item.class}</Text> */}
+          <Text style={Styles.classText}>{item.Child.Classroom.name}</Text>
         </View>
       </View>
       <Text style={Styles.questionText}>

@@ -142,7 +142,7 @@ export default function App(props: AppProps) {
                 <Image source={Images.Edit_Image} />
               </TouchableOpacity>
             </View>
-            <View style={[Styles.itemView, { alignItems: "flex-start" }]}>
+            <View style={Styles.itemView}>
               <Image source={Images.Mail_Icon} />
               {CommonFunctions.isNullUndefined(data.email) ? null : (
                 <Text style={Styles.itemText}>{data.email}</Text>
@@ -152,12 +152,9 @@ export default function App(props: AppProps) {
           {/* Activity Preference ----------------------- */}
           <View style={Styles.contactView}>
             <View style={Styles.commonView}>
-              <Text style={Styles.headingText}>
+              <Text style={[Styles.headingText, {paddingVertical: vh(15)}]}>
                 {Strings.Activity_Preferences}
               </Text>
-              <TouchableOpacity activeOpacity={0.8} style={Styles.editView}>
-                <Image source={Images.Edit_Image} />
-              </TouchableOpacity>
             </View>
             <View style={Styles.toggleView}>
               <Text style={[Styles.itemText, { paddingLeft: 0 }]}>

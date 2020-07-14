@@ -67,14 +67,13 @@ export const loginAPI = (
     API.postApiCall(
       EndPoints.auth.login,
       {
-        email: "Katherine.Herman@yahoo.com",
-        password: "Sam@1234",
-        center_id: 193,
-        device_id: "msm12",
-        device_name: "vivo",
-        device_platform: "android",
-        device_token:
-          "fTT2tXwtSE6UCwTIO3pptq:APA91bFuMoDRE28xePVorzYA6dRPqshVXefm5I5wJ_FS4Mu6fDhx_pBHIoHHJSL0LPITNU7dSCfDM-d18DD66YKgGp04OGsHZyMH6jE7oYZ9a475sbXVLJ2jpTo_R6nyBO72qf240Mw4",
+        email: email,
+        password: password,
+        center_id: id,
+        device_id: deviceID,
+        device_name: deviceName,
+        device_platform: Platform.OS,
+        device_token: token,
       },
       (success: any) => {
         debugger;

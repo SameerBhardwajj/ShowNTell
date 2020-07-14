@@ -54,7 +54,6 @@ const postApiCall = (
       successCallback(response);
     })
     .catch((error: any) => {
-      debugger;
       console.warn("error", error);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
@@ -86,7 +85,6 @@ const getApiCall = (
       successCallback(response);
     })
     .catch((error: any) => {
-      debugger;
       // console.warn("error", error.code);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {

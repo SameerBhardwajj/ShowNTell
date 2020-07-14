@@ -64,8 +64,8 @@ export default function App(props: AppProps) {
   const TYPE3 = "QOTD";
 
   React.useEffect(() => {
-    console.warn('my current child ',currentChild);
-    
+    console.warn("my current child ", currentChild);
+
     myFilter.type.length === 0
       ? null
       : (myFilter.type.includes(TYPE1) ? setactivityType1(true) : null,

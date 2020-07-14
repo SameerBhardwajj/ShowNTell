@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, Text } from "react-native";
 import GalleryFlatlist from "./GalleryFlatlist";
 
 export interface AppProps {
@@ -9,6 +9,8 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  // console.log('values ',props.item[0]);
+  
   const arrangeData = (data: any) => {
     let dataArray = new Array().slice(0);
     let n = data.length;
@@ -33,6 +35,7 @@ export default function App(props: AppProps) {
 
   return (
     <View style={{ flex: 1, width: "100%" }}>
+      {/* <Text>Here</Text> */}
       <FlatList
         data={props.item.length === 0 ? [] : arrangeData(props.item)}
         keyExtractor={(item, index) => index.toString()}
