@@ -6269,7 +6269,12 @@ mkdirp@0.x.x, mkdirp@^0.5.1:
   dependencies:
     minimist "^1.2.5"
 
-moment@^2.22.1, moment@^2.25.3:
+moment@^2.22.1:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
+  integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
+
+moment@^2.25.3:
   version "2.25.3"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.25.3.tgz#252ff41319cf41e47761a1a88cab30edfe9808c0"
   integrity sha512-PuYv0PHxZvzc15Sp8ybUCoQ+xpyPWvjOuK72a5ovzp2LI32rJXOiIfyoFoYvG3s6EwwrdkMyWuRiEHSZRLJNdg==
@@ -7008,9 +7013,9 @@ react-native-config@^1.0.0:
   integrity sha512-ZydFNkGgjPCgJ4nDDGxuoMSsz4HACJH6TyYEDeefnzGW3XS/HXxdiW8SOaOD8B0WACQJHM028ypnwhexJ7hhsA==
 
 react-native-date-picker@^2.7.9:
-  version "2.7.9"
-  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-2.7.9.tgz#f662d8741a3f78148eccf492d70a1740b035024b"
-  integrity sha512-9D8N6oT8ZU5/zHDz2c+Asco24ESvd8Y7SnxipAyLB0GmtRFfRSJ+mOFwaZaYpeqAoSFJnRJVvICnDQCCLAl1cw==
+  version "2.7.13"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-2.7.13.tgz#d8901879a3b3c349bdeaa9584e9abb73db8c753d"
+  integrity sha512-qb937elVrGITaCRt2jD4eoOibK+lu806GVANT1jKe9jQYEIppUvoGgBRMrnR2OwsauFWK715pEpbAG29KgR3sg==
   dependencies:
     moment "^2.22.1"
 
@@ -7090,6 +7095,11 @@ react-native-material-ripple@^0.8.0:
   resolved "git+https://github.com/noway/react-native-material-textfield.git#ab85973770e62202d7f5f83afb1c2f57e91318ca"
   dependencies:
     prop-types "^15.5.9"
+
+react-native-permissions@^2.1.5:
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-2.1.5.tgz#6cfc4f1ab1590f4952299b7cdc9698525ad540e0"
+  integrity sha512-b9KO/4UEV9qddl+kcSybmdk8nlAifclSDBR2rSvc5KZM06vIaJWJNIzK2ZwPXqDQ5yD3CJLuKTRj7Fz+jM9qyQ==
 
 react-native-reanimated@^1.8.0:
   version "1.8.0"

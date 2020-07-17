@@ -9,7 +9,15 @@ import {
 } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
 import { useSelector } from "react-redux";
-import { vh, Colors, Images, vw, Strings, ScreenName } from "../utils";
+import {
+  vh,
+  Colors,
+  Images,
+  vw,
+  Strings,
+  ScreenName,
+  CommonFunctions,
+} from "../utils";
 import DrawerFlatlist from "./DrawerFlatlist";
 
 export interface AppProps {
@@ -17,11 +25,13 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const { loginData, loginEmail, chatEnable } = useSelector(
-    (state: { Login: any; Home: any }) => ({
+  const { loginData, loginEmail, profilePic, chatEnable, data } = useSelector(
+    (state: { Login: any; Home: any; Profile: any }) => ({
       loginData: state.Login.loginData,
       loginEmail: state.Login.loginEmail,
+      profilePic: state.Login.profilePic,
       chatEnable: state.Home.chatEnable,
+      data: state.Profile.data,
     })
   );
 
@@ -36,7 +46,11 @@ export default function App(props: AppProps) {
 
   React.useEffect(() => {
     console.warn("updated chat ", chatEnable);
-  }, [chatEnable]);
+    let focusListener = props.navigation.addListener("focus", () => {
+      console.warn(data);
+    });
+    return focusListener;
+  }, [props.navigation, chatEnable]);
 
   const rendetItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -73,9 +87,9 @@ export default function App(props: AppProps) {
           <View style={Styles.imgView}>
             <Image
               source={
-                loginData.s3_photo_path === null
+                CommonFunctions.isNullUndefined(profilePic)
                   ? Images.Profile_Placeholder
-                  : { uri: loginData.s3_photo_path }
+                  : { uri: profilePic }
               }
               resizeMode="center"
               resizeMethod="resize"

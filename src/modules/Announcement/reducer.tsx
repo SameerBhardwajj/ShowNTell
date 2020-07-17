@@ -1,6 +1,7 @@
 import { Action } from "../../utils";
 const initialState = {
   data: [],
+  page: 0,
 };
 const Reducer = (state = initialState, action: any) => {
   console.warn(action, action.payload);

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -48,30 +48,36 @@ export default function App(props: AppProps) {
   };
   return (
     <View style={Styles.mainView}>
-      <Swiper
-        index={0}
-        activeDot={activeDotColor()}
-        dot={inactiveDotColor()}
-        showsButtons={false}
-        loop={true}
-        removeClippedSubviews={false}
-        style={{
-          height: vh(192),
-          backgroundColor: Colors.creamWhite,
-        }}
+      {CommonFunctions.isNullUndefined(item.center_image) ? null : (
+        <Swiper
+          index={0}
+          activeDot={activeDotColor()}
+          dot={inactiveDotColor()}
+          showsButtons={false}
+          loop={true}
+          removeClippedSubviews={false}
+          style={{
+            height: vh(192),
+            backgroundColor: Colors.creamWhite,
+          }}
+        >
+          <Image
+            defaultSource={Images.Image_Placeholder}
+            source={{ uri: item.center_image }}
+            style={Styles.imgView}
+            resizeMethod="resize"
+            resizeMode="stretch"
+          />
+        </Swiper>
+      )}
+      <View
+        style={[
+          Styles.schoolView,
+          CommonFunctions.isNullUndefined(item.center_image)
+            ? { borderTopLeftRadius: vh(10), borderTopRightRadius: vh(10) }
+            : {},
+        ]}
       >
-        <Image
-          source={
-            item.center_image === null
-              ? Images.Image_Placeholder
-              : { uri: item.center_image }
-          }
-          style={
-            item.center_image === null ? Styles.placeholderImg : Styles.imgView
-          }
-        />
-      </Swiper>
-      <View style={Styles.schoolView}>
         <Text style={Styles.name}>{item.name}</Text>
         <View style={Styles.locationView}>
           <Image source={Images.Distance_Pin_small} style={Styles.img1} />
@@ -156,7 +162,7 @@ const Styles = StyleSheet.create({
   },
   placeholderImg: {
     alignSelf: "center",
-    marginTop: vh(60),
+    height: vh(192),
   },
   schoolView: {
     padding: vh(16),

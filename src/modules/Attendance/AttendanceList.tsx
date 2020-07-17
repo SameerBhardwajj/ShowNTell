@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { vh, Colors, Images, vw, Strings, CommonFunctions } from "../../utils";
 
@@ -10,6 +10,7 @@ export interface AppProps {
   index: string;
   currentChild: number;
   allData: any;
+  onPressAbsence: Function;
 }
 
 export default function App(props: AppProps) {
@@ -51,27 +52,42 @@ export default function App(props: AppProps) {
           ? null
           : childData()
         : null}
-      <View style={Styles.timeView}>
-        <View style={Styles.inTimeView}>
-          <Image source={Images.In_Time_Icon} />
-          <Text style={Styles.inTimeText}>{Strings.In_Time}</Text>
-          <Text style={Styles.inTime}>
-            {CommonFunctions.isNullUndefined(props.item.in_date_time)
-              ? Strings.Not_Available
-              : timeFormatter(props.item.in_date_time)}
-          </Text>
+      {props.item.type === ATTENDANCE ? (
+        <View style={Styles.timeView}>
+          <View style={Styles.inTimeView}>
+            <Image source={Images.In_Time_Icon} />
+            <Text style={Styles.inTimeText}>{Strings.In_Time}</Text>
+            <Text style={Styles.inTime}>
+              {CommonFunctions.isNullUndefined(props.item.in_date_time)
+                ? ""
+                : timeFormatter(props.item.in_date_time)}
+            </Text>
+          </View>
+          <View style={Styles.separatorView} />
+          <View style={Styles.inTimeView}>
+            <Image source={Images.Out_Time_Icon} />
+            <Text style={Styles.inTimeText}>{Strings.Out_Time}</Text>
+            <Text style={Styles.inTime}>
+              {CommonFunctions.isNullUndefined(props.item.out_date_time)
+                ? ""
+                : timeFormatter(props.item.out_date_time)}
+            </Text>
+          </View>
         </View>
-        <View style={Styles.separatorView} />
-        <View style={Styles.inTimeView}>
-          <Image source={Images.Out_Time_Icon} />
-          <Text style={Styles.inTimeText}>{Strings.Out_Time}</Text>
-          <Text style={Styles.inTime}>
-            {CommonFunctions.isNullUndefined(props.item.out_date_time)
-              ? Strings.Not_Available
-              : timeFormatter(props.item.out_date_time)}
-          </Text>
+      ) : (
+        <View style={Styles.timeView}>
+          <TouchableOpacity
+            style={Styles.absenceView}
+            activeOpacity={0.8}
+            onPress={() => props.onPressAbsence()}
+          >
+            <Image source={Images.Absent_Icon} style={{ padding: vh(25) }} />
+            <Text style={Styles.absenceText}>
+              {Strings.Absence_Notification}
+            </Text>
+          </TouchableOpacity>
         </View>
-      </View>
+      )}
     </View>
   );
 }
@@ -139,5 +155,20 @@ const Styles = StyleSheet.create({
     width: vw(1),
     height: "80%",
     backgroundColor: Colors.separator,
+  },
+  absenceView: {
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "center",
+    backgroundColor: Colors.lightPink,
+    borderRadius: vh(10),
+    paddingTop: vh(28),
+    paddingBottom: vh(28),
+  },
+  absenceText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(20),
+    color: Colors.pink,
+    paddingTop: vh(20),
   },
 });

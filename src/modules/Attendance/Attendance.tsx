@@ -60,12 +60,14 @@ export default function App(props: AppProps) {
   );
 
   useEffect(() => {
-    // dispatch(updateTab(true, () => {}));
-    hitAttendance();
-  }, [currentChild, viewByDate]);
+    let focusListener = props.navigation.addListener("focus", () => {
+      hitAttendance();
+    });
+    setLoading(true);
+    return focusListener;
+  }, [props.navigation, currentChild, viewByDate]);
 
   const hitAttendance = () => {
-    setLoading(true);
     dispatch(
       viewAttendance(
         viewByDate ? DATE_TYPE : MONTH_TYPE,
@@ -89,6 +91,11 @@ export default function App(props: AppProps) {
         item={item}
         currentChild={currentChild.child}
         allData={data}
+        onPressAbsence={() =>
+          props.navigation.navigate(ScreenName.ABSENCE_NOTIFICATION_MODAL, {
+            item: item,
+          })
+        }
       />
     );
   };
@@ -186,6 +193,7 @@ export default function App(props: AppProps) {
           </TouchableOpacity>
         </View>
       </View>
+
       {viewByDate ? (
         <View style={Styles.monthView}>
           {isLoading ? (
@@ -319,7 +327,6 @@ const Styles = StyleSheet.create({
     backgroundColor: Colors.darkFadedPink,
   },
   headingView: {
-    paddingTop: vh(16),
     paddingHorizontal: vw(16),
     alignSelf: "flex-start",
   },

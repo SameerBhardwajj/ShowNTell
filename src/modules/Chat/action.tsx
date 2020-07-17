@@ -68,13 +68,14 @@ export const sendMsg = (
 };
 
 export const getMsgs = (
-  page: number,
+  type: string,
+  timestamp: string,
   successCallback: Function,
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.drawer.chat.getMsg(page),
+      EndPoints.drawer.chat.getMsg(type, timestamp),
       {},
       (success: any) => {
         console.warn("success ", success);
@@ -83,7 +84,9 @@ export const getMsgs = (
         if (success.data.code === 200) {
           const { chatData } = getState().Chat;
           let finalArray = [];
-          page === 0 ? (finalArray = res) : (finalArray = chatData.concat(res));
+          type === "down"
+            ? (finalArray = res.concat(chatData))
+            : (finalArray = res);
 
           dispatch({
             type: Action.CHAT,
@@ -93,8 +96,8 @@ export const getMsgs = (
           });
           successCallback(finalArray);
         } else {
-          page === 0 ? CustomToast(success.data.message) : null;
-          failCallback();
+          // page === 0 ? CustomToast(success.data.message) : null;
+          // failCallback();
         }
       },
       (error: any) => {

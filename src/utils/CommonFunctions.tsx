@@ -4,6 +4,7 @@ import Geolocation from "@react-native-community/geolocation";
 import RNFetchBlob from "rn-fetch-blob";
 import CameraRoll from "@react-native-community/cameraroll";
 import CustomToast from "../Components/CustomToast";
+import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
 
 const DateDifference = (date1: any, date2: any) => {
   let second = 1000,
@@ -19,7 +20,7 @@ const DateDifference = (date1: any, date2: any) => {
 };
 
 const DateFormatter = (date: Date) => {
-  let myDate = moment.utc(date);
+  let myDate = new Date(date);
   const wMonths = [
     "Jan",
     "Feb",
@@ -34,8 +35,8 @@ const DateFormatter = (date: Date) => {
     "Nov",
     "Dec",
   ];
-  let month = myDate.month();
-  return `${wMonths[month]} ${myDate.date()}, ${myDate.year()}`;
+  let month = myDate.getMonth();
+  return `${wMonths[month]} ${myDate.getDate()}, ${myDate.getFullYear()}`;
 };
 
 const DateMonthFormatter = (date: Date) => {
@@ -74,8 +75,8 @@ const timeFormatter = (date: Date) => {
   return localTime;
 };
 
-const timeConverter = (date: string) => {
-  let testDateUtc = moment(date, "hh:mm:ss");
+const timeConverter = (time: string) => {
+  let testDateUtc = moment(time, "hh:mm:ss");
   let localTime = moment(testDateUtc).format("h:mm A");
   return localTime;
 };
@@ -275,9 +276,30 @@ const saveToCameraRoll = async (
         });
     }
   } else {
-    CameraRoll.saveToCameraRoll(image)
-      .then(() => successCallback())
-      .catch((error) => CustomToast(error));
+    check(PERMISSIONS.IOS.PHOTO_LIBRARY)
+      .then((result) => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            CustomToast("This feature is not available on this device");
+            break;
+          case RESULTS.DENIED:
+            CustomToast(
+              "Permission denied! Please provide access to Photo Library"
+            );
+            break;
+          case RESULTS.GRANTED:
+            CameraRoll.saveToCameraRoll(image)
+              .then(() => successCallback())
+              .catch((error) => CustomToast(error));
+            break;
+          case RESULTS.BLOCKED:
+            Linking.openSettings();
+            break;
+        }
+      })
+      .catch((error) => {
+        CustomToast(error);
+      });
   }
 };
 

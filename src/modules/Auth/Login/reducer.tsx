@@ -4,6 +4,7 @@ const initialState = {
   loginToken: "",
   schoolList: [],
   loginEmail: "",
+  profilePic: "",
 };
 
 const Reducer = (state = initialState, action: any) => {

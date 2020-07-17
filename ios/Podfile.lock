@@ -147,6 +147,8 @@ PODS:
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
+  - Permission-PhotoLibrary (2.1.5):
+    - RNPermissions
   - PromisesObjC (1.2.9)
   - Protobuf (3.12.0)
   - RCTRequired (0.62.2)
@@ -316,7 +318,7 @@ PODS:
     - React
   - react-native-config (1.0.0):
     - React
-  - react-native-date-picker (2.7.9):
+  - react-native-date-picker (2.7.13):
     - React
   - react-native-geolocation (2.0.2):
     - React
@@ -415,6 +417,8 @@ PODS:
     - React-Core
     - React-RCTImage
     - RSKImageCropper
+  - RNPermissions (2.1.5):
+    - React
   - RNReanimated (1.8.0):
     - React
   - RNScreens (2.7.0):
@@ -453,6 +457,7 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.33.1)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -492,6 +497,7 @@ DEPENDENCIES:
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNShare (from `../node_modules/react-native-share`)
@@ -540,6 +546,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  Permission-PhotoLibrary:
+    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary.podspec"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -612,6 +620,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNReanimated:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
@@ -653,6 +663,7 @@ SPEC CHECKSUMS:
   GoogleUtilities: 39530bc0ad980530298e9c4af8549e991fd033b1
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
+  Permission-PhotoLibrary: 4d2eff62c8f4b8a27bcf045c0e36f5047efbbf20
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   Protobuf: 2793fcd0622a00b546c60e7cbbcc493e043e9bb9
   RCTRequired: cec6a34b3ac8a9915c37e7e4ad3aa74726ce4035
@@ -666,7 +677,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-cameraroll: dbda741db5dadcdcf738e55a1fd565c307943bca
   react-native-config: 7db9b96479164dfd7b2be68eb9079e08279511c4
-  react-native-date-picker: 1160a435db143a4a27f2319aba2052186661b2b9
+  react-native-date-picker: 4468aeac8de6a6e351b56be0014d4fd35476de4c
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-netinfo: 1b8691be19549f020d0757b40aca4f355cafeeec
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
@@ -691,6 +702,7 @@ SPEC CHECKSUMS:
   RNFBMessaging: 51cc7f6beaf4c4feac6f18ea941bba5854e3d9c6
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNImageCropPicker: a606d65f71c6c05caa3c850c16fb1ba2a4718608
+  RNPermissions: ad71dd4f767ec254f2cd57592fbee02afee75467
   RNReanimated: 955cf4068714003d2f1a6e2bae3fb1118f359aff
   RNScreens: cf198f915f8a2bf163de94ca9f5bfc8d326c3706
   RNShare: d4c9789a93ffa286389ff7b73f44118c8aab412f
@@ -699,6 +711,6 @@ SPEC CHECKSUMS:
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 23c3a207b0486994c55f68e7417e3f127dd3f74f
+PODFILE CHECKSUM: 5ae56f2c387c9b966038429d4a9c0790c08b98a7
 
 COCOAPODS: 1.9.3

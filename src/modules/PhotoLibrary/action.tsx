@@ -39,7 +39,7 @@ export const PhotoLibraryAPI = (
         const res = success.data.response;
         if (success.data.code === 200) {
           console.warn("mysuccess ", res);
-          let finalData: Array<any>;
+          let finalData = [];
           page === 0
             ? (finalData = res)
             : (finalData = libraryData.concat(res));
@@ -47,16 +47,11 @@ export const PhotoLibraryAPI = (
             type: Action.UPDATE_LIBRARY,
             payload: {
               libraryData: finalData,
+              page: page + 1,
             },
           });
           successCallback(res);
         } else {
-          // dispatch({
-          //   type: Action.UPDATE_LIBRARY,
-          //   payload: {
-          //     libraryData: [],
-          //   },
-          // });
           page === 0 ? CustomToast(success.data.message) : null;
           failureCallback();
         }

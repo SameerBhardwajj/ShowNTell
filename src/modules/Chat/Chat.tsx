@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   TextInput,
   TouchableOpacity,
   Image,
@@ -11,6 +10,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 // custom imports
 import { updateTab } from "../Home/action";
@@ -31,34 +31,57 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [msg, setMsg] = useState("");
   const [msgID, setMsgID] = useState("");
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [time, settime] = useState(0);
 
   useEffect(() => {
-    // dispatch(updateTab(true, () => {}));
-    time >= 0
-      ? setTimeout(() => {
-          console.warn(time);
-          settime(time + 1);
-        }, 3000)
-      : null;
+    // Hit API after 3 sec
+    // time >= 0
+    //   ? setTimeout(() => {
+    //       console.warn(time);
+    //       settime(time + 1);
+    //     }, 3000)
+    //   : null;
+
     dispatch(
       getCannedMsgs(
         () => {},
         () => {}
       )
     );
-    hitGetMsgsAPI(0);
+    time === 0 ? getOldMsgs() : getNewMsgs();
   }, [time]);
 
-  const hitGetMsgsAPI = (page: number) => {
-    console.warn("page ", page);
+  const getNewMsgs = () => {
+    // console.warn("page ", page);
 
     dispatch(
       getMsgs(
-        page,
-        () => {
-          setPage(page + 1);
+        "down",
+        moment(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss").toString(),
+        (data: any) => {
+          // setPage(page + 1);
+          console.log("new data  ", data);
+        },
+        () => {}
+      )
+    );
+  };
+
+  const getOldMsgs = () => {
+    // console.warn("page ", page);
+
+    dispatch(
+      getMsgs(
+        "up",
+        time === 0
+          ? moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss").toString()
+          : moment(chatData[chatData.length - 1].create_dt)
+              .format("YYYY-MM-DD HH:mm:ss")
+              .toString(),
+        (data: any) => {
+          // setPage(page + 1);
+          console.log("old data  ", data);
         },
         () => {}
       )
@@ -74,8 +97,7 @@ export default function App(props: AppProps) {
           ? { canned_message_id: "", message: msg }
           : { canned_message_id: msgID, message: "" },
         () => {
-          hitGetMsgsAPI(0);
-          console.warn("ok");
+          getNewMsgs();
         },
         () => {
           console.warn("error");
@@ -135,7 +157,7 @@ export default function App(props: AppProps) {
               bounces={false}
               inverted
               data={chatData}
-              onEndReached={() => hitGetMsgsAPI(page)}
+              onEndReached={() => getOldMsgs()}
               onEndReachedThreshold={0.5}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItems}

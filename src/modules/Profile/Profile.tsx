@@ -11,10 +11,11 @@ import ImagePicker from "react-native-image-crop-picker";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { CustomHeader, CustomLoader } from "../../Components";
+import { CustomHeader, CustomLoader, CustomToast } from "../../Components";
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 import TopTabNavigation from "./TopTabNavigation";
 import { hiBasicDetails, hitUploadCDNapi, hitUploadImage } from "./action";
+import { updateProfilePic } from "../Auth/Login/action";
 import ProfileModal from "./ProfileModal";
 
 export interface AppProps {
@@ -39,7 +40,14 @@ export default function App(props: AppProps) {
       hiBasicDetails(
         () => {
           setLoading(false);
-          console.warn("data ", data);
+          dispatch(
+            updateProfilePic(
+              CommonFunctions.isNullUndefined(data.s3_photo_path)
+                ? ""
+                : data.s3_photo_path,
+              () => {}
+            )
+          );
         },
         (err: any) => {
           setLoading(false);
@@ -49,33 +57,43 @@ export default function App(props: AppProps) {
     );
   };
 
-  const ImagePick = () => {
-    ImagePicker.openPicker({
-      cropping: true,
-    }).then((image: any) => {
-      setLoading(true);
+  const ImagePick = (value: number) => {
+    value === 1
+      ? ImagePicker.openPicker({
+          cropping: true,
+        })
+          .then((image: any) => hitProfileUpdate(image))
+          .catch((e) => CustomToast(e))
+      : ImagePicker.openCamera({
+          cropping: true,
+        })
+          .then((image: any) => hitProfileUpdate(image))
+          .catch((e) => CustomToast(e));
+  };
 
-      var formdata = new FormData();
-      formdata.append("file", {
-        uri: image.path.replace("file://", ""),
-        name: "test" + ".jpeg",
-        type: "image/jpeg",
-      });
-      setModalOpen(false);
-      dispatch(
-        hitUploadCDNapi(
-          formdata,
-          (data: any) => {
-            console.warn("my  ", data.key);
-            updateImage(data.key);
-          },
-          (e: any) => {
-            setLoading(false);
-            console.warn("error1  ", e);
-          }
-        )
-      );
+  const hitProfileUpdate = (image: any) => {
+    setLoading(true);
+
+    var formdata = new FormData();
+    formdata.append("file", {
+      uri: image.path.replace("file://", ""),
+      name: "test" + ".jpeg",
+      type: "image/jpeg",
     });
+    setModalOpen(false);
+    dispatch(
+      hitUploadCDNapi(
+        formdata,
+        (data: any) => {
+          console.warn("my  ", data.key);
+          updateImage(data.key);
+        },
+        (e: any) => {
+          setLoading(false);
+          console.warn("error1  ", e);
+        }
+      )
+    );
   };
 
   const updateImage = (img: string) => {
@@ -138,7 +156,8 @@ export default function App(props: AppProps) {
       <Modal animationType="slide" transparent={true} visible={modalOpen}>
         <ProfileModal
           closeModal={() => setModalOpen(false)}
-          updateProfile={() => ImagePick()}
+          openGallery={() => ImagePick(1)}
+          openCamera={() => ImagePick(2)}
           deleteProfile={() => updateImage("")}
         />
       </Modal>

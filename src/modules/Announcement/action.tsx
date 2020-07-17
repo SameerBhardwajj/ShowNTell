@@ -15,24 +15,20 @@ export const hitAnnouncementAPI = (
       {},
       (success: any) => {
         let res = success.data.response;
-        if (success.data.code === 200) {
-          console.log("mysuccess ", res);
-          const { data } = getState().Announcement;
-          let finalArray = [];
-          page === 0
-            ? (finalArray = res.rows)
-            : (finalArray = data.concat(res.rows));
-          dispatch({
-            type: Action.ANNOUNCEMENT,
-            payload: {
-              data: finalArray,
-            },
-          });
-          successCallback(res.rows);
-        } else {
-          CustomToast(success.data.message);
-          failureCallback();
-        }
+        console.log("mysuccess ", res);
+        const { data } = getState().Announcement;
+        let finalArray = [];
+        page === 0
+          ? (finalArray = res.rows)
+          : (finalArray = data.concat(res.rows));
+        dispatch({
+          type: Action.ANNOUNCEMENT,
+          payload: {
+            data: finalArray,
+            page: page + 1
+          },
+        });
+        successCallback(res.rows);
       },
       (error: any) => {
         console.log("error ", error);

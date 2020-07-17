@@ -7,15 +7,9 @@ import {
   Keyboard,
   Platform,
   Clipboard,
-  NativeModules,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import {
-  getDeviceId,
-  getDeviceToken,
-  getDeviceName,
-  getBrand,
-} from "react-native-device-info";
+import { getDeviceId, getBrand } from "react-native-device-info";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 // custom imports
@@ -34,7 +28,6 @@ import {
   ScreenName,
   validate,
   ConstantName,
-  CommonFunctions,
 } from "../../../utils";
 import { updateLogin, loginAPI } from "./action";
 import FirebaseServices from "../../../utils/FirebaseServices";
@@ -59,30 +52,40 @@ export default function App(props: AppProps) {
   React.useEffect(() => {}, []);
 
   const check = () => {
-    Keyboard.dismiss();
-    validate(ConstantName.PASSWORD, password)
-      ? (setIsLoading(true), getTokens())
+    password.length >= 8
+      ? validate(ConstantName.PASSWORD, password)
+        ? (setIsLoading(true), getTokens())
+        : (Keyboard.dismiss(),
+          CustomToast(Strings.Password_Error),
+          setCheckPassword(false))
       : setCheckPassword(false);
   };
 
   const getTokens = () => {
     Platform.OS === "ios"
-      ? // PushNotificationIOS.requestPermissions()
-        //     .then(() => {
-        //       PushNotificationIOS.addEventListener("register", (token) => {
-        // CustomToast(`token  ${token}`);
-        HitLogin(getDeviceId(), myToken, getBrand())
-      : // });
-        // })
-        // .catch((error) => {
-        //   console.warn("error ", error);
-        // })
-        FirebaseServices.getToken((myToken: string) => {
+      ? HitLogin(getDeviceId(), myToken, getBrand())
+      : FirebaseServices.getToken((myToken: string) => {
           HitLogin(getDeviceId(), myToken, getBrand());
-          // Clipboard.setString(myToken);
           console.warn(getDeviceId(), myToken, getBrand());
+          Clipboard.setString(myToken);
         });
   };
+
+  // const getTokens = () => {
+  //   Platform.OS === "ios"
+  //     ? PushNotificationIOS.requestPermissions()
+  //         .then(() => {
+  //           PushNotificationIOS.addEventListener("register", (token) => {
+  //             HitLogin(getDeviceId(), token, getBrand());
+  //           });
+  //         })
+  //         .catch((error) => {
+  //           CustomToast(error);
+  //         })
+  //     : FirebaseServices.getToken((myToken: string) => {
+  //         HitLogin(getDeviceId(), myToken, getBrand());
+  //       });
+  // };
 
   const HitLogin = (deviceID: string, token: string, deviceName: string) => {
     dispatch(
@@ -94,6 +97,7 @@ export default function App(props: AppProps) {
         token,
         deviceName,
         () => {
+          Keyboard.dismiss();
           setIsLoading(false);
         }
       )
@@ -127,7 +131,7 @@ export default function App(props: AppProps) {
             checkPassword ? null : setCheckPassword(true), setPassword(text);
           }}
           onSubmitEditing={() => check()}
-          incorrectText={Strings.Password_length}
+          incorrectText={password.length < 8 ? Strings.Password_length : ""}
           returnKeyType="done"
           mainViewStyle={{ marginTop: vh(16) }}
         />

@@ -50,10 +50,12 @@ const postApiCall = (
   Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
+      debugger
       console.log("res ", response);
       successCallback(response);
     })
     .catch((error: any) => {
+      debugger
       console.warn("error", error);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
@@ -85,6 +87,7 @@ const getApiCall = (
       successCallback(response);
     })
     .catch((error: any) => {
+      debugger
       // console.warn("error", error.code);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {

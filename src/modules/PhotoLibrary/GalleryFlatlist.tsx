@@ -71,14 +71,6 @@ export default function App(props: AppProps) {
         setSelected3(!selected3))
       : null;
   };
-
-  // console.warn(
-  //   "date ",
-  //   CommonFunctions.DateFormatter(item[0].activity_dt),
-  //   !CommonFunctions.isNullUndefined(item) && index === 0
-  // );
-
-  // console.log('value  ',item);
   
 
   return (

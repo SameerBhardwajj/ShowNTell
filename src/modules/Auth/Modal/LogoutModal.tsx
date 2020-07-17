@@ -15,6 +15,8 @@ import {
 } from "../../../utils";
 import { CustomButton, CustomToast, CustomLoader } from "../../../Components";
 import { updateLogin } from "../Login/action";
+import { updateClassChild } from "../../ClassroomSchedule/action";
+import { updateChild } from "../../Home/action";
 
 export interface AppProps {
   navigation?: any;
@@ -44,7 +46,14 @@ export default function App(props: AppProps) {
                 device_id: getDeviceId(),
               },
               () => {
-                setLoading(false), dispatch(updateLogin({}, ""));
+                dispatch(updateLogin({}, ""));
+                // dispatch(updateChild({}, () => {}));
+                // dispatch(
+                //   updateClassChild({}, () => {
+                //     setLoading(false);
+                    
+                //   })
+                // );
               },
               (error: any) => {
                 setLoading(false), CustomToast(error.data.message);

@@ -12,9 +12,11 @@ import {
   ToastAndroid,
   Modal,
   Keyboard,
+  Platform,
 } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 // custom imports
 import { updateClassChild } from "../ClassroomSchedule/action";
@@ -38,6 +40,39 @@ import {
 import HomeFlatlist from "./HomeFlatlist";
 import { HomeAPI, addFilter, weDidItAPI, updateQuery } from "./action";
 import FilterModal from "./Filter/FilterModal";
+import ShareModal from "./ShareModal";
+
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import PushNotification from "@aws-amplify/pushnotification";
+
+Platform.OS === "ios"
+  ? PushNotification.requestIOSPermissions({
+      alert: true,
+      badge: true,
+      sound: true,
+    })
+  : null;
+
+PushNotification.onNotification((notification: any) => {
+  if (notification.foreground) {
+    console.warn("onNotification foreground", notification);
+  } else {
+    console.warn("onNotification background or closed", notification);
+  }
+  // extract the data passed in the push notification
+  const data = JSON.parse(notification.data["pinpoint.jsonBody"]);
+  console.warn("onNotification data", data);
+  // iOS only
+  Platform.OS === "ios"
+    ? notification.finish(PushNotificationIOS.FetchResult.NoData)
+    : null;
+});
+PushNotification.onNotificationOpened((notification: any) => {
+  console.warn("onNotificationOpened", notification);
+  // extract the data passed in the push notification
+  const data = JSON.parse(notification["pinpoint.jsonBody"]);
+  console.warn("onNotificationOpened data", data);
+});
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -46,36 +81,36 @@ export interface AppProps {
 
 const DRAWER_OPEN = "drawerOpen";
 const DRAWER_CLOSE = "drawerClose";
+const CURRENT_TIME = moment(new Date())
+  .format("YYYY-MM-DD HH:mm:ss")
+  .toString();
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [shareData, setShareData] = useState();
   const [exitCounter, setExitCounter] = useState(false);
   const [homeData, setHomeData] = useState([]);
   const [loadMore, setLoadMore] = useState(true);
 
   const {
-    tab,
-    data,
     currentChild,
     loginToken,
     loginData,
     myFilter,
-    filterNum,
     classroomChild,
     page,
     searchQuery,
   } = useSelector(
     (state: { Home: any; Login: any; ClassroomSchedule: any }) => ({
-      tab: state.Home.tab,
-      data: state.Home.data,
       currentChild: state.Home.currentChild,
       loginToken: state.Login.loginToken,
       loginData: state.Login.loginData,
       myFilter: state.Home.myFilter,
-      filterNum: state.Home.filterNum,
       page: state.Home.page,
       classroomChild: state.ClassroomSchedule.classroomChild,
       searchQuery: state.Home.searchQuery,
@@ -89,7 +124,34 @@ export default function App(props: AppProps) {
       loginToken
     );
     setLoading(true);
-
+    let focusListener = props.navigation.addListener("focus", () => {
+      CommonFunctions.isEmpty(classroomChild)
+        ? dispatch(
+            updateClassChild(
+              {
+                id: loginData.Children[0].id,
+                name: loginData.Children[0].first_name,
+                classroom: loginData.Children[0].classroom_id,
+              },
+              () => {}
+            )
+          )
+        : null;
+      loginData.Children.length > 1
+        ? hitHomeAPI(currentChild.child)
+        : loginData.Children[0].id !== currentChild.child
+        ? dispatch(
+            updateChild(
+              {
+                child: loginData.Children[0].id,
+                name: loginData.Children[0].first_name,
+                classroom: loginData.Children[0].classroom_id,
+              },
+              () => hitHomeAPI(loginData.Children[0].id)
+            )
+          )
+        : hitHomeAPI(currentChild.child);
+    });
     CommonFunctions.isEmpty(classroomChild)
       ? dispatch(
           updateClassChild(
@@ -133,6 +195,7 @@ export default function App(props: AppProps) {
     //   }));
 
     // return unsubscribe;
+
     BackHandler.addEventListener("hardwareBackPress", () => {
       exitCounter
         ? (ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT),
@@ -142,9 +205,37 @@ export default function App(props: AppProps) {
           setTimeout(() => {
             setExitCounter(false);
           }, 2000));
-      return true;
+      return focusListener;
     });
-  }, [exitCounter, currentChild]);
+  }, [props.navigation, exitCounter, currentChild]);
+
+  const utcFromDateTime = (date?: string) => {
+    let myDate = "";
+    let time = "";
+    CommonFunctions.isNullUndefined(date)
+      ? null
+      : ((myDate = moment(date).format("YYYY-MM-DD").toString()),
+        (time = moment(myDate + " 00:00:00")
+          .utc()
+          .format("YYYY-MM-DD HH:mm:ss")
+          .toString()));
+
+    return time;
+  };
+
+  const utcToDateTime = (date?: string) => {
+    let myDate = "";
+    let time = "";
+    CommonFunctions.isNullUndefined(date)
+      ? null
+      : ((myDate = moment(date).format("YYYY-MM-DD").toString()),
+        (time = moment(myDate + " 23:59:59")
+          .utc()
+          .format("YYYY-MM-DD HH:mm:ss")
+          .toString()));
+
+    return time;
+  };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -164,56 +255,55 @@ export default function App(props: AppProps) {
         }}
         item={item}
         navigation={props.navigation}
+        openShareModal={(data: any) => {
+          setShareData(data);
+          setShareOpen(true);
+        }}
       />
     );
   };
 
   const hitHomeAPI = (child_id: number) => {
-    setLoading(true);
     dispatch(
       HomeAPI(
         (data: any) => {
-          console.log("home data   ", data);
-
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setHomeData(data);
           setLoading(false);
-          // dispatch(updatePage(1, () => {}));
+          setRefreshing(false);
         },
         () => {
           setLoading(false);
+          setRefreshing(false);
         },
         child_id,
+        CURRENT_TIME,
         0,
         myFilter.activity,
-        myFilter.fromDate,
-        myFilter.toDate,
+        utcFromDateTime(myFilter.fromDate),
+        utcToDateTime(myFilter.toDate),
         myFilter.type
       )
     );
   };
 
   const NewhitHomeAPI = () => {
-    console.log("sending my page  ", page);
-    // setLoading(true);
     dispatch(
       HomeAPI(
         (data: any) => {
-          console.log("home data   ", data);
-
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setHomeData(homeData.concat(data));
-          // dispatch(updatePage(page + 1, () => {}));
           setLoading(false);
         },
         () => {
           setLoading(false);
         },
         currentChild.child,
+        CURRENT_TIME,
         page,
         myFilter.activity,
-        myFilter.fromDate,
-        myFilter.toDate,
+        utcFromDateTime(myFilter.fromDate),
+        utcToDateTime(myFilter.toDate),
         myFilter.type,
         searchQuery
       )
@@ -232,17 +322,17 @@ export default function App(props: AppProps) {
         (data: any) => {
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setHomeData(data);
-          // dispatch(updatePage(1, () => {}));
           setLoading(false);
         },
         () => {
           setLoading(false);
         },
         currentChild.child,
+        CURRENT_TIME,
         0,
         activity,
-        fromDate,
-        toDate,
+        utcFromDateTime(fromDate),
+        utcToDateTime(toDate),
         type
       )
     );
@@ -253,22 +343,21 @@ export default function App(props: AppProps) {
     dispatch(
       HomeAPI(
         (data: any) => {
-          console.log("search ", data);
           dispatch(updateQuery(query, () => {}));
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
           setHomeData(data);
-          // dispatch(updatePage(1, () => {}));
           setLoading(false);
         },
         () => {
           setLoading(false);
         },
         currentChild.child,
+        CURRENT_TIME,
         0,
         myFilter.activity,
-        myFilter.fromDate,
-        myFilter.toDate,
+        utcFromDateTime(myFilter.fromDate),
+        utcToDateTime(myFilter.toDate),
         myFilter.type,
         query
       )
@@ -277,11 +366,13 @@ export default function App(props: AppProps) {
 
   return (
     <View style={Styles.mainView}>
+      {/* Status bar ----------- */}
       <StatusBar
         barStyle={"light-content"}
         backgroundColor={Colors.violet}
         animated={loading}
       />
+      {/* Header -------------------- */}
       <View style={Styles.extraHeader} />
       <View style={Styles.header}>
         <View style={Styles.upperHeader}>
@@ -335,6 +426,7 @@ export default function App(props: AppProps) {
           </TouchableOpacity>
         </View>
       </View>
+      {/* Listing --------------------- */}
       <View style={Styles.innerView}>
         <CustomLoader loading={loading} />
         {homeData.length === 0 && !loading ? (
@@ -343,21 +435,20 @@ export default function App(props: AppProps) {
           <FlatList
             data={homeData}
             keyExtractor={(item, index) => index.toString()}
-            bounces={false}
+            bounces
             renderItem={renderItems}
             nestedScrollEnabled={true}
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              hitHomeAPI(currentChild.child);
+            }}
             onEndReached={() => (loadMore ? NewhitHomeAPI() : null)}
             onEndReachedThreshold={0.5}
-            // ListFooterComponent={() => {
-            //   if (loadMore && !loading) {
-            //     return <CustomLoader loading={true} />;
-            //   } else {
-            //     return null;
-            //   }
-            // }}
           />
         )}
       </View>
+      {/* Filter modal ------------------------ */}
       <Modal animationType="slide" transparent={true} visible={modalOpen}>
         <View style={Styles.modalView}>
           <View />
@@ -365,30 +456,36 @@ export default function App(props: AppProps) {
             setModalOpen={(value: boolean) => setModalOpen(value)}
             resetFilter={() => {
               setModalOpen(false);
-              // hitHomeAPI(currentChild.child);
               hitFilterAPI();
             }}
             applyFilter={(value: any, Activitytype: Array<any>, dates: any) => {
               console.log("incoming  ", value, dates, Activitytype);
-
-              let to = CommonFunctions.isEmpty(dates)
-                ? ""
-                : CommonFunctions.dateTypeFormat(dates.toDate, "ymd");
-              let from = CommonFunctions.isEmpty(dates)
-                ? ""
-                : CommonFunctions.dateTypeFormat(dates.fromDate, "ymd");
-              // dispatch(
-              //   updatePage(0, () => {
               dispatch(
-                addFilter(myFilter.activity, from, to, Activitytype, () => {
-                  console.warn(" filter redux ...", myFilter);
-                  hitFilterAPI(value, from, to, Activitytype.join(","));
-                })
+                addFilter(
+                  myFilter.activity,
+                  dates.toDate,
+                  dates.toDate,
+                  Activitytype,
+                  () => {
+                    console.warn(" filter redux ...", myFilter);
+                    hitFilterAPI(
+                      value,
+                      dates.toDate,
+                      dates.toDate,
+                      Activitytype.join(",")
+                    );
+                  }
+                )
               );
-              // })
-              // );
             }}
           />
+        </View>
+      </Modal>
+      {/* Share modal ------------------------ */}
+      <Modal animationType="slide" transparent={true} visible={shareOpen}>
+        <View style={Styles.modalView2}>
+          <View />
+          <ShareModal data={shareData} closeModal={() => setShareOpen(false)} />
         </View>
       </Modal>
     </View>
@@ -472,6 +569,11 @@ const Styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.modalBg,
     alignItems: "center",
+    justifyContent: "space-between",
+  },
+  modalView2: {
+    flex: 1,
+    width: "100%",
     justifyContent: "space-between",
   },
 });

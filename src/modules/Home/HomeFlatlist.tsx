@@ -18,6 +18,7 @@ export interface AppProps {
   navigation?: any;
   item: any;
   weDidIt: Function;
+  openShareModal: Function;
 }
 
 export default function App(props: AppProps) {
@@ -46,6 +47,7 @@ export default function App(props: AppProps) {
                       ? Images.Profile_Placeholder
                       : { uri: item.Child.s3_photo_path }
                   }
+                  style={{ width: vh(35), height: vh(38) }}
                 />
               </View>
               <View style={Styles.centerNameView}>
@@ -72,8 +74,8 @@ export default function App(props: AppProps) {
                       </Text>
                     </Text>
                   </Text>
+                  <Text style={Styles.content}>{item.sub_activity_name}</Text>
                 </TouchableOpacity>
-                <Text style={Styles.content}>{item.sub_activity_name}</Text>
                 <Text style={Styles.time}>
                   {CommonFunctions.DateFormatter(item.create_dt)}
                   {Strings.at}
@@ -84,8 +86,9 @@ export default function App(props: AppProps) {
                 activeOpacity={0.8}
                 style={Styles.ElipsisImg}
                 onPress={() =>
-                  navigation.navigate(ScreenName.SHARE_MODAL, {
+                  props.openShareModal({
                     img: item.child_activity_image,
+                    status: item.activity_status_id,
                     categoryName: item.category_name,
                     activityName: item.activity_name,
                     childName: `${item.Child.first_name} ${item.Child.last_name}`,
@@ -116,6 +119,7 @@ export default function App(props: AppProps) {
                     ? Images.Profile_Placeholder
                     : { uri: item.Child.s3_photo_path }
                 }
+                style={{ width: vh(35), height: vh(38) }}
               />
             </View>
             <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
@@ -131,9 +135,7 @@ export default function App(props: AppProps) {
             <Text style={Styles.dotTxt}>{" . "}</Text>
             {CommonFunctions.timeFormatter(new Date(item.create_dt))}
           </Text>
-          <Text style={[Styles.annTitle, { paddingTop: vh(10) }]}>
-            {item.title}
-          </Text>
+          <Text style={Styles.annTitle}>{item.title}</Text>
           <Text style={Styles.annDescription}>{item.description}</Text>
           <Image style={Styles.imgAnn} source={Images.Announcement_Icon} />
         </View>
@@ -149,6 +151,7 @@ export default function App(props: AppProps) {
                     ? Images.Profile_Placeholder
                     : { uri: item.Child.s3_photo_path }
                 }
+                style={{ width: vh(35), height: vh(38) }}
               />
             </View>
             <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
@@ -238,16 +241,13 @@ const Styles = StyleSheet.create({
   },
   dotTxt: {
     fontWeight: "900",
-    marginBottom: vw(10),
-    fontSize: vh(30),
+    fontSize: vh(15),
   },
   lunchView: {
     padding: vh(16),
-    width: "100%",
   },
   nameView: {
     flexDirection: "row",
-    justifyContent: "space-between",
   },
   childAvatar: {
     height: vh(64),
@@ -271,7 +271,6 @@ const Styles = StyleSheet.create({
   category: {
     fontFamily: "Nunito-Bold",
     fontSize: vh(14),
-    paddingVertical: vh(2),
     color: "black",
   },
   content: {
@@ -319,7 +318,7 @@ const Styles = StyleSheet.create({
   timeBlack: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
-    paddingVertical: vh(5),
+    paddingBottom: vh(5),
   },
   imgAnn: {
     position: "absolute",

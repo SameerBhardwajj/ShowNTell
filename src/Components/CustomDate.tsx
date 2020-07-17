@@ -10,6 +10,7 @@ import {
 import { vh, Colors, vw, Images, Strings } from "../utils";
 import DatePicker from "react-native-date-picker";
 import { CommonFunctions } from "../utils";
+import CustomButton from "./CustomButton";
 
 export interface AppProps {
   heading: string;
@@ -22,6 +23,7 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [myDate, setMyDate] = useState(new Date());
   return (
     <View style={[Styles.mainView, props.mainViewStyle]}>
       <Text style={Styles.titleTxt}>{props.heading}</Text>
@@ -44,10 +46,17 @@ export default function App(props: AppProps) {
           <DatePicker
             minimumDate={props.minDate}
             maximumDate={props.maxDate}
-            date={props.date}
+            date={myDate}
             mode="date"
             onDateChange={(text: Date) => {
-              props.getDate(text);
+              setMyDate(text);
+            }}
+          />
+          <CustomButton
+            Text="Set Date"
+            onPress={() => {
+              props.getDate(myDate);
+              setModalOpen(false);
             }}
           />
         </View>

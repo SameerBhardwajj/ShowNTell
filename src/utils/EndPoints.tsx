@@ -30,6 +30,7 @@ export default {
   },
   home: {
     HomeData: (
+      currentTime: string,
       child_id?: number,
       page?: number,
       activity?: any,
@@ -38,7 +39,7 @@ export default {
       type?: string,
       searchKey?: string
     ) =>
-      `/api/v1/parent/home-data?page=${page}${
+      `/api/v1/parent/home-data?currentTime=${currentTime}&page=${page}${
         CommonFunctions.isNullUndefined(activity)
           ? ""
           : `&activity_value_id=${activity}`
@@ -80,8 +81,8 @@ export default {
       childID === 0
         ? `/api/v1/parent/list-announcement`
         : `/api/v1/parent/list-announcement?child_id=${childID}&page=${page}`,
-    qotd: (child_id?: number, type?: string) =>
-      `/api/v1/parent/list-question-of-the-day?${
+    qotd: (current_date_time: string, child_id?: number, type?: string) =>
+      `/api/v1/parent/list-question-of-the-day?current_date_time=${current_date_time}${
         CommonFunctions.isNullUndefined(child_id) || child_id === 0
           ? ""
           : `&child_id=${child_id}`
@@ -98,7 +99,8 @@ export default {
     chat: {
       cannedMsg: `/api/v1/parent/chat-canned-messages`,
       sendMsg: `/api/v1/parent/send-message`,
-      getMsg: (page: number) => `/api/v1/parent/get-chat-message?page=${page}`,
+      getMsg: (type: string, timestamp: string) =>
+        `/api/v1/parent/get-chat-message?type=${type}&timestamp=${timestamp}`,
     },
   },
 };

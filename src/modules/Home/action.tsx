@@ -54,6 +54,7 @@ export const HomeAPI = (
   successCallback: Function,
   failureCallback: Function,
   child_id: number,
+  currentTime: string,
   page?: number,
   activity?: any,
   fromDate?: string,
@@ -64,6 +65,7 @@ export const HomeAPI = (
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
       EndPoints.home.HomeData(
+        currentTime,
         child_id,
         page,
         activity,

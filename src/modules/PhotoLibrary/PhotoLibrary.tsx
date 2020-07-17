@@ -22,24 +22,30 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [loadMore, setLoadMore] = useState(true);
-  const { currentChild, downloadGallery, select, libraryData } = useSelector(
-    (state: { Home: any; PhotoLibrary: any }) => ({
-      tab: state.Home.tab,
-      currentChild: state.Home.currentChild,
-      downloadGallery: state.PhotoLibrary.downloadGallery,
-      select: state.PhotoLibrary.select,
-      libraryData: state.PhotoLibrary.libraryData,
-    })
-  );
+  const {
+    currentChild,
+    downloadGallery,
+    select,
+    libraryData,
+    page,
+  } = useSelector((state: { Home: any; PhotoLibrary: any }) => ({
+    tab: state.Home.tab,
+    currentChild: state.Home.currentChild,
+    downloadGallery: state.PhotoLibrary.downloadGallery,
+    select: state.PhotoLibrary.select,
+    libraryData: state.PhotoLibrary.libraryData,
+    page: state.PhotoLibrary.page,
+  }));
 
   useEffect(() => {
-    // dispatch(updateTab(true, () => {}));
-    setPage(0);
+    let focusListener = props.navigation.addListener("focus", () => {
+      hitPhotoLibraryAPI(0);
+    });
     setLoading(true);
-    hitPhotoLibraryAPI(0);
-  }, [currentChild]);
+    return focusListener;
+  }, [props.navigation, currentChild]);
 
   const hitPhotoLibraryAPI = (page: number) => {
     console.warn(page);
@@ -48,9 +54,9 @@ export default function App(props: AppProps) {
       PhotoLibraryAPI(
         currentChild.child,
         page,
-        (res: ConcatArray<never>) => {
-          console.warn("res  ", res);
-          setPage(page + 1);
+        (data: any) => {
+          console.warn("res  ", data);
+          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
         },
         () => setLoading(false)
@@ -102,8 +108,8 @@ export default function App(props: AppProps) {
         if (!CommonFunctions.isNullUndefined(item.s3_photo_path)) {
           if (
             index !== 0 &&
-            item.activity_date.toString() !=
-              arr[index - 1].activity_date.toString()
+            CommonFunctions.dateTypeFormat(item.activity_dt, "") !==
+              CommonFunctions.dateTypeFormat(arr[index - 1].activity_date, "")
           ) {
             i++;
             temp[i] = [];
@@ -148,17 +154,19 @@ export default function App(props: AppProps) {
             <Text style={Styles.dateText}>{select ? "Cancel" : "Select"}</Text>
           </TouchableOpacity>
         </View>
-        {isLoading ? null : libraryData.length === 0 ? null : (
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            bounces={false}
-            onEndReached={() => hitPhotoLibraryAPI(page)}
-            onEndReachedThreshold={0.5}
-            data={groupingData(libraryData)}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItems}
-          />
-        )}
+        <View style={{ flex: 1 }}>
+          {isLoading ? null : libraryData.length === 0 ? null : (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              bounces={false}
+              onEndReached={() => (loadMore ? hitPhotoLibraryAPI(page) : null)}
+              onEndReachedThreshold={0.5}
+              data={groupingData(libraryData)}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItems}
+            />
+          )}
+        </View>
       </View>
       {select ? (
         <View style={Styles.bottomMain}>

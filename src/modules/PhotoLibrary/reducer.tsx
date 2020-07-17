@@ -4,6 +4,7 @@ const initialState = {
   downloadGallery: [],
   select: false,
   forceRerendering: false,
+  page: 0,
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

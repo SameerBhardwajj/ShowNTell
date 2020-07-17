@@ -7,9 +7,10 @@ import {
   FlatList,
   Modal,
 } from "react-native";
+import moment from "moment";
 
 // custom imports
-import { updateTab, weDidItAPI } from "../Home/action";
+import { weDidItAPI } from "../Home/action";
 import { hitQOTDApi } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 import { vh, Colors, Images, vw, Strings, ScreenName } from "../../utils";
@@ -30,16 +31,14 @@ export default function App(props: AppProps) {
   const WEDIDIT = "wedidit";
   const DONE = "done";
 
-  const { tab, data, currentChild } = useSelector(
+  const { data, currentChild } = useSelector(
     (state: { Home: any; QOTD: any }) => ({
-      tab: state.Home.tab,
       data: state.QOTD.data,
       currentChild: state.Home.currentChild,
     })
   );
 
   useEffect(() => {
-    // dispatch(updateTab(true, () => {}));
     hitQOTD();
   }, [currentChild]);
 
@@ -53,6 +52,7 @@ export default function App(props: AppProps) {
         () => {
           setLoading(false);
         },
+        moment(new Date()).format("YYYY-MM-DD HH:mm:ss").toString(),
         currentChild.child,
         type
       )
@@ -207,28 +207,3 @@ export const Styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-// Dummy API data
-const DATA = [
-  {
-    name: "Alex Parish",
-    class: "Infant A",
-    question: "Ask Alex, what did he learn about Earth today ?",
-    dateTime: "Feb 1, 2020 at 12:00 PM",
-    category: Strings.QOD_category,
-  },
-  {
-    name: "Alex Parish",
-    class: "Infant A",
-    question: "Ask Alex, what did he learn about Earth today ?",
-    dateTime: "Feb 1, 2020 at 12:00 PM",
-    category: Strings.QOD_category,
-  },
-  {
-    name: "Alex Parish",
-    class: "Infant A",
-    question: "Ask Alex, what did he learn about Earth today ?",
-    dateTime: "Feb 1, 2020 at 12:00 PM",
-    category: Strings.QOD_category,
-  },
-];

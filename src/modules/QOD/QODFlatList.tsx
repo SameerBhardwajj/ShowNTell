@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
-import { Colors, Images, Strings, CommonFunctions } from "../../utils";
+import { Colors, Images, Strings, CommonFunctions, vh } from "../../utils";
 import { CustomButton } from "../../Components";
 import { Styles } from "./QOD";
 
@@ -28,16 +28,19 @@ export default function App(props: AppProps) {
   return (
     <View style={[Styles.cardView, { backgroundColor: lightColor }]}>
       <View style={{ flexDirection: "row" }}>
-        <Image
-          resizeMethod="resize"
-          resizeMode="center"
-          source={
-            CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
-              ? Images.Profile_Placeholder
-              : { uri: item.Child.s3_photo_path }
-          }
-          style={Styles.childAvatar}
-        />
+        <View style={Styles.childAvatar}>
+          <Image
+            resizeMethod="resize"
+            resizeMode="center"
+            source={
+              CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
+                ? Images.Profile_Placeholder
+                : { uri: item.Child.s3_photo_path }
+                
+            }
+            style={{width: vh(44)}}
+          />
+        </View>
         <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
           <Text style={Styles.name}>
             {item.Child.first_name} {item.Child.last_name}
@@ -52,9 +55,9 @@ export default function App(props: AppProps) {
         {item.QuestionOfTheDayActivity.ActivityValue.name}
       </Text>
       <Text style={Styles.time}>
-        {CommonFunctions.DateFormatter(new Date(item.date))}
+        {CommonFunctions.DateFormatter(new Date(item.create_dt))}
         {Strings.at}
-        {CommonFunctions.timeFormatter(new Date(item.date))}
+        {CommonFunctions.timeFormatter(new Date(item.create_dt))}
       </Text>
       <CustomButton
         Text={

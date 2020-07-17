@@ -1,16 +1,21 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useSelector } from "react-redux";
 
 // custom imports
-import { vw, Strings, vh, Colors } from "../../utils";
+import { vw, Strings, vh, Colors, CommonFunctions } from "../../utils";
 
 export interface AppProps {
   closeModal: Function;
-  updateProfile: Function;
+  openGallery: Function;
+  openCamera: Function;
   deleteProfile: Function;
 }
 
 export default function App(props: AppProps) {
+  const { data } = useSelector((state: { Profile: any }) => ({
+    data: state.Profile.data,
+  }));
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
@@ -18,22 +23,34 @@ export default function App(props: AppProps) {
           activeOpacity={0.8}
           style={Styles.shareView}
           onPress={() => {
-            props.updateProfile();
+            props.openGallery();
           }}
         >
-          <Text style={Styles.bubbleMsgText}>{Strings.Update}</Text>
+          <Text style={Styles.bubbleMsgText}>{Strings.Gallery}</Text>
         </TouchableOpacity>
         <View style={Styles.separatorView} />
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.shareView}
           onPress={() => {
-            props.deleteProfile();
-            props.closeModal();
+            props.openCamera();
           }}
         >
-          <Text style={Styles.bubbleMsgText}>{"Remove"}</Text>
+          <Text style={Styles.bubbleMsgText}>{Strings.Camera}</Text>
         </TouchableOpacity>
+        <View style={Styles.separatorView} />
+        {CommonFunctions.isNullUndefined(data.s3_photo_path) ? null : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={Styles.shareView}
+            onPress={() => {
+              props.deleteProfile();
+              props.closeModal();
+            }}
+          >
+            <Text style={Styles.bubbleMsgText}>{"Remove"}</Text>
+          </TouchableOpacity>
+        )}
       </View>
       <TouchableOpacity
         activeOpacity={0.8}

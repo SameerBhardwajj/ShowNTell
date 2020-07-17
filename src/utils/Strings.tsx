@@ -186,9 +186,10 @@ const Strings = new LocalizedStrings({
     Class_Schedule: "Class Schedule",
     Email_error: "Email is Incorrect",
     Email_empty: "Email cannot be Empty",
-    Password_length:
-      "Password should contain atleast 1 capital letter, 1 numeral, 1 special symbol and minimum 8 characters",
-    Password_mismatch: "Password Mismatch",
+    Password_mismatch: "Password mismatch",
+    Password_Error:
+      "Password should contain atleast 1 capital letter, 1 numeral and 1 special symbol",
+    Password_length: "Password must be of atleast 8 characters",
     Phone_error: "Phone no. is incorrect",
     Phone_Empty: "Phone no. cannot be Empty",
     Permission_denied: "Please allow to access your Location from Settings",
@@ -205,7 +206,7 @@ const Strings = new LocalizedStrings({
       "Responses to these messages may be delayed. For any critical issues, please call the center directly.",
     No_Internet: "No Internet! Please check your Internet Connection",
     Miles: "Miles",
-    No_data_Found: "No data Found",
+    No_data_Found: "No Data Found",
     Timeout_error: "Response timout! Please try again later",
     Select_School: "Select School",
     Enter_password: "Enter Password",
@@ -236,6 +237,8 @@ const Strings = new LocalizedStrings({
     Address2: "Address 2",
     City: "City",
     State: "State",
+    Camera: "Camera",
+    Gallery: "Gallery",
   },
 });
 export default Strings;

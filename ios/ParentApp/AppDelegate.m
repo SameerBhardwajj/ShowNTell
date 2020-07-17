@@ -4,7 +4,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
-@import Firebase;
 #import <UserNotifications/UserNotifications.h>
 #import <RNCPushNotificationIOS.h>
 

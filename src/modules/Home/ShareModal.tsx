@@ -5,29 +5,23 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-  Linking,
-  PermissionsAndroid,
 } from "react-native";
 import Share from "react-native-share";
-import RNFetchBlob from "rn-fetch-blob";
-import CameraRoll from "@react-native-community/cameraroll";
 
 // custom imports
 import { vw, Strings, vh, Colors, CommonFunctions } from "../../utils";
 import { CustomToast } from "../../Components";
 
-const img =
-  "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_960_720.jpg";
 const TYPE_URL = "url";
 const TYPE_TEXT = "text";
 
 export interface AppProps {
-  navigation?: any;
-  route?: any;
+  data: any;
+  closeModal: Function;
 }
 
 export default function App(props: AppProps) {
-  const { params } = props.route;
+  const params = props.data;
 
   const openShare = () => {
     const url = params.img;
@@ -70,36 +64,16 @@ export default function App(props: AppProps) {
         console.log(res);
       })
       .catch((err: any) => {
-        err && console.log(err);
+        console.warn(err);
       });
   };
 
-  const saveToCameraRoll = async (image: string) => {
-    let permission;
-    if (Platform.OS === "android") {
-      permission = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-      );
-      if (!permission) {
-        Linking.openSettings();
-      }
-      if (permission === PermissionsAndroid.RESULTS.GRANTED) {
-        RNFetchBlob.config({
-          fileCache: true,
-          appendExt: "jpg",
-        })
-          .fetch("GET", image)
-          .then((res) => {
-            CameraRoll.saveToCameraRoll(res.path())
-              .then(() => CustomToast(Strings.image_saved))
-              .catch((err) => CustomToast(err));
-          });
-      }
-    } else {
-      CameraRoll.saveToCameraRoll(image)
-        .then(() => CustomToast(Strings.image_saved))
-        .catch((error) => CustomToast(error));
-    }
+  const saveToCameraRoll = (image: string) => {
+    CommonFunctions.saveToCameraRoll(
+      image,
+      () => CustomToast(Strings.image_saved),
+      (error: any) => CustomToast(error)
+    );
   };
 
   return (
@@ -113,25 +87,23 @@ export default function App(props: AppProps) {
           <Text style={Styles.bubbleMsgText}>{Strings.Share}</Text>
         </TouchableOpacity>
         <View style={Styles.separatorView} />
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={Styles.shareView}
-          onPress={() => {
-            CommonFunctions.isNullUndefined(params.img)
-              ? CustomToast("Image not available")
-              : saveToCameraRoll(params.img),
-              props.navigation.pop();
-          }}
-        >
-          <Text style={Styles.bubbleMsgText}>
-            {Strings.Save_to_Photo_Library}
-          </Text>
-        </TouchableOpacity>
+        {CommonFunctions.isNullUndefined(params.img) ||
+        params.status === "3" ? null : (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={Styles.shareView}
+            onPress={() => saveToCameraRoll(params.img)}
+          >
+            <Text style={Styles.bubbleMsgText}>
+              {Strings.Save_to_Photo_Library}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
       <TouchableOpacity
         activeOpacity={0.8}
         style={Styles.cancelView}
-        onPress={() => props.navigation.pop()}
+        onPress={() => props.closeModal()}
       >
         <Text style={Styles.cancelText}>{Strings.Cancel}</Text>
       </TouchableOpacity>

@@ -14,6 +14,18 @@ export const updateLogin = (data: object, token: string) => {
   };
 };
 
+export const updateProfilePic = (data: string, callback: Function) => {
+  return (dispatch: any, getState: any) => {
+    dispatch({
+      type: Action.UPDATE_LOGIN,
+      payload: {
+        profilePic: data,
+      },
+    });
+    callback();
+  };
+};
+
 export const fetchSchoolList = (
   email: string,
   successCallback: Function,
@@ -86,6 +98,7 @@ export const loginAPI = (
               loginData: res,
               loginToken: res.jwttoken,
               loginEmail: email,
+              profilePic: res.s3_photo_path,
             },
           });
         } else {

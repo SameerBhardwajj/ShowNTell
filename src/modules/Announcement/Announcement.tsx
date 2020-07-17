@@ -32,17 +32,18 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const { tab, data, loginToken, loginData, currentChild } = useSelector(
+  const { tab, data, loginToken, loginData, currentChild, page } = useSelector(
     (state: { Home: any; Login: any; Announcement: any }) => ({
       tab: state.Home.tab,
       data: state.Announcement.data,
       loginToken: state.Login.loginToken,
       loginData: state.Login.loginData,
       currentChild: state.Home.currentChild,
+      page: state.Home.page,
     })
   );
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
 
   useEffect(() => {
     // dispatch(updateTab(true, () => {}));
@@ -56,7 +57,7 @@ export default function App(props: AppProps) {
         currentChild.child,
         page,
         () => {
-          setPage(page + 1), setLoading(false);
+          setLoading(false);
         },
         () => setLoading(false)
       )

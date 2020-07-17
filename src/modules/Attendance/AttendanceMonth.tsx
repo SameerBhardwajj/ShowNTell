@@ -76,7 +76,7 @@ export default function App(props: AppProps) {
             <Text style={Styles.inTimeText}>{Strings.In_Time}</Text>
             <Text style={Styles.inTime}>
               {CommonFunctions.isNullUndefined(props.item.in_date_time)
-                ? Strings.Not_Available
+                ? ""
                 : timeFormatter(props.item.in_date_time)}
             </Text>
           </View>
@@ -86,7 +86,7 @@ export default function App(props: AppProps) {
             <Text style={Styles.inTimeText}>{Strings.Out_Time}</Text>
             <Text style={Styles.inTime}>
               {CommonFunctions.isNullUndefined(props.item.out_date_time)
-                ? Strings.Not_Available
+                ? ""
                 : timeFormatter(props.item.in_date_time)}
             </Text>
           </View>

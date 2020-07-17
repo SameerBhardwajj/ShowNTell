@@ -9,7 +9,6 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  // console.log('values ',props.item[0]);
   
   const arrangeData = (data: any) => {
     let dataArray = new Array().slice(0);

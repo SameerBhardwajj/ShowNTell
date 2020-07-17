@@ -34,37 +34,31 @@ export default function App(props: AppProps) {
       </View>
       <View style={Styles.separatorView} />
       <Text style={Styles.DOBText2}>{Strings.Medical_Information}</Text>
-      <View>
-        {item.ChildMedicals.length === 0 ? (
-          <Text style={Styles.DOBText}>NA</Text>
-        ) : (
-          item.ChildMedicals.map((data: any) => (
-            <View style={Styles.itemView}>
-              <Image source={Images.Virus_icon} />
-              <Text style={Styles.DOBText}>{data.MedicalCondition.name}</Text>
-            </View>
-          ))
-        )}
-      </View>
+      {item.ChildMedicals.length === 0 ? (
+        <Text style={[Styles.DOBText, { paddingLeft: 0 }]}>NA</Text>
+      ) : (
+        item.ChildMedicals.map((data: any) => (
+          <View style={Styles.itemView}>
+            <Image source={Images.Virus_icon} />
+            <Text style={Styles.DOBText}>{data.MedicalCondition.name}</Text>
+          </View>
+        ))
+      )}
       <View style={Styles.separatorView} />
       <Text style={Styles.DOBText2}>{Strings.Teachers_Information}</Text>
       {CommonFunctions.isNullUndefined(item.Employee) ? (
         <Text style={Styles.classText}>NA</Text>
       ) : (
         <View style={Styles.avatarView}>
-          <Image
-            source={
-              CommonFunctions.isNullUndefined(item.Employee.s3_photo_path)
-                ? Images.Profile_Placeholder
-                : { uri: item.Employee.s3_photo_path }
-            }
-            style={[
-              Styles.avatarBorder,
-              CommonFunctions.isNullUndefined(item.Employee.s3_photo_path)
-                ? {}
-                : Styles.childAvatar,
-            ]}
-          />
+          <View style={[Styles.avatarBorder, Styles.childAvatar]}>
+            <Image
+              source={
+                CommonFunctions.isNullUndefined(item.Employee.s3_photo_path)
+                  ? Images.Profile_Placeholder
+                  : { uri: item.Employee.s3_photo_path }
+              }
+            />
+          </View>
           <View style={Styles.centerNameView}>
             <Text style={Styles.name}>
               {item.Employee.first_name} {item.Employee.last_name}
@@ -114,6 +108,8 @@ const Styles = StyleSheet.create({
   childAvatar: {
     height: vh(64),
     width: vh(64),
+    alignItems: "center",
+    justifyContent: "center",
   },
   avatarBorder: {
     borderColor: Colors.borderGrey,

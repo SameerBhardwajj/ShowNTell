@@ -40,9 +40,17 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.innerView}>
       {index === 0 ? (
-        <Text style={[Styles.heading, { paddingTop: vh(20) }]}>{msgDate}</Text>
+        <Text
+          style={[Styles.heading, { paddingTop: vh(20), paddingLeft: vw(15) }]}
+        >
+          {msgDate}
+        </Text>
       ) : msgDate !== allDay() ? (
-        <Text style={[Styles.heading, { paddingTop: vh(20) }]}>{msgDate}</Text>
+        <Text
+          style={[Styles.heading, { paddingTop: vh(20), paddingLeft: vw(15) }]}
+        >
+          {msgDate}
+        </Text>
       ) : null}
       <View
         style={[
@@ -58,16 +66,18 @@ export default function App(props: AppProps) {
         ]}
       >
         <View style={{ flexDirection: "row" }}>
-          <Image
-            source={
-              CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
-                ? Images.Profile_Placeholder
-                : { uri: item.Child.s3_photo_path }
-            }
-            resizeMethod="resize"
-            resizeMode="center"
-            style={Styles.childAvatar}
-          />
+          <View style={Styles.childAvatar}>
+            <Image
+              source={
+                CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
+                  ? Images.Profile_Placeholder
+                  : { uri: item.Child.s3_photo_path }
+              }
+              resizeMethod="resize"
+              resizeMode="center"
+              style={{ width: vh(40) }}
+            />
+          </View>
           <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
             <Text style={Styles.name}>
               {item.Child.first_name} {item.Child.last_name}

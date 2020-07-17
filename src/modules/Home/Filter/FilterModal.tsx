@@ -291,8 +291,8 @@ export default function App(props: AppProps) {
               date={fromDate}
               heading={Strings.From}
               maxDate={new Date()}
-              getDate={(date: string) => {
-                setFromDate(new Date(date));
+              getDate={(date: Date) => {
+                setFromDate(date);
                 setDays(CommonFunctions.DateDifference(date, toDate));
                 setdateApply(true);
               }}
@@ -303,7 +303,7 @@ export default function App(props: AppProps) {
               heading={Strings.To}
               minDate={fromDate}
               maxDate={new Date()}
-              getDate={(date: string) => {
+              getDate={(date: Date) => {
                 setToDate(new Date(date));
                 setDays(CommonFunctions.DateDifference(fromDate, date));
                 setdateApply(true);

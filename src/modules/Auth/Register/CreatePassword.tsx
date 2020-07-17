@@ -9,6 +9,7 @@ import {
   CustomInputText,
   CustomButton,
   CustomLoader,
+  CustomToast,
 } from "../../../Components";
 import {
   Strings,
@@ -43,11 +44,11 @@ export default function App(props: AppProps) {
   }));
 
   const check = () => {
-    validate(ConstantName.PASSWORD, password1)
-      ? validate(ConstantName.PASSWORD, password2)
+    Keyboard.dismiss();
+    password1.length >= 8
+      ? validate(ConstantName.PASSWORD, password1)
         ? password1 === password2
-          ? (Keyboard.dismiss(),
-            setIsLoading(true),
+          ? (setIsLoading(true),
             dispatch(
               createPassword(
                 id,
@@ -62,7 +63,9 @@ export default function App(props: AppProps) {
               )
             ))
           : setCheckPassword2(false)
-        : setCheckPassword2(false)
+        : (Keyboard.dismiss(),
+          CustomToast(Strings.Password_Error),
+          setCheckPassword1(false))
       : setCheckPassword1(false);
   };
 
@@ -95,13 +98,19 @@ export default function App(props: AppProps) {
               check={checkPassword1}
               secureTextEntry={secureEntry}
               onPressEye={() => setsecureEntry(!secureEntry)}
-              incorrectText={Strings.Password_length}
-              returnKeyType="next"
-              onSubmitEditing={() =>
-                validate(ConstantName.PASSWORD, password1)
-                  ? inputRef2.current.focus()
-                  : setCheckPassword1(false)
+              incorrectText={
+                password1.length < 8 ? Strings.Password_length : ""
               }
+              returnKeyType="next"
+              onSubmitEditing={() => {
+                password1.length < 8
+                  ? setCheckPassword1(false)
+                  : validate(ConstantName.PASSWORD, password1)
+                  ? inputRef2.current.focus()
+                  : (Keyboard.dismiss(),
+                    CustomToast(Strings.Password_Error),
+                    setCheckPassword1(false));
+              }}
             />
             <CustomInputText
               ref={inputRef2}
