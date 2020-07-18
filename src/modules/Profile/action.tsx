@@ -131,7 +131,7 @@ export const hitUploadCDNapi = (
       },
       (error: any) => {
         CommonFunctions.handleError(error);
-        failCallback();
+        failCallback(error);
       }
     );
   };

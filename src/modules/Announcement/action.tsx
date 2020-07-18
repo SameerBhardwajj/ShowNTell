@@ -16,6 +16,8 @@ export const hitAnnouncementAPI = (
       (success: any) => {
         let res = success.data.response;
         console.log("mysuccess ", res);
+        console.warn('page ann',page);
+        
         const { data } = getState().Announcement;
         let finalArray = [];
         page === 0

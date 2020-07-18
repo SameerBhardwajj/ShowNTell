@@ -1,6 +1,7 @@
 import React from "react";
 import { View, FlatList, Text } from "react-native";
 import GalleryFlatlist from "./GalleryFlatlist";
+import { CommonFunctions } from "../../utils";
 
 export interface AppProps {
   index: string;
@@ -9,7 +10,6 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  
   const arrangeData = (data: any) => {
     let dataArray = new Array().slice(0);
     let n = data.length;
@@ -27,7 +27,11 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         navigation={props.navigation}
-        data={props.item.length === 0 ? [] : arrangeData(props.item)}
+        data={
+          CommonFunctions.isNullUndefined(props.item)
+            ? []
+            : arrangeData(props.item)
+        }
       />
     );
   };
@@ -36,7 +40,11 @@ export default function App(props: AppProps) {
     <View style={{ flex: 1, width: "100%" }}>
       {/* <Text>Here</Text> */}
       <FlatList
-        data={props.item.length === 0 ? [] : arrangeData(props.item)}
+        data={
+          CommonFunctions.isNullUndefined(props.item)
+            ? []
+            : arrangeData(props.item)
+        }
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItems}
       />

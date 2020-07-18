@@ -119,12 +119,10 @@ export default function App(props: AppProps) {
                 : Strings.Schedule_a_Tour
             }
             onPress={() => {
-              console.warn(item.id);
-              console.warn(item);
-
               item.calendar_id === null
                 ? props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
-                    id: item.id,
+                    calenderId: null,
+                    centerId: item.id,
                     date: null,
                     time: null,
                   })

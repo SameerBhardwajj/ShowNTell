@@ -13,6 +13,7 @@ import {
   Modal,
   Keyboard,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
@@ -89,6 +90,7 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+  const [loadFooter, setLoadFooter] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
@@ -105,6 +107,7 @@ export default function App(props: AppProps) {
     classroomChild,
     page,
     searchQuery,
+    data,
   } = useSelector(
     (state: { Home: any; Login: any; ClassroomSchedule: any }) => ({
       currentChild: state.Home.currentChild,
@@ -114,6 +117,7 @@ export default function App(props: AppProps) {
       page: state.Home.page,
       classroomChild: state.ClassroomSchedule.classroomChild,
       searchQuery: state.Home.searchQuery,
+      data: state.Home.data,
     })
   );
 
@@ -123,20 +127,20 @@ export default function App(props: AppProps) {
       loginToken.length === 0 ? false : true,
       loginToken
     );
-    setLoading(true);
-    let focusListener = props.navigation.addListener("focus", () => {
-      CommonFunctions.isEmpty(classroomChild)
-        ? dispatch(
-            updateClassChild(
-              {
-                id: loginData.Children[0].id,
-                name: loginData.Children[0].first_name,
-                classroom: loginData.Children[0].classroom_id,
-              },
-              () => {}
-            )
+    CommonFunctions.isEmpty(data) ? setLoading(true) : null;
+    CommonFunctions.isEmpty(classroomChild)
+      ? dispatch(
+          updateClassChild(
+            {
+              id: loginData.Children[0].id,
+              name: loginData.Children[0].first_name,
+              classroom: loginData.Children[0].classroom_id,
+            },
+            () => {}
           )
-        : null;
+        )
+      : null;
+    let focusListener = props.navigation.addListener("focus", () => {
       loginData.Children.length > 1
         ? hitHomeAPI(currentChild.child)
         : loginData.Children[0].id !== currentChild.child
@@ -152,32 +156,6 @@ export default function App(props: AppProps) {
           )
         : hitHomeAPI(currentChild.child);
     });
-    CommonFunctions.isEmpty(classroomChild)
-      ? dispatch(
-          updateClassChild(
-            {
-              id: loginData.Children[0].id,
-              name: loginData.Children[0].first_name,
-              classroom: loginData.Children[0].classroom_id,
-            },
-            () => {}
-          )
-        )
-      : null;
-    loginData.Children.length > 1
-      ? hitHomeAPI(currentChild.child)
-      : loginData.Children[0].id !== currentChild.child
-      ? dispatch(
-          updateChild(
-            {
-              child: loginData.Children[0].id,
-              name: loginData.Children[0].first_name,
-              classroom: loginData.Children[0].classroom_id,
-            },
-            () => hitHomeAPI(loginData.Children[0].id)
-          )
-        )
-      : hitHomeAPI(currentChild.child);
     // const unsubscribe =
     //   (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
     //     dispatch(
@@ -288,15 +266,18 @@ export default function App(props: AppProps) {
   };
 
   const NewhitHomeAPI = () => {
+    setLoadFooter(true);
     dispatch(
       HomeAPI(
         (data: any) => {
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setHomeData(homeData.concat(data));
           setLoading(false);
+          setLoadFooter(false);
         },
         () => {
           setLoading(false);
+          setLoadFooter(false);
         },
         currentChild.child,
         CURRENT_TIME,
@@ -445,6 +426,15 @@ export default function App(props: AppProps) {
             }}
             onEndReached={() => (loadMore ? NewhitHomeAPI() : null)}
             onEndReachedThreshold={0.5}
+            ListFooterComponent={() => {
+              return (
+                <ActivityIndicator
+                  color={Colors.violet}
+                  size="large"
+                  animating={loadFooter}
+                />
+              );
+            }}
           />
         )}
       </View>

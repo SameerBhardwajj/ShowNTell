@@ -39,7 +39,7 @@ export default function App(props: AppProps) {
       loginToken: state.Login.loginToken,
       loginData: state.Login.loginData,
       currentChild: state.Home.currentChild,
-      page: state.Home.page,
+      page: state.Announcement.page,
     })
   );
   const [loading, setLoading] = useState(false);

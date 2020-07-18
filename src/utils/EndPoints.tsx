@@ -26,6 +26,11 @@ export default {
     getSlotTime: (id: number, date: string) =>
       `/schedule-a-tour/get_times.json?calendarID=${id}&date=${date}`,
     scheduleTour: "/api/v1/parent/schedule-tour",
+    scheduleTourByClient: {
+      leadAPIAdd: "/leads/api_add/1/respond:0",
+      appointment: `/schedule-a-tour/appointment.json`,
+      leadAPIUpdate: `/leads/api_update/606706/respond:0`,
+    },
     logout: "/api/v1/parent/logout",
   },
   home: {
@@ -79,7 +84,7 @@ export default {
   drawer: {
     announcement: (childID: number, page: number) =>
       childID === 0
-        ? `/api/v1/parent/list-announcement`
+        ? `/api/v1/parent/list-announcement?page=${page}`
         : `/api/v1/parent/list-announcement?child_id=${childID}&page=${page}`,
     qotd: (current_date_time: string, child_id?: number, type?: string) =>
       `/api/v1/parent/list-question-of-the-day?current_date_time=${current_date_time}${

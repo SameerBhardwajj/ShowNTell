@@ -46,14 +46,15 @@ export default function App(props: AppProps) {
                 device_id: getDeviceId(),
               },
               () => {
-                dispatch(updateLogin({}, ""));
-                // dispatch(updateChild({}, () => {}));
-                // dispatch(
-                //   updateClassChild({}, () => {
-                //     setLoading(false);
+                dispatch(updateChild({}, () => {}));
+                dispatch(
+                  updateClassChild({}, () => {
+                    console.warn('all done');
                     
-                //   })
-                // );
+                    dispatch(updateLogin({}, ""));
+                    setLoading(false);
+                  })
+                );
               },
               (error: any) => {
                 setLoading(false), CustomToast(error.data.message);

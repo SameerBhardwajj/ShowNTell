@@ -86,7 +86,7 @@ export const getMsgs = (
           let finalArray = [];
           type === "down"
             ? (finalArray = res.concat(chatData))
-            : (finalArray = res);
+            : (finalArray = chatData.concat(res));
 
           dispatch({
             type: Action.CHAT,

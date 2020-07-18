@@ -2,7 +2,7 @@ import Config from "react-native-config";
 import axios from "axios";
 
 const $http = axios.create({
-  baseURL: Config.BASE_URL,
+  baseURL: Config.BASE,
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",

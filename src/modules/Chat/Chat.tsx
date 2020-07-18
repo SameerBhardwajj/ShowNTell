@@ -31,63 +31,85 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [msg, setMsg] = useState("");
   const [msgID, setMsgID] = useState("");
-  // const [page, setPage] = useState(0);
   const [time, settime] = useState(0);
+  const [loadMore, setLoadMore] = useState(true);
 
   useEffect(() => {
     // Hit API after 3 sec
-    // time >= 0
-    //   ? setTimeout(() => {
-    //       console.warn(time);
-    //       settime(time + 1);
-    //     }, 3000)
-    //   : null;
+    time >= 0
+      ? setTimeout(() => {
+          console.warn(time);
+          settime(time + 1);
+        }, 3000)
+      : null;
 
-    dispatch(
-      getCannedMsgs(
-        () => {},
-        () => {}
-      )
+    time === 0
+      ? (getOldMsgs(),
+        dispatch(
+          getCannedMsgs(
+            () => {},
+            () => {}
+          )
+        ))
+      : getNewMsgs();
+  }, [time, loadMore]);
+
+  const check = () => {
+    return (
+      moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss") ===
+      moment
+        .utc(chatData[chatData.length - 1].create_dt)
+        .format("YYYY-MM-DD HH:mm:ss")
     );
-    time === 0 ? getOldMsgs() : getNewMsgs();
-  }, [time]);
+  };
 
+  // Get New Messages if Available ------------------
   const getNewMsgs = () => {
-    // console.warn("page ", page);
-
     dispatch(
       getMsgs(
         "down",
-        moment(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss").toString(),
+        chatData.length === 0
+          ? moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss")
+          : moment.utc(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss"),
         (data: any) => {
-          // setPage(page + 1);
-          console.log("new data  ", data);
+          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
         },
         () => {}
       )
     );
   };
 
+  // Get older Messages if Available -----------------
   const getOldMsgs = () => {
-    // console.warn("page ", page);
-
-    dispatch(
-      getMsgs(
-        "up",
-        time === 0
-          ? moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss").toString()
-          : moment(chatData[chatData.length - 1].create_dt)
-              .format("YYYY-MM-DD HH:mm:ss")
-              .toString(),
-        (data: any) => {
-          // setPage(page + 1);
-          console.log("old data  ", data);
-        },
-        () => {}
-      )
-    );
+    time === 0 && loadMore
+      ? dispatch(
+          getMsgs(
+            "up",
+            moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+            (data: any) => {
+              settime(1);
+              data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+            },
+            () => {}
+          )
+        )
+      : loadMore && !check()
+      ? dispatch(
+          getMsgs(
+            "up",
+            moment
+              .utc(chatData[chatData.length - 1].create_dt)
+              .format("YYYY-MM-DD HH:mm:ss"),
+            (data: any) => {
+              data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+            },
+            () => {}
+          )
+        )
+      : null;
   };
 
+  // Send messages ----------------------
   const sendMsgs = (msg: string, msgID: string) => {
     setMsgID("");
     setMsg("");
@@ -97,7 +119,7 @@ export default function App(props: AppProps) {
           ? { canned_message_id: "", message: msg }
           : { canned_message_id: msgID, message: "" },
         () => {
-          getNewMsgs();
+          // getNewMsgs();
         },
         () => {
           console.warn("error");
@@ -157,7 +179,7 @@ export default function App(props: AppProps) {
               bounces={false}
               inverted
               data={chatData}
-              onEndReached={() => getOldMsgs()}
+              onEndReached={() => (loadMore ? getOldMsgs() : null)}
               onEndReachedThreshold={0.5}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItems}

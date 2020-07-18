@@ -77,7 +77,7 @@ export default function App(props: AppProps) {
   const [modalOpen, setModalOpen] = useState(false);
   const [todayDate, setDate] = useState(new Date());
   const [isLoading, setLoading] = useState(false);
-  const { id, date, time } = props.route.params;
+  const { centerId, calenderId, date, time } = props.route.params;
 
   const disable = () => {
     return (
@@ -89,24 +89,21 @@ export default function App(props: AppProps) {
     );
   };
 
+  // Hit Schedule a tour API ---------------------
   const navigating = () => {
     Keyboard.dismiss();
 
     let childArr: any[] = [];
     childArr = childArr.concat({
       child_name: c1name,
-      child_dob: `${CommonFunctions.dateTypeFormat(
-        c1DOB.toLocaleString(),
-        "dmy"
-      )}`,
+      child_dob: `${CommonFunctions.dateTypeFormat(c1DOB.toString(), "ymd")}`,
     });
-
     counter > 1
       ? (childArr = childArr.concat({
           child_name: c2name,
           child_dob: `${CommonFunctions.dateTypeFormat(
-            c2DOB.toLocaleString(),
-            "dmy"
+            c2DOB.toString(),
+            "ymd"
           )}`,
         }))
       : null;
@@ -115,8 +112,8 @@ export default function App(props: AppProps) {
       ? (childArr = childArr.concat({
           child_name: c3name,
           child_dob: `${CommonFunctions.dateTypeFormat(
-            c3DOB.toLocaleString(),
-            "dmy"
+            c3DOB.toString(),
+            "ymd"
           )}`,
         }))
       : null;
@@ -125,8 +122,8 @@ export default function App(props: AppProps) {
       ? (childArr = childArr.concat({
           child_name: c4name,
           child_dob: `${CommonFunctions.dateTypeFormat(
-            c4DOB.toLocaleString(),
-            "dmy"
+            c4DOB.toString(),
+            "ymd"
           )}`,
         }))
       : null;
@@ -135,41 +132,146 @@ export default function App(props: AppProps) {
       ? (childArr = childArr.concat({
           child_name: c5name,
           child_dob: `${CommonFunctions.dateTypeFormat(
-            c5DOB.toLocaleString(),
-            "dmy"
+            c5DOB.toString(),
+            "ymd"
           )}`,
         }))
       : null;
 
     let params = {
-      center_id: parseInt(id),
-      name: pname,
-      phone_number: "+1-" + phone,
-      zip_code: zipcode,
-      email: email,
+      center_id: parseInt(centerId),
+      name: pname.trim(),
+      phone_number: phone.trim(),
+      zip_code: zipcode.trim(),
+      email: email.trim(),
       schedule_date_time: CommonFunctions.isNullUndefined(date) ? "" : date,
       children: childArr,
     };
+    debugger
     setLoading(true);
-    API.postApiCall(
-      EndPoints.auth.scheduleTour,
+    CommonFunctions.isNullUndefined(date)
+      ? API.postApiCall(
+          EndPoints.auth.scheduleTour,
+          params,
+          (success: any) => {
+            setLoading(false),
+              props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                path: ScreenName.LANDING_PAGE,
+                msg: Strings.tour_success,
+              });
+          },
+          (error: any) => {
+            CustomToast(error.response);
+            setLoading(false);
+          }
+        )
+      : hitScheduleTour(params);
+  };
+
+  const allChilds = (children: Array<any>) => {
+    let obj = {
+      first_name: children[0].child_name.replace(/\s.*/, ""),
+      last_name: children[0].child_name.replace(/\S+\s/, ""),
+      dob: children[0].child_dob,
+    };
+    let i = 1;
+    if (children.length > 10) {
+      for (i = 1; i < children.length; i++) {}
+      (obj.first_name = children[i].child_name.replace(/\s.*/, "")),
+        (obj.last_name = children[i].child_name.replace(/\S+\s/, "")),
+        (obj.dob = children[i].child_dob);
+    }
+    return obj;
+  };
+
+  // Hit Pre schedule API --------------------
+  const hitScheduleTour = (getParams: any) => {
+    let getChild = allChilds(getParams.children);
+    let params = {
+      Lead: {
+        first_name: getParams.name.replace(/\s.*/, ""),
+        last_name: getParams.name.replace(/\S+\s/, ""),
+        address1: "",
+        city: "",
+        state: "",
+        zip: getParams.zip_code,
+        mobile_phone: "",
+        home_phone: getParams.phone_number,
+        work_phone: "",
+        email: getParams.email,
+      },
+      LeadChildren: getChild,
+      LeadDetails: {
+        message: "This is a test",
+      },
+    };
+
+    API.postClientApiCall(
+      EndPoints.auth.scheduleTourByClient.leadAPIAdd,
       params,
-      (success: any) => {
-        console.log("success ", success.data.response);
-        if (success.data.code === 200) {
-          setLoading(false);
-          props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-            path: ScreenName.LANDING_PAGE,
-            msg: Strings.tour_success,
-          });
-        } else {
-          CustomToast(success.data.message);
-          setLoading(false);
-        }
+      (response: any) => {
+        hitAppointmentAPI(response);
       },
       (error: any) => {
-        debugger;
-        CustomToast(error.response.data.message);
+        CustomToast(error.message);
+        setLoading(false);
+      }
+    );
+  };
+
+  // Hit Appointment API --------------------------
+  const hitAppointmentAPI = (res: any) => {
+    let params = {
+      calendarID: calenderId,
+      datetime: time,
+      firstName: res.data.requestObject.Lead.first_name,
+      lastName: res.data.requestObject.Lead.last_name,
+      email: res.data.requestObject.Lead.email,
+      phone: res.data.requestObject.Lead.home_phone,
+      timezone: "America/New_York",
+    };
+
+    API.postClientApiCall(
+      EndPoints.auth.scheduleTourByClient.appointment,
+      params,
+      (response: any) => {
+        hitPostScheduleAPI(res, response);
+      },
+      (error: any) => {
+        CustomToast(error.message);
+        setLoading(false);
+      }
+    );
+  };
+
+  // Hit Post Schedule API ----------------------------
+  const hitPostScheduleAPI = (oldRes: any, newRes: any) => {
+    let params = {
+      LeadAction: [
+        {
+          lead_action_type_id:
+            oldRes.data.requestObject.LeadAction[0].lead_action_type_id,
+          action_date: oldRes.data.requestObject.LeadAction[0].action_date,
+          entered_date: oldRes.data.requestObject.LeadAction[0].entered_date,
+          scheduled_date: time,
+          appointment_id: newRes.data.Status.OK.id,
+        },
+      ],
+    };
+    API.postClientApiCall(
+      EndPoints.auth.scheduleTourByClient.leadAPIUpdate,
+      params,
+      (response: any) => {
+        response.data.result === "OK"
+          ? (setLoading(false),
+            props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+              path: ScreenName.LANDING_PAGE,
+              msg: Strings.tour_success,
+            }))
+          : (CustomToast(response.message), setLoading(false));
+      },
+      (error: any) => {
+        CustomToast(error.message);
         setLoading(false);
       }
     );
@@ -240,7 +342,7 @@ export default function App(props: AppProps) {
               check={checkzipcode}
               incorrectText={Strings.Zipcode_error}
               mainViewStyle={Styles.textInput}
-              keyboardType={"phone-pad"}
+              keyboardType={"number-pad"}
             />
             {/* Parent's email --------------- */}
             <CustomInputText

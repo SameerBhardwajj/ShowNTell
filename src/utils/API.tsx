@@ -50,12 +50,11 @@ const postApiCall = (
   Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
-      debugger
       console.log("res ", response);
       successCallback(response);
     })
     .catch((error: any) => {
-      debugger
+      debugger;
       console.warn("error", error);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
@@ -87,8 +86,7 @@ const getApiCall = (
       successCallback(response);
     })
     .catch((error: any) => {
-      debugger
-      // console.warn("error", error.code);
+      debugger;
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
@@ -125,42 +123,65 @@ const getClientApiCall = (
     });
 };
 
-// const postProfileApi = (
+const postClientApiCall = (
+  endPoint: string,
+  params: object,
+  successCallback: Function,
+  errorCallback: Function
+) => {
+  Constants.clientAxiosInstance
+    .post(endPoint, params)
+    .then((response: any) => {
+      console.warn("Success: ", response);
+      successCallback(response);
+    })
+    .catch((error: any) => {
+      // console.warn("error", error);
+      // console.log("Error.response.config ", error);
+      // if (error.message === "Network Error") {
+      //   CustomToast(Strings.No_Internet);
+      // }
+      // if (error.code === "ECONNABORTED") {
+      //   CustomToast(Strings.Timeout_error);
+      // }
+      errorCallback(error);
+    });
+};
+
+// const postClientApiCall2 = (
 //   endPoint: string,
-//   params: object,
+//   params: string,
 //   successCallback: Function,
 //   errorCallback: Function
 // ) => {
-//   Constants.axiosProfileInstance
-//     .post(endPoint, params)
+//   Constants.clientAxiosInstance
+//     .get(endPoint, params)
 //     .then((response: any) => {
-//       console.warn("res ", response);
+//       console.warn("Success: ", response);
 //       successCallback(response);
 //     })
 //     .catch((error: any) => {
-//       console.warn("error", error);
-//       console.log("Error.response.config ", error.response.config);
-//       if (error.message === "Network Error") {
-//         CustomToast(Strings.No_Internet);
-//       } else if (error.code === "ECONNABORTED") {
-//         CustomToast(Strings.Timeout_error);
-//       } else {
-//         errorCallback(error);
-//       }
+//       // console.warn("error", error);
+//       // console.log("Error.response.config ", error);
+//       // if (error.message === "Network Error") {
+//       //   CustomToast(Strings.No_Internet);
+//       // }
+//       // if (error.code === "ECONNABORTED") {
+//       //   CustomToast(Strings.Timeout_error);
+//       // }
+//       errorCallback(error);
 //     });
 // };
 
 const fileUpload = (
   endPoint: string,
   data: any,
-  // params: any,
   successCallback: Function,
   errorCallback: Function
 ) => {
   Constants.axiosInstance
     .post(endPoint, data, {
       headers: { "Content-Type": "multipart/form-data" },
-      // params,
     })
     .then(
       (response: any) => {
@@ -169,9 +190,6 @@ const fileUpload = (
         successCallback(response);
       },
       (error: any) => {
-        // if (error.message == "Network Error") {
-        //     Utils.Constant.showSnackbar("No internet")
-        //     }
         console.log(error);
 
         errorCallback(error);
@@ -187,6 +205,6 @@ export default {
   getApiCall,
   googleSearchApiCall,
   getClientApiCall,
-  // postProfileApi,
+  postClientApiCall,
   fileUpload,
 };

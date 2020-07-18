@@ -31,7 +31,7 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [time, setTime] = useState(-1);
   const [isLoading, setIsLoading] = useState(false);
-  const { id, date } = props.route.params;
+  const { centerId, calenderId, date } = props.route.params;
   const { slotTime } = useSelector((state: { SchoolListing: any }) => ({
     slotTime: state.SchoolListing.slotTime,
   }));
@@ -66,7 +66,7 @@ export default function App(props: AppProps) {
   React.useEffect(() => {
     dispatch(
       fetchSlotTime(
-        id,
+        calenderId,
         date,
         () => {
           console.warn("slot", slotTime);
@@ -116,7 +116,8 @@ export default function App(props: AppProps) {
             time === -1
               ? null
               : props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
-                  id: id,
+                  centerId: centerId,
+                  calenderId: calenderId,
                   date: date,
                   time: slotTime[time].time,
                 })
@@ -133,7 +134,8 @@ export default function App(props: AppProps) {
           Text={Strings.general_information}
           onPress={() =>
             props.navigation.navigate(ScreenName.SCHEDULE_TOUR, {
-              id: id,
+              centerId: centerId,
+              calenderId: calenderId,
               date: null,
               time: null,
             })

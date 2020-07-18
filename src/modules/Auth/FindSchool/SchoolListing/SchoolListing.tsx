@@ -112,11 +112,11 @@ export default function App(props: AppProps) {
     );
   };
 
-  const fetchSlot = (id: number) => {
+  const fetchSlot = (calendar_id: number) => {
     setSlotLoading(true);
     dispatch(
       fetchSlotDates(
-        id,
+        calendar_id,
         () => {
           setSlotLoading(false);
         },
@@ -134,7 +134,7 @@ export default function App(props: AppProps) {
         navigation={props.navigation}
         item={item}
         openModal={() => {
-          setId(item.location_id);
+          setId(item.id);
           setModalOpen(true);
           setCalenderId(item.calendar_id);
           fetchSlot(item.calendar_id);
@@ -282,7 +282,8 @@ export default function App(props: AppProps) {
                           props.navigation.navigate(
                             ScreenName.DATE_TIME_SCHEDULE,
                             {
-                              id: calenderId,
+                              centerId: id,
+                              calenderId: calenderId,
                               date: slotDates[slot].date,
                             }
                           );
@@ -345,7 +346,7 @@ const Styles = StyleSheet.create({
     fontSize: vh(16),
     color: Colors.violet,
     alignSelf: "center",
-    paddingTop: vh(10)
+    paddingTop: vh(10),
   },
   mainModalView: {
     flex: 1,

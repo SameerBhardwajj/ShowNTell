@@ -22,7 +22,6 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
-  // const [page, setPage] = useState(0);
   const [loadMore, setLoadMore] = useState(true);
   const {
     currentChild,
@@ -43,7 +42,7 @@ export default function App(props: AppProps) {
     let focusListener = props.navigation.addListener("focus", () => {
       hitPhotoLibraryAPI(0);
     });
-    setLoading(true);
+    libraryData.length === 0 ? setLoading(true) : null;
     return focusListener;
   }, [props.navigation, currentChild]);
 

@@ -17,7 +17,7 @@ export const updateLogin = (data: object, token: string) => {
 export const updateProfilePic = (data: string, callback: Function) => {
   return (dispatch: any, getState: any) => {
     dispatch({
-      type: Action.UPDATE_LOGIN,
+      type: Action.USER_LOGIN,
       payload: {
         profilePic: data,
       },

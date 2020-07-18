@@ -134,7 +134,7 @@ const requestLocationPermission = async (
         failureCallback(error);
         // console.warn(error);
       },
-      { enableHighAccuracy: true, timeout: 20000 }
+      { enableHighAccuracy: false, timeout: 20000 }
     );
   }
 };

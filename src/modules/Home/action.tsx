@@ -81,15 +81,19 @@ export const HomeAPI = (
           console.log("receiving page num ", page);
 
           // console.warn("mysuccess ", res);
-          dispatch({
-            type: Action.HOME_DATA,
-            payload: {
-              data: res.rows,
-              chatEnable: res.permission.chatWithParent === 0 ? false : true,
-              page: page === undefined ? 0 : page + 1,
-            },
-          });
-          successCallback(res.rows);
+          if (res === undefined) {
+            failureCallback();
+          } else {
+            dispatch({
+              type: Action.HOME_DATA,
+              payload: {
+                data: res.rows,
+                chatEnable: res.permission.chatWithParent === 0 ? false : true,
+                page: page === undefined ? 0 : page + 1,
+              },
+            });
+            successCallback(res.rows);
+          }
         } else {
           CustomToast(success.data.message);
           failureCallback();

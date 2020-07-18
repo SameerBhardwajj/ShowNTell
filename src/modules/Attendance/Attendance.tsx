@@ -44,7 +44,8 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const [viewByDate, setViewByDate] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [defaultDate, setDefaultDate] = useState(new Date());
+  const [defaultMonth, setDefaultMonth] = useState(new Date());
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isLoading, setLoading] = useState(false);
@@ -60,11 +61,11 @@ export default function App(props: AppProps) {
   );
 
   useEffect(() => {
-    let focusListener = props.navigation.addListener("focus", () => {
+    // let focusListener = props.navigation.addListener("focus", () => {
       hitAttendance();
-    });
-    setLoading(true);
-    return focusListener;
+    // });
+    data.length === 0 ? setLoading(true) : null;
+    // return focusListener;
   }, [props.navigation, currentChild, viewByDate]);
 
   const hitAttendance = () => {
@@ -72,7 +73,15 @@ export default function App(props: AppProps) {
       viewAttendance(
         viewByDate ? DATE_TYPE : MONTH_TYPE,
         currentChild.child,
-        CommonFunctions.dateTypeFormat(date.toLocaleDateString(), "ymd"),
+        viewByDate
+          ? CommonFunctions.dateTypeFormat(
+              defaultDate.toLocaleDateString(),
+              "ymd"
+            )
+          : CommonFunctions.dateTypeFormat(
+              defaultMonth.toLocaleDateString(),
+              "ymd"
+            ),
         () => {
           setLoading(false), setRefreshing(false);
         },
@@ -242,17 +251,20 @@ export default function App(props: AppProps) {
         />
         <View style={Styles.modalView}>
           <DatePicker
+            minimumDate={new Date(2000, 1)}
             maximumDate={new Date()}
-            date={date}
+            date={viewByDate ? defaultDate : defaultMonth}
             mode="date"
             onDateChange={(text: Date) => {
-              setDate(text);
+              viewByDate ? setDefaultDate(text) : setDefaultMonth(text);
             }}
           />
           <CustomButton
             Text="Set Date"
             onPress={() => {
-              viewByDate ? setCurrentDate(date) : setCurrentMonth(date),
+              viewByDate
+                ? setCurrentDate(defaultDate)
+                : setCurrentMonth(defaultMonth),
                 hitAttendance(),
                 setModalOpen(false);
             }}
