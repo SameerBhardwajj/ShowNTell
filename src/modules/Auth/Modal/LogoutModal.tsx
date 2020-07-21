@@ -46,11 +46,13 @@ export default function App(props: AppProps) {
                 device_id: getDeviceId(),
               },
               () => {
-                dispatch(updateChild({}, () => {}));
+                dispatch(
+                  updateChild({ child: 0, name: "All", classroom: 0 }, () => {})
+                );
                 dispatch(
                   updateClassChild({}, () => {
-                    console.warn('all done');
-                    
+                    console.warn("all done");
+
                     dispatch(updateLogin({}, ""));
                     setLoading(false);
                   })

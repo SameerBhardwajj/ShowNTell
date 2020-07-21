@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -8,27 +8,107 @@ import {
   FlatList,
   Modal,
 } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 // custom imports
-import { ScreenName, Strings, vw, vh, Images, Colors } from "../../utils";
-import { CustomHeader, CustomButton } from "../../Components";
+import {
+  ScreenName,
+  Strings,
+  vw,
+  vh,
+  Images,
+  Colors,
+  CommonFunctions,
+} from "../../utils";
+import {
+  CustomHeader,
+  CustomButton,
+  CustomLoader,
+  CustomToast,
+} from "../../Components";
 import FlatlistStatement from "./FlatlistStatement";
 import FilterModal from "./FilterModal";
+import { hitStatementApi } from "./action";
 
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
+  const dispatch = useDispatch();
+
   const [modalOpen, setModalOpen] = useState(false);
   const [fromDate, setFromDate] = useState(new Date());
   const [toDate, setToDate] = useState(new Date());
   const [state, setState] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [loadMore, setLoadMore] = useState(true);
+
+  const { data, page, currentChild } = useSelector(
+    (state: { Home: any; Statements: any }) => ({
+      data: state.Statements.data,
+      page: state.Statements.page,
+      currentChild: state.Home.currentChild,
+    })
+  );
+
+  useEffect(() => {
+    setLoading(true);
+    hitStatement(0);
+  }, [currentChild]);
+
+  const hitStatement = (page: number) => {
+    dispatch(
+      hitStatementApi(
+        (data: Array<any>) => {
+          console.warn(data.length);
+          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+          setLoading(false);
+        },
+        () => {
+          setLoadMore(false);
+          setLoading(false);
+        },
+        page,
+        state ? moment(fromDate).format("YYYY-MM-DD") : "",
+        state ? moment(toDate).format("YYYY-MM-DD") : ""
+      )
+    );
+  };
+
+  const hitStatementFilter = (
+    page: number,
+    from_date: string,
+    to_date: string
+  ) => {
+    console.warn("apply", from_date, to_date);
+
+    dispatch(
+      hitStatementApi(
+        (data: Array<any>) => {
+          data.length === 0
+            ? setLoadMore(false)
+            : (setState(false), setLoadMore(true));
+          setLoading(false);
+        },
+        () => {
+          setLoadMore(false);
+          setLoading(false);
+        },
+        page,
+        from_date,
+        to_date
+      )
+    );
+  };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
     return <FlatlistStatement item={item} index={index} state={state} />;
   };
+
+  const keyExtractor = useCallback((item, index) => index.toString(), []);
 
   const headerDate = () => {
     return (
@@ -68,27 +148,49 @@ export default function App(props: AppProps) {
         onPressBack={() => props.navigation.pop()}
         textStyle={Styles.headerText}
       />
+      {<CustomLoader loading={loading} />}
       {state ? null : (
         <TouchableOpacity
           style={Styles.clearBtn}
           activeOpacity={0.8}
-          onPress={() => setState(!state)}
+          onPress={() => {
+            hitStatement(0), setState(true);
+          }}
         >
           <Text style={Styles.clearText}>{Strings.Clear}</Text>
         </TouchableOpacity>
       )}
       <View style={Styles.innerView}>
         <FlatList
-          contentContainerStyle={{ paddingBottom: vh(85) }}
+          contentContainerStyle={{ paddingBottom: vh(100) }}
           ListHeaderComponent={state ? null : headerDate()}
           showsVerticalScrollIndicator={false}
           bounces={false}
-          data={DATA}
+          data={data}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => (loadMore ? hitStatement(page) : null)}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItems}
-          ListFooterComponent={state ? null : footerStatement()}
         />
       </View>
+      {state ? null : (
+        <CustomButton
+          ButtonStyle={Styles.dowbloadBtn}
+          onPress={() => CustomToast()}
+          // @ts-ignore
+          Text={
+            <Text style={Styles.clearText}>
+              {Strings.Download_Statement}
+              {"\n"}
+              <Text style={Styles.statementText}>
+                {fromDate.toLocaleDateString()}
+                {Strings.to}
+                {toDate.toLocaleDateString()}
+              </Text>
+            </Text>
+          }
+        />
+      )}
       {state ? (
         <TouchableOpacity
           style={Styles.filterIcon}
@@ -108,12 +210,18 @@ export default function App(props: AppProps) {
         />
         <FilterModal
           setModalOpen={() => setModalOpen(false)}
-          state={() => setState(!state)}
           fromDate={fromDate}
           toDate={toDate}
           getDate={(fromDate: Date, toDate: Date) => {
+            setModalOpen(false);
             setFromDate(fromDate);
             setToDate(toDate);
+            setLoading(true);
+            hitStatementFilter(
+              0,
+              moment(fromDate).format("YYYY-MM-DD"),
+              moment(toDate).format("YYYY-MM-DD")
+            );
           }}
         />
       </Modal>
@@ -149,11 +257,18 @@ const Styles = StyleSheet.create({
     paddingLeft: vh(16),
     alignSelf: "flex-start",
   },
+  dowbloadBtn: {
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    bottom: vh(20),
+  },
   innerView: {
     paddingVertical: vh(8),
     paddingHorizontal: vh(16),
     width: "100%",
-    marginBottom: vh(100),
+    flex: 1,
+    paddingBottom: vh(90),
   },
   filterIcon: {
     position: "absolute",

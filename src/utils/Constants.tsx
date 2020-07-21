@@ -2,7 +2,7 @@ import Config from "react-native-config";
 import axios from "axios";
 
 const $http = axios.create({
-  baseURL: Config.BASE,
+  baseURL: Config.DEV_BASE_URL,
   timeout: 30000,
   headers: {
     "Content-Type": "application/json",
@@ -16,7 +16,7 @@ const setAuthorizationToken = (token: boolean, myToken: string) => {
 };
 
 const clientHttp = axios.create({
-  baseURL: Config.CLIENT_BASE_URL,
+  baseURL: Config.CLIENT_URL,
   timeout: 30000,
 });
 

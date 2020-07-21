@@ -6,6 +6,7 @@ export interface AppProps {
   item: any;
   index: string;
   onPress: Function;
+  reRendering: Function;
 }
 
 export default function App(props: AppProps) {
@@ -13,7 +14,9 @@ export default function App(props: AppProps) {
     <TouchableOpacity
       activeOpacity={0.8}
       style={Styles.textView}
-      onPress={() => props.onPress()}
+      onPress={() => {
+        props.reRendering(), props.onPress();
+      }}
     >
       <Image style={Styles.img} source={Images.Location_icon_Grey} />
       <Text numberOfLines={1} style={Styles.text}>

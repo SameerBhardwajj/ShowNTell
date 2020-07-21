@@ -4,12 +4,10 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 // custom imports
 import { Images, vw, Strings, vh, Colors } from "../../utils";
 import { CustomDate, CustomButton } from "../../Components";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export interface AppProps {
   navigation?: any;
   setModalOpen: Function;
-  state: Function;
   fromDate: Date;
   toDate: Date;
   getDate: Function;
@@ -18,7 +16,6 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const [fromDate, setFromDate] = useState(props.fromDate);
   const [toDate, setToDate] = useState(props.toDate);
-  const [days, setDays] = useState("0");
 
   return (
     <View style={Styles.mainView}>
@@ -34,29 +31,29 @@ export default function App(props: AppProps) {
         <View style={Styles.separatorView} />
         <View style={Styles.msgView}>
           <CustomDate
+            date={fromDate}
+            maxDate={new Date()}
             heading={Strings.From}
             getDate={(date: Date) => {
               setFromDate(date);
-              let difference: number = toDate.getDate() - date.getDate();
-              difference > 0 ? setDays(difference.toString()) : 0;
+              // let difference: number = toDate.getDate() - date.getDate();
+              // difference > 0 ? setDays(difference.toString()) : 0;
             }}
           />
           <CustomDate
+            date={toDate}
             heading={Strings.To}
+            maxDate={new Date()}
             minDate={fromDate}
             getDate={(date: Date) => {
               setToDate(date);
-              let difference: number = date.getDate() - fromDate.getDate();
-              setDays(difference.toString());
+              // let difference: number = date.getDate() - fromDate.getDate();
+              // setDays(difference.toString());
             }}
           />
           <CustomButton
             Text={Strings.proceed}
-            onPress={() => {
-              props.getDate(fromDate, toDate);
-              props.state();
-              props.setModalOpen();
-            }}
+            onPress={() => props.getDate(fromDate, toDate)}
             ButtonStyle={{ width: "100%", marginTop: vh(32) }}
           />
         </View>

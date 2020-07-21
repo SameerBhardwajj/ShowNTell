@@ -8,11 +8,11 @@ import {
   Modal,
 } from "react-native";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { weDidItAPI } from "../Home/action";
 import { hitQOTDApi } from "./action";
-import { useDispatch, useSelector } from "react-redux";
 import { vh, Colors, Images, vw, Strings, ScreenName } from "../../utils";
 import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
 import QODFlatList from "./QODFlatList";
@@ -145,7 +145,6 @@ export const Styles = StyleSheet.create({
     paddingHorizontal: vw(16),
     marginBottom: vh(35),
     width: "100%",
-    flex: 1,
   },
   cardView: {
     marginVertical: vh(8),

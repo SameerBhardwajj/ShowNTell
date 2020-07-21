@@ -224,7 +224,7 @@ const Strings = new LocalizedStrings({
     Activity_Category: "Activity Category",
     Date: "Date",
     Activity_Types: "Activity Types",
-    General_Info: "General Info",
+    General_Info: "Get More Info",
     Activities: "Activities",
     In_Time: "In Time",
     Out_Time: "Out Time",

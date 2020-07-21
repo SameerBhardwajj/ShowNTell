@@ -29,8 +29,8 @@ export interface AppProps {
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
-  let checkPassword =
-    props.typePassword === undefined || props.typePassword === false;
+  // let checkPassword =
+  //   props.typePassword === undefined || props.typePassword === false;
 
   return (
     <View style={[{ width: "100%" }, props.mainViewStyle]}>
@@ -59,15 +59,16 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           ref={ref}
           style={[
             Styles.inputTxt,
-            checkPassword ? Styles.textInputStyle1 : Styles.textInputStyle2,
+            props.typePassword
+              ? Styles.textInputStyle2
+              : Styles.textInputStyle1,
             { borderColor: props.check ? Colors.borderGrey : Colors.pink },
           ]}
           maxLength={props.maxLength}
           autoFocus={props.autoFocus}
           keyboardType={props.keyboardType}
-          secureTextEntry={
-            props.secureTextEntry === undefined ? false : props.secureTextEntry
-          }
+          enablesReturnKeyAutomatically={true}
+          secureTextEntry={props.secureTextEntry}
           editable={props.editable}
           value={props.value}
           onChangeText={(val: string) => props.onChangeText(val)}
@@ -75,10 +76,11 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           returnKeyType={
             props.returnKeyType === undefined ? "next" : props.returnKeyType
           }
+          contextMenuHidden={props.typePassword ? true : false}
           onSubmitEditing={() => props.onSubmitEditing()}
           onBlur={() => (props.onBlur === undefined ? null : props.onBlur())}
         />
-        {checkPassword ? null : (
+        {props.typePassword ? (
           <TouchableOpacity
             activeOpacity={0.8}
             style={{
@@ -96,7 +98,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
               style={props.secureTextEntry ? Styles.imgEye : Styles.closeImgEye}
             />
           </TouchableOpacity>
-        )}
+        ) : null}
       </View>
     </View>
   );

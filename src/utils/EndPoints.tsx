@@ -107,5 +107,13 @@ export default {
       getMsg: (type: string, timestamp: string) =>
         `/api/v1/parent/get-chat-message?type=${type}&timestamp=${timestamp}`,
     },
+    statement: (page: number, from_date?: string, to_date?: string) =>
+      `/api/v1/parent/statement?page=${page}${
+        CommonFunctions.isNullUndefined(from_date)
+          ? ""
+          : `&from_date=${from_date}`
+      }${
+        CommonFunctions.isNullUndefined(to_date) ? "" : `&to_date=${to_date}`
+      }`,
   },
 };

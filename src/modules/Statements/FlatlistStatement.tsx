@@ -9,34 +9,31 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const credit = props.item.general_ledger_entry_type === "credit";
   return (
     <View style={Styles.itemView}>
       <Image
-        source={
-          props.item.type === "sent"
-            ? Images.Out_Time_Icon
-            : Images.In_Time_Icon
-        }
+        source={credit ? Images.Out_Time_Icon : Images.In_Time_Icon}
         style={Styles.inTimeIcon}
       />
       <View style={Styles.contentView}>
-        <Text style={Styles.text1}>{props.item.heading}</Text>
+        <Text numberOfLines={2} style={Styles.text1}>
+          {props.item.memo_com}
+        </Text>
         {props.state ? (
           <Text style={Styles.text2}>
-            {Strings.Balance} {props.item.balance}
+            {Strings.Balance} {props.item.amount}
           </Text>
         ) : null}
-        <Text style={Styles.text3}>
-          {props.item.date} {Strings.at} {props.item.time}
-        </Text>
+        <Text style={Styles.text3}>{props.item.date}</Text>
       </View>
       <Text
         style={[
           Styles.amountText,
-          { color: props.item.type === "sent" ? Colors.pink : Colors.green },
+          { color: credit ? Colors.pink : Colors.green },
         ]}
       >
-        {props.item.type === "sent" ? "-" : "+"} {props.item.amount}
+        {props.item.sns_amount}
       </Text>
     </View>
   );
