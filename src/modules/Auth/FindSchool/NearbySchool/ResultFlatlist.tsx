@@ -6,7 +6,6 @@ export interface AppProps {
   item: any;
   index: string;
   onPress: Function;
-  reRendering: Function;
 }
 
 export default function App(props: AppProps) {
@@ -15,7 +14,7 @@ export default function App(props: AppProps) {
       activeOpacity={0.8}
       style={Styles.textView}
       onPress={() => {
-        props.reRendering(), props.onPress();
+        props.onPress();
       }}
     >
       <Image style={Styles.img} source={Images.Location_icon_Grey} />

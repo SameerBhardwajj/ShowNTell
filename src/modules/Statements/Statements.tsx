@@ -7,20 +7,13 @@ import {
   Image,
   FlatList,
   Modal,
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
 // custom imports
-import {
-  ScreenName,
-  Strings,
-  vw,
-  vh,
-  Images,
-  Colors,
-  CommonFunctions,
-} from "../../utils";
+import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 import {
   CustomHeader,
   CustomButton,
@@ -29,7 +22,7 @@ import {
 } from "../../Components";
 import FlatlistStatement from "./FlatlistStatement";
 import FilterModal from "./FilterModal";
-import { hitStatementApi } from "./action";
+import { hitStatementApi, updateDates } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -45,10 +38,11 @@ export default function App(props: AppProps) {
   const [loading, setLoading] = useState(false);
   const [loadMore, setLoadMore] = useState(true);
 
-  const { data, page, currentChild } = useSelector(
+  const { data, page, date, currentChild } = useSelector(
     (state: { Home: any; Statements: any }) => ({
       data: state.Statements.data,
       page: state.Statements.page,
+      date: state.Statements.date,
       currentChild: state.Home.currentChild,
     })
   );
@@ -58,12 +52,16 @@ export default function App(props: AppProps) {
     hitStatement(0);
   }, [currentChild]);
 
-  const hitStatement = (page: number) => {
+  const hitStatement = (page: number, myState?: boolean) => {
+    let mystate = CommonFunctions.isNullUndefined(myState) ? state : myState;
+
     dispatch(
       hitStatementApi(
         (data: Array<any>) => {
           console.warn(data.length);
-          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+          data.length === 0
+            ? (setState(true), setLoadMore(false))
+            : setLoadMore(true);
           setLoading(false);
         },
         () => {
@@ -71,8 +69,8 @@ export default function App(props: AppProps) {
           setLoading(false);
         },
         page,
-        state ? moment(fromDate).format("YYYY-MM-DD") : "",
-        state ? moment(toDate).format("YYYY-MM-DD") : ""
+        mystate ? "" : moment(date.fromDate).format("YYYY-MM-DD"),
+        mystate ? "" : moment(date.toDate).format("YYYY-MM-DD")
       )
     );
   };
@@ -120,27 +118,6 @@ export default function App(props: AppProps) {
     );
   };
 
-  const footerStatement = () => {
-    return (
-      <CustomButton
-        ButtonStyle={{ alignItems: "center", justifyContent: "center" }}
-        onPress={() => {}}
-        // @ts-ignore
-        Text={
-          <Text style={Styles.clearText}>
-            {Strings.Download_Statement}
-            {"\n"}
-            <Text style={Styles.statementText}>
-              {fromDate.toLocaleDateString()}
-              {Strings.to}
-              {toDate.toLocaleDateString()}
-            </Text>
-          </Text>
-        }
-      />
-    );
-  };
-
   return (
     <View style={Styles.mainView}>
       <CustomHeader
@@ -154,7 +131,13 @@ export default function App(props: AppProps) {
           style={Styles.clearBtn}
           activeOpacity={0.8}
           onPress={() => {
-            hitStatement(0), setState(true);
+            setLoading(true);
+            setState(true);
+            dispatch(
+              updateDates({ fromDate: "", toDate: "" }, () => {
+                hitStatement(0, true);
+              })
+            );
           }}
         >
           <Text style={Styles.clearText}>{Strings.Clear}</Text>
@@ -162,7 +145,7 @@ export default function App(props: AppProps) {
       )}
       <View style={Styles.innerView}>
         <FlatList
-          contentContainerStyle={{ paddingBottom: vh(100) }}
+          contentContainerStyle={{ paddingBottom: state ? vh(80) : vh(0) }}
           ListHeaderComponent={state ? null : headerDate()}
           showsVerticalScrollIndicator={false}
           bounces={false}
@@ -173,7 +156,7 @@ export default function App(props: AppProps) {
           renderItem={renderItems}
         />
       </View>
-      {state ? null : (
+      {/* {state ? null : (
         <CustomButton
           ButtonStyle={Styles.dowbloadBtn}
           onPress={() => CustomToast()}
@@ -190,7 +173,7 @@ export default function App(props: AppProps) {
             </Text>
           }
         />
-      )}
+      )} */}
       {state ? (
         <TouchableOpacity
           style={Styles.filterIcon}
@@ -213,6 +196,12 @@ export default function App(props: AppProps) {
           fromDate={fromDate}
           toDate={toDate}
           getDate={(fromDate: Date, toDate: Date) => {
+            dispatch(
+              updateDates(
+                { fromDate: fromDate.toString(), toDate: toDate.toString() },
+                () => {}
+              )
+            );
             setModalOpen(false);
             setFromDate(fromDate);
             setToDate(toDate);
@@ -242,7 +231,7 @@ const Styles = StyleSheet.create({
     position: "absolute",
     right: 0,
     top: vh(15),
-    paddingTop: vh(30),
+    paddingTop: Platform.OS === "ios" ? vh(30) : vh(20),
     paddingHorizontal: vh(16),
   },
   clearText: {
@@ -268,7 +257,7 @@ const Styles = StyleSheet.create({
     paddingHorizontal: vh(16),
     width: "100%",
     flex: 1,
-    paddingBottom: vh(90),
+    paddingBottom: vh(30),
   },
   filterIcon: {
     position: "absolute",
@@ -290,103 +279,3 @@ const Styles = StyleSheet.create({
     color: "white",
   },
 });
-
-// Dummy API data
-const DATA = [
-  {
-    type: "sent",
-    heading: "Paid for daycare service",
-    balance: "$ 1000",
-    date: "Feb 25, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "receive",
-    heading: "Gift received for referral",
-    balance: "$ 1100",
-    date: "Feb 20, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "sent",
-    heading: "Paid for daycare service",
-    balance: "$ 1000",
-    date: "Feb 25, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "sent",
-    heading: "Paid for daycare service",
-    balance: "$ 1000",
-    date: "Feb 25, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "receive",
-    heading: "Gift received for referral",
-    balance: "$ 1100",
-    date: "Feb 20, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "sent",
-    heading: "Paid for daycare service",
-    balance: "$ 1000",
-    date: "Feb 25, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "receive",
-    heading: "Gift received for referral",
-    balance: "$ 1100",
-    date: "Feb 20, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "sent",
-    heading: "Paid for daycare service",
-    balance: "$ 1000",
-    date: "Feb 25, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "receive",
-    heading: "Gift received for referral",
-    balance: "$ 1100",
-    date: "Feb 20, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "sent",
-    heading: "Paid for daycare service",
-    balance: "$ 1000",
-    date: "Feb 25, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "sent",
-    heading: "Paid for daycare service",
-    balance: "$ 1000",
-    date: "Feb 25, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-  {
-    type: "receive",
-    heading: "Gift received for referral",
-    balance: "$ 1100",
-    date: "Feb 20, 2020",
-    time: "2pm",
-    amount: "$100",
-  },
-];

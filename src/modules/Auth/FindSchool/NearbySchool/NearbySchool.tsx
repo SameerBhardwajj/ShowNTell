@@ -45,7 +45,6 @@ export default function App(props: AppProps) {
   const [coordinates, setCoordinates] = useState(Object);
   const [query, setQuery] = useState("");
   const [data, setData] = useState([]);
-  const [reRender, setReRender] = useState(false);
 
   const { searchList, recentList } = useSelector(
     (state: { NearbySchool: any }) => ({
@@ -59,7 +58,7 @@ export default function App(props: AppProps) {
       props.navigation.pop();
       return true;
     });
-  }, [reRender]);
+  }, []);
 
   const hitSearchAPI = () => {
     dispatch(
@@ -102,12 +101,9 @@ export default function App(props: AppProps) {
     const { item, index } = rowData;
     return (
       <ResultFlatlist
-        reRendering={() => setReRender(!reRender)}
         item={item}
         index={index}
         onPress={() => {
-          console.warn(item);
-
           setQuery(item.description);
           setCurrentData(item);
           let temp: never[] = [];
@@ -211,8 +207,21 @@ export default function App(props: AppProps) {
           <Image source={Images.Location_icon} />
           <Text style={Styles.myLocText}>{Strings.Use_my_location}</Text>
         </TouchableOpacity>
-        <View style={{ flex: 1, width: "100%", paddingHorizontal: vw(10) }}>
-          {query.length === 0 ? (
+        <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
+          {query.length !== 0 ? (
+            !(data && data.length) ? (
+            <Text style={{alignSelf: 'center', paddingTop: vh(10)}}>{Strings.No_data_Found}</Text>
+            ) : (
+              <FlatList
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+                bounces={false}
+                data={data}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItemResult}
+              />
+            )
+          ) : (
             <FlatList
               keyboardShouldPersistTaps="handled"
               ListHeaderComponent={
@@ -222,45 +231,10 @@ export default function App(props: AppProps) {
                   </Text>
                 )
               }
-              nestedScrollEnabled={true}
               data={recentList}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItems}
             />
-          ) : !(data && data.length) ? (
-            <Text style={{ alignSelf: "center", paddingTop: vh(10) }}>
-              {Strings.No_data_Found}
-            </Text>
-          ) : (
-            // <FlatList
-            //   keyboardShouldPersistTaps="handled"
-            //   showsVerticalScrollIndicator={false}
-            //   bounces={false}
-            //   data={data}
-            //   nestedScrollEnabled={true}
-            //   keyExtractor={(item, index) => index.toString()}
-            //   renderItem={renderItemResult}
-            // />
-            data.map((item: any, index: number) => {
-              <ResultFlatlist
-                reRendering={() => setReRender(!reRender)}
-                item={item}
-                index={index.toString()}
-                onPress={() => {
-                  console.warn(item);
-
-                  setQuery(item.description);
-                  setCurrentData(item);
-                  let temp: never[] = [];
-                  setData(temp.concat(item));
-                  dispatch(
-                    getCoordinates(item.place_id, (data: any) => {
-                      setCoordinates(data.result);
-                    })
-                  );
-                }}
-              />;
-            })
           )}
         </View>
       </View>

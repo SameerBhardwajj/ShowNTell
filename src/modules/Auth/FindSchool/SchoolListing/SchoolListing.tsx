@@ -258,7 +258,7 @@ export default function App(props: AppProps) {
                       >
                         <Image source={Images.Cancel_Icon} />
                       </TouchableOpacity>
-                      <View style={{ flex: 1, width: "90%" }}>
+                      <View style={{ flex: 1, marginHorizontal: vw(20)}}>
                         {slotLoading ? (
                           <CustomLoader loading={true} />
                         ) : slotDates.length === 0 ? (
@@ -320,10 +320,7 @@ const Styles = StyleSheet.create({
     marginBottom: vh(300),
   },
   resultListView: {
-    position: "absolute",
     width: "100%",
-    zIndex: 99,
-    top: vh(80),
   },
   headingText: {
     fontFamily: "Nunito-Bold",

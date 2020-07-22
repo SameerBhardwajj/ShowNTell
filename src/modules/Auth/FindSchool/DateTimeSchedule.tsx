@@ -36,42 +36,18 @@ export default function App(props: AppProps) {
     slotTime: state.SchoolListing.slotTime,
   }));
 
-  // const setDisabled = (time: number) => {
-  //   console.warn(
-  //     CommonFunctions.DateDifference(new Date(), date),
-  //     new Date().getDate() > date.getDate()
-  //   );
-
-  //   let disable = false;
-  //   // new Date().getDate() < date.getDate()
-  //   //   ? CommonFunctions.DateDifference(new Date(), date) !== 0
-  //   //   : CommonFunctions.DateDifference(date, new Date()) !== 0
-  //   //   ? null
-  //   //   : currentTime >= time
-  //   //   ? (disable = true)
-  //   //   : null;
-  //   console.warn(id, new Date().getDate(), date.getDate());
-
-  //   new Date().getDate() === date.getDate() &&
-  //   new Date().getMonth() === date.getMonth() &&
-  //   new Date().getFullYear() === date.getFullYear()
-  //     ? currentTime >= time
-  //       ? (disable = true)
-  //       : null
-  //     : null;
-
-  //   return disable;
-  // };
-
   React.useEffect(() => {
+    setIsLoading(true);
     dispatch(
       fetchSlotTime(
         calenderId,
         date,
         () => {
-          console.warn("slot", slotTime);
+          setIsLoading(false);
         },
-        () => {}
+        () => {
+          setIsLoading(false);
+        }
       )
     );
   }, []);

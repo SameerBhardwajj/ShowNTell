@@ -7,6 +7,7 @@ import {
   Keyboard,
   Platform,
   Clipboard,
+  TextInput,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { getDeviceId, getBrand } from "react-native-device-info";
@@ -135,6 +136,14 @@ export default function App(props: AppProps) {
           returnKeyType="done"
           mainViewStyle={{ marginTop: vh(16) }}
         />
+        {/* <TextInput
+          style={{ width: "100%", padding: vh(20), borderWidth: 1 }}
+          value={password}
+          secureTextEntry={true}
+          onChangeText={(text: string) => {
+            checkPassword ? null : setCheckPassword(true), setPassword(text);
+          }}
+        /> */}
         <View style={{ alignItems: "center" }}>
           {/* Verify Button ----------------- */}
           <CustomButton

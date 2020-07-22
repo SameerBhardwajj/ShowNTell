@@ -1,5 +1,16 @@
-import { CustomToast } from "../../Components";
 import { Action, API, EndPoints, CommonFunctions } from "../../utils";
+
+export const updateDates = (value: Object, callback: Function) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.STATEMENT,
+      payload: {
+        date: value,
+      },
+    });
+    callback();
+  };
+};
 
 export const hitStatementApi = (
   successCallback: Function,
@@ -10,7 +21,7 @@ export const hitStatementApi = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     console.warn(from_date, to_date);
-    
+
     API.getApiCall(
       EndPoints.drawer.statement(page, from_date, to_date),
       {},

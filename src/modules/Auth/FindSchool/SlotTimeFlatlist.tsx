@@ -11,8 +11,6 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  console.warn(props.item.time);
-  
   return (
     <TouchableOpacity
       activeOpacity={0.8}
@@ -35,7 +33,7 @@ export default function App(props: AppProps) {
         {moment.utc(props.item.time).format("hh:mm A")}
       </Text>
       {props.current === parseInt(props.index) ? (
-        <Image source={Images.Tick_Icon} />
+        <Image source={Images.Tick_Icon} style={{ marginHorizontal: vw(20) }} />
       ) : null}
     </TouchableOpacity>
   );
@@ -46,7 +44,6 @@ const Styles = StyleSheet.create({
     borderWidth: vw(1),
     paddingVertical: vh(11),
     borderRadius: vh(5),
-    paddingHorizontal: vw(100),
     marginVertical: vh(10),
     flexDirection: "row",
     justifyContent: "space-between",
@@ -55,5 +52,6 @@ const Styles = StyleSheet.create({
   myText: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
+    paddingHorizontal: vw(20),
   },
 });
