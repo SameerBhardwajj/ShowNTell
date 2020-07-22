@@ -379,7 +379,10 @@ export default function App(props: AppProps) {
               <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
             ) : null}
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
+          >
             <Image source={Images.Notification_Icon} style={Styles.imgHeader} />
           </TouchableOpacity>
         </View>
