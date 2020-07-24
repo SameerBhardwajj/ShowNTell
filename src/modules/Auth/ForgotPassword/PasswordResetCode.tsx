@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -78,7 +79,10 @@ export default function App(props: AppProps) {
         onPressBack={() => props.navigation.pop()}
       />
       <CustomLoader loading={isLoading} />
-      <View style={Styles.innerView}>
+      <ScrollView
+        contentContainerStyle={Styles.innerView}
+        keyboardShouldPersistTaps="handled"
+      >
         <Text style={Styles.welcome}>{Strings.Welcome}</Text>
         <Text style={Styles.name}>{name}</Text>
         <Text style={Styles.please}>
@@ -187,7 +191,7 @@ export default function App(props: AppProps) {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }

@@ -34,7 +34,6 @@ export default function App(props: AppProps) {
   const inputRef2: any = React.createRef();
   const [phone, setPhone] = useState("");
   const [checkphone, setCheckPhone] = useState(true);
-  const [countryCode, setCountryCode] = useState("US");
   const [isLoading, setIsLoading] = useState(false);
 
   const { type } = props.route.params;
@@ -88,57 +87,56 @@ export default function App(props: AppProps) {
 
   return (
     <View style={Styles.mainView}>
+      <CustomHeader
+        title={Strings.Request_New_Access_Code}
+        onPressBack={() => props.navigation.pop()}
+      />
+      <CustomLoader loading={isLoading} />
       <KeyboardAwareScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
+        contentContainerStyle={Styles.innerView}
       >
-        <CustomHeader
-          title={Strings.Request_New_Access_Code}
-          onPressBack={() => props.navigation.pop()}
-        />
-        <CustomLoader loading={isLoading} />
-        <View style={Styles.innerView}>
-          <Text style={Styles.welcome}>{Strings.hello}</Text>
-          <Text style={Styles.name}>{name}</Text>
-          <Text style={Styles.please}>{Strings.enter_phone_and_email}</Text>
-          <View style={Styles.codeView}>
-            {/* email -------------- */}
-            <CustomInputText
-              ref={inputRef1}
-              editable={false}
-              titleText={Strings.Parent_email}
-              value={email}
-              onChangeText={(text: string) => {}}
-              check={true}
-              incorrectText={Strings.Email}
-              onSubmitEditing={() => {}}
-            />
-            {/* phone number ---------------- */}
-            <CustomPhoneField
-              value={phone}
-              ref={inputRef2}
-              onChangeText={(text: string) => {
-                checkphone ? null : setCheckPhone(true), setPhone(text);
+        <Text style={Styles.welcome}>{Strings.hello}</Text>
+        <Text style={Styles.name}>{name}</Text>
+        <Text style={Styles.please}>{Strings.enter_phone_and_email}</Text>
+        <View style={Styles.codeView}>
+          {/* email -------------- */}
+          <CustomInputText
+            ref={inputRef1}
+            editable={false}
+            titleText={Strings.Parent_email}
+            value={email}
+            onChangeText={(text: string) => {}}
+            check={true}
+            incorrectText={Strings.Email}
+            onSubmitEditing={() => {}}
+          />
+          {/* phone number ---------------- */}
+          <CustomPhoneField
+            value={phone}
+            ref={inputRef2}
+            onChangeText={(text: string) => {
+              checkphone ? null : setCheckPhone(true), setPhone(text);
+            }}
+            check={checkphone}
+            onSubmitEditing={() => check()}
+            mainViewStyle={{ width: "100%" }}
+          />
+          <View style={{ alignItems: "center", width: "100%" }}>
+            <CustomButton
+              Text={Strings.Resent_Access_Code}
+              onPress={() => check()}
+              ButtonStyle={{
+                width: "100%",
               }}
-              check={checkphone}
-              onSubmitEditing={() => check()}
-              mainViewStyle={{ width: "100%" }}
             />
-            <View style={{ alignItems: "center", width: "100%" }}>
-              <CustomButton
-                Text={Strings.Resent_Access_Code}
-                onPress={() => check()}
-                ButtonStyle={{
-                  width: "100%",
-                }}
-              />
-              <CustomButton
-                Text={Strings.I_have_Access_Code}
-                onPress={() => props.navigation.pop()}
-                ButtonStyle={{ width: "100%" }}
-              />
-            </View>
+            <CustomButton
+              Text={Strings.I_have_Access_Code}
+              onPress={() => props.navigation.pop()}
+              ButtonStyle={{ width: "100%" }}
+            />
           </View>
         </View>
       </KeyboardAwareScrollView>

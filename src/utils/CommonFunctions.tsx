@@ -286,6 +286,7 @@ const saveToCameraRoll = async (
             CustomToast(
               "Permission denied! Please provide access to Photo Library"
             );
+            Linking.openSettings();
             break;
           case RESULTS.GRANTED:
             CameraRoll.saveToCameraRoll(image)

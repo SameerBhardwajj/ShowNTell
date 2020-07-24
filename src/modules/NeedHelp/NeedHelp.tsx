@@ -362,15 +362,19 @@ export default function App(props: AppProps) {
             }}
             mainViewStyle={{ width: "90%", alignSelf: "center" }}
           />
-          <FlatList
-            nestedScrollEnabled={true}
-            data={query.length === 0 ? list : searchData}
-            keyboardShouldPersistTaps="handled"
-            keyExtractor={(item, index) => index.toString()}
-            showsVerticalScrollIndicator={true}
-            bounces={false}
-            renderItem={renderItems}
-          />
+          {query.length !== 0 && searchData.length === 0 ? (
+            <Text style={Styles.noDataText}>{Strings.No_data_Found}</Text>
+          ) : (
+            <FlatList
+              nestedScrollEnabled={true}
+              data={query.length === 0 ? list : searchData}
+              keyboardShouldPersistTaps="handled"
+              keyExtractor={(item, index) => index.toString()}
+              showsVerticalScrollIndicator={true}
+              bounces={false}
+              renderItem={renderItems}
+            />
+          )}
         </KeyboardAwareScrollView>
       </Modal>
     </View>
@@ -470,5 +474,12 @@ const Styles = StyleSheet.create({
     fontSize: vh(14),
     fontFamily: "Nunito-Regular",
     alignSelf: "flex-end",
+  },
+  noDataText: {
+    alignSelf: "center",
+    paddingTop: vh(10),
+    color: Colors.violet,
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(14)
   },
 });

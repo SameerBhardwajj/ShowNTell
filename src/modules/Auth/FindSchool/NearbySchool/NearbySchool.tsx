@@ -210,7 +210,7 @@ export default function App(props: AppProps) {
         <View style={{ width: "100%", paddingHorizontal: vw(10) }}>
           {query.length !== 0 ? (
             !(data && data.length) ? (
-            <Text style={{alignSelf: 'center', paddingTop: vh(10)}}>{Strings.No_data_Found}</Text>
+              <Text style={Styles.noDataText}>{Strings.No_data_Found}</Text>
             ) : (
               <FlatList
                 keyboardShouldPersistTaps="handled"
@@ -274,5 +274,12 @@ const Styles = StyleSheet.create({
     color: Colors.lightGrey,
     fontSize: vh(14),
     marginTop: vh(20),
+  },
+  noDataText: {
+    alignSelf: "center",
+    paddingTop: vh(10),
+    color: Colors.violet,
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(14)
   },
 });

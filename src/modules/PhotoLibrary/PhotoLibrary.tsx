@@ -71,6 +71,7 @@ export default function App(props: AppProps) {
           CommonFunctions.saveToCameraRoll(
             img,
             () => {
+              CustomToast("Download Start...");
               resolve();
             },
             (error: any) => {
@@ -173,9 +174,9 @@ export default function App(props: AppProps) {
             style={Styles.btnView}
             activeOpacity={0.8}
             onPress={() => {
-              CustomToast("Download Start...");
-              downloadAll();
-              dispatch(updateSelect(false));
+              downloadGallery.length === 0
+                ? null
+                : (downloadAll(), dispatch(updateSelect(false)));
             }}
           >
             <Image source={Images.download_Icon} style={Styles.btn} />

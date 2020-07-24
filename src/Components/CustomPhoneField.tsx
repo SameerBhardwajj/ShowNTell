@@ -91,6 +91,7 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-SemiBold",
     width: "93%",
     paddingLeft: vw(5),
+    alignItems: "center",
   },
   incorrectText: {
     fontFamily: "Nunito-Medium",
