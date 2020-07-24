@@ -98,7 +98,6 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    // alignItems: "center",
     backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {

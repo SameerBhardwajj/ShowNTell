@@ -69,6 +69,9 @@ export default {
         : `/api/v1/parent/filter-data?classroom_id=${classroom}`,
     weDidIt: `/api/v1/parent/we-did-it`,
   },
+  notification: {
+    notification: `/api/v1/parent/list-notification`,
+  },
   attendance: {
     viewAttendance: (type: string, id: number, date: string) =>
       id === 0

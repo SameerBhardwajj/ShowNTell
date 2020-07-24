@@ -7,7 +7,7 @@ import {
   Keyboard,
   Platform,
   Clipboard,
-  TextInput,
+  // TextInput,
 } from "react-native";
 import { useDispatch } from "react-redux";
 import { getDeviceId, getBrand } from "react-native-device-info";

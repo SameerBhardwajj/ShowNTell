@@ -15,6 +15,7 @@ import Profile from "../modules/Profile/reducer";
 import ClassroomSchedule from "../modules/ClassroomSchedule/reducer";
 import Chat from "../modules/Chat/reducer";
 import Statements from "../modules/Statements/reducer";
+import Notification from "../modules/Notification/reducer";
 const CombinedReducer = combineReducers({
   Home,
   Splash,
@@ -32,6 +33,7 @@ const CombinedReducer = combineReducers({
   ClassroomSchedule,
   Chat,
   Statements,
+  Notification,
 });
 
 export default CombinedReducer;
