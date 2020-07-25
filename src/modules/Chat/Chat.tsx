@@ -14,7 +14,7 @@ import moment from "moment";
 
 // custom imports
 import { updateTab } from "../Home/action";
-import { CustomHeader, CustomSeparator } from "../../Components";
+import { CustomHeader, CustomSeparator, CustomLoader } from "../../Components";
 import { Strings, vw, vh, Colors, ScreenName, Images } from "../../utils";
 import { getCannedMsgs, sendMsg, getMsgs } from "./action";
 import MsgFlatlist from "./MsgFlatlist";
@@ -33,6 +33,7 @@ export default function App(props: AppProps) {
   const [msgID, setMsgID] = useState("");
   const [time, settime] = useState(0);
   const [loadMore, setLoadMore] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Hit API after 3 sec
@@ -65,6 +66,7 @@ export default function App(props: AppProps) {
 
   // Get New Messages if Available ------------------
   const getNewMsgs = () => {
+    time === 0 ? setLoading(true) : null;
     dispatch(
       getMsgs(
         "down",
@@ -73,8 +75,11 @@ export default function App(props: AppProps) {
           : moment.utc(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss"),
         (data: any) => {
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+          setLoading(false);
         },
-        () => {}
+        () => {
+          setLoading(false);
+        }
       )
     );
   };
@@ -170,7 +175,9 @@ export default function App(props: AppProps) {
               : {},
           ]}
         >
-          {chatData.length === 0 ? (
+          {loading ? (
+            <CustomLoader loading={loading} />
+          ) : chatData.length === 0 ? (
             <Text style={Styles.noChatText}>No Chat Available</Text>
           ) : (
             <FlatList

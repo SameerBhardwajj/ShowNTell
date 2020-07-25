@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -14,12 +14,7 @@ import moment from "moment";
 
 // custom imports
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
-import {
-  CustomHeader,
-  CustomButton,
-  CustomLoader,
-  CustomToast,
-} from "../../Components";
+import { CustomHeader, CustomLoader } from "../../Components";
 import FlatlistStatement from "./FlatlistStatement";
 import FilterModal from "./FilterModal";
 import { hitStatementApi, updateDates } from "./action";
@@ -48,7 +43,7 @@ export default function App(props: AppProps) {
   );
 
   useEffect(() => {
-    setLoading(true);
+    data.length === 0 ? setLoading(true) : null;
     hitStatement(0);
   }, [currentChild]);
 
@@ -106,14 +101,12 @@ export default function App(props: AppProps) {
     return <FlatlistStatement item={item} index={index} state={state} />;
   };
 
-  const keyExtractor = useCallback((item, index) => index.toString(), []);
-
   const headerDate = () => {
     return (
       <Text style={Styles.dateText}>
-        {fromDate.toLocaleDateString()}
+        {CommonFunctions.DateFormatter(fromDate)}
         {Strings.to}
-        {toDate.toLocaleDateString()}
+        {CommonFunctions.DateFormatter(toDate)}
       </Text>
     );
   };
@@ -243,7 +236,6 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     paddingVertical: vh(10),
-    paddingLeft: vh(16),
     alignSelf: "flex-start",
   },
   dowbloadBtn: {

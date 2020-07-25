@@ -102,7 +102,7 @@ export default function App(props: AppProps) {
               item.activity_description
             ) ? null : (
               <Text style={Styles.description}>
-                {item.activity_description}
+                {item.activity_description.split("<br/>").join("\n")}
               </Text>
             )}
           </View>
@@ -136,7 +136,9 @@ export default function App(props: AppProps) {
             {CommonFunctions.timeFormatter(new Date(item.create_dt))}
           </Text>
           <Text style={Styles.annTitle}>{item.title}</Text>
-          <Text style={Styles.annDescription}>{item.description}</Text>
+          <Text style={Styles.annDescription}>
+            {item.description.split("<br/>").join("\n")}
+          </Text>
           <Image style={Styles.imgAnn} source={Images.Announcement_Icon} />
         </View>
       ) : null}

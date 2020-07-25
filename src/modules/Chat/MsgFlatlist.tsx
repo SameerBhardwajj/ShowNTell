@@ -76,8 +76,8 @@ export default function App(props: AppProps) {
         <TextInput
           value={
             props.item.message === null
-              ? props.item.canned_message.trim()
-              : props.item.message.trim()
+              ? props.item.canned_message
+              : props.item.message.trim().split("<br/>").join("\n")
           }
           multiline={true}
           editable={false}

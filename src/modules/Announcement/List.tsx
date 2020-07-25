@@ -86,7 +86,9 @@ export default function App(props: AppProps) {
           </View>
         </View>
         <Text style={Styles.heading}>{item.Announcement.title}</Text>
-        <Text style={Styles.content}>{item.Announcement.description}</Text>
+        <Text style={Styles.content}>
+          {item.Announcement.description.split("<br/>").join("\n")}
+        </Text>
         <Text style={Styles.time}>
           {CommonFunctions.timeFormatter(new Date(item.create_dt))}
         </Text>

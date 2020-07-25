@@ -1,5 +1,12 @@
 import { CustomToast } from "../../Components";
-import { Action, API, EndPoints, CommonFunctions } from "../../utils";
+import {
+  Action,
+  API,
+  EndPoints,
+  CommonFunctions,
+  Constants,
+  Strings,
+} from "../../utils";
 
 export const getCannedMsgs = (
   successCallback: Function,
@@ -74,14 +81,15 @@ export const getMsgs = (
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    API.getApiCall(
-      EndPoints.drawer.chat.getMsg(type, timestamp),
-      {},
-      (success: any) => {
+    Constants.axiosInstance
+      .get(EndPoints.drawer.chat.getMsg(type, timestamp), {})
+      .then((success: any) => {
         console.warn("success ", success);
 
         const res = success.data.response;
         if (success.data.code === 200) {
+          console.warn(success.data.response);
+          
           const { chatData } = getState().Chat;
           let finalArray = [];
           type === "down"
@@ -97,21 +105,65 @@ export const getMsgs = (
           successCallback(finalArray);
         } else {
           // page === 0 ? CustomToast(success.data.message) : null;
-          // failCallback();
+          failCallback();
         }
-      },
-      (error: any) => {
-        console.log("err ", error);
-
-        dispatch({
-          type: Action.CHAT,
-          payload: {
-            chatData: [],
-          },
-        });
-        CommonFunctions.handleError(error);
+      })
+      .catch((error: any) => {
+        if (type === "up") {
+          if (error.message === "Network Error") {
+            CustomToast(Strings.No_Internet);
+          }
+          if (error.code === "ECONNABORTED") {
+            CustomToast(Strings.Timeout_error);
+          }
+          dispatch({
+            type: Action.CHAT,
+            payload: {
+              chatData: [],
+            },
+          });
+          CommonFunctions.handleError(error);
+        }
         failCallback(error);
-      }
-    );
+      });
+    //   API.getApiCall(
+    //     EndPoints.drawer.chat.getMsg(type, timestamp),
+    //     {},
+    //     (success: any) => {
+    //       console.warn("success ", success);
+
+    //       const res = success.data.response;
+    //       if (success.data.code === 200) {
+    //         const { chatData } = getState().Chat;
+    //         let finalArray = [];
+    //         type === "down"
+    //           ? (finalArray = res.concat(chatData))
+    //           : (finalArray = chatData.concat(res));
+
+    //         dispatch({
+    //           type: Action.CHAT,
+    //           payload: {
+    //             chatData: finalArray,
+    //           },
+    //         });
+    //         successCallback(finalArray);
+    //       } else {
+    //         // page === 0 ? CustomToast(success.data.message) : null;
+    //         // failCallback();
+    //       }
+    //     },
+    //     (error: any) => {
+    //       console.log("err ", error);
+
+    //       dispatch({
+    //         type: Action.CHAT,
+    //         payload: {
+    //           chatData: [],
+    //         },
+    //       });
+    //       CommonFunctions.handleError(error);
+    //       failCallback(error);
+    //     }
+    //   );
   };
 };

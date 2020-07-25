@@ -14,7 +14,7 @@ import {
   EndPoints,
 } from "../../../utils";
 import { CustomButton, CustomToast, CustomLoader } from "../../../Components";
-import { updateLogin } from "../Login/action";
+import { updateLogin, updateProfilePic } from "../Login/action";
 import { updateClassChild } from "../../ClassroomSchedule/action";
 import { updateChild } from "../../Home/action";
 
@@ -51,10 +51,12 @@ export default function App(props: AppProps) {
                 );
                 dispatch(
                   updateClassChild({}, () => {
-                    console.warn("all done");
-
-                    dispatch(updateLogin({}, ""));
-                    setLoading(false);
+                    dispatch(
+                      updateProfilePic("", () => {
+                        dispatch(updateLogin({}, ""));
+                        setLoading(false);
+                      })
+                    );
                   })
                 );
               },

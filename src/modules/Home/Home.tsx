@@ -127,7 +127,7 @@ export default function App(props: AppProps) {
       loginToken.length === 0 ? false : true,
       loginToken
     );
-    CommonFunctions.isEmpty(data) ? setLoading(true) : null;
+    homeData.length === 0 ? setLoading(true) : null;
     CommonFunctions.isEmpty(classroomChild)
       ? dispatch(
           updateClassChild(

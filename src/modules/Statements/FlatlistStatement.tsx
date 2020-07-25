@@ -1,6 +1,14 @@
 import * as React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import { ScreenName, Strings, vw, vh, Images, Colors } from "../../utils";
+import {
+  ScreenName,
+  Strings,
+  vw,
+  vh,
+  Images,
+  Colors,
+  CommonFunctions,
+} from "../../utils";
 
 export interface AppProps {
   item: any;
@@ -13,7 +21,7 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.itemView}>
       <Image
-        source={credit ? Images.Out_Time_Icon : Images.In_Time_Icon}
+        source={credit ? Images.In_Time_Icon : Images.Out_Time_Icon}
         style={Styles.inTimeIcon}
       />
       <View style={Styles.contentView}>
@@ -24,16 +32,21 @@ export default function App(props: AppProps) {
           <Text style={Styles.text2}>
             {Strings.Balance} {props.item.amount}
           </Text>
-        ) : null}
-        <Text style={Styles.text3}>{props.item.date}</Text>
+        ) : (
+          <Text>{""}</Text>
+        )}
+        <Text style={Styles.text3}>
+          {CommonFunctions.DateFormatter(props.item.date)}
+        </Text>
       </View>
       <Text
         style={[
           Styles.amountText,
-          { color: credit ? Colors.pink : Colors.green },
+          { color: credit ? Colors.green : Colors.pink },
         ]}
       >
-        {props.item.sns_amount}
+        {credit ? "+ $" : "- $"}
+        {(Math.round(parseFloat(props.item.sns_amount) * 10) / 10).toFixed(1)}
       </Text>
     </View>
   );
@@ -58,7 +71,7 @@ const Styles = StyleSheet.create({
   },
   amountText: {
     fontFamily: "Nunito-ExtraBold",
-    fontSize: vh(18),
+    fontSize: vh(16),
   },
   text1: {
     fontFamily: "Nunito-Bold",

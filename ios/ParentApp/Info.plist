@@ -41,9 +41,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To find Nearby Schools</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>To save images</string>
+	<string>To save images in your Gallery</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To save images</string>
+	<string>To access photo gallery for profile picture</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-Bold.ttf</string>
