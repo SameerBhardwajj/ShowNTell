@@ -11,7 +11,12 @@ import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import { PhotoLibraryAPI, updateDownload, updateSelect } from "./action";
-import { CustomHeader, CustomToast, CustomLoader } from "../../Components";
+import {
+  CustomHeader,
+  CustomToast,
+  CustomLoader,
+  CustomNoData,
+} from "../../Components";
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 import SectionListing from "./SectionListing";
 
@@ -155,7 +160,9 @@ export default function App(props: AppProps) {
           </TouchableOpacity>
         </View>
         <View style={{ flex: 1 }}>
-          {isLoading ? null : libraryData.length === 0 ? null : (
+          {isLoading ? null : libraryData.length === 0 ? (
+            <CustomNoData />
+          ) : (
             <FlatList
               showsVerticalScrollIndicator={false}
               bounces={false}

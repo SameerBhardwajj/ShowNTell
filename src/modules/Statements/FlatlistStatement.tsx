@@ -25,9 +25,11 @@ export default function App(props: AppProps) {
         style={Styles.inTimeIcon}
       />
       <View style={Styles.contentView}>
-        <Text numberOfLines={2} style={Styles.text1}>
-          {props.item.memo_com}
-        </Text>
+        {CommonFunctions.isNullUndefined(props.item.memo_com) ? null : (
+          <Text numberOfLines={2} style={Styles.text1}>
+            {props.item.memo_com}
+          </Text>
+        )}
         {props.state ? (
           <Text style={Styles.text2}>
             {Strings.Balance} {props.item.amount}

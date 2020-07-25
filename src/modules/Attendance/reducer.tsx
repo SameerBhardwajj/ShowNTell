@@ -1,6 +1,7 @@
 import { Action } from "../../utils";
 const initialState = {
-  data: [],
+  dateData: [],
+  monthData: [],
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

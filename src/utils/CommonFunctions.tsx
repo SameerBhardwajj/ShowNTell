@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Platform, PermissionsAndroid, Linking } from "react-native";
+import { Platform, PermissionsAndroid, Linking, Alert } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
 import RNFetchBlob from "rn-fetch-blob";
 import CameraRoll from "@react-native-community/cameraroll";
@@ -294,7 +294,22 @@ const saveToCameraRoll = async (
               .catch((error) => CustomToast(error));
             break;
           case RESULTS.BLOCKED:
-            Linking.openSettings();
+            Alert.alert(
+              "Please allow to access your Photo Gallery !",
+              "",
+              [
+                {
+                  text: "Open Settings",
+                  onPress: () => Linking.openSettings(),
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+              ],
+              { cancelable: true }
+            );
             break;
         }
       })

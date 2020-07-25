@@ -2,6 +2,7 @@ import { Action } from "../../utils";
 const initialState = {
   cannedMsg: [],
   chatData: [],
+  loadMore: true,
 };
 
 const Reducer = (state = initialState, action: any) => {

@@ -88,7 +88,6 @@ export const loginAPI = (
         device_token: token,
       },
       (success: any) => {
-        debugger;
         console.log("success ", success);
         const res = success.data.response;
         if (success.data.code === 200) {
@@ -108,7 +107,6 @@ export const loginAPI = (
         callback();
       },
       (error: any) => {
-        debugger;
         CommonFunctions.handleError(error);
         callback();
       }

@@ -29,7 +29,7 @@ import {
   CustomNoData,
 } from "../../Components";
 import { updateTab } from "../Home/action";
-import { viewAttendance } from "./action";
+import { viewAttendanceAPI } from "./action";
 import AttendanceList from "./AttendanceList";
 import AttendanceMonth from "./AttendanceMonth";
 
@@ -52,25 +52,28 @@ export default function App(props: AppProps) {
   const [isRefreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
-  const { tab, currentChild, data } = useSelector(
+  const { tab, currentChild, monthData, dateData } = useSelector(
     (state: { Home: any; Attendance: any }) => ({
       tab: state.Home.tab,
       currentChild: state.Home.currentChild,
-      data: state.Attendance.data,
+      monthData: state.Attendance.monthData,
+      dateData: state.Attendance.dateData,
     })
   );
 
   useEffect(() => {
-    // let focusListener = props.navigation.addListener("focus", () => {
+    debugger;
+    let focusListener = props.navigation.addListener("focus", () => {
       hitAttendance();
-    // });
-    data.length === 0 ? setLoading(true) : null;
-    // return focusListener;
+    });
+    monthData.length === 0 ? setLoading(true) : null;
+    return focusListener;
   }, [props.navigation, currentChild, viewByDate]);
 
   const hitAttendance = () => {
+    debugger;
     dispatch(
-      viewAttendance(
+      viewAttendanceAPI(
         viewByDate ? DATE_TYPE : MONTH_TYPE,
         currentChild.child,
         viewByDate
@@ -83,6 +86,7 @@ export default function App(props: AppProps) {
               "ymd"
             ),
         () => {
+          console.warn("here", viewByDate);
           setLoading(false), setRefreshing(false);
         },
         () => {
@@ -99,7 +103,7 @@ export default function App(props: AppProps) {
         index={index}
         item={item}
         currentChild={currentChild.child}
-        allData={data}
+        allData={dateData}
         onPressAbsence={() =>
           props.navigation.navigate(ScreenName.ABSENCE_NOTIFICATION_MODAL, {
             item: item,
@@ -116,7 +120,7 @@ export default function App(props: AppProps) {
         index={index}
         item={item}
         currentChild={currentChild.child}
-        allData={data}
+        allData={monthData}
         onPressAbsence={() =>
           props.navigation.navigate(ScreenName.ABSENCE_NOTIFICATION_MODAL, {
             item: item,
@@ -140,7 +144,10 @@ export default function App(props: AppProps) {
         <View style={Styles.mainViewBy}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => setViewByDate(true)}
+            onPress={() => {
+              setViewByDate(true);
+              hitAttendance();
+            }}
             style={Styles.redioBtn}
           >
             {viewByDate ? (
@@ -161,7 +168,10 @@ export default function App(props: AppProps) {
         <View style={Styles.mainViewBy}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => setViewByDate(false)}
+            onPress={() => {
+              setViewByDate(false);
+              hitAttendance();
+            }}
             style={Styles.redioBtn}
           >
             {viewByDate ? (
@@ -181,8 +191,10 @@ export default function App(props: AppProps) {
       </View>
       {/* View by Date ------------------------- */}
       <View style={Styles.headingView}>
-        {currentChild.child === 0 ? null : data.length === 0 ? null : (
-          <Text style={Styles.attendenceHeading}>{data[0].classroom_name}</Text>
+        {currentChild.child === 0 || dateData.length === 0 ? null : (
+          <Text style={Styles.attendenceHeading}>
+            {dateData[0].classroom_name}
+          </Text>
         )}
         <View style={Styles.attenanceView}>
           <Text style={Styles.attendenceHeading}>
@@ -207,11 +219,11 @@ export default function App(props: AppProps) {
         <View style={Styles.monthView}>
           {isLoading ? (
             <CustomLoader loading={isLoading} />
-          ) : data.length === 0 ? (
+          ) : dateData.length === 0 ? (
             <CustomNoData />
           ) : (
             <FlatList
-              data={data}
+              data={dateData}
               showsVerticalScrollIndicator={false}
               refreshing={isRefreshing}
               onRefresh={() => {
@@ -228,11 +240,11 @@ export default function App(props: AppProps) {
 
           {isLoading ? (
             <CustomLoader loading={isLoading} />
-          ) : data.length === 0 ? (
+          ) : monthData.length === 0 ? (
             <CustomNoData />
           ) : (
             <FlatList
-              data={data}
+              data={monthData}
               refreshing={isRefreshing}
               onRefresh={() => {
                 setRefreshing(true), hitAttendance();

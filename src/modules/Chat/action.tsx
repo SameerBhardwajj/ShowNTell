@@ -89,7 +89,7 @@ export const getMsgs = (
         const res = success.data.response;
         if (success.data.code === 200) {
           console.warn(success.data.response);
-          
+
           const { chatData } = getState().Chat;
           let finalArray = [];
           type === "down"
@@ -104,6 +104,12 @@ export const getMsgs = (
           });
           successCallback(finalArray);
         } else {
+          dispatch({
+            type: Action.CHAT,
+            payload: {
+              loadMore: false,
+            },
+          });
           // page === 0 ? CustomToast(success.data.message) : null;
           failCallback();
         }
@@ -120,50 +126,12 @@ export const getMsgs = (
             type: Action.CHAT,
             payload: {
               chatData: [],
+              loadMore: false,
             },
           });
           CommonFunctions.handleError(error);
         }
         failCallback(error);
       });
-    //   API.getApiCall(
-    //     EndPoints.drawer.chat.getMsg(type, timestamp),
-    //     {},
-    //     (success: any) => {
-    //       console.warn("success ", success);
-
-    //       const res = success.data.response;
-    //       if (success.data.code === 200) {
-    //         const { chatData } = getState().Chat;
-    //         let finalArray = [];
-    //         type === "down"
-    //           ? (finalArray = res.concat(chatData))
-    //           : (finalArray = chatData.concat(res));
-
-    //         dispatch({
-    //           type: Action.CHAT,
-    //           payload: {
-    //             chatData: finalArray,
-    //           },
-    //         });
-    //         successCallback(finalArray);
-    //       } else {
-    //         // page === 0 ? CustomToast(success.data.message) : null;
-    //         // failCallback();
-    //       }
-    //     },
-    //     (error: any) => {
-    //       console.log("err ", error);
-
-    //       dispatch({
-    //         type: Action.CHAT,
-    //         payload: {
-    //           chatData: [],
-    //         },
-    //       });
-    //       CommonFunctions.handleError(error);
-    //       failCallback(error);
-    //     }
-    //   );
   };
 };

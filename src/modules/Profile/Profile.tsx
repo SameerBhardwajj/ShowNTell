@@ -9,7 +9,6 @@ import {
   Linking,
   Alert,
   Platform,
-  PermissionsAndroid,
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 import { useDispatch, useSelector } from "react-redux";

@@ -49,16 +49,10 @@ export default function App(props: AppProps) {
                 dispatch(
                   updateChild({ child: 0, name: "All", classroom: 0 }, () => {})
                 );
-                dispatch(
-                  updateClassChild({}, () => {
-                    dispatch(
-                      updateProfilePic("", () => {
-                        dispatch(updateLogin({}, ""));
-                        setLoading(false);
-                      })
-                    );
-                  })
-                );
+                dispatch(updateClassChild({}, () => {}));
+                dispatch(updateProfilePic("", () => {}));
+                dispatch(updateLogin({}, ""));
+                setLoading(false);
               },
               (error: any) => {
                 setLoading(false), CustomToast(error.data.message);

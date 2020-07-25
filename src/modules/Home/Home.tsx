@@ -381,7 +381,8 @@ export default function App(props: AppProps) {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
+            onPress={() => CustomToast()}
+            // onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
           >
             <Image source={Images.Notification_Icon} style={Styles.imgHeader} />
           </TouchableOpacity>

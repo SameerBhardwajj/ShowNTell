@@ -41,7 +41,7 @@ export default function App(props: AppProps) {
   const [isLoading, setLoading] = useState(false);
   useEffect(() => {
     // dispatch(updateTab(true, () => {}));
-    setLoading(true);
+    data.length === 0 ? setLoading(true) : null;
     dispatch(
       hitClassScheduleAPI(
         classroomChild.classroom,

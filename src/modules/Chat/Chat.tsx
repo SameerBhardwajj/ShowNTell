@@ -24,22 +24,23 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const { cannedMsg, chatData } = useSelector((state: { Chat: any }) => ({
-    cannedMsg: state.Chat.cannedMsg,
-    chatData: state.Chat.chatData,
-  }));
+  const { cannedMsg, chatData, loadMore } = useSelector(
+    (state: { Chat: any }) => ({
+      cannedMsg: state.Chat.cannedMsg,
+      chatData: state.Chat.chatData,
+      loadMore: state.Chat.loadMore,
+    })
+  );
   const dispatch = useDispatch();
   const [msg, setMsg] = useState("");
   const [msgID, setMsgID] = useState("");
   const [time, settime] = useState(0);
-  const [loadMore, setLoadMore] = useState(true);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Hit API after 3 sec
     time >= 0
       ? setTimeout(() => {
-          console.warn(time);
           settime(time + 1);
         }, 3000)
       : null;
@@ -74,7 +75,7 @@ export default function App(props: AppProps) {
           ? moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss")
           : moment.utc(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss"),
         (data: any) => {
-          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+          // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
         },
         () => {
@@ -86,6 +87,8 @@ export default function App(props: AppProps) {
 
   // Get older Messages if Available -----------------
   const getOldMsgs = () => {
+    console.warn(time, loadMore);
+
     time === 0 && loadMore
       ? dispatch(
           getMsgs(
@@ -93,7 +96,7 @@ export default function App(props: AppProps) {
             moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss"),
             (data: any) => {
               settime(1);
-              data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+              // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
             },
             () => {}
           )
@@ -106,7 +109,7 @@ export default function App(props: AppProps) {
               .utc(chatData[chatData.length - 1].create_dt)
               .format("YYYY-MM-DD HH:mm:ss"),
             (data: any) => {
-              data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+              // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
             },
             () => {}
           )
