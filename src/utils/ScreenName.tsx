@@ -48,4 +48,5 @@ export default {
   CHILD_MODAL: "ChildModal",
   SCHEDULE_CHILD_MODAL: "ScheduleChildModal",
   ENTER_PASSWORD: "EnterPassword",
+  NOTIFICATION: "Notification",
 };

@@ -239,6 +239,7 @@ const Strings = new LocalizedStrings({
     State: "State",
     Camera: "Camera",
     Gallery: "Gallery",
+    Notification: "Notification",
   },
 });
 export default Strings;

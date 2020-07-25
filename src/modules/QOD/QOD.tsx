@@ -141,6 +141,7 @@ export const Styles = StyleSheet.create({
     backgroundColor: "white",
   },
   mainInnerView: {
+    flex: 1,
     paddingVertical: vh(8),
     paddingHorizontal: vw(16),
     marginBottom: vh(35),

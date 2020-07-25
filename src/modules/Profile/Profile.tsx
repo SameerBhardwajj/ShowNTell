@@ -6,9 +6,14 @@ import {
   StyleSheet,
   Image,
   Modal,
+  Linking,
+  Alert,
+  Platform,
+  PermissionsAndroid,
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 import { useDispatch, useSelector } from "react-redux";
+import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
 
 // custom imports
 import { CustomHeader, CustomLoader, CustomToast } from "../../Components";
@@ -31,7 +36,7 @@ export default function App(props: AppProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    CommonFunctions.isEmpty(data) ? setLoading(true) : null;
     HitProfileAPI();
   }, []);
 
@@ -58,17 +63,127 @@ export default function App(props: AppProps) {
   };
 
   const ImagePick = (value: number) => {
-    value === 1
-      ? ImagePicker.openPicker({
-          cropping: true,
-        })
-          .then((image: any) => hitProfileUpdate(image))
-          .catch((e) => CustomToast(e))
-      : ImagePicker.openCamera({
-          cropping: true,
-        })
-          .then((image: any) => hitProfileUpdate(image))
-          .catch((e) => CustomToast(e));
+    if (value === 1) {
+      ImagePicker.openPicker({
+        cropping: true,
+      })
+        .then((image: any) => hitProfileUpdate(image))
+        .catch((e) =>
+          Platform.OS === "ios"
+            ? mediaPermissions(PERMISSIONS.IOS.PHOTO_LIBRARY)
+            : mediaPermissions(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE)
+        );
+    } else {
+      ImagePicker.openCamera({
+        cropping: true,
+      })
+        .then((image: any) => hitProfileUpdate(image))
+        .catch((e) =>
+          Platform.OS === "android"
+            ? cameraPermissions(PERMISSIONS.ANDROID.CAMERA)
+            : cameraPermissions(PERMISSIONS.IOS.CAMERA)
+        );
+    }
+  };
+
+  const mediaPermissions = (permission: any) => {
+    check(permission)
+      .then((result) => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log(
+              "This feature is not available (on this device / in this context)"
+            );
+            break;
+          case RESULTS.DENIED:
+            Alert.alert(
+              "Please allow to access your Photo Gallery !",
+              "",
+              [
+                {
+                  text: "Open Settings",
+                  onPress: () => Linking.openSettings(),
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+              ],
+              { cancelable: true }
+            );
+            break;
+          case RESULTS.GRANTED:
+            ImagePicker.openPicker({
+              cropping: true,
+            })
+              .then((image: any) => hitProfileUpdate(image))
+              .catch((e) => CustomToast(e));
+            break;
+          case RESULTS.BLOCKED:
+            Alert.alert(
+              "Please allow to access your Photo Gallery !",
+              "",
+              [
+                {
+                  text: "Open Settings",
+                  onPress: () => Linking.openSettings(),
+                },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+              ],
+              { cancelable: true }
+            );
+            break;
+        }
+      })
+      .catch((error) => {
+        CustomToast(error);
+      });
+  };
+
+  const cameraPermissions = (permission: any) => {
+    check(permission)
+      .then((result) => {
+        switch (result) {
+          case RESULTS.UNAVAILABLE:
+            console.log(
+              "This feature is not available (on this device / in this context)"
+            );
+            break;
+          case RESULTS.DENIED:
+            Alert.alert(
+              "Please allow to access your Camera !",
+              "",
+              [
+                { text: "OK", onPress: () => Linking.openSettings() },
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel",
+                },
+              ],
+              { cancelable: true }
+            );
+            break;
+          case RESULTS.GRANTED:
+            ImagePicker.openCamera({
+              cropping: true,
+            })
+              .then((image: any) => hitProfileUpdate(image))
+              .catch((e) => CustomToast(e));
+            break;
+          case RESULTS.BLOCKED:
+            console.log("The permission is denied and not requestable anymore");
+            break;
+        }
+      })
+      .catch((error) => {
+        CustomToast(error);
+      });
   };
 
   const hitProfileUpdate = (image: any) => {
@@ -116,7 +231,17 @@ export default function App(props: AppProps) {
       <CustomLoader loading={isLoading} />
       <CustomHeader
         title={Strings.My_Profile}
-        onPressBack={() => props.navigation.pop()}
+        onPressBack={() => {
+          props.navigation.pop();
+          dispatch(
+            updateProfilePic(
+              CommonFunctions.isNullUndefined(data.s3_photo_path)
+                ? ""
+                : data.s3_photo_path,
+              () => {}
+            )
+          );
+        }}
       />
       <View style={Styles.profilePicView}>
         <View style={Styles.profilePic}>

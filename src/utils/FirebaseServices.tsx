@@ -54,6 +54,8 @@ class FirebaseService {
     // if (fcmToken) {
     // user has a device token
     // await AsyncStorage.setItem("fcmToken", fcmToken);
+    console.warn(fcmToken);
+
     callback(fcmToken);
     // }
     // } else {

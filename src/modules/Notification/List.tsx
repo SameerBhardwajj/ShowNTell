@@ -65,30 +65,8 @@ export default function App(props: AppProps) {
           },
         ]}
       >
-        <View style={{ flexDirection: "row" }}>
-          <View style={Styles.childAvatar}>
-            <Image
-              source={
-                CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
-                  ? Images.Profile_Placeholder
-                  : { uri: item.Child.s3_photo_path }
-              }
-              resizeMethod="resize"
-              resizeMode="center"
-              style={{ width: vh(40) }}
-            />
-          </View>
-          <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
-            <Text style={Styles.name}>
-              {item.Child.first_name} {item.Child.last_name}
-            </Text>
-            <Text style={Styles.classText}>{item.Child.Classroom.name}</Text>
-          </View>
-        </View>
-        <Text style={Styles.heading}>{item.Announcement.title}</Text>
-        <Text style={Styles.content}>
-          {item.Announcement.description.split("<br/>").join("\n")}
-        </Text>
+        <Text style={Styles.heading}>{item.Notification.name}</Text>
+        <Text style={Styles.content}>{item.Notification.message}</Text>
         <Text style={Styles.time}>
           {CommonFunctions.timeFormatter(new Date(item.create_dt))}
         </Text>
@@ -99,34 +77,8 @@ export default function App(props: AppProps) {
 
 const Styles = StyleSheet.create({
   innerView: {
-    alignItems: "center",
     width: "100%",
-    paddingHorizontal: vh(10),
-  },
-  childAvatar: {
-    height: vh(60),
-    width: vh(60),
-    borderRadius: vh(30),
-    marginBottom: vh(10),
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: vw(1),
-    borderColor: Colors.borderGrey,
-    backgroundColor: "white",
-  },
-  centerNameView: {
-    alignItems: "flex-start",
-    width: "75%",
-    paddingHorizontal: vw(15),
-  },
-  name: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(16),
-  },
-  classText: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: vh(14),
-    paddingVertical: vh(5),
+    paddingHorizontal: vh(16),
   },
   contentView: {
     padding: vw(20),

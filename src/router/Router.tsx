@@ -54,6 +54,7 @@ import CreateAbsence from "../modules/Absence/CreateAbsence";
 import ChildModal from "../Components/CustomHeader/ChildModal";
 import EnterPassword from "../modules/Auth/Login/EnterPassword";
 import ScheduleChildModal from "../modules/ClassroomSchedule/ScheduleChildModal";
+import Notification from "../modules/Notification/Notification";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -277,6 +278,11 @@ export default class AppComponent extends React.Component<AppProps, any> {
               <RootStack.Screen
                 name={ScreenName.TAB_NAVIGATOR}
                 component={this.TabNavigator}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.NOTIFICATION}
+                component={Notification}
                 options={this.screen}
               />
               <RootStack.Screen

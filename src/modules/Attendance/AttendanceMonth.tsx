@@ -94,7 +94,7 @@ export default function App(props: AppProps) {
             <Text style={Styles.inTime}>
               {CommonFunctions.isNullUndefined(props.item.out_date_time)
                 ? ""
-                : timeFormatter(props.item.in_date_time)}
+                : timeFormatter(props.item.out_date_time)}
             </Text>
           </View>
         </View>

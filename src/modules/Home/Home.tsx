@@ -127,7 +127,7 @@ export default function App(props: AppProps) {
       loginToken.length === 0 ? false : true,
       loginToken
     );
-    CommonFunctions.isEmpty(data) ? setLoading(true) : null;
+    homeData.length === 0 ? setLoading(true) : null;
     CommonFunctions.isEmpty(classroomChild)
       ? dispatch(
           updateClassChild(
@@ -379,7 +379,10 @@ export default function App(props: AppProps) {
               <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
             ) : null}
           </TouchableOpacity>
-          <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
+          >
             <Image source={Images.Notification_Icon} style={Styles.imgHeader} />
           </TouchableOpacity>
         </View>

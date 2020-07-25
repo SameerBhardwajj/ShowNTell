@@ -29,7 +29,7 @@ export default function App(props: AppProps) {
         </View>
         <View style={Styles.itemView}>
           <Image source={Images.Center_Icon} />
-          <Text style={Styles.DOBText}>{item.Classroom.name}</Text>
+          <Text style={Styles.DOBText}>{ item.Classroom.name}</Text>
         </View>
       </View>
       <View style={Styles.separatorView} />
