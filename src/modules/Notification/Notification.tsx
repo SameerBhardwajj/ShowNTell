@@ -13,19 +13,24 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const { data } = useSelector((state: { Notification: any }) => ({
+  const { data, page } = useSelector((state: { Notification: any }) => ({
     data: state.Notification.data,
+    page: state.Notification.page,
   }));
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
-    hitAPI();
-  }, []);
+    let focusListener = props.navigation.addListener("focus", () => {
+      hitAPI(0);
+    });
+    return focusListener;
+  }, [props.navigation]);
 
-  const hitAPI = () => {
+  const hitAPI = (page: number) => {
     dispatch(
       hitNotificationAPI(
+        page,
         () => {
           setLoading(false);
         },
@@ -52,8 +57,8 @@ export default function App(props: AppProps) {
           data={data}
           keyboardShouldPersistTaps="handled"
           bounces={false}
-          // onEndReached={() => hitAPI()}
-          // onEndReachedThreshold={0.5}
+          onEndReached={() => hitAPI(page)}
+          onEndReachedThreshold={0.5}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItems}
         />
