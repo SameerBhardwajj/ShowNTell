@@ -62,31 +62,31 @@ export default function App(props: AppProps) {
       : setCheckPassword(false);
   };
 
-  const getTokens = () => {
-    Platform.OS === "ios"
-      ? HitLogin(getDeviceId(), myToken, getBrand())
-      : FirebaseServices.getToken((myToken: string) => {
-          HitLogin(getDeviceId(), myToken, getBrand());
-          console.warn(getDeviceId(), myToken, getBrand());
-          Clipboard.setString(myToken);
-        });
-  };
-
   // const getTokens = () => {
   //   Platform.OS === "ios"
-  //     ? PushNotificationIOS.requestPermissions()
-  //         .then(() => {
-  //           PushNotificationIOS.addEventListener("register", (token) => {
-  //             HitLogin(getDeviceId(), token, getBrand());
-  //           });
-  //         })
-  //         .catch((error) => {
-  //           CustomToast(error);
-  //         })
+  //     ? HitLogin(getDeviceId(), myToken, getBrand())
   //     : FirebaseServices.getToken((myToken: string) => {
   //         HitLogin(getDeviceId(), myToken, getBrand());
+  //         console.warn(getDeviceId(), myToken, getBrand());
+  //         Clipboard.setString(myToken);
   //       });
   // };
+
+  const getTokens = () => {
+    Platform.OS === "ios"
+      ? PushNotificationIOS.requestPermissions()
+          .then(() => {
+            PushNotificationIOS.addEventListener("register", (token) => {
+              HitLogin(getDeviceId(), token, getBrand());
+            });
+          })
+          .catch((error) => {
+            CustomToast(error);
+          })
+      : FirebaseServices.getToken((myToken: string) => {
+          HitLogin(getDeviceId(), myToken, getBrand());
+        });
+  };
 
   const HitLogin = (deviceID: string, token: string, deviceName: string) => {
     dispatch(
