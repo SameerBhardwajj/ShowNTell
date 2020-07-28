@@ -82,8 +82,6 @@ target 'ParentApp' do
   pod 'react-native-config', :path => '../node_modules/react-native-config'
   pod 'Permission-PhotoLibrary', :path => "../node_modules/react-native-permissions/ios/PhotoLibrary.podspec"
 
-  pod 'react-native-fcm', :path => '../node_modules/react-native-fcm'
-
   target 'ParentAppTests' do
     inherit! :complete
     # Pods for testing

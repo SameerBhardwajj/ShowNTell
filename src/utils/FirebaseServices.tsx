@@ -8,8 +8,8 @@ class FirebaseService {
   }
 
   initializeFireBase = () => {
-    // if (!firebase.apps.length && Platform.OS === "android") {
-      if (Platform.OS === "android") {
+    if (!firebase.apps.length && Platform.OS === "android") {
+      // if (Platform.OS === "android") {
       // firebase.initializeApp({
       //   apiKey: "AIzaSyD8vZG_8Z_o3J4JY6k1GUJa6mhNW8j0Rsg",
       //   appId: "1:1082193980667:android:ecccf926e213892674545e",
