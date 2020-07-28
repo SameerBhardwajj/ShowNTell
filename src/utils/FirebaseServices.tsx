@@ -8,7 +8,8 @@ class FirebaseService {
   }
 
   initializeFireBase = () => {
-    if (!firebase.apps.length && Platform.OS === "android") {
+    // if (!firebase.apps.length && Platform.OS === "android") {
+      if (Platform.OS === "android") {
       // firebase.initializeApp({
       //   apiKey: "AIzaSyD8vZG_8Z_o3J4JY6k1GUJa6mhNW8j0Rsg",
       //   appId: "1:1082193980667:android:ecccf926e213892674545e",
@@ -31,13 +32,6 @@ class FirebaseService {
   // checking permissions for FCM
   async checkPermission(callback: Function) {
     const enabled = await messaging().hasPermission();
-    console.warn(enabled);
-    const mtOPermission = await messaging().registerForRemoteNotifications();
-    console.warn(
-      "isRegister   ",
-      mtOPermission,
-      messaging().isRegisteredForRemoteNotifications
-    );
 
     if (enabled) {
       this.getToken((token: string) => callback(token));

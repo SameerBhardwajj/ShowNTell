@@ -9,6 +9,7 @@ import {
   Linking,
   Alert,
   Platform,
+  PermissionsAndroid,
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +20,7 @@ import { CustomHeader, CustomLoader, CustomToast } from "../../Components";
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 import TopTabNavigation from "./TopTabNavigation";
 import { hiBasicDetails, hitUploadCDNapi, hitUploadImage } from "./action";
-import { updateProfilePic } from "../Auth/Login/action";
+import { updateProfilePic, updatePermission } from "../Auth/Login/action";
 import ProfileModal from "./ProfileModal";
 
 export interface AppProps {
@@ -27,9 +28,12 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const { data } = useSelector((state: { Profile: any }) => ({
-    data: state.Profile.data,
-  }));
+  const { data, permission } = useSelector(
+    (state: { Profile: any; Login: any }) => ({
+      data: state.Profile.data,
+      permission: state.Login.permission,
+    })
+  );
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -39,6 +43,7 @@ export default function App(props: AppProps) {
     HitProfileAPI();
   }, []);
 
+  // Get profile Data -------------------
   const HitProfileAPI = () => {
     dispatch(
       hiBasicDetails(
@@ -61,16 +66,17 @@ export default function App(props: AppProps) {
     );
   };
 
+  // Change profile Picture --------------------
   const ImagePick = (value: number) => {
-    if (value === 1) {
+    if (value === 0) {
       ImagePicker.openPicker({
         cropping: true,
       })
         .then((image: any) => hitProfileUpdate(image))
         .catch((e) =>
           Platform.OS === "ios"
-            ? mediaPermissions(PERMISSIONS.IOS.PHOTO_LIBRARY)
-            : mediaPermissions(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE)
+            ? iosPermissions(PERMISSIONS.IOS.PHOTO_LIBRARY, 0)
+            : androidPermissions(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, 0)
         );
     } else {
       ImagePicker.openCamera({
@@ -79,14 +85,40 @@ export default function App(props: AppProps) {
         .then((image: any) => hitProfileUpdate(image))
         .catch((e) =>
           Platform.OS === "android"
-            ? cameraPermissions(PERMISSIONS.ANDROID.CAMERA)
-            : cameraPermissions(PERMISSIONS.IOS.CAMERA)
+            ? iosPermissions(PERMISSIONS.ANDROID.CAMERA, 1)
+            : androidPermissions(PERMISSIONS.IOS.CAMERA, 1)
         );
     }
   };
 
-  const mediaPermissions = (permission: any) => {
-    check(permission)
+  const androidPermissions = async (permission: any, type: number) => {
+    if (type === 0) {
+      permission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      );
+    } else {
+      permission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA
+      );
+    }
+    if (permission === PermissionsAndroid.RESULTS.GRANTED) {
+      ImagePick(type);
+    } else {
+      permission === "never_ask_again" ? permissionAccess(type) : null;
+    }
+
+    // if (permission === PermissionsAndroid.RESULTS.GRANTED) {
+    //   ImagePick(type)
+    // } else {
+    //   permission === "never_ask_again" ? permissionAccess() : null;
+
+    // }
+    // }
+  };
+
+  // Check Permission --------------------
+  const iosPermissions = (myPermission: any, type: number) => {
+    check(myPermission)
       .then((result) => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
@@ -95,47 +127,35 @@ export default function App(props: AppProps) {
             );
             break;
           case RESULTS.DENIED:
-            Alert.alert(
-              "Please allow to access your Photo Gallery !",
-              "",
-              [
-                {
-                  text: "Open Settings",
-                  onPress: () => Linking.openSettings(),
-                },
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-              ],
-              { cancelable: true }
-            );
+            console.warn("denied");
+            type === 0
+              ? permission.storage === 1
+                ? permissionAccess(type)
+                : dispatch(updatePermission({ storage: 1 }, () => {}))
+              : permission.camera === 1
+              ? permissionAccess(type)
+              : dispatch(updatePermission({ storage: 1 }, () => {}));
             break;
           case RESULTS.GRANTED:
-            ImagePicker.openPicker({
-              cropping: true,
-            })
-              .then((image: any) => hitProfileUpdate(image))
-              .catch((e) => CustomToast(e));
+            type === 0
+              ? permission.storage === 3
+                ? null
+                : dispatch(updatePermission({ storage: 3 }, () => {}))
+              : permission.camera === 3
+              ? null
+              : dispatch(updatePermission({ camera: 3 }, () => {}));
+            ImagePick(type);
             break;
           case RESULTS.BLOCKED:
-            Alert.alert(
-              "Please allow to access your Photo Gallery !",
-              "",
-              [
-                {
-                  text: "Open Settings",
-                  onPress: () => Linking.openSettings(),
-                },
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-              ],
-              { cancelable: true }
-            );
+            console.warn("blocked", permission);
+
+            type === 0
+              ? permission.storage === 2
+                ? permissionAccess(type)
+                : dispatch(updatePermission({ storage: 2 }, () => {}))
+              : permission.camera === 2
+              ? permissionAccess(type)
+              : dispatch(updatePermission({ storage: 2 }, () => {}));
             break;
         }
       })
@@ -144,45 +164,28 @@ export default function App(props: AppProps) {
       });
   };
 
-  const cameraPermissions = (permission: any) => {
-    check(permission)
-      .then((result) => {
-        switch (result) {
-          case RESULTS.UNAVAILABLE:
-            console.log(
-              "This feature is not available (on this device / in this context)"
-            );
-            break;
-          case RESULTS.DENIED:
-            Alert.alert(
-              "Please allow to access your Camera !",
-              "",
-              [
-                { text: "OK", onPress: () => Linking.openSettings() },
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-              ],
-              { cancelable: true }
-            );
-            break;
-          case RESULTS.GRANTED:
-            ImagePicker.openCamera({
-              cropping: true,
-            })
-              .then((image: any) => hitProfileUpdate(image))
-              .catch((e) => CustomToast(e));
-            break;
-          case RESULTS.BLOCKED:
-            console.log("The permission is denied and not requestable anymore");
-            break;
-        }
-      })
-      .catch((error) => {
-        CustomToast(error);
-      });
+  // Permission alert ------------------
+  const permissionAccess = (type: number) => {
+    Alert.alert(
+      type === 0
+        ? Platform.OS === "ios"
+          ? "Please allow to access your Photo Gallery !"
+          : "Please allow to access your Storage"
+        : "Please allow to access Camera !",
+      "",
+      [
+        {
+          text: "Open Settings",
+          onPress: () => Linking.openSettings(),
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   const hitProfileUpdate = (image: any) => {
@@ -280,8 +283,8 @@ export default function App(props: AppProps) {
       <Modal animationType="slide" transparent={true} visible={modalOpen}>
         <ProfileModal
           closeModal={() => setModalOpen(false)}
-          openGallery={() => ImagePick(1)}
-          openCamera={() => ImagePick(2)}
+          openGallery={() => ImagePick(0)}
+          openCamera={() => ImagePick(1)}
           deleteProfile={() => updateImage("")}
         />
       </Modal>
