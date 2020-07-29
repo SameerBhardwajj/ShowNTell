@@ -46,3 +46,44 @@ export const hitNotificationAPI = (
     );
   };
 };
+
+export const hitAcknowledgeSupply = (
+  id: number,
+  successCallback: Function,
+  failureCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.notification.acknowledgeSupply,
+      {id: id},
+      (success: any) => {
+        let res = success.data.response;
+        console.log("mysuccess ", res);
+        if (success.data.code === 200) {
+          // dispatch({
+          //   type: Action.NOTIFICATION,
+          //   payload: {
+          //     data: finalArray,
+          //     page: page + 1,
+          //   },
+          // });
+          successCallback();
+        } else {
+          CustomToast(success.data.message);
+          failureCallback();
+        }
+      },
+      (error: any) => {
+        console.log("error ", error);
+        // dispatch({
+        //   type: Action.NOTIFICATION,
+        //   payload: {
+        //     data: [],
+        //   },
+        // });
+        CommonFunctions.handleError(error);
+        failureCallback();
+      }
+    );
+  };
+};
