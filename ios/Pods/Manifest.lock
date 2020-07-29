@@ -320,6 +320,10 @@ PODS:
     - React
   - react-native-date-picker (2.7.13):
     - React
+  - react-native-firebase-push-notifications (0.0.8):
+    - Firebase/Core (~> 6.13.0)
+    - Firebase/Messaging (~> 6.13.0)
+    - React
   - react-native-geolocation (2.0.2):
     - React
   - react-native-netinfo (5.9.3):
@@ -472,6 +476,7 @@ DEPENDENCIES:
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - react-native-firebase-push-notifications (from `../node_modules/react-native-firebase-push-notifications`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -572,6 +577,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-config"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
+  react-native-firebase-push-notifications:
+    :path: "../node_modules/react-native-firebase-push-notifications"
   react-native-geolocation:
     :path: "../node_modules/@react-native-community/geolocation"
   react-native-netinfo:
@@ -678,6 +685,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: dbda741db5dadcdcf738e55a1fd565c307943bca
   react-native-config: 7db9b96479164dfd7b2be68eb9079e08279511c4
   react-native-date-picker: 4468aeac8de6a6e351b56be0014d4fd35476de4c
+  react-native-firebase-push-notifications: 2cc911fce6683de8dfa5351c44e6c0f64729e730
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-netinfo: 1b8691be19549f020d0757b40aca4f355cafeeec
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
