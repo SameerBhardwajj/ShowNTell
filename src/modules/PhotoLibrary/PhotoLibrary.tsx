@@ -6,8 +6,15 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  Alert,
+  Platform,
+  Linking,
+  PermissionsAndroid,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import RNFetchBlob from "rn-fetch-blob";
+import CameraRoll from "@react-native-community/cameraroll";
+import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
 
 // custom imports
 import { PhotoLibraryAPI, updateDownload, updateSelect } from "./action";
@@ -19,6 +26,7 @@ import {
 } from "../../Components";
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 import SectionListing from "./SectionListing";
+import { updatePermission } from "../Auth/Login/action";
 
 export interface AppProps {
   navigation?: any;
@@ -34,13 +42,15 @@ export default function App(props: AppProps) {
     select,
     libraryData,
     page,
-  } = useSelector((state: { Home: any; PhotoLibrary: any }) => ({
+    permission,
+  } = useSelector((state: { Home: any; PhotoLibrary: any; Login: any }) => ({
     tab: state.Home.tab,
     currentChild: state.Home.currentChild,
     downloadGallery: state.PhotoLibrary.downloadGallery,
     select: state.PhotoLibrary.select,
     libraryData: state.PhotoLibrary.libraryData,
     page: state.PhotoLibrary.page,
+    permission: state.Login.permission,
   }));
 
   useEffect(() => {
@@ -51,15 +61,13 @@ export default function App(props: AppProps) {
     return focusListener;
   }, [props.navigation, currentChild]);
 
+  // Get Photos --------------------
   const hitPhotoLibraryAPI = (page: number) => {
-    console.warn(page);
-
     dispatch(
       PhotoLibraryAPI(
         currentChild.child,
         page,
         (data: any) => {
-          console.warn("res  ", data);
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
         },
@@ -68,12 +76,13 @@ export default function App(props: AppProps) {
     );
   };
 
+  // Download images -----------------
   const downloadAll = async () => {
     let temp = downloadGallery;
     Promise.all(
       temp.map(async (img: string) => {
         let result = await new Promise((resolve, reject) => {
-          CommonFunctions.saveToCameraRoll(
+          saveToCameraRoll(
             img,
             () => {
               CustomToast("Download Start...");
@@ -97,6 +106,7 @@ export default function App(props: AppProps) {
       });
   };
 
+  // Clear State ---------------------
   const emptyTheGallery = () => {
     dispatch(
       updateDownload([], () => {
@@ -105,6 +115,7 @@ export default function App(props: AppProps) {
     );
   };
 
+  // Grouping images into pairs of 3 ----------------
   const groupingData = (arr: any) => {
     let temp = new Array().slice(0);
     let i = 0;
@@ -127,6 +138,102 @@ export default function App(props: AppProps) {
     }
     temp.filter((item) => item !== undefined);
     return temp;
+  };
+
+  // Permission alert ------------------
+  const permissionAccess = () => {
+    Alert.alert(
+      Platform.OS === "ios"
+        ? "Please allow to access your Photo Gallery !"
+        : "Please allow to access your Storage",
+      "",
+      [
+        {
+          text: "Open Settings",
+          onPress: () => Linking.openSettings(),
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  /**
+   *
+   * Permission Status :
+   * 0 -> Not Asked
+   * 1 -> Denied
+   * 2 -> Blocked
+   * 3 -> Access Granted
+   */
+
+  // Save images to Gallery ---------------------
+  const saveToCameraRoll = async (
+    image: string,
+    successCallback: Function,
+    failureCallback: Function
+  ) => {
+    let myPermission;
+    if (Platform.OS === "android") {
+      myPermission = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      );
+      if (myPermission === PermissionsAndroid.RESULTS.GRANTED) {
+        RNFetchBlob.config({
+          fileCache: true,
+          appendExt: "jpg",
+        })
+          .fetch("GET", image)
+          .then((res) => {
+            CameraRoll.saveToCameraRoll(res.path())
+              .then(() => successCallback())
+              .catch((err) => failureCallback(err));
+          });
+      } else {
+        myPermission === "never_ask_again" ? permissionAccess() : null;
+        failureCallback("Blocked");
+      }
+    } else {
+      CameraRoll.saveToCameraRoll(image)
+        .then(() => successCallback())
+        .catch((error) => {
+          check(PERMISSIONS.IOS.PHOTO_LIBRARY)
+            .then((result) => {
+              switch (result) {
+                case RESULTS.UNAVAILABLE:
+                  console.warn("unavailable");
+                  break;
+                case RESULTS.DENIED:
+                  console.warn("denied");
+
+                  permission.storage === 1
+                    ? permissionAccess()
+                    : dispatch(updatePermission({ storage: 1 }, () => {}));
+                  break;
+                case RESULTS.GRANTED:
+                  console.warn("granted");
+
+                  permission.storage === 3
+                    ? null
+                    : dispatch(updatePermission({ storage: 3 }, () => {}));
+                  break;
+                case RESULTS.BLOCKED:
+                  console.warn("blocked");
+                  permission.storage === 2
+                    ? permissionAccess()
+                    : dispatch(updatePermission({ storage: 2 }, () => {}));
+                  break;
+              }
+            })
+            .catch((error) => {
+              CustomToast(error);
+            });
+        });
+    }
   };
 
   const renderItems = (rowData: any) => {
