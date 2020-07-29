@@ -5845,11 +5845,6 @@ lodash@^4.17.10, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.2.
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
   integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
 
-lodash@^4.17.11:
-  version "4.17.19"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
-  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
-
 log-symbols@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/log-symbols/-/log-symbols-2.2.0.tgz#5740e1c5d6f0dfda4ad9323b5332107ef6b4c40a"
@@ -7028,13 +7023,6 @@ react-native-device-info@^5.5.7:
   version "5.5.7"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.5.7.tgz#aafe2581a702637a66fc04f333052980a4f9e8c5"
   integrity sha512-0021blhx/N1+mWQPOW3QAMWhOjYdG0uC5n+P6sMXZD3pF9aiIeCKuw4JpBpfNXXpUmDmQ7qWgHZUZO7JBMRijw==
-
-react-native-firebase-push-notifications@^0.0.8:
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/react-native-firebase-push-notifications/-/react-native-firebase-push-notifications-0.0.8.tgz#e40dd7047decbf42cc3419c00ae776a590fbf0f4"
-  integrity sha512-rtpUIvXl6k11W83VIilOe26kkF26r6u1Z21hU4psYKJz98jGGiskgwJBCxCl5pcLbh7thLyp9x39hoXXMIs/Vw==
-  dependencies:
-    lodash "^4.17.11"
 
 react-native-gesture-handler@^1.6.1:
   version "1.6.1"

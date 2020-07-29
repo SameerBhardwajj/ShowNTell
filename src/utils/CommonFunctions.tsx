@@ -1,10 +1,7 @@
 import moment from "moment";
-import { Platform, PermissionsAndroid, Linking, Alert } from "react-native";
+import { Platform, PermissionsAndroid, Linking } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
-import RNFetchBlob from "rn-fetch-blob";
-import CameraRoll from "@react-native-community/cameraroll";
 import CustomToast from "../Components/CustomToast";
-import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
 
 const DateDifference = (date1: any, date2: any) => {
   let second = 1000,
@@ -250,75 +247,6 @@ const handleError = (error: any) => {
   }
 };
 
-const saveToCameraRoll = async (
-  image: string,
-  successCallback: Function,
-  failureCallback: Function
-) => {
-  let permission;
-  if (Platform.OS === "android") {
-    permission = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
-    );
-    if (!permission) {
-      Linking.openSettings();
-    }
-    if (permission === PermissionsAndroid.RESULTS.GRANTED) {
-      RNFetchBlob.config({
-        fileCache: true,
-        appendExt: "jpg",
-      })
-        .fetch("GET", image)
-        .then((res) => {
-          CameraRoll.saveToCameraRoll(res.path())
-            .then(() => successCallback())
-            .catch((err) => failureCallback(err));
-        });
-    }
-  } else {
-    check(PERMISSIONS.IOS.PHOTO_LIBRARY)
-      .then((result) => {
-        switch (result) {
-          case RESULTS.UNAVAILABLE:
-            CustomToast("This feature is not available on this device");
-            break;
-          case RESULTS.DENIED:
-            CustomToast(
-              "Permission denied! Please provide access to Photo Library"
-            );
-            Linking.openSettings();
-            break;
-          case RESULTS.GRANTED:
-            CameraRoll.saveToCameraRoll(image)
-              .then(() => successCallback())
-              .catch((error) => CustomToast(error));
-            break;
-          case RESULTS.BLOCKED:
-            Alert.alert(
-              "Please allow to access your Photo Gallery !",
-              "",
-              [
-                {
-                  text: "Open Settings",
-                  onPress: () => Linking.openSettings(),
-                },
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel",
-                },
-              ],
-              { cancelable: true }
-            );
-            break;
-        }
-      })
-      .catch((error) => {
-        CustomToast(error);
-      });
-  }
-};
-
 export default {
   DateDifference,
   DateFormatter,
@@ -333,5 +261,4 @@ export default {
   isEmpty,
   callNumber,
   handleError,
-  saveToCameraRoll,
 };

@@ -26,6 +26,18 @@ export const updateProfilePic = (data: string, callback: Function) => {
   };
 };
 
+export const updatePermission = (data: object, callback: Function) => {
+  return (dispatch: any, getState: any) => {
+    dispatch({
+      type: Action.USER_LOGIN,
+      payload: {
+        permission: data,
+      },
+    });
+    callback();
+  };
+};
+
 export const fetchSchoolList = (
   email: string,
   successCallback: Function,
