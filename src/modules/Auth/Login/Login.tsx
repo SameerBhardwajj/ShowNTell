@@ -90,14 +90,7 @@ export default function App(props: AppProps) {
       >
         <Image source={Images.back_icon} />
       </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          marginTop: vh(70),
-        }}
-        onPress={() => {}}
-      >
-      </TouchableOpacity>
-      <KeyboardAwareScrollView
+      <KeyboardAwareScrollView 
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="never"
         contentContainerStyle={Styles.mainView}
@@ -237,6 +230,7 @@ const Styles = StyleSheet.create({
     position: "absolute",
     height: vh(50),
     width: vh(50),
+    zIndex: 99
   },
   loginView: {
     backgroundColor: "white",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // Custom imports
@@ -19,6 +19,7 @@ export default function App(props: AppProps) {
   }));
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [loadFooter, setLoadFooter] = useState(false);
   useEffect(() => {
     setLoading(true);
     let focusListener = props.navigation.addListener("focus", () => {
@@ -28,13 +29,15 @@ export default function App(props: AppProps) {
   }, [props.navigation]);
 
   const hitAPI = (page: number) => {
+    page > 0 ? setLoadFooter(true) : setLoadFooter(false)
     dispatch(
       hitNotificationAPI(
         page,
-        () => {
+        () => { 
           setLoading(false);
+          setLoadFooter(false)
         },
-        () => setLoading(false)
+        () => {setLoading(false), setLoadFooter(false)}
       )
     );
   };
@@ -61,6 +64,15 @@ export default function App(props: AppProps) {
           onEndReachedThreshold={0.5}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItems}
+          ListFooterComponent={() => {
+            return (
+              <ActivityIndicator
+                color={Colors.violet}
+                size="large"
+                animating={loadFooter}
+              />
+            );
+          }}
         />
       )}
     </View>

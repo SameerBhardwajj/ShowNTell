@@ -9,6 +9,7 @@ import {
   CommonFunctions,
   Images,
 } from "../../utils";
+import {CustomButton} from '../../Components'
 
 export interface AppProps {
   item: any;
@@ -37,6 +38,8 @@ export default function App(props: AppProps) {
       : myDay;
   };
 
+  
+
   return (
     <View style={Styles.innerView}>
       {index === 0 ? (
@@ -56,26 +59,27 @@ export default function App(props: AppProps) {
         style={[
           Styles.contentView,
           {
-            backgroundColor:
+            backgroundColor: item.notification_id === 3 ? Colors.fadedPink :
               (index + 1) % 3 === 1
                 ? Colors.lightWaterBlue
                 : (index + 1) % 3 === 2
                 ? Colors.lightPink
                 : Colors.lightGreen,
           },
-        ]}
+        ]} 
       >
         <Text style={Styles.heading}>{item.Notification.name}</Text>
         <Text style={Styles.content}>{item.Notification.message}</Text>
         <Text style={Styles.time}>
           {CommonFunctions.timeFormatter(new Date(item.create_dt))}
         </Text>
+        {item.notification_id === 3 ? <CustomButton onPress={() => {}} Text={Strings.Acknowledge} ButtonStyle={{marginBottom: 0}} /> : null }
       </View>
     </View>
   );
 }
 
-const Styles = StyleSheet.create({
+const Styles = StyleSheet.create({ 
   innerView: {
     width: "100%",
     paddingHorizontal: vh(16),

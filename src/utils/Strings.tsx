@@ -184,8 +184,8 @@ const Strings = new LocalizedStrings({
     to: " to ",
     Download_Statement: "Download Statement",
     Class_Schedule: "Class Schedule",
-    Email_error: "Email is Incorrect",
-    Email_empty: "Email cannot be Empty",
+    Email_error: "Email is incorrect",
+    Email_empty: "Email cannot be empty",
     Password_mismatch: "Password mismatch",
     Password_Error:
       "Password should contain atleast 1 capital letter, 1 numeral and 1 special symbol",
@@ -240,6 +240,7 @@ const Strings = new LocalizedStrings({
     Camera: "Camera",
     Gallery: "Gallery",
     Notification: "Notification",
+    Acknowledge: 'Acknowledge'
   },
 });
-export default Strings;
+export default Strings; 
