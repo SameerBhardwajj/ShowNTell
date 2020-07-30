@@ -21,7 +21,7 @@ export default function App(props: AppProps) {
     CommonFunctions.isNullUndefined(temp)
       ? null
       : temp.includes(props.item.id.toString())
-      ? (setCheck(true), console.warn(temp.includes(props.item.id.toString())))
+      ? setCheck(true)
       : null;
   }, []);
 

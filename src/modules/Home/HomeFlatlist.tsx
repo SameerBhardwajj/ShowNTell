@@ -9,7 +9,7 @@ import {
   ScreenName,
   CommonFunctions,
 } from "../../utils";
-import { CustomButton, CustomToast } from "../../Components";
+import { CustomButton } from "../../Components";
 
 const ACTIVITY = "ACTIVITY";
 const ANNOUNCEMENT = "ANNOUNCEMENT";
@@ -28,7 +28,7 @@ export default function App(props: AppProps) {
     <View style={Styles.innerView}>
       {/* Activity View ------------------ */}
       {item.type === ACTIVITY ? (
-        <View style={Styles.mainInnerView}>
+        <View style={[Styles.mainInnerView, Styles.mainShadow]}>
           {item.activity_status_id === "3" ||
           item.child_activity_image === null ? null : (
             <View style={Styles.imgView}>
@@ -207,14 +207,7 @@ const Styles = StyleSheet.create({
     paddingHorizontal: vh(16),
     alignItems: "center",
     width: "100%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.15,
-    shadowRadius: 4.65,
-    elevation: 7,
+    
   },
   mainInnerView: {
     backgroundColor: "white",
@@ -223,6 +216,16 @@ const Styles = StyleSheet.create({
     borderRadius: vh(10),
     borderWidth: vw(1),
     borderColor: Colors.chatBorderGrey,
+  },
+  mainShadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   imgView: {
     width: "100%",

@@ -28,8 +28,9 @@ export default function App(props: AppProps) {
   const childData = () => {
     return (
       <View style={Styles.imgView}>
+        <View style={Styles.img}>
         <Image
-          style={Styles.img}
+          style={{width: vh(30)}}
           resizeMethod="resize"
           resizeMode="contain"
           source={
@@ -38,6 +39,7 @@ export default function App(props: AppProps) {
               : { uri: props.item.s3_photo_path }
           }
         />
+        </View>
         <View>
           <Text style={Styles.nameText}>
             {props.item.first_name} {props.item.last_name}
@@ -151,6 +153,8 @@ const Styles = StyleSheet.create({
     borderWidth: vw(1),
     borderColor: Colors.veryLightGrey,
     marginHorizontal: vw(10),
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   imgView: {
     flexDirection: "row",

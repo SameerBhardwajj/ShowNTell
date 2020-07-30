@@ -21,16 +21,18 @@ export default function App(props: AppProps) {
   const childData = () => {
     return (
       <View style={Styles.imgView}>
-        <Image
-          style={Styles.img}
-          resizeMethod="resize"
-          resizeMode="contain"
-          source={
-            props.item.s3_photo_path === null
-              ? Images.Profile_Placeholder
-              : { uri: props.item.s3_photo_path }
-          }
-        />
+        <View style={Styles.img}>
+          <Image
+            style={{ width: vh(30) }}
+            resizeMethod="resize"
+            resizeMode="contain"
+            source={
+              props.item.s3_photo_path === null
+                ? Images.Profile_Placeholder
+                : { uri: props.item.s3_photo_path }
+            }
+          />
+        </View>
         <View>
           <Text style={[Styles.attendenceDate, { marginVertical: 0 }]}>
             {props.item.first_name} {props.item.last_name}
@@ -112,6 +114,8 @@ const Styles = StyleSheet.create({
     borderWidth: vw(1),
     borderColor: Colors.veryLightGrey,
     marginHorizontal: vw(10),
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   imgView: {
     flexDirection: "row",

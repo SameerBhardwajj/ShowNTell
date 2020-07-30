@@ -136,14 +136,6 @@ export default function App(props: AppProps) {
           returnKeyType="done"
           mainViewStyle={{ marginTop: vh(16) }}
         />
-        {/* <TextInput
-          style={{ width: "100%", padding: vh(20), borderWidth: 1 }}
-          value={password}
-          secureTextEntry={true}
-          onChangeText={(text: string) => {
-            checkPassword ? null : setCheckPassword(true), setPassword(text);
-          }}
-        /> */}
         <View style={{ alignItems: "center" }}>
           {/* Verify Button ----------------- */}
           <CustomButton
@@ -165,7 +157,6 @@ export default function App(props: AppProps) {
           <Text style={Styles.forgotTxt}>{Strings.forgot_password}</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ alignItems: "center", width: "100%" }}></View>
     </View>
   );
 }

@@ -141,6 +141,8 @@ export default function App(props: AppProps) {
         )
       : null;
     let focusListener = props.navigation.addListener("focus", () => {
+      console.warn(loginData.Children.length > 1);
+      
       loginData.Children.length > 1
         ? hitHomeAPI(currentChild.child)
         : loginData.Children[0].id !== currentChild.child
@@ -242,6 +244,16 @@ export default function App(props: AppProps) {
   };
 
   const hitHomeAPI = (child_id: number) => {
+    console.warn('ok',
+      child_id,
+      CURRENT_TIME,
+      0,
+      myFilter,
+      utcFromDateTime(myFilter.fromDate),
+      utcToDateTime(myFilter.toDate),
+      myFilter.type
+    );
+
     dispatch(
       HomeAPI(
         (data: any) => {
@@ -428,7 +440,7 @@ export default function App(props: AppProps) {
               setRefreshing(true);
               hitHomeAPI(currentChild.child);
             }}
-            onEndReached={() => (loadMore ? NewhitHomeAPI() : null)}
+            onEndReached={() => (loadMore && page !== 0 ? NewhitHomeAPI() : null)}
             onEndReachedThreshold={0.5}
             ListFooterComponent={() => {
               return (
