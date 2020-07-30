@@ -51,6 +51,7 @@ const postApiCall = (
     .post(endPoint, params)
     .then((response: any) => {
       debugger
+      CustomToast(endPoint)
       console.log("res ", response);
       successCallback(response);
     })
@@ -83,6 +84,7 @@ const getApiCall = (
   Constants.axiosInstance
     .get(endPoint, params)
     .then((response: any) => {
+      CustomToast(endPoint)
       debugger
       console.log("Success: ", response);
       successCallback(response);
