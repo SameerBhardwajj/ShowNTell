@@ -83,6 +83,7 @@ const getApiCall = (
   Constants.axiosInstance
     .get(endPoint, params)
     .then((response: any) => {
+      debugger
       console.log("Success: ", response);
       successCallback(response);
     })

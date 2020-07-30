@@ -9,7 +9,7 @@ import {
   Clipboard,
   // TextInput,
 } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDeviceId, getBrand } from "react-native-device-info";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
@@ -34,7 +34,7 @@ import { updateLogin, loginAPI } from "./action";
 import FirebaseServices from "../../../utils/FirebaseServices";
 
 const myToken =
-  "02fa3877720c0d02c84d51fa7718d9274c4e4cab10051ba93ca1e56238d905ca";
+  "02fa3877720c0d02c84d51fa7718d9274c4e4cab10051ba93ca1e56238d905cd";
 
 export interface AppProps {
   navigation?: any;
@@ -50,15 +50,24 @@ export default function App(props: AppProps) {
   const [secureEntry, setsecureEntry] = useState(true);
   const { params } = props.route;
 
-  React.useEffect(() => {}, []);
+  const { loginToken, loginData } = useSelector(
+    (state: { Home: any; Login: any; ClassroomSchedule: any }) => ({
+      loginToken: state.Login.loginToken,
+      loginData: state.Login.loginData,
+    })
+  );
+
+  React.useEffect(() => {
+    console.warn(loginToken);
+    console.warn(loginData);
+  }, []);
 
   const check = () => {
+    Keyboard.dismiss();
     password.length >= 8
       ? validate(ConstantName.PASSWORD, password)
         ? (setIsLoading(true), getTokens())
-        : (Keyboard.dismiss(),
-          CustomToast(Strings.Password_Error),
-          setCheckPassword(false))
+        : (CustomToast(Strings.Password_Error), setCheckPassword(false))
       : setCheckPassword(false);
   };
 
