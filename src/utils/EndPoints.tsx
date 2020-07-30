@@ -70,7 +70,9 @@ export default {
     weDidIt: `/api/v1/parent/we-did-it`,
   },
   notification: {
-    notification: `/api/v1/parent/list-notification`,
+    notification: (page: number) =>
+      `/api/v1/parent/list-notification?page=${page}`,
+      acknowledgeSupply: `/api/v1/parent/acknowledge-supply-request`
   },
   attendance: {
     viewAttendance: (type: string, id: number, date: string) =>

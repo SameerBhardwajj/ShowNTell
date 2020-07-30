@@ -16,7 +16,7 @@ export default function App(props: AppProps) {
   const w2 = small ? vw(85) : vw(105);
   const h3 = small ? vh(115) : vh(130);
   const w3 = small ? vw(60) : vw(65);
-  const h4 = small ? vh(140) : vh(150);
+  const h4 = small ? vh(150) : vh(160);
   const w4 = small ? vw(140) : vw(150);
 
   return (
