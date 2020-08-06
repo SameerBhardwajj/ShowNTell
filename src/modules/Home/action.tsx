@@ -1,5 +1,6 @@
 import { Action, API, EndPoints, CommonFunctions } from "../../utils";
 import { CustomToast } from "../../Components";
+import { Platform } from "react-native";
 
 export const updateTab = (value: boolean, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
@@ -47,6 +48,41 @@ export const updateQuery = (value: string, callback: Function) => {
       },
     });
     callback();
+  };
+};
+
+export const updateDeviceToken = (
+  id: string,
+  token: string,
+  successCallback: Function,
+  failCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.home.updateDeviceToken,
+      {
+        device_id: id,
+        device_platform: Platform.OS,
+        device_token: token,
+      },
+      (success: any) => {
+        console.log("success ", success.data.response);
+        // dispatch({
+        //   type: Action.UPDATE_TAB,
+        //   payload: {},
+        // });
+        if (success.data.code === 200) {
+          successCallback(success.data.response);
+        } else {
+          // CustomToast(success.data.message);
+          failCallback();
+        }
+      },
+      (error: any) => {
+        // CommonFunctions.handleError(error);
+        failCallback([]);
+      }
+    );
   };
 };
 

@@ -1,11 +1,16 @@
 import Config from "react-native-config";
 import axios from "axios";
+import { Platform } from "react-native";
+import { getUniqueId, getDeviceId } from "react-native-device-info";
 
 const $http = axios.create({
   baseURL: Config.DEV_BASE_URL,
-  timeout: 30000,
+  timeout: 20000,
   headers: {
     "Content-Type": "application/json",
+    "device-id": `${getUniqueId()}`,
+    "device-name": `${getDeviceId()}`,
+    platform: Platform.OS,
   },
 });
 
@@ -17,7 +22,7 @@ const setAuthorizationToken = (token: boolean, myToken: string) => {
 
 const clientHttp = axios.create({
   baseURL: Config.CLIENT_URL,
-  timeout: 30000,
+  timeout: 20000,
 });
 
 export default {

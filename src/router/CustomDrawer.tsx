@@ -85,16 +85,16 @@ export default function App(props: AppProps) {
           }}
         >
           <View style={Styles.imgView}>
-            <Image
-              source={
-                CommonFunctions.isNullUndefined(profilePic)
-                  ? Images.Profile_Placeholder
-                  : { uri: profilePic }
-              }
-              resizeMode="center"
-              resizeMethod="resize"
-              style={Styles.img}
-            />
+            {CommonFunctions.isNullUndefined(profilePic) ? (
+              <Image
+                source={Images.Profile_Placeholder}
+                resizeMode="center"
+                resizeMethod="resize"
+                style={Styles.img}
+              />
+            ) : (
+              <Image source={{ uri: profilePic }} style={Styles.img} />
+            )}
           </View>
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>
             <Text style={Styles.name}>

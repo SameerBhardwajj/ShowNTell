@@ -48,12 +48,12 @@ export const hitClassScheduleAPI = (
       (error: any) => {
         console.log("err ", error);
 
-        dispatch({
-          type: Action.CLASSROOM_SCHEDULE,
-          payload: {
-            data: [],
-          },
-        });
+        // dispatch({
+        //   type: Action.CLASSROOM_SCHEDULE,
+        //   payload: {
+        //     data: [],
+        //   },
+        // });
         CommonFunctions.handleError(error);
         failCallback(error);
       }

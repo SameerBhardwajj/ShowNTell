@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, BackHandler } from "react-native";
 import { useDispatch } from "react-redux";
-import { getDeviceId } from "react-native-device-info";
+import { getUniqueId } from "react-native-device-info";
 
 // custom imports
 import {
@@ -14,7 +14,10 @@ import {
   EndPoints,
 } from "../../../utils";
 import { CustomButton, CustomToast, CustomLoader } from "../../../Components";
-import { updateLogin, updateProfilePic } from "../Login/action";
+import {
+  updateLogin,
+  updateProfilePic,
+} from "../Login/action";
 import { updateClassChild } from "../../ClassroomSchedule/action";
 import { updateChild } from "../../Home/action";
 
@@ -43,7 +46,7 @@ export default function App(props: AppProps) {
             API.postApiCall(
               EndPoints.auth.logout,
               {
-                device_id: getDeviceId(),
+                device_id: getUniqueId(),
               },
               () => {
                 dispatch(

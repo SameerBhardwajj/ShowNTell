@@ -150,7 +150,7 @@ const Styles = StyleSheet.create({
     borderBottomRightRadius: vw(8),
   },
   msgText: {
-    fontFamily: "Nunito-SemiBold",
+    fontFamily: "Nunito-Regular",
     fontSize: vh(16),
     color: "white",
     alignSelf: "flex-end",

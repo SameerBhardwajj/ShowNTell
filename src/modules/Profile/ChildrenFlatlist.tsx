@@ -29,7 +29,11 @@ export default function App(props: AppProps) {
         </View>
         <View style={Styles.itemView}>
           <Image source={Images.Center_Icon} />
-          <Text style={Styles.DOBText}>{ item.Classroom.name}</Text>
+          <Text style={Styles.DOBText}>
+            {CommonFunctions.isNullUndefined(item.Classroom.name)
+              ? item.Classroom.name
+              : "NA"}
+          </Text>
         </View>
       </View>
       <View style={Styles.separatorView} />

@@ -48,7 +48,7 @@ export default function App(props: AppProps) {
   }));
 
   useEffect(() => {
-    SplashScreen.hide();
+    // SplashScreen.hide();
     Constants.setAuthorizationToken(
       loginToken.length === 0 ? false : true,
       loginToken

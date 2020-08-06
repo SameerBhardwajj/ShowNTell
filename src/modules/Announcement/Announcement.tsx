@@ -47,7 +47,7 @@ export default function App(props: AppProps) {
 
   useEffect(() => {
     // dispatch(updateTab(true, () => {}));
-    setLoading(true);
+    data.length === 0 ? setLoading(true) : null;
     hitAPI(0);
   }, [currentChild]);
 
@@ -78,20 +78,22 @@ export default function App(props: AppProps) {
         child={true}
         navigation={props.navigation}
       />
-      <CustomLoader loading={loading} />
-      {loading ? null : CommonFunctions.isNullUndefined(data) ? (
-        <CustomNoData />
-      ) : (
-        <FlatList
-          data={data}
-          keyboardShouldPersistTaps="handled"
-          bounces={false}
-          onEndReached={() => hitAPI(page)}
-          onEndReachedThreshold={0.5}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItems}
-        />
-      )}
+      <View style={Styles.innerView}>
+        <CustomLoader loading={loading} />
+        {loading ? null : CommonFunctions.isNullUndefined(data) ? (
+          <CustomNoData />
+        ) : (
+          <FlatList
+            data={data}
+            keyboardShouldPersistTaps="handled"
+            bounces={false}
+            onEndReached={() => hitAPI(page)}
+            onEndReachedThreshold={0.5}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItems}
+          />
+        )}
+      </View>
     </View>
   );
 }
@@ -108,5 +110,11 @@ const Styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 7,
     paddingBottom: iPhoneX ? vh(30) : vh(10),
+  },
+  innerView: {
+    paddingVertical: vh(8),
+    paddingHorizontal: vh(16),
+    width: "100%",
+    flex: 1,
   },
 });

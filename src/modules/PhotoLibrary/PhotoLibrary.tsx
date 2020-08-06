@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RNFetchBlob from "rn-fetch-blob";
 import CameraRoll from "@react-native-community/cameraroll";
 import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
+import { useIsFocused } from "@react-navigation/native";
 
 // custom imports
 import { PhotoLibraryAPI, updateDownload, updateSelect } from "./action";
@@ -34,6 +35,7 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
+  const focused = useIsFocused();
   const [isLoading, setLoading] = useState(false);
   const [loadMore, setLoadMore] = useState(true);
   const {
@@ -54,12 +56,12 @@ export default function App(props: AppProps) {
   }));
 
   useEffect(() => {
-    let focusListener = props.navigation.addListener("focus", () => {
-      hitPhotoLibraryAPI(0);
-    });
     libraryData.length === 0 ? setLoading(true) : null;
-    return focusListener;
-  }, [props.navigation, currentChild]);
+  }, [currentChild]);
+
+  useEffect(() => {
+    focused ? hitPhotoLibraryAPI(0) : null;
+  }, [focused]);
 
   // Get Photos --------------------
   const hitPhotoLibraryAPI = (page: number) => {

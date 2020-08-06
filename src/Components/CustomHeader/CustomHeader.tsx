@@ -123,8 +123,6 @@ const Styles = StyleSheet.create({
   },
   btn: {
     marginTop: vh(18),
-    height: vw(20),
-    width: vw(15),
   },
   newView: {
     position: "absolute",
