@@ -35,13 +35,6 @@ export const getCannedMsgs = (
       },
       (error: any) => {
         console.log("err ", error);
-
-        dispatch({
-          type: Action.CHAT,
-          payload: {
-            cannedMsg: [],
-          },
-        });
         CommonFunctions.handleError(error);
         failCallback(error);
       }

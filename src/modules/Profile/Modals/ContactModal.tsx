@@ -50,6 +50,12 @@ export default function App(props: AppProps) {
   const [phone3, setPhone3] = useState(data.secondary_phone.replace(/-/g, ""));
   const [isLoading, setLoading] = useState(false);
 
+  const formatPhone = (f: string) => {
+    let f_val = f.replace(/\D[^\.]/g, "");
+    f = f_val.slice(0, 3) + "-" + f_val.slice(3, 6) + "-" + f_val.slice(6);
+    return f;
+  };
+
   const validateAll = () => {
     Keyboard.dismiss();
     phone1.length === 0 || validate(ConstantName.PHONE, phone1)
@@ -62,13 +68,13 @@ export default function App(props: AppProps) {
                   type: "contact_detail",
                   primary_phone: CommonFunctions.isNullUndefined(phone1)
                     ? ""
-                    : phone1,
+                    : formatPhone(phone1),
                   work_phone: CommonFunctions.isNullUndefined(phone2)
                     ? ""
-                    : phone2,
+                    : formatPhone(phone2),
                   secondary_phone: CommonFunctions.isNullUndefined(phone3)
                     ? ""
-                    : phone3,
+                    : formatPhone(phone3),
                 },
                 () => {
                   setLoading(false);

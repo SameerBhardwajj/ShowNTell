@@ -21,8 +21,7 @@ import { CustomToast } from "../../Components";
 import { updatePermission } from "../Auth/Login/action";
 
 const TYPE_URL = "url";
-const TYPE_TEXT = "text"; 
-
+const TYPE_TEXT = "text";
 export interface AppProps {
   data: any;
   closeModal: Function;
@@ -132,9 +131,13 @@ export default function App(props: AppProps) {
   };
 
   const openShare = () => {
-    const url = params.img;
-    const title = params.categoryName;
-    const message = params.activityName;
+    const url = CommonFunctions.isNullUndefined(params.img) ? "" : params.img;
+    const title = CommonFunctions.isNullUndefined(params.categoryName)
+      ? ""
+      : params.categoryName;
+    const message = CommonFunctions.isNullUndefined(params.activityName)
+      ? ""
+      : params.activityName;
     const options = Platform.select({
       ios: {
         activityItemSources: [
@@ -170,9 +173,11 @@ export default function App(props: AppProps) {
     Share.open(options)
       .then((res: any) => {
         console.log(res);
+        props.closeModal();
       })
       .catch((err: any) => {
         console.warn(err);
+        props.closeModal();
       });
   };
 

@@ -23,7 +23,7 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const [modalOpen, setModalOpen] = useState(false);
-  const [myDate, setMyDate] = useState(new Date());
+  const [myDate, setMyDate] = useState(props.date);
   return (
     <View style={[Styles.mainView, props.mainViewStyle]}>
       <Text style={Styles.titleTxt}>{props.heading}</Text>

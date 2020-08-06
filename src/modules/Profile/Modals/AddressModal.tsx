@@ -50,7 +50,7 @@ export default function App(props: AppProps) {
   const [address1, setAddress1] = useState(data.address1);
   const [address2, setAddress2] = useState(data.address2);
   const [city, setCity] = useState(data.city);
-  const [state, setState] = useState(data.State.state_name);
+  const [state, setState] = useState(data.State);
   const [zipcode, setZipcode] = useState(data.postal_code);
   const [checkZipcode, setCheckZipcode] = useState(true);
   const [isLoading, setLoading] = useState(false);
@@ -75,10 +75,10 @@ export default function App(props: AppProps) {
           updateProfile(
             {
               type: "address_detail",
-              countryCode: "",
+              countryCode: "us",
               city: CommonFunctions.isNullUndefined(city) ? "" : city,
               zipCode: CommonFunctions.isNullUndefined(zipcode) ? "" : zipcode,
-              state: CommonFunctions.isNullUndefined(state) ? "" : state,
+              state: CommonFunctions.isEmpty(state) ? "" : state.id,
               address1: CommonFunctions.isNullUndefined(address1)
                 ? ""
                 : address1,
@@ -106,7 +106,7 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={() => {
-          setState(item.state_name);
+          setState(item);
           setShowList(false);
         }}
       />
@@ -132,6 +132,7 @@ export default function App(props: AppProps) {
           <Text style={Styles.headingText}>{Strings.Address_Details}</Text>
           <View style={Styles.separatorView} />
           <View style={Styles.msgView}>
+            {/* Address 1 ---------------------------- */}
             <CustomInputText
               ref={inputRef1}
               titleText={Strings.Address1}
@@ -146,6 +147,7 @@ export default function App(props: AppProps) {
               keyboardType={"default"}
               mainViewStyle={Styles.textInputView}
             />
+            {/* Address 2 ---------------------------- */}
             <CustomInputText
               ref={inputRef2}
               titleText={Strings.Address2}
@@ -160,6 +162,7 @@ export default function App(props: AppProps) {
               keyboardType={"default"}
               mainViewStyle={Styles.textInputView}
             />
+            {/* City ------------------------------ */}
             <CustomInputText
               ref={inputRef3}
               titleText={Strings.City}
@@ -174,6 +177,7 @@ export default function App(props: AppProps) {
               keyboardType={"default"}
               mainViewStyle={Styles.textInputView}
             />
+            {/* Select State ---------------------------- */}
             <Text style={Styles.menuView}>{Strings.State}</Text>
             <TouchableOpacity
               style={Styles.inputTxtView}
@@ -182,9 +186,10 @@ export default function App(props: AppProps) {
                 setShowList(true), Keyboard.dismiss();
               }}
             >
-              <Text style={Styles.schoolText}>{state}</Text>
+              <Text style={Styles.schoolText}>{state.state_name}</Text>
               <Image source={Images.Dropdown_icon} />
             </TouchableOpacity>
+            {/* Zip code -------------------------------- */}
             <CustomInputText
               ref={inputRef5}
               titleText={Strings.Zip_Code}
@@ -197,7 +202,7 @@ export default function App(props: AppProps) {
                   ? validateAll()
                   : setCheckZipcode(false);
               }}
-              check={true}
+              check={checkZipcode}
               incorrectText={Strings.Zipcode_error}
               keyboardType={"number-pad"}
               mainViewStyle={Styles.textInputView}

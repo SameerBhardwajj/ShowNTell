@@ -44,6 +44,15 @@ export const hitStatementApi = (
           });
           successCallback(res.rows);
         } else {
+          page === 0
+            ? dispatch({
+                type: Action.STATEMENT,
+                payload: {
+                  data: [],
+                  page: page + 1,
+                },
+              })
+            : null;
           failCallback();
         }
       },

@@ -1,6 +1,11 @@
 import { CustomToast } from "../../../Components";
 import { Action, API, EndPoints, CommonFunctions } from "../../../utils";
 import { Platform } from "react-native";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import FirebaseServices from "../../../utils/FirebaseServices";
+
+const myToken =
+  "57ed3056e53f46cd8981e689dd0b0991be61f90d0afa7952f0a0dec902b4a319";
 
 export const updateLogin = (data: object, token: string) => {
   return (dispatch: any, getState: any) => {
@@ -35,6 +40,37 @@ export const updatePermission = (data: object, callback: Function) => {
       },
     });
     callback();
+  };
+};
+
+export const addDeviceToken = (callback: Function) => {
+  return (dispatch: any, getState: any) => {
+    Platform.OS === "ios"
+      ? PushNotificationIOS.addEventListener("register", (token) => {
+          dispatch({
+            type: Action.USER_LOGIN,
+            payload: {
+              deviceToken: token,
+            },
+          });
+          callback(token);
+        })
+      : // (dispatch({
+        //   type: Action.USER_LOGIN,
+        //   payload: {
+        //     deviceToken: myToken,
+        //   },
+        // }),
+        // callback(myToken))
+        FirebaseServices.getToken((token: string) => {
+          dispatch({
+            type: Action.USER_LOGIN,
+            payload: {
+              deviceToken: token,
+            },
+          });
+          callback(token);
+        });
   };
 };
 

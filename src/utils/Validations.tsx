@@ -12,7 +12,7 @@ const reg = (regex: string) => {
     case ConstantName.NAME:
       return /^[a-zA-Z ]+$/;
     case ConstantName.ZIPCODE:
-      return /(^\d{4,7}$)/;
+      return /(^\d{5,7}$)/;
   }
 };
 

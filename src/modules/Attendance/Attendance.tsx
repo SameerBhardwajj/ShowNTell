@@ -66,17 +66,32 @@ export default function App(props: AppProps) {
     let focusListener = props.navigation.addListener("focus", () => {
       hitAttendance();
     });
-    monthData.length === 0 ? setLoading(true) : null;
+    monthData.length === 0 || dateData.length === 0 ? setLoading(true) : null;
     return focusListener;
   }, [props.navigation, currentChild, viewByDate]);
 
-  const hitAttendance = () => {
-    debugger;
+  const hitAttendance = (value?: boolean) => {
     dispatch(
       viewAttendanceAPI(
-        viewByDate ? DATE_TYPE : MONTH_TYPE,
+        CommonFunctions.isNullUndefined(value)
+          ? viewByDate
+            ? DATE_TYPE
+            : MONTH_TYPE
+          : value
+          ? DATE_TYPE
+          : MONTH_TYPE,
         currentChild.child,
-        viewByDate
+        CommonFunctions.isNullUndefined(value)
+          ? viewByDate
+            ? CommonFunctions.dateTypeFormat(
+                defaultDate.toLocaleDateString(),
+                "ymd"
+              )
+            : CommonFunctions.dateTypeFormat(
+                defaultMonth.toLocaleDateString(),
+                "ymd"
+              )
+          : value
           ? CommonFunctions.dateTypeFormat(
               defaultDate.toLocaleDateString(),
               "ymd"
@@ -146,7 +161,7 @@ export default function App(props: AppProps) {
             activeOpacity={0.8}
             onPress={() => {
               setViewByDate(true);
-              hitAttendance();
+              hitAttendance(true);
             }}
             style={Styles.redioBtn}
           >
@@ -170,7 +185,7 @@ export default function App(props: AppProps) {
             activeOpacity={0.8}
             onPress={() => {
               setViewByDate(false);
-              hitAttendance();
+              hitAttendance(false);
             }}
             style={Styles.redioBtn}
           >

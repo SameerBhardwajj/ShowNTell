@@ -1,14 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import {
-  Strings,
-  vw,
-  vh,
-  Colors,
-  ScreenName,
-  CommonFunctions,
-  Images,
-} from "../../utils";
+import { vw, vh, Colors, CommonFunctions, Images } from "../../utils";
 
 export interface AppProps {
   item: any;
@@ -40,17 +32,9 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.innerView}>
       {index === 0 ? (
-        <Text
-          style={[Styles.heading, { paddingTop: vh(20), paddingLeft: vw(15) }]}
-        >
-          {msgDate}
-        </Text>
+        <Text style={Styles.heading}>{msgDate}</Text>
       ) : msgDate !== allDay() ? (
-        <Text
-          style={[Styles.heading, { paddingTop: vh(20), paddingLeft: vw(15) }]}
-        >
-          {msgDate}
-        </Text>
+        <Text style={Styles.heading}>{msgDate}</Text>
       ) : null}
       <View
         style={[
@@ -73,19 +57,23 @@ export default function App(props: AppProps) {
                   ? Images.Profile_Placeholder
                   : { uri: item.Child.s3_photo_path }
               }
-              resizeMethod="resize"
-              resizeMode="center"
-              style={{ width: vh(40) }}
+              style={
+                CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
+                  ? { width: vh(35), height: vh(38) }
+                  : { height: vh(60), width: vh(60), borderRadius: vh(30) }
+              }
             />
           </View>
-          <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
+          <View style={Styles.centerNameView}>
             <Text style={Styles.name}>
               {item.Child.first_name} {item.Child.last_name}
             </Text>
             <Text style={Styles.classText}>{item.Child.Classroom.name}</Text>
           </View>
         </View>
-        <Text style={Styles.heading}>{item.Announcement.title}</Text>
+        <Text style={[Styles.heading, { paddingTop: 0 }]}>
+          {item.Announcement.title}
+        </Text>
         <Text style={Styles.content}>
           {item.Announcement.description.split("<br/>").join("\n")}
         </Text>
@@ -99,9 +87,7 @@ export default function App(props: AppProps) {
 
 const Styles = StyleSheet.create({
   innerView: {
-    alignItems: "center",
     width: "100%",
-    paddingHorizontal: vh(10),
   },
   childAvatar: {
     height: vh(60),
@@ -115,9 +101,9 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
   },
   centerNameView: {
-    alignItems: "flex-start",
     width: "75%",
     paddingHorizontal: vw(15),
+    justifyContent: "center",
   },
   name: {
     fontFamily: "Nunito-Bold",
@@ -137,6 +123,7 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     alignSelf: "flex-start",
+    paddingTop: vh(20),
   },
   content: {
     fontFamily: "Nunito-SemiBold",

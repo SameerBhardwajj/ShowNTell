@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -18,10 +18,10 @@ import {
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import { getUniqueId } from "react-native-device-info";
+import { useIsFocused } from "@react-navigation/native";
 
 // custom imports
-import { updateClassChild } from "../ClassroomSchedule/action";
-import { updateTab, updateChild, updatePage } from "./action";
 import {
   vh,
   Colors,
@@ -39,12 +39,21 @@ import {
   CustomToast,
 } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
-import { HomeAPI, addFilter, weDidItAPI, updateQuery } from "./action";
+import { updateClassChild } from "../ClassroomSchedule/action";
+import {
+  HomeAPI,
+  addFilter,
+  weDidItAPI,
+  updateQuery,
+  updateChild,
+  updateDeviceToken,
+} from "./action";
 import FilterModal from "./Filter/FilterModal";
 import ShareModal from "./ShareModal";
 
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "@aws-amplify/pushnotification";
+import { addDeviceToken } from "../Auth/Login/action";
 
 Platform.OS === "ios"
   ? PushNotification.requestIOSPermissions({
@@ -88,6 +97,7 @@ const CURRENT_TIME = moment(new Date())
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
+  const focused = useIsFocused();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadFooter, setLoadFooter] = useState(false);
@@ -103,6 +113,7 @@ export default function App(props: AppProps) {
     currentChild,
     loginToken,
     loginData,
+    deviceToken,
     myFilter,
     classroomChild,
     page,
@@ -113,6 +124,7 @@ export default function App(props: AppProps) {
       currentChild: state.Home.currentChild,
       loginToken: state.Login.loginToken,
       loginData: state.Login.loginData,
+      deviceToken: state.Login.deviceToken,
       myFilter: state.Home.myFilter,
       page: state.Home.page,
       classroomChild: state.ClassroomSchedule.classroomChild,
@@ -121,12 +133,48 @@ export default function App(props: AppProps) {
     })
   );
 
+  const backHandler = () => {
+    exitCounter
+      ? (ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT),
+        BackHandler.exitApp())
+      : (ToastAndroid.show("Press again to Exit", ToastAndroid.SHORT),
+        setExitCounter(true),
+        setTimeout(() => {
+          setExitCounter(false);
+        }, 2000));
+    return true;
+  };
+
   React.useEffect(() => {
-    SplashScreen.hide();
+    // console.warn(props.navigation, exitCounter, currentChild);
+
+    // SplashScreen.hide();
     Constants.setAuthorizationToken(
       loginToken.length === 0 ? false : true,
       loginToken
     );
+    console.warn("device token1", deviceToken);
+
+    CommonFunctions.isNullUndefined(deviceToken)
+      ? dispatch(
+          addDeviceToken((token: string) => {
+            console.warn("device token2", token);
+            dispatch(
+              updateDeviceToken(
+                getUniqueId(),
+                token,
+                () => {
+                  console.warn("success");
+                },
+                () => {
+                  console.warn("error");
+                }
+              )
+            );
+          })
+        )
+      : null;
+
     homeData.length === 0 ? setLoading(true) : null;
     CommonFunctions.isEmpty(classroomChild)
       ? dispatch(
@@ -140,24 +188,9 @@ export default function App(props: AppProps) {
           )
         )
       : null;
-    let focusListener = props.navigation.addListener("focus", () => {
-      console.warn(loginData.Children.length > 1);
-      
-      loginData.Children.length > 1
-        ? hitHomeAPI(currentChild.child)
-        : loginData.Children[0].id !== currentChild.child
-        ? dispatch(
-            updateChild(
-              {
-                child: loginData.Children[0].id,
-                name: loginData.Children[0].first_name,
-                classroom: loginData.Children[0].classroom_id,
-              },
-              () => hitHomeAPI(loginData.Children[0].id)
-            )
-          )
-        : hitHomeAPI(currentChild.child);
-    });
+    // let focusListener = props.navigation.addListener("focus", () => {
+
+    // });
     // const unsubscribe =
     //   (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
     //     dispatch(
@@ -176,18 +209,32 @@ export default function App(props: AppProps) {
 
     // return unsubscribe;
 
-    BackHandler.addEventListener("hardwareBackPress", () => {
-      exitCounter
-        ? (ToastAndroid.show(" Exiting the app...", ToastAndroid.SHORT),
-          BackHandler.exitApp())
-        : (ToastAndroid.show("Press again to Exit", ToastAndroid.SHORT),
-          setExitCounter(true),
-          setTimeout(() => {
-            setExitCounter(false);
-          }, 2000));
-      return focusListener;
-    });
-  }, [props.navigation, exitCounter, currentChild]);
+    BackHandler.addEventListener("hardwareBackPress", backHandler);
+
+    return () => {
+      // focusListener;
+      BackHandler.removeEventListener("hardwareBackPress", backHandler);
+    };
+  }, [exitCounter, currentChild]);
+
+  useEffect(() => {
+    focused
+      ? loginData.Children.length > 1
+        ? hitHomeAPI(currentChild.child)
+        : loginData.Children[0].id !== currentChild.child
+        ? dispatch(
+            updateChild(
+              {
+                child: loginData.Children[0].id,
+                name: loginData.Children[0].first_name,
+                classroom: loginData.Children[0].classroom_id,
+              },
+              () => hitHomeAPI(loginData.Children[0].id)
+            )
+          )
+        : hitHomeAPI(currentChild.child)
+      : null;
+  }, [focused]);
 
   const utcFromDateTime = (date?: string) => {
     let myDate = "";
@@ -244,7 +291,9 @@ export default function App(props: AppProps) {
   };
 
   const hitHomeAPI = (child_id: number) => {
-    console.warn('ok',
+    debugger;
+    console.warn(
+      "ok",
       child_id,
       CURRENT_TIME,
       0,
@@ -278,6 +327,7 @@ export default function App(props: AppProps) {
   };
 
   const NewhitHomeAPI = () => {
+    debugger;
     setLoadFooter(true);
     dispatch(
       HomeAPI(
@@ -440,7 +490,9 @@ export default function App(props: AppProps) {
               setRefreshing(true);
               hitHomeAPI(currentChild.child);
             }}
-            onEndReached={() => (loadMore && page !== 0 ? NewhitHomeAPI() : null)}
+            onEndReached={() =>
+              loadMore && page !== 0 ? NewhitHomeAPI() : null
+            }
             onEndReachedThreshold={0.5}
             ListFooterComponent={() => {
               return (
@@ -469,14 +521,14 @@ export default function App(props: AppProps) {
               dispatch(
                 addFilter(
                   myFilter.activity,
-                  dates.toDate,
+                  dates.fromDate,
                   dates.toDate,
                   Activitytype,
                   () => {
                     console.warn(" filter redux ...", myFilter);
                     hitFilterAPI(
                       value,
-                      dates.toDate,
+                      dates.fromDate,
                       dates.toDate,
                       Activitytype.join(",")
                     );

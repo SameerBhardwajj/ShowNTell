@@ -2,6 +2,7 @@ import moment from "moment";
 import { Platform, PermissionsAndroid, Linking } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
 import CustomToast from "../Components/CustomToast";
+import ImagePicker from "react-native-image-picker";
 
 const DateDifference = (date1: any, date2: any) => {
   let second = 1000,
@@ -247,6 +248,35 @@ const handleError = (error: any) => {
   }
 };
 
+const Picker = (success: Function, fail: Function) => {
+  const options = {
+    title: "Select Profile Picture",
+    storageOptions: {
+      skipBackup: true,
+      path: "images",
+      // quality : 0.1
+    },
+  };
+  ImagePicker.launchCamera(options, (response: any) => {
+    if (response.didCancel) {
+      console.warn("User cancelled image picker");
+      fail();
+    } else if (response.error) {
+      console.warn("ImagePicker Error: ", response.error);
+      CustomToast(`Gallery Error : ${response.error}`);
+      fail();
+    } else if (response.customButton) {
+      console.warn("User tapped custom button: ", response.customButton);
+      fail();
+    } else {
+      const source = { uri: response.uri };
+      // CustomToast("Uploading Profile Picture ....");
+      // CustomToast(`${response.uri} ${response.origURL}`);
+      success(source, response);
+    }
+  });
+};
+
 export default {
   DateDifference,
   DateFormatter,
@@ -261,4 +291,5 @@ export default {
   isEmpty,
   callNumber,
   handleError,
+  Picker,
 };

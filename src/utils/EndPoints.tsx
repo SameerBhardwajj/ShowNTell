@@ -34,6 +34,7 @@ export default {
     logout: "/api/v1/parent/logout",
   },
   home: {
+    updateDeviceToken: `/api/v1/parent/update-device-token`,
     HomeData: (
       currentTime: string,
       child_id?: number,
@@ -72,7 +73,7 @@ export default {
   notification: {
     notification: (page: number) =>
       `/api/v1/parent/list-notification?page=${page}`,
-      acknowledgeSupply: `/api/v1/parent/acknowledge-supply-request`
+    acknowledgeSupply: `/api/v1/parent/acknowledge-supply-request`,
   },
   attendance: {
     viewAttendance: (type: string, id: number, date: string) =>

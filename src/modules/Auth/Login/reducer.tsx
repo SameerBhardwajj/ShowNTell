@@ -12,6 +12,7 @@ import { Action } from "../../../utils";
 const initialState = {
   loginData: {},
   loginToken: "",
+  deviceToken: "",
   schoolList: [],
   loginEmail: "",
   profilePic: "",

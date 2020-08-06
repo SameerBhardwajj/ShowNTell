@@ -28,13 +28,6 @@ export const hiBasicDetails = (
       },
       (error: any) => {
         console.log("err ", error);
-
-        dispatch({
-          type: Action.PROFILE,
-          payload: {
-            data: {},
-          },
-        });
         CommonFunctions.handleError(error);
         failCallback(error);
       }
@@ -48,6 +41,8 @@ export const updateProfile = (
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
+    console.warn('profile data ',data);
+    
     API.postApiCall(
       EndPoints.drawer.updateProfile,
       data,
@@ -94,13 +89,6 @@ export const fetchStatesAPI = (
       },
       (error: any) => {
         console.log("err ", error);
-
-        dispatch({
-          type: Action.PROFILE,
-          payload: {
-            stateList: [],
-          },
-        });
         CommonFunctions.handleError(error);
         failCallback(error);
       }

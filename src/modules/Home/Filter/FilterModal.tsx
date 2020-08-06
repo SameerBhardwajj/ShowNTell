@@ -47,8 +47,16 @@ export default function App(props: AppProps) {
 
   const dispatch = useDispatch();
   const [current, setCurrent] = useState(1);
-  const [fromDate, setFromDate] = useState(new Date());
-  const [toDate, setToDate] = useState(new Date());
+  const [fromDate, setFromDate] = useState(
+    CommonFunctions.isNullUndefined(myFilter.fromDate)
+      ? new Date()
+      : new Date(myFilter.fromDate)
+  );
+  const [toDate, setToDate] = useState(
+    CommonFunctions.isNullUndefined(myFilter.toDate)
+      ? new Date()
+      : new Date(myFilter.toDate)
+  );
   const [days, setDays] = useState(0);
   const [activityType1, setactivityType1] = useState(false);
   const [activityType2, setactivityType2] = useState(false);

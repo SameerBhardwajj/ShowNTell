@@ -14,7 +14,7 @@ import moment from "moment";
 
 // custom imports
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
-import { CustomHeader, CustomLoader } from "../../Components";
+import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
 import FlatlistStatement from "./FlatlistStatement";
 import FilterModal from "./FilterModal";
 import { hitStatementApi, updateDates } from "./action";
@@ -112,7 +112,12 @@ export default function App(props: AppProps) {
   };
 
   return (
-    <View style={Styles.mainView}>
+    <View
+      style={[
+        Styles.mainView,
+        data.length === 0 ? { backgroundColor: "white" } : {},
+      ]}
+    >
       <CustomHeader
         title={Strings.Statements}
         onPressBack={() => props.navigation.pop()}
@@ -137,17 +142,21 @@ export default function App(props: AppProps) {
         </TouchableOpacity>
       )}
       <View style={Styles.innerView}>
-        <FlatList
-          contentContainerStyle={{ paddingBottom: state ? vh(80) : vh(0) }}
-          ListHeaderComponent={state ? null : headerDate()}
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-          data={data}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => (loadMore ? hitStatement(page) : null)}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItems}
-        />
+        {data.length === 0 ? (
+          <CustomNoData />
+        ) : (
+          <FlatList
+            contentContainerStyle={{ paddingBottom: state ? vh(80) : vh(0) }}
+            ListHeaderComponent={state ? null : headerDate()}
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            data={data}
+            onEndReachedThreshold={0.5}
+            onEndReached={() => (loadMore ? hitStatement(page) : null)}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItems}
+          />
+        )}
       </View>
       {/* {state ? null : (
         <CustomButton

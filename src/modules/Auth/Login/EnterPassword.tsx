@@ -5,13 +5,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
-  Platform,
-  Clipboard,
-  // TextInput,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { getDeviceId, getBrand } from "react-native-device-info";
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import { getUniqueId, getBrand } from "react-native-device-info";
 
 // custom imports
 import {
@@ -30,11 +26,7 @@ import {
   validate,
   ConstantName,
 } from "../../../utils";
-import { updateLogin, loginAPI } from "./action";
-import FirebaseServices from "../../../utils/FirebaseServices";
-
-const myToken =
-  "02fa3877720c0d02c84d51fa7718d9274c4e4cab10051ba93ca1e56238d905cd";
+import { loginAPI } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -50,54 +42,22 @@ export default function App(props: AppProps) {
   const [secureEntry, setsecureEntry] = useState(true);
   const { params } = props.route;
 
-  const { loginToken, loginData } = useSelector(
-    (state: { Home: any; Login: any; ClassroomSchedule: any }) => ({
-      loginToken: state.Login.loginToken,
-      loginData: state.Login.loginData,
-    })
-  );
-
-  React.useEffect(() => {
-    console.warn(loginToken);
-    console.warn(loginData);
-  }, []);
+  const { deviceToken } = useSelector((state: { Login: any }) => ({
+    deviceToken: state.Login.deviceToken,
+  }));
 
   const check = () => {
     Keyboard.dismiss();
     password.length >= 8
       ? validate(ConstantName.PASSWORD, password)
-        ? (setIsLoading(true), getTokens())
+        ? (setIsLoading(true), HitLogin(getUniqueId(), deviceToken, getBrand()))
         : (CustomToast(Strings.Password_Error), setCheckPassword(false))
       : setCheckPassword(false);
   };
 
-  // const getTokens = () => {
-  //   Platform.OS === "ios"
-  //     ? HitLogin(getDeviceId(), myToken, getBrand())
-  //     : FirebaseServices.getToken((myToken: string) => {
-  //         HitLogin(getDeviceId(), myToken, getBrand());
-  //         console.warn(getDeviceId(), myToken, getBrand());
-  //         Clipboard.setString(myToken);
-  //       });
-  // };
-
-  const getTokens = () => {
-    Platform.OS === "ios"
-      ? PushNotificationIOS.requestPermissions()
-          .then(() => {
-            PushNotificationIOS.addEventListener("register", (token) => {
-              HitLogin(getDeviceId(), token, getBrand());
-            });
-          })
-          .catch((error) => {
-            CustomToast(error);
-          })
-      : FirebaseServices.getToken((myToken: string) => {
-          HitLogin(getDeviceId(), myToken, getBrand());
-        });
-  };
-
   const HitLogin = (deviceID: string, token: string, deviceName: string) => {
+    console.warn("token ", deviceToken);
+
     dispatch(
       loginAPI(
         params.email,
