@@ -55,19 +55,35 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "@aws-amplify/pushnotification";
 import { addDeviceToken } from "../Auth/Login/action";
 
-Platform.OS === "ios"
-  ? PushNotification.requestIOSPermissions({
-      alert: true,
-      badge: true,
-      sound: true,
-    })
-  : null;
+// Platform.OS === "ios"
+// ?
+
+PushNotificationIOS.requestPermissions({
+  alert: true,
+  badge: true,
+  sound: true,
+})
+  .then((data) => {
+    console.warn(data);
+  })
+  .catch((e) => {
+    console.warn(e);
+  });
+
+// PushNotification.requestIOSPermissions({
+//     alert: true,
+//     badge: true,
+//     sound: true,
+//   })
+// : null;
 
 PushNotification.onNotification((notification: any) => {
   if (notification.foreground) {
     console.warn("onNotification foreground", notification);
+    console.warn("my foreground");
   } else {
     console.warn("onNotification background or closed", notification);
+    console.warn("my background");
   }
   // extract the data passed in the push notification
   const data = JSON.parse(notification.data["pinpoint.jsonBody"]);
@@ -443,8 +459,8 @@ export default function App(props: AppProps) {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.8}
-            // onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
-            onPress={() => CustomToast()}
+            onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
+            // onPress={() => CustomToast()}
           >
             <Image source={Images.Notification_Icon} style={Styles.imgHeader} />
           </TouchableOpacity>
