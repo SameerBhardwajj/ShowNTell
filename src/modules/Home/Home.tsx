@@ -55,8 +55,8 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "@aws-amplify/pushnotification";
 import { addDeviceToken } from "../Auth/Login/action";
 
-// Platform.OS === "ios"
-// ?
+Platform.OS === "ios"
+?
 
 PushNotificationIOS.requestPermissions({
   alert: true,
@@ -68,7 +68,7 @@ PushNotificationIOS.requestPermissions({
   })
   .catch((e) => {
     console.warn(e);
-  });
+  }): null
 
 // PushNotification.requestIOSPermissions({
 //     alert: true,
