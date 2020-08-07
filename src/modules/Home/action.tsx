@@ -115,6 +115,7 @@ export const HomeAPI = (
         const res = success.data.response;
         if (success.data.code === 200) {
           console.log("receiving page num ", page);
+console.warn(res.rows.guardianData);
 
           // console.warn("mysuccess ", res);
           if (res === undefined) {
@@ -126,6 +127,7 @@ export const HomeAPI = (
                 data: res.rows,
                 chatEnable: res.permission.chatWithParent === 0 ? false : true,
                 page: page === undefined ? 0 : page + 1,
+                guardianData: res.rows.guardianData,
               },
             });
             successCallback(res.rows);

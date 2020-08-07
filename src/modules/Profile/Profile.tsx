@@ -22,7 +22,7 @@ import { CustomHeader, CustomLoader, CustomToast } from "../../Components";
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 import TopTabNavigation from "./TopTabNavigation";
 import { hiBasicDetails, hitUploadCDNapi, hitUploadImage } from "./action";
-import { updateProfilePic, updatePermission } from "../Auth/Login/action";
+import { updatePermission } from "../Auth/Login/action";
 import ProfileModal from "./ProfileModal";
 import CameraModal from "./Modals/CameraModal";
 
@@ -57,14 +57,14 @@ export default function App(props: AppProps) {
       hiBasicDetails(
         () => {
           setLoading(false);
-          dispatch(
-            updateProfilePic(
-              CommonFunctions.isNullUndefined(data.s3_photo_path)
-                ? ""
-                : data.s3_photo_path,
-              () => {}
-            )
-          );
+          // dispatch(
+          //   updateProfilePic(
+          //     CommonFunctions.isNullUndefined(data.s3_photo_path)
+          //       ? ""
+          //       : data.s3_photo_path,
+          //     () => {}
+          //   )
+          // );
         },
         (err: any) => {
           setLoading(false);
@@ -84,7 +84,6 @@ export default function App(props: AppProps) {
           mediaType: "photo",
         })
           .then((image: any) => {
-            setMyProfile(image.path);
             hitProfileUpdate(image.path, value);
           })
           .catch((e) => {
@@ -281,7 +280,7 @@ export default function App(props: AppProps) {
       type: "image/jpeg",
     });
     setModalOpen(false);
-    dispatch(updateProfilePic(image, () => {}));
+    // dispatch(updateProfilePic(image, () => {}));
     dispatch(
       hitUploadCDNapi(
         formdata,
@@ -289,7 +288,7 @@ export default function App(props: AppProps) {
           console.warn("my  ", data.key);
 
           // CustomToast(data.key);
-          updateImage(data.key);
+          updateImage(data.key, image);
           // setLoading(false);
           // Alert.alert(
           //   "Do you want to update profile picture?",
@@ -318,7 +317,7 @@ export default function App(props: AppProps) {
     );
   };
 
-  const updateImage = (img: string) => {
+  const updateImage = (img: string, image: string) => {
     dispatch(
       hitUploadImage(
         img,
@@ -328,6 +327,7 @@ export default function App(props: AppProps) {
             hiBasicDetails(
               () => {
                 setLoading(false);
+                setMyProfile(image);
               },
               (err: any) => {
                 setLoading(false);
@@ -353,14 +353,14 @@ export default function App(props: AppProps) {
         title={Strings.My_Profile}
         onPressBack={() => {
           props.navigation.pop();
-          dispatch(
-            updateProfilePic(
-              CommonFunctions.isNullUndefined(data.s3_photo_path)
-                ? ""
-                : data.s3_photo_path,
-              () => {}
-            )
-          );
+          // dispatch(
+          //   updateProfilePic(
+          //     CommonFunctions.isNullUndefined(data.s3_photo_path)
+          //       ? ""
+          //       : data.s3_photo_path,
+          //     () => {}
+          //   )
+          // );
         }}
       />
 
@@ -410,7 +410,7 @@ export default function App(props: AppProps) {
           closeModal={() => setModalOpen(false)}
           openGallery={() => ImagePick(0)}
           openCamera={() => ImagePick(1)}
-          deleteProfile={() => updateImage("")}
+          deleteProfile={() => updateImage("", "")}
         />
       </Modal>
       <Modal animationType="slide" transparent={true} visible={picModalOpen}>
