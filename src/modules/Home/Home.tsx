@@ -56,19 +56,18 @@ import PushNotification from "@aws-amplify/pushnotification";
 import { addDeviceToken } from "../Auth/Login/action";
 
 Platform.OS === "ios"
-?
-
-PushNotificationIOS.requestPermissions({
-  alert: true,
-  badge: true,
-  sound: true,
-})
-  .then((data) => {
-    console.warn(data);
-  })
-  .catch((e) => {
-    console.warn(e);
-  }): null
+  ? PushNotificationIOS.requestPermissions({
+      alert: true,
+      badge: true,
+      sound: true,
+    })
+      .then((data) => {
+        console.warn(data);
+      })
+      .catch((e) => {
+        console.warn(e);
+      })
+  : null;
 
 // PushNotification.requestIOSPermissions({
 //     alert: true,
@@ -78,16 +77,17 @@ PushNotificationIOS.requestPermissions({
 // : null;
 
 PushNotification.onNotification((notification: any) => {
+  debugger;
   if (notification.foreground) {
-    console.warn("onNotification foreground", notification);
-    console.warn("my foreground");
+    console.warn("1onNotification foreground", notification);
+    // console.warn("2my foreground", notification.data);
   } else {
     console.warn("onNotification background or closed", notification);
     console.warn("my background");
   }
   // extract the data passed in the push notification
-  const data = JSON.parse(notification.data["pinpoint.jsonBody"]);
-  console.warn("onNotification data", data);
+  // const data = JSON.parse(notification.data);
+  // console.warn("onNotification data", data);
   // iOS only
   Platform.OS === "ios"
     ? notification.finish(PushNotificationIOS.FetchResult.NoData)
@@ -95,8 +95,12 @@ PushNotification.onNotification((notification: any) => {
 });
 PushNotification.onNotificationOpened((notification: any) => {
   console.warn("onNotificationOpened", notification);
+  // console.warn("onNotificationOpened", notification.data);
   // extract the data passed in the push notification
-  const data = JSON.parse(notification["pinpoint.jsonBody"]);
+  // const data = JSON.parse(notification["pinpoint.jsonBody"]);
+  // console.warn(JSON.parse(notification.data));
+
+  const data = JSON.parse(notification);
   console.warn("onNotificationOpened data", data);
 });
 
