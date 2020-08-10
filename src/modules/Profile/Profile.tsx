@@ -84,6 +84,8 @@ export default function App(props: AppProps) {
           mediaType: "photo",
         })
           .then((image: any) => {
+            console.log(image);
+
             hitProfileUpdate(image.path, value);
           })
           .catch((e) => {
@@ -148,6 +150,8 @@ export default function App(props: AppProps) {
             mediaType: "photo",
           })
             .then((image: any) => {
+              console.log(image);
+
               setMyProfile(image.path);
               hitProfileUpdate(image.path, type);
             })
@@ -264,6 +268,7 @@ export default function App(props: AppProps) {
 
   const hitProfileUpdate = (image: any, value: number) => {
     setLoading(true);
+    console.warn("my img ", image);
 
     var formdata = new FormData();
     formdata.append("file", {
@@ -272,12 +277,12 @@ export default function App(props: AppProps) {
           ? value === 0
             ? image.replace("file://", "")
             : // : image.uri.replace("file://", "")
-              image
+              image.replace("file://", "")
           : value === 0
           ? `file://${image}`
           : `${image}`,
-      name: "test" + ".jpeg",
-      type: "image/jpeg",
+      name: "test" + ".jpg",
+      type: "image/jpg",
     });
     setModalOpen(false);
     // dispatch(updateProfilePic(image, () => {}));
@@ -286,6 +291,7 @@ export default function App(props: AppProps) {
         formdata,
         (data: any) => {
           console.warn("my  ", data.key);
+          console.warn("suucess uplod");
 
           // CustomToast(data.key);
           updateImage(data.key, image);
@@ -310,8 +316,8 @@ export default function App(props: AppProps) {
         (e: any) => {
           setLoading(false);
           // Clipboard.setString(e);
-          CustomToast(e);
-          console.warn("Server Error: ", e);
+          // CustomToast(e);
+          // console.warn("Server Error: ", e);
         }
       )
     );

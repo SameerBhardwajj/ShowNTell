@@ -50,8 +50,8 @@ const postApiCall = (
   Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
-      debugger
-      
+      debugger;
+
       console.log("res ", response);
       successCallback(response);
     })
@@ -84,8 +84,7 @@ const getApiCall = (
   Constants.axiosInstance
     .get(endPoint, params)
     .then((response: any) => {
-      
-      debugger
+      debugger;
       console.log("Success: ", response);
       successCallback(response);
     })
@@ -189,12 +188,19 @@ const fileUpload = (
     })
     .then(
       (response: any) => {
-        console.log(response);
-
+        console.warn(response);
+        debugger
         successCallback(response);
       },
       (error: any) => {
-        console.log(error);
+        debugger
+        console.warn(error);
+        if (error.message === "Network Error") {
+          CustomToast(Strings.No_Internet);
+        }
+        if (error.code === "ECONNABORTED") {
+          CustomToast(Strings.Timeout_error);
+        }
 
         errorCallback(error);
       }

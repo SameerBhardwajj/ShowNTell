@@ -254,7 +254,7 @@ const Picker = (success: Function, fail: Function) => {
     storageOptions: {
       skipBackup: true,
       path: "images",
-      // quality : 0.1
+      quality : 0
     },
   };
   ImagePicker.launchCamera(options, (response: any) => {
@@ -270,6 +270,8 @@ const Picker = (success: Function, fail: Function) => {
       fail();
     } else {
       const source = { uri: response.uri };
+      console.log("size", parseInt(response.fileSize) / 1048576);
+
       // CustomToast("Uploading Profile Picture ....");
       // CustomToast(`${response.uri} ${response.origURL}`);
       success(source, response);

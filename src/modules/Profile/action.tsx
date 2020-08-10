@@ -111,6 +111,8 @@ export const hitUploadCDNapi = (
       // params,
       (success: any) => {
         if (success.data.code === 200) {
+          console.warn('success on upload');
+          
           successCallback(success.data.response);
         } else {
           CustomToast(success.data.message);
@@ -119,6 +121,7 @@ export const hitUploadCDNapi = (
       },
       (error: any) => {
         CommonFunctions.handleError(error);
+        
         failCallback(error);
       }
     );

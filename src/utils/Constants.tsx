@@ -5,7 +5,7 @@ import { getUniqueId, getDeviceId } from "react-native-device-info";
 
 const $http = axios.create({
   baseURL: Config.DEV_BASE_URL,
-  timeout: 20000,
+  timeout: 30000,
   headers: {
     "Content-Type": "application/json",
     "device-id": `${getUniqueId()}`,

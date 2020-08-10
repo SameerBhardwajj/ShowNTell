@@ -82,25 +82,25 @@ export default function App(props: AppProps) {
           }}
         >
           <View style={Styles.imgView}>
-            {CommonFunctions.isNullUndefined(guardianData.s3_photo_path) ? (
+            {/* {CommonFunctions.isNullUndefined(guardianData.s3_photo_path) ? ( */}
               <Image
                 source={Images.Profile_Placeholder}
                 resizeMode="center"
                 resizeMethod="resize"
                 style={Styles.img}
               />
-            ) : (
+            {/* ) : (
               <Image
                 source={{ uri: guardianData.s3_photo_path }}
                 style={Styles.img}
               />
-            )}
+            )} */}
           </View>
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>
-            <Text style={Styles.name}>
-              {`${guardianData.first_name} ${guardianData.last_name}`}
+            <Text style={Styles.name}>{'Sam'}
+              {/* {`${guardianData.first_name} ${guardianData.last_name}`} */}
             </Text>
-            <Text style={Styles.email}>{guardianData.email}</Text>
+            {/* <Text style={Styles.email}>{guardianData.email}</Text> */}
           </View>
         </TouchableOpacity>
         <FlatList
