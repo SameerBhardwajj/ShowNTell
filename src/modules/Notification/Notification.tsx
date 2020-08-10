@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
 import { Strings, vh, vw, Colors, CommonFunctions } from "../../utils";
 import List from "./List";
-import { hitNotificationAPI } from "./action";
+import { hitNotificationAPI, hitAcknowledgeSupply } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -21,7 +21,7 @@ export default function App(props: AppProps) {
   const [loading, setLoading] = useState(false);
   const [loadFooter, setLoadFooter] = useState(false);
   useEffect(() => {
-    setLoading(true);
+    data.length === 0 ? setLoading(true) : null;
     let focusListener = props.navigation.addListener("focus", () => {
       hitAPI(0);
     });
@@ -29,22 +29,43 @@ export default function App(props: AppProps) {
   }, [props.navigation]);
 
   const hitAPI = (page: number) => {
-    page > 0 ? setLoadFooter(true) : setLoadFooter(false)
+    page > 0 ? setLoadFooter(true) : setLoadFooter(false);
     dispatch(
       hitNotificationAPI(
         page,
-        () => { 
+        () => {
           setLoading(false);
-          setLoadFooter(false)
+          setLoadFooter(false);
+          console.warn('ok');
+          
         },
-        () => {setLoading(false), setLoadFooter(false)}
+        () => {
+          setLoading(false), setLoadFooter(false);
+        }
       )
     );
   };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
-    return <List item={item} index={index} allData={data} />;
+    return (
+      <List
+        item={item}
+        index={index}
+        allData={data}
+        acknowledge={(id: number) => {
+          dispatch(
+            hitAcknowledgeSupply(
+              id,
+              () => {
+                hitAPI(0);
+              },
+              () => {}
+            )
+          );
+        }}
+      />
+    );
   };
   return (
     <View style={Styles.mainView}>
