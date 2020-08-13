@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getUniqueId } from "react-native-device-info";
 import { useIsFocused } from "@react-navigation/native";
+var PushNotification = require("react-native-push-notification");
 
 // custom imports
 import {
@@ -51,7 +52,7 @@ import FilterModal from "./Filter/FilterModal";
 import ShareModal from "./ShareModal";
 
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification from "@aws-amplify/pushnotification";
+// import PushNotification from "@aws-amplify/pushnotification";
 import { addDeviceToken } from "../Auth/Login/action";
 
 Platform.OS === "ios"
@@ -68,6 +69,36 @@ Platform.OS === "ios"
       })
   : null;
 
+  PushNotification.configure({
+    // (optional) Called when Token is generated (iOS and Android)
+    // onRegister: function (token: any) {
+    //     console.log("TOKEN:", token);
+    // },
+
+    // (required) Called when a remote or local notification is opened or received
+    onNotification: (notification: any) => {
+      console.warn("NOTIFICATION:", notification);
+      // actionNotification(notification.action)
+      // func()
+      // process the notification
+    },
+
+    // ANDROID ONLY: GCM or FCM Sender ID (product_number) (optional - not required for local notifications, but is need to receive remote push notifications)
+    senderID: 'AAAAy-8L1NU:APA91bGGOMZ80VqC3WCwWHCQTz3FJmfDtodAuHVTpcfrdurL8pR0CRYVXkpIYEJimSSVKz06v89FhxGxjDqFG8bmGCF_XS25O24t_qOOAyN56RF-VOYbBzIhoJmebeJSLFWfVa2VCaZ7',
+
+    // IOS ONLY (optional): default: all - Permissions to register.
+    permissions: {
+      alert: true,
+      badge: true,
+      sound: true,
+    },
+
+    // Should the initial notification be popped automatically
+    // default: true
+    popInitialNotification: true,
+    requestPermissions: true,
+  });
+
 // PushNotification.requestIOSPermissions({
 //     alert: true,
 //     badge: true,
@@ -75,33 +106,33 @@ Platform.OS === "ios"
 //   })
 // : null;
 
-PushNotification.onNotification((notification: any) => {
-  debugger;
-  if (notification.foreground) {
-    console.warn("1onNotification foreground", notification);
-    // console.warn("2my foreground", notification.data);
-  } else {
-    console.warn("onNotification background or closed", notification);
-    console.warn("my background");
-  }
-  // extract the data passed in the push notification
-  // const data = JSON.parse(notification.data);
-  // console.warn("onNotification data", data);
-  // iOS only
-  Platform.OS === "ios"
-    ? notification.finish(PushNotificationIOS.FetchResult.NoData)
-    : null;
-});
-PushNotification.onNotificationOpened((notification: any) => {
-  console.warn("onNotificationOpened", notification);
-  // console.warn("onNotificationOpened", notification.data);
-  // extract the data passed in the push notification
-  // const data = JSON.parse(notification["pinpoint.jsonBody"]);
-  // console.warn(JSON.parse(notification.data));
+// PushNotification.onNotification((notification: any) => {
+//   debugger;
+//   if (notification.foreground) {
+//     console.warn("1onNotification foreground", notification);
+//     // console.warn("2my foreground", notification.data);
+//   } else {
+//     console.warn("onNotification background or closed", notification);
+//     console.warn("my background");
+//   }
+//   // extract the data passed in the push notification
+//   // const data = JSON.parse(notification.data);
+//   // console.warn("onNotification data", data);
+//   // iOS only
+//   Platform.OS === "ios"
+//     ? notification.finish(PushNotificationIOS.FetchResult.NoData)
+//     : null;
+// });
+// PushNotification.onNotificationOpened((notification: any) => {
+//   console.warn("onNotificationOpened", notification);
+//   // console.warn("onNotificationOpened", notification.data);
+//   // extract the data passed in the push notification
+//   // const data = JSON.parse(notification["pinpoint.jsonBody"]);
+//   // console.warn(JSON.parse(notification.data));
 
-  const data = JSON.parse(notification);
-  console.warn("onNotificationOpened data", data);
-});
+//   const data = JSON.parse(notification);
+//   console.warn("onNotificationOpened data", data);
+// });
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -192,6 +223,7 @@ export default function App(props: AppProps) {
                 token,
                 () => {
                   console.warn("success");
+                  // myNotification(token);
                 },
                 () => {
                   console.warn("error");
@@ -262,6 +294,23 @@ export default function App(props: AppProps) {
         : hitHomeAPI(currentChild.child)
       : null;
   }, [focused]);
+
+  const myNotification = (token: string) => {
+    
+  };
+
+  const actionNotification = (action: string) => {
+
+    if (action == 'Kuch Kar') {
+        console.warn('ok')
+        // Do work pertaining to Accept action here
+    } else {
+        // Do work pertaining to Reject action here
+        console.warn('no')
+    }
+    // Add all the required actions handlers
+
+}
 
   const utcFromDateTime = (date?: string) => {
     let myDate = "";

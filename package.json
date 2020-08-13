@@ -14,7 +14,6 @@
     "tcp": "adb reverse tcp:8081 tcp:8081"
   },
   "dependencies": {
-    "@aws-amplify/pushnotification": "^3.1.4",
     "@dudigital/react-native-zoomable-view": "^1.0.15",
     "@react-native-community/async-storage": "^1.10.0",
     "@react-native-community/cameraroll": "1.4.0",
@@ -55,6 +54,7 @@
     "react-native-localization": "^2.1.6",
     "react-native-material-dropdown": "https://github.com/noway/react-native-material-dropdown",
     "react-native-permissions": "^2.1.5",
+    "react-native-push-notification": "^5.0.1",
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.4.0",

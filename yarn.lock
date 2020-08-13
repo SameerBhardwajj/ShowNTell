@@ -130,14 +130,6 @@
     uuid "^3.2.1"
     zen-observable-ts "0.8.19"
 
-"@aws-amplify/pushnotification@^3.1.4":
-  version "3.1.4"
-  resolved "https://registry.yarnpkg.com/@aws-amplify/pushnotification/-/pushnotification-3.1.4.tgz#1c253666a7a7e900092efce4cd435f5e3034d52f"
-  integrity sha512-SjjZsz3I86Jg6j/Ws+y7DohdOo8mNCy+E+G8cj6/YMk12K845+d9Q9I+uzPouyjOEi7HET1purXj+no9r26KxQ==
-  dependencies:
-    "@aws-amplify/core" "^3.4.0"
-    "@react-native-community/push-notification-ios" "1.0.3"
-
 "@aws-amplify/storage@^3.2.7":
   version "3.2.7"
   resolved "https://registry.yarnpkg.com/@aws-amplify/storage/-/storage-3.2.7.tgz#3a0939f2b4177f7034561aac371eccb36147e0d0"
@@ -2230,17 +2222,17 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-5.9.3.tgz#22df477780a3e4870a7acc9bca99096528ac0914"
   integrity sha512-B7t6WrMOKrr+l9A2HqlkwCtENqgpFwDU2fueJ8HxfyZqq9dC820CYSbUu5tQVvKiF9TW/l+0gvy40p2jItDLnA==
 
-"@react-native-community/push-notification-ios@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.0.3.tgz#cd2c7f29aeeb431942eda0bd729738fd2b444ae9"
-  integrity sha512-f+Y3lFLt5OBWHDtGHE+PiZH4aLeS8w2D47c0G/S5XpzeGoEeggOiALtou/r6raiVLP+D5CrLkIBMs2U2+LGJhw==
-  dependencies:
-    invariant "^2.2.4"
-
 "@react-native-community/push-notification-ios@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.3.0.tgz#349095f5dda42f59501316c7ef7896adb8c2a1db"
   integrity sha512-fXLtDYsDv8CZIF/1pnrLyKv68X1VVgsWQTVdxA4UeYPAGP9OU4XdShD1TsPFWIF5VgabNrnmKl1uEDLw3X+6jA==
+  dependencies:
+    invariant "^2.2.4"
+
+"@react-native-community/push-notification-ios@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/push-notification-ios/-/push-notification-ios-1.4.0.tgz#e1781e60fb8a2569547e3f1613c62e1c3b46960c"
+  integrity sha512-YnfxtAuHkiuvprh1d9npGZVwOrso6sys8+w8XY6RQAs8kD2LHZg0C8rA5gfX4jW/GrQV7m14Y6ngciE6Rpd91w==
   dependencies:
     invariant "^2.2.4"
 
@@ -7142,6 +7134,13 @@ react-native-permissions@^2.1.5:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-2.1.5.tgz#6cfc4f1ab1590f4952299b7cdc9698525ad540e0"
   integrity sha512-b9KO/4UEV9qddl+kcSybmdk8nlAifclSDBR2rSvc5KZM06vIaJWJNIzK2ZwPXqDQ5yD3CJLuKTRj7Fz+jM9qyQ==
+
+react-native-push-notification@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-push-notification/-/react-native-push-notification-5.0.1.tgz#d7d563c8ed7e56335b311702a93aa6f4a9ced97a"
+  integrity sha512-3xRGLgJfUo8tUPFokA3TVC4jE4uo2uVUnxmtQ1pscNn6BjZnx2+kLdsJK4kDRyjxc/CpTEMfUyZ5pkMsqIgdYw==
+  dependencies:
+    "@react-native-community/push-notification-ios" "^1.4.0"
 
 react-native-reanimated@^1.8.0:
   version "1.8.0"
