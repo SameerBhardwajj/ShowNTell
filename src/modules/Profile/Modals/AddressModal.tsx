@@ -60,9 +60,7 @@ export default function App(props: AppProps) {
     dispatch(
       fetchStatesAPI(
         () => {},
-        (e: any) => {
-          console.warn("state error ", e);
-        }
+        (e: any) => {}
       )
     );
   }, []);
@@ -91,7 +89,6 @@ export default function App(props: AppProps) {
               props.updateModal();
             },
             (err: any) => {
-              console.warn("err", err);
               setLoading(false);
             }
           )
@@ -240,20 +237,6 @@ export default function App(props: AppProps) {
           >
             <Image source={Images.Cancel_Icon} />
           </TouchableOpacity>
-          {/* <CustomSearchBar
-            value={query}
-            onChangeText={(text: string) => {
-              setQuery(text);
-              text.length === 0 ? setSearchData(list.slice(0)) : null;
-              search(text);
-            }}
-            placeholder={Strings.Search}
-            onSubmitEditing={() => Keyboard.dismiss()}
-            onPressCancel={() => {
-              setQuery(""), setSearchData([]);
-            }}
-            mainViewStyle={{ width: "90%", alignSelf: "center" }}
-          /> */}
           <FlatList
             nestedScrollEnabled={true}
             data={stateList}

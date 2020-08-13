@@ -81,7 +81,6 @@ export default function App(props: AppProps) {
                   props.updateModal();
                 },
                 (err: any) => {
-                  console.warn("err", err);
                   setLoading(false);
                 }
               )

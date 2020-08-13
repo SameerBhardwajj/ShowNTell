@@ -43,7 +43,8 @@ export default {
       fromDate?: string,
       toDate?: string,
       type?: string,
-      searchKey?: string
+      searchKey?: string,
+      activity_status?: number
     ) =>
       `/api/v1/parent/home-data?currentTime=${currentTime}&page=${page}${
         CommonFunctions.isNullUndefined(activity)
@@ -63,6 +64,10 @@ export default {
         CommonFunctions.isNullUndefined(searchKey)
           ? ""
           : `&searchKey=${searchKey}`
+      }${
+        CommonFunctions.isNullUndefined(activity_status)
+          ? ""
+          : `&activity_status=${activity_status}`
       }`,
     filterData: (classroom: number) =>
       classroom === 0

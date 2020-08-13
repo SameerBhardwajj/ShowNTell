@@ -240,7 +240,8 @@ const Strings = new LocalizedStrings({
     Camera: "Camera",
     Gallery: "Gallery",
     Notification: "Notification",
-    Acknowledge: 'Acknowledge'
+    Acknowledge: "Acknowledge",
+    Activity_without_image: "Activities with photo only",
   },
 });
-export default Strings; 
+export default Strings;

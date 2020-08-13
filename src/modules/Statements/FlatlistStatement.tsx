@@ -1,14 +1,6 @@
 import * as React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
-import {
-  ScreenName,
-  Strings,
-  vw,
-  vh,
-  Images,
-  Colors,
-  CommonFunctions,
-} from "../../utils";
+import { View, Text, StyleSheet } from "react-native";
+import { Strings, vw, vh, Colors, CommonFunctions } from "../../utils";
 
 export interface AppProps {
   item: any;
@@ -20,10 +12,6 @@ export default function App(props: AppProps) {
   const credit = props.item.general_ledger_entry_type === "credit";
   return (
     <View style={Styles.itemView}>
-      <Image
-        source={credit ? Images.In_Time_Icon : Images.Out_Time_Icon}
-        style={Styles.inTimeIcon}
-      />
       <View style={Styles.contentView}>
         {CommonFunctions.isNullUndefined(props.item.memo_com) ? null : (
           <Text numberOfLines={2} style={Styles.text1}>
@@ -48,7 +36,13 @@ export default function App(props: AppProps) {
         ]}
       >
         {credit ? "+ $" : "- $"}
-        {(Math.round(parseFloat(props.item.sns_amount) * 10) / 10).toFixed(1)}
+        {credit
+          ? (
+              Math.round(parseFloat(props.item.sns_credit_amt) * 10) / 10
+            ).toFixed(1)
+          : (
+              Math.round(parseFloat(props.item.sns_debit_amt) * 10) / 10
+            ).toFixed(1)}
       </Text>
     </View>
   );
@@ -64,12 +58,8 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  inTimeIcon: {
-    height: vh(54),
-    width: vh(54),
-  },
   contentView: {
-    width: "50%",
+    width: "75%",
   },
   amountText: {
     fontFamily: "Nunito-ExtraBold",
@@ -77,7 +67,7 @@ const Styles = StyleSheet.create({
   },
   text1: {
     fontFamily: "Nunito-Bold",
-    fontSize: vh(16),
+    fontSize: vh(15),
   },
   text2: {
     fontFamily: "Nunito-SemiBold",

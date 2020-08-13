@@ -16,7 +16,7 @@ export default function App(props: AppProps) {
   return props.currentChild !== item.id ? (
     <View />
   ) : (
-    <View style={{ flex: 1, backgroundColor: "white", width: "100%" }}>
+    <View style={Styles.mainView}>
       <Text style={Styles.nameText}>
         {item.first_name} {item.last_name}
       </Text>
@@ -31,8 +31,8 @@ export default function App(props: AppProps) {
           <Image source={Images.Center_Icon} />
           <Text style={Styles.DOBText}>
             {CommonFunctions.isNullUndefined(item.Classroom.name)
-              ? item.Classroom.name
-              : "NA"}
+              ? "NA"
+              : item.Classroom.name}
           </Text>
         </View>
       </View>
@@ -76,6 +76,11 @@ export default function App(props: AppProps) {
 }
 
 const Styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+    backgroundColor: "white",
+    width: "100%",
+  },
   itemView: {
     flexDirection: "row",
     alignItems: "center",

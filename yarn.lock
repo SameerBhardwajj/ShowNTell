@@ -1878,6 +1878,13 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@dudigital/react-native-zoomable-view@^1.0.15":
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/@dudigital/react-native-zoomable-view/-/react-native-zoomable-view-1.0.15.tgz#d49cc14f979a4db41719ee2c13b7c91268212936"
+  integrity sha512-Fctft/GmGtEqBC7bLvD0oiqOvPq+NVgLyu9XZWqlMNFqVE2XoJAs9ADrTDMDxdEc4L5ZVNc39D3Bh5CLbVJ3VQ==
+  dependencies:
+    prop-types "^15.5.10"
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.yarnpkg.com/@egjs/hammerjs/-/hammerjs-2.0.17.tgz#5dc02af75a6a06e4c2db0202cae38c9263895124"
@@ -7015,6 +7022,11 @@ react-localization@^1.0.14:
   integrity sha512-s+yK3EqPUhN8kAfUIoA5m0a0iGOvxB3DrvngYnSZNLRQRX+yS7LYfTuKT66KVa3Cr6EP4iGRtw4XRqpsi1ZLjw==
   dependencies:
     localized-strings "^0.2.0"
+
+react-native-animate-loading-button@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-animate-loading-button/-/react-native-animate-loading-button-1.0.3.tgz#6425215f12aca464b8057ac62d9ea4a728375e98"
+  integrity sha512-jQhZxx/e9XalyXkuW6HVxKfoVUbHhbrrRMK9gIWgR3lSmVF113//4iJQ01y85A0DkqCpgLnzH3em28SeOVMc8g==
 
 "react-native-camera@git+https://git@github.com/react-native-community/react-native-camera.git":
   version "3.35.0"

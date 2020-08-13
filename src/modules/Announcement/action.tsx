@@ -1,5 +1,4 @@
 import { Action, API, EndPoints, CommonFunctions } from "../../utils";
-import { CustomToast } from "../../Components";
 
 export const hitAnnouncementAPI = (
   child_id: number,
@@ -16,8 +15,8 @@ export const hitAnnouncementAPI = (
       (success: any) => {
         let res = success.data.response;
         console.log("mysuccess ", res);
-        console.warn('page ann',page);
-        
+        console.warn("page ann", page);
+
         const { data } = getState().Announcement;
         let finalArray = [];
         page === 0
@@ -27,7 +26,7 @@ export const hitAnnouncementAPI = (
           type: Action.ANNOUNCEMENT,
           payload: {
             data: finalArray,
-            page: page + 1
+            page: page + 1,
           },
         });
         successCallback(res.rows);

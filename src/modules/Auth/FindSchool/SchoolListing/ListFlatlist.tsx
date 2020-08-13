@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -21,9 +21,11 @@ import {
   ScreenName,
   CommonFunctions,
 } from "../../../../utils";
+
 const IOS = "ios";
 const MAP_SCHEME = "maps:0,0?q=";
 const GEO_SCHEME = "geo:0,0?q=";
+
 export interface AppProps {
   navigation?: any;
   item: any;
@@ -103,9 +105,12 @@ export default function App(props: AppProps) {
           }}
         >
           <Image source={Images.Phone_small} style={Styles.img3} />
-          <Text style={Styles.phoneText}>{`${item.phone}`}</Text>
+          <Text style={Styles.phoneText}>
+            {CommonFunctions.isNullUndefined(item.phone)
+              ? "NA"
+              : `${item.phone}`}
+          </Text>
         </TouchableOpacity>
-        {/* <Text style={Styles.description}>{}</Text> */}
         <View style={Styles.btnView}>
           <CustomButton
             Text={Strings.Get_Directions}
@@ -157,10 +162,6 @@ const Styles = StyleSheet.create({
     height: vh(192),
     borderTopLeftRadius: vh(10),
     borderTopRightRadius: vh(10),
-  },
-  placeholderImg: {
-    alignSelf: "center",
-    height: vh(192),
   },
   schoolView: {
     padding: vh(16),
@@ -217,12 +218,6 @@ const Styles = StyleSheet.create({
     alignSelf: "flex-start",
     paddingLeft: vw(8),
     color: Colors.violet,
-  },
-  description: {
-    fontFamily: "Nunito-Regular",
-    fontSize: vh(14),
-    color: Colors.lightGrey,
-    paddingVertical: vh(12),
   },
   btnView: {
     flexDirection: "row",

@@ -58,7 +58,6 @@ export default function App(props: AppProps) {
       <View style={Styles.innerView}>
         <CustomLoader loading={isLoading} />
         <Text style={Styles.welcome}>{Strings.hello}</Text>
-        {/* <Text style={Styles.name}>Mr. Bob Parish</Text> */}
         <Text style={Styles.please}>{Strings.enter_email_passowrd_link}</Text>
         <View style={Styles.codeView}>
           {/* email -------------- */}

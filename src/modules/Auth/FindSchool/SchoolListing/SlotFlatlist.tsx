@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import React from "react";
+import { Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { CommonFunctions, vh, vw, Colors, Images } from "../../../../utils";
 
 export interface AppProps {
@@ -32,7 +32,7 @@ export default function App(props: AppProps) {
         {CommonFunctions.DateFormatter(new Date(props.item.date))}
       </Text>
       {props.current === parseInt(props.index) ? (
-        <Image source={Images.Tick_Icon} style={{marginHorizontal: vw(20)}}/>
+        <Image source={Images.Tick_Icon} style={{ marginHorizontal: vw(20) }} />
       ) : null}
     </TouchableOpacity>
   );
@@ -51,6 +51,6 @@ const Styles = StyleSheet.create({
   myText: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
-    paddingHorizontal: vw(20)
+    paddingHorizontal: vw(20),
   },
 });

@@ -66,23 +66,38 @@ export const updateDeviceToken = (
         device_token: token,
       },
       (success: any) => {
-        console.log("success ", success.data.response);
-        // dispatch({
-        //   type: Action.UPDATE_TAB,
-        //   payload: {},
-        // });
         if (success.data.code === 200) {
           successCallback(success.data.response);
         } else {
-          // CustomToast(success.data.message);
           failCallback();
         }
       },
       (error: any) => {
-        // CommonFunctions.handleError(error);
         failCallback([]);
       }
     );
+  };
+};
+
+export const updateFilter = (value: boolean) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        filterEnable: value,
+      },
+    });
+  };
+};
+
+export const updateAWI = () => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        AWI: !getState().Home.AWI,
+      },
+    });
   };
 };
 
@@ -96,7 +111,8 @@ export const HomeAPI = (
   fromDate?: string,
   toDate?: string,
   type?: string,
-  searchKey?: string
+  searchKey?: string,
+  activity_status?: number
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
@@ -108,15 +124,13 @@ export const HomeAPI = (
         fromDate,
         toDate,
         type,
-        searchKey
+        searchKey,
+        activity_status
       ),
       {},
       (success: any) => {
         const res = success.data.response;
         if (success.data.code === 200) {
-          console.log("receiving page num ", page);
-
-          // console.warn("mysuccess ", res);
           if (res === undefined) {
             failureCallback();
           } else {
@@ -126,6 +140,7 @@ export const HomeAPI = (
                 data: res.rows,
                 chatEnable: res.permission.chatWithParent === 0 ? false : true,
                 page: page === undefined ? 0 : page + 1,
+                guardianData: res.guardianData,
               },
             });
             successCallback(res.rows);
@@ -154,14 +169,12 @@ export const HomeFilter = (
       {},
       (success: any) => {
         if (success.data.code === 200) {
-          console.log("mysuccess ", success.data.response);
           dispatch({
             type: Action.HOME_DATA,
             payload: {
               filterData: success.data.response,
             },
           });
-
           successCallback(success.data.response);
         } else {
           dispatch({
@@ -235,11 +248,6 @@ export const weDidItAPI = (
         id: id,
       },
       (success: any) => {
-        console.log("success ", success.data.response);
-        dispatch({
-          type: Action.UPDATE_TAB,
-          payload: {},
-        });
         if (success.data.code === 200) {
           successCallback(success.data.response);
         } else {

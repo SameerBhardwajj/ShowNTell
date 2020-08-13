@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { RNCamera } from "react-native-camera";
 import { vh, Images } from "../../../utils";
+import { Styles } from "src/modules/PhotoLibrary/PhotoLibrary";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 
@@ -44,13 +45,7 @@ export default class ExampleApp extends PureComponent<AppProps, any> {
           >
             {({ camera }) => {
               return (
-                <View
-                  style={{
-                    flex: 1,
-                    width: "100%",
-                    justifyContent: "flex-end",
-                  }}
-                >
+                <View style={styles.mainCameraView}>
                   <View style={styles.modalBack}>
                     <TouchableOpacity
                       activeOpacity={0.8}
@@ -140,11 +135,7 @@ export default class ExampleApp extends PureComponent<AppProps, any> {
       .then((value: any) => {
         callback(value);
       })
-      .catch((e: any) => {
-        console.warn(e);
-      });
-    //  eslint-disable-next-line
-    // console.warn(data.uri);
+      .catch((e: any) => {});
   };
 }
 
@@ -152,6 +143,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
+  },
+  mainCameraView: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "flex-end",
   },
   preview: {
     flex: 1,
@@ -161,8 +157,6 @@ const styles = StyleSheet.create({
   capture: {
     backgroundColor: "#fff",
     borderRadius: vh(40),
-    // padding: 15,
-    // paddingHorizontal: 20,
     alignSelf: "center",
     margin: 20,
   },

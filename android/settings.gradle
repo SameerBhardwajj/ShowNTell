@@ -1,6 +1,4 @@
 rootProject.name = 'ParentApp'
-include ':react-native-fcm'
-project(':react-native-fcm').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fcm/android')
 include ':react-native-text-input'
 project(':react-native-text-input').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-text-input/android')
 include ':react-native-splash-screen'

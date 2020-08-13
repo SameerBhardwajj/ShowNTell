@@ -28,12 +28,10 @@ import {
   CustomLoader,
   CustomNoData,
 } from "../../Components";
-import { updateTab } from "../Home/action";
 import { viewAttendanceAPI } from "./action";
 import AttendanceList from "./AttendanceList";
 import AttendanceMonth from "./AttendanceMonth";
 
-const iPhoneX = Dimensions.get("window").height >= 812;
 const DATE_TYPE = "by_date";
 const MONTH_TYPE = "by_month";
 
@@ -52,9 +50,8 @@ export default function App(props: AppProps) {
   const [isRefreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
-  const { tab, currentChild, monthData, dateData } = useSelector(
+  const { currentChild, monthData, dateData } = useSelector(
     (state: { Home: any; Attendance: any }) => ({
-      tab: state.Home.tab,
       currentChild: state.Home.currentChild,
       monthData: state.Attendance.monthData,
       dateData: state.Attendance.dateData,
@@ -62,7 +59,6 @@ export default function App(props: AppProps) {
   );
 
   useEffect(() => {
-    debugger;
     let focusListener = props.navigation.addListener("focus", () => {
       hitAttendance();
     });
@@ -154,6 +150,7 @@ export default function App(props: AppProps) {
         child={true}
         navigation={props.navigation}
       />
+
       {/* view by date and month ------------------ */}
       <View style={Styles.viewByView}>
         <View style={Styles.mainViewBy}>
@@ -204,6 +201,7 @@ export default function App(props: AppProps) {
           <Text style={Styles.viewByText}>{Strings.View_by_Month}</Text>
         </View>
       </View>
+
       {/* View by Date ------------------------- */}
       <View style={Styles.headingView}>
         {currentChild.child === 0 || dateData.length === 0 ? null : (
@@ -252,7 +250,6 @@ export default function App(props: AppProps) {
       ) : (
         <View style={Styles.monthView}>
           {/* View by Month ------------------------- */}
-
           {isLoading ? (
             <CustomLoader loading={isLoading} />
           ) : monthData.length === 0 ? (
@@ -268,9 +265,10 @@ export default function App(props: AppProps) {
               renderItem={renderMonthItem}
             />
           )}
-          {/* absence -------------------------------------------- */}
         </View>
       )}
+
+      {/* absence -------------------------------------------- */}
       <Modal animationType="slide" transparent={true} visible={modalOpen}>
         <TouchableOpacity
           style={Styles.topModalView}
@@ -307,30 +305,6 @@ const Styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "white",
-  },
-  extraHeader: {
-    backgroundColor: Colors.violet,
-    width: "100%",
-    height: iPhoneX ? vh(10) : 0,
-  },
-  headerView: {
-    backgroundColor: Colors.violet,
-    alignItems: "center",
-    justifyContent: "center",
-    height: vh(70),
-    width: "100%",
-    paddingTop: vh(20),
-    flexDirection: "row",
-  },
-  noDataView: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-  headerText: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(18),
-    color: "white",
   },
   viewByView: {
     alignItems: "center",
@@ -386,14 +360,6 @@ const Styles = StyleSheet.create({
     justifyContent: "center",
     padding: vh(20),
     paddingHorizontal: vw(25),
-  },
-  attendenceDate: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: vh(16),
-    color: Colors.lightBlack,
-    marginVertical: vh(8),
-    marginLeft: vw(16),
-    alignSelf: "flex-start",
   },
   monthView: {
     width: "100%",

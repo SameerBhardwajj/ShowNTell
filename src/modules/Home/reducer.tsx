@@ -10,6 +10,9 @@ const initialState = {
   page: 0,
   searchQuery: "",
   chatEnable: true,
+  guardianData: {},
+  filterEnable: false,
+  AWI: false,
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

@@ -90,12 +90,11 @@ export default function App(props: AppProps) {
       >
         <Image source={Images.back_icon} />
       </TouchableOpacity>
-      <KeyboardAwareScrollView 
+      <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="never"
         contentContainerStyle={Styles.mainView}
       >
-        {/* <View style={Styles.mainView}> */}
         <Customcartoon navigation={props.navigation} small={true} />
         <View style={Styles.loginView}>
           <View style={Styles.loginMainView}>
@@ -209,7 +208,6 @@ export default function App(props: AppProps) {
             <Text style={Styles.btnText}>{Strings.need_help}</Text>
           </TouchableOpacity>
         </View>
-        {/* </View> */}
       </KeyboardAwareScrollView>
     </ImageBackground>
   );
@@ -230,7 +228,7 @@ const Styles = StyleSheet.create({
     position: "absolute",
     height: vh(50),
     width: vh(50),
-    zIndex: 99
+    zIndex: 99,
   },
   loginView: {
     backgroundColor: "white",

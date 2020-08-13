@@ -40,7 +40,6 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   useEffect(() => {
-    // dispatch(updateTab(true, () => {}));
     data.length === 0 ? setLoading(true) : null;
     dispatch(
       hitClassScheduleAPI(

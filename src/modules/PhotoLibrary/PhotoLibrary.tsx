@@ -38,6 +38,7 @@ export default function App(props: AppProps) {
   const focused = useIsFocused();
   const [isLoading, setLoading] = useState(false);
   const [loadMore, setLoadMore] = useState(true);
+
   const {
     currentChild,
     downloadGallery,
@@ -91,7 +92,6 @@ export default function App(props: AppProps) {
               resolve();
             },
             (error: any) => {
-              console.warn("m error .. ", error);
               reject();
             }
           );
@@ -103,7 +103,6 @@ export default function App(props: AppProps) {
         emptyTheGallery();
       })
       .catch((error: any) => {
-        console.warn("m error .. ", error);
         emptyTheGallery();
       });
   };
@@ -122,16 +121,8 @@ export default function App(props: AppProps) {
     let temp = new Array().slice(0);
     let i = 0;
     if (arr.length !== 0) {
-      arr.map((item: any, index: number) => {
+      arr.map((item: any) => {
         if (!CommonFunctions.isNullUndefined(item.s3_photo_path)) {
-          if (
-            index !== 0 &&
-            CommonFunctions.dateTypeFormat(item.activity_dt, "") !==
-              CommonFunctions.dateTypeFormat(arr[index - 1].activity_date, "")
-          ) {
-            i++;
-            temp[i] = [];
-          }
           CommonFunctions.isNullUndefined(temp[i])
             ? (temp.push([]), temp[i].push(item))
             : temp[i].push(item);
@@ -210,21 +201,16 @@ export default function App(props: AppProps) {
                   console.warn("unavailable");
                   break;
                 case RESULTS.DENIED:
-                  console.warn("denied");
-
                   permission.storage === 1
                     ? permissionAccess()
                     : dispatch(updatePermission({ storage: 1 }, () => {}));
                   break;
                 case RESULTS.GRANTED:
-                  console.warn("granted");
-
                   permission.storage === 3
                     ? null
                     : dispatch(updatePermission({ storage: 3 }, () => {}));
                   break;
                 case RESULTS.BLOCKED:
-                  console.warn("blocked");
                   permission.storage === 2
                     ? permissionAccess()
                     : dispatch(updatePermission({ storage: 2 }, () => {}));
@@ -324,7 +310,7 @@ export const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     color: Colors.violet,
-    paddingTop: vh(16),
+    padding: vh(10),
   },
   bottomMain: {
     position: "absolute",

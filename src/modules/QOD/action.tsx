@@ -1,4 +1,3 @@
-import { CustomToast } from "../../Components";
 import { Action, API, EndPoints, CommonFunctions } from "../../utils";
 
 export const hitQOTDApi = (

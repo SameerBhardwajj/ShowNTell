@@ -38,7 +38,6 @@ export const PhotoLibraryAPI = (
         const { libraryData } = getState().PhotoLibrary;
         const res = success.data.response;
         if (success.data.code === 200) {
-          console.warn("mysuccess ", res);
           let finalData = [];
           page === 0
             ? (finalData = res)
@@ -57,7 +56,6 @@ export const PhotoLibraryAPI = (
         }
       },
       (error: any) => {
-        console.warn("error ", error);
         dispatch({
           type: Action.UPDATE_LIBRARY,
           payload: {

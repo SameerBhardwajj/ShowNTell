@@ -16,13 +16,15 @@ import {
 import ImagePicker from "react-native-image-crop-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
+// @ts-ignore
+import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 
 // custom imports
 import { CustomHeader, CustomLoader, CustomToast } from "../../Components";
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 import TopTabNavigation from "./TopTabNavigation";
 import { hiBasicDetails, hitUploadCDNapi, hitUploadImage } from "./action";
-import { updateProfilePic, updatePermission } from "../Auth/Login/action";
+import { updatePermission } from "../Auth/Login/action";
 import ProfileModal from "./ProfileModal";
 import CameraModal from "./Modals/CameraModal";
 
@@ -57,18 +59,9 @@ export default function App(props: AppProps) {
       hiBasicDetails(
         () => {
           setLoading(false);
-          dispatch(
-            updateProfilePic(
-              CommonFunctions.isNullUndefined(data.s3_photo_path)
-                ? ""
-                : data.s3_photo_path,
-              () => {}
-            )
-          );
         },
         (err: any) => {
           setLoading(false);
-          console.warn("err", err);
         }
       )
     );
@@ -84,16 +77,12 @@ export default function App(props: AppProps) {
           mediaType: "photo",
         })
           .then((image: any) => {
-            setMyProfile(image.path);
             hitProfileUpdate(image.path, value);
           })
           .catch((e) => {
-            console.warn("hello", e.code);
             e.code === "E_PICKER_CANCELLED"
               ? null
               : iosPermissions(PERMISSIONS.IOS.PHOTO_LIBRARY, 0);
-
-            //  androidPermissions(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, 0)
             setModalOpen(false);
           });
       }
@@ -105,29 +94,12 @@ export default function App(props: AppProps) {
           (image: any, res: any) => {
             setMyProfile(image.uri);
             setModalOpen(false);
-            // setCheckData({ image: image, res: res });
-            // setDataModal(true);
-
             hitProfileUpdate(image.uri, 1);
           },
           () => {
             setModalOpen(false);
           }
         );
-        // ImagePicker.openCamera({
-        //   mediaType: "photo",
-        // })
-        //   .then((image: any) => hitProfileUpdate(image, value))
-        //   .catch((e) => {
-        //     console.warn("hello", e);
-
-        // Platform.OS === "ios"
-        //   ?
-        // iosPermissions(PERMISSIONS.IOS.CAMERA, 1);
-        // : null;
-        // androidPermissions(PERMISSIONS.ANDROID.CAMERA, 1)
-        //   setModalOpen(false);
-        // });
       }
     }
   };
@@ -149,6 +121,8 @@ export default function App(props: AppProps) {
             mediaType: "photo",
           })
             .then((image: any) => {
+              console.log(image);
+
               setMyProfile(image.path);
               hitProfileUpdate(image.path, type);
             })
@@ -184,15 +158,11 @@ export default function App(props: AppProps) {
       .then((result) => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.warn(
-              "This feature is not available (on this device / in this context)"
-            );
             CustomToast(
               "This feature is not available (on this device / in this context)"
             );
             break;
           case RESULTS.DENIED:
-            console.warn("denied");
             type === 0
               ? permission.storage === 1
                 ? permissionAccess(type)
@@ -211,11 +181,8 @@ export default function App(props: AppProps) {
             break;
           case RESULTS.GRANTED:
             type === 0 ? ImagePick(0) : ImagePick(1);
-            // : (setModalOpen(false), setCameraModalOpen(true));
             break;
           case RESULTS.BLOCKED:
-            console.warn("blocked", permission);
-
             type === 0
               ? permission.storage === 2
                 ? permissionAccess(type)
@@ -265,6 +232,7 @@ export default function App(props: AppProps) {
 
   const hitProfileUpdate = (image: any, value: number) => {
     setLoading(true);
+    console.warn("my img ", image);
 
     var formdata = new FormData();
     formdata.append("file", {
@@ -272,66 +240,40 @@ export default function App(props: AppProps) {
         Platform.OS === "ios"
           ? value === 0
             ? image.replace("file://", "")
-            : // : image.uri.replace("file://", "")
-              image
+            : image.replace("file://", "")
           : value === 0
           ? `file://${image}`
           : `${image}`,
-      name: "test" + ".jpeg",
-      type: "image/jpeg",
+      name: "test" + ".jpg",
+      type: "image/jpg",
     });
     setModalOpen(false);
-    dispatch(updateProfilePic(image, () => {}));
     dispatch(
       hitUploadCDNapi(
         formdata,
         (data: any) => {
-          console.warn("my  ", data.key);
-
-          // CustomToast(data.key);
-          updateImage(data.key);
-          // setLoading(false);
-          // Alert.alert(
-          //   "Do you want to update profile picture?",
-          //   "",
-          //   [
-          //     {
-          //       text: "OK",
-          //       onPress: () => updateImage(data.key),
-          //     },
-          //     {
-          //       text: "Cancel",
-          //       onPress: () => console.warn("ok"),
-          //       style: "cancel",
-          //     },
-          //   ],
-          //   { cancelable: true }
-          // );
+          updateImage(data.key, image);
         },
         (e: any) => {
           setLoading(false);
-          // Clipboard.setString(e);
-          CustomToast(e);
-          console.warn("Server Error: ", e);
         }
       )
     );
   };
 
-  const updateImage = (img: string) => {
+  const updateImage = (img: string, image: string) => {
     dispatch(
       hitUploadImage(
         img,
         () => {
-          // HitProfileAPI();
           dispatch(
             hiBasicDetails(
               () => {
                 setLoading(false);
+                setMyProfile(image);
               },
               (err: any) => {
                 setLoading(false);
-                console.warn("err", err);
               }
             )
           );
@@ -339,7 +281,6 @@ export default function App(props: AppProps) {
         (e: any) => {
           setLoading(false);
           CustomToast(e);
-          console.warn("Server Error:  ", e);
         }
       )
     );
@@ -353,14 +294,6 @@ export default function App(props: AppProps) {
         title={Strings.My_Profile}
         onPressBack={() => {
           props.navigation.pop();
-          dispatch(
-            updateProfilePic(
-              CommonFunctions.isNullUndefined(data.s3_photo_path)
-                ? ""
-                : data.s3_photo_path,
-              () => {}
-            )
-          );
         }}
       />
 
@@ -410,7 +343,7 @@ export default function App(props: AppProps) {
           closeModal={() => setModalOpen(false)}
           openGallery={() => ImagePick(0)}
           openCamera={() => ImagePick(1)}
-          deleteProfile={() => updateImage("")}
+          deleteProfile={() => updateImage("", "")}
         />
       </Modal>
       <Modal animationType="slide" transparent={true} visible={picModalOpen}>
@@ -422,14 +355,16 @@ export default function App(props: AppProps) {
           >
             <Image source={Images.back_icon} />
           </TouchableOpacity>
-          <View
-            style={{ backgroundColor: "white", height: "50%", width: "100%" }}
+          <ReactNativeZoomableView
+            maxZoom={1.5}
+            minZoom={1}
+            zoomStep={0.5}
+            initialZoom={1}
+            bindToBorders={true}
+            captureEvent={true}
           >
-            <Image
-              source={{ uri: data.s3_photo_path }}
-              style={{ height: "100%", width: "100%" }}
-            />
-          </View>
+            <Image source={{ uri: data.s3_photo_path }} style={Styles.img} />
+          </ReactNativeZoomableView>
         </View>
       </Modal>
       <Modal animationType="slide" transparent={true} visible={cameraModalOpen}>
@@ -491,13 +426,17 @@ const Styles = StyleSheet.create({
   picModalView: {
     flex: 1,
     backgroundColor: "black",
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  img: {
+    width: "100%",
+    height: vh(250),
+    backgroundColor: "white",
   },
   modalBack: {
     position: "absolute",
     top: iPhoneX ? vh(30) : 0,
     left: 0,
     padding: vh(20),
+    zIndex: 99,
   },
 });

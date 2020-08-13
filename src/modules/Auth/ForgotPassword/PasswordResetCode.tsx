@@ -44,6 +44,7 @@ export default function App(props: AppProps) {
 
   const KEY_BACKSPACE = "Backspace";
 
+  // Validating Code --------------
   const verifyCode = () => {
     let enteredCode =
       input1.toString() +
@@ -89,6 +90,7 @@ export default function App(props: AppProps) {
           {Strings.please_enter_code}
           {email}
         </Text>
+
         {/* Access code box ------------------ */}
         <View style={Styles.codeView}>
           <CustomCodeBox

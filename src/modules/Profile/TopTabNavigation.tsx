@@ -1,7 +1,6 @@
 import * as React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { TransitionPresets } from "@react-navigation/stack";
 
 // custom Imports
 import BasicDetails from "./BasicDetails";
@@ -14,19 +13,6 @@ const TopTabStack = createMaterialTopTabNavigator();
 export interface AppProps {}
 
 export default function App(props: AppProps) {
-  const modal = {
-    title: "",
-    cardOverlayEnabled: true,
-    ...TransitionPresets.ModalSlideFromBottomIOS,
-    cardStyle: {
-      backgroundColor: "rgba(0,0,0,0.2)",
-      opacity: 1,
-    },
-  };
-
-  const screen = {
-    ...TransitionPresets.DefaultTransition,
-  };
   return (
     <NavigationContainer independent={true}>
       <TopTabStack.Navigator

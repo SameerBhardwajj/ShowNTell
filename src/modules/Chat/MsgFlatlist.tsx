@@ -43,30 +43,12 @@ export default function App(props: AppProps) {
           <View style={Styles.dayLine} />
         </View>
       ) : null}
-      <View
-        style={[
-          Styles.bubbleView,
-          admin
-            ? {
-                backgroundColor: Colors.fadedPink,
-                alignSelf: "flex-start",
-                borderBottomLeftRadius: 0,
-                borderBottomRightRadius: vw(8),
-              }
-            : {},
-        ]}
-      >
+      <View style={[Styles.bubbleView, admin ? Styles.bubbleView2 : {}]}>
         <View
           style={[
             Styles.bubbleTriangle,
             admin
-              ? {
-                  left: 0,
-                  borderTopColor: Colors.fadedPink,
-                  borderRightWidth: 15,
-                  borderTopWidth: 15,
-                  borderBottomLeftRadius: vw(8),
-                }
+              ? Styles.bubbletriangleStyle
               : {
                   borderLeftWidth: 15,
                   borderTopWidth: 15,
@@ -136,6 +118,12 @@ const Styles = StyleSheet.create({
     padding: vw(20),
     borderBottomRightRadius: 0,
   },
+  bubbleView2: {
+    backgroundColor: Colors.fadedPink,
+    alignSelf: "flex-start",
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: vw(8),
+  },
   bubbleTriangle: {
     position: "absolute",
     right: 0,
@@ -148,6 +136,13 @@ const Styles = StyleSheet.create({
     borderLeftColor: "transparent",
     borderTopColor: Colors.violet,
     borderBottomRightRadius: vw(8),
+  },
+  bubbletriangleStyle: {
+    left: 0,
+    borderTopColor: Colors.fadedPink,
+    borderRightWidth: 15,
+    borderTopWidth: 15,
+    borderBottomLeftRadius: vw(8),
   },
   msgText: {
     fontFamily: "Nunito-Regular",

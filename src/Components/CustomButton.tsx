@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { Colors, vw, vh } from "../utils";
 
 export interface AppProps {
@@ -15,9 +15,6 @@ export interface AppProps {
 export default function App(props: AppProps) {
   return (
     <TouchableOpacity
-      activeOpacity={
-        props.activeOpacity === undefined ? 0.8 : props.activeOpacity
-      }
       style={[
         Styles.btn,
         {
@@ -32,9 +29,12 @@ export default function App(props: AppProps) {
         },
         props.ButtonStyle,
       ]}
+      activeOpacity={
+        props.activeOpacity === undefined ? 0.8 : props.activeOpacity
+      }
       onPress={() => props.onPress()}
     >
-      <Text
+      <Animated.Text
         style={[
           Styles.btnText,
           {
@@ -48,16 +48,21 @@ export default function App(props: AppProps) {
         ]}
       >
         {props.Text}
-      </Text>
+      </Animated.Text>
     </TouchableOpacity>
   );
 }
 const Styles = StyleSheet.create({
-  btn: {
+  mainView: {
+    width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    height: vh(48),
+  },
+  btn: {
     width: "85%",
+    height: vh(48),
+    alignItems: "center",
+    justifyContent: "center",
     margin: vw(14),
     marginHorizontal: vw(20),
     borderRadius: vw(50),

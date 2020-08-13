@@ -75,14 +75,11 @@ export default function App(props: AppProps) {
     from_date: string,
     to_date: string
   ) => {
-    console.warn("apply", from_date, to_date);
-
+    setState(false);
     dispatch(
       hitStatementApi(
         (data: Array<any>) => {
-          data.length === 0
-            ? setLoadMore(false)
-            : (setState(false), setLoadMore(true));
+          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
         },
         () => {
@@ -143,7 +140,9 @@ export default function App(props: AppProps) {
       )}
       <View style={Styles.innerView}>
         {data.length === 0 ? (
-          <CustomNoData />
+          loading ? null : (
+            <CustomNoData />
+          )
         ) : (
           <FlatList
             contentContainerStyle={{ paddingBottom: state ? vh(80) : vh(0) }}
@@ -158,24 +157,6 @@ export default function App(props: AppProps) {
           />
         )}
       </View>
-      {/* {state ? null : (
-        <CustomButton
-          ButtonStyle={Styles.dowbloadBtn}
-          onPress={() => CustomToast()}
-          // @ts-ignore
-          Text={
-            <Text style={Styles.clearText}>
-              {Strings.Download_Statement}
-              {"\n"}
-              <Text style={Styles.statementText}>
-                {fromDate.toLocaleDateString()}
-                {Strings.to}
-                {toDate.toLocaleDateString()}
-              </Text>
-            </Text>
-          }
-        />
-      )} */}
       {state ? (
         <TouchableOpacity
           style={Styles.filterIcon}

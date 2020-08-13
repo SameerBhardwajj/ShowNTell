@@ -65,6 +65,7 @@ export default function App(props: AppProps) {
           </View>
           <CustomDate
             heading={Strings.From}
+            date={new Date()}
             getDate={(date: Date) => {
               setFromDate(date);
               setDays(
@@ -74,6 +75,7 @@ export default function App(props: AppProps) {
           />
           <CustomDate
             heading={Strings.To}
+            date={new Date()}
             minDate={fromDate}
             getDate={(date: Date) => {
               setToDate(date);

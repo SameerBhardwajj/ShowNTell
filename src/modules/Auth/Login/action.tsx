@@ -4,9 +4,6 @@ import { Platform } from "react-native";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import FirebaseServices from "../../../utils/FirebaseServices";
 
-const myToken =
-  "57ed3056e53f46cd8981e689dd0b0991be61f90d0afa7952f0a0dec902b4a319";
-
 export const updateLogin = (data: object, token: string) => {
   return (dispatch: any, getState: any) => {
     dispatch({
@@ -14,6 +11,17 @@ export const updateLogin = (data: object, token: string) => {
       payload: {
         loginData: data,
         loginToken: token,
+      },
+    });
+  };
+};
+
+export const logout = () => {
+  return (dispatch: any, getState: any) => {
+    dispatch({
+      type: "USER_LOGGED_OUT",
+      payload: {
+        logout: true,
       },
     });
   };
@@ -55,14 +63,7 @@ export const addDeviceToken = (callback: Function) => {
           });
           callback(token);
         })
-      : // (dispatch({
-        //   type: Action.USER_LOGIN,
-        //   payload: {
-        //     deviceToken: myToken,
-        //   },
-        // }),
-        // callback(myToken))
-        FirebaseServices.getToken((token: string) => {
+      : FirebaseServices.getToken((token: string) => {
           dispatch({
             type: Action.USER_LOGIN,
             payload: {
@@ -122,8 +123,6 @@ export const loginAPI = (
   callback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.warn("id  ", deviceID, "token  ", token, "name  ", deviceName);
-
     API.postApiCall(
       EndPoints.auth.login,
       {
@@ -136,7 +135,7 @@ export const loginAPI = (
         device_token: token,
       },
       (success: any) => {
-        console.log("success ", success);
+        console.warn("success ", success);
         const res = success.data.response;
         if (success.data.code === 200) {
           dispatch({

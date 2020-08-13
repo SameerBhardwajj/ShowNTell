@@ -16,10 +16,12 @@ import RNFetchBlob from "rn-fetch-blob";
 import CameraRoll from "@react-native-community/cameraroll";
 import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
 import { updatePermission } from "../Auth/Login/action";
+// @ts-ignore
+import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 
 // custom imports
 import { CustomHeader, CustomToast } from "../../Components";
-import { Strings, vw, vh, Images, Colors } from "../../utils";
+import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
@@ -102,21 +104,16 @@ export default function App(props: AppProps) {
                   console.warn("unavailable");
                   break;
                 case RESULTS.DENIED:
-                  console.warn("denied");
-
                   permission.storage === 1
                     ? permissionAccess()
                     : dispatch(updatePermission({ storage: 1 }, () => {}));
                   break;
                 case RESULTS.GRANTED:
-                  console.warn("granted");
-
                   permission.storage === 3
                     ? null
                     : dispatch(updatePermission({ storage: 3 }, () => {}));
                   break;
                 case RESULTS.BLOCKED:
-                  console.warn("blocked");
                   permission.storage === 2
                     ? permissionAccess()
                     : dispatch(updatePermission({ storage: 2 }, () => {}));
@@ -154,7 +151,24 @@ export default function App(props: AppProps) {
       </View>
       <Text style={Styles.heading}>{item.ActivityCategory.name}</Text>
       <Text style={Styles.category}>{item.ActivityCategory.description}</Text>
-      <Image source={{ uri: item.s3_photo_path }} style={Styles.img} />
+      <Text style={Styles.date}>
+        {CommonFunctions.DateFormatter(item.activity_dt)}
+      </Text>
+      <ReactNativeZoomableView
+        maxZoom={1.3}
+        minZoom={1}
+        zoomStep={0.5}
+        initialZoom={1}
+        bindToBorders={true}
+        captureEvent={true}
+        style={{
+          alignItems: "center",
+          justifyContent: "flex-start",
+          marginTop: vh(60),
+        }}
+      >
+        <Image source={{ uri: item.s3_photo_path }} style={Styles.img} />
+      </ReactNativeZoomableView>
     </View>
   );
 }
@@ -187,12 +201,18 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Medium",
     fontSize: vh(18),
     color: Colors.lightGrey,
-    paddingTop: vh(10),
+    paddingTop: vh(8),
     paddingLeft: vh(16),
   },
   img: {
     width: "100%",
-    height: vh(220),
-    marginTop: vh(80),
+    height: vh(250),
+  },
+  date: {
+    fontFamily: "frutiger",
+    fontSize: vh(14),
+    color: Colors.lightGrey,
+    paddingTop: vh(16),
+    paddingLeft: vh(16),
   },
 });

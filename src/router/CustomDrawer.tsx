@@ -25,15 +25,10 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const { loginData, loginEmail, profilePic, chatEnable, data } = useSelector(
-    (state: { Login: any; Home: any; Profile: any }) => ({
-      loginData: state.Login.loginData,
-      loginEmail: state.Login.loginEmail,
-      profilePic: state.Login.profilePic,
-      chatEnable: state.Home.chatEnable,
-      data: state.Profile.data,
-    })
-  );
+  const { chatEnable, guardianData } = useSelector((state: { Home: any }) => ({
+    chatEnable: state.Home.chatEnable,
+    guardianData: state.Home.guardianData,
+  }));
 
   const chat = {
     icon: Images.Chat_Icon,
@@ -45,12 +40,7 @@ export default function App(props: AppProps) {
   const finalData = [chat].concat(DATA);
 
   React.useEffect(() => {
-    console.warn("updated chat ", chatEnable);
-    let focusListener = props.navigation.addListener("focus", () => {
-      console.warn(data);
-    });
-    return focusListener;
-  }, [props.navigation, chatEnable]);
+  }, [chatEnable]);
 
   const rendetItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -85,7 +75,14 @@ export default function App(props: AppProps) {
           }}
         >
           <View style={Styles.imgView}>
-            {CommonFunctions.isNullUndefined(profilePic) ? (
+            {CommonFunctions.isNullUndefined(guardianData) ? (
+              <Image
+                source={Images.Profile_Placeholder}
+                resizeMode="center"
+                resizeMethod="resize"
+                style={Styles.img}
+              />
+            ) : CommonFunctions.isNullUndefined(guardianData.s3_photo_path) ? (
               <Image
                 source={Images.Profile_Placeholder}
                 resizeMode="center"
@@ -93,18 +90,21 @@ export default function App(props: AppProps) {
                 style={Styles.img}
               />
             ) : (
-              <Image source={{ uri: profilePic }} style={Styles.img} />
+              <Image
+                source={{ uri: guardianData.s3_photo_path }}
+                style={Styles.img}
+              />
             )}
           </View>
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>
             <Text style={Styles.name}>
-              {`${loginData.first_name} ${
-                loginData.middle_name === null
-                  ? ""
-                  : `${loginData.middle_name}${" "}`
-              }${loginData.last_name}`}
+              {CommonFunctions.isNullUndefined(guardianData)
+                ? "NA"
+                : `${guardianData.first_name} ${guardianData.last_name}`}
             </Text>
-            <Text style={Styles.email}>{loginEmail}</Text>
+            {CommonFunctions.isNullUndefined(guardianData) ? null : (
+              <Text style={Styles.email}>{guardianData.email}</Text>
+            )}
           </View>
         </TouchableOpacity>
         <FlatList

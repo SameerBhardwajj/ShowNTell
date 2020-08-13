@@ -23,8 +23,6 @@ export const hitClassScheduleAPI = (
       EndPoints.drawer.classroomSchedule(classID),
       {},
       (success: any) => {
-        console.warn("success ", success);
-
         const res = success.data.response;
         if (success.data.code === 200) {
           dispatch({
@@ -46,14 +44,6 @@ export const hitClassScheduleAPI = (
         }
       },
       (error: any) => {
-        console.log("err ", error);
-
-        // dispatch({
-        //   type: Action.CLASSROOM_SCHEDULE,
-        //   payload: {
-        //     data: [],
-        //   },
-        // });
         CommonFunctions.handleError(error);
         failCallback(error);
       }

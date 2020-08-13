@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { vh, Images, CommonFunctions } from "../../../utils";
 import { addFilter } from "../action";
@@ -82,5 +82,6 @@ const Styles = StyleSheet.create({
   subActivityText: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
+    width: '85%'
   },
 });
