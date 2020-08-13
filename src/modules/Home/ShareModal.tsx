@@ -102,21 +102,16 @@ export default function App(props: AppProps) {
                   console.warn("unavailable");
                   break;
                 case RESULTS.DENIED:
-                  console.warn("denied");
-
                   permission.storage === 1
                     ? permissionAccess()
                     : dispatch(updatePermission({ storage: 1 }, () => {}));
                   break;
                 case RESULTS.GRANTED:
-                  console.warn("granted");
-
                   permission.storage === 3
                     ? null
                     : dispatch(updatePermission({ storage: 3 }, () => {}));
                   break;
                 case RESULTS.BLOCKED:
-                  console.warn("blocked");
                   permission.storage === 2
                     ? permissionAccess()
                     : dispatch(updatePermission({ storage: 2 }, () => {}));
@@ -131,13 +126,18 @@ export default function App(props: AppProps) {
   };
 
   const openShare = () => {
-    const url = CommonFunctions.isNullUndefined(params.img) ? "" : params.img;
-    const title = CommonFunctions.isNullUndefined(params.categoryName)
+    console.warn(params);
+
+    const url = CommonFunctions.isNullUndefined(params.img)
       ? ""
-      : params.categoryName;
-    const message = CommonFunctions.isNullUndefined(params.activityName)
-      ? ""
-      : params.activityName;
+      : // : `http://showtelldevapi.appskeeper.com:4025/image/${params.id}/`;
+        `http://snt-parent-api-test.mytle.com/image/${params.id}/`;
+    // const title = CommonFunctions.isNullUndefined(params.categoryName)
+    //   ? ""
+    //   : params.categoryName;
+    // const message = CommonFunctions.isNullUndefined(params.activityName)
+    //   ? ""
+    //   : params.activityName;
     const options = Platform.select({
       ios: {
         activityItemSources: [
@@ -149,24 +149,25 @@ export default function App(props: AppProps) {
             type: {
               print: { type: TYPE_URL, content: url },
             },
-            subject: {
-              default: title,
-            },
-            linkMetadata: { originalUrl: url, url, title },
+            // subject: {
+            //   default: title,
+            // },
+            linkMetadata: { originalUrl: url, url },
           },
           {
-            placeholderItem: { type: TYPE_TEXT, content: message },
-            item: {
-              default: { type: TYPE_TEXT, content: message },
-              message: message, // Specify no text to share via Messages app.
-            },
+            // placeholderItem: { type: TYPE_TEXT, content: message },
+            // item: {
+            //   default: { type: TYPE_TEXT, content: message },
+            //   message: message, // Specify no text to share via Messages app.
+            // },
           },
         ],
       },
       default: {
-        title,
-        subject: title,
-        message: `${message} ${url} ${params.childName}`,
+        // title,
+        // subject: title,
+        // message: `${message} ${url} ${params.childName}`,
+        message: `${url}`,
       },
     });
     // @ts-ignore
@@ -184,8 +185,17 @@ export default function App(props: AppProps) {
   const saveToCameraRoll = (image: string) => {
     saveToCameraRolls(
       image,
-      () => CustomToast(Strings.image_saved),
-      (error: any) => CustomToast(error)
+      () => {
+        CustomToast(Strings.image_saved);
+        setTimeout(() => {
+          props.closeModal();
+        }, 1000);
+      },
+      (error: any) => {
+        setTimeout(() => {
+          props.closeModal();
+        }, 1000);
+      }
     );
   };
 

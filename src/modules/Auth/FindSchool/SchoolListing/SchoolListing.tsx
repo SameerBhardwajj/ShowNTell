@@ -36,22 +36,22 @@ import { fetchSchoolList, fetchSlotDates } from "./action";
 import ResultFlatlist from "./ResultFlatlist";
 import SlotFlatlist from "./SlotFlatlist";
 
-const getSlotDate = () => {
-  if (new Date().getHours() >= 18) {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    slotDate = tomorrow;
-  }
-  return slotDate;
-};
-
-let slotDate = new Date();
 export interface AppProps {
   navigation?: any;
   route?: any;
 }
 export default function App(props: AppProps) {
+  let slotDate = new Date();
+  const getSlotDate = () => {
+    if (new Date().getHours() >= 18) {
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      slotDate = tomorrow;
+    }
+    return slotDate;
+  };
+
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [slot, setSlot] = useState(0);
@@ -97,8 +97,6 @@ export default function App(props: AppProps) {
       fetchSchoolList(
         props.route.params.coordinates,
         (data: any) => {
-          console.warn("data  ", data);
-
           setData(data.concat(schoolList));
           setTemp(temp.concat(schoolList));
           setIsLoading(false);
@@ -150,7 +148,6 @@ export default function App(props: AppProps) {
         item={item}
         index={index}
         onPress={() => {
-          console.warn("pressed");
           setShowResult(true);
           let emptyArr: any = [];
           setTemp(emptyArr.concat(item));
@@ -202,6 +199,7 @@ export default function App(props: AppProps) {
           </View>
         ) : (
           <View style={Styles.innerView}>
+            {/* Search Bar ------------------------ */}
             <CustomSearchBar
               placeholder={Strings.Search}
               value={query}
@@ -213,6 +211,8 @@ export default function App(props: AppProps) {
               }}
               onSubmitEditing={() => Keyboard.dismiss()}
             />
+
+            {/* School list -------------------------- */}
             {result.length !== 0 ? (
               <FlatList
                 style={Styles.resultListView}
@@ -232,6 +232,7 @@ export default function App(props: AppProps) {
                   {Strings.Choose_a_Center}
                 </Text>
                 <View style={Styles.mainInnerView}>
+                  {/* Search list ---------------------- */}
                   <FlatList
                     bounces={false}
                     showsVerticalScrollIndicator={true}
@@ -240,6 +241,8 @@ export default function App(props: AppProps) {
                     renderItem={renderItems}
                   />
                 </View>
+
+                {/* Slot booking Modal ------------------------- */}
                 <Modal
                   animationType="slide"
                   transparent={true}
@@ -258,7 +261,7 @@ export default function App(props: AppProps) {
                       >
                         <Image source={Images.Cancel_Icon} />
                       </TouchableOpacity>
-                      <View style={{ flex: 1, marginHorizontal: vw(20)}}>
+                      <View style={{ flex: 1, marginHorizontal: vw(20) }}>
                         {slotLoading ? (
                           <CustomLoader loading={true} />
                         ) : slotDates.length === 0 ? (

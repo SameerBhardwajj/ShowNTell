@@ -40,13 +40,6 @@ export default function App(props: AppProps) {
   const finalData = [chat].concat(DATA);
 
   React.useEffect(() => {
-    console.warn("updated chat ", chatEnable);
-    console.warn("pic ", guardianData);
-
-    // let focusListener = props.navigation.addListener("focus", () => {
-    //   console.warn(data);
-    // });
-    // return focusListener;
   }, [chatEnable]);
 
   const rendetItems = (rowData: any) => {
@@ -82,25 +75,36 @@ export default function App(props: AppProps) {
           }}
         >
           <View style={Styles.imgView}>
-            {/* {CommonFunctions.isNullUndefined(guardianData.s3_photo_path) ? ( */}
+            {CommonFunctions.isNullUndefined(guardianData) ? (
               <Image
                 source={Images.Profile_Placeholder}
                 resizeMode="center"
                 resizeMethod="resize"
                 style={Styles.img}
               />
-            {/* ) : (
+            ) : CommonFunctions.isNullUndefined(guardianData.s3_photo_path) ? (
+              <Image
+                source={Images.Profile_Placeholder}
+                resizeMode="center"
+                resizeMethod="resize"
+                style={Styles.img}
+              />
+            ) : (
               <Image
                 source={{ uri: guardianData.s3_photo_path }}
                 style={Styles.img}
               />
-            )} */}
+            )}
           </View>
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>
-            <Text style={Styles.name}>{'Sam'}
-              {/* {`${guardianData.first_name} ${guardianData.last_name}`} */}
+            <Text style={Styles.name}>
+              {CommonFunctions.isNullUndefined(guardianData)
+                ? "NA"
+                : `${guardianData.first_name} ${guardianData.last_name}`}
             </Text>
-            {/* <Text style={Styles.email}>{guardianData.email}</Text> */}
+            {CommonFunctions.isNullUndefined(guardianData) ? null : (
+              <Text style={Styles.email}>{guardianData.email}</Text>
+            )}
           </View>
         </TouchableOpacity>
         <FlatList

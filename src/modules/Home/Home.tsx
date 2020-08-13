@@ -15,7 +15,6 @@ import {
   Platform,
   ActivityIndicator,
 } from "react-native";
-import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getUniqueId } from "react-native-device-info";
@@ -43,10 +42,10 @@ import { updateClassChild } from "../ClassroomSchedule/action";
 import {
   HomeAPI,
   addFilter,
-  weDidItAPI,
   updateQuery,
   updateChild,
   updateDeviceToken,
+  updateFilter,
 } from "./action";
 import FilterModal from "./Filter/FilterModal";
 import ShareModal from "./ShareModal";
@@ -89,6 +88,10 @@ export interface AppProps {
   navigation?: any;
 }
 
+const ACTIVITY = "ACTIVITY";
+const ANNOUNCEMENT = "ANNOUNCEMENT";
+const QOTD = "QOTD";
+
 const DRAWER_OPEN = "drawerOpen";
 const DRAWER_CLOSE = "drawerClose";
 const CURRENT_TIME = moment(new Date())
@@ -119,6 +122,8 @@ export default function App(props: AppProps) {
     page,
     searchQuery,
     data,
+    filterEnable,
+    AWI,
   } = useSelector(
     (state: { Home: any; Login: any; ClassroomSchedule: any }) => ({
       currentChild: state.Home.currentChild,
@@ -130,6 +135,8 @@ export default function App(props: AppProps) {
       classroomChild: state.ClassroomSchedule.classroomChild,
       searchQuery: state.Home.searchQuery,
       data: state.Home.data,
+      filterEnable: state.Home.filterEnable,
+      AWI: state.Home.AWI,
     })
   );
 
@@ -268,18 +275,6 @@ export default function App(props: AppProps) {
     const { item, index } = rowData;
     return (
       <HomeFlatlist
-        weDidIt={(id: string) => {
-          setLoading(true);
-          dispatch(
-            weDidItAPI(
-              id,
-              () => hitHomeAPI(currentChild.child),
-              () => {
-                setLoading(false);
-              }
-            )
-          );
-        }}
         item={item}
         navigation={props.navigation}
         openShareModal={(data: any) => {
@@ -303,6 +298,8 @@ export default function App(props: AppProps) {
       myFilter.type
     );
 
+    console.warn("includes  ", myFilter.type.includes(ACTIVITY));
+
     dispatch(
       HomeAPI(
         (data: any) => {
@@ -321,7 +318,9 @@ export default function App(props: AppProps) {
         myFilter.activity,
         utcFromDateTime(myFilter.fromDate),
         utcToDateTime(myFilter.toDate),
-        myFilter.type
+        myFilter.type,
+        undefined,
+        myFilter.type.includes(ACTIVITY) && AWI ? 2 : undefined
       )
     );
   };
@@ -348,7 +347,8 @@ export default function App(props: AppProps) {
         utcFromDateTime(myFilter.fromDate),
         utcToDateTime(myFilter.toDate),
         myFilter.type,
-        searchQuery
+        searchQuery,
+        myFilter.type.includes(ACTIVITY) && AWI ? 2 : undefined
       )
     );
   };
@@ -357,9 +357,16 @@ export default function App(props: AppProps) {
     activity?: string,
     fromDate?: string,
     toDate?: string,
-    type?: string
+    type?: string,
+    AWI?: number
   ) => {
     setLoading(true);
+    CommonFunctions.isNullUndefined(activity) &&
+    CommonFunctions.isNullUndefined(fromDate) &&
+    CommonFunctions.isNullUndefined(toDate) &&
+    CommonFunctions.isNullUndefined(type)
+      ? null
+      : dispatch(updateFilter(true));
     dispatch(
       HomeAPI(
         (data: any) => {
@@ -376,7 +383,9 @@ export default function App(props: AppProps) {
         activity,
         utcFromDateTime(fromDate),
         utcToDateTime(toDate),
-        type
+        type,
+        undefined,
+        AWI
       )
     );
   };
@@ -402,7 +411,8 @@ export default function App(props: AppProps) {
         utcFromDateTime(myFilter.fromDate),
         utcToDateTime(myFilter.toDate),
         myFilter.type,
-        query
+        query,
+        myFilter.type.includes(ACTIVITY) && AWI ? 2 : undefined
       )
     );
   };
@@ -441,11 +451,7 @@ export default function App(props: AppProps) {
               <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
             ) : null}
           </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            // onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
-            onPress={() => CustomToast()}
-          >
+          <TouchableOpacity activeOpacity={0.8} onPress={() => CustomToast()}>
             <Image source={Images.Notification_Icon} style={Styles.imgHeader} />
           </TouchableOpacity>
         </View>
@@ -468,8 +474,16 @@ export default function App(props: AppProps) {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => setModalOpen(true)}
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+              height: filterEnable ? vw(38) : vw(28),
+              width: filterEnable ? vw(38) : vw(28),
+            }}
           >
-            <Image source={Images.Filter_Icon} style={Styles.filterImg} />
+            <Image
+              source={filterEnable ? Images.Filter_Icon_2 : Images.Filter_Icon}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -513,10 +527,11 @@ export default function App(props: AppProps) {
           <FilterModal
             setModalOpen={(value: boolean) => setModalOpen(value)}
             resetFilter={() => {
+              dispatch(updateFilter(false));
               setModalOpen(false);
               hitFilterAPI();
             }}
-            applyFilter={(value: any, Activitytype: Array<any>, dates: any) => {
+            applyFilter={(value: any, Activitytype: any, dates: any) => {
               console.log("incoming  ", value, dates, Activitytype);
               dispatch(
                 addFilter(
@@ -530,7 +545,14 @@ export default function App(props: AppProps) {
                       value,
                       dates.fromDate,
                       dates.toDate,
-                      Activitytype.join(",")
+                      Activitytype.join(","),
+                      CommonFunctions.isNullUndefined(Activitytype)
+                        ? undefined
+                        : Activitytype.includes(ACTIVITY)
+                        ? AWI
+                          ? 2
+                          : 3
+                        : undefined
                     );
                   }
                 )
@@ -602,26 +624,9 @@ const Styles = StyleSheet.create({
     height: vw(27),
     width: vw(25),
   },
-  filterImg: {
-    height: vw(28),
-    width: vw(28),
-  },
   innerView: {
     width: "100%",
     flex: 1,
-  },
-  emptyData: {
-    width: "100%",
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  loader: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
   },
   modalView: {
     flex: 1,

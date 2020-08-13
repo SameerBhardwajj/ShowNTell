@@ -11,6 +11,7 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const [myState, setMyState] = React.useState(true);
   const [did, setDid] = React.useState(true);
   return (
     <View style={Styles.mainView}>
@@ -29,10 +30,18 @@ export default function App(props: AppProps) {
           <TouchableOpacity
             style={Styles.boxView}
             activeOpacity={0.8}
-            onPress={() => setDid(true)}
+            onPress={() => {
+              setMyState(false), setDid(true);
+            }}
           >
             <Image
-              source={did ? Images.Check_Box_Active : Images.Check_Box_inactive}
+              source={
+                myState
+                  ? Images.Check_Box_inactive
+                  : did
+                  ? Images.Check_Box_Active
+                  : Images.Check_Box_inactive
+              }
             />
           </TouchableOpacity>
         </View>
@@ -46,19 +55,28 @@ export default function App(props: AppProps) {
           <TouchableOpacity
             style={Styles.boxView}
             activeOpacity={0.8}
-            onPress={() => setDid(false)}
+            onPress={() => {
+              setMyState(false), setDid(false);
+            }}
           >
             <Image
               source={
-                !did ? Images.Check_Box_Active : Images.Check_Box_inactive
+                myState
+                  ? Images.Check_Box_inactive
+                  : !did
+                  ? Images.Check_Box_Active
+                  : Images.Check_Box_inactive
               }
             />
           </TouchableOpacity>
         </View>
         <CustomButton
+          activeOpacity={myState ? 1 : 0.8}
           ButtonStyle={{ width: "100%" }}
           Text={Strings.proceed}
-          onPress={() => props.onPress(did)}
+          onPress={() => {
+            myState ? null : props.onPress(did);
+          }}
         />
       </View>
     </View>

@@ -19,7 +19,6 @@ import {
   Colors,
   validate,
   ConstantName,
-  CommonFunctions,
 } from "../../../utils";
 import {
   CustomInputText,
@@ -60,7 +59,6 @@ export default function App(props: AppProps) {
               props.updateModal();
             },
             (err: any) => {
-              console.warn("err", err);
               setLoading(false);
             }
           )

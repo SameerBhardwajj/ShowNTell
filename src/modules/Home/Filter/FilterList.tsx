@@ -7,7 +7,7 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-import { vh, Images, vw } from "../../../utils";
+import { vh, Images } from "../../../utils";
 import ActivityList from "./ActivityList";
 
 export interface AppProps {

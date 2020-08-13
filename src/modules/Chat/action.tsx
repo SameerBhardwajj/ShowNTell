@@ -103,7 +103,6 @@ export const getMsgs = (
               loadMore: false,
             },
           });
-          // page === 0 ? CustomToast(success.data.message) : null;
           failCallback();
         }
       })

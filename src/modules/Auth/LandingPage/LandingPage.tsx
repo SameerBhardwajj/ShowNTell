@@ -11,7 +11,6 @@ import {
   Image,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import SplashScreen from "react-native-splash-screen";
 
 // custom imports
 import {
@@ -48,7 +47,6 @@ export default function App(props: AppProps) {
   }));
 
   useEffect(() => {
-    // SplashScreen.hide();
     Constants.setAuthorizationToken(
       loginToken.length === 0 ? false : true,
       loginToken
@@ -144,7 +142,6 @@ export default function App(props: AppProps) {
                     {item.name === "" ? "" : "- "}
                     {item.name}
                   </Text>
-                  {/* <Text style={Styles.testimonialCentre}>{centre}</Text> */}
                 </View>
               </View>
             ))

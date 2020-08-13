@@ -10,8 +10,6 @@ export const hiBasicDetails = (
       EndPoints.drawer.profileDetails,
       {},
       (success: any) => {
-        console.warn("success ", success);
-
         const res = success.data.response;
         if (success.data.code === 200) {
           dispatch({
@@ -27,7 +25,6 @@ export const hiBasicDetails = (
         }
       },
       (error: any) => {
-        console.log("err ", error);
         CommonFunctions.handleError(error);
         failCallback(error);
       }
@@ -41,8 +38,6 @@ export const updateProfile = (
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.warn('profile data ',data);
-    
     API.postApiCall(
       EndPoints.drawer.updateProfile,
       data,
@@ -71,8 +66,6 @@ export const fetchStatesAPI = (
       EndPoints.drawer.fetchStates,
       {},
       (success: any) => {
-        console.warn("success ", success);
-
         const res = success.data.response;
         if (success.data.code === 200) {
           dispatch({
@@ -88,7 +81,6 @@ export const fetchStatesAPI = (
         }
       },
       (error: any) => {
-        console.log("err ", error);
         CommonFunctions.handleError(error);
         failCallback(error);
       }
@@ -98,12 +90,9 @@ export const fetchStatesAPI = (
 
 export const hitUploadCDNapi = (
   data: any,
-  // params: any,
   successCallback: Function,
   failCallback: Function
 ) => {
-  console.warn("my data   ", data);
-
   return (dispatch: Function) => {
     API.fileUpload(
       EndPoints.drawer.uploadImage.uploadCDN,
@@ -111,8 +100,6 @@ export const hitUploadCDNapi = (
       // params,
       (success: any) => {
         if (success.data.code === 200) {
-          console.warn('success on upload');
-          
           successCallback(success.data.response);
         } else {
           CustomToast(success.data.message);
@@ -121,7 +108,6 @@ export const hitUploadCDNapi = (
       },
       (error: any) => {
         CommonFunctions.handleError(error);
-        
         failCallback(error);
       }
     );
@@ -138,9 +124,6 @@ export const hitUploadImage = (
       EndPoints.drawer.uploadImage.uploadProfileImage,
       { image: file },
       (success: any) => {
-        console.warn("success ", success);
-
-        const res = success.data.response;
         if (success.data.code === 200) {
           successCallback(success.data.response);
         } else {
@@ -149,7 +132,6 @@ export const hitUploadImage = (
         }
       },
       (error: any) => {
-        console.log("err ", error);
         CommonFunctions.handleError(error);
         failCallback(error);
       }

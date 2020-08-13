@@ -36,4 +36,15 @@ const CombinedReducer = combineReducers({
   Notification,
 });
 
-export default CombinedReducer;
+const rootReducer = (state: any, action: any) => {
+  // when a logout action is dispatched it will reset redux state
+  if (action.type === "USER_LOGGED_OUT") {
+    const { Login, NearbySchool } = state;
+
+    state = { Login, NearbySchool };
+  }
+
+  return CombinedReducer(state, action);
+};
+
+export default rootReducer;

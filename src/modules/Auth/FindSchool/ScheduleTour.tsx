@@ -33,7 +33,6 @@ import {
   EndPoints,
 } from "../../../utils";
 
-const US = "US";
 export interface AppProps {
   navigation?: any;
   route?: any;
@@ -147,7 +146,7 @@ export default function App(props: AppProps) {
       schedule_date_time: CommonFunctions.isNullUndefined(date) ? "" : date,
       children: childArr,
     };
-    debugger
+
     setLoading(true);
     CommonFunctions.isNullUndefined(date)
       ? API.postApiCall(
@@ -168,6 +167,7 @@ export default function App(props: AppProps) {
       : hitScheduleTour(params);
   };
 
+  // Formatting fields ------------------------------
   const allChilds = (children: Array<any>) => {
     let obj = {
       first_name: children[0].child_name.replace(/\s.*/, ""),
@@ -294,6 +294,7 @@ export default function App(props: AppProps) {
           contentContainerStyle={Styles.innerView}
         >
           <View style={{ width: "100%" }}>
+
             {/* Parent's name ---------- */}
             <CustomInputText
               ref={input1}
@@ -310,6 +311,7 @@ export default function App(props: AppProps) {
               check={checkpname}
               incorrectText={Strings.Name_error}
             />
+
             {/* Parent's phone no.----------- */}
             <CustomPhoneField
               value={phone}
@@ -325,6 +327,7 @@ export default function App(props: AppProps) {
               }}
               mainViewStyle={{ width: "100%" }}
             />
+
             {/* zipcode -------------- */}
             <CustomInputText
               ref={input3}
@@ -344,6 +347,7 @@ export default function App(props: AppProps) {
               mainViewStyle={Styles.textInput}
               keyboardType={"number-pad"}
             />
+
             {/* Parent's email --------------- */}
             <CustomInputText
               ref={input4}
@@ -362,6 +366,7 @@ export default function App(props: AppProps) {
               mainViewStyle={Styles.textInput}
               keyboardType={"email-address"}
             />
+
             {/* 1st child name --------- */}
             <CustomInputText
               ref={input5}
@@ -379,6 +384,7 @@ export default function App(props: AppProps) {
               incorrectText={Strings.Name_error}
               mainViewStyle={Styles.textInput}
             />
+
             {/* 1st child DOB -------------- */}
             <CustomDOB
               value={c1DOB}
@@ -388,6 +394,7 @@ export default function App(props: AppProps) {
                 setCurrentChild(1), setModalOpen(true);
               }}
             />
+
             {/* 2nd child name --------- */}
             {counter >= 2 ? (
               <View style={{ width: "100%" }}>
@@ -407,6 +414,7 @@ export default function App(props: AppProps) {
                   incorrectText={Strings.Name_error}
                   mainViewStyle={Styles.textInput}
                 />
+
                 {/* 2nd child DOB -------------- */}
                 <CustomDOB
                   value={c2DOB}
@@ -418,6 +426,7 @@ export default function App(props: AppProps) {
                 />
               </View>
             ) : null}
+
             {/* 3rd child name --------- */}
             {counter >= 3 ? (
               <View style={{ width: "100%" }}>
@@ -437,6 +446,7 @@ export default function App(props: AppProps) {
                   incorrectText={Strings.Name_error}
                   mainViewStyle={Styles.textInput}
                 />
+
                 {/* 3rd child DOB -------------- */}
                 <CustomDOB
                   value={c3DOB}
@@ -448,6 +458,7 @@ export default function App(props: AppProps) {
                 />
               </View>
             ) : null}
+
             {/* 4th child name --------- */}
             {counter >= 4 ? (
               <View style={{ width: "100%" }}>
@@ -467,6 +478,7 @@ export default function App(props: AppProps) {
                   incorrectText={Strings.Name_error}
                   mainViewStyle={Styles.textInput}
                 />
+
                 {/* 4th child DOB -------------- */}
                 <CustomDOB
                   value={c4DOB}
@@ -478,6 +490,7 @@ export default function App(props: AppProps) {
                 />
               </View>
             ) : null}
+
             {/* 5th child name --------- */}
             {counter === 5 ? (
               <View style={{ width: "100%" }}>
@@ -497,6 +510,7 @@ export default function App(props: AppProps) {
                   incorrectText={Strings.Name_error}
                   mainViewStyle={Styles.textInput}
                 />
+
                 {/* 5th child DOB -------------- */}
                 <CustomDOB
                   value={c5DOB}
@@ -518,6 +532,7 @@ export default function App(props: AppProps) {
               <Text style={Styles.removeText}>{Strings.Remove_Child}</Text>
             </TouchableOpacity>
           ) : null}
+
           {/* Add New Child Button --------- */}
           {counter !== 5 ? (
             <CustomButton
@@ -535,6 +550,7 @@ export default function App(props: AppProps) {
               ButtonStyle={Styles.btn}
             />
           ) : null}
+
           {/* Schedule Tour Button ------------ */}
           <CustomButton
             Text={Strings.Schedule_Tour}
@@ -582,6 +598,8 @@ export default function App(props: AppProps) {
               },
             ]}
           />
+
+          {/* Date Picker Modal ------------------------------- */}
           <Modal animationType="slide" transparent={true} visible={modalOpen}>
             <TouchableOpacity
               style={Styles.topModalView}

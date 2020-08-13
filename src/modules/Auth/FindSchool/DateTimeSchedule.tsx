@@ -6,22 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   CustomHeader,
   CustomButton,
-  CustomTimeSlot,
   CustomNoData,
   CustomLoader,
 } from "../../../Components";
-import {
-  Strings,
-  vw,
-  vh,
-  Colors,
-  ScreenName,
-  CommonFunctions,
-} from "../../../utils";
+import { Strings, vw, vh, Colors, ScreenName } from "../../../utils";
 import { fetchSlotTime } from "./SchoolListing/action";
 import SlotTimeFlatlist from "./SlotTimeFlatlist";
 
-const currentTime = new Date().getHours();
 export interface AppProps {
   navigation?: any;
   route?: any;
@@ -42,12 +33,8 @@ export default function App(props: AppProps) {
       fetchSlotTime(
         calenderId,
         date,
-        () => {
-          setIsLoading(false);
-        },
-        () => {
-          setIsLoading(false);
-        }
+        () => setIsLoading(false),
+        () => setIsLoading(false)
       )
     );
   }, []);

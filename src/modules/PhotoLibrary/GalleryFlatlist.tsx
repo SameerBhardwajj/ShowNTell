@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Strings,
-  vw,
-  vh,
-  Images,
-  Colors,
-  ScreenName,
-  CommonFunctions,
-} from "../../utils";
+import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
 import { updateDownload, updateSelect } from "./action";
 
 export interface AppProps {
@@ -71,17 +63,9 @@ export default function App(props: AppProps) {
         setSelected3(!selected3))
       : null;
   };
-  
 
   return (
     <View style={Styles.mainView}>
-      {!CommonFunctions.isNullUndefined(item) && index === 0 ? (
-        <View style={Styles.headingView}>
-          <Text style={Styles.dateText}>
-            {CommonFunctions.DateFormatter(item[0].activity_dt)}
-          </Text>
-        </View>
-      ) : null}
       {index % 2 === 0 ? (
         <View style={Styles.picsView}>
           {props.item[0] !== undefined ? (
@@ -274,12 +258,6 @@ const Styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     padding: vw(1),
-  },
-  headingView: {
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: "row",
-    width: "100%",
   },
   dateText: {
     fontFamily: "Nunito-Bold",

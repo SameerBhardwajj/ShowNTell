@@ -39,11 +39,9 @@ export default function App(props: AppProps) {
       hiBasicDetails(
         () => {
           setLoading(false);
-          console.warn("data ", data);
         },
         (err: any) => {
           setLoading(false);
-          console.warn("err", err);
         }
       )
     );
@@ -152,7 +150,7 @@ export default function App(props: AppProps) {
           {/* Activity Preference ----------------------- */}
           <View style={Styles.contactView}>
             <View style={Styles.commonView}>
-              <Text style={[Styles.headingText, {paddingVertical: vh(15)}]}>
+              <Text style={[Styles.headingText, { paddingVertical: vh(15) }]}>
                 {Strings.Activity_Preferences}
               </Text>
             </View>
@@ -185,6 +183,7 @@ export default function App(props: AppProps) {
               </TouchableOpacity>
             </View>
           </View>
+          {/* Modal for Updating values --------------- */}
           <Modal animationType="slide" transparent={true} visible={modalOpen}>
             <TouchableOpacity
               style={Styles.topModalView}

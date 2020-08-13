@@ -139,42 +139,9 @@ const postClientApiCall = (
       successCallback(response);
     })
     .catch((error: any) => {
-      // console.warn("error", error);
-      // console.log("Error.response.config ", error);
-      // if (error.message === "Network Error") {
-      //   CustomToast(Strings.No_Internet);
-      // }
-      // if (error.code === "ECONNABORTED") {
-      //   CustomToast(Strings.Timeout_error);
-      // }
       errorCallback(error);
     });
 };
-
-// const postClientApiCall2 = (
-//   endPoint: string,
-//   params: string,
-//   successCallback: Function,
-//   errorCallback: Function
-// ) => {
-//   Constants.clientAxiosInstance
-//     .get(endPoint, params)
-//     .then((response: any) => {
-//       console.warn("Success: ", response);
-//       successCallback(response);
-//     })
-//     .catch((error: any) => {
-//       // console.warn("error", error);
-//       // console.log("Error.response.config ", error);
-//       // if (error.message === "Network Error") {
-//       //   CustomToast(Strings.No_Internet);
-//       // }
-//       // if (error.code === "ECONNABORTED") {
-//       //   CustomToast(Strings.Timeout_error);
-//       // }
-//       errorCallback(error);
-//     });
-// };
 
 const fileUpload = (
   endPoint: string,
@@ -189,11 +156,11 @@ const fileUpload = (
     .then(
       (response: any) => {
         console.warn(response);
-        debugger
+        debugger;
         successCallback(response);
       },
       (error: any) => {
-        debugger
+        debugger;
         console.warn(error);
         if (error.message === "Network Error") {
           CustomToast(Strings.No_Internet);

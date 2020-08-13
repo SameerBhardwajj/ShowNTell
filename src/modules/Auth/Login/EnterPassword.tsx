@@ -153,25 +153,6 @@ const Styles = StyleSheet.create({
     fontSize: vh(16),
     color: Colors.lightGrey,
   },
-  codeView: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginVertical: vh(32),
-  },
-  footer: {
-    flexDirection: "row",
-    marginTop: vw(30),
-  },
-  didntReceive: {
-    fontFamily: "Nunito-Regular",
-    fontSize: vh(14),
-  },
-  requestNew: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(14),
-    color: Colors.violet,
-  },
   forgotView: {
     paddingHorizontal: vw(15),
     alignSelf: "flex-end",

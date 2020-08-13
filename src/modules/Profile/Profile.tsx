@@ -16,6 +16,8 @@ import {
 import ImagePicker from "react-native-image-crop-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
+// @ts-ignore
+import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 
 // custom imports
 import { CustomHeader, CustomLoader, CustomToast } from "../../Components";
@@ -57,18 +59,9 @@ export default function App(props: AppProps) {
       hiBasicDetails(
         () => {
           setLoading(false);
-          // dispatch(
-          //   updateProfilePic(
-          //     CommonFunctions.isNullUndefined(data.s3_photo_path)
-          //       ? ""
-          //       : data.s3_photo_path,
-          //     () => {}
-          //   )
-          // );
         },
         (err: any) => {
           setLoading(false);
-          console.warn("err", err);
         }
       )
     );
@@ -84,17 +77,12 @@ export default function App(props: AppProps) {
           mediaType: "photo",
         })
           .then((image: any) => {
-            console.log(image);
-
             hitProfileUpdate(image.path, value);
           })
           .catch((e) => {
-            console.warn("hello", e.code);
             e.code === "E_PICKER_CANCELLED"
               ? null
               : iosPermissions(PERMISSIONS.IOS.PHOTO_LIBRARY, 0);
-
-            //  androidPermissions(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE, 0)
             setModalOpen(false);
           });
       }
@@ -106,29 +94,12 @@ export default function App(props: AppProps) {
           (image: any, res: any) => {
             setMyProfile(image.uri);
             setModalOpen(false);
-            // setCheckData({ image: image, res: res });
-            // setDataModal(true);
-
             hitProfileUpdate(image.uri, 1);
           },
           () => {
             setModalOpen(false);
           }
         );
-        // ImagePicker.openCamera({
-        //   mediaType: "photo",
-        // })
-        //   .then((image: any) => hitProfileUpdate(image, value))
-        //   .catch((e) => {
-        //     console.warn("hello", e);
-
-        // Platform.OS === "ios"
-        //   ?
-        // iosPermissions(PERMISSIONS.IOS.CAMERA, 1);
-        // : null;
-        // androidPermissions(PERMISSIONS.ANDROID.CAMERA, 1)
-        //   setModalOpen(false);
-        // });
       }
     }
   };
@@ -187,15 +158,11 @@ export default function App(props: AppProps) {
       .then((result) => {
         switch (result) {
           case RESULTS.UNAVAILABLE:
-            console.warn(
-              "This feature is not available (on this device / in this context)"
-            );
             CustomToast(
               "This feature is not available (on this device / in this context)"
             );
             break;
           case RESULTS.DENIED:
-            console.warn("denied");
             type === 0
               ? permission.storage === 1
                 ? permissionAccess(type)
@@ -214,11 +181,8 @@ export default function App(props: AppProps) {
             break;
           case RESULTS.GRANTED:
             type === 0 ? ImagePick(0) : ImagePick(1);
-            // : (setModalOpen(false), setCameraModalOpen(true));
             break;
           case RESULTS.BLOCKED:
-            console.warn("blocked", permission);
-
             type === 0
               ? permission.storage === 2
                 ? permissionAccess(type)
@@ -276,8 +240,7 @@ export default function App(props: AppProps) {
         Platform.OS === "ios"
           ? value === 0
             ? image.replace("file://", "")
-            : // : image.uri.replace("file://", "")
-              image.replace("file://", "")
+            : image.replace("file://", "")
           : value === 0
           ? `file://${image}`
           : `${image}`,
@@ -285,39 +248,14 @@ export default function App(props: AppProps) {
       type: "image/jpg",
     });
     setModalOpen(false);
-    // dispatch(updateProfilePic(image, () => {}));
     dispatch(
       hitUploadCDNapi(
         formdata,
         (data: any) => {
-          console.warn("my  ", data.key);
-          console.warn("suucess uplod");
-
-          // CustomToast(data.key);
           updateImage(data.key, image);
-          // setLoading(false);
-          // Alert.alert(
-          //   "Do you want to update profile picture?",
-          //   "",
-          //   [
-          //     {
-          //       text: "OK",
-          //       onPress: () => updateImage(data.key),
-          //     },
-          //     {
-          //       text: "Cancel",
-          //       onPress: () => console.warn("ok"),
-          //       style: "cancel",
-          //     },
-          //   ],
-          //   { cancelable: true }
-          // );
         },
         (e: any) => {
           setLoading(false);
-          // Clipboard.setString(e);
-          // CustomToast(e);
-          // console.warn("Server Error: ", e);
         }
       )
     );
@@ -328,7 +266,6 @@ export default function App(props: AppProps) {
       hitUploadImage(
         img,
         () => {
-          // HitProfileAPI();
           dispatch(
             hiBasicDetails(
               () => {
@@ -337,7 +274,6 @@ export default function App(props: AppProps) {
               },
               (err: any) => {
                 setLoading(false);
-                console.warn("err", err);
               }
             )
           );
@@ -345,7 +281,6 @@ export default function App(props: AppProps) {
         (e: any) => {
           setLoading(false);
           CustomToast(e);
-          console.warn("Server Error:  ", e);
         }
       )
     );
@@ -359,14 +294,6 @@ export default function App(props: AppProps) {
         title={Strings.My_Profile}
         onPressBack={() => {
           props.navigation.pop();
-          // dispatch(
-          //   updateProfilePic(
-          //     CommonFunctions.isNullUndefined(data.s3_photo_path)
-          //       ? ""
-          //       : data.s3_photo_path,
-          //     () => {}
-          //   )
-          // );
         }}
       />
 
@@ -428,14 +355,16 @@ export default function App(props: AppProps) {
           >
             <Image source={Images.back_icon} />
           </TouchableOpacity>
-          <View
-            style={{ backgroundColor: "white", height: "50%", width: "100%" }}
+          <ReactNativeZoomableView
+            maxZoom={1.5}
+            minZoom={1}
+            zoomStep={0.5}
+            initialZoom={1}
+            bindToBorders={true}
+            captureEvent={true}
           >
-            <Image
-              source={{ uri: data.s3_photo_path }}
-              style={{ height: "100%", width: "100%" }}
-            />
-          </View>
+            <Image source={{ uri: data.s3_photo_path }} style={Styles.img} />
+          </ReactNativeZoomableView>
         </View>
       </Modal>
       <Modal animationType="slide" transparent={true} visible={cameraModalOpen}>
@@ -497,13 +426,17 @@ const Styles = StyleSheet.create({
   picModalView: {
     flex: 1,
     backgroundColor: "black",
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  img: {
+    width: "100%",
+    height: vh(250),
+    backgroundColor: "white",
   },
   modalBack: {
     position: "absolute",
     top: iPhoneX ? vh(30) : 0,
     left: 0,
     padding: vh(20),
+    zIndex: 99,
   },
 });

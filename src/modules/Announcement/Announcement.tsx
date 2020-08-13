@@ -1,52 +1,31 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  FlatList,
-  Dimensions,
-} from "react-native";
+import { View, StyleSheet, FlatList, Dimensions } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { updateTab } from "../Home/action";
 import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
-import {
-  Strings,
-  vw,
-  vh,
-  Colors,
-  ScreenName,
-  CommonFunctions,
-  Images,
-} from "../../utils";
+import { Strings, vw, vh, ScreenName, CommonFunctions } from "../../utils";
 import { hitAnnouncementAPI } from "./action";
 import List from "./List";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
+
 export interface AppProps {
   navigation?: any;
 }
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const { tab, data, loginToken, loginData, currentChild, page } = useSelector(
+  const { data, currentChild, page } = useSelector(
     (state: { Home: any; Login: any; Announcement: any }) => ({
-      tab: state.Home.tab,
       data: state.Announcement.data,
-      loginToken: state.Login.loginToken,
-      loginData: state.Login.loginData,
       currentChild: state.Home.currentChild,
       page: state.Announcement.page,
     })
   );
   const [loading, setLoading] = useState(false);
-  // const [page, setPage] = useState(0);
 
   useEffect(() => {
-    // dispatch(updateTab(true, () => {}));
     data.length === 0 ? setLoading(true) : null;
     hitAPI(0);
   }, [currentChild]);

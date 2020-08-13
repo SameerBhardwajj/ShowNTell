@@ -21,13 +21,8 @@ export default function App(props: AppProps) {
   }));
   const [currentChild, setCurrentChild] = useState(data.Family.Children[0].id);
 
-  useEffect(() => {
-    console.warn("my datta  ", data);
-  }, []);
-
   const renderChild = (rowData: any) => {
     const { item, index } = rowData;
-    console.warn("child item  ", item);
 
     return (
       <TouchableOpacity

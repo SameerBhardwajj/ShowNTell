@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
-import { CommonFunctions, vh, vw, Colors, Images } from "../../../utils";
+import React from "react";
+import { Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { vh, vw, Colors, Images } from "../../../utils";
 import moment from "moment";
 
 export interface AppProps {

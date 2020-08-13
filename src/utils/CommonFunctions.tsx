@@ -109,17 +109,11 @@ const requestLocationPermission = async (
     }
   }
   if (!hasPermission) {
-    console.warn("no permisssion");
-
     permissionError();
   }
   if (hasPermission) {
-    console.warn("permission granted");
-
     Geolocation.getCurrentPosition(
       (info) => {
-        console.warn("get position", info);
-
         let position = {
           lat: info.coords.latitude,
           lng: info.coords.longitude,
@@ -127,10 +121,7 @@ const requestLocationPermission = async (
         successCallback(position);
       },
       (error) => {
-        console.warn("err ", error);
-
         failureCallback(error);
-        // console.warn(error);
       },
       { enableHighAccuracy: false, timeout: 20000 }
     );
@@ -223,7 +214,6 @@ const isEmpty = (obj: object) => {
   return true;
 };
 const callNumber = (phone: number) => {
-  console.log("callNumber ----> ", phone);
   let phoneNumber: string;
   if (Platform.OS !== "android") {
     phoneNumber = `telprompt:${phone}`;
@@ -254,26 +244,19 @@ const Picker = (success: Function, fail: Function) => {
     storageOptions: {
       skipBackup: true,
       path: "images",
-      quality : 0
+      quality: 0,
     },
   };
   ImagePicker.launchCamera(options, (response: any) => {
     if (response.didCancel) {
-      console.warn("User cancelled image picker");
       fail();
     } else if (response.error) {
-      console.warn("ImagePicker Error: ", response.error);
       CustomToast(`Gallery Error : ${response.error}`);
       fail();
     } else if (response.customButton) {
-      console.warn("User tapped custom button: ", response.customButton);
       fail();
     } else {
       const source = { uri: response.uri };
-      console.log("size", parseInt(response.fileSize) / 1048576);
-
-      // CustomToast("Uploading Profile Picture ....");
-      // CustomToast(`${response.uri} ${response.origURL}`);
       success(source, response);
     }
   });

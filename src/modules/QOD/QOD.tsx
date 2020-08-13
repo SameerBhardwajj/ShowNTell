@@ -11,9 +11,8 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { weDidItAPI } from "../Home/action";
 import { hitQOTDApi } from "./action";
-import { vh, Colors, Images, vw, Strings, ScreenName } from "../../utils";
+import { vh, Images, vw, Strings, ScreenName } from "../../utils";
 import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
 import QODFlatList from "./QODFlatList";
 import FilterModal from "./FilterModal";
@@ -59,28 +58,9 @@ export default function App(props: AppProps) {
     );
   };
 
-  const hitWeDidIt = (id: string) => {
-    setLoading(true);
-    dispatch(
-      weDidItAPI(
-        id,
-        () => hitQOTD(),
-        () => {
-          setLoading(false);
-        }
-      )
-    );
-  };
-
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
-    return (
-      <QODFlatList
-        item={item}
-        index={index}
-        weDidIt={(id: number) => hitWeDidIt(id.toString())}
-      />
-    );
+    return <QODFlatList item={item} index={index} />;
   };
 
   return (
@@ -134,7 +114,7 @@ export default function App(props: AppProps) {
     </View>
   );
 }
-export const Styles = StyleSheet.create({
+const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
     alignItems: "center",
@@ -146,58 +126,6 @@ export const Styles = StyleSheet.create({
     paddingHorizontal: vw(16),
     marginBottom: vh(35),
     width: "100%",
-  },
-  cardView: {
-    marginVertical: vh(8),
-    padding: vh(16),
-    borderRadius: vh(10),
-  },
-  childAvatar: {
-    height: vh(64),
-    width: vh(64),
-    borderRadius: vh(32),
-    marginBottom: vh(10),
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: vw(1),
-    borderColor: Colors.borderGrey,
-    backgroundColor: "white",
-  },
-  centerNameView: {
-    alignItems: "flex-start",
-    width: "75%",
-    paddingHorizontal: vw(15),
-  },
-  name: {
-    fontFamily: "Nunito-Bold",
-    fontSize: vh(16),
-  },
-  time: {
-    fontFamily: "Nunito-Regular",
-    fontSize: vh(14),
-    color: Colors.lightGrey,
-    paddingVertical: vh(5),
-  },
-  btnQOD: {
-    width: "100%",
-    alignSelf: "center",
-    marginTop: vh(20),
-  },
-  classText: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: vh(14),
-    paddingVertical: vh(5),
-  },
-  questionText: {
-    fontFamily: "Nunito-SemiBold",
-    fontSize: vh(16),
-    paddingVertical: vh(10),
-  },
-  timeBlack: {
-    fontFamily: "Nunito-Regular",
-    fontSize: vh(14),
-    padding: vh(5),
-    paddingLeft: 0,
   },
   filter: {
     position: "absolute",

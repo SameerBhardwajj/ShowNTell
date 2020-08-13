@@ -65,7 +65,6 @@ export default function App(props: AppProps) {
   const [cLength, setCLength] = useState(0);
   const [checkEmail, setCheckEmail] = useState(true);
   const [checkName, setCheckName] = useState(true);
-  const [page, setPage] = useState(1);
   const [list, setList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showList, setShowList] = useState(false);
@@ -318,14 +317,14 @@ export default function App(props: AppProps) {
                   disable() ? check() : null;
                 }}
                 activeOpacity={disable() ? 0.8 : 1}
-                ButtonStyle={{
-                  width: "100%",
-                  alignSelf: "center",
-                  marginTop: vh(30),
-                  backgroundColor: disable()
-                    ? Colors.violet
-                    : Colors.disableViolet,
-                }}
+                ButtonStyle={[
+                  Styles.BtnStyle,
+                  {
+                    backgroundColor: disable()
+                      ? Colors.violet
+                      : Colors.disableViolet,
+                  },
+                ]}
               />
             </View>
           </View>
@@ -449,6 +448,11 @@ const Styles = StyleSheet.create({
     alignSelf: "flex-start",
     color: Colors.titleColor,
   },
+  BtnStyle: {
+    width: "100%",
+    alignSelf: "center",
+    marginTop: vh(30),
+  },
   innerHelpView: {
     width: vw(380),
     alignItems: "center",
@@ -480,6 +484,6 @@ const Styles = StyleSheet.create({
     paddingTop: vh(10),
     color: Colors.violet,
     fontFamily: "Nunito-Bold",
-    fontSize: vh(14)
+    fontSize: vh(14),
   },
 });

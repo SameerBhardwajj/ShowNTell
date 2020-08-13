@@ -13,7 +13,6 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 
 // custom imports
-import { updateTab } from "../Home/action";
 import { CustomHeader, CustomSeparator, CustomLoader } from "../../Components";
 import { Strings, vw, vh, Colors, ScreenName, Images } from "../../utils";
 import { getCannedMsgs, sendMsg, getMsgs } from "./action";
@@ -75,7 +74,6 @@ export default function App(props: AppProps) {
           ? moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss")
           : moment.utc(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss"),
         (data: any) => {
-          // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
         },
         () => {

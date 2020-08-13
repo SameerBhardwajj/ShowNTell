@@ -1,5 +1,5 @@
 import React from "react";
-import { View, FlatList, Text } from "react-native";
+import { View, FlatList } from "react-native";
 import GalleryFlatlist from "./GalleryFlatlist";
 import { CommonFunctions } from "../../utils";
 
@@ -38,7 +38,6 @@ export default function App(props: AppProps) {
 
   return (
     <View style={{ flex: 1, width: "100%" }}>
-      {/* <Text>Here</Text> */}
       <FlatList
         data={
           CommonFunctions.isNullUndefined(props.item)

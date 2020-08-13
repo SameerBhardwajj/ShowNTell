@@ -1,5 +1,13 @@
-import * as React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  Modal,
+  Dimensions,
+} from "react-native";
 import {
   vh,
   Colors,
@@ -9,20 +17,47 @@ import {
   ScreenName,
   CommonFunctions,
 } from "../../utils";
-import { CustomButton } from "../../Components";
+// @ts-ignore
+import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
+// @ts-ignore
+import AnimateLoadingButton from "react-native-animate-loading-button";
+import { useDispatch } from "react-redux";
+import { weDidItAPI } from "./action";
 
 const ACTIVITY = "ACTIVITY";
 const ANNOUNCEMENT = "ANNOUNCEMENT";
 const QOTD = "QOTD";
+
+const iPhoneX = Dimensions.get("window").height >= 812;
+
 export interface AppProps {
   navigation?: any;
   item: any;
-  weDidIt: Function;
   openShareModal: Function;
 }
 
 export default function App(props: AppProps) {
-  const { navigation, item } = props;
+  const { item } = props;
+  const [picModalOpen, setPicModalOpen] = useState(false);
+  const [check, setCheck] = useState(true);
+  const input: any = React.createRef();
+  const dispatch = useDispatch();
+
+  const pressBtn = () => {
+    input.current.showLoading(true);
+    dispatch(
+      weDidItAPI(
+        item.id,
+        () => {
+          setCheck(false);
+          input.current.showLoading(false);
+        },
+        () => {
+          input.current.showLoading(false);
+        }
+      )
+    );
+  };
 
   return (
     <View style={Styles.innerView}>
@@ -31,19 +66,23 @@ export default function App(props: AppProps) {
         <View style={[Styles.mainInnerView, Styles.mainShadow]}>
           {item.activity_status_id === "3" ||
           item.child_activity_image === null ? null : (
-            <View style={Styles.imgView}>
+            <TouchableOpacity
+              style={Styles.imgView}
+              activeOpacity={1}
+              onPress={() => setPicModalOpen(true)}
+            >
               <Image
                 source={{ uri: item.child_activity_image }}
                 style={Styles.imgActivity}
               />
-            </View>
+            </TouchableOpacity>
           )}
           <View style={Styles.lunchView}>
             <View style={Styles.nameView}>
               <View style={Styles.childAvatar}>
                 <Image
                   source={
-                    item.Child.child_image === null
+                    CommonFunctions.isNullUndefined(item.Child.child_image)
                       ? Images.Profile_Placeholder
                       : { uri: item.Child.s3_photo_path }
                   }
@@ -82,21 +121,25 @@ export default function App(props: AppProps) {
                   {CommonFunctions.timeFormatter(item.create_dt)}
                 </Text>
               </View>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={Styles.ElipsisImg}
-                onPress={() =>
-                  props.openShareModal({
-                    img: item.child_activity_image,
-                    status: item.activity_status_id,
-                    categoryName: item.category_name,
-                    activityName: item.activity_name,
-                    childName: `${item.Child.first_name} ${item.Child.last_name}`,
-                  })
-                }
-              >
-                <Image source={Images.Elipsis} style={{ padding: vh(1) }} />
-              </TouchableOpacity>
+              {item.activity_status_id === "3" ||
+              item.child_activity_image === null ? null : (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={Styles.ElipsisImg}
+                  onPress={() =>
+                    props.openShareModal({
+                      img: item.child_activity_image,
+                      status: item.activity_status_id,
+                      categoryName: item.category_name,
+                      activityName: item.activity_name,
+                      childName: `${item.Child.first_name} ${item.Child.last_name}`,
+                      id: item.id,
+                    })
+                  }
+                >
+                  <Image source={Images.Elipsis} style={{ padding: vh(1) }} />
+                </TouchableOpacity>
+              )}
             </View>
             {CommonFunctions.isNullUndefined(
               item.activity_description
@@ -115,7 +158,7 @@ export default function App(props: AppProps) {
             <View style={Styles.childAvatar}>
               <Image
                 source={
-                  item.Child.child_image === null
+                  CommonFunctions.isNullUndefined(item.Child.child_image)
                     ? Images.Profile_Placeholder
                     : { uri: item.Child.s3_photo_path }
                 }
@@ -145,11 +188,13 @@ export default function App(props: AppProps) {
       {/* Question of the Day --------------------- */}
       {item.type === QOTD ? (
         <View style={[Styles.mainInnerView, Styles.viewQOD]}>
-          <View style={{ flexDirection: "row" }}>
+          <View
+            style={{ flexDirection: "row", margin: vh(16), marginBottom: 0 }}
+          >
             <View style={Styles.childAvatar}>
               <Image
                 source={
-                  item.Child.child_image === null
+                  CommonFunctions.isNullUndefined(item.Child.child_image)
                     ? Images.Profile_Placeholder
                     : { uri: item.Child.s3_photo_path }
                 }
@@ -163,41 +208,64 @@ export default function App(props: AppProps) {
               <Text style={Styles.classText}>{item.classroom_name}</Text>
             </View>
           </View>
-          <Text style={[Styles.title, { color: Colors.waterBlue }]}>
-            {Strings.Question_of_the_Day}
-          </Text>
-          {CommonFunctions.isNullUndefined(item.category_name) ? null : (
-            <Text style={Styles.timeBlack}>{item.category_name}</Text>
-          )}
-          <Text style={Styles.time}>
+          <Text style={[Styles.time, { paddingLeft: vh(16) }]}>
             {CommonFunctions.DateFormatter(new Date(item.create_dt))}
             {Strings.at}
             {CommonFunctions.timeFormatter(new Date(item.create_dt))}
           </Text>
           {CommonFunctions.isNullUndefined(item.QuestionOfTheDay) ? null : (
-            <Text style={Styles.timeBlack}>
+            <Text style={[Styles.timeBlack, { paddingLeft: vh(16) }]}>
               {item.QuestionOfTheDay.question}
             </Text>
           )}
           <Image style={Styles.imgAnn} source={Images.Announcement_light} />
-          <CustomButton
-            activeOpacity={
-              CommonFunctions.isNullUndefined(item.acknowledged_at) ? 0.8 : 1
-            }
-            ButtonStyle={Styles.btnQOD}
-            Text={
-              CommonFunctions.isNullUndefined(item.acknowledged_at)
-                ? Strings.We_did_it
-                : Strings.Done
-            }
-            onPress={() => {
-              CommonFunctions.isNullUndefined(item.acknowledged_at)
-                ? props.weDidIt(item.id)
-                : null;
-            }}
-          />
+          {CommonFunctions.isNullUndefined(item.acknowledged_at) && check ? (
+            <View style={Styles.animBtn}>
+              <AnimateLoadingButton
+                ref={input}
+                width={vw(300)}
+                height={vh(48)}
+                title={Strings.We_did_it}
+                titleFontSize={vh(16)}
+                titleFontFamily={"Nunito-Bold"}
+                titleColor="white"
+                backgroundColor={Colors.waterBlue}
+                borderRadius={vh(25)}
+                onPress={() => pressBtn()}
+              />
+            </View>
+          ) : (
+            <View style={Styles.btnView}>
+              <Text style={Styles.btnTxt}>{Strings.Done}</Text>
+            </View>
+          )}
         </View>
       ) : null}
+      {/* Picture modal with zoom n pinch ------------------- */}
+      <Modal animationType="slide" transparent={true} visible={picModalOpen}>
+        <View style={Styles.picModalView}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => setPicModalOpen(false)}
+            style={Styles.modalBack}
+          >
+            <Image source={Images.back_icon} />
+          </TouchableOpacity>
+          <ReactNativeZoomableView
+            maxZoom={1.5}
+            minZoom={1}
+            zoomStep={0.5}
+            initialZoom={1}
+            bindToBorders={true}
+            captureEvent={true}
+          >
+            <Image
+              source={{ uri: item.child_activity_image }}
+              style={Styles.img}
+            />
+          </ReactNativeZoomableView>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -207,7 +275,6 @@ const Styles = StyleSheet.create({
     paddingHorizontal: vh(16),
     alignItems: "center",
     width: "100%",
-    
   },
   mainInnerView: {
     backgroundColor: "white",
@@ -246,7 +313,8 @@ const Styles = StyleSheet.create({
   },
   dotTxt: {
     fontWeight: "900",
-    fontSize: vh(15),
+    fontSize: vh(20),
+    marginVertical: vh(10),
   },
   lunchView: {
     padding: vh(16),
@@ -306,6 +374,7 @@ const Styles = StyleSheet.create({
     backgroundColor: Colors.lightGreen,
     padding: vh(16),
     alignItems: "flex-start",
+    borderColor: Colors.green,
   },
   title: {
     fontFamily: "Nunito-Bold",
@@ -331,22 +400,52 @@ const Styles = StyleSheet.create({
     top: -10,
   },
   viewQOD: {
+    borderColor: Colors.waterBlue,
     backgroundColor: Colors.lightWaterBlue,
-    padding: vh(16),
     alignItems: "flex-start",
     shadowOffset: {
       width: 0,
       height: 0,
     },
   },
-  btnQOD: {
-    backgroundColor: Colors.waterBlue,
-    width: "100%",
-    alignSelf: "center",
-  },
   classText: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
     paddingVertical: vh(5),
+  },
+  picModalView: {
+    flex: 1,
+    backgroundColor: "black",
+  },
+  img: {
+    width: "100%",
+    height: vh(250),
+    backgroundColor: "white",
+  },
+  modalBack: {
+    position: "absolute",
+    top: iPhoneX ? vh(30) : 0,
+    left: 0,
+    padding: vh(20),
+    zIndex: 99,
+  },
+  animBtn: {
+    width: "100%",
+    marginVertical: vh(16),
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  btnView: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: vh(16),
+    backgroundColor: Colors.lightWaterBlue,
+  },
+  btnTxt: {
+    padding: vh(8),
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    color: Colors.waterBlue,
   },
 });

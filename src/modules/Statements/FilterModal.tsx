@@ -36,8 +36,6 @@ export default function App(props: AppProps) {
             heading={Strings.From}
             getDate={(date: Date) => {
               setFromDate(date);
-              // let difference: number = toDate.getDate() - date.getDate();
-              // difference > 0 ? setDays(difference.toString()) : 0;
             }}
           />
           <CustomDate
@@ -47,8 +45,6 @@ export default function App(props: AppProps) {
             minDate={fromDate}
             getDate={(date: Date) => {
               setToDate(date);
-              // let difference: number = date.getDate() - fromDate.getDate();
-              // setDays(difference.toString());
             }}
           />
           <CustomButton

@@ -26,8 +26,6 @@ export const hitStatementApi = (
       EndPoints.drawer.statement(page, from_date, to_date),
       {},
       (success: any) => {
-        console.warn("success ", success.data.response);
-
         const res = success.data.response;
         if (success.data.code === 200) {
           const { data } = getState().Statements;
@@ -57,7 +55,6 @@ export const hitStatementApi = (
         }
       },
       (error: any) => {
-        debugger;
         CommonFunctions.handleError(error);
         failCallback();
       }

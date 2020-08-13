@@ -23,7 +23,6 @@ export default function App(props: AppProps) {
           }
           style={Styles.img}
         />
-        {/* <Text style={Styles.bubbleText}>{params.name}</Text> */}
         <Text style={Styles.bubbleMsgText}>{params.msg}</Text>
         <TouchableOpacity
           activeOpacity={0.8}

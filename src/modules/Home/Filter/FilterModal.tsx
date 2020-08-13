@@ -9,7 +9,6 @@ import {
   FlatList,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 
 // custom imports
 import {
@@ -27,7 +26,11 @@ import {
   CustomLoader,
 } from "../../../Components";
 import FilterList from "./FilterList";
-import { HomeFilter, countFilter, addFilter } from "../action";
+import { HomeFilter, countFilter, addFilter, updateAWI } from "../action";
+
+const TYPE1 = "ANNOUNCEMENT";
+const TYPE2 = "ACTIVITY";
+const TYPE3 = "QOTD";
 
 export interface AppProps {
   setModalOpen: Function;
@@ -36,12 +39,13 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const { filterData, filterNum, currentChild, myFilter } = useSelector(
+  const { filterData, filterNum, currentChild, myFilter, AWI } = useSelector(
     (state: { Home: any }) => ({
       filterData: state.Home.filterData,
       filterNum: state.Home.filterNum,
       currentChild: state.Home.currentChild,
       myFilter: state.Home.myFilter,
+      AWI: state.Home.AWI,
     })
   );
 
@@ -57,7 +61,6 @@ export default function App(props: AppProps) {
       ? new Date()
       : new Date(myFilter.toDate)
   );
-  const [days, setDays] = useState(0);
   const [activityType1, setactivityType1] = useState(false);
   const [activityType2, setactivityType2] = useState(false);
   const [activityType3, setactivityType3] = useState(false);
@@ -68,13 +71,7 @@ export default function App(props: AppProps) {
   const [tempData, setTempData] = useState([]);
   const [dateApply, setdateApply] = useState(false);
 
-  const TYPE1 = "ANNOUNCEMENT";
-  const TYPE2 = "ACTIVITY";
-  const TYPE3 = "QOTD";
-
   React.useEffect(() => {
-    console.warn("my current child ", currentChild);
-
     myFilter.type.length === 0
       ? null
       : (myFilter.type.includes(TYPE1) ? setactivityType1(true) : null,
@@ -129,8 +126,6 @@ export default function App(props: AppProps) {
                 a.name > b.name ? 1 : b.name > a.name ? -1 : 0
               )
             );
-            console.warn("count ", filterNum !== counter, filterNum, counter);
-
             filterNum !== counter && filterNum !== 0
               ? dispatch(
                   addFilter(
@@ -158,6 +153,7 @@ export default function App(props: AppProps) {
     return self.indexOf(value) === index;
   };
 
+  // Activity Searching -------------------------
   const searching = (query: string) => {
     if (query.length === 0) setSearchData(filterData.activityCategory);
     else {
@@ -258,6 +254,7 @@ export default function App(props: AppProps) {
             <Text style={Styles.childHeaderText}>{Strings.Activity_Types}</Text>
           </TouchableOpacity>
         </View>
+
         {/* Right Side ------------------- */}
         {current === 1 ? (
           // Activity Category --------------------
@@ -302,7 +299,6 @@ export default function App(props: AppProps) {
               maxDate={new Date()}
               getDate={(date: Date) => {
                 setFromDate(date);
-                setDays(CommonFunctions.DateDifference(date, toDate));
                 setdateApply(true);
               }}
               mainViewStyle={{ marginTop: 0 }}
@@ -314,7 +310,6 @@ export default function App(props: AppProps) {
               maxDate={new Date()}
               getDate={(date: Date) => {
                 setToDate(new Date(date));
-                setDays(CommonFunctions.DateDifference(fromDate, date));
                 setdateApply(true);
               }}
             />
@@ -346,10 +341,23 @@ export default function App(props: AppProps) {
               </TouchableOpacity>
             </View>
             {/* Activity Types II -------------------- */}
-            <View style={[Styles.activityHeadView, Styles.activityTypeView]}>
-              <View style={{ marginVertical: vh(25) }}>
-                <Text style={Styles.subActivityText}>{Strings.Activities}</Text>
-              </View>
+            <View
+              style={[
+                Styles.activityHeadView,
+                Styles.activityTypeView,
+                activityType2
+                  ? { borderBottomWidth: 0 }
+                  : { borderBottomWidth: vw(1) },
+              ]}
+            >
+              <Text
+                style={[
+                  Styles.subActivityText,
+                  { marginTop: vh(25), marginBottom: vh(25) },
+                ]}
+              >
+                {Strings.Activities}
+              </Text>
               <TouchableOpacity
                 style={[Styles.iconView, { paddingRight: 0 }]}
                 activeOpacity={0.8}
@@ -367,6 +375,36 @@ export default function App(props: AppProps) {
                 />
               </TouchableOpacity>
             </View>
+            {activityType2 ? (
+              <View style={[Styles.activityHeadView, Styles.activityTypeView]}>
+                <Text
+                  style={[
+                    Styles.subActivityText,
+                    {
+                      fontSize: vh(14),
+                      marginBottom: vh(25),
+                      marginTop: vh(5),
+                    },
+                  ]}
+                >
+                  {Strings.Activity_without_image}
+                </Text>
+                <TouchableOpacity
+                  style={[Styles.iconView, { paddingRight: 0, paddingTop: 0 }]}
+                  activeOpacity={0.8}
+                  onPress={() => dispatch(updateAWI())}
+                >
+                  <Image
+                    source={
+                      AWI ? Images.Check_Box_Active : Images.Check_Box_inactive
+                    }
+                    style={{ alignSelf: "center" }}
+                    resizeMode="center"
+                    resizeMethod="resize"
+                  />
+                </TouchableOpacity>
+              </View>
+            ) : null}
             {/* Activity Types III -------------------- */}
             <View
               style={[
@@ -412,8 +450,6 @@ export default function App(props: AppProps) {
         />
         <CustomButton
           onPress={() => {
-            console.warn("cat  ", myFilter.activity);
-
             props.setModalOpen(false);
             props.applyFilter(
               myFilter.activity.sort().join(","),
@@ -461,7 +497,7 @@ const Styles = StyleSheet.create({
   categoryView: {
     justifyContent: "center",
     paddingVertical: vh(24),
-    paddingLeft: vw(20),
+    paddingHorizontal: vw(20),
     borderBottomWidth: vw(2.5),
     borderColor: Colors.lightPink,
   },
@@ -493,7 +529,7 @@ const Styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "space-around",
     paddingBottom: vh(20),
     borderTopWidth: vw(1),
     borderColor: Colors.borderGrey,

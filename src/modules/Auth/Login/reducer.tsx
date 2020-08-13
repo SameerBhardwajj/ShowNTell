@@ -17,11 +17,14 @@ const initialState = {
   loginEmail: "",
   profilePic: "",
   permission: { gallery: 0, camera: 0, storage: 0 },
+  logout: false,
 };
 
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {
     case Action.UPDATE_LOGIN:
+      return { ...state, ...action.payload };
+    case "USER_LOGGED_OUT":
       return { ...state, ...action.payload };
     case Action.USER_LOGIN:
       return { ...state, ...action.payload };
