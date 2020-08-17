@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { vh, vw, Colors } from "../utils";
+import { vh, vw, Colors, ScreenName } from "../utils";
 
 export interface AppProps {
   item: any;
@@ -18,7 +18,12 @@ export default function App(props: AppProps) {
         source={props.item.icon}
         style={[props.item.size, { marginRight: vw(15) }]}
       />
-      <Text style={Styles.label}>{props.item.label}</Text>
+      <View style={Styles.textView}>
+        <Text style={Styles.label}>{props.item.label}</Text>
+        {props.item.path === ScreenName.CHAT ? (
+          <View style={Styles.dot} />
+        ) : null}
+      </View>
     </TouchableOpacity>
   );
 }
@@ -35,5 +40,17 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(18),
     color: Colors.lightBlack,
+  },
+  textView: {
+    flexDirection: "row",
+    width: "80%",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  dot: {
+    height: vh(10),
+    width: vh(10),
+    borderRadius: vh(5),
+    backgroundColor: Colors.chatOrange,
   },
 });

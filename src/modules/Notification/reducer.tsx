@@ -2,6 +2,7 @@ import { Action } from "../../utils";
 const initialState = {
   data: [],
   page: 0,
+  settingList: [],
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

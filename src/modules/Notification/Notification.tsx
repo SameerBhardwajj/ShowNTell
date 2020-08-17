@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  Modal,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // Custom imports
 import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
-import { Strings, vh, vw, Colors, CommonFunctions } from "../../utils";
+import { Strings, vh, vw, Colors, CommonFunctions, Images } from "../../utils";
 import List from "./List";
 import { hitNotificationAPI, hitAcknowledgeSupply } from "./action";
+import NotificationModal from "./NotificationModal";
+
+const iPhoneX = Dimensions.get("window").height >= 812;
 
 export interface AppProps {
   navigation?: any;
@@ -20,6 +32,8 @@ export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [loadFooter, setLoadFooter] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
   useEffect(() => {
     data.length === 0 ? setLoading(true) : null;
     let focusListener = props.navigation.addListener("focus", () => {
@@ -36,8 +50,7 @@ export default function App(props: AppProps) {
         () => {
           setLoading(false);
           setLoadFooter(false);
-          console.warn('ok');
-          
+          console.warn("ok");
         },
         () => {
           setLoading(false), setLoadFooter(false);
@@ -73,6 +86,13 @@ export default function App(props: AppProps) {
         title={Strings.Notification}
         onPressBack={() => props.navigation.pop()}
       />
+      <TouchableOpacity
+        style={Styles.notificationIcon}
+        activeOpacity={0.8}
+        onPress={() => setModalOpen(true)}
+      >
+        <Image source={Images.setting_Icon} style={{ tintColor: "white" }} />
+      </TouchableOpacity>
       <CustomLoader loading={loading} />
       {loading ? null : CommonFunctions.isNullUndefined(data) ? (
         <CustomNoData />
@@ -96,6 +116,9 @@ export default function App(props: AppProps) {
           }}
         />
       )}
+      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+        <NotificationModal setModalOpen={() => setModalOpen(!modalOpen)} />
+      </Modal>
     </View>
   );
 }
@@ -112,5 +135,44 @@ const Styles = StyleSheet.create({
     shadowOpacity: 1,
     shadowRadius: 4.65,
     elevation: 7,
+  },
+  notificationIcon: {
+    position: "absolute",
+    padding: vh(16),
+    right: 0,
+    top: iPhoneX ? vh(30) : vh(15),
+  },
+  modalMainView: {
+    flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: Colors.modalBg2,
+  },
+  modalView: {
+    backgroundColor: "white",
+    width: "100%",
+    alignItems: "center",
+    borderTopRightRadius: vh(10),
+    borderTopLeftRadius: vh(10),
+    paddingVertical: vh(16),
+    paddingHorizontal: vw(16),
+  },
+  cancelBtn: {
+    position: "absolute",
+    padding: vh(16),
+    right: 0,
+  },
+  headingText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    alignSelf: "flex-start",
+  },
+  separatorView: {
+    height: vw(1),
+    width: "100%",
+    backgroundColor: Colors.separator,
+    marginTop: vh(21),
+  },
+  msgView: {
+    width: "100%",
   },
 });

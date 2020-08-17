@@ -49,4 +49,5 @@ export default {
   SCHEDULE_CHILD_MODAL: "ScheduleChildModal",
   ENTER_PASSWORD: "EnterPassword",
   NOTIFICATION: "Notification",
+  CHANGE_PASSWORD: "ChangePassword",
 };

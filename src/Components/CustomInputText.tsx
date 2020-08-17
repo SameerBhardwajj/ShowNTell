@@ -29,8 +29,6 @@ export interface AppProps {
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
-  // let checkPassword =
-  //   props.typePassword === undefined || props.typePassword === false;
 
   return (
     <View style={[{ width: "100%" }, props.mainViewStyle]}>

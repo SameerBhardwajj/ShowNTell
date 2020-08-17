@@ -89,6 +89,9 @@ const Images = {
   Send_Icon: require("../Assets/Images/Send_Icon.png"),
   Profile_Placeholder: require("../Assets/Images/Profile_Placeholder.png"),
   Tick_Icon: require("../Assets/Images/Tick_Icon.png"),
+  Change_Password: require("../Assets/Images/Group_62.png"),
+  TNC_Icon: require("../Assets/Images/Group_61.png"),
+  About_icon: require("../Assets/Images/Group_60.png"),
 };
 
 export default Images;

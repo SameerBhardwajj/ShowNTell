@@ -55,7 +55,7 @@ export const hitAcknowledgeSupply = (
   return (dispatch: Function, getState: Function) => {
     API.postApiCall(
       EndPoints.notification.acknowledgeSupply,
-      {id: id},
+      { id: id },
       (success: any) => {
         let res = success.data.response;
         console.log("mysuccess ", res);
@@ -81,6 +81,38 @@ export const hitAcknowledgeSupply = (
         //     data: [],
         //   },
         // });
+        CommonFunctions.handleError(error);
+        failureCallback();
+      }
+    );
+  };
+};
+
+export const hitNotificationSetting = (
+  successCallback: Function,
+  failureCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.getApiCall(
+      EndPoints.notification.notificationSetting,
+      {},
+      (success: any) => {
+        let res = success.data.response;
+        console.log("mysuccess ", res);
+        if (success.data.code === 200) {
+          dispatch({
+            type: Action.NOTIFICATION,
+            payload: {
+              settingList: res.notificationSetting,
+            },
+          });
+          successCallback(res.notificationSetting);
+        } else {
+          CustomToast(success.data.message);
+          failureCallback();
+        }
+      },
+      (error: any) => {
         CommonFunctions.handleError(error);
         failureCallback();
       }

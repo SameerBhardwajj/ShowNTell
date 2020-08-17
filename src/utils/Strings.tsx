@@ -242,6 +242,12 @@ const Strings = new LocalizedStrings({
     Notification: "Notification",
     Acknowledge: "Acknowledge",
     Activity_without_image: "Activities with photo only",
+    About: "About",
+    Terms_of_Service: "Terms of Service",
+    Change_Password: "Change Password",
+    Old_Password: "Old Password",
+    New_Password: "New Password",
+    All_Notifications: "All Notifications",
   },
 });
 export default Strings;

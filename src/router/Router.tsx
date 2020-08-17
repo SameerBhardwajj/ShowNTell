@@ -55,6 +55,7 @@ import ChildModal from "../Components/CustomHeader/ChildModal";
 import EnterPassword from "../modules/Auth/Login/EnterPassword";
 import ScheduleChildModal from "../modules/ClassroomSchedule/ScheduleChildModal";
 import Notification from "../modules/Notification/Notification";
+import ChangePassword from "../modules/Settings/ChangePassword";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -338,6 +339,11 @@ export default class AppComponent extends React.Component<AppProps, any> {
               <RootStack.Screen
                 name={ScreenName.NEED_HELP}
                 component={NeedHelp}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.CHANGE_PASSWORD}
+                component={ChangePassword}
                 options={this.screen}
               />
               <RootStack.Screen
