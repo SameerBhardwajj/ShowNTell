@@ -18,13 +18,13 @@ export default function App(props: AppProps) {
             {props.item.memo_com}
           </Text>
         )}
-        {props.state ? (
+        {/* {props.state ? (
           <Text style={Styles.text2}>
             {Strings.Balance} {props.item.amount}
           </Text>
         ) : (
           <Text>{""}</Text>
-        )}
+        )} */}
         <Text style={Styles.text3}>
           {CommonFunctions.DateFormatter(props.item.date)}
         </Text>
@@ -39,10 +39,10 @@ export default function App(props: AppProps) {
         {credit
           ? (
               Math.round(parseFloat(props.item.sns_credit_amt) * 10) / 10
-            ).toFixed(1)
+            ).toFixed(2)
           : (
               Math.round(parseFloat(props.item.sns_debit_amt) * 10) / 10
-            ).toFixed(1)}
+            ).toFixed(2)}
       </Text>
     </View>
   );

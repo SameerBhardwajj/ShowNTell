@@ -50,10 +50,10 @@ const Strings = new LocalizedStrings({
       "Please enter your phone number along with\nyour email to get new verification code.",
     parentPhone: "Parent’s Phone Number",
     phone_number: "Phone No.",
-    Resent_Access_Code: "Resent Access Code",
-    I_have_Access_Code: "I have Access Code",
+    Resent_Access_Code: "Resend Access Code",
+    I_have_Access_Code: "I Already Have An Access Code",
     acsess_code_confirm:
-      "New Access Code will be sent to\nyour phone number and email\nin a while.",
+      "New Access Code will be sent to your email in a while.",
     ok: "OK",
     Create_Password: "Create Password",
     create_password_content:
