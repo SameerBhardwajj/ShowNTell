@@ -60,13 +60,6 @@ export const hitAcknowledgeSupply = (
         let res = success.data.response;
         console.log("mysuccess ", res);
         if (success.data.code === 200) {
-          // dispatch({
-          //   type: Action.NOTIFICATION,
-          //   payload: {
-          //     data: finalArray,
-          //     page: page + 1,
-          //   },
-          // });
           successCallback();
         } else {
           CustomToast(success.data.message);

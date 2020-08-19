@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { Strings, vw, vh, Images, Colors } from "../../utils";
+import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 
 const child =
   "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80";
@@ -16,19 +16,34 @@ export default function App(props: AppProps) {
       <View style={Styles.msgUpperView}>
         <View>
           <Text style={Styles.fromText}>{Strings.From}</Text>
-          <Text style={Styles.dateText}>{props.item.from}</Text>
+          <Text style={Styles.dateText}>
+            {CommonFunctions.DateFormatter(props.item.date)}
+          </Text>
         </View>
-        <View style={Styles.separatorDateView} />
+        {/* <View style={Styles.separatorDateView} />
         <View>
           <Text style={Styles.fromText}>{Strings.To}</Text>
           <Text style={Styles.dateText}>{props.item.to}</Text>
-        </View>
+        </View> */}
       </View>
       <View style={Styles.avatarView}>
-        <Image source={{ uri: child }} style={Styles.childAvatar} />
+        <View style={Styles.childAvatar}>
+          <Image
+            source={
+              CommonFunctions.isNullUndefined(props.item.s3_photo_path)
+                ? Images.Profile_Placeholder
+                : { uri: props.item.s3_photo_path }
+            }
+            style={{ width: vh(35), height: vh(38) }}
+          />
+        </View>
         <View style={Styles.centerNameView}>
-          <Text style={Styles.name}>{props.item.name}</Text>
-          <Text style={Styles.classText}>{props.item.class}</Text>
+          <Text style={Styles.name}>
+            {props.item.Child.first_name} {props.item.Child.last_name}
+          </Text>
+          <Text style={Styles.classText}>
+            {props.item.Child.Classroom.name}
+          </Text>
         </View>
         <TouchableOpacity
           style={Styles.editView}
@@ -38,10 +53,11 @@ export default function App(props: AppProps) {
           <Image source={Images.Edit_Icon} style={Styles.editImg} />
         </TouchableOpacity>
       </View>
-      <Text style={Styles.msgText}>{props.item.msg}</Text>
+      <Text style={Styles.msgText}>{props.item.absence_description}</Text>
       <Text style={Styles.footerText}>
-        {props.item.createdOn} <Text style={{ fontSize: vh(30) }}>.</Text>{" "}
-        {props.item.time}
+        {CommonFunctions.DateFormatter(props.item.create_dt)}{" "}
+        <Text style={{ fontSize: vh(30) }}>.</Text>{" "}
+        {CommonFunctions.timeFormatter(props.item.create_dt)}
       </Text>
     </View>
   );
@@ -84,10 +100,15 @@ const Styles = StyleSheet.create({
     width: "100%",
   },
   childAvatar: {
-    height: vh(60),
-    width: vh(60),
-    borderRadius: vh(30),
+    height: vh(64),
+    width: vh(64),
+    borderRadius: vh(32),
     marginBottom: vh(10),
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: vw(1),
+    borderColor: Colors.borderGrey,
+    backgroundColor: "white",
   },
   name: {
     fontFamily: "Nunito-Bold",

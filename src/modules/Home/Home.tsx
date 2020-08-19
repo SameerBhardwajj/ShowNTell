@@ -247,19 +247,6 @@ export default function App(props: AppProps) {
       : null;
   }, [focused]);
 
-  const myNotification = (token: string) => {};
-
-  const actionNotification = (action: string) => {
-    if (action == "Kuch Kar") {
-      console.warn("ok");
-      // Do work pertaining to Accept action here
-    } else {
-      // Do work pertaining to Reject action here
-      console.warn("no");
-    }
-    // Add all the required actions handlers
-  };
-
   const utcFromDateTime = (date?: string) => {
     let myDate = "";
     let time = "";

@@ -52,9 +52,9 @@ export default function App(props: AppProps) {
   };
 
   const check = () => {
+    setIsLoading(true);
     validate(ConstantName.PHONE, phone)
       ? (Keyboard.dismiss(),
-        setIsLoading(true),
         type === 0
           ? dispatch(
               resendCode(
@@ -83,6 +83,7 @@ export default function App(props: AppProps) {
               )
             ))
       : setCheckPhone(false);
+    setIsLoading(false);
   };
 
   return (

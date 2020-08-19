@@ -7,13 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Images, Colors, CommonFunctions } from "../../utils";
 import { updateSplash } from "./action";
 import { addDeviceToken } from "../Auth/Login/action";
+import { hitChatCount } from "../Home/action";
 
 export interface AppProps {
   navigation?: any;
 }
 export default function App(props: AppProps) {
-  const { deviceToken } = useSelector((state: { Login: any }) => ({
+  const { deviceToken, loginToken } = useSelector((state: { Login: any }) => ({
     deviceToken: state.Login.deviceToken,
+    loginToken: state.Login.loginToken,
   }));
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -21,9 +23,16 @@ export default function App(props: AppProps) {
       ? dispatch(addDeviceToken(() => {}))
       : null;
     dispatch(updateSplash());
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 500);
+    loginToken.length === 0
+      ? SplashScreen.hide()
+      : dispatch(
+          hitChatCount(() => {
+            SplashScreen.hide();
+          })
+        );
+    // setTimeout(() => {
+
+    // }, 500);
   }, []);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>

@@ -13,6 +13,7 @@ const initialState = {
   guardianData: {},
   filterEnable: false,
   AWI: false,
+  unreadMsgs: false,
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

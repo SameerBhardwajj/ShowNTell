@@ -1,4 +1,10 @@
-import { Action, API, EndPoints, CommonFunctions } from "../../utils";
+import {
+  Action,
+  API,
+  EndPoints,
+  CommonFunctions,
+  Constants,
+} from "../../utils";
 import { CustomToast } from "../../Components";
 import { Platform } from "react-native";
 
@@ -260,5 +266,86 @@ export const weDidItAPI = (
         failCallback([]);
       }
     );
+  };
+};
+
+export const hitChatCount = (callback: Function) => {
+  return (dispatch: Function, getState: Function) => {
+    Constants.axiosInstance
+      .post(EndPoints.home.checkChatCount)
+      .then((success: any) => {
+        debugger;
+        const res = success.data.response;
+        if (success.data.code === 200 && res.count > 0) {
+          dispatch({
+            type: Action.UPDATE_TAB,
+            payload: {
+              unreadMsgs: true,
+            },
+          });
+        } else {
+          dispatch({
+            type: Action.UPDATE_TAB,
+            payload: {
+              unreadMsgs: false,
+            },
+          });
+        }
+        callback();
+      })
+      .catch((error: any) => {
+        debugger;
+        dispatch({
+          type: Action.UPDATE_TAB,
+          payload: {
+            unreadMsgs: false,
+          },
+        });
+        callback();
+      });
+
+    // API.postApiCall(
+    //   EndPoints.home.checkChatCount,
+    //   {},
+    //   (success: any) => {
+    //     const res = success.data.response;
+    //     if (success.data.code === 200 && res.count > 0) {
+    //       dispatch({
+    //         type: Action.UPDATE_TAB,
+    //         payload: {
+    //           unreadMsgs: true,
+    //         },
+    //       });
+    //     } else {
+    //       dispatch({
+    //         type: Action.UPDATE_TAB,
+    //         payload: {
+    //           unreadMsgs: false,
+    //         },
+    //       });
+    //     }
+    //     callback();
+    //   },
+    //   (error: any) => {
+    //     dispatch({
+    //       type: Action.UPDATE_TAB,
+    //       payload: {
+    //         unreadMsgs: false,
+    //       },
+    //     });
+    //     callback();
+    //   }
+    // );
+  };
+};
+
+export const updateChatCount = (value: boolean) => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        unreadMsgs: value,
+      },
+    });
   };
 };

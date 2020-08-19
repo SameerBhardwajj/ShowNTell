@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -9,10 +9,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { CustomHeader } from "../../Components";
+import { CustomHeader, CustomNoData, CustomLoader } from "../../Components";
 import { Strings, vw, vh, Images, ScreenName } from "../../utils";
 import AbsenceFlatlist from "./AbsenceFlatlist";
-import { updateTab } from "../Home/action";
+import { hitAbsenceList } from "./action";
 
 const TYPE_ADD = "add";
 const TYPE_UPDATE = "update";
@@ -23,13 +23,36 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const { tab } = useSelector((state: { Home: any }) => ({
-    tab: state.Home.tab,
-  }));
+  const { currentChild, absenceList, page } = useSelector(
+    (state: { Home: any; Absence: any }) => ({
+      currentChild: state.Home.currentChild,
+      absenceList: state.Absence.absenceList,
+      page: state.Absence.page,
+    })
+  );
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadMore, setLoadMore] = useState(true);
 
   useEffect(() => {
-    dispatch(updateTab(true, () => {}));
-  }, []);
+    absenceList.length === 0 ? setIsLoading(true) : null;
+    hitListAPI(0);
+  }, [currentChild]);
+
+  const hitListAPI = (page: number) => {
+    dispatch(
+      hitAbsenceList(
+        currentChild.child,
+        page,
+        (data: Array<any>) => {
+          data.length === 0 ? setLoadMore(false) : setLoadMore(true);
+          setIsLoading(false);
+        },
+        () => {
+          setIsLoading(false);
+        }
+      )
+    );
+  };
 
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -71,16 +94,24 @@ export default function App(props: AppProps) {
         <Image source={Images.Add_leave} style={Styles.addBtn} />
       </TouchableOpacity>
       {/* Message starts here -------- */}
-      <View style={Styles.innerView}>
-        <FlatList
-          contentContainerStyle={{ paddingBottom: vh(90) }}
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-          data={DATA}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItems}
-        />
-      </View>
+      {isLoading ? (
+        <CustomLoader loading={isLoading} />
+      ) : absenceList.length === 0 ? (
+        <CustomNoData />
+      ) : (
+        <View style={Styles.innerView}>
+          <FlatList
+            contentContainerStyle={{ paddingBottom: vh(90) }}
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            data={absenceList}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItems}
+            onEndReachedThreshold={0.5}
+            onEndReached={() => (loadMore ? hitListAPI(page) : null)}
+          />
+        </View>
+      )}
     </View>
   );
 }

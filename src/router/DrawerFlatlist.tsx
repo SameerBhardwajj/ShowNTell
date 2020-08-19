@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useSelector } from "react-redux";
 import { vh, vw, Colors, ScreenName } from "../utils";
 
 export interface AppProps {
@@ -8,6 +9,9 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const { unreadMsgs } = useSelector((state: { Home: any }) => ({
+    unreadMsgs: state.Home.unreadMsgs,
+  }));
   return (
     <TouchableOpacity
       style={Styles.mainView}
@@ -20,7 +24,7 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.textView}>
         <Text style={Styles.label}>{props.item.label}</Text>
-        {props.item.path === ScreenName.CHAT ? (
+        {props.item.path === ScreenName.CHAT && unreadMsgs ? (
           <View style={Styles.dot} />
         ) : null}
       </View>

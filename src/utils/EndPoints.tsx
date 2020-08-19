@@ -74,6 +74,7 @@ export default {
         ? `/api/v1/parent/filter-data`
         : `/api/v1/parent/filter-data?classroom_id=${classroom}`,
     weDidIt: `/api/v1/parent/we-did-it`,
+    checkChatCount: `/api/v1/parent/get-unread-message-count`,
   },
   notification: {
     notification: (page: number) =>
@@ -118,6 +119,7 @@ export default {
       sendMsg: `/api/v1/parent/send-message`,
       getMsg: (type: string, timestamp: string) =>
         `/api/v1/parent/get-chat-message?type=${type}&timestamp=${timestamp}`,
+      markRead: `/api/v1/parent/mark-unread-message-as-read`,
     },
     statement: (page: number, from_date?: string, to_date?: string) =>
       `/api/v1/parent/statement?page=${page}${
@@ -127,5 +129,15 @@ export default {
       }${
         CommonFunctions.isNullUndefined(to_date) ? "" : `&to_date=${to_date}`
       }`,
+    about: (id: number) => `/api/v1/parent/get-pages?id=${id}`,
+  },
+  absence: {
+    absenceReason: `/api/v1/parent/absence-reason`,
+    absenceList: (child_id: number, page: number) =>
+      child_id === 0
+        ? `/api/v1/parent/list-absence-request?page=${page}`
+        : `/api/v1/parent/list-absence-request?page=${page}&child_id=${child_id}`,
+    addAbsence: `/api/v1/parent/absence-request`,
+    editAbsence: `/api/v1/parent/edit-absence-request`,
   },
 };

@@ -3,7 +3,9 @@ import { View, StyleSheet, Text, Platform } from "react-native";
 import PushNotification from "react-native-push-notification";
 import Config from "react-native-config";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import { connect } from "react-redux";
 import { ScreenName } from "../utils";
+import { updateChatCount, hitChatCount } from "../modules/Home/action";
 
 const CHAT = "chat";
 
@@ -11,7 +13,7 @@ export interface AppProps {
   navigation: any;
 }
 
-export default class NotificationServices extends React.Component<AppProps> {
+class NotificationServices extends React.Component<AppProps> {
   constructor(props: AppProps) {
     super(props);
     Platform.OS === "ios"
@@ -63,15 +65,22 @@ export default class NotificationServices extends React.Component<AppProps> {
 
   gotoScreen = (payload: any) => {
     payload.foreground
-      ? this.unreadChat()
+      ? updateChatCount(true)
       : this.props.navigation.navigate(this.getScreen(payload.type));
   };
-
-  unreadChat = () => {
-    
-  }
 
   render() {
     return <View />;
   }
 }
+
+const mapStateToProps = (state: any) => ({});
+
+const mapDispatchToProps = {
+  updateChatCount: (value: boolean) => updateChatCount(value),
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotificationServices);
