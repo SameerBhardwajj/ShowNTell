@@ -82,7 +82,11 @@ export default function App(props: AppProps) {
     dispatch(
       hitAddAbsence(
         data,
-        () => {},
+        () => {
+          props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+            msg: Strings.absence_submit_msg,
+          });
+        },
         () => {}
       )
     );
@@ -173,9 +177,6 @@ export default function App(props: AppProps) {
             multiline={true}
             onSubmitEditing={() => {
               Keyboard.dismiss();
-              // props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-              //   msg: Strings.absence_submit_msg,
-              // });
               check();
             }}
           />
