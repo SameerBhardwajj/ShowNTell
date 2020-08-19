@@ -16,7 +16,7 @@ const reg = (regex: string) => {
 };
 
 const validate = (type: string, text: string) => {
-  const regex: any = reg(type);
+  const regex: any = reg(type);  
   if (type === ConstantName.NAME) return regex.test(String(text).toLowerCase());
   else if (type === ConstantName.PHONE)
     return regex.test(text.replace(/\D+/g, ""));

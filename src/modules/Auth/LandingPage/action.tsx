@@ -10,13 +10,12 @@ export const fetchTestimonials = (
       EndPoints.auth.testimonials,
       {},
       (success: any) => {
-        debugger
         console.log("success ", success.data.response);
         if (success.data.code === 200) {
           dispatch({
             type: Action.TESTIMONIALS,
             payload: {
-              fetchTest: false,
+              data: success.data.response,
             },
           });
           successCallback(success.data.response);
@@ -26,12 +25,6 @@ export const fetchTestimonials = (
         }
       },
       (error: any) => {
-        dispatch({
-          type: Action.TESTIMONIALS,
-          payload: {
-            fetchTest: false,
-          },
-        });
         CommonFunctions.handleError(error);
         failCallback([]);
       }

@@ -233,6 +233,8 @@ const callNumber = (phone: number) => {
 
 const handleError = (error: any) => {
   if (error.message === "Network Error" || error.code === "ECONNABORTED") {
+  } else if (error.response.data.message === undefined) {
+    CustomToast("Server Error: Something went wrong !");
   } else {
     CustomToast(error.response.data.message);
   }

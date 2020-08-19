@@ -49,39 +49,7 @@ import {
 } from "./action";
 import FilterModal from "./Filter/FilterModal";
 import ShareModal from "./ShareModal";
-
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification from "@aws-amplify/pushnotification";
 import { addDeviceToken } from "../Auth/Login/action";
-
-Platform.OS === "ios"
-  ? PushNotification.requestIOSPermissions({
-      alert: true,
-      badge: true,
-      sound: true,
-    })
-  : null;
-
-PushNotification.onNotification((notification: any) => {
-  if (notification.foreground) {
-    console.warn("onNotification foreground", notification);
-  } else {
-    console.warn("onNotification background or closed", notification);
-  }
-  // extract the data passed in the push notification
-  const data = JSON.parse(notification.data["pinpoint.jsonBody"]);
-  console.warn("onNotification data", data);
-  // iOS only
-  Platform.OS === "ios"
-    ? notification.finish(PushNotificationIOS.FetchResult.NoData)
-    : null;
-});
-PushNotification.onNotificationOpened((notification: any) => {
-  console.warn("onNotificationOpened", notification);
-  // extract the data passed in the push notification
-  const data = JSON.parse(notification["pinpoint.jsonBody"]);
-  console.warn("onNotificationOpened data", data);
-});
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
