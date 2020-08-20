@@ -72,10 +72,18 @@ export default function App(props: AppProps) {
   }, []);
 
   const check = () => {
+    console.warn("my dates", fromDate, toDate);
+
     let data = {
       child_id: currentChild.child,
-      absence_from: CommonFunctions.dateTypeFormat(fromDate.toString(), "ymd"),
-      absence_to: CommonFunctions.dateTypeFormat(toDate.toString(), "ymd"),
+      absence_from: CommonFunctions.dateTypeFormat(
+        fromDate.toLocaleDateString(),
+        "ymd"
+      ),
+      absence_to: CommonFunctions.dateTypeFormat(
+        toDate.toLocaleDateString(),
+        "ymd"
+      ),
       absence_reason_id: reasonOption,
       absence_description: reason,
     };
@@ -121,24 +129,27 @@ export default function App(props: AppProps) {
             setFromDate(date);
             CommonFunctions.DateDifference(date, toDate) < 1
               ? (setToDate(date), setDays(0))
-              : setDays(CommonFunctions.DateDifference(fromDate, date));
+              : setDays(CommonFunctions.DateDifference(date, toDate));
           }}
         />
         {CURR_TYPE ? null : (
-          <CustomDate
-            heading={Strings.To}
-            date={toDate}
-            minDate={fromDate}
-            getDate={(date: Date) => {
-              setToDate(date);
-              setDays(CommonFunctions.DateDifference(fromDate, date));
-            }}
-          />
+          <>
+            <CustomDate
+              heading={Strings.To}
+              date={toDate}
+              minDate={fromDate}
+              getDate={(date: Date) => {
+                setToDate(date);
+                setDays(CommonFunctions.DateDifference(fromDate, date));
+              }}
+            />
+
+            <Text style={Styles.titleTxt}>{Strings.Number_of_Days}</Text>
+            <View style={Styles.inputTxt}>
+              <Text style={Styles.dateText}>{days}</Text>
+            </View>
+          </>
         )}
-        <Text style={Styles.titleTxt}>{Strings.Number_of_Days}</Text>
-        <View style={Styles.inputTxt}>
-          <Text style={Styles.dateText}>{days}</Text>
-        </View>
         <Text style={Styles.titleTxt}>{Strings.Reason_for_absence}</Text>
         {reasonLoading ? (
           <ActivityIndicator

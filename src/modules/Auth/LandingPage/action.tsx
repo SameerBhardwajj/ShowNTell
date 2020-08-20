@@ -10,7 +10,7 @@ export const fetchTestimonials = (
       EndPoints.auth.testimonials,
       {},
       (success: any) => {
-        console.log("success ", success.data.response);
+        console.warn("success ", success.data.response.length);
         if (success.data.code === 200) {
           dispatch({
             type: Action.TESTIMONIALS,

@@ -130,6 +130,8 @@ export default {
         CommonFunctions.isNullUndefined(to_date) ? "" : `&to_date=${to_date}`
       }`,
     about: (id: number) => `/api/v1/parent/get-pages?id=${id}`,
+    testimonials: (id: number) =>
+      `/api/v1/parent/testimonials-by-center?center_id=${id}`,
   },
   absence: {
     absenceReason: `/api/v1/parent/absence-reason`,

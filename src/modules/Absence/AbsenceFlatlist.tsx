@@ -136,13 +136,13 @@ const Styles = StyleSheet.create({
   msgText: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(16),
-    padding: vh(16),
+    paddingHorizontal: vh(16),
   },
   footerText: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
     color: Colors.lightBlack,
     padding: vh(16),
-    paddingTop: vh(8),
+    paddingTop: vh(0),
   },
 });

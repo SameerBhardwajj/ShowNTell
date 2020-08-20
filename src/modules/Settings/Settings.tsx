@@ -19,7 +19,7 @@ export default function App(props: AppProps) {
       <TouchableOpacity
         style={Styles.mainView2}
         activeOpacity={0.8}
-        onPress={() => {}}
+        onPress={() => props.navigation.navigate(ScreenName.ABOUTUS)}
       >
         <Image source={Images.About_icon} style={Styles.imgView} />
         <Text style={Styles.label}>{Strings.About}</Text>
@@ -27,7 +27,7 @@ export default function App(props: AppProps) {
       <TouchableOpacity
         style={Styles.mainView2}
         activeOpacity={0.8}
-        onPress={() => {}}
+        onPress={() => props.navigation.navigate(ScreenName.TNC)}
       >
         <Image source={Images.TNC_Icon} style={Styles.imgView} />
         <Text style={Styles.label}>{Strings.Terms_of_Service}</Text>

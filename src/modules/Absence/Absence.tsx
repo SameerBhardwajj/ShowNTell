@@ -7,6 +7,7 @@ import {
   FlatList,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
 
 // custom imports
 import { CustomHeader, CustomNoData, CustomLoader } from "../../Components";
@@ -32,11 +33,13 @@ export default function App(props: AppProps) {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [loadMore, setLoadMore] = useState(true);
-
+  const focused = useIsFocused();
   useEffect(() => {
+    console.warn('here');
+    
     absenceList.length === 0 ? setIsLoading(true) : null;
     hitListAPI(0);
-  }, [currentChild]);
+  }, [currentChild, focused]);
 
   const hitListAPI = (page: number) => {
     dispatch(

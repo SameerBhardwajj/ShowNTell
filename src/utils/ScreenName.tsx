@@ -50,4 +50,6 @@ export default {
   ENTER_PASSWORD: "EnterPassword",
   NOTIFICATION: "Notification",
   CHANGE_PASSWORD: "ChangePassword",
+  ABOUTUS: "AboutUs",
+  TNC: "TNC",
 };

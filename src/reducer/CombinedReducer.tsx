@@ -17,6 +17,7 @@ import Chat from "../modules/Chat/reducer";
 import Statements from "../modules/Statements/reducer";
 import Notification from "../modules/Notification/reducer";
 import Absence from "../modules/Absence/reducer";
+import Settings from "../modules/Settings/reducer";
 const CombinedReducer = combineReducers({
   Home,
   Splash,
@@ -36,6 +37,7 @@ const CombinedReducer = combineReducers({
   Statements,
   Notification,
   Absence,
+  Settings,
 });
 
 const rootReducer = (state: any, action: any) => {
