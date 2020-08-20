@@ -53,7 +53,7 @@ const Strings = new LocalizedStrings({
     Resent_Access_Code: "Resend Access Code",
     I_have_Access_Code: "I Already Have An Access Code",
     acsess_code_confirm:
-      "New Access Code will be sent to\nyour phone number and email\nin a while.",
+      "New Access Code will be sent to your email in a while.",
     ok: "OK",
     Create_Password: "Create Password",
     create_password_content:

@@ -37,14 +37,15 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const [counter, setCounter] = useState(true);
-  const [data, setData] = useState([]);
   const [exitCounter, setExitCounter] = useState(false);
-  const [unavailable, setUnavailable] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { loginToken } = useSelector((state: { Login: any }) => ({
-    loginToken: state.Login.loginToken,
-  }));
+  const { loginToken, data } = useSelector(
+    (state: { Login: any; LandingPage: any }) => ({
+      loginToken: state.Login.loginToken,
+      data: state.LandingPage.data,
+    })
+  );
 
   useEffect(() => {
     Constants.setAuthorizationToken(
@@ -66,18 +67,19 @@ export default function App(props: AppProps) {
   }, [exitCounter]);
 
   const fetchTest = () => {
-    counter
-      ? dispatch(
+    data.length === 0
+      ? (setIsLoading(true),
+        dispatch(
           fetchTestimonials(
             (success: any) => {
-              setCounter(false);
-              setData(success);
+              console.warn("ok");
+              setIsLoading(false);
             },
             () => {
-              setUnavailable(true);
+              setIsLoading(false);
             }
           )
-        )
+        ))
       : null;
   };
 
@@ -112,10 +114,10 @@ export default function App(props: AppProps) {
           autoplayTimeout={3}
         >
           {data.length === 0 ? (
-            unavailable ? (
-              <CustomNoData />
-            ) : (
+            isLoading ? (
               <CustomLoader loading={true} />
+            ) : (
+              <CustomNoData />
             )
           ) : (
             data.map((item: any) => (

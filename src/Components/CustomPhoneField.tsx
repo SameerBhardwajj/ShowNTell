@@ -38,7 +38,7 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
           { borderColor: props.check ? Colors.borderGrey : Colors.pink },
         ]}
       >
-        <Text style={Styles.codeText}>+1 -</Text>
+        {/* <Text style={Styles.codeText}>+1 -</Text> */}
         <TextInput
           ref={ref}
           style={[

@@ -47,6 +47,13 @@ export default function App(props: AppProps) {
     );
   };
 
+  const formatPhone = (f: string) => {
+    let f_val = f.replace(/\D+/g, "");
+    f =
+      "(" + f_val.slice(0, 3) + ") " + f_val.slice(3, 6) + "-" + f_val.slice(6);
+    return f;
+  };
+
   return (
     <ScrollView
       keyboardShouldPersistTaps="handled"
@@ -76,7 +83,7 @@ export default function App(props: AppProps) {
               <View style={Styles.itemView}>
                 <Image source={Images.Phone_Icon_blue} />
                 <Text style={Styles.itemText}>
-                  +1 - {data.primary_phone.replace(/-/g, "")}
+                  {formatPhone(data.primary_phone.replace(/-/g, ""))}
                 </Text>
               </View>
             )}
@@ -84,7 +91,7 @@ export default function App(props: AppProps) {
               <View style={Styles.itemView}>
                 <Image source={Images.Mobile_Icon} />
                 <Text style={Styles.itemText}>
-                  +1 - {data.work_phone.replace(/-/g, "")}
+                  {formatPhone(data.work_phone.replace(/-/g, ""))}
                 </Text>
               </View>
             )}
@@ -92,7 +99,7 @@ export default function App(props: AppProps) {
               <View style={Styles.itemView}>
                 <Image source={Images.Home_Icom} />
                 <Text style={Styles.itemText}>
-                  +1 - {data.secondary_phone.replace(/-/g, "")}
+                  {formatPhone(data.secondary_phone.replace(/-/g, ""))}
                 </Text>
               </View>
             )}

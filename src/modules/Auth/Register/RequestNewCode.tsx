@@ -46,7 +46,7 @@ export default function App(props: AppProps) {
   );
 
   const formatPhone = (f: string) => {
-    let f_val = f.replace(/\D[^\.]/g, "");
+    let f_val = f.replace(/\D+/g, "");
     f = f_val.slice(0, 3) + "-" + f_val.slice(3, 6) + "-" + f_val.slice(6);
     return f;
   };

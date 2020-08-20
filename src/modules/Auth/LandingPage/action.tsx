@@ -15,7 +15,7 @@ export const fetchTestimonials = (
           dispatch({
             type: Action.TESTIMONIALS,
             payload: {
-              fetchTest: false,
+              data: success.data.response,
             },
           });
           successCallback(success.data.response);
@@ -25,12 +25,6 @@ export const fetchTestimonials = (
         }
       },
       (error: any) => {
-        dispatch({
-          type: Action.TESTIMONIALS,
-          payload: {
-            fetchTest: false,
-          },
-        });
         CommonFunctions.handleError(error);
         failCallback([]);
       }

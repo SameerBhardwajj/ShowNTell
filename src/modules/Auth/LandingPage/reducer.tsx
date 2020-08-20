@@ -1,6 +1,6 @@
 import { Action } from "../../../utils";
 const initialState = {
-  fetchTest: true,
+  data: [],
 };
 
 const Reducer = (state = initialState, action: any) => {
