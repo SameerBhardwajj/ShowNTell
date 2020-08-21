@@ -160,7 +160,7 @@ export default function App(props: AppProps) {
               });
           },
           (error: any) => {
-            CustomToast(error.response);
+            // CustomToast(error.response);
             setLoading(false);
           }
         )
@@ -213,7 +213,7 @@ export default function App(props: AppProps) {
         hitAppointmentAPI(response);
       },
       (error: any) => {
-        CustomToast(error.message);
+        // CustomToast(error.message);
         setLoading(false);
       }
     );
@@ -238,7 +238,7 @@ export default function App(props: AppProps) {
         hitPostScheduleAPI(res, response);
       },
       (error: any) => {
-        CustomToast(error.message);
+        // CustomToast(error.message);
         setLoading(false);
       }
     );
@@ -271,7 +271,7 @@ export default function App(props: AppProps) {
           : (CustomToast(response.message), setLoading(false));
       },
       (error: any) => {
-        CustomToast(error.message);
+        // CustomToast(error.message);
         setLoading(false);
       }
     );
