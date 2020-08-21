@@ -30,5 +30,6 @@ const Colors = {
   chatBorderGrey: "rgb(210, 210, 210)",
   creamWhite: "rgb(250, 250, 250)",
   veryLightBorder: "rgb(238, 238, 238)",
+  darkGreen: "rgb(76, 175, 80)",
 };
 export default Colors;

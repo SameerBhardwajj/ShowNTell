@@ -56,7 +56,8 @@ const Strings = new LocalizedStrings({
       "New Access Code will be sent to your email in a while.",
     ok: "OK",
     Create_Password: "Create Password",
-    create_password_content: "Please create a password to login to\nShow N Tell",
+    create_password_content:
+      "Please create a password to login to\nShow N Tell",
     Confirm_Password: "Confirm Password",
     Continue: "Continue",
     Password_successfully_created: "Password successfully created",
@@ -241,6 +242,8 @@ const Strings = new LocalizedStrings({
     Notification: "Notification",
     Acknowledge: "Acknowledge",
     Activity_without_image: "Activities with photo only",
+    Password_Conditions:
+      "Password must have :\n• A minimal length of 8 characters\n• At least one capital letter\n• At least one numeral\n• At least one punctuation mark\n• Password should not match username\n• Password should not match the last 5 entered passwords",
   },
 });
 export default Strings;

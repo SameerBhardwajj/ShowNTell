@@ -26,23 +26,29 @@ export interface AppProps {
   autoFocus?: boolean;
   onBlur?: Function;
   maxLength?: number;
+  passwordGreen?: boolean;
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
-  // let checkPassword =
-  //   props.typePassword === undefined || props.typePassword === false;
-
   return (
     <View style={[{ width: "100%" }, props.mainViewStyle]}>
       <View style={Styles.textView}>
-        <Text
-          style={[
-            Styles.titleTxt,
-            { color: props.check ? Colors.titleColor : Colors.pink },
-          ]}
-        >
-          {props.titleText}
-        </Text>
+        <View style={{ width: "50%", flexDirection: "row" }}>
+          <Text
+            style={[
+              Styles.titleTxt,
+              { color: props.check ? Colors.titleColor : Colors.pink },
+            ]}
+          >
+            {props.titleText}
+          </Text>
+          {props.passwordGreen ? (
+            <Image
+              source={Images.Check_Icon}
+              style={{ marginLeft: vh(4), marginTop: vh(3) }}
+            />
+          ) : null}
+        </View>
         {props.check ? null : (
           <View style={{ width: "50%" }}>
             <Text style={Styles.incorrectText}>{props.incorrectText}</Text>
@@ -52,7 +58,13 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
       <View
         style={[
           Styles.inputTxtView,
-          { borderColor: props.check ? Colors.borderGrey : Colors.pink },
+          {
+            borderColor: props.check
+              ? props.passwordGreen
+                ? Colors.darkGreen
+                : Colors.borderGrey
+              : Colors.pink,
+          },
         ]}
       >
         <TextInput
@@ -62,7 +74,13 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
             props.typePassword
               ? Styles.textInputStyle2
               : Styles.textInputStyle1,
-            { borderColor: props.check ? Colors.borderGrey : Colors.pink },
+            {
+              borderColor: props.check
+                ? props.passwordGreen
+                  ? Colors.darkGreen
+                  : Colors.borderGrey
+                : Colors.pink,
+            },
           ]}
           maxLength={props.maxLength}
           autoFocus={props.autoFocus}
@@ -110,7 +128,6 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     width: "100%",
-    // paddingHorizontal: vw(25)
   },
   titleTxt: {
     fontFamily: "Nunito-SemiBold",
@@ -149,7 +166,6 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Medium",
     fontSize: vh(12),
     color: Colors.pink,
-    // paddingLeft: vw(40),
     width: "100%",
     textAlign: "right",
   },
