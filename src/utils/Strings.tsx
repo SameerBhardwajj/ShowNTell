@@ -47,7 +47,7 @@ const Strings = new LocalizedStrings({
     Request_New_Access_Code: "Request New Access Code",
     hello: "Hello",
     enter_phone_and_email:
-      "Please enter your phone number along with\nyour email to get new verification code.",
+      "Please enter your phone number to get new verification code.",
     parentPhone: "Parent’s Phone Number",
     phone_number: "Phone No.",
     Resent_Access_Code: "Resend Access Code",
@@ -56,8 +56,7 @@ const Strings = new LocalizedStrings({
       "New Access Code will be sent to your email in a while.",
     ok: "OK",
     Create_Password: "Create Password",
-    create_password_content:
-      "Create password which you can use to login to this application from next time onwards.",
+    create_password_content: "Please create a password to login to\nShow N Tell",
     Confirm_Password: "Confirm Password",
     Continue: "Continue",
     Password_successfully_created: "Password successfully created",

@@ -21,9 +21,9 @@ export const forgotPassword = (
             payload: {
               email: email,
               id: res.guardian_id,
-              name: `${res.first_name}${
-                res.middle_name === null ? "" : `${" "}${res.middle_name}`
-              } ${res.last_name}`,
+              name: `${res.first_name.trim()}${
+                res.middle_name === null ? "" : ` ${res.middle_name.trim()}`
+              } ${res.last_name.trim()}`,
             },
           });
           successCallback();
@@ -48,7 +48,7 @@ export const fpresendCode = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.postApiCall(
-      EndPoints.auth.resendCode,
+      EndPoints.auth.fresendCode,
       {
         email: email,
         phone_number: phone,

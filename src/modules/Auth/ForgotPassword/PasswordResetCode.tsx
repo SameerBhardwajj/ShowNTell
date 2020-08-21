@@ -46,6 +46,7 @@ export default function App(props: AppProps) {
 
   // Validating Code --------------
   const verifyCode = () => {
+    setIsLoading(true)
     let enteredCode =
       input1.toString() +
       input2.toString() +
