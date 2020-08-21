@@ -7,7 +7,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { Strings, Colors, vw, vh, Images } from "../utils";
+import { Colors, vw, vh, Images } from "../utils";
 
 export interface AppProps {
   titleText: string;
@@ -30,6 +30,7 @@ export interface AppProps {
 }
 
 const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
+  const [length, setLength] = React.useState(0);
   return (
     <View style={[{ width: "100%" }, props.mainViewStyle]}>
       <View style={Styles.textView}>
@@ -89,7 +90,13 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
           secureTextEntry={props.secureTextEntry}
           editable={props.editable}
           value={props.value}
-          onChangeText={(val: string) => props.onChangeText(val)}
+          onChangeText={(val: string) => {
+            props.maxLength
+              ? length <= props.maxLength
+                ? props.onChangeText(val)
+                : null
+              : props.onChangeText(val);
+          }}
           blurOnSubmit={false}
           returnKeyType={
             props.returnKeyType === undefined ? "next" : props.returnKeyType

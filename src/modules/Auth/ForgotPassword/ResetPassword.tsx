@@ -93,6 +93,7 @@ export default function App(props: AppProps) {
             titleText={Strings.Enter_New_Password}
             value={password1}
             typePassword={true}
+            maxLength={15}
             onChangeText={(text: string) => {
               checkPassword1 ? null : setCheckPassword1(true);
               setPassword1(text);
@@ -122,6 +123,7 @@ export default function App(props: AppProps) {
             mainViewStyle={{ marginVertical: vh(16) }}
             secureTextEntry={secureEntry2}
             value={password2}
+            maxLength={15}
             typePassword={true}
             onChangeText={(text: string) => {
               checkPassword2 ? null : setCheckPassword2(true),
