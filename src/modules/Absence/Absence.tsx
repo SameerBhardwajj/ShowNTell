@@ -5,13 +5,14 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 
 // custom imports
 import { CustomHeader, CustomNoData, CustomLoader } from "../../Components";
-import { Strings, vw, vh, Images, ScreenName } from "../../utils";
+import { Strings, vw, vh, Images, ScreenName, Colors } from "../../utils";
 import AbsenceFlatlist from "./AbsenceFlatlist";
 import { hitAbsenceList } from "./action";
 
@@ -33,15 +34,15 @@ export default function App(props: AppProps) {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [loadMore, setLoadMore] = useState(true);
+  const [loadFooter, setLoadFooter] = useState(false);
   const focused = useIsFocused();
   useEffect(() => {
-    console.warn('here');
-    
     absenceList.length === 0 ? setIsLoading(true) : null;
     hitListAPI(0);
   }, [currentChild, focused]);
 
   const hitListAPI = (page: number) => {
+    page === 0 ? null : setLoadFooter(true);
     dispatch(
       hitAbsenceList(
         currentChild.child,
@@ -49,9 +50,11 @@ export default function App(props: AppProps) {
         (data: Array<any>) => {
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setIsLoading(false);
+          setLoadFooter(false);
         },
         () => {
           setIsLoading(false);
+          setLoadFooter(false);
         }
       )
     );
@@ -105,13 +108,21 @@ export default function App(props: AppProps) {
         <View style={Styles.innerView}>
           <FlatList
             contentContainerStyle={{ paddingBottom: vh(90) }}
-            showsVerticalScrollIndicator={false}
             bounces={false}
             data={absenceList}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItems}
             onEndReachedThreshold={0.5}
             onEndReached={() => (loadMore ? hitListAPI(page) : null)}
+            ListFooterComponent={() => {
+              return (
+                <ActivityIndicator
+                  color={Colors.violet}
+                  size="large"
+                  animating={loadFooter}
+                />
+              );
+            }}
           />
         </View>
       )}

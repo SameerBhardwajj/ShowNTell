@@ -83,7 +83,7 @@ export const hitAddAbsence = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     console.warn(data);
-    
+
     API.postApiCall(
       EndPoints.absence.addAbsence,
       data,
@@ -115,7 +115,7 @@ export const hitUpdateAbsence = (
   failureCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    API.getApiCall(
+    API.postApiCall(
       EndPoints.absence.editAbsence,
       data,
       (success: any) => {

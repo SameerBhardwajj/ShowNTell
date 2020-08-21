@@ -13,7 +13,12 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { CustomHeader, CustomDate, CustomButton } from "../../Components";
+import {
+  CustomHeader,
+  CustomDate,
+  CustomButton,
+  CustomLoader,
+} from "../../Components";
 import {
   Strings,
   vw,
@@ -23,7 +28,7 @@ import {
   ScreenName,
   CommonFunctions,
 } from "../../utils";
-import { hitAbsenceReason, hitAddAbsence } from "./action";
+import { hitAbsenceReason, hitAddAbsence, hitUpdateAbsence } from "./action";
 
 const TYPE_ADD = "add";
 const TYPE_UPDATE = "update";
@@ -34,18 +39,25 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const CURR_TYPE = props.route.params.type === TYPE_UPDATE ? true : false;
-  const { params } = props.route;
+  const { item } = props.route.params;
 
   const dispatch = useDispatch();
 
   const input1: any = React.createRef();
-  const [fromDate, setFromDate] = useState(new Date());
+  const [fromDate, setFromDate] = useState(
+    CURR_TYPE ? new Date(item.date) : new Date()
+  );
   const [toDate, setToDate] = useState(new Date());
   const [days, setDays] = useState(0);
-  const [reasonOption, setReasonOption] = useState(-1);
-  const [reason, setReason] = useState("");
+  const [reasonOption, setReasonOption] = useState(
+    CURR_TYPE ? item.absence_reason_id : -1
+  );
+  const [reason, setReason] = useState(
+    CURR_TYPE ? item.absence_description : ""
+  );
   const [cLength, setCLength] = useState(0);
   const [reasonLoading, setReasonLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { reasonList, currentChild } = useSelector(
     (state: { Absence: any; Home: any }) => ({
@@ -72,10 +84,10 @@ export default function App(props: AppProps) {
   }, []);
 
   const check = () => {
-    console.warn("my dates", fromDate, toDate);
-
+    console.log("my dates", fromDate, toDate);
+    setIsLoading(true);
     let data = {
-      child_id: currentChild.child,
+      child_id: CURR_TYPE ? item.child_id : currentChild.child,
       absence_from: CommonFunctions.dateTypeFormat(
         fromDate.toLocaleDateString(),
         "ymd"
@@ -91,11 +103,42 @@ export default function App(props: AppProps) {
       hitAddAbsence(
         data,
         () => {
+          setIsLoading(false);
           props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
             msg: Strings.absence_submit_msg,
           });
         },
-        () => {}
+        () => {
+          setIsLoading(false);
+        }
+      )
+    );
+  };
+
+  const checkUpdate = () => {
+    setIsLoading(true);
+    let data = {
+      absence_id: item.id,
+      child_id: CURR_TYPE ? item.child_id : currentChild.child,
+      date: CommonFunctions.dateTypeFormat(
+        fromDate.toLocaleDateString(),
+        "ymd"
+      ),
+      absence_reason_id: reasonOption,
+      absence_description: reason,
+    };
+    dispatch(
+      hitUpdateAbsence(
+        data,
+        () => {
+          setIsLoading(false);
+          props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+            msg: Strings.absence_update_msg,
+          });
+        },
+        () => {
+          setIsLoading(false);
+        }
       )
     );
   };
@@ -106,8 +149,8 @@ export default function App(props: AppProps) {
       <CustomHeader
         title={Strings.Create_Absence_Notification}
         onPressBack={() => props.navigation.pop()}
-        textStyle={Styles.headerText}
-        child={true}
+        textStyle={CURR_TYPE ? {} : Styles.headerText}
+        child={CURR_TYPE ? false : true}
         navigation={props.navigation}
       />
       <KeyboardAwareScrollView
@@ -116,6 +159,7 @@ export default function App(props: AppProps) {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={Styles.innerView}
       >
+        <CustomLoader loading={isLoading} />
         <View style={Styles.headingView}>
           <Text style={Styles.heading1}>{Strings.hello}</Text>
           <Text style={Styles.heading2}>{Strings.Bob_Parish}</Text>
@@ -186,14 +230,14 @@ export default function App(props: AppProps) {
             }}
             style={Styles.textInputView}
             multiline={true}
-            onSubmitEditing={() => {
-              Keyboard.dismiss();
-              check();
-            }}
+            // onSubmitEditing={() => {
+            //   Keyboard.dismiss();
+            //   check();
+            // }}
           />
           <Text style={Styles.character}>{cLength}/500 Characters</Text>
         </View>
-        {props.route.params.type === TYPE_ADD ? (
+        {!CURR_TYPE ? (
           <CustomButton
             Text={Strings.Submit}
             onPress={() => {
@@ -221,9 +265,10 @@ export default function App(props: AppProps) {
             <CustomButton
               Text={Strings.Update}
               onPress={() =>
-                props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                  msg: Strings.absence_update_msg,
-                })
+                // props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                //   msg: Strings.absence_update_msg,
+                // })
+                checkUpdate()
               }
               ButtonStyle={{ width: "45%" }}
             />

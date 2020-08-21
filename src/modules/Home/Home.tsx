@@ -50,43 +50,7 @@ import {
 import FilterModal from "./Filter/FilterModal";
 import ShareModal from "./ShareModal";
 import NotificationServices from "../../utils/NotificationServices";
-// import PushNotification from "@aws-amplify/pushnotification";
 import { addDeviceToken } from "../Auth/Login/action";
-
-// PushNotification.requestIOSPermissions({
-//     alert: true,
-//     badge: true,
-//     sound: true,
-//   })
-// : null;
-
-// PushNotification.onNotification((notification: any) => {
-//   debugger;
-//   if (notification.foreground) {
-//     console.warn("1onNotification foreground", notification);
-//     // console.warn("2my foreground", notification.data);
-//   } else {
-//     console.warn("onNotification background or closed", notification);
-//     console.warn("my background");
-//   }
-//   // extract the data passed in the push notification
-//   // const data = JSON.parse(notification.data);
-//   // console.warn("onNotification data", data);
-//   // iOS only
-//   Platform.OS === "ios"
-//     ? notification.finish(PushNotificationIOS.FetchResult.NoData)
-//     : null;
-// });
-// PushNotification.onNotificationOpened((notification: any) => {
-//   console.warn("onNotificationOpened", notification);
-//   // console.warn("onNotificationOpened", notification.data);
-//   // extract the data passed in the push notification
-//   // const data = JSON.parse(notification["pinpoint.jsonBody"]);
-//   // console.warn(JSON.parse(notification.data));
-
-//   const data = JSON.parse(notification);
-//   console.warn("onNotificationOpened data", data);
-// });
 
 const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
