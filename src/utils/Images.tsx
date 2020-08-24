@@ -92,6 +92,7 @@ const Images = {
   Change_Password: require("../Assets/Images/Group_62.png"),
   TNC_Icon: require("../Assets/Images/Group_61.png"),
   About_icon: require("../Assets/Images/Group_60.png"),
+  Check_Icon: require("../Assets/Images/Check_Icon.png"),
 };
 
 export default Images;

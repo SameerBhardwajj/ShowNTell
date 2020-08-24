@@ -110,10 +110,17 @@ const getClientApiCall = (
   Constants.clientAxiosInstance
     .get(endPoint, params)
     .then((response: any) => {
+      debugger;
       console.warn("Success: ", response);
-      successCallback(response);
+      if (response.data.result === "invalid") {
+        CustomToast(response.data.errors[0]);
+        errorCallback();
+      } else {
+        successCallback(response);
+      }
     })
     .catch((error: any) => {
+      debugger;
       console.warn("error", error);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
@@ -135,10 +142,17 @@ const postClientApiCall = (
   Constants.clientAxiosInstance
     .post(endPoint, params)
     .then((response: any) => {
+      debugger;
       console.warn("Success: ", response);
-      successCallback(response);
+      if (response.data.result === "invalid") {
+        CustomToast(response.data.errors[0]);
+        errorCallback();
+      } else {
+        successCallback(response);
+      }
     })
     .catch((error: any) => {
+      debugger;
       errorCallback(error);
     });
 };

@@ -60,9 +60,9 @@ export const register = (
             type: Action.REGISTER,
             payload: {
               email: email,
-              name: `${res.first_name}${
-                res.middle_name === null ? "" : `${" "}${res.middle_name}`
-              } ${res.last_name}`,
+              name: `${res.first_name.trim()}${
+                res.middle_name === null ? "" : `${res.middle_name.trim()}`
+              } ${res.last_name.trim()}`,
               id: res.id,
             },
           });

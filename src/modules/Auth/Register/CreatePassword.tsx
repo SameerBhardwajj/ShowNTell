@@ -36,6 +36,7 @@ export default function App(props: AppProps) {
   const [checkPassword2, setCheckPassword2] = useState(true);
   const [secureEntry, setsecureEntry] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordGreen, setPasswordGreen] = useState(false);
 
   const { id, name, token } = useSelector((state: { Register: any }) => ({
     id: state.Register.id,
@@ -71,69 +72,76 @@ export default function App(props: AppProps) {
 
   return (
     <View style={Styles.mainView}>
+      <CustomHeader
+        title={Strings.Create_Password}
+        onPressBack={() => props.navigation.pop(3)}
+      />
+      <CustomLoader loading={isLoading} />
       <KeyboardAwareScrollView
         bounces={false}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
       >
-        <CustomHeader
-          title={Strings.Create_Password}
-          onPressBack={() => props.navigation.pop(3)}
-        />
-        <CustomLoader loading={isLoading} />
         <View style={Styles.innerView}>
           <Text style={Styles.welcome}>{Strings.hello}</Text>
           <Text style={Styles.name}>{name}</Text>
           <Text style={Styles.please}>{Strings.create_password_content}</Text>
-          <View style={Styles.codeView}>
-            <CustomInputText
-              ref={inputRef1}
-              titleText={Strings.Create_Password}
-              value={password1}
-              typePassword={true}
-              onChangeText={(text: string) => {
-                checkPassword1 ? null : setCheckPassword1(true),
-                  setPassword1(text);
-              }}
-              check={checkPassword1}
-              secureTextEntry={secureEntry}
-              onPressEye={() => setsecureEntry(!secureEntry)}
-              incorrectText={
-                password1.length < 8 ? Strings.Password_length : ""
-              }
-              returnKeyType="next"
-              onSubmitEditing={() => {
-                password1.length < 8
-                  ? setCheckPassword1(false)
-                  : validate(ConstantName.PASSWORD, password1)
-                  ? inputRef2.current.focus()
-                  : (Keyboard.dismiss(),
-                    CustomToast(Strings.Password_Error),
-                    setCheckPassword1(false));
-              }}
+          <View style={Styles.conditionView}>
+            <Text style={Styles.conditionTxt}>
+              {Strings.Password_Conditions}
+            </Text>
+          </View>
+          <CustomInputText
+            ref={inputRef1}
+            titleText={Strings.Create_Password}
+            value={password1}
+            maxLength={15}
+            typePassword={true}
+            onChangeText={(text: string) => {
+              checkPassword1 ? null : setCheckPassword1(true);
+              setPassword1(text);
+              validate(ConstantName.PASSWORD, text)
+                ? setPasswordGreen(true)
+                : setPasswordGreen(false);
+            }}
+            check={checkPassword1}
+            secureTextEntry={secureEntry}
+            onPressEye={() => setsecureEntry(!secureEntry)}
+            incorrectText={password1.length < 8 ? Strings.Password_length : ""}
+            returnKeyType="next"
+            onSubmitEditing={() => {
+              password1.length < 8
+                ? setCheckPassword1(false)
+                : validate(ConstantName.PASSWORD, password1)
+                ? inputRef2.current.focus()
+                : (Keyboard.dismiss(),
+                  CustomToast(Strings.Password_Error),
+                  setCheckPassword1(false));
+            }}
+            passwordGreen={passwordGreen}
+          />
+          <CustomInputText
+            ref={inputRef2}
+            titleText={Strings.Confirm_Password}
+            mainViewStyle={{ marginVertical: vh(16) }}
+            value={password2}
+            maxLength={15}
+            secureTextEntry={true}
+            onChangeText={(text: string) => {
+              checkPassword2 ? null : setCheckPassword2(true),
+                setPassword2(text);
+            }}
+            check={checkPassword2}
+            incorrectText={Strings.Password_mismatch}
+            returnKeyType="done"
+            onSubmitEditing={() => check()}
+          />
+          <View style={{ alignItems: "center" }}>
+            <CustomButton
+              Text={Strings.Continue}
+              onPress={() => check()}
+              ButtonStyle={{ width: "100%" }}
             />
-            <CustomInputText
-              ref={inputRef2}
-              titleText={Strings.Confirm_Password}
-              mainViewStyle={{ marginVertical: vh(24) }}
-              value={password2}
-              secureTextEntry={true}
-              onChangeText={(text: string) => {
-                checkPassword2 ? null : setCheckPassword2(true),
-                  setPassword2(text);
-              }}
-              check={checkPassword2}
-              incorrectText={Strings.Password_mismatch}
-              returnKeyType="done"
-              onSubmitEditing={() => check()}
-            />
-            <View style={{ alignItems: "center" }}>
-              <CustomButton
-                Text={Strings.Continue}
-                onPress={() => check()}
-                ButtonStyle={{ width: "100%" }}
-              />
-            </View>
           </View>
         </View>
       </KeyboardAwareScrollView>
@@ -165,7 +173,16 @@ const Styles = StyleSheet.create({
     color: Colors.lightGrey,
     marginVertical: vh(8),
   },
-  codeView: {
-    marginVertical: vh(32),
+  conditionView: {
+    padding: vh(10),
+    backgroundColor: Colors.lightPink,
+    borderRadius: vh(10),
+    marginBottom: vh(16),
+  },
+  conditionTxt: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(14),
+    lineHeight: vh(26),
+    color: Colors.lightGrey,
   },
 });

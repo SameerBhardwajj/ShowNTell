@@ -31,5 +31,6 @@ const Colors = {
   creamWhite: "rgb(250, 250, 250)",
   veryLightBorder: "rgb(238, 238, 238)",
   chatOrange: "rgb(247, 167, 64)",
+  darkGreen: "rgb(76, 175, 80)",
 };
 export default Colors;

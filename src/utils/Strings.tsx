@@ -47,7 +47,7 @@ const Strings = new LocalizedStrings({
     Request_New_Access_Code: "Request New Access Code",
     hello: "Hello",
     enter_phone_and_email:
-      "Please enter your phone number along with\nyour email to get new verification code.",
+      "Please enter your phone number to get new verification code.",
     parentPhone: "Parent’s Phone Number",
     phone_number: "Phone No.",
     Resent_Access_Code: "Resend Access Code",
@@ -57,7 +57,7 @@ const Strings = new LocalizedStrings({
     ok: "OK",
     Create_Password: "Create Password",
     create_password_content:
-      "Create password which you can use to login to this application from next time onwards.",
+      "Please create a password to login to\nShow N Tell",
     Confirm_Password: "Confirm Password",
     Continue: "Continue",
     Password_successfully_created: "Password successfully created",
@@ -248,6 +248,8 @@ const Strings = new LocalizedStrings({
     Old_Password: "Old Password",
     New_Password: "New Password",
     All_Notifications: "All Notifications",
+    Password_Conditions:
+      "Password must have :\n• A minimal length of 8 characters\n• At least one capital letter\n• At least one numeral\n• At least one punctuation mark\n• Password should not match username\n• Password should not match the last 5 entered passwords",
   },
 });
 export default Strings;
