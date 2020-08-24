@@ -246,8 +246,8 @@ const Picker = (success: Function, fail: Function) => {
     storageOptions: {
       skipBackup: true,
       path: "images",
-      quality: 0,
     },
+    quality: 0.2,
   };
   ImagePicker.launchCamera(options, (response: any) => {
     if (response.didCancel) {
