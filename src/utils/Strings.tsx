@@ -151,7 +151,8 @@ const Strings = new LocalizedStrings({
     lunch_msg:
       "This will help your children in getting along with rest of the kids, importance of eating together and also inculcate the basic eating manners, the different taste of food as well as learning names of different dishes.",
     Absence_Notifications: "Absence Notifications",
-    Create_Absence_Notification: "Create Absence Notification",
+    Create_Absence_Notification: "Create Notification",
+    Edit_Absence_Notification: "Edit Notification",
     set_DOB: "Set Date of Birth",
     Bob_Parish: "Mr. Bob Parish",
     Please_check_this: "Please check this out.",

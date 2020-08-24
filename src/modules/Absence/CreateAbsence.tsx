@@ -59,8 +59,9 @@ export default function App(props: AppProps) {
   const [reasonLoading, setReasonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { reasonList, currentChild } = useSelector(
-    (state: { Absence: any; Home: any }) => ({
+  const { loginData, reasonList, currentChild } = useSelector(
+    (state: { Login: any; Absence: any; Home: any }) => ({
+      loginData: state.Login.loginData,
       reasonList: state.Absence.reasonList,
       currentChild: state.Home.currentChild,
     })
@@ -147,7 +148,11 @@ export default function App(props: AppProps) {
     <View style={Styles.mainView}>
       {/* Custom Header -------------- */}
       <CustomHeader
-        title={Strings.Create_Absence_Notification}
+        title={
+          CURR_TYPE
+            ? Strings.Edit_Absence_Notification
+            : Strings.Create_Absence_Notification
+        }
         onPressBack={() => props.navigation.pop()}
         textStyle={CURR_TYPE ? {} : Styles.headerText}
         child={CURR_TYPE ? false : true}
@@ -162,11 +167,13 @@ export default function App(props: AppProps) {
         <CustomLoader loading={isLoading} />
         <View style={Styles.headingView}>
           <Text style={Styles.heading1}>{Strings.hello}</Text>
-          <Text style={Styles.heading2}>{Strings.Bob_Parish}</Text>
+          <Text
+            style={Styles.heading2}
+          >{`${loginData.first_name} ${loginData.last_name}`}</Text>
           <Text style={Styles.heading3}>{Strings.apply_leave_on_time}</Text>
         </View>
         <CustomDate
-          heading={Strings.From}
+          heading={CURR_TYPE ? Strings.Date : Strings.From}
           date={fromDate}
           minDate={new Date()}
           getDate={(date: Date) => {

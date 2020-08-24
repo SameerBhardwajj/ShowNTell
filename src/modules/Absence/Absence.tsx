@@ -152,36 +152,3 @@ export const Styles = StyleSheet.create({
     width: vh(64),
   },
 });
-
-const DATA = [
-  {
-    from: "Feb 26, 2020",
-    to: "Feb 26, 2020",
-    name: "Alex Parish",
-    class: "Infant A",
-    msg:
-      "Hello Mam,\n\nThis is to inform you that my ward would be travelling outside station and would be unavailable for the mentioned dates.This is to inform you that my ward would be travelling outside station and would be unavailable for the mentioned dates. for the mentioned dates.\nThanks,\nBob",
-    createdOn: "Feb 25, 2020",
-    time: "05:00 PM",
-  },
-  {
-    from: "Feb 26, 2020",
-    to: "Feb 26, 2020",
-    name: "Alex Parish",
-    class: "Infant A",
-    msg:
-      "Hello Mam,\n\nThis is to inform you that my ward would be travelling outside station and would be unavailable for the mentioned dates.\nThanks,\nBob",
-    createdOn: "Feb 25, 2020",
-    time: "05:00 PM",
-  },
-  {
-    from: "Feb 26, 2020",
-    to: "Feb 26, 2020",
-    name: "Alex Parish",
-    class: "Infant A",
-    msg:
-      "Hello Mam,\n\nThis is to inform you that my ward would be travelling outside station and would be unavailable for the mentioned dates.\nThanks,\nBob",
-    createdOn: "Feb 25, 2020",
-    time: "05:00 PM",
-  },
-];

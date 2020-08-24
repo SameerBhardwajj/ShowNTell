@@ -40,7 +40,7 @@ export default function App(props: AppProps) {
   return (
     <View style={Styles.mainView}>
       <CustomHeader
-        title={Strings.About}
+        title={Strings.Terms_of_Service}
         onPressBack={() => props.navigation.pop()}
       />
       <ScrollView

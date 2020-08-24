@@ -105,7 +105,7 @@ export default function App(props: AppProps) {
                 >
                   <Text style={Styles.name}>
                     {item.Child.first_name} {item.Child.last_name}
-                    <Text style={Styles.dotTxt}>{" . "}</Text>
+                    <Text style={Styles.dotTxt}>{" • "}</Text>
                     <Text style={{ color: Colors.orange }}>
                       {item.category_name}{" "}
                       <Text style={Styles.category}>
@@ -312,9 +312,10 @@ const Styles = StyleSheet.create({
     borderTopRightRadius: vh(10),
   },
   dotTxt: {
-    fontWeight: "900",
-    fontSize: vh(20),
-    marginVertical: vh(10),
+    color: Colors.lightGrey,
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(12),
+    letterSpacing: -0.24
   },
   lunchView: {
     padding: vh(16),
