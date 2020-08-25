@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
   TextInput,
-  Keyboard,
   ActivityIndicator,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -59,9 +58,15 @@ export default function App(props: AppProps) {
   const [reasonLoading, setReasonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { loginData, reasonList, currentChild } = useSelector(
-    (state: { Login: any; Absence: any; Home: any }) => ({
+  const { loginData, classroomChild, reasonList, currentChild } = useSelector(
+    (state: {
+      Login: any;
+      ClassroomSchedule: any;
+      Absence: any;
+      Home: any;
+    }) => ({
       loginData: state.Login.loginData,
+      classroomChild: state.ClassroomSchedule.classroomChild,
       reasonList: state.Absence.reasonList,
       currentChild: state.Home.currentChild,
     })
@@ -98,7 +103,7 @@ export default function App(props: AppProps) {
         "ymd"
       ),
       absence_reason_id: reasonOption,
-      absence_description: reason,
+      absence_description: reason.trim(),
     };
     dispatch(
       hitAddAbsence(
@@ -126,7 +131,7 @@ export default function App(props: AppProps) {
         "ymd"
       ),
       absence_reason_id: reasonOption,
-      absence_description: reason,
+      absence_description: reason.trim(),
     };
     dispatch(
       hitUpdateAbsence(
@@ -155,9 +160,26 @@ export default function App(props: AppProps) {
         }
         onPressBack={() => props.navigation.pop()}
         textStyle={CURR_TYPE ? {} : Styles.headerText}
-        child={CURR_TYPE ? false : true}
         navigation={props.navigation}
       />
+      {CURR_TYPE ? null : (
+        <TouchableOpacity
+          activeOpacity={loginData.Children.length > 1 ? 0.8 : 1}
+          style={Styles.childHeader}
+          onPress={() =>
+            loginData.Children.length > 1
+              ? props.navigation.navigate(ScreenName.SCHEDULE_CHILD_MODAL, {
+                  child: loginData.Children,
+                })
+              : null
+          }
+        >
+          <Text style={Styles.childHeaderText}>{classroomChild.name}</Text>
+          {loginData.Children.length > 1 ? (
+            <Image source={Images.Drop_Down_icon} style={Styles.dropdown} />
+          ) : null}
+        </TouchableOpacity>
+      )}
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         bounces={false}
@@ -306,6 +328,10 @@ const Styles = StyleSheet.create({
     borderRadius: vh(20),
     alignItems: "center",
     justifyContent: "center",
+  },
+  childHeaderText: {
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
   },
   dropdown: {
     height: vh(6),

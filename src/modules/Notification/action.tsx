@@ -96,10 +96,10 @@ export const hitNotificationSetting = (
           dispatch({
             type: Action.NOTIFICATION,
             payload: {
-              settingList: res.notificationSetting,
+              settingList: res,
             },
           });
-          successCallback(res.notificationSetting);
+          successCallback(res);
         } else {
           CustomToast(success.data.message);
           failureCallback();
