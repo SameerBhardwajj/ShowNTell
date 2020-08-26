@@ -5,17 +5,22 @@ import { vh, Images } from "../../utils";
 export interface AppProps {
   name: any;
   value: any;
+  onPress: Function;
 }
 
 export default function App(props: AppProps) {
+  const [isEnable, setIsEnable] = React.useState(props.value);
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       style={Styles.mainView}
-      onPress={() => {}}
+      onPress={() => {
+        setIsEnable(!isEnable);
+        props.onPress(!isEnable);
+      }}
     >
       <Text style={Styles.headingText}>{props.name}</Text>
-      <Image source={props.value ? Images.Toggle_on : Images.Toggle_on} />
+      <Image source={isEnable ? Images.Toggle_on : Images.Toggle_off} />
     </TouchableOpacity>
   );
 }

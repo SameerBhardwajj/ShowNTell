@@ -58,6 +58,7 @@ import Notification from "../modules/Notification/Notification";
 import ChangePassword from "../modules/Settings/ChangePassword";
 import AboutUs from "../modules/Settings/AboutUs";
 import TNC from "../modules/Settings/TNC";
+import AddTestimonials from "../modules/Testimonials/AddTestimonials";
 
 // Stack Registration
 const RootStack = createStackNavigator();
@@ -336,6 +337,11 @@ export default class AppComponent extends React.Component<AppProps, any> {
               <RootStack.Screen
                 name={ScreenName.TESTIMONIALS}
                 component={Testimonials}
+                options={this.screen}
+              />
+              <RootStack.Screen
+                name={ScreenName.ADD_TESTIMONIALS}
+                component={AddTestimonials}
                 options={this.screen}
               />
               <RootStack.Screen

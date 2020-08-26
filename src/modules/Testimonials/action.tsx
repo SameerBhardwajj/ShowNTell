@@ -8,25 +8,26 @@ export const hitAPI = (
 ) => {
   return (dispatch: Function, getState: Function) => {
     API.getApiCall(
-      EndPoints.drawer.about(id),
+      EndPoints.drawer.testimonials(id),
       {},
       (success: any) => {
         const res = success.data.response;
         if (success.data.code === 200) {
           dispatch({
-            type: Action.SETTINGS,
-            payload:
-              id === 1
-                ? {
-                    about: res,
-                  }
-                : {
-                    tnc: res,
-                  },
+            type: Action.TESTIMONIAL,
+            payload: {
+              list: res,
+            },
           });
           successCallback(success.data.response);
         } else {
           CustomToast(success.data.message);
+          dispatch({
+            type: Action.TESTIMONIAL,
+            payload: {
+              list: [],
+            },
+          });
           failCallback();
         }
       },

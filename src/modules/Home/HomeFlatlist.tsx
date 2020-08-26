@@ -315,7 +315,7 @@ const Styles = StyleSheet.create({
     color: Colors.lightGrey,
     fontFamily: "Nunito-Bold",
     fontSize: vh(12),
-    letterSpacing: -0.24
+    letterSpacing: -0.24,
   },
   lunchView: {
     padding: vh(16),
@@ -420,7 +420,7 @@ const Styles = StyleSheet.create({
   },
   img: {
     width: "100%",
-    height: vh(250),
+    height: Dimensions.get("screen").width,
     backgroundColor: "white",
   },
   modalBack: {

@@ -1,7 +1,14 @@
 import * as React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
-import { Strings, vh } from "../../utils";
+import { Strings, vh, Images, ScreenName } from "../../utils";
 import { hitAPI } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,31 +18,30 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const { about } = useSelector((state: { Settings: any }) => ({
-    about: state.Settings.about,
-  }));
-  const [data, setData] = React.useState("");
+  const { list, loginData } = useSelector(
+    (state: { Testimonials: any; Login: any }) => ({
+      list: state.Testimonials.list,
+      loginData: state.Login.loginData,
+    })
+  );
+  // const [data, setData] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
-    about.length === 0
-      ? (setIsLoading(true),
-        dispatch(
-          hitAPI(
-            1,
-            (myData: Array<any>) => {
-              myData.map((a) => {
-                setData(a.content);
-              });
-              setIsLoading(false);
-            },
-            () => {
-              setIsLoading(false);
-            }
-          )
-        ))
-      : about.map((a: any) => {
-          setData(a.content);
-        });
+    list.length === 0 ? setIsLoading(true) : null;
+    dispatch(
+      hitAPI(
+        loginData.center_id,
+        (myData: Array<any>) => {
+          // myData.map((a) => {
+          //   setData(a.content);
+          // });
+          setIsLoading(false);
+        },
+        () => {
+          setIsLoading(false);
+        }
+      )
+    );
   }, []);
   return (
     <View style={Styles.mainView}>
@@ -43,21 +49,27 @@ export default function App(props: AppProps) {
         title={Strings.Testimonials}
         onPressBack={() => props.navigation.pop()}
       />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        bounces={false}
-        contentContainerStyle={{ padding: vh(16) }}
-      >
-        {data.length === 0 ? (
-          isLoading ? (
-            <CustomLoader loading={true} />
-          ) : (
-            <CustomNoData />
-          )
+      {list.length === 0 ? (
+        isLoading ? (
+          <CustomLoader loading={true} />
         ) : (
-          <Text style={Styles.txt}>{data}</Text>
-        )}
-      </ScrollView>
+          <CustomNoData />
+        )
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
+          {list.map((item: any, index: number) => (
+            <View style={Styles.innerView}></View>
+          ))}
+        </ScrollView>
+      )}
+      {/* Add Btn ----------- */}
+      <TouchableOpacity
+        style={Styles.addBtnView}
+        activeOpacity={0.8}
+        onPress={() => props.navigation.navigate(ScreenName.ADD_TESTIMONIALS)}
+      >
+        <Image source={Images.Add_leave} style={Styles.addBtn} />
+      </TouchableOpacity>
     </View>
   );
 }
@@ -67,9 +79,22 @@ const Styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  txt: {
-    fontFamily: "Nunito-Regular",
-    fontSize: vh(16),
-    letterSpacing: -0.32,
+  innerView: {
+    width: "100%",
+    alignItems: "center",
+    flex: 1,
+    borderRadius: vh(10),
+    paddingHorizontal: vh(16),
+    marginVertical: vh(12),
+  },
+  addBtnView: {
+    position: "absolute",
+    bottom: vh(54),
+    right: vh(24),
+    zIndex: 99,
+  },
+  addBtn: {
+    height: vh(64),
+    width: vh(64),
   },
 });

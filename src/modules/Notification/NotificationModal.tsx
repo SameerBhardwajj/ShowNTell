@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 // Custom imports
 import { CustomLoader } from "../../Components";
 import { Strings, vh, vw, Colors, Images } from "../../utils";
-import { hitNotificationSetting } from "./action";
+import { hitNotificationSetting, hitNotificationActionSetting } from "./action";
 import SettingList from "./SettingList";
 
 export interface AppProps {
@@ -43,10 +43,34 @@ export default function App(props: AppProps) {
     );
   }, []);
 
+  const notificationAction = (data: object) => {
+    dispatch(
+      hitNotificationActionSetting(
+        data,
+        () => {
+          console.warn("success");
+        },
+        () => {
+          console.warn("fail");
+        }
+      )
+    );
+  };
+
   const renderItems = (rowData: any) => {
     const { item, index } = rowData;
     return (
-      <SettingList name={item.NotificationType.name} value={item.is_enabled} />
+      <SettingList
+        name={item.NotificationType.name}
+        value={item.is_enabled}
+        onPress={(value: boolean) =>
+          notificationAction({
+            is_activity: 0,
+            type: value ? "enable" : "disable",
+            id: item.notification_type_id,
+          })
+        }
+      />
     );
   };
 
@@ -56,6 +80,13 @@ export default function App(props: AppProps) {
       <SettingList
         name={item.name}
         value={item.GuardianNotificationSetting.is_enabled}
+        onPress={(value: boolean) =>
+          notificationAction({
+            is_activity: 1,
+            type: value ? "enable" : "disable",
+            id: item.id,
+          })
+        }
       />
     );
   };
@@ -81,23 +112,27 @@ export default function App(props: AppProps) {
               renderItem={renderItems}
             />
             <View style={[Styles.separatorView, { marginVertical: vh(10) }]} />
-            <FlatList
-              ListHeaderComponent={() => (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={Styles.listView}
-                  onPress={() => {}}
-                >
-                  <Text style={Styles.activityTxt}>{Strings.Activities}</Text>
-                  <Image
-                    source={allActivities ? Images.Toggle_on : Images.Toggle_on}
-                  />
-                </TouchableOpacity>
-              )}
-              data={settingList.activityCategory}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItems2}
-            />
+            {modalLoading ? null : (
+              <FlatList
+                ListHeaderComponent={() => (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={Styles.listView}
+                    onPress={() => {}}
+                  >
+                    <Text style={Styles.activityTxt}>{Strings.Activities}</Text>
+                    <Image
+                      source={
+                        allActivities ? Images.Toggle_on : Images.Toggle_on
+                      }
+                    />
+                  </TouchableOpacity>
+                )}
+                data={settingList.activityCategory}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItems2}
+              />
+            )}
           </View>
         </View>
       </View>

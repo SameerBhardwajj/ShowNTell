@@ -112,3 +112,36 @@ export const hitNotificationSetting = (
     );
   };
 };
+
+export const hitNotificationActionSetting = (
+  data: object,
+  successCallback: Function,
+  failureCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.notification.notificationAction,
+      data,
+      (success: any) => {
+        let res = success.data.response;
+        console.log("mysuccess ", res);
+        if (success.data.code === 200) {
+          // dispatch({
+          //   type: Action.NOTIFICATION,
+          //   payload: {
+          //     settingList: res,
+          //   },
+          // });
+          successCallback(res);
+        } else {
+          CustomToast(success.data.message);
+          failureCallback();
+        }
+      },
+      (error: any) => {
+        CommonFunctions.handleError(error);
+        failureCallback();
+      }
+    );
+  };
+};

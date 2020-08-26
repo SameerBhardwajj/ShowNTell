@@ -251,6 +251,11 @@ const Strings = new LocalizedStrings({
     All_Notifications: "All Notifications",
     Password_Conditions:
       "Password must have :\n• A minimal length of 8 characters\n• At least one capital letter\n• At least one numeral\n• At least one punctuation mark\n• Password should not match username\n• Password should not match the last 5 entered passwords",
+    Add_Testimonials: "Add a Testimonial",
+    Your_opinion_matters: "Your opinion matters",
+    Thanks_Opinion:
+      "Thank you so much for using our application and services. We would like to know your experience.",
+    Description_optional: "Description (optional)",
   },
 });
 export default Strings;

@@ -7,6 +7,7 @@ import {
   Image,
   TextInput,
   ActivityIndicator,
+  Dimensions
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +30,7 @@ import {
 } from "../../utils";
 import { hitAbsenceReason, hitAddAbsence, hitUpdateAbsence } from "./action";
 
+const iPhoneX = Dimensions.get("window").height >= 812;
 const TYPE_ADD = "add";
 const TYPE_UPDATE = "update";
 export interface AppProps {
@@ -321,7 +323,7 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     right: vw(16),
-    top: vh(43),
+    top: iPhoneX ? vh(40) : vh(30),
     paddingVertical: vw(3),
     paddingHorizontal: vw(10),
     backgroundColor: "white",

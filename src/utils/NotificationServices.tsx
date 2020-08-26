@@ -26,7 +26,7 @@ class NotificationServices extends React.Component<AppProps> {
     PushNotification.configure({
       // (required) Called when a remote or local notification is opened or received
       onNotification: (notification: any) => {
-        // console.warn("NOTIFICATION:", notification);
+        console.warn("NOTIFICATION:", notification);
         // console.warn("props  ", props);
         this.gotoScreen(notification);
 

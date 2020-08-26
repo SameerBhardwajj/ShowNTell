@@ -82,6 +82,7 @@ export default {
       `/api/v1/parent/list-notification?page=${page}`,
     acknowledgeSupply: `/api/v1/parent/acknowledge-supply-request`,
     notificationSetting: `/api/v1/parent/notification-setting`,
+    notificationAction: `/api/v1/parent/notification-setting-action`,
   },
   attendance: {
     viewAttendance: (type: string, id: number, date: string) =>

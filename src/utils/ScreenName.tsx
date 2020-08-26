@@ -36,6 +36,7 @@ export default {
   STATEMENTS: "Statements",
   REFERRAL: "Referral",
   TESTIMONIALS: "Testimonials",
+  ADD_TESTIMONIALS: "AddTestimonials",
   ABSENCE_NOTIFICATION_MODAL: "AbsenceNotificationModal",
   FILTER_MODAL: "FilterModal",
   SHARE_MODAL: "ShareModal",
