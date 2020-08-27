@@ -76,7 +76,7 @@ export default function App(props: AppProps) {
         title={Strings.Create_Password}
         onPressBack={() => props.navigation.pop(3)}
       />
-      <CustomLoader loading={isLoading} color="white" />
+      <CustomLoader loading={isLoading} />
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
         bounces={false}

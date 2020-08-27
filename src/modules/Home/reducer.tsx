@@ -14,6 +14,7 @@ const initialState = {
   filterEnable: false,
   AWI: false,
   unreadMsgs: false,
+  unreadNotifications: false,
 };
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {

@@ -10,12 +10,17 @@ import {
   Modal,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { useIsFocused } from "@react-navigation/native";
 
 // Custom imports
 import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
 import { Strings, vh, vw, Colors, CommonFunctions, Images } from "../../utils";
 import List from "./List";
-import { hitNotificationAPI, hitAcknowledgeSupply } from "./action";
+import {
+  hitNotificationAPI,
+  hitAcknowledgeSupply,
+  hitReadNotifications,
+} from "./action";
 import NotificationModal from "./NotificationModal";
 
 const iPhoneX = Dimensions.get("window").height >= 812;
@@ -30,17 +35,22 @@ export default function App(props: AppProps) {
     page: state.Notification.page,
   }));
   const dispatch = useDispatch();
+  const focused = useIsFocused();
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [loadFooter, setLoadFooter] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     data.length === 0 ? setLoading(true) : null;
-    let focusListener = props.navigation.addListener("focus", () => {
-      hitAPI(0);
-    });
-    return focusListener;
-  }, [props.navigation]);
+    focused
+      ? (hitAPI(0),
+        hitReadNotifications(
+          () => {},
+          () => {}
+        ))
+      : null;
+  }, [focused]);
 
   const hitAPI = (page: number) => {
     page > 0 ? setLoadFooter(true) : setLoadFooter(false);
@@ -50,10 +60,13 @@ export default function App(props: AppProps) {
         () => {
           setLoading(false);
           setLoadFooter(false);
+          setRefreshing(false);
           console.warn("ok");
         },
         () => {
-          setLoading(false), setLoadFooter(false);
+          setLoading(false);
+          setLoadFooter(false);
+          setRefreshing(false);
         }
       )
     );
@@ -100,7 +113,11 @@ export default function App(props: AppProps) {
         <FlatList
           data={data}
           keyboardShouldPersistTaps="handled"
-          bounces={false}
+          refreshing={refreshing}
+          onRefresh={() => {
+            setRefreshing(true);
+            hitAPI(0);
+          }}
           onEndReached={() => hitAPI(page)}
           onEndReachedThreshold={0.5}
           keyExtractor={(item, index) => index.toString()}

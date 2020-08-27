@@ -12,7 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 // Custom imports
 import { CustomLoader } from "../../Components";
 import { Strings, vh, vw, Colors, Images } from "../../utils";
-import { hitNotificationSetting, hitNotificationActionSetting } from "./action";
+import {
+  hitNotificationSetting,
+  hitNotificationActionSetting,
+  hitAllNotifications,
+} from "./action";
 import SettingList from "./SettingList";
 
 export interface AppProps {
@@ -20,20 +24,37 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const dispatch = useDispatch();
-  const [modalLoading, setModalLoading] = useState(false);
-  const [allNotifications, setAllNotifications] = useState(true);
-  const [allActivities, setAllActivities] = useState(true);
-
   const { settingList } = useSelector((state: { Notification: any }) => ({
     settingList: state.Notification.settingList,
   }));
+  const dispatch = useDispatch();
+  const [forceRender, setForeceRender] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
+  const [allNotifications, setAllNotifications] = useState(
+    settingList.length === 0
+      ? true
+      : settingList.allNotification.isAllNotificationDisabled
+  );
+  const [allActivities, setAllActivities] = useState(
+    settingList.length === 0
+      ? true
+      : settingList.allNotification.isAllNotificationActivityDisabled
+  );
 
   useEffect(() => {
     settingList.length === 0 ? setModalLoading(true) : null;
+    console.warn("useeffect");
+    settingListAPI();
+  }, [forceRender]);
+
+  const settingListAPI = () => {
     dispatch(
       hitNotificationSetting(
-        () => {
+        (data: any) => {
+          setAllNotifications(data.allNotification.isAllNotificationDisabled);
+          setAllActivities(
+            data.allNotification.isAllNotificationActivityDisabled
+          );
           setModalLoading(false);
         },
         () => {
@@ -41,7 +62,7 @@ export default function App(props: AppProps) {
         }
       )
     );
-  }, []);
+  };
 
   const notificationAction = (data: object) => {
     dispatch(
@@ -49,9 +70,27 @@ export default function App(props: AppProps) {
         data,
         () => {
           console.warn("success");
+          setForeceRender(!forceRender);
         },
         () => {
           console.warn("fail");
+          setForeceRender(!forceRender);
+        }
+      )
+    );
+  };
+
+  const allNotificationAction = (data: any) => {
+    dispatch(
+      hitAllNotifications(
+        data,
+        () => {
+          console.warn("success");
+          setForeceRender(!forceRender);
+        },
+        () => {
+          console.warn("fail");
+          setForeceRender(!forceRender);
         }
       )
     );
@@ -63,12 +102,15 @@ export default function App(props: AppProps) {
       <SettingList
         name={item.NotificationType.name}
         value={item.is_enabled}
+        allCase={settingList.allNotification.isAllNotificationDisabled}
         onPress={(value: boolean) =>
-          notificationAction({
-            is_activity: 0,
-            type: value ? "enable" : "disable",
-            id: item.notification_type_id,
-          })
+          allNotifications
+            ? null
+            : notificationAction({
+                is_activity: 0,
+                type: value ? "enable" : "disable",
+                id: item.notification_type_id,
+              })
         }
       />
     );
@@ -80,12 +122,15 @@ export default function App(props: AppProps) {
       <SettingList
         name={item.name}
         value={item.GuardianNotificationSetting.is_enabled}
+        allCase={settingList.allNotification.isAllNotificationActivityDisabled}
         onPress={(value: boolean) =>
-          notificationAction({
-            is_activity: 1,
-            type: value ? "enable" : "disable",
-            id: item.id,
-          })
+          allActivities
+            ? null
+            : notificationAction({
+                is_activity: 1,
+                type: value ? "enable" : "disable",
+                id: item.id,
+              })
         }
       />
     );
@@ -95,45 +140,65 @@ export default function App(props: AppProps) {
     <View style={Styles.modalMainView}>
       <CustomLoader loading={modalLoading} />
       <View style={Styles.modalView}>
-        <View style={Styles.modalView}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={Styles.cancelBtn}
-            onPress={() => props.setModalOpen()}
-          >
-            <Image source={Images.Cancel_Icon} />
-          </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={Styles.cancelBtn}
+          onPress={() => props.setModalOpen()}
+        >
+          <Image source={Images.Cancel_Icon} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => {
+            setAllNotifications(!allNotifications);
+            allNotificationAction({
+              type: "notification",
+              status: allNotifications ? "enable" : "disable",
+            });
+          }}
+          style={Styles.notificationHeader}
+        >
           <Text style={Styles.headingText}>{Strings.All_Notifications}</Text>
-          <View style={Styles.separatorView} />
-          <View style={Styles.msgView}>
+          <Image
+            source={allNotifications ? Images.Toggle_off : Images.Toggle_on}
+            style={{ marginLeft: vw(10) }}
+          />
+        </TouchableOpacity>
+        <View style={Styles.separatorView} />
+        <View style={Styles.msgView}>
+          <FlatList
+            data={settingList.notificationSetting}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={renderItems}
+          />
+          <View style={[Styles.separatorView, { marginVertical: vh(10) }]} />
+          {modalLoading ? null : (
             <FlatList
-              data={settingList.notificationSetting}
+              ListHeaderComponent={() => (
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={Styles.listView}
+                  onPress={() => {
+                    setAllActivities(!allActivities);
+                    allNotificationAction({
+                      type: "notification-activity",
+                      status: allActivities ? "enable" : "disable",
+                    });
+                  }}
+                >
+                  <Text style={Styles.activityTxt}>{Strings.Activities}</Text>
+                  <Image
+                    source={
+                      allActivities ? Images.Toggle_off : Images.Toggle_on
+                    }
+                  />
+                </TouchableOpacity>
+              )}
+              data={settingList.activityCategory}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItems}
+              renderItem={renderItems2}
             />
-            <View style={[Styles.separatorView, { marginVertical: vh(10) }]} />
-            {modalLoading ? null : (
-              <FlatList
-                ListHeaderComponent={() => (
-                  <TouchableOpacity
-                    activeOpacity={0.8}
-                    style={Styles.listView}
-                    onPress={() => {}}
-                  >
-                    <Text style={Styles.activityTxt}>{Strings.Activities}</Text>
-                    <Image
-                      source={
-                        allActivities ? Images.Toggle_on : Images.Toggle_on
-                      }
-                    />
-                  </TouchableOpacity>
-                )}
-                data={settingList.activityCategory}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderItems2}
-              />
-            )}
-          </View>
+          )}
         </View>
       </View>
     </View>
@@ -164,6 +229,12 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     alignSelf: "flex-start",
+  },
+  notificationHeader: {
+    flexDirection: "row",
+    width: "80%",
+    alignSelf: "flex-start",
+    alignItems: "flex-start",
   },
   separatorView: {
     height: vw(1),

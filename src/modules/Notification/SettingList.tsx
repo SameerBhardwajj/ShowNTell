@@ -3,24 +3,30 @@ import { TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { vh, Images } from "../../utils";
 
 export interface AppProps {
-  name: any;
-  value: any;
+  name: string;
+  value: boolean;
   onPress: Function;
+  allCase: boolean;
 }
 
 export default function App(props: AppProps) {
   const [isEnable, setIsEnable] = React.useState(props.value);
   return (
     <TouchableOpacity
-      activeOpacity={0.8}
+      activeOpacity={props.allCase ? 1 : 0.8}
       style={Styles.mainView}
       onPress={() => {
-        setIsEnable(!isEnable);
-        props.onPress(!isEnable);
+        props.allCase
+          ? null
+          : (setIsEnable(!isEnable), props.onPress(!isEnable));
       }}
     >
       <Text style={Styles.headingText}>{props.name}</Text>
-      <Image source={isEnable ? Images.Toggle_on : Images.Toggle_off} />
+      <Image
+        source={
+          isEnable && !props.allCase ? Images.Toggle_on : Images.Toggle_off
+        }
+      />
     </TouchableOpacity>
   );
 }

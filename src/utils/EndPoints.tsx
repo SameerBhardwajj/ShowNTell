@@ -2,6 +2,7 @@ import Config from "react-native-config";
 import CommonFunctions from "./CommonFunctions";
 const GoogleAPI = Config.GOOGLE_KEY;
 export default {
+  // Auth----------------------------
   auth: {
     login: "/api/v1/parent/login",
     searchCentres: (query: string) =>
@@ -34,6 +35,7 @@ export default {
     },
     logout: "/api/v1/parent/logout",
   },
+  // Home ----------------------------
   home: {
     updateDeviceToken: `/api/v1/parent/update-device-token`,
     HomeData: (
@@ -77,25 +79,31 @@ export default {
     weDidIt: `/api/v1/parent/we-did-it`,
     checkChatCount: `/api/v1/parent/get-unread-message-count`,
   },
+  // Notification ----------------------------
   notification: {
     notification: (page: number) =>
       `/api/v1/parent/list-notification?page=${page}`,
     acknowledgeSupply: `/api/v1/parent/acknowledge-supply-request`,
     notificationSetting: `/api/v1/parent/notification-setting`,
     notificationAction: `/api/v1/parent/notification-setting-action`,
+    readNotification: `/api/v1/parent/mark-unread-notification-as-read`,
+    toggleAll: `/api/v1/parent/all-notification-enable-disable`,
   },
+  // Attendance -----------------------------
   attendance: {
     viewAttendance: (type: string, id: number, date: string) =>
       id === 0
         ? `/api/v1/parent/attendance?type=${type}&date=${date}`
         : `/api/v1/parent/attendance?type=${type}&child_id=${id}&date=${date}`,
   },
+  // Photo Gallery ------------------------------
   photoLibrary: {
     gallery: (childID: number, page: number) =>
       childID === 0
         ? `/api/v1/parent/photo-gallery?page=${page}`
         : `/api/v1/parent/photo-gallery?child_id=${childID}&page=${page}`,
   },
+  // Drawer ---------------------------------
   drawer: {
     announcement: (childID: number, page: number) =>
       childID === 0
@@ -132,9 +140,11 @@ export default {
         CommonFunctions.isNullUndefined(to_date) ? "" : `&to_date=${to_date}`
       }`,
     about: (id: number) => `/api/v1/parent/get-pages?id=${id}`,
+    changePassword: `/api/v1/parent/change-password`,
     testimonials: (id: number) =>
       `/api/v1/parent/testimonials-by-center?center_id=${id}`,
   },
+  // Absence Request ----------------------------
   absence: {
     absenceReason: `/api/v1/parent/absence-reason`,
     absenceList: (child_id: number, page: number) =>

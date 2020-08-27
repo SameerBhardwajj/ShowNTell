@@ -74,6 +74,7 @@ export default function App(props: AppProps) {
         androidPermissions(0);
       } else {
         ImagePicker.openPicker({
+          compressImageQuality: 0.2,
           mediaType: "photo",
         })
           .then((image: any) => {

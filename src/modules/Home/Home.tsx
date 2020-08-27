@@ -95,6 +95,7 @@ export default function App(props: AppProps) {
     data,
     filterEnable,
     AWI,
+    unreadNotifications,
   } = useSelector(
     (state: { Home: any; Login: any; ClassroomSchedule: any }) => ({
       currentChild: state.Home.currentChild,
@@ -108,6 +109,7 @@ export default function App(props: AppProps) {
       data: state.Home.data,
       filterEnable: state.Home.filterEnable,
       AWI: state.Home.AWI,
+      unreadNotifications: state.Home.unreadNotifications,
     })
   );
 
@@ -424,7 +426,14 @@ export default function App(props: AppProps) {
             activeOpacity={0.8}
             onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
           >
-            <Image source={Images.Notification_Icon} style={Styles.imgHeader} />
+            <Image
+              source={
+                unreadNotifications
+                  ? Images.Notification_Icon_On
+                  : Images.Notification_Icon
+              }
+              style={Styles.imgHeader}
+            />
           </TouchableOpacity>
         </View>
         <View style={[Styles.upperHeader, { marginTop: vh(10) }]}>

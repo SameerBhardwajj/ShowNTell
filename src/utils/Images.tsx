@@ -26,6 +26,7 @@ const Images = {
   Phone_Icon: require("../Assets/Images/Phone_Icon.png"),
   Hamburger: require("../Assets/Images/Hamburger.png"),
   Notification_Icon: require("../Assets/Images/Notification_Icon.png"),
+  Notification_Icon_On: require("../Assets/Images/Notification_Icon_On.png"),
   Filter_Icon: require("../Assets/Images/Filter_Icon.png"),
   Filter_Icon_2: require("../Assets/Images/Filter_Icon_2.png"),
   Elipsis: require("../Assets/Images/Elipsis.png"),

@@ -191,6 +191,7 @@ const Strings = new LocalizedStrings({
     Password_Error:
       "Password should contain atleast 1 capital letter, 1 numeral and 1 special symbol",
     Password_length: "Password must be of atleast 8 characters",
+    Password_Incorrect: "Password is incorrect",
     Phone_error: "Phone no. is incorrect",
     Phone_Empty: "Phone no. cannot be Empty",
     Permission_denied: "Please allow to access your Location from Settings",
@@ -256,6 +257,7 @@ const Strings = new LocalizedStrings({
     Thanks_Opinion:
       "Thank you so much for using our application and services. We would like to know your experience.",
     Description_optional: "Description (optional)",
+    Password_Updated: "Your password has been\nsuccessfully updated",
   },
 });
 export default Strings;

@@ -147,6 +147,7 @@ export const HomeAPI = (
                 chatEnable: res.permission.chatWithParent === 0 ? false : true,
                 page: page === undefined ? 0 : page + 1,
                 guardianData: res.guardianData,
+                unreadNotifications: res.unReadCount > 0 ? true : false,
               },
             });
             successCallback(res.rows);

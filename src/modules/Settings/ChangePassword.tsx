@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Keyboard } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // custom imports
@@ -20,6 +20,7 @@ import {
   ConstantName,
   ScreenName,
 } from "../../utils";
+import { hitChangePasswordAPI } from "./action";
 
 export interface AppProps {
   navigation?: any;
@@ -41,31 +42,33 @@ export default function App(props: AppProps) {
   const [secureEntry2, setsecureEntry2] = useState(true);
   const [secureEntry3, setsecureEntry3] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordGreen, setPasswordGreen] = useState(false);
 
   const check = () => {
     Keyboard.dismiss();
-    password1.length >= 8
+    validate(ConstantName.PASSWORD, password3)
       ? validate(ConstantName.PASSWORD, password1)
         ? password1 === password2
-          ? setIsLoading(true)
-          : // dispatch(
-            //   resetPassword(
-            //     id,
-            //     password1,
-            //     password2,
-            //     props.route.params.token,
-            //     () => {
-            //       setIsLoading(false);
-            //       props.navigation.navigate(ScreenName.CREATE_PASSWORD_MODAL);
-            //     },
-            //     () => setIsLoading(false)
-            //   )
-            // )
-            setCheckPassword2(false)
-        : (Keyboard.dismiss(),
-          CustomToast(Strings.Password_Error),
-          setCheckPassword1(false))
-      : setCheckPassword1(false);
+          ? (setIsLoading(true),
+            dispatch(
+              hitChangePasswordAPI(
+                {
+                  old_password: password3,
+                  new_password: password1,
+                  confirm_password: password2,
+                },
+                () => {
+                  setIsLoading(false);
+                  props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+                    msg: Strings.Password_Updated,
+                  });
+                },
+                () => setIsLoading(false)
+              )
+            ))
+          : setCheckPassword2(false)
+        : setCheckPassword1(false)
+      : setCheckPassword3(false);
   };
 
   return (
@@ -74,43 +77,65 @@ export default function App(props: AppProps) {
         title={Strings.Change_Password}
         onPressBack={() => props.navigation.pop()}
       />
-      <CustomLoader loading={isLoading} color="white" />
+      <CustomLoader loading={isLoading} />
       <KeyboardAwareScrollView
         style={Styles.codeView}
         keyboardShouldPersistTaps="handled"
         bounces={false}
         showsVerticalScrollIndicator={false}
       >
-        {/* <View style={Styles.codeView}> */}
         <CustomInputText
           ref={inputRef3}
+          maxLength={15}
           titleText={Strings.Old_Password}
           mainViewStyle={{ marginBottom: vh(24) }}
           secureTextEntry={secureEntry3}
           value={password3}
           typePassword={true}
           onChangeText={(text: string) => {
-            checkPassword3 ? null : setCheckPassword3(true), setPassword3(text);
+            checkPassword3 ? null : setCheckPassword3(true);
+            setPassword3(text);
           }}
           check={checkPassword3}
           onPressEye={() => setsecureEntry3(!secureEntry3)}
-          incorrectText={Strings.Password_mismatch}
+          incorrectText={
+            password3.length < 8
+              ? Strings.Password_length
+              : Strings.Password_Incorrect
+          }
           returnKeyType="done"
-          onSubmitEditing={() => check()}
+          onSubmitEditing={() => {
+            password3.length < 8
+              ? setCheckPassword3(false)
+              : validate(ConstantName.PASSWORD, password3)
+              ? inputRef1.current.focus()
+              : (Keyboard.dismiss(),
+                CustomToast(Strings.Password_Error),
+                setCheckPassword3(false));
+          }}
         />
         <CustomInputText
           ref={inputRef1}
+          maxLength={15}
           titleText={Strings.New_Password}
           mainViewStyle={{ marginBottom: vh(24) }}
           value={password1}
           typePassword={true}
           onChangeText={(text: string) => {
-            checkPassword1 ? null : setCheckPassword1(true), setPassword1(text);
+            checkPassword1 ? null : setCheckPassword1(true);
+            setPassword1(text);
+            validate(ConstantName.PASSWORD, text)
+              ? setPasswordGreen(true)
+              : setPasswordGreen(false);
           }}
           check={checkPassword1}
           secureTextEntry={secureEntry1}
           onPressEye={() => setsecureEntry1(!secureEntry1)}
-          incorrectText={password1.length < 8 ? Strings.Password_length : ""}
+          incorrectText={
+            password1.length < 8
+              ? Strings.Password_length
+              : Strings.Password_Incorrect
+          }
           returnKeyType="next"
           onSubmitEditing={() => {
             password1.length < 8
@@ -121,9 +146,11 @@ export default function App(props: AppProps) {
                 CustomToast(Strings.Password_Error),
                 setCheckPassword1(false));
           }}
+          passwordGreen={passwordGreen}
         />
         <CustomInputText
           ref={inputRef2}
+          maxLength={15}
           titleText={Strings.Confirm_Password}
           mainViewStyle={{ marginBottom: vh(24) }}
           secureTextEntry={secureEntry2}
@@ -134,9 +161,21 @@ export default function App(props: AppProps) {
           }}
           check={checkPassword2}
           onPressEye={() => setsecureEntry2(!secureEntry2)}
-          incorrectText={Strings.Password_mismatch}
+          incorrectText={
+            password2.length < 8
+              ? Strings.Password_length
+              : Strings.Password_mismatch
+          }
           returnKeyType="done"
-          onSubmitEditing={() => check()}
+          onSubmitEditing={() =>
+            password2.length < 8
+              ? setCheckPassword2(false)
+              : validate(ConstantName.PASSWORD, password2)
+              ? check()
+              : (Keyboard.dismiss(),
+                CustomToast(Strings.Password_Error),
+                setCheckPassword2(false))
+          }
         />
         <View style={{ alignItems: "center" }}>
           <CustomButton
@@ -145,7 +184,6 @@ export default function App(props: AppProps) {
             ButtonStyle={{ width: "100%" }}
           />
         </View>
-        {/* </View> */}
       </KeyboardAwareScrollView>
     </View>
   );
