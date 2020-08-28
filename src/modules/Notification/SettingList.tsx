@@ -7,16 +7,18 @@ export interface AppProps {
   value: boolean;
   onPress: Function;
   allCase: boolean;
+  allNotification: boolean;
 }
 
 export default function App(props: AppProps) {
   const [isEnable, setIsEnable] = React.useState(props.value);
+
   return (
     <TouchableOpacity
       activeOpacity={props.allCase ? 1 : 0.8}
       style={Styles.mainView}
       onPress={() => {
-        props.allCase
+        props.allCase || props.allNotification
           ? null
           : (setIsEnable(!isEnable), props.onPress(!isEnable));
       }}
@@ -24,7 +26,9 @@ export default function App(props: AppProps) {
       <Text style={Styles.headingText}>{props.name}</Text>
       <Image
         source={
-          isEnable && !props.allCase ? Images.Toggle_on : Images.Toggle_off
+          isEnable && !props.allCase && !props.allNotification
+            ? Images.Toggle_on
+            : Images.Toggle_off
         }
       />
     </TouchableOpacity>

@@ -4,7 +4,7 @@ import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { Images, Colors, CommonFunctions } from "../../utils";
+import { Images, Colors, CommonFunctions, Constants } from "../../utils";
 import { updateSplash } from "./action";
 import { addDeviceToken } from "../Auth/Login/action";
 import { hitChatCount } from "../Home/action";
@@ -19,6 +19,10 @@ export default function App(props: AppProps) {
   }));
   const dispatch = useDispatch();
   React.useEffect(() => {
+    Constants.setAuthorizationToken(
+      loginToken.length === 0 ? false : true,
+      loginToken
+    );
     CommonFunctions.isNullUndefined(deviceToken)
       ? dispatch(addDeviceToken(() => {}))
       : null;

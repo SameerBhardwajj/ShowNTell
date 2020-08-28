@@ -45,9 +45,11 @@ export default function App(props: AppProps) {
     data.length === 0 ? setLoading(true) : null;
     focused
       ? (hitAPI(0),
-        hitReadNotifications(
-          () => {},
-          () => {}
+        dispatch(
+          hitReadNotifications(
+            () => {},
+            () => {}
+          )
         ))
       : null;
   }, [focused]);

@@ -77,12 +77,11 @@ export const getMsgs = (
     Constants.axiosInstance
       .get(EndPoints.drawer.chat.getMsg(type, timestamp), {})
       .then((success: any) => {
-        console.warn("success ", success);
+        console.log("success ", success);
 
         const res = success.data.response;
         if (success.data.code === 200) {
-          console.warn(success.data.response);
-
+          console.log(success.data.response);
           const { chatData } = getState().Chat;
           let finalArray = [];
           type === "down"
@@ -93,6 +92,7 @@ export const getMsgs = (
             type: Action.CHAT,
             payload: {
               chatData: finalArray,
+              loadMore: true,
             },
           });
           successCallback(finalArray);
@@ -100,7 +100,7 @@ export const getMsgs = (
           dispatch({
             type: Action.CHAT,
             payload: {
-              loadMore: false,
+              loadMore: type === "down" ? true : false,
             },
           });
           failCallback();
@@ -125,5 +125,29 @@ export const getMsgs = (
         }
         failCallback(error);
       });
+  };
+};
+
+export const hitMarkReadAPI = (
+  data: Object,
+  successCallback: Function,
+  failCallback: Function
+) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.drawer.chat.markRead,
+      data,
+      (success: any) => {
+        if (success.data.code === 200) {
+          successCallback(success.data.response);
+        } else {
+          failCallback();
+        }
+      },
+      (error: any) => {
+        CommonFunctions.handleError(error);
+        failCallback(error);
+      }
+    );
   };
 };

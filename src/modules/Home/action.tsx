@@ -107,6 +107,17 @@ export const updateAWI = () => {
   };
 };
 
+export const updateNotificationCount = () => {
+  return (dispatch: Function, getState: Function) => {
+    dispatch({
+      type: Action.UPDATE_TAB,
+      payload: {
+        unreadNotifications: true,
+      },
+    });
+  };
+};
+
 export const HomeAPI = (
   successCallback: Function,
   failureCallback: Function,
@@ -273,11 +284,13 @@ export const weDidItAPI = (
 export const hitChatCount = (callback: Function) => {
   return (dispatch: Function, getState: Function) => {
     Constants.axiosInstance
-      .post(EndPoints.home.checkChatCount)
+      .get(EndPoints.home.checkChatCount)
       .then((success: any) => {
         debugger;
         const res = success.data.response;
-        if (success.data.code === 200 && res.count > 0) {
+        if (success.data.code === 200) {
+          console.warn('chat available');
+          
           dispatch({
             type: Action.UPDATE_TAB,
             payload: {
@@ -285,6 +298,7 @@ export const hitChatCount = (callback: Function) => {
             },
           });
         } else {
+          console.warn('chat not available');
           dispatch({
             type: Action.UPDATE_TAB,
             payload: {
@@ -295,6 +309,9 @@ export const hitChatCount = (callback: Function) => {
         callback();
       })
       .catch((error: any) => {
+        console.warn('chat available with error');
+        console.warn(error);
+        
         debugger;
         dispatch({
           type: Action.UPDATE_TAB,

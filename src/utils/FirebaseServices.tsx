@@ -9,23 +9,22 @@ class FirebaseService {
 
   initializeFireBase = () => {
     if (!firebase.apps.length && Platform.OS === "android") {
-      // if (Platform.OS === "android") {
-      // firebase.initializeApp({
-      //   apiKey: "AIzaSyD8vZG_8Z_o3J4JY6k1GUJa6mhNW8j0Rsg",
-      //   appId: "1:1082193980667:android:ecccf926e213892674545e",
-      //   databaseURL: "https://showntell-parent.firebaseio.com",
-      //   messagingSenderId: "1082193980667",
-      //   projectId: "showntell-parent",
-      //   storageBucket: "showntell-parent.appspot.com",
-      // });
       firebase.initializeApp({
-        apiKey: "AIzaSyAgbRf4eepdCoILs6he38OvrUQRBEk_y2g",
-        appId: "1:875888891093:android:8f6f3b99dcef44f645be5c",
-        databaseURL: "https://tleparentappv3.firebaseio.com",
-        messagingSenderId: "875888891093",
-        projectId: "tleparentappv3",
-        storageBucket: "tleparentappv3.appspot.com",
+        apiKey: "AIzaSyD8vZG_8Z_o3J4JY6k1GUJa6mhNW8j0Rsg",
+        appId: "1:1082193980667:android:ecccf926e213892674545e",
+        databaseURL: "https://showntell-parent.firebaseio.com",
+        messagingSenderId: "1082193980667",
+        projectId: "showntell-parent",
+        storageBucket: "showntell-parent.appspot.com",
       });
+      // firebase.initializeApp({
+      //   apiKey: "AIzaSyAgbRf4eepdCoILs6he38OvrUQRBEk_y2g",
+      //   appId: "1:875888891093:android:8f6f3b99dcef44f645be5c",
+      //   databaseURL: "https://tleparentappv3.firebaseio.com",
+      //   messagingSenderId: "875888891093",
+      //   projectId: "tleparentappv3",
+      //   storageBucket: "tleparentappv3.appspot.com",
+      // });
     }
   };
 

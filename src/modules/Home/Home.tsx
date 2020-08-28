@@ -12,7 +12,6 @@ import {
   ToastAndroid,
   Modal,
   Keyboard,
-  Platform,
   ActivityIndicator,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,12 +30,7 @@ import {
   Constants,
   CommonFunctions,
 } from "../../utils";
-import {
-  CustomSearchBar,
-  CustomLoader,
-  CustomNoData,
-  CustomToast,
-} from "../../Components";
+import { CustomSearchBar, CustomLoader, CustomNoData } from "../../Components";
 import HomeFlatlist from "./HomeFlatlist";
 import { updateClassChild } from "../ClassroomSchedule/action";
 import {
@@ -46,6 +40,7 @@ import {
   updateChild,
   updateDeviceToken,
   updateFilter,
+  hitChatCount,
 } from "./action";
 import FilterModal from "./Filter/FilterModal";
 import ShareModal from "./ShareModal";
@@ -141,6 +136,11 @@ export default function App(props: AppProps) {
                 getUniqueId(),
                 token,
                 () => {
+                  dispatch(
+                    hitChatCount(() => {
+                      console.warn("successfully chat count hit");
+                    })
+                  );
                   console.warn("success");
                 },
                 () => {

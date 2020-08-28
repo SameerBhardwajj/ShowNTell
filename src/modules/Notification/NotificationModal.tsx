@@ -32,12 +32,12 @@ export default function App(props: AppProps) {
   const [modalLoading, setModalLoading] = useState(false);
   const [allNotifications, setAllNotifications] = useState(
     settingList.length === 0
-      ? true
+      ? false
       : settingList.allNotification.isAllNotificationDisabled
   );
   const [allActivities, setAllActivities] = useState(
     settingList.length === 0
-      ? true
+      ? false
       : settingList.allNotification.isAllNotificationActivityDisabled
   );
 
@@ -102,7 +102,8 @@ export default function App(props: AppProps) {
       <SettingList
         name={item.NotificationType.name}
         value={item.is_enabled}
-        allCase={settingList.allNotification.isAllNotificationDisabled}
+        allCase={allNotifications}
+        allNotification={allNotifications}
         onPress={(value: boolean) =>
           allNotifications
             ? null
@@ -122,7 +123,8 @@ export default function App(props: AppProps) {
       <SettingList
         name={item.name}
         value={item.GuardianNotificationSetting.is_enabled}
-        allCase={settingList.allNotification.isAllNotificationActivityDisabled}
+        allCase={allActivities}
+        allNotification={allNotifications}
         onPress={(value: boolean) =>
           allActivities
             ? null
@@ -170,26 +172,31 @@ export default function App(props: AppProps) {
             data={settingList.notificationSetting}
             keyExtractor={(item, index) => index.toString()}
             renderItem={renderItems}
+            extraData={forceRender}
           />
           <View style={[Styles.separatorView, { marginVertical: vh(10) }]} />
           {modalLoading ? null : (
             <FlatList
               ListHeaderComponent={() => (
                 <TouchableOpacity
-                  activeOpacity={0.8}
+                  activeOpacity={allNotifications ? 1 : 0.8}
                   style={Styles.listView}
                   onPress={() => {
-                    setAllActivities(!allActivities);
-                    allNotificationAction({
-                      type: "notification-activity",
-                      status: allActivities ? "enable" : "disable",
-                    });
+                    allNotifications
+                      ? null
+                      : (setAllActivities(!allActivities),
+                        allNotificationAction({
+                          type: "notification-activity",
+                          status: allActivities ? "enable" : "disable",
+                        }));
                   }}
                 >
                   <Text style={Styles.activityTxt}>{Strings.Activities}</Text>
                   <Image
                     source={
-                      allActivities ? Images.Toggle_off : Images.Toggle_on
+                      allActivities || allNotifications
+                        ? Images.Toggle_off
+                        : Images.Toggle_on
                     }
                   />
                 </TouchableOpacity>
@@ -197,6 +204,7 @@ export default function App(props: AppProps) {
               data={settingList.activityCategory}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItems2}
+              extraData={forceRender}
             />
           )}
         </View>

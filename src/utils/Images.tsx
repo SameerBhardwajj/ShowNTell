@@ -94,6 +94,9 @@ const Images = {
   TNC_Icon: require("../Assets/Images/Group_61.png"),
   About_icon: require("../Assets/Images/Group_60.png"),
   Check_Icon: require("../Assets/Images/Check_Icon.png"),
+  BG_PAttern: require("../Assets/Images/BG_PAttern.png"),
+  BG_PAttern_3: require("../Assets/Images/BG_PAttern_3.png"),
+  BG_PAttern_5: require("../Assets/Images/BG_PAttern_5.png"),
 };
 
 export default Images;

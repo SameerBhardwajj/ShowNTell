@@ -15,7 +15,8 @@ import moment from "moment";
 // custom imports
 import { CustomHeader, CustomSeparator, CustomLoader } from "../../Components";
 import { Strings, vw, vh, Colors, ScreenName, Images } from "../../utils";
-import { getCannedMsgs, sendMsg, getMsgs } from "./action";
+import { getCannedMsgs, sendMsg, getMsgs, hitMarkReadAPI } from "./action";
+import { updateChatCount } from "../Home/action";
 import MsgFlatlist from "./MsgFlatlist";
 
 export interface AppProps {
@@ -46,6 +47,7 @@ export default function App(props: AppProps) {
 
     time === 0
       ? (getOldMsgs(),
+        MarkRead(),
         dispatch(
           getCannedMsgs(
             () => {},
@@ -61,6 +63,19 @@ export default function App(props: AppProps) {
       moment
         .utc(chatData[chatData.length - 1].create_dt)
         .format("YYYY-MM-DD HH:mm:ss")
+    );
+  };
+
+  // Mark unread msg as read -----------------------
+  const MarkRead = () => {
+    dispatch(
+      hitMarkReadAPI(
+        { timestamp: moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss") },
+        () => {
+          dispatch(updateChatCount(false));
+        },
+        () => {}
+      )
     );
   };
 
@@ -85,8 +100,6 @@ export default function App(props: AppProps) {
 
   // Get older Messages if Available -----------------
   const getOldMsgs = () => {
-    console.warn(time, loadMore);
-
     time === 0 && loadMore
       ? dispatch(
           getMsgs(
