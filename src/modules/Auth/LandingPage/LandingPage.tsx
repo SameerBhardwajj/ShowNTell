@@ -137,7 +137,7 @@ export default function App(props: AppProps) {
                 <View style={Styles.testimonialTxtView}>
                   <Text numberOfLines={5} style={Styles.testimonialtext}>
                     {`"`}
-                    {item.text.replace(/(<([^>]+)>)/gi, " ")}
+                    {item.text.replace(/(<([^>]+)>)/g, " ")}
                     {`"`}
                   </Text>
                   <Text style={Styles.testimonialAuthor}>

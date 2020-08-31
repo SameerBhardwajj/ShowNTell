@@ -1,5 +1,6 @@
 import { CustomToast } from "../../Components";
 import { Action, API, EndPoints, CommonFunctions } from "../../utils";
+import axios from "axios";
 
 export const hitAPI = (
   id: number,
@@ -7,34 +8,20 @@ export const hitAPI = (
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    API.getApiCall(
-      EndPoints.drawer.testimonials(id),
-      {},
-      (success: any) => {
-        const res = success.data.response;
-        if (success.data.code === 200) {
-          dispatch({
-            type: Action.TESTIMONIAL,
-            payload: {
-              list: res,
-            },
-          });
-          successCallback(success.data.response);
-        } else {
-          CustomToast(success.data.message);
-          dispatch({
-            type: Action.TESTIMONIAL,
-            payload: {
-              list: [],
-            },
-          });
-          failCallback();
-        }
-      },
-      (error: any) => {
-        CommonFunctions.handleError(error);
-        failCallback(error);
-      }
-    );
+    axios
+      .get(EndPoints.drawer.testimonials(id))
+      .then((success: any) => {
+        dispatch({
+          type: Action.TESTIMONIAL,
+          payload: {
+            list: success.data.data,
+          },
+        });
+        successCallback(success.data.data);
+      })
+      .catch((e) => {
+        failCallback(e);
+        CustomToast(e);
+      });
   };
 };

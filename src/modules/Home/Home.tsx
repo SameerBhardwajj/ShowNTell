@@ -13,11 +13,13 @@ import {
   Modal,
   Keyboard,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getUniqueId } from "react-native-device-info";
 import { useIsFocused } from "@react-navigation/native";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 // custom imports
 import {
@@ -61,6 +63,12 @@ const DRAWER_CLOSE = "drawerClose";
 const CURRENT_TIME = moment(new Date())
   .format("YYYY-MM-DD HH:mm:ss")
   .toString();
+
+Platform.OS === "ios"
+  ? PushNotificationIOS.getInitialNotification().then((notification) => {
+      console.warn('here ',notification);
+    })
+  : null;
 
 export default function App(props: AppProps) {
   // new NotificationServices({navigation: props.navigation});

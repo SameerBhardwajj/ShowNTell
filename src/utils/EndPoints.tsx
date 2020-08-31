@@ -142,7 +142,7 @@ export default {
     about: (id: number) => `/api/v1/parent/get-pages?id=${id}`,
     changePassword: `/api/v1/parent/change-password`,
     testimonials: (id: number) =>
-      `/api/v1/parent/testimonials-by-center?center_id=${id}`,
+      `https://stage.mytle.com/location_pages/get_testimonials?token=4HXLeUVlk1Cvod7pHF4g&location_id=${id}`,
   },
   // Absence Request ----------------------------
   absence: {

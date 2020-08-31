@@ -51,14 +51,16 @@ export default function App(props: AppProps) {
       <View style={{ flexDirection: "row", margin: vh(16), marginBottom: 0 }}>
         <View style={Styles.childAvatar}>
           <Image
-            resizeMethod="resize"
-            resizeMode="center"
             source={
               CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
                 ? Images.Profile_Placeholder
                 : { uri: item.Child.s3_photo_path }
             }
-            style={{ width: vh(44) }}
+            style={
+              CommonFunctions.isNullUndefined(item.Child.s3_photo_path)
+                ? { width: vh(35), height: vh(38) }
+                : { width: "100%", height: "100%", borderRadius: vh(30) }
+            }
           />
         </View>
         <View style={[Styles.centerNameView, { justifyContent: "center" }]}>

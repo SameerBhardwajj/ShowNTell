@@ -18,7 +18,7 @@ import {
   getVersion,
   getSystemVersion,
 } from "react-native-device-info";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
 import {
@@ -71,6 +71,12 @@ export default function App(props: AppProps) {
   const [query, setQuery] = useState("");
   const [searchData, setSearchData] = useState([]);
 
+  const Login = props.route.params.path === ScreenName.TAB_NAVIGATOR;
+
+  const { loginData } = useSelector((state: { Login: any }) => ({
+    loginData: state.Login.loginData,
+  }));
+
   React.useEffect(() => {
     schoolAPI();
     BackHandler.addEventListener("hardwareBackPress", () => {
@@ -80,24 +86,26 @@ export default function App(props: AppProps) {
   }, [BackHandler]);
 
   const schoolAPI = () => {
-    setIsLoading(true);
-    API.getApiCall(
-      EndPoints.auth.fetchAllCenters,
-      {},
-      (success: any) => {
-        let temp = success.data.response.slice(0);
-        temp.sort((a: any, b: any) =>
-          a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-        );
-        setList(temp);
-        setSearchData(temp);
-        setIsLoading(false);
-      },
-      (error: any) => {
-        setIsLoading(false);
-        CustomToast(error.data.message);
-      }
-    );
+    Login
+      ? null
+      : (setIsLoading(true),
+        API.getApiCall(
+          EndPoints.auth.fetchAllCenters,
+          {},
+          (success: any) => {
+            let temp = success.data.response.slice(0);
+            temp.sort((a: any, b: any) =>
+              a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+            );
+            setList(temp);
+            setSearchData(temp);
+            setIsLoading(false);
+          },
+          (error: any) => {
+            setIsLoading(false);
+            CustomToast(error.data.message);
+          }
+        ));
   };
 
   const renderItems = (rowData: any) => {
@@ -162,7 +170,7 @@ export default function App(props: AppProps) {
       <CustomHeader
         title={Strings.Need_Help}
         onPressBack={() =>
-          props.route.params.path === ScreenName.TAB_NAVIGATOR
+          Login
             ? props.navigation.navigate(ScreenName.TAB_NAVIGATOR)
             : props.navigation.pop()
         }
@@ -250,13 +258,15 @@ export default function App(props: AppProps) {
               </Text>
               <TouchableOpacity
                 style={Styles.inputTxtView}
-                activeOpacity={0.8}
+                activeOpacity={Login ? 1 : 0.8}
                 onPress={() => {
-                  setShowList(true), Keyboard.dismiss();
+                  Login ? null : (setShowList(true), Keyboard.dismiss());
                 }}
               >
-                <Text style={Styles.schoolText}>{school}</Text>
-                <Image source={Images.Dropdown_icon} />
+                <Text style={Styles.schoolText}>
+                  {Login ? loginData.centerData.name : school}
+                </Text>
+                {Login ? null : <Image source={Images.Dropdown_icon} />}
               </TouchableOpacity>
               <CustomInputText
                 ref={input1}

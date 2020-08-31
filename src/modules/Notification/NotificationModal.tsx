@@ -6,6 +6,7 @@ import {
   Image,
   Text,
   FlatList,
+  ScrollView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -167,7 +168,11 @@ export default function App(props: AppProps) {
           />
         </TouchableOpacity>
         <View style={Styles.separatorView} />
-        <View style={Styles.msgView}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          bounces={false}
+          contentContainerStyle={Styles.msgView}
+        >
           <FlatList
             data={settingList.notificationSetting}
             keyExtractor={(item, index) => index.toString()}
@@ -207,7 +212,7 @@ export default function App(props: AppProps) {
               extraData={forceRender}
             />
           )}
-        </View>
+        </ScrollView>
       </View>
     </View>
   );
@@ -217,11 +222,12 @@ const Styles = StyleSheet.create({
   modalMainView: {
     flex: 1,
     justifyContent: "flex-end",
-    backgroundColor: Colors.modalBg2,
+    backgroundColor: Colors.modalBg,
   },
   modalView: {
     backgroundColor: "white",
     width: "100%",
+    height: "70%",
     alignItems: "center",
     borderTopRightRadius: vh(10),
     borderTopLeftRadius: vh(10),

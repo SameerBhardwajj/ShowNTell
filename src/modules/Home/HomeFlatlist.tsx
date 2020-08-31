@@ -84,9 +84,13 @@ export default function App(props: AppProps) {
                   source={
                     CommonFunctions.isNullUndefined(item.Child.child_image)
                       ? Images.Profile_Placeholder
-                      : { uri: item.Child.s3_photo_path }
+                      : { uri: item.Child.child_image }
                   }
-                  style={{ width: vh(35), height: vh(38) }}
+                  style={
+                    CommonFunctions.isNullUndefined(item.Child.child_image)
+                      ? { width: vh(35), height: vh(38) }
+                      : { width: "100%", height: "100%", borderRadius: vh(30) }
+                  }
                 />
               </View>
               <View style={Styles.centerNameView}>
@@ -160,9 +164,13 @@ export default function App(props: AppProps) {
                 source={
                   CommonFunctions.isNullUndefined(item.Child.child_image)
                     ? Images.Profile_Placeholder
-                    : { uri: item.Child.s3_photo_path }
+                    : { uri: item.Child.child_image }
                 }
-                style={{ width: vh(35), height: vh(38) }}
+                style={
+                  CommonFunctions.isNullUndefined(item.Child.child_image)
+                    ? { width: vh(35), height: vh(38) }
+                    : { width: "100%", height: "100%", borderRadius: vh(30) }
+                }
               />
             </View>
             <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
@@ -174,8 +182,8 @@ export default function App(props: AppProps) {
           </View>
           <Text style={Styles.title}>{Strings.Announcement}</Text>
           <Text style={Styles.timeBlack}>
-            {CommonFunctions.DateFormatter(new Date(item.create_dt))}{" "}
-            <Text style={Styles.dotTxt}>{" . "}</Text>
+            {CommonFunctions.DateFormatter(new Date(item.create_dt))}
+            <Text style={Styles.dotTxt}>{" • "}</Text>
             {CommonFunctions.timeFormatter(new Date(item.create_dt))}
           </Text>
           <Text style={Styles.annTitle}>{item.title}</Text>
@@ -196,9 +204,13 @@ export default function App(props: AppProps) {
                 source={
                   CommonFunctions.isNullUndefined(item.Child.child_image)
                     ? Images.Profile_Placeholder
-                    : { uri: item.Child.s3_photo_path }
+                    : { uri: item.Child.child_image }
                 }
-                style={{ width: vh(35), height: vh(38) }}
+                style={
+                  CommonFunctions.isNullUndefined(item.Child.child_image)
+                    ? { width: vh(35), height: vh(38) }
+                    : { width: "100%", height: "100%", borderRadius: vh(30) }
+                }
               />
             </View>
             <View style={[Styles.centerNameView, { justifyContent: "center" }]}>
@@ -312,7 +324,6 @@ const Styles = StyleSheet.create({
     borderTopRightRadius: vh(10),
   },
   dotTxt: {
-    color: Colors.lightGrey,
     fontFamily: "Nunito-Bold",
     fontSize: vh(12),
     letterSpacing: -0.24,

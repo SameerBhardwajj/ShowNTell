@@ -144,7 +144,7 @@ export default function App(props: AppProps) {
 const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    paddingBottom: vh(30),
+    paddingBottom: vh(10),
     backgroundColor: "white",
     shadowColor: "#000",
     shadowOffset: {

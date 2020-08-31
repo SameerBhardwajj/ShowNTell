@@ -97,6 +97,7 @@ const Images = {
   BG_PAttern: require("../Assets/Images/BG_PAttern.png"),
   BG_PAttern_3: require("../Assets/Images/BG_PAttern_3.png"),
   BG_PAttern_5: require("../Assets/Images/BG_PAttern_5.png"),
+  SNT_head_icon: require("../Assets/Images/SNT_head_icon.png"),
 };
 
 export default Images;

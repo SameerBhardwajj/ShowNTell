@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
 // @ts-ignore
 import AnimateLoadingButton from "react-native-animate-loading-button";
 import { Strings, vw, vh, Colors, CommonFunctions } from "../../utils";
-import { CustomButton } from "../../Components";
 import { hitAcknowledgeSupply } from "./action";
 
 export interface AppProps {
@@ -55,6 +54,24 @@ export default function App(props: AppProps) {
     );
   };
 
+  let lightColor =
+    item.notification_type_id === 2
+      ? Colors.fadedPink
+      : (index + 1) % 3 === 1
+      ? Colors.lightWaterBlue
+      : (index + 1) % 3 === 2
+      ? Colors.lightPink
+      : Colors.lightGreen;
+
+  let Color =
+    item.notification_type_id === 2
+      ? Colors.violet
+      : (index + 1) % 3 === 1
+      ? Colors.waterBlue
+      : (index + 1) % 3 === 2
+      ? Colors.pink
+      : Colors.green;
+
   return (
     <View style={Styles.innerView}>
       {index === 0 ? (
@@ -66,14 +83,7 @@ export default function App(props: AppProps) {
         style={[
           Styles.contentView,
           {
-            backgroundColor:
-              item.notification_type_id === 2
-                ? Colors.fadedPink
-                : (index + 1) % 3 === 1
-                ? Colors.lightWaterBlue
-                : (index + 1) % 3 === 2
-                ? Colors.lightPink
-                : Colors.lightGreen,
+            backgroundColor: lightColor,
           },
         ]}
       >
@@ -81,14 +91,7 @@ export default function App(props: AppProps) {
           style={[
             Styles.heading,
             {
-              color:
-                item.notification_type_id === 2
-                  ? Colors.violet
-                  : (index + 1) % 3 === 1
-                  ? Colors.waterBlue
-                  : (index + 1) % 3 === 2
-                  ? Colors.pink
-                  : Colors.green,
+              color: Color,
             },
           ]}
         >
@@ -97,7 +100,12 @@ export default function App(props: AppProps) {
         {item.message.length === 0 ? null : (
           <Text style={Styles.content}>{item.message}</Text>
         )}
-        <Text style={Styles.time}>
+        <Text
+          style={[
+            Styles.time,
+            { paddingTop: item.message.length === 0 ? 0 : vh(24) },
+          ]}
+        >
           {CommonFunctions.timeFormatter(new Date(item.create_dt))}
         </Text>
         {item.notification_type_id === 2 &&
@@ -108,7 +116,7 @@ export default function App(props: AppProps) {
               ref={input}
               width={vw(300)}
               height={vh(48)}
-              title={Strings.We_did_it}
+              title={Strings.Acknowledge}
               titleFontSize={vh(16)}
               titleFontFamily={"Nunito-Bold"}
               titleColor="white"
@@ -116,6 +124,15 @@ export default function App(props: AppProps) {
               borderRadius={vh(25)}
               onPress={() => pressBtn()}
             />
+          </View>
+        ) : Color === Colors.violet &&
+          (!CommonFunctions.isNullUndefined(item.acknowledge_by) || !check) ? (
+          <View
+            style={[Styles.btnView, { backgroundColor: Colors.disableViolet }]}
+          >
+            <Text style={[Styles.btnTxt, { color: "white" }]}>
+              {Strings.Done}
+            </Text>
           </View>
         ) : null}
       </View>
@@ -129,7 +146,6 @@ const Styles = StyleSheet.create({
     paddingHorizontal: vh(16),
   },
   contentView: {
-    padding: vw(20),
     borderRadius: vh(10),
     marginTop: vh(12),
   },
@@ -137,26 +153,37 @@ const Styles = StyleSheet.create({
     fontFamily: "Nunito-Bold",
     fontSize: vh(16),
     alignSelf: "flex-start",
+    paddingLeft: vw(16),
+    paddingTop: vw(20),
+    paddingBottom: vh(14),
   },
   content: {
     fontFamily: "Nunito-SemiBold",
     fontSize: vh(14),
+    paddingHorizontal: vw(16),
   },
   time: {
     fontFamily: "Frutiger",
     fontSize: vh(14),
-    paddingTop: vh(10),
     color: Colors.lightBlack,
+    paddingLeft: vw(16),
+    marginBottom: vh(16),
   },
   btnView: {
-    marginBottom: 0,
-    marginTop: vh(32),
     width: "100%",
     alignSelf: "center",
+    borderBottomStartRadius: vh(10),
+    borderBottomEndRadius: vh(10),
   },
   animBtn: {
-    marginTop: vh(32),
+    marginBottom: vh(16),
     alignItems: "center",
     justifyContent: "center",
+  },
+  btnTxt: {
+    padding: vh(8),
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(16),
+    alignSelf: "center",
   },
 });

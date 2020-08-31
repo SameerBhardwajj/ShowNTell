@@ -7,7 +7,8 @@ import {
   Image,
   TextInput,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  Keyboard,
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,7 +50,7 @@ export default function App(props: AppProps) {
     CURR_TYPE ? new Date(item.date) : new Date()
   );
   const [toDate, setToDate] = useState(new Date());
-  const [days, setDays] = useState(0);
+  const [days, setDays] = useState(1);
   const [reasonOption, setReasonOption] = useState(
     CURR_TYPE ? item.absence_reason_id : -1
   );
@@ -60,7 +61,7 @@ export default function App(props: AppProps) {
   const [reasonLoading, setReasonLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { loginData, classroomChild, reasonList, currentChild } = useSelector(
+  const { loginData, classroomChild, reasonList } = useSelector(
     (state: {
       Login: any;
       ClassroomSchedule: any;
@@ -70,7 +71,7 @@ export default function App(props: AppProps) {
       loginData: state.Login.loginData,
       classroomChild: state.ClassroomSchedule.classroomChild,
       reasonList: state.Absence.reasonList,
-      currentChild: state.Home.currentChild,
+      // currentChild: state.Home.currentChild,
     })
   );
 
@@ -92,10 +93,11 @@ export default function App(props: AppProps) {
   }, []);
 
   const check = () => {
+    Keyboard.dismiss();
     console.log("my dates", fromDate, toDate);
     setIsLoading(true);
     let data = {
-      child_id: CURR_TYPE ? item.child_id : currentChild.child,
+      child_id: CURR_TYPE ? item.child_id : classroomChild.id,
       absence_from: CommonFunctions.dateTypeFormat(
         fromDate.toLocaleDateString(),
         "ymd"
@@ -124,10 +126,11 @@ export default function App(props: AppProps) {
   };
 
   const checkUpdate = () => {
+    Keyboard.dismiss();
     setIsLoading(true);
     let data = {
       absence_id: item.id,
-      child_id: CURR_TYPE ? item.child_id : currentChild.child,
+      child_id: CURR_TYPE ? item.child_id : classroomChild.id,
       date: CommonFunctions.dateTypeFormat(
         fromDate.toLocaleDateString(),
         "ymd"
@@ -203,8 +206,8 @@ export default function App(props: AppProps) {
           getDate={(date: Date) => {
             setFromDate(date);
             CommonFunctions.DateDifference(date, toDate) < 1
-              ? (setToDate(date), setDays(0))
-              : setDays(CommonFunctions.DateDifference(date, toDate));
+              ? (setToDate(date), setDays(1))
+              : setDays(CommonFunctions.DateDifference(date, toDate) + 1);
           }}
         />
         {CURR_TYPE ? null : (

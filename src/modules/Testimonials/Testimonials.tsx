@@ -8,8 +8,20 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
-import { Strings, vh, Images, ScreenName, Colors } from "../../utils";
+import {
+  CustomHeader,
+  CustomLoader,
+  CustomNoData,
+  CustomToast,
+} from "../../Components";
+import {
+  Strings,
+  vh,
+  Images,
+  ScreenName,
+  Colors,
+  CommonFunctions,
+} from "../../utils";
 import { hitAPI } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -32,10 +44,7 @@ export default function App(props: AppProps) {
     dispatch(
       hitAPI(
         loginData.center_id,
-        (myData: Array<any>) => {
-          // myData.map((a) => {
-          //   setData(a.content);
-          // });
+        () => {
           setIsLoading(false);
         },
         () => {
@@ -50,7 +59,7 @@ export default function App(props: AppProps) {
         title={Strings.Testimonials}
         onPressBack={() => props.navigation.pop()}
       />
-      {list.length === 0 ? (
+      {CommonFunctions.isNullUndefined(list) ? (
         isLoading ? (
           <CustomLoader loading={true} />
         ) : (
@@ -63,7 +72,7 @@ export default function App(props: AppProps) {
           style={{ marginHorizontal: vh(16) }}
           contentContainerStyle={{ paddingBottom: vh(130), width: "100%" }}
         >
-          {data.map((item: any, index: number) => (
+          {list.map((item: any, index: number) => (
             <ImageBackground
               source={
                 (index + 1) % 3 === 1
@@ -84,7 +93,11 @@ export default function App(props: AppProps) {
                 },
               ]}
             >
-              <Text style={Styles.descTxt}>{item.desc}</Text>
+              <Text style={Styles.descTxt}>
+                {`"`}
+                {item.Testimonial.text.replace(/(<([^>]+)>)/g, " ")}
+                {`"`}
+              </Text>
               <Text
                 style={[
                   Styles.nameTxt,
@@ -98,7 +111,7 @@ export default function App(props: AppProps) {
                   },
                 ]}
               >
-                - {item.name}
+                - {item.Testimonial.name}
               </Text>
             </ImageBackground>
           ))}
@@ -108,7 +121,8 @@ export default function App(props: AppProps) {
       <TouchableOpacity
         style={Styles.addBtnView}
         activeOpacity={0.8}
-        onPress={() => props.navigation.navigate(ScreenName.ADD_TESTIMONIALS)}
+        onPress={() => CustomToast()}
+        // onPress={() => props.navigation.navigate(ScreenName.ADD_TESTIMONIALS)}
       >
         <Image source={Images.Add_leave} style={Styles.addBtn} />
       </TouchableOpacity>
@@ -150,36 +164,3 @@ const Styles = StyleSheet.create({
     width: vh(64),
   },
 });
-
-const data = [
-  {
-    name: "Lucy Wills",
-    desc:
-      "“This is a great app for parents, especially in today’s busy schedule. This is just the app we need to relax ourselves while we are at work”",
-  },
-  {
-    name: "Lucy Wills",
-    desc:
-      "“This is a great app for parents, especially in today’s busy schedule. This is just the app we need to relax ourselves while we are at work”",
-  },
-  {
-    name: "Lucy Wills",
-    desc:
-      "“This is a great app for parents, especially in today’s busy schedule. This is just the app we need to relax ourselves while we are at work”",
-  },
-  {
-    name: "Lucy Wills",
-    desc:
-      "“This is a great app for parents, especially in today’s busy schedule. This is just the app we need to relax ourselves while we are at work”",
-  },
-  {
-    name: "Lucy Wills",
-    desc:
-      "“This is a great app for parents, especially in today’s busy schedule. This is just the app we need to relax ourselves while we are at work”",
-  },
-  {
-    name: "Lucy Wills",
-    desc:
-      "“This is a great app for parents, especially in today’s busy schedule. This is just the app we need to relax ourselves while we are at work”",
-  },
-];

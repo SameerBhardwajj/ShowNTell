@@ -23,9 +23,11 @@ export default function App(props: AppProps) {
       <View style={Styles.imgView}>
         <View style={Styles.img}>
           <Image
-            style={{ width: vh(30) }}
-            resizeMethod="resize"
-            resizeMode="contain"
+            style={
+              CommonFunctions.isNullUndefined(props.item.s3_photo_path)
+                ? { width: vh(30), height: vh(33) }
+                : { width: "100%", height: "100%", borderRadius: vh(30) }
+            }
             source={
               props.item.s3_photo_path === null
                 ? Images.Profile_Placeholder
@@ -114,8 +116,8 @@ const Styles = StyleSheet.create({
     borderWidth: vw(1),
     borderColor: Colors.veryLightGrey,
     marginHorizontal: vw(10),
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center",
   },
   imgView: {
     flexDirection: "row",

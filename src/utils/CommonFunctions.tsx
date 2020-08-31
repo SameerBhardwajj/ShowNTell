@@ -13,7 +13,7 @@ const DateDifference = (date1: any, date2: any) => {
   date2 = new Date(date2);
   let timediff = date2 - date1;
   if (isNaN(timediff)) return -1;
-  else if (timediff < 0) return -1;
+  else if (timediff < 0) return 0;
   else return Math.floor(timediff / day) + 1;
 };
 

@@ -2,8 +2,6 @@ import * as React from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import { Strings, vw, vh, Images, Colors, CommonFunctions } from "../../utils";
 
-const child =
-  "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80";
 export interface AppProps {
   item: any;
   index: string;
@@ -15,26 +13,25 @@ export default function App(props: AppProps) {
     <View style={Styles.msgView}>
       <View style={Styles.msgUpperView}>
         <View>
-          <Text style={Styles.fromText}>{Strings.From}</Text>
+          <Text style={Styles.fromText}>{Strings.Date}</Text>
           <Text style={Styles.dateText}>
             {CommonFunctions.DateFormatter(props.item.date)}
           </Text>
         </View>
-        {/* <View style={Styles.separatorDateView} />
-        <View>
-          <Text style={Styles.fromText}>{Strings.To}</Text>
-          <Text style={Styles.dateText}>{props.item.to}</Text>
-        </View> */}
       </View>
       <View style={Styles.avatarView}>
         <View style={Styles.childAvatar}>
           <Image
             source={
-              CommonFunctions.isNullUndefined(props.item.s3_photo_path)
+              CommonFunctions.isNullUndefined(props.item.Child.s3_photo_path)
                 ? Images.Profile_Placeholder
-                : { uri: props.item.s3_photo_path }
+                : { uri: props.item.Child.s3_photo_path }
             }
-            style={{ width: vh(35), height: vh(38) }}
+            style={
+              CommonFunctions.isNullUndefined(props.item.Child.s3_photo_path)
+                ? { width: vh(35), height: vh(38) }
+                : { width: "100%", height: "100%", borderRadius: vh(30) }
+            }
           />
         </View>
         <View style={Styles.centerNameView}>
@@ -54,11 +51,19 @@ export default function App(props: AppProps) {
         </TouchableOpacity>
       </View>
       <Text style={Styles.msgText}>{props.item.absence_description}</Text>
-      <Text style={Styles.footerText}>
-        {CommonFunctions.DateFormatter(props.item.create_dt)}{" "}
-        <Text style={{ fontSize: vh(30) }}>.</Text>{" "}
-        {CommonFunctions.timeFormatter(props.item.create_dt)}
-      </Text>
+      {CommonFunctions.isNullUndefined(props.item.update_dt) ? (
+        <Text style={Styles.footerText}>
+          {CommonFunctions.DateFormatter(props.item.create_dt)}
+          <Text style={{ fontSize: vh(12) }}>{" • "}</Text>
+          {CommonFunctions.timeFormatter(props.item.create_dt)}
+        </Text>
+      ) : (
+        <Text style={Styles.footerText}>
+          {CommonFunctions.DateFormatter(props.item.update_dt)}
+          <Text style={{ fontSize: vh(12) }}>{" • "}</Text>
+          {CommonFunctions.timeFormatter(props.item.update_dt)}
+        </Text>
+      )}
     </View>
   );
 }

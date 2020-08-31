@@ -1,10 +1,16 @@
 import * as React from "react";
-import { ImageBackground, Image, StatusBar, StyleSheet } from "react-native";
+import {
+  ImageBackground,
+  Image,
+  StatusBar,
+  StyleSheet,
+  View,
+} from "react-native";
 import SplashScreen from "react-native-splash-screen";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
-import { Images, Colors, CommonFunctions, Constants } from "../../utils";
+import { Images, Colors, CommonFunctions, Constants, vh } from "../../utils";
 import { updateSplash } from "./action";
 import { addDeviceToken } from "../Auth/Login/action";
 import { hitChatCount } from "../Home/action";
@@ -34,14 +40,27 @@ export default function App(props: AppProps) {
             SplashScreen.hide();
           })
         );
-    // setTimeout(() => {
-
-    // }, 500);
   }, []);
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <StatusBar barStyle={"light-content"} backgroundColor={Colors.violet} />
-      <Image source={Images.Logo} />
+      <View
+        style={{
+          height: vh(300),
+          width: vh(300),
+          backgroundColor: "white",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: vh(20),
+        }}
+      >
+        <Image
+          source={Images.SNT_head_icon}
+          style={{ height: vh(200), width: vh(200) }}
+          resizeMethod="resize"
+          resizeMode="center"
+        />
+      </View>
     </ImageBackground>
   );
 }
