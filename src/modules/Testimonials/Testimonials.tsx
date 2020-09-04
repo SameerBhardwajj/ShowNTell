@@ -127,8 +127,7 @@ export default function App(props: AppProps) {
       <TouchableOpacity
         style={Styles.addBtnView}
         activeOpacity={0.8}
-        onPress={() => CustomToast()}
-        // onPress={() => props.navigation.navigate(ScreenName.ADD_TESTIMONIALS)}
+        onPress={() => props.navigation.navigate(ScreenName.ADD_TESTIMONIALS)}
       >
         <Image source={Images.Add_leave} style={Styles.addBtn} />
       </TouchableOpacity>

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
-import { CustomHeader, CustomButton } from "../../Components";
+import { CustomHeader, CustomButton, CustomLoader } from "../../Components";
 import { Strings, vh, vw, Images, Colors } from "../../utils";
 import { hitAPI } from "./action";
 import { useDispatch, useSelector } from "react-redux";
@@ -43,6 +43,7 @@ export default function App(props: AppProps) {
         title={Strings.Add_Testimonials}
         onPressBack={() => props.navigation.pop()}
       />
+      <CustomLoader loading={isLoading} />
       <View style={Styles.innerView}>
         <Text style={Styles.headingTxt}>{Strings.Your_opinion_matters}</Text>
         <Text style={Styles.descriptionTxt}>{Strings.Thanks_Opinion}</Text>
@@ -66,7 +67,7 @@ export default function App(props: AppProps) {
         <CustomButton
           Text={Strings.Submit}
           onPress={() => {}}
-          ButtonStyle={{ width: "100%", alignSelf: 'center' }}
+          ButtonStyle={{ width: "100%", alignSelf: "center" }}
         />
       </View>
     </View>
