@@ -1,5 +1,5 @@
 import { CustomToast } from "../../Components";
-import { Action, API, EndPoints } from "../../utils";
+import { Action, API, EndPoints, CommonFunctions } from "../../utils";
 
 export const needHelpAPI = (
   modal: string,
@@ -13,7 +13,7 @@ export const needHelpAPI = (
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    API.postApiCall(
+    API.postHelpApiCall(
       EndPoints.auth.needHelp,
       {
         device_modal: modal,
@@ -38,6 +38,7 @@ export const needHelpAPI = (
         }
       },
       (error: any) => {
+        CommonFunctions.handleError(error);
         dispatch({
           type: Action.NEED_HELP,
           payload: {},
