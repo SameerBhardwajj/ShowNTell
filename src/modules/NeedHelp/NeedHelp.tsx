@@ -130,7 +130,8 @@ export default function App(props: AppProps) {
     return (
       school !== SELECT_SCHOOL &&
       email.trim().length !== 0 &&
-      name.trim().length !== 0
+      name.trim().length !== 0 &&
+      help.trim().length !== 0
     );
   };
 

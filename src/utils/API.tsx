@@ -101,6 +101,41 @@ const getApiCall = (
     });
 };
 
+/**
+ *
+ * @param endPoint api end point
+ * @param params api url parameter
+ * @param successCallback function for handle success response
+ * @param errorCallback function for handle error response
+ */
+const postHelpApiCall = (
+  endPoint: string,
+  params: object,
+  successCallback: Function,
+  errorCallback: Function
+) => {
+  Constants.needHelpInstance
+    .post(endPoint, params)
+    .then((response: any) => {
+      debugger;
+
+      console.log("res ", response);
+      successCallback(response);
+    })
+    .catch((error: any) => {
+      debugger;
+      console.warn("error", error);
+      console.log("Error.response.config ", error);
+      if (error.message === "Network Error") {
+        CustomToast(Strings.No_Internet);
+      }
+      if (error.code === "ECONNABORTED") {
+        CustomToast(Strings.Timeout_error);
+      }
+      errorCallback(error);
+    });
+};
+
 const getClientApiCall = (
   endPoint: string,
   params: object,
@@ -194,6 +229,7 @@ const fileUpload = (
 export default {
   postApiCall,
   getApiCall,
+  postHelpApiCall,
   googleSearchApiCall,
   getClientApiCall,
   postClientApiCall,
