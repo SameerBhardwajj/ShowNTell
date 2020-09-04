@@ -70,7 +70,10 @@ export default function App(props: AppProps) {
           showsVerticalScrollIndicator={false}
           bounces={false}
           style={{ marginHorizontal: vh(16) }}
-          contentContainerStyle={{ paddingBottom: vh(130), width: "100%" }}
+          contentContainerStyle={{
+            paddingBottom: vh(130),
+            width: "100%",
+          }}
         >
           {list.map((item: any, index: number) => (
             <ImageBackground
@@ -81,6 +84,11 @@ export default function App(props: AppProps) {
                   ? Images.BG_PAttern_3
                   : Images.BG_PAttern_5
               }
+              imageStyle={{
+                alignSelf: "center",
+                height: item.Testimonial.text.length > 400 ? vh(200) : "100%",
+                marginTop: vh(30),
+              }}
               style={[
                 Styles.innerView,
                 {
@@ -94,9 +102,7 @@ export default function App(props: AppProps) {
               ]}
             >
               <Text style={Styles.descTxt}>
-                {`"`}
-                {item.Testimonial.text.replace(/(<([^>]+)>)/g, " ")}
-                {`"`}
+                {`"${item.Testimonial.text.replace(/(<([^>]+)>)/g, " ")}"`}
               </Text>
               <Text
                 style={[
@@ -138,6 +144,7 @@ const Styles = StyleSheet.create({
   innerView: {
     width: "100%",
     flex: 1,
+    alignSelf: "center",
     borderRadius: vh(10),
     paddingVertical: vh(20),
     paddingHorizontal: vh(20),

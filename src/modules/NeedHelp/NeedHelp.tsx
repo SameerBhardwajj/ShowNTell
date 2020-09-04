@@ -53,11 +53,18 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
+  const Login = props.route.params.path === ScreenName.TAB_NAVIGATOR;
+
+  const { loginData } = useSelector((state: { Login: any }) => ({
+    loginData: state.Login.loginData,
+  }));
   const dispatch = useDispatch();
   const input1: any = React.createRef();
   const input2: any = React.createRef();
   const input3: any = React.createRef();
-  const [school, setSchool] = useState(SELECT_SCHOOL);
+  const [school, setSchool] = useState(
+    Login ? loginData.centerData.name : SELECT_SCHOOL
+  );
   const [center, setCenter] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -70,12 +77,6 @@ export default function App(props: AppProps) {
   const [showList, setShowList] = useState(false);
   const [query, setQuery] = useState("");
   const [searchData, setSearchData] = useState([]);
-
-  const Login = props.route.params.path === ScreenName.TAB_NAVIGATOR;
-
-  const { loginData } = useSelector((state: { Login: any }) => ({
-    loginData: state.Login.loginData,
-  }));
 
   React.useEffect(() => {
     schoolAPI();
@@ -263,9 +264,7 @@ export default function App(props: AppProps) {
                   Login ? null : (setShowList(true), Keyboard.dismiss());
                 }}
               >
-                <Text style={Styles.schoolText}>
-                  {Login ? loginData.centerData.name : school}
-                </Text>
+                <Text style={Styles.schoolText}>{school}</Text>
                 {Login ? null : <Image source={Images.Dropdown_icon} />}
               </TouchableOpacity>
               <CustomInputText

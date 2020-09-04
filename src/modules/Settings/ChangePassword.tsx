@@ -67,8 +67,8 @@ export default function App(props: AppProps) {
               )
             ))
           : setCheckPassword2(false)
-        : setCheckPassword1(false)
-      : setCheckPassword3(false);
+        : (setCheckPassword1(false), CustomToast(Strings.Password_Error))
+      : (setCheckPassword3(false), CustomToast(Strings.Password_Error));
   };
 
   return (

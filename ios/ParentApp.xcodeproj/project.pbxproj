@@ -352,7 +352,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = HFBLCPXG7Q;
+						DevelopmentTeam = 23FC5W285E;
 						LastSwiftMigration = 1150;
 						ProvisioningStyle = Manual;
 					};
@@ -756,10 +756,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ParentApp/ParentApp.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development: Nitesh Singh (5ZQT62B6B4)";
+				CODE_SIGN_IDENTITY = "Apple Development: Peeyush Singh (98CJYZMVCK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Peeyush Singh (98CJYZMVCK)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.10;
-				DEVELOPMENT_TEAM = HFBLCPXG7Q;
+				CURRENT_PROJECT_VERSION = 1.13;
+				DEVELOPMENT_TEAM = 23FC5W285E;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -773,9 +774,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tle.parentv3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.showntell.beta;
 				PRODUCT_NAME = ParentApp;
-				PROVISIONING_PROFILE_SPECIFIER = "Parent V3 development";
+				PROVISIONING_PROFILE_SPECIFIER = "Show N Tell Dev Beta";
 				SWIFT_OBJC_BRIDGING_HEADER = "ParentApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -791,10 +792,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ParentApp/ParentApp.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Distribution: The Learning Experience Holding Corp (HFBLCPXG7Q)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Peeyush Singh (23FC5W285E)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.10;
-				DEVELOPMENT_TEAM = HFBLCPXG7Q;
+				CURRENT_PROJECT_VERSION = 1.13;
+				DEVELOPMENT_TEAM = 23FC5W285E;
 				INFOPLIST_FILE = ParentApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 3.3.2;
@@ -803,9 +804,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.tle.parentv3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.showntell.beta;
 				PRODUCT_NAME = ParentApp;
-				PROVISIONING_PROFILE_SPECIFIER = "Parent V3 app store";
+				PROVISIONING_PROFILE_SPECIFIER = "Show N Tell AppStore Beta";
 				SWIFT_OBJC_BRIDGING_HEADER = "ParentApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

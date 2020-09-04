@@ -17,7 +17,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
                 </imageView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="66d-Lf-5ud">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="66d-Lf-5ud">
                     <rect key="frame" x="118" y="278" width="179" height="180"/>
                     <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
                 </imageView>
@@ -36,6 +36,6 @@
     </objects>
     <resources>
         <image name="Background" width="375" height="812"/>
-        <image name="Logo" width="200" height="200"/>
+        <image name="Logo" width="180" height="198"/>
     </resources>
 </document>

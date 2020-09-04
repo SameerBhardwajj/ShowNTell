@@ -15,6 +15,6 @@ android:layout_height="match_parent">
         android:layout_width="200sp"
         android:layout_height="200sp"
         android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:src="@mipmap/logo" />
 </RelativeLayout>
