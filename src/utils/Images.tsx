@@ -1,5 +1,4 @@
 const Images = {
-  Logo: require("../Assets/Images/Logo.png"),
   Background: require("../Assets/Images/Background.png"),
   Lionstein_holding_glasses: require("../Assets/Images/Lionstein-holding-glasses.png"),
   MissChievous_Bouncing_On_Tail: require("../Assets/Images/MissChievous-Bouncing-On-Tail.png"),
@@ -97,7 +96,7 @@ const Images = {
   BG_PAttern: require("../Assets/Images/BG_PAttern.png"),
   BG_PAttern_3: require("../Assets/Images/BG_PAttern_3.png"),
   BG_PAttern_5: require("../Assets/Images/BG_PAttern_5.png"),
-  SNT_head_icon: require("../Assets/Images/SNT_head_icon.png"),
+  Show_and_Tell_Logo: require("../Assets/Images/Show_and_Tell_Logo.png"),
 };
 
 export default Images;

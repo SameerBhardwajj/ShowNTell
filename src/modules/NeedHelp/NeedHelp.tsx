@@ -65,7 +65,7 @@ export default function App(props: AppProps) {
   const [school, setSchool] = useState(
     Login ? loginData.centerData.name : SELECT_SCHOOL
   );
-  const [center, setCenter] = useState(0);
+  const [center, setCenter] = useState(Login ? loginData.center_id : 0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [help, setHelp] = useState("");
