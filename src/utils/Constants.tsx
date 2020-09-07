@@ -3,7 +3,7 @@ import axios from "axios";
 import { Platform } from "react-native";
 import { getUniqueId, getDeviceId } from "react-native-device-info";
 
-const BASE_URL = Config.CLIENT_BASE_URL;
+const BASE_URL = Config.DEV_BASE_URL;
 
 // Axios instance for all APIs
 const $http = axios.create({
