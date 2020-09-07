@@ -144,6 +144,7 @@ export default {
     testimonials: (id: number) =>
       `https://stage.mytle.com/location_pages/get_testimonials?token=4HXLeUVlk1Cvod7pHF4g&location_id=${id}`,
     addTestimonials: `/api/testimonials/save&token=eAyJhbGAciOiJIUzAI1NiIsInR5cCI6IkApXVCJ9A`,
+    referral: `/leads/api_add/32/respond:0`,
   },
   // Absence Request ----------------------------
   absence: {

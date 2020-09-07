@@ -87,6 +87,8 @@ const Strings = new LocalizedStrings({
     Or: "Or",
     general_information: "I want only general information",
     Parent_Name: "Parent’s Name",
+    Parent_First_Name: "Parent’s First Name",
+    Parent_Last_Name: "Parent’s Last Name",
     Zip_Code: "Zip Code",
     First_Child_Name: "First Child Name",
     First_Child_DOB: "First Child Date of Birth",

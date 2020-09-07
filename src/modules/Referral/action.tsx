@@ -1,39 +1,27 @@
 import { CustomToast } from "../../Components";
-import { Action, API, EndPoints, CommonFunctions } from "../../utils";
+import { Action, API, EndPoints, Constants } from "../../utils";
 
-export const hitAPI = (
-  id: number,
+export const hitReferralAPI = (
+  payload: object,
   successCallback: Function,
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    API.getApiCall(
-      EndPoints.drawer.about(id),
-      {},
-      (success: any) => {
-        const res = success.data.response;
-        if (success.data.code === 200) {
-          dispatch({
-            type: Action.SETTINGS,
-            payload:
-              id === 1
-                ? {
-                    about: res,
-                  }
-                : {
-                    tnc: res,
-                  },
-          });
-          successCallback(success.data.response);
+    Constants.clientAxiosInstance
+      .post(EndPoints.drawer.referral, payload)
+      .then((response: any) => {
+        debugger;
+        console.warn("Success: ", response);
+        if (response.data.result === "OK") {
+          successCallback();
         } else {
-          CustomToast(success.data.message);
+          CustomToast("Something went wrong!");
           failCallback();
         }
-      },
-      (error: any) => {
-        CommonFunctions.handleError(error);
-        failCallback(error);
-      }
-    );
+      })
+      .catch((error: any) => {
+        debugger;
+        failCallback();
+      });
   };
 };
