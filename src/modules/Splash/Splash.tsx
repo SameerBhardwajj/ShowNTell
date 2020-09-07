@@ -33,6 +33,7 @@ export default function App(props: AppProps) {
       ? dispatch(addDeviceToken(() => {}))
       : null;
     dispatch(updateSplash());
+
     loginToken.length === 0
       ? SplashScreen.hide()
       : dispatch(
@@ -44,23 +45,11 @@ export default function App(props: AppProps) {
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <StatusBar barStyle={"light-content"} backgroundColor={Colors.violet} />
-      <View
-        style={{
-          height: vh(300),
-          width: vh(300),
-          backgroundColor: "white",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: vh(20),
-        }}
-      >
-        <Image
-          source={Images.SNT_head_icon}
-          style={{ height: vh(200), width: vh(200) }}
-          resizeMethod="resize"
-          resizeMode="center"
-        />
-      </View>
+      <Image
+        source={Images.Show_and_Tell_Logo}
+        resizeMethod="resize"
+        resizeMode="center"
+      />
     </ImageBackground>
   );
 }

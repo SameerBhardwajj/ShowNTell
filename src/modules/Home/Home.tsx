@@ -13,13 +13,11 @@ import {
   Modal,
   Keyboard,
   ActivityIndicator,
-  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getUniqueId } from "react-native-device-info";
 import { useIsFocused } from "@react-navigation/native";
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 // custom imports
 import {
@@ -55,23 +53,12 @@ export interface AppProps {
 }
 
 const ACTIVITY = "ACTIVITY";
-const ANNOUNCEMENT = "ANNOUNCEMENT";
-const QOTD = "QOTD";
 
-const DRAWER_OPEN = "drawerOpen";
-const DRAWER_CLOSE = "drawerClose";
 const CURRENT_TIME = moment(new Date())
   .format("YYYY-MM-DD HH:mm:ss")
   .toString();
 
-Platform.OS === "ios"
-  ? PushNotificationIOS.getInitialNotification().then((notification) => {
-      console.warn('here ',notification);
-    })
-  : null;
-
 export default function App(props: AppProps) {
-  // new NotificationServices({navigation: props.navigation});
 
   const dispatch = useDispatch();
   const focused = useIsFocused();
@@ -95,7 +82,6 @@ export default function App(props: AppProps) {
     classroomChild,
     page,
     searchQuery,
-    data,
     filterEnable,
     AWI,
     unreadNotifications,
@@ -109,7 +95,6 @@ export default function App(props: AppProps) {
       page: state.Home.page,
       classroomChild: state.ClassroomSchedule.classroomChild,
       searchQuery: state.Home.searchQuery,
-      data: state.Home.data,
       filterEnable: state.Home.filterEnable,
       AWI: state.Home.AWI,
       unreadNotifications: state.Home.unreadNotifications,

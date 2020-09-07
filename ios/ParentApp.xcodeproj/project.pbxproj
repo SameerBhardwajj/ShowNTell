@@ -759,7 +759,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development: Nitesh Singh (5ZQT62B6B4)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Nitesh Singh (5ZQT62B6B4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.13;
+				CURRENT_PROJECT_VERSION = 1.14;
 				DEVELOPMENT_TEAM = HFBLCPXG7Q;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -794,7 +794,7 @@
 				CODE_SIGN_ENTITLEMENTS = ParentApp/ParentApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Distribution: The Learning Experience Holding Corp (HFBLCPXG7Q)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.13;
+				CURRENT_PROJECT_VERSION = 1.14;
 				DEVELOPMENT_TEAM = HFBLCPXG7Q;
 				INFOPLIST_FILE = ParentApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
