@@ -17,33 +17,33 @@ export default function App(props: AppProps) {
   const [data, setData] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
-    about.length === 0
-      ? (setIsLoading(true),
-        dispatch(
-          hitAPI(
-            1,
-            (myData: Array<any>) => {
-              myData.map((a) => {
-                setData(a.content);
-              });
-              setIsLoading(false);
-            },
-            () => {
-              setIsLoading(false);
-            }
-          )
-        ))
-      : about.map((a: any) => {
-          setData(a.content);
-        });
+    // about.length === 0
+    //   ? (setIsLoading(true),
+    //     dispatch(
+    //       hitAPI(
+    //         1,
+    //         (myData: Array<any>) => {
+    //           myData.map((a) => {
+    //             setData(a.content);
+    //           });
+    //           setIsLoading(false);
+    //         },
+    //         () => {
+    //           setIsLoading(false);
+    //         }
+    //       )
+    //     ))
+    //   : about.map((a: any) => {
+    //       setData(a.content);
+    //     });
   }, []);
   return (
     <View style={Styles.mainView}>
       <CustomHeader
-        title={Strings.Testimonials}
+        title={Strings.Referrals}
         onPressBack={() => props.navigation.pop()}
       />
-      <ScrollView
+      {/* <ScrollView
         showsVerticalScrollIndicator={false}
         bounces={false}
         contentContainerStyle={{ padding: vh(16) }}
@@ -57,7 +57,7 @@ export default function App(props: AppProps) {
         ) : (
           <Text style={Styles.txt}>{data}</Text>
         )}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 }

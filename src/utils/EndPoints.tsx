@@ -143,6 +143,7 @@ export default {
     changePassword: `/api/v1/parent/change-password`,
     testimonials: (id: number) =>
       `https://stage.mytle.com/location_pages/get_testimonials?token=4HXLeUVlk1Cvod7pHF4g&location_id=${id}`,
+    addTestimonials: `/api/testimonials/save&token=eAyJhbGAciOiJIUzAI1NiIsInR5cCI6IkApXVCJ9A`,
   },
   // Absence Request ----------------------------
   absence: {

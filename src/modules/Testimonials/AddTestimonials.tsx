@@ -1,8 +1,8 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { CustomHeader, CustomButton, CustomLoader } from "../../Components";
-import { Strings, vh, vw, Images, Colors } from "../../utils";
-import { hitAPI } from "./action";
+import { Strings, vh, vw, Colors, ScreenName } from "../../utils";
+import { addTestimonialsAPI } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 
 export interface AppProps {
@@ -11,39 +11,42 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
-  const { list, loginData } = useSelector(
-    (state: { Testimonials: any; Login: any }) => ({
-      list: state.Testimonials.list,
-      loginData: state.Login.loginData,
-    })
-  );
+  const { loginData, loginEmail } = useSelector((state: { Login: any }) => ({
+    loginData: state.Login.loginData,
+    loginEmail: state.Login.loginEmail,
+  }));
   const [data, setData] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [cLength, setCLength] = React.useState(0);
-  React.useEffect(() => {
-    list.length === 0 ? setIsLoading(true) : null;
-    // dispatch(
-    //   hitAPI(
-    //     loginData.center_id,
-    //     (myData: Array<any>) => {
-    //       // myData.map((a) => {
-    //       //   setData(a.content);
-    //       // });
-    //       setIsLoading(false);
-    //     },
-    //     () => {
-    //       setIsLoading(false);
-    //     }
-    //   )
-    // );
-  }, []);
+  const hitAddTestimonials = () => {
+    setIsLoading(true);
+    dispatch(
+      addTestimonialsAPI(
+        {
+          name: `${loginData.first_name} ${loginData.last_name}`,
+          location_id: loginData.location_id,
+          email: loginEmail,
+          text: data,
+        },
+        () => {
+          setIsLoading(false);
+          props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+            msg: Strings.Testimonial_Success,
+          });
+        },
+        () => {
+          setIsLoading(false);
+        }
+      )
+    );
+  };
   return (
     <View style={Styles.mainView}>
       <CustomHeader
         title={Strings.Add_Testimonials}
         onPressBack={() => props.navigation.pop()}
       />
-      <CustomLoader loading={isLoading} />
+      <CustomLoader loading={isLoading} color="white" />
       <View style={Styles.innerView}>
         <Text style={Styles.headingTxt}>{Strings.Your_opinion_matters}</Text>
         <Text style={Styles.descriptionTxt}>{Strings.Thanks_Opinion}</Text>
@@ -57,17 +60,18 @@ export default function App(props: AppProps) {
             }}
             style={Styles.textInputView}
             multiline={true}
-            // onSubmitEditing={() => {
-            //   Keyboard.dismiss();
-            //   check();
-            // }}
           />
           <Text style={Styles.character}>{cLength}/500 Characters</Text>
         </View>
         <CustomButton
           Text={Strings.Submit}
-          onPress={() => {}}
-          ButtonStyle={{ width: "100%", alignSelf: "center" }}
+          onPress={() => (cLength >= 1 ? hitAddTestimonials() : null)}
+          ButtonStyle={{
+            width: "100%",
+            alignSelf: "center",
+            backgroundColor:
+              cLength >= 1 ? Colors.violet : Colors.disableViolet,
+          }}
         />
       </View>
     </View>

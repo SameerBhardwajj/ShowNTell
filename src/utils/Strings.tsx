@@ -128,6 +128,7 @@ const Strings = new LocalizedStrings({
     Classroom_Schedule: "Classroom Schedule",
     Statements: "Statements",
     Referral: "Referral",
+    Referrals: "Referrals",
     Testimonials: "Testimonials",
     Settings: "Settings",
     Logout: "Logout",
@@ -256,8 +257,9 @@ const Strings = new LocalizedStrings({
     Your_opinion_matters: "Your opinion matters",
     Thanks_Opinion:
       "Thank you so much for using our application and services. We would like to know your experience.",
-    Description_optional: "Description (optional)",
+    Description_optional: "Description",
     Password_Updated: "Your password has been\nsuccessfully updated",
+    Testimonial_Success: "Your Testimonial has been successfully submitted",
   },
 });
 export default Strings;
