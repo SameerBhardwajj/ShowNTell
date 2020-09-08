@@ -11,6 +11,13 @@ export interface AppProps {
 
 export default function App(props: AppProps) {
   const { item } = props.route.params;
+console.warn(item.absence_create_date);
+
+  const currDateTime =
+    item.absence_update_date === "0000-00-00 00:00:00"
+      ? item.absence_create_date
+      : item.absence_update_date;
+
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
@@ -34,9 +41,9 @@ export default function App(props: AppProps) {
           </View>
           <Text style={Styles.msgText}>{item.absence_description}</Text>
           <Text style={Styles.footerText}>
-            {CommonFunctions.DateFormatter(item.date)}
+            {CommonFunctions.DateFormatter(currDateTime)}
             {" . "}
-            {CommonFunctions.timeFormatter(item.date)}
+            {CommonFunctions.timeFormatter(currDateTime)}
           </Text>
         </View>
       </View>

@@ -207,7 +207,7 @@ export default function App(props: AppProps) {
             setFromDate(date);
             CommonFunctions.DateDifference(date, toDate) < 1
               ? (setToDate(date), setDays(1))
-              : setDays(CommonFunctions.DateDifference(date, toDate) + 1);
+              : setDays(CommonFunctions.DateDifference(date, toDate));
           }}
         />
         {CURR_TYPE ? null : (

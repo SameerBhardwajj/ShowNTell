@@ -5,55 +5,32 @@ import CustomToast from "../Components/CustomToast";
 import ImagePicker from "react-native-image-picker";
 
 const DateDifference = (date1: any, date2: any) => {
-  let second = 1000,
-    minute = second * 60,
-    hour = minute * 60,
-    day = hour * 24;
-  date1 = new Date(date1);
-  date2 = new Date(date2);
+  console.warn("before", date1, date2);
+
+  // let second = 1000,
+  //   minute = second * 60,
+  //   hour = minute * 60,
+  //   day = hour * 24;
+  date1 = moment(date1).date();
+  date2 = moment(date2).date();
+  console.warn("dates ", date1, date2);
+
   let timediff = date2 - date1;
+  // let timediff = date2.diff(date1, "days");
+  console.warn("time", timediff);
+
   if (isNaN(timediff)) return -1;
-  else if (timediff < 0) return 0;
-  else return Math.floor(timediff / day) + 1;
+  // else if (timediff < 0) return 0;
+  // else return Math.floor(timediff / day) + 1;
+  else return timediff + 1;
 };
 
 const DateFormatter = (date: Date) => {
-  let myDate = new Date(date);
-  const wMonths = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-  let month = myDate.getMonth();
-  return `${wMonths[month]} ${myDate.getDate()}, ${myDate.getFullYear()}`;
+  return moment(date).format("MMM DD, YYYY");
 };
 
 const DateMonthFormatter = (date: Date) => {
-  const wMonths = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  let month = date.getMonth();
-  return `${wMonths[month]}, ${date.getFullYear()}`;
+  return moment(date).format("MMMM, YYYY");
 };
 
 const dateTypeFormat = (date: string, format: string) => {

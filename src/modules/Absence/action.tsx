@@ -1,4 +1,5 @@
 import { Action, API, EndPoints, CommonFunctions } from "../../utils";
+import { CustomToast } from "../../Components";
 
 export const hitAbsenceReason = (
   successCallback: Function,
@@ -90,14 +91,10 @@ export const hitAddAbsence = (
       (success: any) => {
         if (success.data.code === 200) {
           console.log("success ", success.data.response);
-          // dispatch({
-          //   type: Action.ABSENCE,
-          //   payload: {
-          //     reasonList: success.data.response,
-          //   },
-          // });
           successCallback(success.data.response);
         } else {
+          CustomToast(success.data.message);
+
           failureCallback();
         }
       },
@@ -121,14 +118,9 @@ export const hitUpdateAbsence = (
       (success: any) => {
         if (success.data.code === 200) {
           console.log("success ", success.data.response);
-          // dispatch({
-          //   type: Action.ABSENCE,
-          //   payload: {
-          //     reasonList: success.data.response,
-          //   },
-          // });
           successCallback(success.data.response);
         } else {
+          CustomToast(success.data.message);
           failureCallback();
         }
       },
