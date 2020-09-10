@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Keyboard, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 
 // custom imports
 import {

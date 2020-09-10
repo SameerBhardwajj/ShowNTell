@@ -91,16 +91,29 @@ export default function App(props: AppProps) {
       if (Platform.OS === "android") {
         androidPermissions(1);
       } else {
-        CommonFunctions.Picker(
-          (image: any, res: any) => {
-            setMyProfile(image.uri);
+        // CommonFunctions.Picker(
+        //   (image: any) => {
+        //     setMyProfile(image.uri);
+        //     setModalOpen(false);
+        //     hitProfileUpdate(image.uri, 1);
+        //   },
+        //   () => {
+        //     setModalOpen(false);
+        //   }
+        // )
+        ImagePicker.openCamera({
+          compressImageQuality: 0.2,
+          mediaType: "photo",
+        })
+          .then((image: any) => {
+            hitProfileUpdate(image.path, 1);
+          })
+          .catch((e) => {
+            // e.code === "E_PICKER_CANCELLED"
+            //   ? null
+            //   : iosPermissions(PERMISSIONS.IOS.PHOTO_LIBRARY, 0);
             setModalOpen(false);
-            hitProfileUpdate(image.uri, 1);
-          },
-          () => {
-            setModalOpen(false);
-          }
-        );
+          });
       }
     }
   };

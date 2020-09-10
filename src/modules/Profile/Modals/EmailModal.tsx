@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Keyboard,
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports

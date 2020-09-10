@@ -25,7 +25,7 @@ import {
   CustomButton,
   CustomLoader,
 } from "../../../Components";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { updateProfile } from "../action";
 
 export interface AppProps {

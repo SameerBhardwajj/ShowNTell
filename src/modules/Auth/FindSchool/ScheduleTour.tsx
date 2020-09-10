@@ -7,7 +7,7 @@ import {
   Text,
   Modal,
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import DatePicker from "react-native-date-picker";
 
 // custom imports
