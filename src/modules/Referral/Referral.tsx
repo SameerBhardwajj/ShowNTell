@@ -10,7 +10,15 @@ import {
   CustomInputText,
   CustomButton,
 } from "../../Components";
-import { Strings, vh, validate, ConstantName, Colors, vw } from "../../utils";
+import {
+  Strings,
+  vh,
+  validate,
+  ConstantName,
+  Colors,
+  vw,
+  ScreenName,
+} from "../../utils";
 import { hitReferralAPI } from "./action";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -36,33 +44,60 @@ export default function App(props: AppProps) {
   const [checkpLname, setCheckPLname] = useState(true);
   const [checkphone, setCheckphone] = useState(true);
   const [checkemail, setCheckemail] = useState(true);
-  React.useEffect(() => {
-    // about.length === 0
-    //   ? (setIsLoading(true),
-    //     dispatch(
-    //       hitAPI(
-    //         1,
-    //         (myData: Array<any>) => {
-    //           myData.map((a) => {
-    //             setData(a.content);
-    //           });
-    //           setIsLoading(false);
-    //         },
-    //         () => {
-    //           setIsLoading(false);
-    //         }
-    //       )
-    //     ))
-    //   : about.map((a: any) => {
-    //       setData(a.content);
-    //     });
-  }, []);
+
+  const formatPhone = (f: string) => {
+    let f_val = f.replace(/\D+/g, "");
+    f =
+      "(" + f_val.slice(0, 3) + ") " + f_val.slice(3, 6) + "-" + f_val.slice(6);
+    return f;
+  };
+
+  const check = () => {
+    validate(ConstantName.NAME, pname)
+      ? validate(ConstantName.NAME, pLname)
+        ? validate(ConstantName.PHONE, phone)
+          ? validate(ConstantName.EMAIL, email)
+            ? ReferralAPI()
+            : setCheckemail(false)
+          : setCheckphone(false)
+        : setCheckPLname(false)
+      : setCheckPname(false);
+  };
+
+  const ReferralAPI = () => {
+    setIsLoading(true);
+    dispatch(
+      hitReferralAPI(
+        {
+          Lead: {
+            location_id: loginData.location_id,
+            first_name: pname,
+            last_name: pLname,
+            mobile_phone: formatPhone(phone),
+            email: email,
+          },
+        },
+        () => {
+          setIsLoading(false);
+          props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+            heading: Strings.Thank_You,
+            msg: Strings.Referral_Success,
+          });
+        },
+        () => {
+          setIsLoading(false);
+        }
+      )
+    );
+  };
+
   return (
     <View style={Styles.mainView}>
       <CustomHeader
         title={Strings.Referrals}
         onPressBack={() => props.navigation.pop()}
       />
+      <CustomLoader loading={isLoading} />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps={"handled"}
         bounces={false}
@@ -79,7 +114,6 @@ export default function App(props: AppProps) {
               checkpname ? null : setCheckPname(true), setPname(text);
             }}
             onSubmitEditing={() => {
-              console.warn(validate(ConstantName.NAME, pname));
               Keyboard.dismiss();
               validate(ConstantName.NAME, pname)
                 ? input2.current.focus()
@@ -87,7 +121,9 @@ export default function App(props: AppProps) {
             }}
             check={checkpname}
             mainViewStyle={Styles.textInput}
-            incorrectText={Strings.Name_error}
+            incorrectText={
+              pname.length === 0 ? Strings.Name_empty : Strings.Name_error
+            }
           />
 
           {/* Parent's last name ---------- */}
@@ -105,7 +141,9 @@ export default function App(props: AppProps) {
             }}
             check={checkpLname}
             mainViewStyle={Styles.textInput}
-            incorrectText={Strings.Name_error}
+            incorrectText={
+              pLname.length === 0 ? Strings.Name_empty : Strings.Name_error
+            }
           />
 
           {/* Parent's phone no.----------- */}
@@ -133,18 +171,22 @@ export default function App(props: AppProps) {
               checkemail ? null : setCheckemail(true), setEmail(text);
             }}
             onSubmitEditing={() => {
-              validate(ConstantName.EMAIL, email) ? null : setCheckemail(false);
+              validate(ConstantName.EMAIL, email)
+                ? check()
+                : setCheckemail(false);
             }}
             check={checkemail}
-            incorrectText={Strings.Email_error}
+            incorrectText={
+              email.length === 0 ? Strings.Email_empty : Strings.Email_error
+            }
             mainViewStyle={Styles.textInput}
             keyboardType={"email-address"}
           />
 
           <CustomButton
-            Text={Strings.Schedule_Tour}
-            activeOpacity={0 ? 0.8 : 1}
-            onPress={() => {}}
+            Text={Strings.Submit}
+            activeOpacity={0.8}
+            onPress={() => check()}
             ButtonStyle={{
               width: "100%",
               alignSelf: "center",

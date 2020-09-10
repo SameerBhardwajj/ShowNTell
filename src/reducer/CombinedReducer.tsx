@@ -19,6 +19,7 @@ import Notification from "../modules/Notification/reducer";
 import Absence from "../modules/Absence/reducer";
 import Settings from "../modules/Settings/reducer";
 import Testimonials from "../modules/Testimonials/reducer";
+import Events from "../modules/Events/reducer";
 const CombinedReducer = combineReducers({
   Home,
   Splash,
@@ -40,6 +41,7 @@ const CombinedReducer = combineReducers({
   Absence,
   Settings,
   Testimonials,
+  Events,
 });
 
 const rootReducer = (state: any, action: any) => {

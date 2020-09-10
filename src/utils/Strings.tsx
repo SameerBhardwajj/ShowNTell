@@ -199,7 +199,7 @@ const Strings = new LocalizedStrings({
     Phone_Empty: "Phone no. cannot be Empty",
     Permission_denied: "Please allow to access your Location from Settings",
     Name_error: "Name should contain Characters only",
-    Name_empty: "Name cannot ne Empty",
+    Name_empty: "Name cannot be Empty",
     Zipcode_error: "Zipcode is Incorrect",
     SchoolName_error: "Please select atleast 1 center",
     Device: "Device",
@@ -262,6 +262,9 @@ const Strings = new LocalizedStrings({
     Description_optional: "Description",
     Password_Updated: "Your password has been\nsuccessfully updated",
     Testimonial_Success: "Your Testimonial has been successfully submitted",
+    Thank_You: "Thank You !",
+    Referral_Success:
+      "Your referral has been successfully submitted to the Admin.",
   },
 });
 export default Strings;

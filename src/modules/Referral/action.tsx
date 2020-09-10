@@ -7,21 +7,20 @@ export const hitReferralAPI = (
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    Constants.clientAxiosInstance
-      .post(EndPoints.drawer.referral, payload)
-      .then((response: any) => {
-        debugger;
+    API.postClientApiCall(
+      EndPoints.drawer.referral,
+      payload,
+      (response: any) => {
         console.warn("Success: ", response);
         if (response.data.result === "OK") {
           successCallback();
         } else {
-          CustomToast("Something went wrong!");
           failCallback();
         }
-      })
-      .catch((error: any) => {
-        debugger;
+      },
+      () => {
         failCallback();
-      });
+      }
+    );
   };
 };

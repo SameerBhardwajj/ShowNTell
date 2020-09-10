@@ -55,8 +55,9 @@ export interface AppProps {
 export default function App(props: AppProps) {
   const Login = props.route.params.path === ScreenName.TAB_NAVIGATOR;
 
-  const { loginData } = useSelector((state: { Login: any }) => ({
+  const { loginData, loginEmail } = useSelector((state: { Login: any }) => ({
     loginData: state.Login.loginData,
+    loginEmail: state.Login.loginEmail,
   }));
   const dispatch = useDispatch();
   const input1: any = React.createRef();
@@ -66,8 +67,10 @@ export default function App(props: AppProps) {
     Login ? loginData.centerData.name : SELECT_SCHOOL
   );
   const [center, setCenter] = useState(Login ? loginData.center_id : 0);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(
+    Login ? `${loginData.first_name} ${loginData.last_name}` : ""
+  );
+  const [email, setEmail] = useState(Login ? loginEmail : "");
   const [help, setHelp] = useState("");
   const [cLength, setCLength] = useState(0);
   const [checkEmail, setCheckEmail] = useState(true);

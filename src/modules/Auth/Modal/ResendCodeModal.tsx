@@ -2,7 +2,14 @@ import * as React from "react";
 import { View, Text, StyleSheet, Image, BackHandler } from "react-native";
 
 // custom imports
-import { Images, vw, Strings, vh, Colors } from "../../../utils";
+import {
+  Images,
+  vw,
+  Strings,
+  vh,
+  Colors,
+  CommonFunctions,
+} from "../../../utils";
 import { CustomButton } from "../../../Components";
 
 export interface AppProps {
@@ -22,10 +29,11 @@ export default function App(props: AppProps) {
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
         <Image source={Images.Confirmation_check_Icon} style={Styles.img} />
+        {CommonFunctions.isNullUndefined(params.heading) ? null : (
+          <Text style={Styles.headingMsgText}>{params.heading}</Text>
+        )}
         <Text style={Styles.bubbleMsgText}>
-          {props.route.params.msg === undefined
-            ? Strings.acsess_code_confirm
-            : props.route.params.msg}
+          {params.msg === undefined ? Strings.acsess_code_confirm : params.msg}
         </Text>
         <CustomButton
           Text={Strings.ok}
@@ -63,11 +71,18 @@ const Styles = StyleSheet.create({
   img: {
     height: vh(80),
     width: vh(80),
+    marginBottom: vh(32),
+  },
+  headingMsgText: {
+    marginBottom: vh(10),
+    fontFamily: "Nunito-Bold",
+    fontSize: vh(20),
+    textAlign: "center",
   },
   bubbleMsgText: {
-    marginVertical: vh(32),
+    marginBottom: vh(32),
     fontFamily: "Nunito-SemiBold",
-    fontSize: vh(18),
+    fontSize: vh(17),
     textAlign: "center",
   },
 });

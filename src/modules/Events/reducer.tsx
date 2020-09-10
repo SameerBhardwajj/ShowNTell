@@ -1,12 +1,11 @@
 import { Action } from "../../utils";
 const initialState = {
-  about: [],
-  tnc: [],
+  data: [],
 };
 
 const Reducer = (state = initialState, action: any) => {
   switch (action.type) {
-    case Action.SETTINGS:
+    case Action.EVENTS:
       return { ...state, ...action.payload };
     default:
       return state;

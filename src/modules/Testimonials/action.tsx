@@ -1,5 +1,5 @@
 import { CustomToast } from "../../Components";
-import { Action, EndPoints, Constants } from "../../utils";
+import { Action, EndPoints, Constants, API } from "../../utils";
 import axios from "axios";
 
 export const hitAPI = (
@@ -32,21 +32,20 @@ export const addTestimonialsAPI = (
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    Constants.clientAxiosInstance
-      .post(EndPoints.drawer.addTestimonials, payload)
-      .then((response: any) => {
-        debugger;
+    API.postClientApiCall(
+      EndPoints.drawer.addTestimonials,
+      payload,
+      (response: any) => {
         console.warn("Success: ", response);
         if (response.data.statusCode === "201") {
           successCallback();
         } else {
-          CustomToast("Something went wrong!");
           failCallback();
         }
-      })
-      .catch((error: any) => {
-        debugger;
+      },
+      () => {
         failCallback();
-      });
+      }
+    );
   };
 };
