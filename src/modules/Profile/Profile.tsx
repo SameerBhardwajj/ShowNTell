@@ -91,16 +91,6 @@ export default function App(props: AppProps) {
       if (Platform.OS === "android") {
         androidPermissions(1);
       } else {
-        // CommonFunctions.Picker(
-        //   (image: any) => {
-        //     setMyProfile(image.uri);
-        //     setModalOpen(false);
-        //     hitProfileUpdate(image.uri, 1);
-        //   },
-        //   () => {
-        //     setModalOpen(false);
-        //   }
-        // )
         ImagePicker.openCamera({
           compressImageQuality: 0.2,
           mediaType: "photo",
@@ -109,9 +99,6 @@ export default function App(props: AppProps) {
             hitProfileUpdate(image.path, 1);
           })
           .catch((e) => {
-            // e.code === "E_PICKER_CANCELLED"
-            //   ? null
-            //   : iosPermissions(PERMISSIONS.IOS.PHOTO_LIBRARY, 0);
             setModalOpen(false);
           });
       }
@@ -135,9 +122,6 @@ export default function App(props: AppProps) {
             mediaType: "photo",
           })
             .then((image: any) => {
-              console.log(image);
-
-              setMyProfile(image.path);
               hitProfileUpdate(image.path, type);
             })
             .catch((e) => {
@@ -246,8 +230,6 @@ export default function App(props: AppProps) {
 
   const hitProfileUpdate = (image: any, value: number) => {
     setLoading(true);
-    console.warn("my img ", image);
-
     var formdata = new FormData();
     formdata.append("file", {
       uri:
@@ -386,7 +368,6 @@ export default function App(props: AppProps) {
           closeModal={() => setCameraModalOpen(false)}
           onPress={(image: any) => {
             setCameraModalOpen(false);
-            setMyProfile(image.uri);
             hitProfileUpdate(image.uri, 1);
           }}
         />
