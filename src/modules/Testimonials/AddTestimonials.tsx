@@ -1,5 +1,8 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
+import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
+
+// custom imports
 import { CustomHeader, CustomButton, CustomLoader } from "../../Components";
 import { Strings, vh, vw, Colors, ScreenName } from "../../utils";
 import { addTestimonialsAPI } from "./action";
@@ -47,33 +50,39 @@ export default function App(props: AppProps) {
         onPressBack={() => props.navigation.pop()}
       />
       <CustomLoader loading={isLoading} color="white" />
-      <View style={Styles.innerView}>
-        <Text style={Styles.headingTxt}>{Strings.Your_opinion_matters}</Text>
-        <Text style={Styles.descriptionTxt}>{Strings.Thanks_Opinion}</Text>
-        <Text style={Styles.descTxt}>{Strings.Description_optional}</Text>
-        <View style={Styles.innerHelpView}>
-          <TextInput
-            maxLength={500}
-            value={data}
-            onChangeText={(text: string) => {
-              cLength <= 500 ? setData(text) : null, setCLength(text.length);
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        bounces={false}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={Styles.innerView}>
+          <Text style={Styles.headingTxt}>{Strings.Your_opinion_matters}</Text>
+          <Text style={Styles.descriptionTxt}>{Strings.Thanks_Opinion}</Text>
+          <Text style={Styles.descTxt}>{Strings.Description_optional}</Text>
+          <View style={Styles.innerHelpView}>
+            <TextInput
+              maxLength={500}
+              value={data}
+              onChangeText={(text: string) => {
+                cLength <= 500 ? setData(text) : null, setCLength(text.length);
+              }}
+              style={Styles.textInputView}
+              multiline={true}
+            />
+            <Text style={Styles.character}>{cLength}/500 Characters</Text>
+          </View>
+          <CustomButton
+            Text={Strings.Submit}
+            onPress={() => (cLength >= 1 ? hitAddTestimonials() : null)}
+            ButtonStyle={{
+              width: "100%",
+              alignSelf: "center",
+              backgroundColor:
+                cLength >= 1 ? Colors.violet : Colors.disableViolet,
             }}
-            style={Styles.textInputView}
-            multiline={true}
           />
-          <Text style={Styles.character}>{cLength}/500 Characters</Text>
         </View>
-        <CustomButton
-          Text={Strings.Submit}
-          onPress={() => (cLength >= 1 ? hitAddTestimonials() : null)}
-          ButtonStyle={{
-            width: "100%",
-            alignSelf: "center",
-            backgroundColor:
-              cLength >= 1 ? Colors.violet : Colors.disableViolet,
-          }}
-        />
-      </View>
+      </KeyboardAwareScrollView>
     </View>
   );
 }
@@ -115,6 +124,7 @@ const Styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: Colors.veryLightGrey,
     width: "100%",
+    maxHeight: vh(150),
     borderTopLeftRadius: vh(8),
     borderTopRightRadius: vh(8),
     fontFamily: "Nunito-SemiBold",

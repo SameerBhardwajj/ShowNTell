@@ -52,6 +52,14 @@ export const PhotoLibraryAPI = (
           successCallback(res);
         } else {
           page === 0 ? CustomToast(success.data.message) : null;
+          page === 0
+            ? dispatch({
+                type: Action.UPDATE_LIBRARY,
+                payload: {
+                  libraryData: [],
+                },
+              })
+            : null;
           failureCallback();
         }
       },

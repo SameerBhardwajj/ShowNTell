@@ -479,6 +479,7 @@ const Styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: Colors.veryLightGrey,
     width: "100%",
+    maxHeight: vh(150),
     borderTopLeftRadius: vh(8),
     borderTopRightRadius: vh(8),
     fontFamily: "Nunito-SemiBold",
