@@ -359,7 +359,11 @@ export default function App(props: AppProps) {
             bindToBorders={true}
             captureEvent={true}
           >
-            <Image source={{ uri: data.s3_photo_path }} style={Styles.img} />
+            <Image
+              source={{ uri: data.s3_photo_path }}
+              style={Styles.img}
+              resizeMode="contain"
+            />
           </ReactNativeZoomableView>
         </View>
       </Modal>
@@ -424,8 +428,7 @@ const Styles = StyleSheet.create({
   },
   img: {
     width: "100%",
-    height: vh(250),
-    backgroundColor: "white",
+    flex: 1,
   },
   modalBack: {
     position: "absolute",

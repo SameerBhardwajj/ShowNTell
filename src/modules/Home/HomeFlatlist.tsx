@@ -274,6 +274,7 @@ export default function App(props: AppProps) {
             <Image
               source={{ uri: item.child_activity_image }}
               style={Styles.img}
+              resizeMode="contain"
             />
           </ReactNativeZoomableView>
         </View>
@@ -431,8 +432,7 @@ const Styles = StyleSheet.create({
   },
   img: {
     width: "100%",
-    height: Dimensions.get("screen").width,
-    backgroundColor: "white",
+    flex: 1,
   },
   modalBack: {
     position: "absolute",

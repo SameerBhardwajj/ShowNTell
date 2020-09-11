@@ -164,10 +164,13 @@ export default function App(props: AppProps) {
         style={{
           alignItems: "center",
           justifyContent: "flex-start",
-          marginTop: vh(60),
         }}
       >
-        <Image source={{ uri: item.s3_photo_path }} style={Styles.img} />
+        <Image
+          source={{ uri: item.s3_photo_path }}
+          style={Styles.img}
+          resizeMode="contain"
+        />
       </ReactNativeZoomableView>
     </View>
   );
@@ -206,7 +209,7 @@ const Styles = StyleSheet.create({
   },
   img: {
     width: "100%",
-    height: vh(250),
+    flex: 1,
   },
   date: {
     fontFamily: "frutiger",
