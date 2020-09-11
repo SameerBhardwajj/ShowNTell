@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, Keyboard } from "react-native";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 
 // custom imports
@@ -23,6 +23,7 @@ export default function App(props: AppProps) {
   const [cLength, setCLength] = React.useState(0);
   const hitAddTestimonials = () => {
     setIsLoading(true);
+    Keyboard.dismiss();
     dispatch(
       addTestimonialsAPI(
         {

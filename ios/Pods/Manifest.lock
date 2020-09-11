@@ -162,6 +162,7 @@ PODS:
     - Folly (= 2020.01.13.00)
     - RCTRequired (= 0.63.2)
     - React-Core (= 0.63.2)
+  - ReachabilitySwift (5.0.0)
   - React (0.63.2):
     - React-Core (= 0.63.2)
     - React-Core/DevSupport (= 0.63.2)
@@ -478,6 +479,7 @@ DEPENDENCIES:
   - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary.podspec`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
+  - ReachabilitySwift
   - React (from `../node_modules/react-native/`)
   - React-callinvoker (from `../node_modules/react-native/ReactCommon/callinvoker`)
   - React-Core (from `../node_modules/react-native/`)
@@ -551,6 +553,7 @@ SPEC REPOS:
     - OpenSSL-Universal
     - PromisesObjC
     - Protobuf
+    - ReachabilitySwift
     - RSKImageCropper
     - YogaKit
 
@@ -694,6 +697,7 @@ SPEC CHECKSUMS:
   Protobuf: 3dac39b34a08151c6d949560efe3f86134a3f748
   RCTRequired: f13f25e7b12f925f1f6a6a8c69d929a03c0129fe
   RCTTypeSafety: 44982c5c8e43ff4141eb519a8ddc88059acd1f3a
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   React: e1c65dd41cb9db13b99f24608e47dd595f28ca9a
   React-callinvoker: 552a6a6bc8b3bb794cf108ad59e5a9e2e3b4fc98
   React-Core: 9d341e725dc9cd2f49e4c49ad1fc4e8776aa2639
@@ -739,6 +743,6 @@ SPEC CHECKSUMS:
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 4d37e03c39f0303bfda8ebd6069f2c5f5950e67f
+PODFILE CHECKSUM: e04f49a76685198db72db727edf6fef1d09e5008
 
 COCOAPODS: 1.9.3

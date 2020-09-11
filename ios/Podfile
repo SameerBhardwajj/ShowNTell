@@ -9,6 +9,7 @@ target 'ParentApp' do
   use_react_native!(:path => config["reactNativePath"])
 
   pod 'Permission-PhotoLibrary', :path => "../node_modules/react-native-permissions/ios/PhotoLibrary.podspec"
+  pod 'ReachabilitySwift'
 
   target 'ParentAppTests' do
     inherit! :complete

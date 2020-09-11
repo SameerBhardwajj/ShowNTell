@@ -2,7 +2,7 @@ import moment from "moment";
 import { Platform, PermissionsAndroid, Linking } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
 import CustomToast from "../Components/CustomToast";
-import  NetInfo  from "@react-native-community/netinfo";
+import NetInfo from "@react-native-community/netinfo";
 
 const DateDifference = (date1: any, date2: any) => {
   console.warn("before", date1, date2);
@@ -217,6 +217,14 @@ const handleError = (error: any) => {
   }
 };
 
+const netInfo = () => {
+  let status = false;
+  NetInfo.fetch().then((connection) => {
+    status = connection.isConnected;
+  });
+  return status;
+};
+
 export default {
   DateDifference,
   DateFormatter,
@@ -231,4 +239,5 @@ export default {
   isEmpty,
   callNumber,
   handleError,
+  netInfo,
 };

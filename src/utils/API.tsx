@@ -148,7 +148,7 @@ const getClientApiCall = (
       debugger;
       console.warn("Success: ", response);
       if (response.data.result === "invalid") {
-        CustomToast(JSON.stringify(response.data.errors) );
+        CustomToast(JSON.stringify(response.data.errors));
         errorCallback();
       } else {
         successCallback(response);
@@ -180,7 +180,7 @@ const postClientApiCall = (
       debugger;
       console.warn("Success: ", response);
       if (response.data.result === "invalid") {
-        CustomToast(JSON.stringify(response.data.errors) );
+        CustomToast(JSON.stringify(response.data.errors));
         errorCallback();
       } else {
         successCallback(response);

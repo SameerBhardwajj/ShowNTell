@@ -1,5 +1,11 @@
 import { CustomToast } from "../../Components";
-import { Action, EndPoints, Constants, API } from "../../utils";
+import {
+  Action,
+  EndPoints,
+  Constants,
+  API,
+  CommonFunctions,
+} from "../../utils";
 import axios from "axios";
 
 export const hitAPI = (
@@ -20,8 +26,8 @@ export const hitAPI = (
         successCallback(success.data.data);
       })
       .catch((e) => {
-        failCallback(e);
         CustomToast(e);
+        failCallback(e);
       });
   };
 };
@@ -43,7 +49,8 @@ export const addTestimonialsAPI = (
           failCallback();
         }
       },
-      () => {
+      (error: any) => {
+        CustomToast(JSON.stringify(error.message));
         failCallback();
       }
     );
