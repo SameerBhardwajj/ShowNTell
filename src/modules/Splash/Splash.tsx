@@ -42,6 +42,7 @@ export default function App(props: AppProps) {
           })
         );
   }, []);
+  
   return (
     <ImageBackground source={Images.Background} style={Styles.mainImg}>
       <StatusBar barStyle={"light-content"} backgroundColor={Colors.violet} />

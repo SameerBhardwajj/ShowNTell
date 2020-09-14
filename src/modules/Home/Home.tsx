@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getUniqueId } from "react-native-device-info";
 import { useIsFocused } from "@react-navigation/native";
+import SplashScreen from "react-native-splash-screen";
 
 // custom imports
 import {
@@ -118,6 +119,7 @@ export default function App(props: AppProps) {
       loginToken.length === 0 ? false : true,
       loginToken
     );
+    SplashScreen.hide();
     console.warn("device token1", deviceToken);
 
     CommonFunctions.isNullUndefined(deviceToken)

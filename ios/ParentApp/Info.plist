@@ -38,8 +38,6 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>To click and change profile picture</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>To find Nearby Schools</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>To find Nearby Schools</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

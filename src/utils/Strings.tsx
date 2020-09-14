@@ -160,7 +160,7 @@ const Strings = new LocalizedStrings({
     Bob_Parish: "Mr. Bob Parish",
     Please_check_this: "Please check this out.",
     Alex_doing_Lunch: "Alex doing Lunch",
-    apply_leave_on_time: "Please make sure you apply leave on time",
+    apply_leave_on_time: "Please fill out the form below if your child will be unable to attend",
     Number_of_Days: "Number of Days",
     Reason_for_absence: "Reason for absence",
     Update: "Update",
