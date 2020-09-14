@@ -60,7 +60,6 @@ const CURRENT_TIME = moment(new Date())
   .toString();
 
 export default function App(props: AppProps) {
-
   const dispatch = useDispatch();
   const focused = useIsFocused();
   const [query, setQuery] = useState("");
@@ -497,7 +496,12 @@ export default function App(props: AppProps) {
         )}
       </View>
       {/* Filter modal ------------------------ */}
-      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+      >
         <View style={Styles.modalView}>
           <View />
           <FilterModal
@@ -538,7 +542,12 @@ export default function App(props: AppProps) {
         </View>
       </Modal>
       {/* Share modal ------------------------ */}
-      <Modal animationType="slide" transparent={true} visible={shareOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={shareOpen}
+        onRequestClose={() => setShareOpen(false)}
+      >
         <View style={Styles.modalView2}>
           <View />
           <ShareModal data={shareData} closeModal={() => setShareOpen(false)} />

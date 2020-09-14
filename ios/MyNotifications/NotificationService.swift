@@ -1,27 +1,38 @@
 //
 //  NotificationService.swift
-//  MyNotifications
+//  Services
 //
-//  Created by Appinventiv on 14/09/20.
+//  Created by Appinventiv on 11/09/20.
 //
 
 import UserNotifications
 
 class NotificationService: UNNotificationServiceExtension {
-
+    
     var contentHandler: ((UNNotificationContent) -> Void)?
     var bestAttemptContent: UNMutableNotificationContent?
-
+    
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
         bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
         
-        if let bestAttemptContent = bestAttemptContent {
-            // Modify the notification content here...
-            bestAttemptContent.title = "\(bestAttemptContent.title) [modified]"
-            
-            contentHandler(bestAttemptContent)
+        func failEarly() {
+            contentHandler(request.content)
         }
+        guard let content = bestAttemptContent else { return failEarly() }
+        guard let aps = content.userInfo["aps"] as? [String: Any] else {return failEarly() }
+        guard let apnsData = aps["data"] as? [String: Any] else { return failEarly() }
+        
+        guard let attachmentURL = apnsData["media-url"] as? String else { return failEarly() }
+//        guard let attachmentType = apnsData["content-type"] as? String else { return failEarly() }
+      
+        guard let imageData = NSData(contentsOf:NSURL(string: attachmentURL)! as URL) else { return failEarly() }
+        
+        guard let attachment = UNNotificationAttachment.create( data: imageData, options: nil) else { return failEarly() }
+        
+        content.attachments = [attachment]
+        contentHandler(content.copy() as! UNNotificationContent)
+        
     }
     
     override func serviceExtensionTimeWillExpire() {
@@ -31,5 +42,39 @@ class NotificationService: UNNotificationServiceExtension {
             contentHandler(bestAttemptContent)
         }
     }
+}
 
+extension UNNotificationAttachment{
+    static func create(imageFileIdentifier: String = "image", data: NSData, options: [NSObject : AnyObject]?) -> UNNotificationAttachment?{
+        let fileManager = FileManager.default
+        let tmpSubFolderName = ProcessInfo.processInfo.globallyUniqueString
+        let fileURLPath = NSURL(fileURLWithPath: NSTemporaryDirectory())
+        let tmpSubFolderURL = fileURLPath.appendingPathComponent(tmpSubFolderName, isDirectory: true)
+        do {
+            try fileManager.createDirectory(at: tmpSubFolderURL!, withIntermediateDirectories: true, attributes: nil)
+            
+            var fileURL : URL?
+            
+            switch imageFileIdentifier {
+            case "video":
+                fileURL = tmpSubFolderURL?.appendingPathComponent(imageFileIdentifier + ".mp4")
+                
+            case "image":
+                fileURL = tmpSubFolderURL?.appendingPathComponent(imageFileIdentifier + ".jpg")
+                
+            case "audio":
+                fileURL = tmpSubFolderURL?.appendingPathComponent(imageFileIdentifier + ".mp3")
+                
+            default:
+                break
+            }
+            try data.write(to: fileURL!, options: [])
+            let imageAttachment = try UNNotificationAttachment(identifier: imageFileIdentifier, url: fileURL!, options: options)
+            return imageAttachment
+            
+        } catch let error {
+            print("error \(error)")
+        }
+        return nil
+    }
 }

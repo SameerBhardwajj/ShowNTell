@@ -5,24 +5,18 @@ import CustomToast from "../Components/CustomToast";
 import NetInfo from "@react-native-community/netinfo";
 
 const DateDifference = (date1: any, date2: any) => {
-  console.warn("before", date1, date2);
-
-  // let second = 1000,
-  //   minute = second * 60,
-  //   hour = minute * 60,
-  //   day = hour * 24;
-  date1 = moment(date1).date();
-  date2 = moment(date2).date();
-  console.warn("dates ", date1, date2);
-
+  let second = 1000,
+    minute = second * 60,
+    hour = minute * 60,
+    day = hour * 24;
+  date1 = moment(date1);
+  date2 = moment(date2);
+ 
   let timediff = date2 - date1;
-  // let timediff = date2.diff(date1, "days");
-  console.warn("time", timediff);
 
   if (isNaN(timediff)) return -1;
-  // else if (timediff < 0) return 0;
-  // else return Math.floor(timediff / day) + 1;
-  else return timediff + 1;
+  else if (timediff < 1) return 1;
+  else return Math.floor(timediff / day) + 2;
 };
 
 const DateFormatter = (date: Date) => {

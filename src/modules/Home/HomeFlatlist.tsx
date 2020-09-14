@@ -254,7 +254,12 @@ export default function App(props: AppProps) {
         </View>
       ) : null}
       {/* Picture modal with zoom n pinch ------------------- */}
-      <Modal animationType="slide" transparent={true} visible={picModalOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={picModalOpen}
+        onRequestClose={() => setPicModalOpen(false)}
+      >
         <View style={Styles.picModalView}>
           <TouchableOpacity
             activeOpacity={0.8}

@@ -12,6 +12,7 @@ import {
   PermissionsAndroid,
   StatusBar,
   Dimensions,
+  BackHandler
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,6 +52,11 @@ export default function App(props: AppProps) {
   useEffect(() => {
     CommonFunctions.isEmpty(data) ? setLoading(true) : null;
     HitProfileAPI();
+
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
   }, []);
 
   // Get profile Data -------------------

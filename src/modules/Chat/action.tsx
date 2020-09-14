@@ -25,6 +25,7 @@ export const getCannedMsgs = (
             type: Action.CHAT,
             payload: {
               cannedMsg: res,
+              chatData: [],
             },
           });
           successCallback(success.data.response);
@@ -77,7 +78,7 @@ export const getMsgs = (
     Constants.axiosInstance
       .get(EndPoints.drawer.chat.getMsg(type, timestamp), {})
       .then((success: any) => {
-        console.log("success ", success);
+        console.log(" my data success ", success.config);
 
         const res = success.data.response;
         if (success.data.code === 200) {

@@ -135,7 +135,12 @@ export default function App(props: AppProps) {
           }}
         />
       )}
-      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+      >
         <NotificationModal setModalOpen={() => setModalOpen(!modalOpen)} />
       </Modal>
     </View>

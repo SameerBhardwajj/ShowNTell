@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   FlatList,
+  BackHandler,
 } from "react-native";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,6 +56,11 @@ export default function App(props: AppProps) {
           )
         ))
       : getNewMsgs();
+
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
   }, [time, loadMore]);
 
   const check = () => {
@@ -82,6 +88,8 @@ export default function App(props: AppProps) {
   // Get New Messages if Available ------------------
   const getNewMsgs = () => {
     time === 0 ? setLoading(true) : null;
+    console.warn(time);
+    
     dispatch(
       getMsgs(
         "down",
@@ -100,12 +108,16 @@ export default function App(props: AppProps) {
 
   // Get older Messages if Available -----------------
   const getOldMsgs = () => {
-    time === 0 && loadMore
+    console.log("count ", chatData.length);
+
+    time === 0
       ? dispatch(
           getMsgs(
             "up",
             moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss"),
             (data: any) => {
+              console.warn('first ',data);
+              
               settime(1);
               // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
             },

@@ -8,6 +8,7 @@ import {
   FlatList,
   Modal,
   Platform,
+  BackHandler,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -45,6 +46,10 @@ export default function App(props: AppProps) {
   useEffect(() => {
     data.length === 0 ? setLoading(true) : null;
     hitStatement(0);
+    BackHandler.addEventListener("hardwareBackPress", () => {
+      props.navigation.pop();
+      return true;
+    });
   }, [currentChild]);
 
   const hitStatement = (page: number, myState?: boolean) => {
@@ -169,7 +174,12 @@ export default function App(props: AppProps) {
           />
         </TouchableOpacity>
       ) : null}
-      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+      >
         <TouchableOpacity
           style={Styles.topModalView}
           onPress={() => setModalOpen(false)}
