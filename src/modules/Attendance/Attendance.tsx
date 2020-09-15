@@ -269,7 +269,12 @@ export default function App(props: AppProps) {
       )}
 
       {/* absence -------------------------------------------- */}
-      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+      >
         <TouchableOpacity
           style={Styles.topModalView}
           onPress={() => setModalOpen(false)}

@@ -102,7 +102,12 @@ export default function App(props: AppProps) {
           <Image source={Images.Elipsis_Options} />
         </TouchableOpacity>
       )}
-      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+      >
         <FilterModal
           setModal={(value: boolean) => setModalOpen(value)}
           onPress={(value: boolean) => {

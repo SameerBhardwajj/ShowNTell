@@ -12,7 +12,7 @@ import {
   PermissionsAndroid,
   StatusBar,
   Dimensions,
-  BackHandler
+  BackHandler,
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
 import { useDispatch, useSelector } from "react-redux";
@@ -340,7 +340,12 @@ export default function App(props: AppProps) {
       <View style={{ flex: 1, width: "100%" }}>
         <TopTabNavigation />
       </View>
-      <Modal animationType="slide" transparent={true} visible={modalOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+      >
         <ProfileModal
           closeModal={() => setModalOpen(false)}
           openGallery={() => ImagePick(0)}
@@ -348,7 +353,12 @@ export default function App(props: AppProps) {
           deleteProfile={() => updateImage("", "")}
         />
       </Modal>
-      <Modal animationType="slide" transparent={true} visible={picModalOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={picModalOpen}
+        onRequestClose={() => setPicModalOpen(false)}
+      >
         <View style={Styles.picModalView}>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -373,7 +383,12 @@ export default function App(props: AppProps) {
           </ReactNativeZoomableView>
         </View>
       </Modal>
-      <Modal animationType="slide" transparent={true} visible={cameraModalOpen}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={cameraModalOpen}
+        onRequestClose={() => setCameraModalOpen(false)}
+      >
         <CameraModal
           closeModal={() => setCameraModalOpen(false)}
           onPress={(image: any) => {

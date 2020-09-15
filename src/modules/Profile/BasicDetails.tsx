@@ -191,7 +191,12 @@ export default function App(props: AppProps) {
             </View>
           </View>
           {/* Modal for Updating values --------------- */}
-          <Modal animationType="slide" transparent={true} visible={modalOpen}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalOpen}
+            onRequestClose={() => setModalOpen(false)}
+          >
             <TouchableOpacity
               style={Styles.topModalView}
               onPress={() => setModalOpen(false)}
