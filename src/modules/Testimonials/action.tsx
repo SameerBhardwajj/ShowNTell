@@ -50,7 +50,7 @@ export const addTestimonialsAPI = (
         }
       },
       (error: any) => {
-        CustomToast(JSON.stringify(error.message));
+        CommonFunctions.handleError(error);
         failCallback();
       }
     );

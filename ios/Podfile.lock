@@ -144,6 +144,15 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.7.2):
     - GoogleUtilities/Logger
+  - libwebp (1.1.0):
+    - libwebp/demux (= 1.1.0)
+    - libwebp/mux (= 1.1.0)
+    - libwebp/webp (= 1.1.0)
+  - libwebp/demux (1.1.0):
+    - libwebp/webp
+  - libwebp/mux (1.1.0):
+    - libwebp/demux
+  - libwebp/webp (1.1.0)
   - nanopb (0.3.9011):
     - nanopb/decode (= 0.3.9011)
     - nanopb/encode (= 0.3.9011)
@@ -417,6 +426,10 @@ PODS:
     - React
   - RNDeviceInfo (5.5.7):
     - React
+  - RNFastImage (8.3.2):
+    - React
+    - SDWebImage (~> 5.8)
+    - SDWebImageWebPCoder (~> 0.6.1)
   - RNFBApp (6.3.4):
     - Firebase/Core (~> 6.13.0)
     - React
@@ -446,6 +459,12 @@ PODS:
   - RNSnackbar (2.2.0):
     - React
   - RSKImageCropper (2.2.3)
+  - SDWebImage (5.9.0):
+    - SDWebImage/Core (= 5.9.0)
+  - SDWebImage/Core (5.9.0)
+  - SDWebImageWebPCoder (0.6.1):
+    - libwebp (~> 1.0)
+    - SDWebImage/Core (~> 5.7)
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -514,6 +533,7 @@ DEPENDENCIES:
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - RNFastImage (from `../node_modules/react-native-fast-image`)
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
@@ -549,12 +569,15 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleDataTransportCCTSupport
     - GoogleUtilities
+    - libwebp
     - nanopb
     - OpenSSL-Universal
     - PromisesObjC
     - Protobuf
     - ReachabilitySwift
     - RSKImageCropper
+    - SDWebImage
+    - SDWebImageWebPCoder
     - YogaKit
 
 EXTERNAL SOURCES:
@@ -640,6 +663,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/push-notification-ios"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNFastImage:
+    :path: "../node_modules/react-native-fast-image"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBMessaging:
@@ -690,6 +715,7 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 9a8a16f79feffc7f42096743de2a7c4815e84020
   GoogleDataTransportCCTSupport: 0f39025e8cf51f168711bd3fb773938d7e62ddb5
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
+  libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
   Permission-PhotoLibrary: 4d2eff62c8f4b8a27bcf045c0e36f5047efbbf20
@@ -730,6 +756,7 @@ SPEC CHECKSUMS:
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPushNotificationIOS: d5fd66aed4e03c6491ca0c6111a03d4f6455ff6c
   RNDeviceInfo: e2102056bde3ad5d137fd029d8d431510a00486a
+  RNFastImage: e19ba191922e7dab9d932a4d59d62d76660aa222
   RNFBApp: 7d4006751de8bb5cafa2e8d2e7d94ee250df81db
   RNFBMessaging: 51cc7f6beaf4c4feac6f18ea941bba5854e3d9c6
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
@@ -740,6 +767,8 @@ SPEC CHECKSUMS:
   RNShare: d4c9789a93ffa286389ff7b73f44118c8aab412f
   RNSnackbar: 160077964866262ed08cfd33ab4760219ea2aef6
   RSKImageCropper: a446db0e8444a036b34f3c43db01b2373baa4b2a
+  SDWebImage: 62ae4a18473520c67b79e9724c31a63599cc9423
+  SDWebImageWebPCoder: d0dac55073088d24b2ac1b191a71a8f8d0adac21
   Yoga: 7740b94929bbacbddda59bf115b5317e9a161598
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

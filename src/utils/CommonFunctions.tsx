@@ -9,14 +9,14 @@ const DateDifference = (date1: any, date2: any) => {
     minute = second * 60,
     hour = minute * 60,
     day = hour * 24;
-  date1 = moment(date1);
-  date2 = moment(date2);
- 
+  date1 = new Date(date1);
+  date2 = new Date(date2);
+
   let timediff = date2 - date1;
 
   if (isNaN(timediff)) return -1;
   else if (timediff < 1) return 1;
-  else return Math.floor(timediff / day) + 2;
+  else return Math.ceil(timediff / day) + 1;
 };
 
 const DateFormatter = (date: Date) => {

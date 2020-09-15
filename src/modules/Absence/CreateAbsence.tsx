@@ -205,7 +205,7 @@ export default function App(props: AppProps) {
           minDate={new Date()}
           getDate={(date: Date) => {
             setFromDate(date);
-            CommonFunctions.DateDifference(date, toDate) < 1
+            CommonFunctions.DateDifference(date, toDate) <= 1
               ? (setToDate(date), setDays(1))
               : setDays(CommonFunctions.DateDifference(date, toDate));
           }}
@@ -217,7 +217,9 @@ export default function App(props: AppProps) {
               date={toDate}
               minDate={fromDate}
               getDate={(date: Date) => {
-                setToDate(date);
+                CommonFunctions.DateDifference(fromDate, date) <= 1
+                  ? setToDate(fromDate)
+                  : setToDate(date);
                 setDays(CommonFunctions.DateDifference(fromDate, date));
               }}
             />

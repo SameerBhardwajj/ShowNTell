@@ -47,11 +47,10 @@ export default function App(props: AppProps) {
       : null;
 
     time === 0
-      ? (getOldMsgs(),
-        MarkRead(),
+      ? (MarkRead(),
         dispatch(
           getCannedMsgs(
-            () => {},
+            () => getOldMsgs(),
             () => {}
           )
         ))
@@ -89,7 +88,7 @@ export default function App(props: AppProps) {
   const getNewMsgs = () => {
     time === 0 ? setLoading(true) : null;
     console.warn(time);
-    
+
     dispatch(
       getMsgs(
         "down",
@@ -116,9 +115,9 @@ export default function App(props: AppProps) {
             "up",
             moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss"),
             (data: any) => {
-              console.warn('first ',data);
-              
-              settime(1);
+              console.warn("first ", data);
+
+              // settime(1);
               // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
             },
             () => {}

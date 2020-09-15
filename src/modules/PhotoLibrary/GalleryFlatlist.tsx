@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { Strings, vw, vh, Images, Colors, ScreenName } from "../../utils";
+import { vw, vh, Images, Colors, ScreenName } from "../../utils";
 import { updateDownload, updateSelect } from "./action";
+// import {FastImage} from '../../Components';
+import FastImage from "react-native-fast-image";
 
 export interface AppProps {
   item: any;
@@ -88,12 +90,15 @@ export default function App(props: AppProps) {
                     })
               }
             >
-              <Image
+              <FastImage
                 source={{ uri: props.item[0].s3_photo_path }}
                 style={Styles.bigImg}
               />
               {select && selected1 ? (
-                <Image source={Images.Selected} style={Styles.selectedIcon} />
+                <FastImage
+                  source={Images.Selected}
+                  style={Styles.selectedIcon}
+                />
               ) : null}
             </TouchableOpacity>
           ) : null}
@@ -118,12 +123,15 @@ export default function App(props: AppProps) {
                       })
                 }
               >
-                <Image
+                <FastImage
                   source={{ uri: props.item[1].s3_photo_path }}
                   style={Styles.smallImg}
                 />
                 {select && selected2 ? (
-                  <Image source={Images.Selected} style={Styles.selectedIcon} />
+                  <FastImage
+                    source={Images.Selected}
+                    style={Styles.selectedIcon}
+                  />
                 ) : null}
               </TouchableOpacity>
             ) : null}
@@ -147,12 +155,15 @@ export default function App(props: AppProps) {
                       })
                 }
               >
-                <Image
+                <FastImage
                   source={{ uri: props.item[2].s3_photo_path }}
                   style={Styles.smallImg}
                 />
                 {select && selected3 ? (
-                  <Image source={Images.Selected} style={Styles.selectedIcon} />
+                  <FastImage
+                    source={Images.Selected}
+                    style={Styles.selectedIcon}
+                  />
                 ) : null}
               </TouchableOpacity>
             ) : null}
@@ -181,12 +192,15 @@ export default function App(props: AppProps) {
                       })
                 }
               >
-                <Image
+                <FastImage
                   source={{ uri: props.item[0].s3_photo_path }}
                   style={Styles.smallImg}
                 />
                 {select && selected1 ? (
-                  <Image source={Images.Selected} style={Styles.selectedIcon} />
+                  <FastImage
+                    source={Images.Selected}
+                    style={Styles.selectedIcon}
+                  />
                 ) : null}
               </TouchableOpacity>
             ) : null}
@@ -210,12 +224,15 @@ export default function App(props: AppProps) {
                       })
                 }
               >
-                <Image
+                <FastImage
                   source={{ uri: props.item[1].s3_photo_path }}
                   style={Styles.smallImg}
                 />
                 {select && selected2 ? (
-                  <Image source={Images.Selected} style={Styles.selectedIcon} />
+                  <FastImage
+                    source={Images.Selected}
+                    style={Styles.selectedIcon}
+                  />
                 ) : null}
               </TouchableOpacity>
             ) : null}
@@ -238,12 +255,15 @@ export default function App(props: AppProps) {
                     })
               }
             >
-              <Image
+              <FastImage
                 source={{ uri: props.item[2].s3_photo_path }}
                 style={Styles.bigImg}
               />
               {select && selected3 ? (
-                <Image source={Images.Selected} style={Styles.selectedIcon} />
+                <FastImage
+                  source={Images.Selected}
+                  style={Styles.selectedIcon}
+                />
               ) : null}
             </TouchableOpacity>
           ) : null}
