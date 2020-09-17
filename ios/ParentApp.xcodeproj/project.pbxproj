@@ -793,7 +793,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development: Peeyush Singh (98CJYZMVCK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Peeyush Singh (98CJYZMVCK)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.70;
+				CURRENT_PROJECT_VERSION = 1.71;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 23FC5W285E;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -826,7 +826,7 @@
 				CODE_SIGN_IDENTITY = "Apple Distribution: Peeyush Singh (23FC5W285E)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.70;
+				CURRENT_PROJECT_VERSION = 1.71;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 23FC5W285E;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -856,7 +856,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development: Peeyush Singh (98CJYZMVCK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Peeyush Singh (98CJYZMVCK)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.70;
+				CURRENT_PROJECT_VERSION = 1.71;
 				DEVELOPMENT_TEAM = 23FC5W285E;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -892,7 +892,7 @@
 				CODE_SIGN_ENTITLEMENTS = ParentApp/ParentApp.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Distribution: Peeyush Singh (23FC5W285E)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.70;
+				CURRENT_PROJECT_VERSION = 1.71;
 				DEVELOPMENT_TEAM = 23FC5W285E;
 				INFOPLIST_FILE = ParentApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

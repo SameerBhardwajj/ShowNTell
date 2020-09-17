@@ -1,11 +1,5 @@
 import { CustomToast } from "../../Components";
-import {
-  Action,
-  EndPoints,
-  Constants,
-  API,
-  CommonFunctions,
-} from "../../utils";
+import { Action, EndPoints, API, Strings } from "../../utils";
 import axios from "axios";
 
 export const hitAPI = (
@@ -42,7 +36,7 @@ export const addTestimonialsAPI = (
       EndPoints.drawer.addTestimonials,
       payload,
       (response: any) => {
-        console.warn("Success: ", response);
+        console.log("Success: ", response);
         if (response.data.statusCode === "201") {
           successCallback();
         } else {
@@ -50,7 +44,11 @@ export const addTestimonialsAPI = (
         }
       },
       (error: any) => {
-        CommonFunctions.handleError(error);
+        if (error === "Network Error") {
+          CustomToast(Strings.No_Internet);
+        } else {
+          CustomToast(error);
+        }
         failCallback();
       }
     );

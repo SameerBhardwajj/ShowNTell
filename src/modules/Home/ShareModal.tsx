@@ -34,6 +34,11 @@ export default function App(props: AppProps) {
     permission: state.Login.permission,
   }));
 
+  const DEV_URL = `http://showtelldevapi.appskeeper.com:4025/image/${params.id}/`;
+  const CLIENT_URL = `http://snt-parent-api-test.mytle.com/image/${params.id}/`;
+
+  const IMAGE_URL = DEV_URL;
+
   // Permission alert ------------------
   const permissionAccess = () => {
     Alert.alert(
@@ -128,16 +133,7 @@ export default function App(props: AppProps) {
   const openShare = () => {
     console.warn(params);
 
-    const url = CommonFunctions.isNullUndefined(params.img)
-      ? ""
-      : // : `http://showtelldevapi.appskeeper.com:4025/image/${params.id}/`;
-        `http://snt-parent-api-test.mytle.com/image/${params.id}/`;
-    // const title = CommonFunctions.isNullUndefined(params.categoryName)
-    //   ? ""
-    //   : params.categoryName;
-    // const message = CommonFunctions.isNullUndefined(params.activityName)
-    //   ? ""
-    //   : params.activityName;
+    const url = CommonFunctions.isNullUndefined(params.img) ? "" : IMAGE_URL;
     const options = Platform.select({
       ios: {
         activityItemSources: [

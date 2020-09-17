@@ -82,13 +82,13 @@ export default function App(props: AppProps) {
   // Download images -----------------
   const downloadAll = async () => {
     let temp = downloadGallery;
+    CustomToast("Download Start...");
     Promise.all(
       temp.map(async (img: string) => {
         let result = await new Promise((resolve, reject) => {
           saveToCameraRoll(
             img,
             () => {
-              CustomToast("Download Start...");
               resolve();
             },
             (error: any) => {
