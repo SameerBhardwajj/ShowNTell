@@ -20,7 +20,15 @@ export const hitAPI = (
         successCallback(success.data.data);
       })
       .catch((e) => {
-        CustomToast(e);
+        console.warn("check ", e == "Network Error");
+        console.log(e);
+        
+
+        // if (e === "Network Error") {
+        //   CustomToast(Strings.No_Internet);
+        // } else {
+        //   CustomToast(e);
+        // }
         failCallback(e);
       });
   };
@@ -44,11 +52,6 @@ export const addTestimonialsAPI = (
         }
       },
       (error: any) => {
-        if (error === "Network Error") {
-          CustomToast(Strings.No_Internet);
-        } else {
-          CustomToast(error);
-        }
         failCallback();
       }
     );

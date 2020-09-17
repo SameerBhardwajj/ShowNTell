@@ -25,10 +25,13 @@ export interface AppProps {
 }
 
 export default function App(props: AppProps) {
-  const { chatEnable, guardianData } = useSelector((state: { Home: any }) => ({
-    chatEnable: state.Home.chatEnable,
-    guardianData: state.Home.guardianData,
-  }));
+  const { chatEnable, guardianData, loginData } = useSelector(
+    (state: { Home: any; Login: any }) => ({
+      chatEnable: state.Home.chatEnable,
+      guardianData: state.Home.guardianData,
+      loginData: state.Login.loginData,
+    })
+  );
 
   const chat = {
     icon: Images.Chat_Icon,
@@ -39,8 +42,7 @@ export default function App(props: AppProps) {
 
   const finalData = [chat].concat(DATA);
 
-  React.useEffect(() => {
-  }, [chatEnable]);
+  React.useEffect(() => {}, [chatEnable]);
 
   const rendetItems = (rowData: any) => {
     const { item, index } = rowData;
@@ -98,9 +100,7 @@ export default function App(props: AppProps) {
           </View>
           <View style={{ paddingLeft: vw(12), paddingTop: vh(8) }}>
             <Text style={Styles.name}>
-              {CommonFunctions.isNullUndefined(guardianData)
-                ? "NA"
-                : `${guardianData.first_name} ${guardianData.last_name}`}
+              {`${loginData.first_name} ${loginData.last_name}`}
             </Text>
             {CommonFunctions.isNullUndefined(guardianData) ? null : (
               <Text style={Styles.email}>{guardianData.email}</Text>

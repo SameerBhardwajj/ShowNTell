@@ -188,6 +188,14 @@ const postClientApiCall = (
     })
     .catch((error: any) => {
       debugger;
+      console.warn("error", error);
+      console.log("Error.response.config ", error);
+      if (error.message === "Network Error") {
+        CustomToast(Strings.No_Internet);
+      }
+      if (error.code === "ECONNABORTED") {
+        CustomToast(Strings.Timeout_error);
+      }
       errorCallback(error);
     });
 };
