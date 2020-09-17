@@ -1,12 +1,11 @@
-import Config from "react-native-config";
 import CommonFunctions from "./CommonFunctions";
-const GoogleAPI = Config.GOOGLE_KEY;
+const GOOGLE_KEY = "AIzaSyAfiRXr0reh5i3p-1qQE-h0xvAZVD0JZgo";
 export default {
   // Auth----------------------------
   auth: {
     login: "/api/v1/parent/login",
     searchCentres: (query: string) =>
-      `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleAPI}&input=${query}&sessiontoken=1234567890`,
+      `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_KEY}&input=${query}&sessiontoken=1234567890`,
     centreCoordinates: (place_id: string) =>
       `https://maps.googleapis.com/maps/api/place/details/json?placeid=${place_id}&key=${GoogleAPI}`,
     nearByCentres: (lat: number, lon: number) =>

@@ -342,8 +342,6 @@ PODS:
     - React
   - react-native-cameraroll (1.4.0):
     - React
-  - react-native-config (1.0.0):
-    - React
   - react-native-date-picker (2.7.13):
     - React
   - react-native-geolocation (2.0.2):
@@ -511,7 +509,6 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera (from `../node_modules/react-native-camera`)
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
-  - react-native-config (from `../node_modules/react-native-config`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -619,8 +616,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-camera"
   react-native-cameraroll:
     :path: "../node_modules/@react-native-community/cameraroll"
-  react-native-config:
-    :path: "../node_modules/react-native-config"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
   react-native-geolocation:
@@ -734,7 +729,6 @@ SPEC CHECKSUMS:
   React-jsinspector: b14e62ebe7a66e9231e9581279909f2fc3db6606
   react-native-camera: d9e7b66e40420dcef111f3265a00f01eea54c52c
   react-native-cameraroll: dbda741db5dadcdcf738e55a1fd565c307943bca
-  react-native-config: 7db9b96479164dfd7b2be68eb9079e08279511c4
   react-native-date-picker: 4468aeac8de6a6e351b56be0014d4fd35476de4c
   react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
   react-native-netinfo: 1b8691be19549f020d0757b40aca4f355cafeeec

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { View, Platform } from "react-native";
 import PushNotification from "react-native-push-notification";
-import Config from "react-native-config";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import { connect } from "react-redux";
 import { ScreenName } from "../utils";
@@ -9,6 +8,11 @@ import {
   updateChatCount,
   updateNotificationCount,
 } from "../modules/Home/action";
+
+const FCM_KEY_DEV = "1082193980667";
+const FCM_KEY_CLIENT = "875888891093";
+
+const FCM_KEY = FCM_KEY_DEV;
 
 export interface AppProps {
   navigation: any;
@@ -42,7 +46,7 @@ class NotificationServices extends React.Component<AppProps, AppState> {
       },
 
       // ANDROID ONLY: GCM or FCM Sender ID (product_number) (optional - not required for local notifications, but is need to receive remote push notifications)
-      senderID: Config.FCM_KEY_CLIENT,
+      senderID: FCM_KEY,
 
       // IOS ONLY (optional): default: all - Permissions to register.
       permissions: {

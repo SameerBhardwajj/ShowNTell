@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 // custom imports
 import {
@@ -98,17 +99,13 @@ export default function App(props: AppProps) {
     setIsLoading(true);
     let data = {
       child_id: CURR_TYPE ? item.child_id : classroomChild.id,
-      absence_from: CommonFunctions.dateTypeFormat(
-        fromDate.toLocaleDateString(),
-        "ymd"
-      ),
-      absence_to: CommonFunctions.dateTypeFormat(
-        toDate.toLocaleDateString(),
-        "ymd"
-      ),
+      absence_from: moment(fromDate).utc().format("YYYY-MM-DD"),
+      absence_to: moment(toDate).utc().format("YYYY-MM-DD"),
       absence_reason_id: reasonOption,
       absence_description: reason.trim(),
     };
+    console.warn(data);
+    
     dispatch(
       hitAddAbsence(
         data,

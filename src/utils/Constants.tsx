@@ -1,9 +1,14 @@
-import Config from "react-native-config";
 import axios from "axios";
 import { Platform } from "react-native";
 import { getUniqueId, getDeviceId } from "react-native-device-info";
 
-const BASE_URL = Config.CLIENT_BASE_URL;
+const DEV_BASE_URL = "http://showtelldevapi.appskeeper.com:4025";
+const QA_BASE_URL = "http://showtellqaapi.appskeeper.com:7034";
+const CLIENT_BASE_URL = "http://snt-parent-api-test.mytle.com";
+
+const CLIENT_URL = "https://stage.thelearningexperience.com";
+
+const BASE_URL = QA_BASE_URL;
 
 // Axios instance for all APIs
 const $http = axios.create({
@@ -26,7 +31,7 @@ const setAuthorizationToken = (token: boolean, myToken: string) => {
 
 // Axios instance for client APIs
 const clientHttp = axios.create({
-  baseURL: Config.CLIENT_URL,
+  baseURL: CLIENT_URL,
   timeout: 20000,
 });
 

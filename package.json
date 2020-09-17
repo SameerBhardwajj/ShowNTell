@@ -45,7 +45,6 @@
     "react-native-animate-loading-button": "^1.0.3",
     "react-native-camera": "git+https://git@github.com/react-native-community/react-native-camera.git",
     "react-native-cli": "^2.0.1",
-    "react-native-config": "^1.0.0",
     "react-native-date-picker": "^2.7.9",
     "react-native-device-info": "^5.5.7",
     "react-native-fast-image": "^8.3.2",
