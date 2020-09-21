@@ -12,7 +12,7 @@ import {
 const FCM_KEY_DEV = "1082193980667";
 const FCM_KEY_CLIENT = "875888891093";
 
-const FCM_KEY = FCM_KEY_DEV;
+const FCM_KEY = FCM_KEY_CLIENT;
 
 export interface AppProps {
   navigation: any;

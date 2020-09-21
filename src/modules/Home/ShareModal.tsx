@@ -38,7 +38,7 @@ export default function App(props: AppProps) {
   const DEV_URL = `http://showtelldevapi.appskeeper.com:4025/image/${params.id}/`;
   const CLIENT_URL = `http://snt-parent-api-test.mytle.com/image/${params.id}/`;
 
-  const IMAGE_URL = DEV_URL;
+  const IMAGE_URL = CLIENT_URL;
 
   // Permission alert ------------------
   const permissionAccess = () => {
@@ -137,7 +137,7 @@ export default function App(props: AppProps) {
     // console.warn(params);
 
     // const url = "data:image/jpg;base64," + img;
-    const url = "http://snt-parent-api-test.mytle.com/image/174";
+    const url = IMAGE_URL;
     const options = Platform.select({
       ios: {
         activityItemSources: [
