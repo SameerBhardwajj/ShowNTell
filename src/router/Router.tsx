@@ -136,7 +136,7 @@ const DrawerNavigator = () => (
   </DrawerStack.Navigator>
 );
 
-console.disableYellowBox = false;
+console.disableYellowBox = true;
 
 export interface AppProps {
   tab: boolean;

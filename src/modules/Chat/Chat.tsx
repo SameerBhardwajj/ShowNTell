@@ -50,10 +50,11 @@ export default function App(props: AppProps) {
       ? (MarkRead(),
         dispatch(
           getCannedMsgs(
-            () => getOldMsgs(),
+            () => {},
             () => {}
           )
-        ))
+        ),
+        getOldMsgs())
       : getNewMsgs();
 
     BackHandler.addEventListener("hardwareBackPress", () => {
@@ -86,38 +87,49 @@ export default function App(props: AppProps) {
 
   // Get New Messages if Available ------------------
   const getNewMsgs = () => {
-    time === 0 ? setLoading(true) : null;
-    console.warn(time);
+    console.warn(time, chatData.length);
+    chatData.length === 0 ? setLoading(true) : null;
+    time === 0
+      ? null
+      : dispatch(
+          getMsgs(
+            "down",
+            chatData.length === 0
+              ? moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss")
+              : moment.utc(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss"),
+            chatData.length === 0 ? -1 : chatData[0].id,
+            (type: any, res: any) => {
+              // debugger;
+              // console.log(res[0], res[res.length - 1]);
 
-    dispatch(
-      getMsgs(
-        "down",
-        chatData.length === 0
-          ? moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss")
-          : moment.utc(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss"),
-        (data: any) => {
-          setLoading(false);
-        },
-        () => {
-          setLoading(false);
-        }
-      )
-    );
+              setLoading(false);
+              // type === "down"
+              //   ? setDownCount(res.length > 1 ? res.length - 1 : 0)
+              //   : null;
+              // debugger;
+            },
+            () => {
+              setLoading(false);
+            }
+          )
+        );
   };
 
   // Get older Messages if Available -----------------
   const getOldMsgs = () => {
     console.log("count ", chatData.length);
+    // console.log(loadMore && !check());
 
     time === 0
       ? dispatch(
           getMsgs(
             "up",
             moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+            -1,
             (data: any) => {
-              console.warn("first ", data);
+              console.log("first ", data);
 
-              // settime(1);
+              settime(1);
               // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
             },
             () => {}
@@ -130,6 +142,7 @@ export default function App(props: AppProps) {
             moment
               .utc(chatData[chatData.length - 1].create_dt)
               .format("YYYY-MM-DD HH:mm:ss"),
+            chatData[chatData.length - 1].id,
             (data: any) => {
               // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
             },

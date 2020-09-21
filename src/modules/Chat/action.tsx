@@ -17,7 +17,7 @@ export const getCannedMsgs = (
       EndPoints.drawer.chat.cannedMsg,
       {},
       (success: any) => {
-        console.warn("success ", success);
+        console.log("success ", success);
 
         const res = success.data.response;
         if (success.data.code === 200) {
@@ -25,7 +25,6 @@ export const getCannedMsgs = (
             type: Action.CHAT,
             payload: {
               cannedMsg: res,
-              chatData: [],
             },
           });
           successCallback(success.data.response);
@@ -35,6 +34,7 @@ export const getCannedMsgs = (
         }
       },
       (error: any) => {
+        debugger;
         console.log("err ", error);
         CommonFunctions.handleError(error);
         failCallback(error);
@@ -61,6 +61,7 @@ export const sendMsg = (
         }
       },
       (error: any) => {
+        debugger;
         CommonFunctions.handleError(error);
         failCallback(error);
       }
@@ -71,24 +72,27 @@ export const sendMsg = (
 export const getMsgs = (
   type: string,
   timestamp: string,
+  id: number,
   successCallback: Function,
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
+    console.log(timestamp);
+
     Constants.axiosInstance
-      .get(EndPoints.drawer.chat.getMsg(type, timestamp), {})
+      .get(EndPoints.drawer.chat.getMsg(type, timestamp, id), {})
       .then((success: any) => {
         console.log(" my data success ", success.config);
-
+        debugger;
         const res = success.data.response;
         if (success.data.code === 200) {
           console.log(success.data.response);
           const { chatData } = getState().Chat;
           let finalArray = [];
           type === "down"
-            ? (finalArray = res.concat(chatData))
+            ? (finalArray = res.reverse().concat(chatData))
             : (finalArray = chatData.concat(res));
-
+          debugger;
           dispatch({
             type: Action.CHAT,
             payload: {
@@ -96,7 +100,7 @@ export const getMsgs = (
               loadMore: true,
             },
           });
-          successCallback(finalArray);
+          successCallback(type, res);
         } else {
           dispatch({
             type: Action.CHAT,
@@ -108,6 +112,7 @@ export const getMsgs = (
         }
       })
       .catch((error: any) => {
+        debugger;
         if (type === "up") {
           if (error.message === "Network Error") {
             CustomToast(Strings.No_Internet);
@@ -146,6 +151,7 @@ export const hitMarkReadAPI = (
         }
       },
       (error: any) => {
+        debugger;
         CommonFunctions.handleError(error);
         failCallback(error);
       }

@@ -14,6 +14,7 @@ import Share from "react-native-share";
 import RNFetchBlob from "rn-fetch-blob";
 import CameraRoll from "@react-native-community/cameraroll";
 import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
+import RNFS from "react-native-fs";
 
 // custom imports
 import { vw, Strings, vh, Colors, CommonFunctions } from "../../utils";
@@ -87,9 +88,11 @@ export default function App(props: AppProps) {
           appendExt: "jpg",
         })
           .fetch("GET", image)
-          .then((res) => {
+          .then((res: any) => {
+            console.warn("img name ", res);
+
             CameraRoll.saveToCameraRoll(res.path())
-              .then(() => successCallback())
+              .then((resp) => successCallback(res.path()))
               .catch((err) => failureCallback(err));
           });
       } else {
@@ -98,7 +101,7 @@ export default function App(props: AppProps) {
       }
     } else {
       CameraRoll.saveToCameraRoll(image)
-        .then(() => successCallback())
+        .then((res) => successCallback(res))
         .catch((error) => {
           check(PERMISSIONS.IOS.PHOTO_LIBRARY)
             .then((result) => {
@@ -130,10 +133,11 @@ export default function App(props: AppProps) {
     }
   };
 
-  const openShare = () => {
-    console.warn(params);
+  const openShare = (img: string) => {
+    // console.warn(params);
 
-    const url = CommonFunctions.isNullUndefined(params.img) ? "" : IMAGE_URL;
+    // const url = "data:image/jpg;base64," + img;
+    const url = "http://snt-parent-api-test.mytle.com/image/174";
     const options = Platform.select({
       ios: {
         activityItemSources: [
@@ -160,8 +164,8 @@ export default function App(props: AppProps) {
         ],
       },
       default: {
-        // title,
-        // subject: title,
+        // title: "Title",
+        // subject: "subject",
         // message: `${message} ${url} ${params.childName}`,
         message: `${url}`,
       },
@@ -173,7 +177,7 @@ export default function App(props: AppProps) {
         props.closeModal();
       })
       .catch((err: any) => {
-        console.warn(err);
+        console.warn("share error ", err);
         props.closeModal();
       });
   };
@@ -181,7 +185,9 @@ export default function App(props: AppProps) {
   const saveToCameraRoll = (image: string) => {
     saveToCameraRolls(
       image,
-      () => {
+      (res: any) => {
+        console.warn(res);
+
         CustomToast(Strings.image_saved);
         setTimeout(() => {
           props.closeModal();
@@ -195,13 +201,40 @@ export default function App(props: AppProps) {
     );
   };
 
+  const saveShare = () => {
+    let image = params.img;
+    saveToCameraRolls(
+      image,
+      (res: any) => {
+        console.warn("response ", res);
+
+        RNFS.readFile(res, "base64").then((image) => {
+          Platform.OS === "android"
+            ? Share.open({
+                url: "data:image/png;base64," + image,
+                type: "image/png",
+              }).catch((err) => {
+                // Handle error
+                // ...
+                console.warn(err);
+              })
+            : openShare(image);
+        });
+      },
+      (error: any) => {
+        console.warn("camera roll error ", error);
+      }
+    );
+    props.closeModal();
+  };
+
   return (
     <View style={Styles.mainView}>
       <View style={Styles.modalView}>
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.shareView}
-          onPress={() => openShare()}
+          onPress={() => openShare(params.img)}
         >
           <Text style={Styles.bubbleMsgText}>{Strings.Share}</Text>
         </TouchableOpacity>

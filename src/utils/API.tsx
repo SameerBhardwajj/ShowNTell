@@ -50,13 +50,10 @@ const postApiCall = (
   Constants.axiosInstance
     .post(endPoint, params)
     .then((response: any) => {
-      debugger;
-
       console.log("res ", response);
       successCallback(response);
     })
     .catch((error: any) => {
-      debugger;
       console.warn("error", error);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
@@ -84,12 +81,11 @@ const getApiCall = (
   Constants.axiosInstance
     .get(endPoint, params)
     .then((response: any) => {
-      debugger;
       console.log("Success: ", response);
       successCallback(response);
     })
     .catch((error: any) => {
-      debugger;
+      debugger
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
         CustomToast(Strings.No_Internet);
@@ -117,13 +113,10 @@ const postHelpApiCall = (
   Constants.needHelpInstance
     .post(endPoint, params)
     .then((response: any) => {
-      debugger;
-
       console.log("res ", response);
       successCallback(response);
     })
     .catch((error: any) => {
-      debugger;
       console.warn("error", error);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
@@ -145,7 +138,6 @@ const getClientApiCall = (
   Constants.clientAxiosInstance
     .get(endPoint, params)
     .then((response: any) => {
-      debugger;
       console.warn("Success: ", response);
       if (response.data.result === "invalid") {
         CustomToast(JSON.stringify(response.data.errors));
@@ -155,7 +147,6 @@ const getClientApiCall = (
       }
     })
     .catch((error: any) => {
-      debugger;
       console.warn("error", error);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
@@ -177,7 +168,6 @@ const postClientApiCall = (
   Constants.clientAxiosInstance
     .post(endPoint, params)
     .then((response: any) => {
-      debugger;
       console.warn("Success: ", response);
       if (response.data.result === "invalid") {
         CustomToast(JSON.stringify(response.data.errors));
@@ -187,7 +177,6 @@ const postClientApiCall = (
       }
     })
     .catch((error: any) => {
-      debugger;
       console.warn("error", error);
       console.log("Error.response.config ", error);
       if (error.message === "Network Error") {
@@ -213,11 +202,9 @@ const fileUpload = (
     .then(
       (response: any) => {
         console.warn(response);
-        debugger;
         successCallback(response);
       },
       (error: any) => {
-        debugger;
         console.warn(error);
         if (error.message === "Network Error") {
           CustomToast(Strings.No_Internet);

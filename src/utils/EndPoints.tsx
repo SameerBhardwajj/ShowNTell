@@ -126,8 +126,10 @@ export default {
     chat: {
       cannedMsg: `/api/v1/parent/chat-canned-messages`,
       sendMsg: `/api/v1/parent/send-message`,
-      getMsg: (type: string, timestamp: string) =>
-        `/api/v1/parent/get-chat-message?type=${type}&timestamp=${timestamp}`,
+      getMsg: (type: string, timestamp: string, id: number) =>
+        `/api/v1/parent/get-chat-message?type=${type}&timestamp=${timestamp}${
+          id === -1 ? "" : `&id=${id}`
+        }`,
       markRead: `/api/v1/parent/mark-unread-message-as-read`,
     },
     statement: (page: number, from_date?: string, to_date?: string) =>
