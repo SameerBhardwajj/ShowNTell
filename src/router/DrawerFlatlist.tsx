@@ -24,8 +24,10 @@ export default function App(props: AppProps) {
       />
       <View style={Styles.textView}>
         <Text style={Styles.label}>{props.item.label}</Text>
-        {props.item.path === ScreenName.CHAT && unreadMsgs ? (
-          <View style={Styles.dot} />
+        {props.item.path === ScreenName.CHAT && unreadMsgs > 0 ? (
+          <View style={Styles.dot}>
+            <Text style={Styles.dotTxt}>{unreadMsgs}</Text>
+          </View>
         ) : null}
       </View>
     </TouchableOpacity>
@@ -45,6 +47,11 @@ const Styles = StyleSheet.create({
     fontSize: vh(18),
     color: Colors.lightBlack,
   },
+  dotTxt: {
+    fontFamily: "Nunito-SemiBold",
+    fontSize: vh(12),
+    color: "white",
+  },
   textView: {
     flexDirection: "row",
     width: "80%",
@@ -52,9 +59,11 @@ const Styles = StyleSheet.create({
     alignItems: "center",
   },
   dot: {
-    height: vh(10),
-    width: vh(10),
-    borderRadius: vh(5),
+    height: vh(20),
+    width: vh(20),
+    borderRadius: vh(10),
     backgroundColor: Colors.chatOrange,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

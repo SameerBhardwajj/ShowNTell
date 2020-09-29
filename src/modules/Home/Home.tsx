@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -13,12 +13,15 @@ import {
   Modal,
   Keyboard,
   ActivityIndicator,
+  Platform,
+  AppState,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getUniqueId } from "react-native-device-info";
 import { useIsFocused } from "@react-navigation/native";
 import SplashScreen from "react-native-splash-screen";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 // custom imports
 import {
@@ -42,6 +45,7 @@ import {
   updateDeviceToken,
   updateFilter,
   hitChatCount,
+  updateBadgeCount,
 } from "./action";
 import FilterModal from "./Filter/FilterModal";
 import ShareModal from "./ShareModal";
@@ -62,6 +66,8 @@ const CURRENT_TIME = moment(new Date())
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const focused = useIsFocused();
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadFooter, setLoadFooter] = useState(false);
@@ -113,6 +119,24 @@ export default function App(props: AppProps) {
     return true;
   };
 
+  const handleAppStateChange = (nextAppState: any) => {
+    if (
+      appState.current.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      console.warn("App has come to the foreground!");
+      dispatch(hitChatCount(() => {}));
+      Platform.OS === "ios"
+        ? (PushNotificationIOS.setApplicationIconBadgeNumber(0),
+          dispatch(updateBadgeCount(getUniqueId())))
+        : null;
+    }
+
+    appState.current = nextAppState;
+    setAppStateVisible(appState.current);
+    console.log("AppState", appState.current);
+  };
+
   React.useEffect(() => {
     Constants.setAuthorizationToken(
       loginToken.length === 0 ? false : true,
@@ -130,11 +154,6 @@ export default function App(props: AppProps) {
                 getUniqueId(),
                 token,
                 () => {
-                  dispatch(
-                    hitChatCount(() => {
-                      console.warn("successfully chat count hit");
-                    })
-                  );
                   console.warn("success");
                 },
                 () => {
@@ -159,53 +178,42 @@ export default function App(props: AppProps) {
           )
         )
       : null;
-    // let focusListener = props.navigation.addListener("focus", () => {
-
-    // });
-    // const unsubscribe =
-    //   (props.navigation.addListener(DRAWER_OPEN, (e: any) => {
-    //     dispatch(
-    //       updateTab(true, () => {
-    //         console.log("drawer open", tab);
-    //       })
-    //     );
-    //   }),
-    //   props.navigation.addListener(DRAWER_CLOSE, (e: any) => {
-    //     dispatch(
-    //       updateTab(false, () => {
-    //         console.log("drawer close", tab);
-    //       })
-    //     );
-    //   }));
-
-    // return unsubscribe;
 
     BackHandler.addEventListener("hardwareBackPress", backHandler);
+    AppState.addEventListener("change", handleAppStateChange);
 
     return () => {
-      // focusListener;
       BackHandler.removeEventListener("hardwareBackPress", backHandler);
+      AppState.removeEventListener("change", handleAppStateChange);
     };
   }, [exitCounter, currentChild]);
 
   useEffect(() => {
-    focused
-      ? loginData.Children.length > 1
-        ? hitHomeAPI(currentChild.child)
-        : loginData.Children[0].id !== currentChild.child
-        ? dispatch(
-            updateChild(
-              {
-                child: loginData.Children[0].id,
-                name: loginData.Children[0].first_name,
-                classroom: loginData.Children[0].classroom_id,
-              },
-              () => hitHomeAPI(loginData.Children[0].id)
-            )
-          )
-        : hitHomeAPI(currentChild.child)
-      : null;
+    dispatch(hitChatCount(() => {}));
+    focused ? onFocusRefresh() : null;
   }, [focused]);
+
+  const onFocusRefresh = () => {
+    loginData.Children.length > 1
+      ? hitHomeAPI(currentChild.child)
+      : loginData.Children[0].id !== currentChild.child
+      ? dispatch(
+          updateChild(
+            {
+              child: loginData.Children[0].id,
+              name: loginData.Children[0].first_name,
+              classroom: loginData.Children[0].classroom_id,
+            },
+            () => hitHomeAPI(loginData.Children[0].id)
+          )
+        )
+      : hitHomeAPI(currentChild.child);
+
+    Platform.OS === "ios"
+      ? (PushNotificationIOS.setApplicationIconBadgeNumber(0),
+        dispatch(updateBadgeCount(getUniqueId())))
+      : null;
+  };
 
   const utcFromDateTime = (date?: string) => {
     let myDate = "";
@@ -250,20 +258,6 @@ export default function App(props: AppProps) {
   };
 
   const hitHomeAPI = (child_id: number) => {
-    debugger;
-    console.warn(
-      "ok",
-      child_id,
-      CURRENT_TIME,
-      0,
-      myFilter,
-      utcFromDateTime(myFilter.fromDate),
-      utcToDateTime(myFilter.toDate),
-      myFilter.type
-    );
-
-    console.warn("includes  ", myFilter.type.includes(ACTIVITY));
-
     dispatch(
       HomeAPI(
         (data: any) => {

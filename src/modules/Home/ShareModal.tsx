@@ -15,14 +15,13 @@ import RNFetchBlob from "rn-fetch-blob";
 import CameraRoll from "@react-native-community/cameraroll";
 import { check, PERMISSIONS, RESULTS } from "react-native-permissions";
 import RNFS from "react-native-fs";
+import Snackbar from "react-native-snackbar";
 
 // custom imports
 import { vw, Strings, vh, Colors, CommonFunctions } from "../../utils";
 import { CustomToast } from "../../Components";
 import { updatePermission } from "../Auth/Login/action";
 
-const TYPE_URL = "url";
-const TYPE_TEXT = "text";
 export interface AppProps {
   data: any;
   closeModal: Function;
@@ -34,11 +33,6 @@ export default function App(props: AppProps) {
   const { permission } = useSelector((state: { Login: any }) => ({
     permission: state.Login.permission,
   }));
-
-  const DEV_URL = `http://showtelldevapi.appskeeper.com:4025/image/${params.id}/`;
-  const CLIENT_URL = `http://snt-parent-api-test.mytle.com/image/${params.id}/`;
-
-  const IMAGE_URL = CLIENT_URL;
 
   // Permission alert ------------------
   const permissionAccess = () => {
@@ -89,8 +83,6 @@ export default function App(props: AppProps) {
         })
           .fetch("GET", image)
           .then((res: any) => {
-            console.warn("img name ", res);
-
             CameraRoll.saveToCameraRoll(res.path())
               .then((resp) => successCallback(res.path()))
               .catch((err) => failureCallback(err));
@@ -134,46 +126,16 @@ export default function App(props: AppProps) {
   };
 
   const openShare = (img: string) => {
-    // console.warn(params);
-
-    // const url = "data:image/jpg;base64," + img;
-    const url = IMAGE_URL;
+    const url = "data:image/png;base64," + img;
     const options = Platform.select({
-      ios: {
-        activityItemSources: [
-          {
-            placeholderItem: { type: TYPE_URL, content: url },
-            item: {
-              default: { type: TYPE_URL, content: url },
-            },
-            type: {
-              print: { type: TYPE_URL, content: url },
-            },
-            // subject: {
-            //   default: title,
-            // },
-            linkMetadata: { originalUrl: url, url },
-          },
-          {
-            // placeholderItem: { type: TYPE_TEXT, content: message },
-            // item: {
-            //   default: { type: TYPE_TEXT, content: message },
-            //   message: message, // Specify no text to share via Messages app.
-            // },
-          },
-        ],
-      },
       default: {
-        // title: "Title",
-        // subject: "subject",
-        // message: `${message} ${url} ${params.childName}`,
-        message: `${url}`,
+        url: url,
+        type: "image/png",
       },
     });
     // @ts-ignore
     Share.open(options)
       .then((res: any) => {
-        console.log(res);
         props.closeModal();
       })
       .catch((err: any) => {
@@ -186,8 +148,6 @@ export default function App(props: AppProps) {
     saveToCameraRolls(
       image,
       (res: any) => {
-        console.warn(res);
-
         CustomToast(Strings.image_saved);
         setTimeout(() => {
           props.closeModal();
@@ -202,30 +162,39 @@ export default function App(props: AppProps) {
   };
 
   const saveShare = () => {
+    CustomToast("Please wait! Getting your image");
     let image = params.img;
-    saveToCameraRolls(
-      image,
-      (res: any) => {
-        console.warn("response ", res);
 
-        RNFS.readFile(res, "base64").then((image) => {
-          Platform.OS === "android"
-            ? Share.open({
-                url: "data:image/png;base64," + image,
-                type: "image/png",
-              }).catch((err) => {
-                // Handle error
-                // ...
-                console.warn(err);
-              })
-            : openShare(image);
+    RNFetchBlob.config({
+      fileCache: true,
+      appendExt: "jpg",
+    })
+      .fetch("GET", image)
+      .then((res: any) => {
+        RNFS.readFile(res.path(), "base64").then((image) => {
+          setTimeout(() => {
+            Snackbar.dismiss();
+            openShare(image);
+          }, 1000);
         });
-      },
-      (error: any) => {
-        console.warn("camera roll error ", error);
-      }
-    );
-    props.closeModal();
+      });
+
+    setTimeout(() => {
+      props.closeModal();
+    }, 1000);
+  };
+
+  const deleteImage = (path: string) => {
+    console.warn("path  ", path);
+
+    RNFS.unlink(path)
+      .then(() => {
+        console.warn("FILE DELETED");
+      })
+      // `unlink` will throw an error, if the item to unlink does not exist
+      .catch((err) => {
+        console.warn(err.message);
+      });
   };
 
   return (
@@ -234,7 +203,7 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           activeOpacity={0.8}
           style={Styles.shareView}
-          onPress={() => openShare(params.img)}
+          onPress={() => saveShare()}
         >
           <Text style={Styles.bubbleMsgText}>{Strings.Share}</Text>
         </TouchableOpacity>

@@ -8,10 +8,12 @@ import {
   Image,
   FlatList,
   BackHandler,
+  Platform,
 } from "react-native";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 // custom imports
 import { CustomHeader, CustomSeparator, CustomLoader } from "../../Components";
@@ -57,6 +59,10 @@ export default function App(props: AppProps) {
         getOldMsgs())
       : getNewMsgs();
 
+    Platform.OS === "ios"
+      ? PushNotificationIOS.setApplicationIconBadgeNumber(0)
+      : null;
+
     BackHandler.addEventListener("hardwareBackPress", () => {
       props.navigation.pop();
       return true;
@@ -99,14 +105,8 @@ export default function App(props: AppProps) {
               : moment.utc(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss"),
             chatData.length === 0 ? -1 : chatData[0].id,
             (type: any, res: any) => {
-              // debugger;
-              // console.log(res[0], res[res.length - 1]);
-
+              MarkRead();
               setLoading(false);
-              // type === "down"
-              //   ? setDownCount(res.length > 1 ? res.length - 1 : 0)
-              //   : null;
-              // debugger;
             },
             () => {
               setLoading(false);
@@ -160,7 +160,7 @@ export default function App(props: AppProps) {
       sendMsg(
         msgID.length === 0
           ? { canned_message_id: "", message: msg }
-          : { canned_message_id: msgID, message: "" },
+          : { canned_message_id: msgID, message: msg },
         () => {
           // getNewMsgs();
         },

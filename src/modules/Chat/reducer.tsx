@@ -6,7 +6,6 @@ const initialState = {
 };
 
 const Reducer = (state = initialState, action: any) => {
-  debugger;
   switch (action.type) {
     case Action.CHAT:
       return { ...state, ...action.payload };

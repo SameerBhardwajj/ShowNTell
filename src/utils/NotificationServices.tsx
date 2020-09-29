@@ -3,21 +3,24 @@ import { View, Platform } from "react-native";
 import PushNotification from "react-native-push-notification";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import { connect } from "react-redux";
-import { ScreenName } from "../utils";
+import { getUniqueId } from "react-native-device-info";
+import { ScreenName, CommonFunctions } from "../utils";
 import {
   updateChatCount,
   updateNotificationCount,
+  updateBadgeCount,
 } from "../modules/Home/action";
 
 const FCM_KEY_DEV = "1082193980667";
 const FCM_KEY_CLIENT = "875888891093";
 
-const FCM_KEY = FCM_KEY_CLIENT;
+const FCM_KEY = FCM_KEY_DEV;
 
 export interface AppProps {
   navigation: any;
   updateChatCount: Function;
   updateNotificationCount: Function;
+  updateBadgeCount: Function;
 }
 
 export interface AppState {}
@@ -89,6 +92,10 @@ class NotificationServices extends React.Component<AppProps, AppState> {
         ? this.props.updateChatCount(true)
         : null
       : this.props.navigation.navigate(this.getScreen(payload.data.data.type));
+    Platform.OS === "ios"
+      ? (PushNotificationIOS.setApplicationIconBadgeNumber(0),
+        this.props.updateBadgeCount(getUniqueId()))
+      : null;
   };
 
   render() {
@@ -101,6 +108,7 @@ const mapStateToProps = (state: any) => ({});
 const mapDispatchToProps = (dispatch: Function) => ({
   updateChatCount: (value: boolean) => dispatch(updateChatCount(value)),
   updateNotificationCount: () => dispatch(updateNotificationCount()),
+  updateBadgeCount: (value: string) => dispatch(updateBadgeCount(value)),
 });
 
 export default connect(

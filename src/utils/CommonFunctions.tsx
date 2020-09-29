@@ -3,6 +3,7 @@ import { Platform, PermissionsAndroid, Linking } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
 import CustomToast from "../Components/CustomToast";
 import NetInfo from "@react-native-community/netinfo";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 const DateDifference = (date1: any, date2: any) => {
   let second = 1000,
@@ -219,6 +220,14 @@ const netInfo = () => {
   return status;
 };
 
+const getBadgeCount = () => {
+  let badge = 0;
+  PushNotificationIOS.getApplicationIconBadgeNumber((badgeCount) => {
+    badge = badgeCount;
+  });
+  return badge !== 0;
+};
+
 export default {
   DateDifference,
   DateFormatter,
@@ -234,4 +243,5 @@ export default {
   callNumber,
   handleError,
   netInfo,
+  getBadgeCount,
 };

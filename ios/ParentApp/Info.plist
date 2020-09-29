@@ -37,8 +37,10 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>To click and change profile picture</string>
+	<string>To change profile picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To find Nearby Schools</string>
+	<key>NSLocationAlwaysUsageDescription</key>
 	<string>To find Nearby Schools</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>To save images in your Gallery</string>

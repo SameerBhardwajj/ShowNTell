@@ -118,6 +118,19 @@ export const updateNotificationCount = () => {
   };
 };
 
+export const updateBadgeCount = (id: string) => {
+  return (dispatch: Function, getState: Function) => {
+    API.postApiCall(
+      EndPoints.home.updateBadge,
+      {
+        device_id: id,
+      },
+      (success: any) => {},
+      (error: any) => {}
+    );
+  };
+};
+
 export const HomeAPI = (
   successCallback: Function,
   failureCallback: Function,
@@ -158,7 +171,6 @@ export const HomeAPI = (
                 chatEnable: res.permission.chatWithParent === 0 ? false : true,
                 page: page === undefined ? 0 : page + 1,
                 guardianData: res.guardianData,
-                unreadNotifications: res.unReadCount > 0 ? true : false,
               },
             });
             successCallback(res.rows);
@@ -289,34 +301,38 @@ export const hitChatCount = (callback: Function) => {
         debugger;
         const res = success.data.response;
         if (success.data.code === 200) {
-          console.warn('chat available');
-          
+          console.warn("chat available");
+
           dispatch({
             type: Action.UPDATE_TAB,
             payload: {
-              unreadMsgs: true,
+              unreadMsgs: res.count,
+              unreadNotifications:
+                res.unReadCountNotification > 0 ? true : false,
             },
           });
         } else {
-          console.warn('chat not available');
+          console.warn("chat not available");
           dispatch({
             type: Action.UPDATE_TAB,
             payload: {
-              unreadMsgs: false,
+              unreadMsgs: 0,
+              unreadNotifications: false,
             },
           });
         }
         callback();
       })
       .catch((error: any) => {
-        console.warn('chat available with error');
+        console.warn("chat available with error");
         console.warn(error);
-        
+
         debugger;
         dispatch({
           type: Action.UPDATE_TAB,
           payload: {
-            unreadMsgs: false,
+            unreadMsgs: 0,
+            unreadNotifications: false,
           },
         });
         callback();

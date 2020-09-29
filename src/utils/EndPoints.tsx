@@ -1,5 +1,6 @@
 import CommonFunctions from "./CommonFunctions";
 const GOOGLE_KEY = "AIzaSyAfiRXr0reh5i3p-1qQE-h0xvAZVD0JZgo";
+
 export default {
   // Auth----------------------------
   auth: {
@@ -77,6 +78,7 @@ export default {
         : `/api/v1/parent/filter-data?classroom_id=${classroom}`,
     weDidIt: `/api/v1/parent/we-did-it`,
     checkChatCount: `/api/v1/parent/get-unread-message-count`,
+    updateBadge: `/api/v1/parent/reset-badge-count`,
   },
   // Notification ----------------------------
   notification: {

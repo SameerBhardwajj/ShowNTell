@@ -34,7 +34,6 @@ export const getCannedMsgs = (
         }
       },
       (error: any) => {
-        debugger;
         console.log("err ", error);
         CommonFunctions.handleError(error);
         failCallback(error);
@@ -61,7 +60,6 @@ export const sendMsg = (
         }
       },
       (error: any) => {
-        debugger;
         CommonFunctions.handleError(error);
         failCallback(error);
       }
@@ -83,7 +81,7 @@ export const getMsgs = (
       .get(EndPoints.drawer.chat.getMsg(type, timestamp, id), {})
       .then((success: any) => {
         console.log(" my data success ", success.config);
-        debugger;
+
         const res = success.data.response;
         if (success.data.code === 200) {
           console.log(success.data.response);
@@ -92,7 +90,7 @@ export const getMsgs = (
           type === "down"
             ? (finalArray = res.reverse().concat(chatData))
             : (finalArray = chatData.concat(res));
-          debugger;
+
           dispatch({
             type: Action.CHAT,
             payload: {
@@ -112,7 +110,6 @@ export const getMsgs = (
         }
       })
       .catch((error: any) => {
-        debugger;
         if (type === "up") {
           if (error.message === "Network Error") {
             CustomToast(Strings.No_Internet);
@@ -151,7 +148,6 @@ export const hitMarkReadAPI = (
         }
       },
       (error: any) => {
-        debugger;
         CommonFunctions.handleError(error);
         failCallback(error);
       }

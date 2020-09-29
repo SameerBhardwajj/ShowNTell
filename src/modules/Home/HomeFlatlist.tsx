@@ -94,7 +94,8 @@ export default function App(props: AppProps) {
                 />
               </View>
               <View style={Styles.centerNameView}>
-                <TouchableOpacity
+                <View>
+                  {/* <TouchableOpacity
                   activeOpacity={0.8}
                   onPress={() =>
                     props.navigation.navigate(ScreenName.ACTIVITY_MODAL, {
@@ -106,7 +107,7 @@ export default function App(props: AppProps) {
                       msg: props.item.category_description,
                     })
                   }
-                >
+                > */}
                   <Text style={Styles.name}>
                     {item.Child.first_name} {item.Child.last_name}
                     <Text style={Styles.dotTxt}>{" • "}</Text>
@@ -118,7 +119,8 @@ export default function App(props: AppProps) {
                     </Text>
                   </Text>
                   <Text style={Styles.content}>{item.sub_activity_name}</Text>
-                </TouchableOpacity>
+                </View>
+                {/* </TouchableOpacity> */}
                 <Text style={Styles.time}>
                   {CommonFunctions.DateFormatter(item.create_dt)}
                   {Strings.at}

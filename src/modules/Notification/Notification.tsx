@@ -8,9 +8,11 @@ import {
   Image,
   Dimensions,
   Modal,
+  Platform,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 // Custom imports
 import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
@@ -51,6 +53,9 @@ export default function App(props: AppProps) {
             () => {}
           )
         ))
+      : null;
+    Platform.OS === "ios"
+      ? PushNotificationIOS.setApplicationIconBadgeNumber(0)
       : null;
   }, [focused]);
 

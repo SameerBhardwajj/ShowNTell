@@ -13,7 +13,7 @@ const initialState = {
   guardianData: {},
   filterEnable: false,
   AWI: false,
-  unreadMsgs: false,
+  unreadMsgs: 0,
   unreadNotifications: false,
 };
 const Reducer = (state = initialState, action: any) => {
