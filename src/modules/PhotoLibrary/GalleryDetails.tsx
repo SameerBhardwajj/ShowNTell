@@ -170,6 +170,8 @@ export default function App(props: AppProps) {
           source={{ uri: item.s3_photo_path }}
           style={Styles.img}
           resizeMode="contain"
+          resizeMethod="resize"
+          defaultSource={Images.Image_Placeholder}
         />
       </ReactNativeZoomableView>
     </View>

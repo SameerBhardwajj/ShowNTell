@@ -65,7 +65,8 @@ export default function App(props: AppProps) {
               maxLength={500}
               value={data}
               onChangeText={(text: string) => {
-                cLength <= 500 ? setData(text) : null, setCLength(text.length);
+                cLength <= 500 ? setData(text) : null,
+                  setCLength(text.trim().length);
               }}
               style={Styles.textInputView}
               multiline={true}
@@ -74,6 +75,7 @@ export default function App(props: AppProps) {
           </View>
           <CustomButton
             Text={Strings.Submit}
+            activeOpacity={cLength >= 1 ? 0.8 : 1}
             onPress={() => (cLength >= 1 ? hitAddTestimonials() : null)}
             ButtonStyle={{
               width: "100%",

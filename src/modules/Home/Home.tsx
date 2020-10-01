@@ -22,6 +22,7 @@ import { getUniqueId } from "react-native-device-info";
 import { useIsFocused } from "@react-navigation/native";
 import SplashScreen from "react-native-splash-screen";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import PushNotification from "react-native-push-notification";
 
 // custom imports
 import {
@@ -129,7 +130,7 @@ export default function App(props: AppProps) {
       Platform.OS === "ios"
         ? (PushNotificationIOS.setApplicationIconBadgeNumber(0),
           dispatch(updateBadgeCount(getUniqueId())))
-        : null;
+        : PushNotification.cancelAllLocalNotifications();
     }
 
     appState.current = nextAppState;
@@ -284,7 +285,6 @@ export default function App(props: AppProps) {
   };
 
   const NewhitHomeAPI = () => {
-    debugger;
     setLoadFooter(true);
     dispatch(
       HomeAPI(

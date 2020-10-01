@@ -399,11 +399,11 @@
 					};
 					0C5996512512407D004DAE92 = {
 						CreatedOnToolsVersion = 11.5;
-						DevelopmentTeam = 23FC5W285E;
+						DevelopmentTeam = HFBLCPXG7Q;
 						ProvisioningStyle = Manual;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 23FC5W285E;
+						DevelopmentTeam = HFBLCPXG7Q;
 						LastSwiftMigration = 1150;
 						ProvisioningStyle = Manual;
 					};
@@ -790,12 +790,12 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Development: Peeyush Singh (98CJYZMVCK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Peeyush Singh (98CJYZMVCK)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: The Learning Experience Holding Corp (HFBLCPXG7Q)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: The Learning Experience Holding Corp (HFBLCPXG7Q)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.75;
+				CURRENT_PROJECT_VERSION = 1.19;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 23FC5W285E;
+				DEVELOPMENT_TEAM = HFBLCPXG7Q;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Notification/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -803,9 +803,9 @@
 				MARKETING_VERSION = 3.3.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.showntell.beta.Notification;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tle.parentv3.Notification;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "ShowNTell Beta Notification Dev";
+				PROVISIONING_PROFILE_SPECIFIER = "Parent Appv3 Rich";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -823,21 +823,21 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Distribution: Peeyush Singh (23FC5W285E)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: The Learning Experience Holding Corp (HFBLCPXG7Q)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.75;
+				CURRENT_PROJECT_VERSION = 1.19;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 23FC5W285E;
+				DEVELOPMENT_TEAM = HFBLCPXG7Q;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = Notification/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MARKETING_VERSION = 3.3.2;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.showntell.beta.Notification;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tle.parentv3.Notification;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "ShowNTell Beta Notification AppStore";
+				PROVISIONING_PROFILE_SPECIFIER = "Parent Appv3 Rich";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
@@ -853,11 +853,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ParentApp/ParentApp.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development: Peeyush Singh (98CJYZMVCK)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Peeyush Singh (98CJYZMVCK)";
+				CODE_SIGN_IDENTITY = "Apple Development: Nitesh Singh (5ZQT62B6B4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: Nitesh Singh (5ZQT62B6B4)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.75;
-				DEVELOPMENT_TEAM = 23FC5W285E;
+				CURRENT_PROJECT_VERSION = 1.19;
+				DEVELOPMENT_TEAM = HFBLCPXG7Q;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -871,9 +871,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.showntell.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tle.parentv3;
 				PRODUCT_NAME = "TLE® Parent";
-				PROVISIONING_PROFILE_SPECIFIER = "Show N Tell Dev Beta";
+				PROVISIONING_PROFILE_SPECIFIER = "Parent V3 development";
 				SWIFT_OBJC_BRIDGING_HEADER = "ParentApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -890,10 +890,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = ParentApp/ParentApp.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Distribution: Peeyush Singh (23FC5W285E)";
+				CODE_SIGN_IDENTITY = "Apple Distribution: The Learning Experience Holding Corp (HFBLCPXG7Q)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1.75;
-				DEVELOPMENT_TEAM = 23FC5W285E;
+				CURRENT_PROJECT_VERSION = 1.19;
+				DEVELOPMENT_TEAM = HFBLCPXG7Q;
 				INFOPLIST_FILE = ParentApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 3.3.2;
@@ -902,9 +902,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.showntell.beta;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tle.parentv3;
 				PRODUCT_NAME = "TLE® Parent";
-				PROVISIONING_PROFILE_SPECIFIER = "Show N Tell AppStore Beta";
+				PROVISIONING_PROFILE_SPECIFIER = "Parent V3 app store";
 				SWIFT_OBJC_BRIDGING_HEADER = "ParentApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

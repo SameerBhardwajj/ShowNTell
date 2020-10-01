@@ -7,6 +7,7 @@ import {
   Image,
   Modal,
   Dimensions,
+  ImageBackground,
 } from "react-native";
 import {
   vh,
@@ -40,6 +41,7 @@ export default function App(props: AppProps) {
   const { item } = props;
   const [picModalOpen, setPicModalOpen] = useState(false);
   const [check, setCheck] = useState(true);
+  const [imageLoading, setImageLoading] = useState(false);
   const input: any = React.createRef();
   const dispatch = useDispatch();
 
@@ -74,6 +76,8 @@ export default function App(props: AppProps) {
               <Image
                 source={{ uri: item.child_activity_image }}
                 style={Styles.imgActivity}
+                resizeMethod="resize"
+                resizeMode="cover"
               />
             </TouchableOpacity>
           )}
@@ -330,6 +334,7 @@ const Styles = StyleSheet.create({
     width: "100%",
     borderTopLeftRadius: vh(10),
     borderTopRightRadius: vh(10),
+    backgroundColor: Colors.veryLightBorder,
   },
   dotTxt: {
     fontFamily: "Nunito-Bold",

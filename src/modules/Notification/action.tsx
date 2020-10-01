@@ -67,7 +67,7 @@ export const hitAcknowledgeSupply = (
         }
       },
       (error: any) => {
-        console.log("error ", error);
+        console.warn("error ", error);
         // dispatch({
         //   type: Action.NOTIFICATION,
         //   payload: {

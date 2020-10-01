@@ -314,7 +314,7 @@ export default function App(props: AppProps) {
                     value={help}
                     onChangeText={(text: string) => {
                       cLength <= 500 ? setHelp(text) : null,
-                        setCLength(text.length);
+                        setCLength(text.trim().length);
                     }}
                     style={Styles.textInputView}
                     multiline={true}

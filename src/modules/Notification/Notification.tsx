@@ -44,7 +44,7 @@ export default function App(props: AppProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    data.length === 0 ? setLoading(true) : null;
+    setLoading(true);
     focused
       ? (hitAPI(0),
         dispatch(
@@ -65,6 +65,12 @@ export default function App(props: AppProps) {
       hitNotificationAPI(
         page,
         () => {
+          dispatch(
+            hitReadNotifications(
+              () => {},
+              () => {}
+            )
+          );
           setLoading(false);
           setLoadFooter(false);
           setRefreshing(false);
@@ -113,8 +119,10 @@ export default function App(props: AppProps) {
       >
         <Image source={Images.setting_Icon} style={{ tintColor: "white" }} />
       </TouchableOpacity>
-      <CustomLoader loading={loading} />
-      {loading ? null : CommonFunctions.isNullUndefined(data) ? (
+
+      {loading ? (
+        <CustomLoader loading={true} />
+      ) : CommonFunctions.isNullUndefined(data) ? (
         <CustomNoData />
       ) : (
         <FlatList

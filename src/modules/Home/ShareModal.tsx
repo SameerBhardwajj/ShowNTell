@@ -162,7 +162,10 @@ export default function App(props: AppProps) {
   };
 
   const saveShare = () => {
-    CustomToast("Please wait! Getting your image");
+    Snackbar.show({
+      text: Strings.Sharing,
+      duration: Snackbar.LENGTH_INDEFINITE,
+    });
     let image = params.img;
 
     RNFetchBlob.config({

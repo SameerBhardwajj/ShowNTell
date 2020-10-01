@@ -14,7 +14,7 @@ import {
 const FCM_KEY_DEV = "1082193980667";
 const FCM_KEY_CLIENT = "875888891093";
 
-const FCM_KEY = FCM_KEY_DEV;
+const FCM_KEY = FCM_KEY_CLIENT;
 
 export interface AppProps {
   navigation: any;
@@ -39,7 +39,7 @@ class NotificationServices extends React.Component<AppProps, AppState> {
     PushNotification.configure({
       // (required) Called when a remote or local notification is opened or received
       onNotification: (notification: any) => {
-        console.warn("NOTIFICATION:", notification);
+        console.log("NOTIFICATION:", notification);
         this.gotoScreen(notification);
 
         // (required) Called when a remote is received or opened, or local notification is opened

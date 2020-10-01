@@ -266,7 +266,13 @@ export default function App(props: AppProps) {
                 msg.trim().length === 0 ? null : sendMsgs(msg.trim(), msgID)
               }
             >
-              <Image source={Images.Send_Icon} style={Styles.sendBtn} />
+              <Image
+                source={Images.Send_Icon}
+                style={[
+                  Styles.sendBtn,
+                  msg.trim().length === 0 ? {} : { tintColor: Colors.violet },
+                ]}
+              />
             </TouchableOpacity>
           </View>
         </View>

@@ -8,7 +8,7 @@ export default {
     searchCentres: (query: string) =>
       `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GOOGLE_KEY}&input=${query}&sessiontoken=1234567890`,
     centreCoordinates: (place_id: string) =>
-      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${place_id}&key=${GoogleAPI}`,
+      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${place_id}&key=${GOOGLE_KEY}`,
     nearByCentres: (lat: number, lon: number) =>
       `/api/v1/parent/nearbycenter?latitude=${lat}&longitude=${lon}`,
     centerList: (email: string) =>

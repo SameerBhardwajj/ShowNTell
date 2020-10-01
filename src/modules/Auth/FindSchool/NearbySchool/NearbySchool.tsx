@@ -200,7 +200,9 @@ export default function App(props: AppProps) {
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={() => {
-            setIsLoading(true), requestLocationPermission();
+            setIsLoading(true);
+            requestLocationPermission();
+            Keyboard.dismiss();
           }}
           style={Styles.currentLoc}
         >
@@ -280,6 +282,6 @@ const Styles = StyleSheet.create({
     paddingTop: vh(10),
     color: Colors.violet,
     fontFamily: "Nunito-SemiBold",
-    fontSize: vh(14)
+    fontSize: vh(14),
   },
 });

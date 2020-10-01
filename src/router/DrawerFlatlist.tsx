@@ -12,11 +12,14 @@ export default function App(props: AppProps) {
   const { unreadMsgs } = useSelector((state: { Home: any }) => ({
     unreadMsgs: state.Home.unreadMsgs,
   }));
+  const [bgColor, setBgColor] = React.useState("white");
   return (
     <TouchableOpacity
-      style={Styles.mainView}
+      style={[Styles.mainView, { backgroundColor: bgColor }]}
       activeOpacity={0.8}
       onPress={() => props.onPress(props.item.path)}
+      onPressIn={() => setBgColor(Colors.veryLightGrey)}
+      onPressOut={() => setBgColor("white")}
     >
       <Image
         source={props.item.icon}
@@ -37,7 +40,6 @@ const Styles = StyleSheet.create({
   mainView: {
     width: "100%",
     alignItems: "center",
-    backgroundColor: "white",
     paddingHorizontal: vw(16),
     paddingVertical: vh(20),
     flexDirection: "row",

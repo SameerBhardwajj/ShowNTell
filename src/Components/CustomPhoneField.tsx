@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, StyleSheet, TextInput, Platform } from "react-native";
 import { Strings, Colors, vw, vh } from "../utils";
 
 export interface AppProps {
@@ -46,7 +46,7 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
             { borderColor: props.check ? Colors.borderGrey : Colors.pink },
           ]}
           maxLength={15}
-          keyboardType={"number-pad"}
+          keyboardType={Platform.OS === "android" ? "numeric" : "number-pad"}
           value={props.value}
           onChangeText={(val: string) => props.onChangeText(val)}
           blurOnSubmit={false}

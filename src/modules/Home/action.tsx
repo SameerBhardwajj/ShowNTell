@@ -298,10 +298,9 @@ export const hitChatCount = (callback: Function) => {
     Constants.axiosInstance
       .get(EndPoints.home.checkChatCount)
       .then((success: any) => {
-        debugger;
         const res = success.data.response;
         if (success.data.code === 200) {
-          console.warn("chat available");
+          console.warn("chat available", res);
 
           dispatch({
             type: Action.UPDATE_TAB,
@@ -327,7 +326,7 @@ export const hitChatCount = (callback: Function) => {
         console.warn("chat available with error");
         console.warn(error);
 
-        debugger;
+
         dispatch({
           type: Action.UPDATE_TAB,
           payload: {

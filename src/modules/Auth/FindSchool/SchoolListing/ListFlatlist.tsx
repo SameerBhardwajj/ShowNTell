@@ -64,7 +64,7 @@ export default function App(props: AppProps) {
           }}
         >
           <Image
-            defaultSource={Images.Image_Placeholder}
+            // defaultSource={Images.Image_Placeholder}
             source={{ uri: item.center_image }}
             style={Styles.imgView}
             resizeMethod="resize"
@@ -162,6 +162,7 @@ const Styles = StyleSheet.create({
     height: vh(192),
     borderTopLeftRadius: vh(10),
     borderTopRightRadius: vh(10),
+    backgroundColor: Colors.veryLightBorder,
   },
   schoolView: {
     padding: vh(16),

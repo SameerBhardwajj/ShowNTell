@@ -105,7 +105,7 @@ export default function App(props: AppProps) {
       absence_description: reason.trim(),
     };
     console.warn(data);
-    
+
     dispatch(
       hitAddAbsence(
         data,
@@ -259,7 +259,8 @@ export default function App(props: AppProps) {
             maxLength={500}
             value={reason}
             onChangeText={(text: string) => {
-              cLength <= 500 ? setReason(text) : null, setCLength(text.length);
+              cLength <= 500 ? setReason(text) : null,
+                setCLength(text.trim().length);
             }}
             style={Styles.textInputView}
             multiline={true}
