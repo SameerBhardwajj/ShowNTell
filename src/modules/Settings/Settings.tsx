@@ -40,6 +40,17 @@ export default function App(props: AppProps) {
         <Image source={Images.Change_Password} style={Styles.imgView} />
         <Text style={Styles.label}>{Strings.Change_Password}</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={Styles.mainView2}
+        activeOpacity={0.8}
+        onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
+      >
+        <Image
+          source={Images.Notification_Icon}
+          style={[Styles.imgView2, { tintColor: Colors.orange }]}
+        />
+        <Text style={Styles.label}>{Strings.Notifications}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -68,5 +79,11 @@ const Styles = StyleSheet.create({
     marginRight: vw(12),
     height: vh(32),
     width: vh(32),
+  },
+  imgView2: {
+    margin: vw(5),
+    marginRight: vw(20),
+    height: vh(24),
+    width: vh(22),
   },
 });

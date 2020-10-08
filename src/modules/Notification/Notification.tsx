@@ -44,6 +44,7 @@ export default function App(props: AppProps) {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
+    CommonFunctions.clearAllPush();
     setLoading(true);
     focused
       ? (hitAPI(0),

@@ -51,7 +51,7 @@ export default function App(props: AppProps) {
         () => {
           setLoading(false);
         },
-        moment(new Date()).format("YYYY-MM-DD HH:mm:ss").toString(),
+        moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss").toString(),
         currentChild.child,
         type
       )

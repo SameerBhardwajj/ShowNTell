@@ -60,10 +60,6 @@ export interface AppProps {
 
 const ACTIVITY = "ACTIVITY";
 
-const CURRENT_TIME = moment(new Date())
-  .format("YYYY-MM-DD HH:mm:ss")
-  .toString();
-
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
   const focused = useIsFocused();
@@ -259,6 +255,7 @@ export default function App(props: AppProps) {
   };
 
   const hitHomeAPI = (child_id: number) => {
+    console.warn(currentChild.child, page, myFilter);
     dispatch(
       HomeAPI(
         (data: any) => {
@@ -272,7 +269,7 @@ export default function App(props: AppProps) {
           setRefreshing(false);
         },
         child_id,
-        CURRENT_TIME,
+        moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss").toString(),
         0,
         myFilter.activity,
         utcFromDateTime(myFilter.fromDate),
@@ -299,7 +296,7 @@ export default function App(props: AppProps) {
           setLoadFooter(false);
         },
         currentChild.child,
-        CURRENT_TIME,
+        moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss").toString(),
         page,
         myFilter.activity,
         utcFromDateTime(myFilter.fromDate),
@@ -336,7 +333,7 @@ export default function App(props: AppProps) {
           setLoading(false);
         },
         currentChild.child,
-        CURRENT_TIME,
+        moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss").toString(),
         0,
         activity,
         utcFromDateTime(fromDate),
@@ -363,7 +360,7 @@ export default function App(props: AppProps) {
           setLoading(false);
         },
         currentChild.child,
-        CURRENT_TIME,
+        moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss").toString(),
         0,
         myFilter.activity,
         utcFromDateTime(myFilter.fromDate),

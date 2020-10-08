@@ -4,6 +4,10 @@ import Geolocation from "@react-native-community/geolocation";
 import CustomToast from "../Components/CustomToast";
 import NetInfo from "@react-native-community/netinfo";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import PushNotification from "react-native-push-notification";
+// import DOMParser from 'react-native-html-parser';
+var DOMParser = require("react-native-html-parser").DOMParser;
+import Strings from "./Strings";
 
 const DateDifference = (date1: any, date2: any) => {
   let second = 1000,
@@ -228,6 +232,42 @@ const getBadgeCount = () => {
   return badge !== 0;
 };
 
+const htmlParser = (data: string) => {
+  let cleanText = data.replace(/<\/?[^>]+(>|$)/g, "");
+  // cleanText = cleanText.replace(/ *\b\S*?http\S*\b/g, "");
+  return cleanText;
+};
+
+const getLink = (data: string) => {
+  let cleanText = data.replace(/<\/?[^>]+(>|$)/g, "");
+  let link = cleanText.match(/ *\b\S*?http\S*\b/g);
+  return link;
+};
+
+const onPressLink = (item: any) => {
+  let link: any = getLink(item);
+  link = link.join("").trim();
+  isNullUndefined(link)
+    ? null
+    : Linking.canOpenURL(link)
+        .then((supported: boolean) => {
+          if (supported) {
+            return Linking.openURL(link).catch(() =>
+              CustomToast(Strings.URL_Unsupported)
+            );
+          }
+        })
+        .catch(() => {
+          CustomToast(Strings.URL_Unsupported);
+        });
+};
+
+const clearAllPush = () => {
+  Platform.OS === "ios"
+    ? PushNotificationIOS.removeAllDeliveredNotifications()
+    : PushNotification.cancelAllLocalNotifications();
+};
+
 export default {
   DateDifference,
   DateFormatter,
@@ -244,4 +284,8 @@ export default {
   handleError,
   netInfo,
   getBadgeCount,
+  htmlParser,
+  getLink,
+  onPressLink,
+  clearAllPush,
 };

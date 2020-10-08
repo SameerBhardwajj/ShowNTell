@@ -1,8 +1,10 @@
 import * as React from "react";
 import { View, Text } from "react-native";
-import { vh, Colors, Strings } from "../utils";
+import { vh, Colors, Strings, CommonFunctions } from "../utils";
 
-export interface AppProps {}
+export interface AppProps {
+  text?: string;
+}
 
 export default function App(props: AppProps) {
   return (
@@ -14,7 +16,9 @@ export default function App(props: AppProps) {
           color: Colors.violet,
         }}
       >
-        {Strings.No_data_Found}
+        {CommonFunctions.isNullUndefined(props.text)
+          ? Strings.No_data_Found
+          : props.text}
       </Text>
     </View>
   );

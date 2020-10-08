@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Keyboard } from "react-native";
+import { View, StyleSheet, Keyboard } from "react-native";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
 
 // Custom Imports
@@ -53,6 +53,7 @@ export default function App(props: AppProps) {
   };
 
   const check = () => {
+    Keyboard.dismiss();
     validate(ConstantName.NAME, pname)
       ? validate(ConstantName.NAME, pLname)
         ? validate(ConstantName.PHONE, phone)
@@ -114,7 +115,6 @@ export default function App(props: AppProps) {
               checkpname ? null : setCheckPname(true), setPname(text);
             }}
             onSubmitEditing={() => {
-              Keyboard.dismiss();
               validate(ConstantName.NAME, pname)
                 ? input2.current.focus()
                 : setCheckPname(false);

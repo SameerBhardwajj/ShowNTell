@@ -8,12 +8,12 @@ const CLIENT_BASE_URL = "http://snt-parent-api-test.mytle.com";
 
 const CLIENT_URL = "https://stage.thelearningexperience.com";
 
-const BASE_URL = CLIENT_BASE_URL;
+const BASE_URL = DEV_BASE_URL;
 
 // Axios instance for all APIs
 const $http = axios.create({
   baseURL: BASE_URL,
-  timeout: 20000,
+  timeout: 30000,
   headers: {
     "Content-Type": "application/json",
     "device-id": `${getUniqueId()}`,
@@ -32,13 +32,13 @@ const setAuthorizationToken = (token: boolean, myToken: string) => {
 // Axios instance for client APIs
 const clientHttp = axios.create({
   baseURL: CLIENT_URL,
-  timeout: 20000,
+  timeout: 30000,
 });
 
 // Axios instance for Need help API having constant authorization
 const $httpHelp = axios.create({
   baseURL: BASE_URL,
-  timeout: 20000,
+  timeout: 30000,
   headers: {
     Authorization: "Basic Y29yZTpjb3Jl",
     "Content-Type": "application/json",

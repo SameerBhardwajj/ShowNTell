@@ -7,17 +7,8 @@ import {
   Image,
   Modal,
   Dimensions,
-  ImageBackground,
 } from "react-native";
-import {
-  vh,
-  Colors,
-  Images,
-  vw,
-  Strings,
-  ScreenName,
-  CommonFunctions,
-} from "../../utils";
+import { vh, Colors, Images, vw, Strings, CommonFunctions } from "../../utils";
 // @ts-ignore
 import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 // @ts-ignore
@@ -99,19 +90,6 @@ export default function App(props: AppProps) {
               </View>
               <View style={Styles.centerNameView}>
                 <View>
-                  {/* <TouchableOpacity
-                  activeOpacity={0.8}
-                  onPress={() =>
-                    props.navigation.navigate(ScreenName.ACTIVITY_MODAL, {
-                      icon: CommonFunctions.isNullUndefined(
-                        props.item.category_icon_url
-                      )
-                        ? null
-                        : props.item.category_icon_url,
-                      msg: props.item.category_description,
-                    })
-                  }
-                > */}
                   <Text style={Styles.name}>
                     {item.Child.first_name} {item.Child.last_name}
                     <Text style={Styles.dotTxt}>{" • "}</Text>
@@ -124,7 +102,6 @@ export default function App(props: AppProps) {
                   </Text>
                   <Text style={Styles.content}>{item.sub_activity_name}</Text>
                 </View>
-                {/* </TouchableOpacity> */}
                 <Text style={Styles.time}>
                   {CommonFunctions.DateFormatter(item.create_dt)}
                   {Strings.at}
@@ -154,8 +131,15 @@ export default function App(props: AppProps) {
             {CommonFunctions.isNullUndefined(
               item.activity_description
             ) ? null : (
-              <Text style={Styles.description}>
-                {item.activity_description.split("<br/>").join("\n")}
+              <Text
+                style={Styles.description}
+                onPress={() =>
+                  CommonFunctions.onPressLink(item.activity_description)
+                }
+              >
+                {CommonFunctions.htmlParser(
+                  item.activity_description.split("<br/>").join("\n")
+                )}
               </Text>
             )}
           </View>
@@ -193,8 +177,15 @@ export default function App(props: AppProps) {
             {CommonFunctions.timeFormatter(new Date(item.create_dt))}
           </Text>
           <Text style={Styles.annTitle}>{item.title}</Text>
-          <Text style={Styles.annDescription}>
-            {item.description.split("<br/>").join("\n")}
+          <Text
+            style={Styles.annDescription}
+            onPress={() => {
+              CommonFunctions.onPressLink(item.description);
+            }}
+          >
+            {CommonFunctions.htmlParser(
+              item.description.split("<br/>").join("\n")
+            )}
           </Text>
           <Image style={Styles.imgAnn} source={Images.Announcement_Icon} />
         </View>

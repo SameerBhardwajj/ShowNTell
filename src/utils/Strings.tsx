@@ -267,6 +267,9 @@ const Strings = new LocalizedStrings({
     Referral_Success:
       "Your referral has been successfully submitted to the Admin.",
     Sharing: "Sharing...",
+    No_Classroom_Schedule_Found: "No Classroom Schedule Found",
+    URL_Unsupported: "URL not supported !",
+    Notifications: 'Notifications'
   },
 });
 export default Strings;

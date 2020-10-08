@@ -180,7 +180,7 @@ const DATA = [
   {
     icon: Images.Announcement_Icons,
     size: { height: vh(19), width: vh(25) },
-    label: Strings.Announcement,
+    label: Strings.Announcements,
     path: ScreenName.ANNOUNCEMENT,
   },
   {

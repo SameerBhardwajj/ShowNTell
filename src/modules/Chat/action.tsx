@@ -80,7 +80,7 @@ export const getMsgs = (
     Constants.axiosInstance
       .get(EndPoints.drawer.chat.getMsg(type, timestamp, id), {})
       .then((success: any) => {
-        console.log(" my data success ", success.config);
+        console.warn(" my data success ", success.data.response);
 
         const res = success.data.response;
         if (success.data.code === 200) {

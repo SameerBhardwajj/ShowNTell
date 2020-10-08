@@ -125,8 +125,7 @@ export default function App(props: AppProps) {
                   Keyboard.dismiss();
                   email.length !== 0
                     ? validate(ConstantName.EMAIL, email)
-                      ? (Keyboard.dismiss(),
-                        setIsLoading(true),
+                      ? (setIsLoading(true),
                         dispatch(
                           fetchSchoolList(
                             email,

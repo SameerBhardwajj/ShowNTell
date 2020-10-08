@@ -74,8 +74,15 @@ export default function App(props: AppProps) {
         <Text style={[Styles.heading, { paddingTop: 0 }]}>
           {item.Announcement.title}
         </Text>
-        <Text style={Styles.content}>
-          {item.Announcement.description.split("<br/>").join("\n")}
+        <Text
+          onPress={() => {
+            CommonFunctions.onPressLink(item.Announcement.description);
+          }}
+          style={Styles.content}
+        >
+          {CommonFunctions.htmlParser(
+            item.Announcement.description.split("<br/>").join("\n")
+          )}
         </Text>
         <Text style={Styles.time}>
           {CommonFunctions.timeFormatter(new Date(item.create_dt))}

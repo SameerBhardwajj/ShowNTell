@@ -98,7 +98,7 @@ export default function App(props: AppProps) {
       {isLoading ? (
         <CustomLoader loading={isLoading} />
       ) : CommonFunctions.isNullUndefined(data) ? (
-        <CustomNoData />
+        <CustomNoData text={Strings.No_Classroom_Schedule_Found} />
       ) : (
         <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
           {data.map((item: any, index: number) => (

@@ -50,18 +50,7 @@ export const hitChangePasswordAPI = (
       (success: any) => {
         const res = success.data.response;
         if (success.data.code === 200) {
-          // dispatch({
-          //   type: Action.SETTINGS,
-          //   payload:
-          //     id === 1
-          //       ? {
-          //           about: res,
-          //         }
-          //       : {
-          //           tnc: res,
-          //         },
-          // });
-          successCallback(success.data.response);
+          successCallback(res);
         } else {
           CustomToast(success.data.message);
           failCallback();

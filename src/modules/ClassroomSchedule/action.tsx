@@ -39,7 +39,7 @@ export const hitClassScheduleAPI = (
               data: [],
             },
           });
-          CustomToast(success.data.message);
+          // CustomToast(success.data.message);
           failCallback();
         }
       },

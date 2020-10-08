@@ -17,9 +17,17 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 // custom imports
 import { CustomHeader, CustomSeparator, CustomLoader } from "../../Components";
-import { Strings, vw, vh, Colors, ScreenName, Images } from "../../utils";
+import {
+  Strings,
+  vw,
+  vh,
+  Colors,
+  ScreenName,
+  Images,
+  CommonFunctions,
+} from "../../utils";
 import { getCannedMsgs, sendMsg, getMsgs, hitMarkReadAPI } from "./action";
-import { updateChatCount } from "../Home/action";
+import { hitChatCount } from "../Home/action";
 import MsgFlatlist from "./MsgFlatlist";
 
 export interface AppProps {
@@ -62,6 +70,7 @@ export default function App(props: AppProps) {
     Platform.OS === "ios"
       ? PushNotificationIOS.setApplicationIconBadgeNumber(0)
       : null;
+    CommonFunctions.clearAllPush();
 
     BackHandler.addEventListener("hardwareBackPress", () => {
       props.navigation.pop();
@@ -84,7 +93,7 @@ export default function App(props: AppProps) {
       hitMarkReadAPI(
         { timestamp: moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss") },
         () => {
-          dispatch(updateChatCount(false));
+          dispatch(hitChatCount(() => {}));
         },
         () => {}
       )
