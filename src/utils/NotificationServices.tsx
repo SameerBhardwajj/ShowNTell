@@ -10,7 +10,7 @@ import { hitChatCount, updateBadgeCount } from "../modules/Home/action";
 const FCM_KEY_DEV = "1082193980667";
 const FCM_KEY_CLIENT = "875888891093";
 
-const FCM_KEY = FCM_KEY_DEV;
+const FCM_KEY = FCM_KEY_CLIENT;
 
 export interface AppProps {
   navigation: any;
@@ -34,11 +34,11 @@ class NotificationServices extends React.Component<AppProps, AppState> {
     PushNotification.configure({
       // (required) Called when a remote or local notification is opened or received
       onNotification: (notification: any) => {
-        console.warn("NOTIFICATION:", notification);
+        console.log("NOTIFICATION:", notification);
         this.props.hitChatCount(() => {});
-        Platform.OS === "android"
-          ? this.showLocalPush(notification)
-          : this.gotoScreen(notification);
+        Platform.OS === "android" ? this.showLocalPush(notification) : null;
+
+        this.gotoScreen(notification);
 
         // (required) Called when a remote is received or opened, or local notification is opened
         Platform.OS === "ios"
@@ -75,13 +75,13 @@ class NotificationServices extends React.Component<AppProps, AppState> {
   };
 
   gotoScreen = (payload: any) => {
+    console.log("payload", payload);
+
     Platform.OS === "android"
-      ? payload.foreground && !payload.userInteraction
+      ? !payload.userInteraction
         ? null
         : this.props.navigation.navigate(
-            this.getScreen(
-              payload.foreground ? payload.data.type : payload.type
-            ),
+            this.getScreen(payload.data.type),
             PushNotification.cancelAllLocalNotifications()
           )
       : payload.foreground && !payload.userInteraction
