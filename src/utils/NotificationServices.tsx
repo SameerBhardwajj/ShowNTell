@@ -98,6 +98,7 @@ class NotificationServices extends React.Component<AppProps, AppState> {
       /* Android Only Properties */
       // channelId: "your-channel-id", // (required) channelId, if the channel doesn't exist, it will be created with options passed above (importance, vibration, sound). Once the channel is created, the channel will not be update. Make sure your channelId is different if you change these options. If you have created a custom channel, it will apply options of the channel.
       // ticker: "My Notification Ticker", // (optional)
+      // @ts-ignore
       showWhen: true, // (optional) default: true
       autoCancel: true, // (optional) default: true
       // largeIcon: "ic_launcher", // (optional) default: "ic_launcher". Use "" for no large icon.
