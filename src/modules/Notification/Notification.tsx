@@ -16,7 +16,15 @@ import PushNotificationIOS from "@react-native-community/push-notification-ios";
 
 // Custom imports
 import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
-import { Strings, vh, vw, Colors, CommonFunctions, Images } from "../../utils";
+import {
+  Strings,
+  vh,
+  vw,
+  Colors,
+  CommonFunctions,
+  Images,
+  ScreenName,
+} from "../../utils";
 import List from "./List";
 import {
   hitNotificationAPI,
@@ -104,13 +112,14 @@ export default function App(props: AppProps) {
             )
           );
         }}
+        navigate={() => props.navigation.navigate(ScreenName.ANNOUNCEMENT)}
       />
     );
   };
   return (
     <View style={Styles.mainView}>
       <CustomHeader
-        title={Strings.Notification}
+        title={Strings.Notifications}
         onPressBack={() => props.navigation.pop()}
       />
       <TouchableOpacity

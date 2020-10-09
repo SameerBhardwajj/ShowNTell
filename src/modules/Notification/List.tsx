@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 // @ts-ignore
 import AnimateLoadingButton from "react-native-animate-loading-button";
@@ -11,6 +11,7 @@ export interface AppProps {
   index: string;
   allData: Array<any>;
   acknowledge: Function;
+  navigate: Function;
 }
 
 export default function App(props: AppProps) {
@@ -79,7 +80,11 @@ export default function App(props: AppProps) {
       ) : msgDate !== allDay() ? (
         <Text style={[Styles.heading, { paddingTop: vh(20) }]}>{msgDate}</Text>
       ) : null}
-      <View
+      <TouchableOpacity
+        activeOpacity={item.notification_type_id === 6 ? 0.7 : 1}
+        onPress={() =>
+          item.notification_type_id === 6 ? props.navigate() : null
+        }
         style={[
           Styles.contentView,
           {
@@ -135,7 +140,7 @@ export default function App(props: AppProps) {
             </Text>
           </View>
         ) : null}
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
