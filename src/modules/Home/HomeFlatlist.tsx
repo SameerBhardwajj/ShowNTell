@@ -13,6 +13,7 @@ import { vh, Colors, Images, vw, Strings, CommonFunctions } from "../../utils";
 import ReactNativeZoomableView from "@dudigital/react-native-zoomable-view/src/ReactNativeZoomableView";
 // @ts-ignore
 import AnimateLoadingButton from "react-native-animate-loading-button";
+import Hyperlink from "react-native-hyperlink";
 import { useDispatch } from "react-redux";
 import { weDidItAPI } from "./action";
 
@@ -131,16 +132,18 @@ export default function App(props: AppProps) {
             {CommonFunctions.isNullUndefined(
               item.activity_description
             ) ? null : (
-              <Text
-                style={Styles.description}
+              <Hyperlink
                 onPress={() =>
                   CommonFunctions.onPressLink(item.activity_description)
                 }
+                linkStyle={{ color: Colors.linkBlue }}
               >
-                {CommonFunctions.htmlParser(
-                  item.activity_description.split("<br/>").join("\n")
-                )}
-              </Text>
+                <Text style={Styles.description}>
+                  {CommonFunctions.htmlParser(
+                    item.activity_description.split("<br/>").join("\n")
+                  )}
+                </Text>
+              </Hyperlink>
             )}
           </View>
         </View>
@@ -177,16 +180,18 @@ export default function App(props: AppProps) {
             {CommonFunctions.timeFormatter(new Date(item.create_dt))}
           </Text>
           <Text style={Styles.annTitle}>{item.title}</Text>
-          <Text
-            style={Styles.annDescription}
+          <Hyperlink
             onPress={() => {
               CommonFunctions.onPressLink(item.description);
             }}
+            linkStyle={{ color: Colors.linkBlue }}
           >
-            {CommonFunctions.htmlParser(
-              item.description.split("<br/>").join("\n")
-            )}
-          </Text>
+            <Text style={Styles.annDescription}>
+              {CommonFunctions.htmlParser(
+                item.description.split("<br/>").join("\n")
+              )}
+            </Text>
+          </Hyperlink>
           <Image style={Styles.imgAnn} source={Images.Announcement_Icon} />
         </View>
       ) : null}

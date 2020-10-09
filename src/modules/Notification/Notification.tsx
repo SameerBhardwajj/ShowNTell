@@ -143,6 +143,7 @@ export default function App(props: AppProps) {
             setRefreshing(true);
             hitAPI(0);
           }}
+          showsVerticalScrollIndicator={false}
           onEndReached={() => hitAPI(page)}
           onEndReachedThreshold={0.5}
           keyExtractor={(item, index) => index.toString()}

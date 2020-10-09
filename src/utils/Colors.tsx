@@ -32,5 +32,6 @@ const Colors = {
   veryLightBorder: "rgb(238, 238, 238)",
   chatOrange: "rgb(247, 167, 64)",
   darkGreen: "rgb(76, 175, 80)",
+  linkBlue: "rgb(41, 128, 185)",
 };
 export default Colors;

@@ -1,5 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import Hyperlink from "react-native-hyperlink";
 import { vw, vh, Colors, CommonFunctions, Images } from "../../utils";
 
 export interface AppProps {
@@ -74,16 +75,18 @@ export default function App(props: AppProps) {
         <Text style={[Styles.heading, { paddingTop: 0 }]}>
           {item.Announcement.title}
         </Text>
-        <Text
+        <Hyperlink
           onPress={() => {
             CommonFunctions.onPressLink(item.Announcement.description);
           }}
-          style={Styles.content}
+          linkStyle={{ color: Colors.linkBlue }}
         >
-          {CommonFunctions.htmlParser(
-            item.Announcement.description.split("<br/>").join("\n")
-          )}
-        </Text>
+          <Text style={Styles.content}>
+            {CommonFunctions.htmlParser(
+              item.Announcement.description.split("<br/>").join("\n")
+            )}
+          </Text>
+        </Hyperlink>
         <Text style={Styles.time}>
           {CommonFunctions.timeFormatter(new Date(item.create_dt))}
         </Text>
