@@ -8,7 +8,7 @@ const CLIENT_BASE_URL = "http://snt-parent-api-test.mytle.com";
 
 const CLIENT_URL = "https://stage.thelearningexperience.com";
 
-const BASE_URL = DEV_BASE_URL;
+const BASE_URL = CLIENT_BASE_URL;
 
 // Axios instance for all APIs
 const $http = axios.create({

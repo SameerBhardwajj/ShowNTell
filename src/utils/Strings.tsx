@@ -269,7 +269,7 @@ const Strings = new LocalizedStrings({
     Sharing: "Sharing...",
     No_Classroom_Schedule_Found: "No Classroom Schedule Found",
     URL_Unsupported: "URL not supported !",
-    Notifications: 'Notifications'
+    Notifications: 'Notifications',
   },
 });
 export default Strings;

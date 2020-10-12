@@ -43,7 +43,7 @@ export default function App(props: AppProps) {
       <TouchableOpacity
         style={Styles.mainView2}
         activeOpacity={0.8}
-        onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION)}
+        onPress={() => props.navigation.navigate(ScreenName.NOTIFICATION_SETTING)}
       >
         <Image
           source={Images.Notification_Icon}

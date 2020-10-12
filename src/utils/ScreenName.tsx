@@ -53,4 +53,5 @@ export default {
   CHANGE_PASSWORD: "ChangePassword",
   ABOUTUS: "AboutUs",
   TNC: "TNC",
+  NOTIFICATION_SETTING: "NotificationSettings"
 };
