@@ -11,7 +11,6 @@ import {
   Platform,
   PermissionsAndroid,
   StatusBar,
-  Dimensions,
   BackHandler,
 } from "react-native";
 import ImagePicker from "react-native-image-crop-picker";
@@ -28,8 +27,6 @@ import { hiBasicDetails, hitUploadCDNapi, hitUploadImage } from "./action";
 import { updatePermission } from "../Auth/Login/action";
 import ProfileModal from "./ProfileModal";
 import CameraModal from "./Modals/CameraModal";
-
-const iPhoneX = Dimensions.get("window").height >= 812;
 
 export interface AppProps {
   navigation?: any;
@@ -453,7 +450,7 @@ const Styles = StyleSheet.create({
   },
   modalBack: {
     position: "absolute",
-    top: iPhoneX ? vh(30) : 0,
+    top: CommonFunctions.iPhoneX ? vh(30) : 0,
     left: 0,
     padding: vh(20),
     zIndex: 99,

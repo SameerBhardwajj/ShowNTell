@@ -8,19 +8,6 @@ import {
 import { CustomToast } from "../../Components";
 import { Platform } from "react-native";
 
-export const updateTab = (value: boolean, callback: Function) => {
-  return (dispatch: Function, getState: Function) => {
-    dispatch({
-      type: Action.UPDATE_TAB,
-      payload: {
-        tab: value,
-        forceRerendering: !getState().Home.forceRerendering,
-      },
-    });
-    callback();
-  };
-};
-
 export const updateChild = (value: object, callback: Function) => {
   return (dispatch: Function, getState: Function) => {
     dispatch({
@@ -125,8 +112,8 @@ export const updateBadgeCount = (id: string) => {
       {
         device_id: id,
       },
-      (success: any) => {},
-      (error: any) => {}
+      (success: any) => { },
+      (error: any) => { }
     );
   };
 };
@@ -145,8 +132,6 @@ export const HomeAPI = (
   activity_status?: number
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.warn('time ',currentTime);
-    
     API.getApiCall(
       EndPoints.home.HomeData(
         currentTime,
@@ -302,8 +287,7 @@ export const hitChatCount = (callback: Function) => {
       .then((success: any) => {
         const res = success.data.response;
         if (success.data.code === 200) {
-          console.warn("chat available", res);
-
+          console.log("chat available", res);
           dispatch({
             type: Action.UPDATE_TAB,
             payload: {
@@ -313,7 +297,7 @@ export const hitChatCount = (callback: Function) => {
             },
           });
         } else {
-          console.warn("chat not available");
+          console.log("chat not available");
           dispatch({
             type: Action.UPDATE_TAB,
             payload: {
@@ -325,9 +309,7 @@ export const hitChatCount = (callback: Function) => {
         callback();
       })
       .catch((error: any) => {
-        console.warn("chat available with error");
-        console.warn(error);
-
+        console.log(error);
         dispatch({
           type: Action.UPDATE_TAB,
           payload: {

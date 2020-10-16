@@ -12,7 +12,6 @@ import {
   CustomHeader,
   CustomLoader,
   CustomNoData,
-  CustomToast,
 } from "../../Components";
 import {
   Strings,
@@ -37,7 +36,6 @@ export default function App(props: AppProps) {
       loginData: state.Login.loginData,
     })
   );
-  // const [data, setData] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
     list.length === 0 ? setIsLoading(true) : null;
@@ -63,66 +61,66 @@ export default function App(props: AppProps) {
         isLoading ? (
           <CustomLoader loading={true} />
         ) : (
-          <CustomNoData />
-        )
+            <CustomNoData />
+          )
       ) : (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          bounces={false}
-          style={{ marginHorizontal: vh(16) }}
-          contentContainerStyle={{
-            paddingBottom: vh(130),
-            width: "100%",
-          }}
-        >
-          {list.map((item: any, index: number) => (
-            <ImageBackground
-              source={
-                (index + 1) % 3 === 1
-                  ? Images.BG_PAttern
-                  : (index + 1) % 3 === 2
-                  ? Images.BG_PAttern_3
-                  : Images.BG_PAttern_5
-              }
-              imageStyle={{
-                alignSelf: "center",
-                height: item.Testimonial.text.length > 400 ? vh(200) : "100%",
-                marginTop: vh(30),
-              }}
-              style={[
-                Styles.innerView,
-                {
-                  backgroundColor:
-                    (index + 1) % 3 === 1
-                      ? Colors.lightPink
-                      : (index + 1) % 3 === 2
-                      ? Colors.lightWaterBlue
-                      : Colors.lightGreen,
-                },
-              ]}
-            >
-              <Text style={Styles.descTxt}>
-                {`"${item.Testimonial.text.replace(/(<([^>]+)>)/g, " ")}"`}
-              </Text>
-              <Text
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            bounces={false}
+            style={{ marginHorizontal: vh(16) }}
+            contentContainerStyle={{
+              paddingBottom: vh(130),
+              width: "100%",
+            }}
+          >
+            {list.map((item: any, index: number) => (
+              <ImageBackground
+                source={
+                  (index + 1) % 3 === 1
+                    ? Images.BG_PAttern
+                    : (index + 1) % 3 === 2
+                      ? Images.BG_PAttern_3
+                      : Images.BG_PAttern_5
+                }
+                imageStyle={{
+                  alignSelf: "center",
+                  height: item.Testimonial.text.length > 400 ? vh(200) : "100%",
+                  marginTop: vh(30),
+                }}
                 style={[
-                  Styles.nameTxt,
+                  Styles.innerView,
                   {
-                    color:
+                    backgroundColor:
                       (index + 1) % 3 === 1
-                        ? Colors.pink
+                        ? Colors.lightPink
                         : (index + 1) % 3 === 2
-                        ? Colors.waterBlue
-                        : Colors.green,
+                          ? Colors.lightWaterBlue
+                          : Colors.lightGreen,
                   },
                 ]}
               >
-                - {item.Testimonial.name}
-              </Text>
-            </ImageBackground>
-          ))}
-        </ScrollView>
-      )}
+                <Text style={Styles.descTxt}>
+                  {`"${item.Testimonial.text.replace(/(<([^>]+)>)/g, " ")}"`}
+                </Text>
+                <Text
+                  style={[
+                    Styles.nameTxt,
+                    {
+                      color:
+                        (index + 1) % 3 === 1
+                          ? Colors.pink
+                          : (index + 1) % 3 === 2
+                            ? Colors.waterBlue
+                            : Colors.green,
+                    },
+                  ]}
+                >
+                  - {item.Testimonial.name}
+                </Text>
+              </ImageBackground>
+            ))}
+          </ScrollView>
+        )}
       {/* Add Btn ----------- */}
       <TouchableOpacity
         style={Styles.addBtnView}

@@ -17,19 +17,18 @@ export const viewAttendanceAPI = (
 
         let res = success.data.response;
         if (success.data.code === 200) {
-          console.warn("mysuccess ", res);
+          console.log("mysuccess ", res);
           dispatch({
             type: Action.VIEW_ATTENDANCE,
             payload:
               type === "by_month"
                 ? {
-                    monthData: CommonFunctions.isEmpty(res) ? [] : res,
-                  }
+                  monthData: CommonFunctions.isEmpty(res) ? [] : res,
+                }
                 : {
-                    dateData: CommonFunctions.isEmpty(res) ? [] : res,
-                  },
+                  dateData: CommonFunctions.isEmpty(res) ? [] : res,
+                },
           });
-
           successCallback();
         } else {
           CustomToast(success.data.message);
@@ -43,11 +42,11 @@ export const viewAttendanceAPI = (
           payload:
             type === "by_month"
               ? {
-                  monthData: [],
-                }
+                monthData: [],
+              }
               : {
-                  dateData: [],
-                },
+                dateData: [],
+              },
         });
         CommonFunctions.handleError(error);
         failureCallback();

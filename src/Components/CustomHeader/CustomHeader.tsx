@@ -1,14 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
   Image,
-  Dimensions,
 } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
-import { Colors, vh, Images, vw, ScreenName, Strings } from "../../utils";
+import { useSelector } from "react-redux";
+import { Colors, vh, Images, vw, ScreenName, Strings, CommonFunctions } from "../../utils";
 
 export interface AppProps {
   title: string;
@@ -22,8 +21,6 @@ export interface AppProps {
   clear?: boolean;
   onPressClear?: Function;
 }
-
-const iPhoneX = Dimensions.get("window").height >= 812;
 
 export default function App(props: AppProps) {
   const { currentChild, loginData } = useSelector(
@@ -47,8 +44,8 @@ export default function App(props: AppProps) {
             onPress={() =>
               loginData.Children.length > 1
                 ? props.navigation.navigate(ScreenName.CHILD_MODAL, {
-                    child: loginData.Children,
-                  })
+                  child: loginData.Children,
+                })
                 : null
             }
           >
@@ -109,7 +106,7 @@ const Styles = StyleSheet.create({
   extraHeader: {
     backgroundColor: Colors.violet,
     width: "100%",
-    height: iPhoneX ? vh(10) : 0,
+    height: CommonFunctions.iPhoneX ? vh(10) : 0,
   },
   text: {
     fontFamily: "Nunito-Bold",

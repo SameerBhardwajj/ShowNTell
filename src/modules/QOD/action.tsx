@@ -12,8 +12,7 @@ export const hitQOTDApi = (
       EndPoints.drawer.qotd(current_date_time, child_id, type),
       {},
       (success: any) => {
-        console.warn("success ", success.data.response);
-
+        console.log("success ", success.data.response);
         const res = success.data.response;
         dispatch({
           type: Action.QOTD,

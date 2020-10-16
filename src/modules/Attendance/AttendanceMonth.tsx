@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Platform,
 } from "react-native";
 import moment from "moment";
 import { vh, Colors, Images, vw, Strings, CommonFunctions } from "../../utils";
@@ -29,18 +28,18 @@ export default function App(props: AppProps) {
     return (
       <View style={Styles.imgView}>
         <View style={Styles.img}>
-        <Image
-           style={
-            CommonFunctions.isNullUndefined(props.item.s3_photo_path)
-              ? { width: vh(30), height: vh(33) }
-              : { width: "100%", height: "100%", borderRadius: vh(30) }
-          }
-          source={
-            props.item.s3_photo_path === null
-              ? Images.Profile_Placeholder
-              : { uri: props.item.s3_photo_path }
-          }
-        />
+          <Image
+            style={
+              CommonFunctions.isNullUndefined(props.item.s3_photo_path)
+                ? { width: vh(30), height: vh(33) }
+                : { width: "100%", height: "100%", borderRadius: vh(30) }
+            }
+            source={
+              props.item.s3_photo_path === null
+                ? Images.Profile_Placeholder
+                : { uri: props.item.s3_photo_path }
+            }
+          />
         </View>
         <View>
           <Text style={Styles.nameText}>
@@ -76,9 +75,9 @@ export default function App(props: AppProps) {
         ? parseInt(props.index) === 0
           ? childData()
           : props.item.first_name ===
-              props.allData[parseInt(props.index) - 1].first_name && dateGap()
-          ? null
-          : childData()
+            props.allData[parseInt(props.index) - 1].first_name && dateGap()
+            ? null
+            : childData()
         : null}
       {props.item.type === ATTENDANCE ? (
         <View style={Styles.timeView}>
@@ -103,27 +102,27 @@ export default function App(props: AppProps) {
           </View>
         </View>
       ) : (
-        <View style={Styles.timeView}>
-          <TouchableOpacity
-            style={Styles.absenceView}
-            activeOpacity={0.8}
-            onPress={() => props.onPressAbsence()}
-          >
-            <Image source={Images.Absent_Icon} style={{ padding: vh(25) }} />
-            <Text style={Styles.absenceText}>
-              {Strings.Absence_Notification}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      )}
+          <View style={Styles.timeView}>
+            <TouchableOpacity
+              style={Styles.absenceView}
+              activeOpacity={0.8}
+              onPress={() => props.onPressAbsence()}
+            >
+              <Image source={Images.Absent_Icon} style={{ padding: vh(25) }} />
+              <Text style={Styles.absenceText}>
+                {Strings.Absence_Notification}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        )}
       {props.allData.length - 1 !== parseInt(props.index) &&
-      CommonFunctions.dateTypeFormat(props.item.in_date_time, "dmy") !==
+        CommonFunctions.dateTypeFormat(props.item.in_date_time, "dmy") !==
         CommonFunctions.dateTypeFormat(
           props.allData[parseInt(props.index) + 1].in_date_time,
           "dmy"
         ) ? (
-        <View style={Styles.finalSeparator} />
-      ) : null}
+          <View style={Styles.finalSeparator} />
+        ) : null}
     </View>
   );
 }

@@ -18,7 +18,7 @@ export interface AppProps {
   updateBadgeCount: Function;
 }
 
-export interface AppState {}
+export interface AppState { }
 
 class NotificationServices extends React.Component<AppProps, AppState> {
   constructor(props: AppProps) {
@@ -26,16 +26,16 @@ class NotificationServices extends React.Component<AppProps, AppState> {
 
     Platform.OS === "ios"
       ? PushNotificationIOS.requestPermissions({
-          alert: true,
-          badge: true,
-          sound: true,
-        })
+        alert: true,
+        badge: true,
+        sound: true,
+      })
       : null;
     PushNotification.configure({
       // (required) Called when a remote or local notification is opened or received
       onNotification: (notification: any) => {
         console.log("NOTIFICATION:", notification);
-        this.props.hitChatCount(() => {});
+        this.props.hitChatCount(() => { });
         Platform.OS === "android" ? this.showLocalPush(notification) : null;
 
         this.gotoScreen(notification);
@@ -75,18 +75,16 @@ class NotificationServices extends React.Component<AppProps, AppState> {
   };
 
   gotoScreen = (payload: any) => {
-    console.log("payload", payload);
-
     Platform.OS === "android"
       ? !payload.userInteraction
         ? null
         : this.props.navigation.navigate(
-            this.getScreen(payload.data.type),
-            PushNotification.cancelAllLocalNotifications()
-          )
+          this.getScreen(payload.data.type),
+          PushNotification.cancelAllLocalNotifications()
+        )
       : payload.foreground && !payload.userInteraction
-      ? null
-      : this.props.navigation.navigate(this.getScreen(payload.data.data.type));
+        ? null
+        : this.props.navigation.navigate(this.getScreen(payload.data.data.type));
     Platform.OS === "ios"
       ? (PushNotificationIOS.setApplicationIconBadgeNumber(0),
         this.props.updateBadgeCount(getUniqueId()))

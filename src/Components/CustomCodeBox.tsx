@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, TextInput, StyleSheet } from "react-native";
-import { vh, Colors, vw } from "../utils";
+import { Colors, vw } from "../utils";
 
 export interface AppProps {
   value: string;

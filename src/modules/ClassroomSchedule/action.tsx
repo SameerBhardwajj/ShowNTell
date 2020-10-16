@@ -1,4 +1,3 @@
-import { CustomToast } from "../../Components";
 import { Action, API, EndPoints, CommonFunctions } from "../../utils";
 
 export const updateClassChild = (value: Object, callback: Function) => {
@@ -39,7 +38,6 @@ export const hitClassScheduleAPI = (
               data: [],
             },
           });
-          // CustomToast(success.data.message);
           failCallback();
         }
       },

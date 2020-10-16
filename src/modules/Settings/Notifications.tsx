@@ -44,7 +44,6 @@ export default function App(props: AppProps) {
 
     useEffect(() => {
         settingList.length === 0 ? setModalLoading(true) : null;
-        console.warn("useeffect");
         settingListAPI();
     }, [forceRender]);
 
@@ -70,11 +69,9 @@ export default function App(props: AppProps) {
             hitNotificationActionSetting(
                 data,
                 () => {
-                    console.warn("success");
                     setForeceRender(!forceRender);
                 },
                 () => {
-                    console.warn("fail");
                     setForeceRender(!forceRender);
                 }
             )
@@ -86,11 +83,9 @@ export default function App(props: AppProps) {
             hitAllNotifications(
                 data,
                 () => {
-                    console.warn("success");
                     setForeceRender(!forceRender);
                 },
                 () => {
-                    console.warn("fail");
                     setForeceRender(!forceRender);
                 }
             )

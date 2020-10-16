@@ -42,7 +42,7 @@ export const hitAbsenceList = (
       EndPoints.absence.absenceList(child, page),
       {},
       (success: any) => {
-        console.warn("success ", success);
+        console.log("success ", success);
 
         if (success.data.code === 200) {
           const { absenceList } = getState().Absence;
@@ -94,7 +94,6 @@ export const hitAddAbsence = (
           successCallback(success.data.response);
         } else {
           CustomToast(success.data.message);
-
           failureCallback();
         }
       },

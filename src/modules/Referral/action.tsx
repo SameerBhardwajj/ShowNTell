@@ -11,7 +11,7 @@ export const hitReferralAPI = (
       EndPoints.drawer.referral,
       payload,
       (response: any) => {
-        console.warn("Success: ", response);
+        console.log("Success: ", response);
         if (response.data.result === "OK") {
           successCallback();
         } else {

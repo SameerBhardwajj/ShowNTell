@@ -58,7 +58,6 @@ export default function App(props: AppProps) {
     dispatch(
       hitStatementApi(
         (data: Array<any>) => {
-          console.warn(data.length);
           data.length === 0
             ? (setState(true), setLoadMore(false))
             : setLoadMore(true);

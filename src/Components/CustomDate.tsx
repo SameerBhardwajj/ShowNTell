@@ -7,7 +7,7 @@ import {
   Image,
   Modal,
 } from "react-native";
-import { vh, Colors, vw, Images, Strings } from "../utils";
+import { vh, Colors, vw, Images } from "../utils";
 import DatePicker from "react-native-date-picker";
 import { CommonFunctions } from "../utils";
 import CustomButton from "./CustomButton";

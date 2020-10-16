@@ -3,7 +3,6 @@ import { View, TouchableOpacity, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { vw, vh, Images, Colors, ScreenName } from "../../utils";
 import { updateDownload, updateSelect } from "./action";
-// import {FastImage} from '../../Components';
 import FastImage from "react-native-fast-image";
 
 export interface AppProps {

@@ -99,22 +99,22 @@ export default function App(props: AppProps) {
             .then((result) => {
               switch (result) {
                 case RESULTS.UNAVAILABLE:
-                  console.warn("unavailable");
+                  console.log("unavailable");
                   break;
                 case RESULTS.DENIED:
                   permission.storage === 1
                     ? permissionAccess()
-                    : dispatch(updatePermission({ storage: 1 }, () => {}));
+                    : dispatch(updatePermission({ storage: 1 }, () => { }));
                   break;
                 case RESULTS.GRANTED:
                   permission.storage === 3
                     ? null
-                    : dispatch(updatePermission({ storage: 3 }, () => {}));
+                    : dispatch(updatePermission({ storage: 3 }, () => { }));
                   break;
                 case RESULTS.BLOCKED:
                   permission.storage === 2
                     ? permissionAccess()
-                    : dispatch(updatePermission({ storage: 2 }, () => {}));
+                    : dispatch(updatePermission({ storage: 2 }, () => { }));
                   break;
               }
             })
@@ -212,17 +212,17 @@ export default function App(props: AppProps) {
         </TouchableOpacity>
         <View style={Styles.separatorView} />
         {CommonFunctions.isNullUndefined(params.img) ||
-        params.status === "3" ? null : (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={Styles.shareView}
-            onPress={() => saveToCameraRoll(params.img)}
-          >
-            <Text style={Styles.bubbleMsgText}>
-              {Strings.Save_to_Photo_Library}
-            </Text>
-          </TouchableOpacity>
-        )}
+          params.status === "3" ? null : (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={Styles.shareView}
+              onPress={() => saveToCameraRoll(params.img)}
+            >
+              <Text style={Styles.bubbleMsgText}>
+                {Strings.Save_to_Photo_Library}
+              </Text>
+            </TouchableOpacity>
+          )}
       </View>
       <TouchableOpacity
         activeOpacity={0.8}

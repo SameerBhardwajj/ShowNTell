@@ -97,7 +97,6 @@ export const hitUploadCDNapi = (
     API.fileUpload(
       EndPoints.drawer.uploadImage.uploadCDN,
       data,
-      // params,
       (success: any) => {
         if (success.data.code === 200) {
           successCallback(success.data.response);

@@ -5,14 +5,10 @@ import {
   TouchableOpacity,
   View,
   Image,
-  Dimensions,
   Text,
 } from "react-native";
 import { RNCamera } from "react-native-camera";
-import { vh, Images } from "../../../utils";
-import { Styles } from "src/modules/PhotoLibrary/PhotoLibrary";
-
-const iPhoneX = Dimensions.get("window").height >= 812;
+import { vh, Images, CommonFunctions } from "../../../utils";
 
 export interface AppProps {
   onPress: Function;
@@ -90,35 +86,35 @@ export default class ExampleApp extends PureComponent<AppProps, any> {
             }}
           </RNCamera>
         ) : (
-          <View style={styles.container}>
-            <Image
-              source={{ uri: this.state.img.uri }}
-              style={{ flex: 1, width: "100%" }}
-            />
-            <View style={styles.imgView}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.btnView}
-                onPress={() => this.setState({ toggle: !this.state.toggle })}
-              >
-                <Image
-                  source={Images.Cancel_Icon}
-                  style={{ tintColor: "white" }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                style={styles.btnView}
-                onPress={() => this.props.onPress(this.state.img)}
-              >
-                <Image
-                  source={Images.Tick_Icon}
-                  style={{ tintColor: "white" }}
-                />
-              </TouchableOpacity>
+            <View style={styles.container}>
+              <Image
+                source={{ uri: this.state.img.uri }}
+                style={{ flex: 1, width: "100%" }}
+              />
+              <View style={styles.imgView}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={styles.btnView}
+                  onPress={() => this.setState({ toggle: !this.state.toggle })}
+                >
+                  <Image
+                    source={Images.Cancel_Icon}
+                    style={{ tintColor: "white" }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  style={styles.btnView}
+                  onPress={() => this.props.onPress(this.state.img)}
+                >
+                  <Image
+                    source={Images.Tick_Icon}
+                    style={{ tintColor: "white" }}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        )}
+          )}
       </View>
     );
   }
@@ -135,7 +131,7 @@ export default class ExampleApp extends PureComponent<AppProps, any> {
       .then((value: any) => {
         callback(value);
       })
-      .catch((e: any) => {});
+      .catch((e: any) => { });
   };
 }
 
@@ -186,7 +182,7 @@ const styles = StyleSheet.create({
   },
   modalBack: {
     position: "absolute",
-    top: iPhoneX ? vh(30) : 0,
+    top: CommonFunctions.iPhoneX ? vh(30) : 0,
     left: 0,
     flexDirection: "row",
     width: "100%",

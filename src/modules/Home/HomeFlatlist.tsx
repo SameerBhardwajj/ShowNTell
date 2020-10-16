@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Image,
   Modal,
-  Dimensions,
 } from "react-native";
 import { vh, Colors, Images, vw, Strings, CommonFunctions } from "../../utils";
 // @ts-ignore
@@ -21,8 +20,6 @@ const ACTIVITY = "ACTIVITY";
 const ANNOUNCEMENT = "ANNOUNCEMENT";
 const QOTD = "QOTD";
 
-const iPhoneX = Dimensions.get("window").height >= 812;
-
 export interface AppProps {
   navigation?: any;
   item: any;
@@ -33,7 +30,6 @@ export default function App(props: AppProps) {
   const { item } = props;
   const [picModalOpen, setPicModalOpen] = useState(false);
   const [check, setCheck] = useState(true);
-  const [imageLoading, setImageLoading] = useState(false);
   const input: any = React.createRef();
   const dispatch = useDispatch();
 
@@ -59,20 +55,20 @@ export default function App(props: AppProps) {
       {item.type === ACTIVITY ? (
         <View style={[Styles.mainInnerView, Styles.mainShadow]}>
           {item.activity_status_id === "3" ||
-          item.child_activity_image === null ? null : (
-            <TouchableOpacity
-              style={Styles.imgView}
-              activeOpacity={1}
-              onPress={() => setPicModalOpen(true)}
-            >
-              <Image
-                source={{ uri: item.child_activity_image }}
-                style={Styles.imgActivity}
-                resizeMethod="resize"
-                resizeMode="cover"
-              />
-            </TouchableOpacity>
-          )}
+            item.child_activity_image === null ? null : (
+              <TouchableOpacity
+                style={Styles.imgView}
+                activeOpacity={1}
+                onPress={() => setPicModalOpen(true)}
+              >
+                <Image
+                  source={{ uri: item.child_activity_image }}
+                  style={Styles.imgActivity}
+                  resizeMethod="resize"
+                  resizeMode="cover"
+                />
+              </TouchableOpacity>
+            )}
           <View style={Styles.lunchView}>
             <View style={Styles.nameView}>
               <View style={Styles.childAvatar}>
@@ -110,41 +106,41 @@ export default function App(props: AppProps) {
                 </Text>
               </View>
               {item.activity_status_id === "3" ||
-              item.child_activity_image === null ? null : (
-                <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={Styles.ElipsisImg}
-                  onPress={() =>
-                    props.openShareModal({
-                      img: item.child_activity_image,
-                      status: item.activity_status_id,
-                      categoryName: item.category_name,
-                      activityName: item.activity_name,
-                      childName: `${item.Child.first_name} ${item.Child.last_name}`,
-                      id: item.id,
-                    })
-                  }
-                >
-                  <Image source={Images.Elipsis} style={{ padding: vh(1) }} />
-                </TouchableOpacity>
-              )}
+                item.child_activity_image === null ? null : (
+                  <TouchableOpacity
+                    activeOpacity={0.8}
+                    style={Styles.ElipsisImg}
+                    onPress={() =>
+                      props.openShareModal({
+                        img: item.child_activity_image,
+                        status: item.activity_status_id,
+                        categoryName: item.category_name,
+                        activityName: item.activity_name,
+                        childName: `${item.Child.first_name} ${item.Child.last_name}`,
+                        id: item.id,
+                      })
+                    }
+                  >
+                    <Image source={Images.Elipsis} style={{ padding: vh(1) }} />
+                  </TouchableOpacity>
+                )}
             </View>
             {CommonFunctions.isNullUndefined(
               item.activity_description
             ) ? null : (
-              <Hyperlink
-                onPress={() =>
-                  CommonFunctions.onPressLink(item.activity_description)
-                }
-                linkStyle={{ color: Colors.linkBlue }}
-              >
-                <Text style={Styles.description}>
-                  {CommonFunctions.htmlParser(
-                    item.activity_description.split("<br/>").join("\n")
-                  )}
-                </Text>
-              </Hyperlink>
-            )}
+                <Hyperlink
+                  onPress={() =>
+                    CommonFunctions.onPressLink(item.activity_description)
+                  }
+                  linkStyle={{ color: Colors.linkBlue }}
+                >
+                  <Text style={Styles.description}>
+                    {CommonFunctions.htmlParser(
+                      item.activity_description.split("<br/>").join("\n")
+                    )}
+                  </Text>
+                </Hyperlink>
+              )}
           </View>
         </View>
       ) : null}
@@ -249,10 +245,10 @@ export default function App(props: AppProps) {
               />
             </View>
           ) : (
-            <View style={Styles.btnView}>
-              <Text style={Styles.btnTxt}>{Strings.Done}</Text>
-            </View>
-          )}
+              <View style={Styles.btnView}>
+                <Text style={Styles.btnTxt}>{Strings.Done}</Text>
+              </View>
+            )}
         </View>
       ) : null}
       {/* Picture modal with zoom n pinch ------------------- */}
@@ -444,7 +440,7 @@ const Styles = StyleSheet.create({
   },
   modalBack: {
     position: "absolute",
-    top: iPhoneX ? vh(30) : 0,
+    top: CommonFunctions.iPhoneX ? vh(30) : 0,
     left: 0,
     padding: vh(20),
     zIndex: 99,

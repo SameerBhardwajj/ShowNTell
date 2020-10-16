@@ -6,7 +6,6 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
   Keyboard,
   BackHandler,
 } from "react-native";
@@ -23,6 +22,7 @@ import {
   validate,
   ScreenName,
   ConstantName,
+  CommonFunctions
 } from "../../../utils";
 import {
   CustomButton,
@@ -37,7 +37,6 @@ const SELECT_SCHOOL = "Select School";
 export interface AppProps {
   navigation?: any;
 }
-const iPhoneX = Dimensions.get("window").height >= 812;
 
 export default function App(props: AppProps) {
   const dispatch = useDispatch();
@@ -222,7 +221,7 @@ const Styles = StyleSheet.create({
   },
   backBtn: {
     padding: vh(16),
-    top: iPhoneX ? vh(30) : vh(20),
+    top: CommonFunctions.iPhoneX ? vh(30) : vh(20),
     alignSelf: "flex-start",
     position: "absolute",
     height: vh(50),

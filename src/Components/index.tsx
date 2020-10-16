@@ -13,7 +13,6 @@ import CustomDOB from "./CustomDOB";
 import CustomLoader from "./CustomLoader";
 import CustomNoData from "./CustomNoData";
 import CustomSeparator from "./CustomSeparator";
-import CustomImage from "./CustomImage";
 export {
   CustomButton,
   CustomToast,
@@ -30,5 +29,4 @@ export {
   CustomLoader,
   CustomNoData,
   CustomSeparator,
-  CustomImage,
 };

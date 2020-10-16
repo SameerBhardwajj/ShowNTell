@@ -7,7 +7,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Keyboard,
-  Dimensions,
   BackHandler,
 } from "react-native";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
@@ -23,6 +22,7 @@ import {
   validate,
   ConstantName,
   ScreenName,
+  CommonFunctions
 } from "../../../utils";
 import {
   CustomButton,
@@ -33,7 +33,6 @@ import {
 } from "../../../Components";
 import { register, fetchSchoolList } from "./action";
 
-const iPhoneX = Dimensions.get("window").height >= 812;
 const SELECT_SCHOOL = "Select School";
 export interface AppProps {
   navigation?: any;
@@ -70,7 +69,7 @@ export default function App(props: AppProps) {
         style={{
           marginTop: vh(70),
         }}
-        onPress={() => {}}
+        onPress={() => { }}
       ></TouchableOpacity>
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
@@ -199,7 +198,7 @@ const Styles = StyleSheet.create({
     padding: vh(16),
     paddingRight: vw(40),
     alignSelf: "flex-start",
-    top: iPhoneX ? vh(30) : vh(20),
+    top: CommonFunctions.iPhoneX ? vh(30) : vh(20),
   },
   loginView: {
     backgroundColor: "white",

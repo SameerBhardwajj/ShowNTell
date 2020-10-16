@@ -99,42 +99,42 @@ export default function App(props: AppProps) {
     });
     counter > 1
       ? (childArr = childArr.concat({
-          child_name: c2name,
-          child_dob: `${CommonFunctions.dateTypeFormat(
-            c2DOB.toString(),
-            "ymd"
-          )}`,
-        }))
+        child_name: c2name,
+        child_dob: `${CommonFunctions.dateTypeFormat(
+          c2DOB.toString(),
+          "ymd"
+        )}`,
+      }))
       : null;
 
     counter > 2
       ? (childArr = childArr.concat({
-          child_name: c3name,
-          child_dob: `${CommonFunctions.dateTypeFormat(
-            c3DOB.toString(),
-            "ymd"
-          )}`,
-        }))
+        child_name: c3name,
+        child_dob: `${CommonFunctions.dateTypeFormat(
+          c3DOB.toString(),
+          "ymd"
+        )}`,
+      }))
       : null;
 
     counter > 3
       ? (childArr = childArr.concat({
-          child_name: c4name,
-          child_dob: `${CommonFunctions.dateTypeFormat(
-            c4DOB.toString(),
-            "ymd"
-          )}`,
-        }))
+        child_name: c4name,
+        child_dob: `${CommonFunctions.dateTypeFormat(
+          c4DOB.toString(),
+          "ymd"
+        )}`,
+      }))
       : null;
 
     counter > 4
       ? (childArr = childArr.concat({
-          child_name: c5name,
-          child_dob: `${CommonFunctions.dateTypeFormat(
-            c5DOB.toString(),
-            "ymd"
-          )}`,
-        }))
+        child_name: c5name,
+        child_dob: `${CommonFunctions.dateTypeFormat(
+          c5DOB.toString(),
+          "ymd"
+        )}`,
+      }))
       : null;
 
     let params = {
@@ -150,20 +150,19 @@ export default function App(props: AppProps) {
     setLoading(true);
     CommonFunctions.isNullUndefined(date)
       ? API.postApiCall(
-          EndPoints.auth.scheduleTour,
-          params,
-          (success: any) => {
-            setLoading(false),
-              props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                path: ScreenName.LANDING_PAGE,
-                msg: Strings.tour_success,
-              });
-          },
-          (error: any) => {
-            // CustomToast(error.response);
-            setLoading(false);
-          }
-        )
+        EndPoints.auth.scheduleTour,
+        params,
+        (success: any) => {
+          setLoading(false),
+            props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
+              path: ScreenName.LANDING_PAGE,
+              msg: Strings.tour_success,
+            });
+        },
+        (error: any) => {
+          setLoading(false);
+        }
+      )
       : hitScheduleTour(params);
   };
 
@@ -176,7 +175,7 @@ export default function App(props: AppProps) {
     };
     let i = 1;
     if (children.length > 10) {
-      for (i = 1; i < children.length; i++) {}
+      for (i = 1; i < children.length; i++) { }
       (obj.first_name = children[i].child_name.replace(/\s.*/, "")),
         (obj.last_name = children[i].child_name.replace(/\S+\s/, "")),
         (obj.dob = children[i].child_dob);
@@ -213,7 +212,6 @@ export default function App(props: AppProps) {
         hitAppointmentAPI(response);
       },
       (error: any) => {
-        // CustomToast(error.message);
         setLoading(false);
       }
     );
@@ -238,7 +236,6 @@ export default function App(props: AppProps) {
         hitPostScheduleAPI(res, response);
       },
       (error: any) => {
-        // CustomToast(error.message);
         setLoading(false);
       }
     );
@@ -271,7 +268,6 @@ export default function App(props: AppProps) {
           : (CustomToast(response.message), setLoading(false));
       },
       (error: any) => {
-        // CustomToast(error.message);
         setLoading(false);
       }
     );
@@ -540,10 +536,10 @@ export default function App(props: AppProps) {
                 counter === 1
                   ? Strings.Add_Second_Child
                   : counter === 2
-                  ? Strings.Add_Third_Child
-                  : counter === 3
-                  ? Strings.Add_Fourth_Child
-                  : Strings.Add_Fifth_Child
+                    ? Strings.Add_Third_Child
+                    : counter === 3
+                      ? Strings.Add_Fourth_Child
+                      : Strings.Add_Fifth_Child
               }
               onPress={() => (counter <= 5 ? setCounter(counter + 1) : null)}
               lightBtn={true}
@@ -611,19 +607,18 @@ export default function App(props: AppProps) {
                 date={todayDate}
                 mode="date"
                 onDateChange={(text: Date) => {
-                  console.log("date  ", text);
                   setDate(text);
                   currentChild === 1
                     ? setc1DOB(text)
                     : currentChild === 2
-                    ? setc2DOB(text)
-                    : currentChild === 3
-                    ? setc3DOB(text)
-                    : currentChild === 4
-                    ? setc4DOB(text)
-                    : currentChild === 5
-                    ? setc5DOB(text)
-                    : null;
+                      ? setc2DOB(text)
+                      : currentChild === 3
+                        ? setc3DOB(text)
+                        : currentChild === 4
+                          ? setc4DOB(text)
+                          : currentChild === 5
+                            ? setc5DOB(text)
+                            : null;
                 }}
               />
               <CustomButton

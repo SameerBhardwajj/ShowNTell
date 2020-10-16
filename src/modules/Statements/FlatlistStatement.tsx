@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Strings, vw, vh, Colors, CommonFunctions } from "../../utils";
+import { vw, vh, Colors, CommonFunctions } from "../../utils";
 
 export interface AppProps {
   item: any;
@@ -18,13 +18,6 @@ export default function App(props: AppProps) {
             {props.item.memo_com}
           </Text>
         )}
-        {/* {props.state ? (
-          <Text style={Styles.text2}>
-            {Strings.Balance} {props.item.amount}
-          </Text>
-        ) : (
-          <Text>{""}</Text>
-        )} */}
         <Text style={Styles.text3}>
           {CommonFunctions.DateFormatter(props.item.date)}
         </Text>
@@ -38,11 +31,11 @@ export default function App(props: AppProps) {
         {credit ? "+ $" : "- $"}
         {credit
           ? (
-              Math.round(parseFloat(props.item.sns_credit_amt) * 10) / 10
-            ).toFixed(2)
+            Math.round(parseFloat(props.item.sns_credit_amt) * 10) / 10
+          ).toFixed(2)
           : (
-              Math.round(parseFloat(props.item.sns_debit_amt) * 10) / 10
-            ).toFixed(2)}
+            Math.round(parseFloat(props.item.sns_debit_amt) * 10) / 10
+          ).toFixed(2)}
       </Text>
     </View>
   );

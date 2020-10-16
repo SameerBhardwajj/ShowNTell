@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
-  Dimensions,
   FlatList,
   StatusBar,
   BackHandler,
@@ -52,8 +51,6 @@ import FilterModal from "./Filter/FilterModal";
 import ShareModal from "./ShareModal";
 import NotificationServices from "../../utils/NotificationServices";
 import { addDeviceToken } from "../Auth/Login/action";
-
-const iPhoneX = Dimensions.get("window").height >= 812;
 export interface AppProps {
   navigation?: any;
 }
@@ -121,8 +118,7 @@ export default function App(props: AppProps) {
       appState.current.match(/inactive|background/) &&
       nextAppState === "active"
     ) {
-      console.warn("App has come to the foreground!");
-      dispatch(hitChatCount(() => {}));
+      dispatch(hitChatCount(() => { }));
       Platform.OS === "ios"
         ? (PushNotificationIOS.setApplicationIconBadgeNumber(0),
           dispatch(updateBadgeCount(getUniqueId())))
@@ -131,7 +127,6 @@ export default function App(props: AppProps) {
 
     appState.current = nextAppState;
     setAppStateVisible(appState.current);
-    console.log("AppState", appState.current);
   };
 
   React.useEffect(() => {
@@ -140,40 +135,35 @@ export default function App(props: AppProps) {
       loginToken
     );
     SplashScreen.hide();
-    console.warn("device token1", deviceToken);
-
     CommonFunctions.isNullUndefined(deviceToken)
       ? dispatch(
-          addDeviceToken((token: string) => {
-            console.warn("device token2", token);
-            dispatch(
-              updateDeviceToken(
-                getUniqueId(),
-                token,
-                () => {
-                  console.warn("success");
-                },
-                () => {
-                  console.warn("error");
-                }
-              )
-            );
-          })
-        )
+        addDeviceToken((token: string) => {
+          dispatch(
+            updateDeviceToken(
+              getUniqueId(),
+              token,
+              () => {
+              },
+              () => {
+              }
+            )
+          );
+        })
+      )
       : null;
 
     homeData.length === 0 ? setLoading(true) : null;
     CommonFunctions.isEmpty(classroomChild)
       ? dispatch(
-          updateClassChild(
-            {
-              id: loginData.Children[0].id,
-              name: loginData.Children[0].first_name,
-              classroom: loginData.Children[0].classroom_id,
-            },
-            () => {}
-          )
+        updateClassChild(
+          {
+            id: loginData.Children[0].id,
+            name: loginData.Children[0].first_name,
+            classroom: loginData.Children[0].classroom_id,
+          },
+          () => { }
         )
+      )
       : null;
 
     BackHandler.addEventListener("hardwareBackPress", backHandler);
@@ -186,7 +176,7 @@ export default function App(props: AppProps) {
   }, [exitCounter, currentChild]);
 
   useEffect(() => {
-    dispatch(hitChatCount(() => {}));
+    dispatch(hitChatCount(() => { }));
     focused ? onFocusRefresh() : null;
   }, [focused]);
 
@@ -194,7 +184,7 @@ export default function App(props: AppProps) {
     loginData.Children.length > 1
       ? hitHomeAPI(currentChild.child)
       : loginData.Children[0].id !== currentChild.child
-      ? dispatch(
+        ? dispatch(
           updateChild(
             {
               child: loginData.Children[0].id,
@@ -204,7 +194,7 @@ export default function App(props: AppProps) {
             () => hitHomeAPI(loginData.Children[0].id)
           )
         )
-      : hitHomeAPI(currentChild.child);
+        : hitHomeAPI(currentChild.child);
 
     Platform.OS === "ios"
       ? (PushNotificationIOS.setApplicationIconBadgeNumber(0),
@@ -317,9 +307,9 @@ export default function App(props: AppProps) {
   ) => {
     setLoading(true);
     CommonFunctions.isNullUndefined(activity) &&
-    CommonFunctions.isNullUndefined(fromDate) &&
-    CommonFunctions.isNullUndefined(toDate) &&
-    CommonFunctions.isNullUndefined(type)
+      CommonFunctions.isNullUndefined(fromDate) &&
+      CommonFunctions.isNullUndefined(toDate) &&
+      CommonFunctions.isNullUndefined(type)
       ? null
       : dispatch(updateFilter(true));
     dispatch(
@@ -350,7 +340,7 @@ export default function App(props: AppProps) {
     dispatch(
       HomeAPI(
         (data: any) => {
-          dispatch(updateQuery(query, () => {}));
+          dispatch(updateQuery(query, () => { }));
           data.length === 0 ? setLoadMore(false) : setLoadMore(true);
           setLoading(false);
           setHomeData(data);
@@ -397,8 +387,8 @@ export default function App(props: AppProps) {
             onPress={() =>
               loginData.Children.length > 1
                 ? props.navigation.navigate(ScreenName.CHILD_MODAL, {
-                    child: loginData.Children,
-                  })
+                  child: loginData.Children,
+                })
                 : null
             }
           >
@@ -459,32 +449,32 @@ export default function App(props: AppProps) {
         {homeData.length === 0 && !loading ? (
           <CustomNoData />
         ) : (
-          <FlatList
-            data={homeData}
-            keyExtractor={(item, index) => index.toString()}
-            bounces
-            renderItem={renderItems}
-            nestedScrollEnabled={true}
-            refreshing={refreshing}
-            onRefresh={() => {
-              setRefreshing(true);
-              hitHomeAPI(currentChild.child);
-            }}
-            onEndReached={() =>
-              loadMore && page !== 0 ? NewhitHomeAPI() : null
-            }
-            onEndReachedThreshold={0.5}
-            ListFooterComponent={() => {
-              return (
-                <ActivityIndicator
-                  color={Colors.violet}
-                  size="large"
-                  animating={loadFooter}
-                />
-              );
-            }}
-          />
-        )}
+            <FlatList
+              data={homeData}
+              keyExtractor={(item, index) => index.toString()}
+              bounces
+              renderItem={renderItems}
+              nestedScrollEnabled={true}
+              refreshing={refreshing}
+              onRefresh={() => {
+                setRefreshing(true);
+                hitHomeAPI(currentChild.child);
+              }}
+              onEndReached={() =>
+                loadMore && page !== 0 ? NewhitHomeAPI() : null
+              }
+              onEndReachedThreshold={0.5}
+              ListFooterComponent={() => {
+                return (
+                  <ActivityIndicator
+                    color={Colors.violet}
+                    size="large"
+                    animating={loadFooter}
+                  />
+                );
+              }}
+            />
+          )}
       </View>
       {/* Filter modal ------------------------ */}
       <Modal
@@ -511,7 +501,6 @@ export default function App(props: AppProps) {
                   dates.toDate,
                   Activitytype,
                   () => {
-                    console.warn(" filter redux ...", myFilter);
                     hitFilterAPI(
                       value,
                       dates.fromDate,
@@ -520,10 +509,10 @@ export default function App(props: AppProps) {
                       CommonFunctions.isNullUndefined(Activitytype)
                         ? undefined
                         : Activitytype.includes(ACTIVITY)
-                        ? AWI
-                          ? 2
-                          : 3
-                        : undefined
+                          ? AWI
+                            ? 2
+                            : 3
+                          : undefined
                     );
                   }
                 )
@@ -556,7 +545,7 @@ const Styles = StyleSheet.create({
   },
   extraHeader: {
     width: "100%",
-    height: iPhoneX ? vh(30) : vh(10),
+    height: CommonFunctions.iPhoneX ? vh(30) : vh(10),
     backgroundColor: Colors.violet,
   },
   header: {

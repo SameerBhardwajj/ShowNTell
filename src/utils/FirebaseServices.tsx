@@ -48,19 +48,8 @@ class FirebaseService {
 
   // getting token for FCM
   async getToken(callback: Function) {
-    // let fcmToken = await AsyncStorage.getItem("fcmToken");
-    // if (!fcmToken) {
     let fcmToken = await messaging().getToken();
-    // if (fcmToken) {
-    // user has a device token
-    // await AsyncStorage.setItem("fcmToken", fcmToken);
-    console.warn(fcmToken);
-
     callback(fcmToken);
-    // }
-    // } else {
-    //   callback(fcmToken);
-    // }
   }
 
   // requesting permissions

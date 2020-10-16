@@ -55,23 +55,23 @@ export const addDeviceToken = (callback: Function) => {
   return (dispatch: any, getState: any) => {
     Platform.OS === "ios"
       ? PushNotificationIOS.addEventListener("register", (token) => {
-          dispatch({
-            type: Action.USER_LOGIN,
-            payload: {
-              deviceToken: token,
-            },
-          });
-          callback(token);
-        })
-      : FirebaseServices.getToken((token: string) => {
-          dispatch({
-            type: Action.USER_LOGIN,
-            payload: {
-              deviceToken: token,
-            },
-          });
-          callback(token);
+        dispatch({
+          type: Action.USER_LOGIN,
+          payload: {
+            deviceToken: token,
+          },
         });
+        callback(token);
+      })
+      : FirebaseServices.getToken((token: string) => {
+        dispatch({
+          type: Action.USER_LOGIN,
+          payload: {
+            deviceToken: token,
+          },
+        });
+        callback(token);
+      });
   };
 };
 
@@ -135,7 +135,7 @@ export const loginAPI = (
         device_token: token,
       },
       (success: any) => {
-        console.warn("success ", success);
+        console.log("success ", success);
         const res = success.data.response;
         if (success.data.code === 200) {
           dispatch({

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, StyleSheet, TextInput, Platform } from "react-native";
 import { Strings, Colors, vw, vh } from "../utils";
 
@@ -38,7 +38,6 @@ const CustomPhoneField = React.forwardRef((props: AppProps, ref: any) => {
           { borderColor: props.check ? Colors.borderGrey : Colors.pink },
         ]}
       >
-        {/* <Text style={Styles.codeText}>+1 -</Text> */}
         <TextInput
           ref={ref}
           style={[

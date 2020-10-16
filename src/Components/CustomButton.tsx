@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, StyleSheet, TouchableOpacity, Animated } from "react-native";
+import { StyleSheet, TouchableOpacity, Animated } from "react-native";
 import { Colors, vw, vh } from "../utils";
 
 export interface AppProps {

@@ -147,7 +147,6 @@ export interface AppProps {
 export default class AppComponent extends React.Component<AppProps, any> {
   constructor(props: AppProps) {
     super(props);
-    console.warn("navigation value ", props.tab);
   }
 
   TabNavigator = () => (
@@ -219,7 +218,6 @@ export default class AppComponent extends React.Component<AppProps, any> {
       <TabStack.Screen
         name={ScreenName.HOME}
         component={DrawerNavigator}
-      // options={{ tabBarVisible: this.props.tab }}
       />
       <TabStack.Screen name={ScreenName.ATTENDANCE} component={Attendance} />
       <TabStack.Screen

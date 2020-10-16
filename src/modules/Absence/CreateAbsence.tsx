@@ -7,7 +7,6 @@ import {
   Image,
   TextInput,
   ActivityIndicator,
-  Dimensions,
   Keyboard,
 } from "react-native";
 import { KeyboardAwareScrollView } from "@codler/react-native-keyboard-aware-scroll-view";
@@ -32,8 +31,6 @@ import {
 } from "../../utils";
 import { hitAbsenceReason, hitAddAbsence, hitUpdateAbsence } from "./action";
 
-const iPhoneX = Dimensions.get("window").height >= 812;
-const TYPE_ADD = "add";
 const TYPE_UPDATE = "update";
 export interface AppProps {
   navigation?: any;
@@ -67,12 +64,10 @@ export default function App(props: AppProps) {
       Login: any;
       ClassroomSchedule: any;
       Absence: any;
-      Home: any;
     }) => ({
       loginData: state.Login.loginData,
       classroomChild: state.ClassroomSchedule.classroomChild,
       reasonList: state.Absence.reasonList,
-      // currentChild: state.Home.currentChild,
     })
   );
 
@@ -171,8 +166,8 @@ export default function App(props: AppProps) {
           onPress={() =>
             loginData.Children.length > 1
               ? props.navigation.navigate(ScreenName.SCHEDULE_CHILD_MODAL, {
-                  child: loginData.Children,
-                })
+                child: loginData.Children,
+              })
               : null
           }
         >
@@ -236,23 +231,23 @@ export default function App(props: AppProps) {
             style={{ alignSelf: "center" }}
           />
         ) : (
-          reasonList.map((item: any) => (
-            <View style={Styles.reasonView}>
-              <TouchableOpacity
-                style={Styles.reasonBtn}
-                activeOpacity={0.8}
-                onPress={() => setReasonOption(item.id)}
-              >
-                {reasonOption === item.id ? (
-                  <Image source={Images.Radio_Button_Selected_Orange} />
-                ) : (
-                  <Image source={Images.Radio_Button_Unselected} />
-                )}
-              </TouchableOpacity>
-              <Text style={Styles.dateText}>{item.name}</Text>
-            </View>
-          ))
-        )}
+            reasonList.map((item: any) => (
+              <View style={Styles.reasonView}>
+                <TouchableOpacity
+                  style={Styles.reasonBtn}
+                  activeOpacity={0.8}
+                  onPress={() => setReasonOption(item.id)}
+                >
+                  {reasonOption === item.id ? (
+                    <Image source={Images.Radio_Button_Selected_Orange} />
+                  ) : (
+                      <Image source={Images.Radio_Button_Unselected} />
+                    )}
+                </TouchableOpacity>
+                <Text style={Styles.dateText}>{item.name}</Text>
+              </View>
+            ))
+          )}
         <View style={Styles.innerHelpView}>
           <TextInput
             ref={input1}
@@ -264,10 +259,6 @@ export default function App(props: AppProps) {
             }}
             style={Styles.textInputView}
             multiline={true}
-            // onSubmitEditing={() => {
-            //   Keyboard.dismiss();
-            //   check();
-            // }}
           />
           <Text style={Styles.character}>{cLength}/500 Characters</Text>
         </View>
@@ -275,39 +266,33 @@ export default function App(props: AppProps) {
           <CustomButton
             Text={Strings.Submit}
             onPress={() => {
-              // props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-              //   msg: Strings.absence_submit_msg,
-              // })
               check();
             }}
             ButtonStyle={{ width: "100%" }}
           />
         ) : (
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <CustomButton
-              Text={Strings.Cancel}
-              lightBtn={true}
-              onPress={() => props.navigation.pop()}
-              ButtonStyle={{ width: "45%" }}
-            />
-            <CustomButton
-              Text={Strings.Update}
-              onPress={() =>
-                // props.navigation.navigate(ScreenName.RESEND_CODE_MODAL, {
-                //   msg: Strings.absence_update_msg,
-                // })
-                checkUpdate()
-              }
-              ButtonStyle={{ width: "45%" }}
-            />
-          </View>
-        )}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <CustomButton
+                Text={Strings.Cancel}
+                lightBtn={true}
+                onPress={() => props.navigation.pop()}
+                ButtonStyle={{ width: "45%" }}
+              />
+              <CustomButton
+                Text={Strings.Update}
+                onPress={() =>
+                  checkUpdate()
+                }
+                ButtonStyle={{ width: "45%" }}
+              />
+            </View>
+          )}
       </KeyboardAwareScrollView>
     </View>
   );
@@ -326,7 +311,7 @@ const Styles = StyleSheet.create({
     flexDirection: "row",
     position: "absolute",
     right: vw(16),
-    top: iPhoneX ? vh(40) : vh(30),
+    top: CommonFunctions.iPhoneX ? vh(40) : vh(30),
     paddingVertical: vw(3),
     paddingHorizontal: vw(10),
     backgroundColor: "white",

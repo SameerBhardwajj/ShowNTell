@@ -44,7 +44,6 @@ export default function App(props: AppProps) {
 
   useEffect(() => {
     settingList.length === 0 ? setModalLoading(true) : null;
-    console.warn("useeffect");
     settingListAPI();
   }, [forceRender]);
 
@@ -70,11 +69,9 @@ export default function App(props: AppProps) {
       hitNotificationActionSetting(
         data,
         () => {
-          console.warn("success");
           setForeceRender(!forceRender);
         },
         () => {
-          console.warn("fail");
           setForeceRender(!forceRender);
         }
       )
@@ -86,11 +83,9 @@ export default function App(props: AppProps) {
       hitAllNotifications(
         data,
         () => {
-          console.warn("success");
           setForeceRender(!forceRender);
         },
         () => {
-          console.warn("fail");
           setForeceRender(!forceRender);
         }
       )
@@ -109,10 +104,10 @@ export default function App(props: AppProps) {
           allNotifications
             ? null
             : notificationAction({
-                is_activity: 0,
-                type: value ? "enable" : "disable",
-                id: item.notification_type_id,
-              })
+              is_activity: 0,
+              type: value ? "enable" : "disable",
+              id: item.notification_type_id,
+            })
         }
       />
     );
@@ -130,10 +125,10 @@ export default function App(props: AppProps) {
           allActivities
             ? null
             : notificationAction({
-                is_activity: 1,
-                type: value ? "enable" : "disable",
-                id: item.id,
-              })
+              is_activity: 1,
+              type: value ? "enable" : "disable",
+              id: item.id,
+            })
         }
       />
     );

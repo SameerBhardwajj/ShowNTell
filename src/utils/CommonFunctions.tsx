@@ -1,12 +1,10 @@
 import moment from "moment";
-import { Platform, PermissionsAndroid, Linking } from "react-native";
+import { Platform, PermissionsAndroid, Linking, Dimensions } from "react-native";
 import Geolocation from "@react-native-community/geolocation";
 import CustomToast from "../Components/CustomToast";
 import NetInfo from "@react-native-community/netinfo";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
-// import DOMParser from 'react-native-html-parser';
-var DOMParser = require("react-native-html-parser").DOMParser;
 import Strings from "./Strings";
 
 const DateDifference = (date1: any, date2: any) => {
@@ -38,8 +36,8 @@ const dateTypeFormat = (date: string, format: string) => {
   format === "dmy"
     ? (myDate = moment(testDateUtc).local().format("DD-MM-YYYY"))
     : format === "mdy"
-    ? (myDate = moment(testDateUtc).local().format("MM-DD-YYYY"))
-    : (myDate = moment(testDateUtc).local().format("YYYY-MM-DD"));
+      ? (myDate = moment(testDateUtc).local().format("MM-DD-YYYY"))
+      : (myDate = moment(testDateUtc).local().format("YYYY-MM-DD"));
   return myDate;
 };
 
@@ -234,7 +232,6 @@ const getBadgeCount = () => {
 
 const htmlParser = (data: string) => {
   let cleanText = data.replace(/<\/?[^>]+(>|$)/g, "");
-  // cleanText = cleanText.replace(/ *\b\S*?http\S*\b/g, "");
   return cleanText;
 };
 
@@ -250,16 +247,16 @@ const onPressLink = (item: any) => {
   isNullUndefined(link)
     ? null
     : Linking.canOpenURL(link)
-        .then((supported: boolean) => {
-          if (supported) {
-            return Linking.openURL(link).catch(() =>
-              CustomToast(Strings.URL_Unsupported)
-            );
-          }
-        })
-        .catch(() => {
-          CustomToast(Strings.URL_Unsupported);
-        });
+      .then((supported: boolean) => {
+        if (supported) {
+          return Linking.openURL(link).catch(() =>
+            CustomToast(Strings.URL_Unsupported)
+          );
+        }
+      })
+      .catch(() => {
+        CustomToast(Strings.URL_Unsupported);
+      });
 };
 
 const clearAllPush = () => {
@@ -267,6 +264,8 @@ const clearAllPush = () => {
     ? PushNotificationIOS.removeAllDeliveredNotifications()
     : PushNotification.cancelAllLocalNotifications();
 };
+
+const iPhoneX = Dimensions.get("window").height >= 812;
 
 export default {
   DateDifference,
@@ -288,4 +287,5 @@ export default {
   getLink,
   onPressLink,
   clearAllPush,
+  iPhoneX
 };

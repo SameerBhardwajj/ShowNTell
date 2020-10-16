@@ -18,7 +18,6 @@ export const getCannedMsgs = (
       {},
       (success: any) => {
         console.log("success ", success);
-
         const res = success.data.response;
         if (success.data.code === 200) {
           dispatch({
@@ -75,13 +74,10 @@ export const getMsgs = (
   failCallback: Function
 ) => {
   return (dispatch: Function, getState: Function) => {
-    console.log(timestamp);
-
     Constants.axiosInstance
       .get(EndPoints.drawer.chat.getMsg(type, timestamp, id), {})
       .then((success: any) => {
-        console.warn(" my data success ", success.data.response);
-
+        console.log(" my data success ", success.data.response);
         const res = success.data.response;
         if (success.data.code === 200) {
           console.log(success.data.response);

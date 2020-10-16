@@ -49,22 +49,8 @@ const $httpHelp = axios.create({
 });
 
 export default {
-  successStatus: 200,
-  unAuthorizedStatus: 401,
-  notAuthorizedForInfo: 400,
   axiosInstance: $http,
   needHelpInstance: $httpHelp,
   clientAxiosInstance: clientHttp,
   setAuthorizationToken,
-  status_code: {
-    success: 200,
-    successAction: 201,
-    notFound: 204,
-    badRequest: 400,
-    Unauthorized: 401,
-    invalid: 400,
-    timeout: 408,
-    userDelete: 410,
-    serverError: 500,
-  },
 };

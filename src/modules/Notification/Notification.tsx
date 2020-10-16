@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Image,
-  Dimensions,
   Modal,
   Platform,
 } from "react-native";
@@ -32,8 +31,6 @@ import {
   hitReadNotifications,
 } from "./action";
 import NotificationModal from "./NotificationModal";
-
-const iPhoneX = Dimensions.get("window").height >= 812;
 
 export interface AppProps {
   navigation?: any;
@@ -188,7 +185,7 @@ const Styles = StyleSheet.create({
     position: "absolute",
     padding: vh(16),
     right: 0,
-    top: iPhoneX ? vh(30) : vh(15),
+    top: CommonFunctions.iPhoneX ? vh(30) : vh(15),
   },
   modalMainView: {
     flex: 1,

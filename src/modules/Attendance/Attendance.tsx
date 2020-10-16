@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
   Image,
   Modal,
@@ -74,30 +73,29 @@ export default function App(props: AppProps) {
             ? DATE_TYPE
             : MONTH_TYPE
           : value
-          ? DATE_TYPE
-          : MONTH_TYPE,
+            ? DATE_TYPE
+            : MONTH_TYPE,
         currentChild.child,
         CommonFunctions.isNullUndefined(value)
           ? viewByDate
             ? CommonFunctions.dateTypeFormat(
-                defaultDate.toLocaleDateString(),
-                "ymd"
-              )
-            : CommonFunctions.dateTypeFormat(
-                defaultMonth.toLocaleDateString(),
-                "ymd"
-              )
-          : value
-          ? CommonFunctions.dateTypeFormat(
               defaultDate.toLocaleDateString(),
               "ymd"
             )
-          : CommonFunctions.dateTypeFormat(
+            : CommonFunctions.dateTypeFormat(
+              defaultMonth.toLocaleDateString(),
+              "ymd"
+            )
+          : value
+            ? CommonFunctions.dateTypeFormat(
+              defaultDate.toLocaleDateString(),
+              "ymd"
+            )
+            : CommonFunctions.dateTypeFormat(
               defaultMonth.toLocaleDateString(),
               "ymd"
             ),
         () => {
-          console.warn("here", viewByDate);
           setLoading(false), setRefreshing(false);
         },
         () => {
@@ -146,7 +144,7 @@ export default function App(props: AppProps) {
       <CustomHeader
         hideBackButton={true}
         title={Strings.Attendance}
-        onPressBack={() => {}}
+        onPressBack={() => { }}
         child={true}
         navigation={props.navigation}
       />
@@ -168,11 +166,11 @@ export default function App(props: AppProps) {
                 style={{ padding: vh(10) }}
               />
             ) : (
-              <Image
-                source={Images.Radio_Button_Unselected}
-                style={{ padding: vh(10) }}
-              />
-            )}
+                <Image
+                  source={Images.Radio_Button_Unselected}
+                  style={{ padding: vh(10) }}
+                />
+              )}
           </TouchableOpacity>
           <Text style={Styles.viewByText}>{Strings.View_by_Date}</Text>
         </View>
@@ -192,11 +190,11 @@ export default function App(props: AppProps) {
                 style={{ padding: vh(10) }}
               />
             ) : (
-              <Image
-                source={Images.Radio_Button_Selected}
-                style={{ padding: vh(10) }}
-              />
-            )}
+                <Image
+                  source={Images.Radio_Button_Selected}
+                  style={{ padding: vh(10) }}
+                />
+              )}
           </TouchableOpacity>
           <Text style={Styles.viewByText}>{Strings.View_by_Month}</Text>
         </View>
@@ -235,38 +233,38 @@ export default function App(props: AppProps) {
           ) : dateData.length === 0 ? (
             <CustomNoData />
           ) : (
-            <FlatList
-              data={dateData}
-              showsVerticalScrollIndicator={false}
-              refreshing={isRefreshing}
-              onRefresh={() => {
-                setRefreshing(true), hitAttendance();
-              }}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItems}
-            />
-          )}
+                <FlatList
+                  data={dateData}
+                  showsVerticalScrollIndicator={false}
+                  refreshing={isRefreshing}
+                  onRefresh={() => {
+                    setRefreshing(true), hitAttendance();
+                  }}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderItems}
+                />
+              )}
         </View>
       ) : (
-        <View style={Styles.monthView}>
-          {/* View by Month ------------------------- */}
-          {isLoading ? (
-            <CustomLoader loading={isLoading} />
-          ) : monthData.length === 0 ? (
-            <CustomNoData />
-          ) : (
-            <FlatList
-              data={monthData}
-              refreshing={isRefreshing}
-              onRefresh={() => {
-                setRefreshing(true), hitAttendance();
-              }}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderMonthItem}
-            />
-          )}
-        </View>
-      )}
+          <View style={Styles.monthView}>
+            {/* View by Month ------------------------- */}
+            {isLoading ? (
+              <CustomLoader loading={isLoading} />
+            ) : monthData.length === 0 ? (
+              <CustomNoData />
+            ) : (
+                  <FlatList
+                    data={monthData}
+                    refreshing={isRefreshing}
+                    onRefresh={() => {
+                      setRefreshing(true), hitAttendance();
+                    }}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={renderMonthItem}
+                  />
+                )}
+          </View>
+        )}
 
       {/* absence -------------------------------------------- */}
       <Modal

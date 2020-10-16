@@ -111,7 +111,7 @@ export default function App(props: AppProps) {
   const emptyTheGallery = () => {
     dispatch(
       updateDownload([], () => {
-        console.warn("empty");
+        console.log("empty");
       })
     );
   };
@@ -198,7 +198,7 @@ export default function App(props: AppProps) {
             .then((result) => {
               switch (result) {
                 case RESULTS.UNAVAILABLE:
-                  console.warn("unavailable");
+                  console.log("unavailable");
                   break;
                 case RESULTS.DENIED:
                   permission.storage === 1

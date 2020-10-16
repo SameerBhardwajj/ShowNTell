@@ -67,13 +67,7 @@ export const hitAcknowledgeSupply = (
         }
       },
       (error: any) => {
-        console.warn("error ", error);
-        // dispatch({
-        //   type: Action.NOTIFICATION,
-        //   payload: {
-        //     data: [],
-        //   },
-        // });
+        console.log("error ", error);
         CommonFunctions.handleError(error);
         failureCallback();
       }
@@ -126,12 +120,6 @@ export const hitNotificationActionSetting = (
         let res = success.data.response;
         console.log("mysuccess ", res);
         if (success.data.code === 200) {
-          // dispatch({
-          //   type: Action.NOTIFICATION,
-          //   payload: {
-          //     settingList: res,
-          //   },
-          // });
           successCallback(res);
         } else {
           CustomToast(success.data.message);
@@ -158,12 +146,6 @@ export const hitReadNotifications = (
         let res = success.data.response;
         console.log("mysuccess ", res);
         if (success.data.code === 200) {
-          // dispatch({
-          //   type: Action.NOTIFICATION,
-          //   payload: {
-          //     settingList: res,
-          //   },
-          // });
           successCallback(res);
         } else {
           CustomToast(success.data.message);
@@ -189,14 +171,8 @@ export const hitAllNotifications = (
       data,
       (success: any) => {
         let res = success.data.response;
-        console.warn("mysuccess ", success.config);
+        console.log("mysuccess ", success.config);
         if (success.data.code === 200) {
-          // dispatch({
-          //   type: Action.NOTIFICATION,
-          //   payload: {
-          //     settingList: res,
-          //   },
-          // });
           successCallback(res);
         } else {
           CustomToast(success.data.message);

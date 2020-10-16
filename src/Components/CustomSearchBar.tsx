@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { Strings, Colors, vw, vh, Images } from "../utils";
+import { Colors, vw, vh, Images } from "../utils";
 
 export interface AppProps {
   value: string;
@@ -43,7 +43,7 @@ const CustomInputText = React.forwardRef((props: AppProps, ref: any) => {
         onPress={() =>
           props.value.length === 0 ? null : props.onPressCancel()
         }
-        style={{width: vw(20)}}
+        style={{ width: vw(20) }}
       >
         {props.value.length === 0 ? null : (
           <Image source={Images.Cancel_Icon} />

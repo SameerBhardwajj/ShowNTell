@@ -52,16 +52,16 @@ export default function App(props: AppProps) {
     // Hit API after 3 sec
     time >= 0
       ? setTimeout(() => {
-          settime(time + 1);
-        }, 3000)
+        settime(time + 1);
+      }, 3000)
       : null;
 
     time === 0
       ? (MarkRead(),
         dispatch(
           getCannedMsgs(
-            () => {},
-            () => {}
+            () => { },
+            () => { }
           )
         ),
         getOldMsgs())
@@ -93,9 +93,9 @@ export default function App(props: AppProps) {
       hitMarkReadAPI(
         { timestamp: moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss") },
         () => {
-          dispatch(hitChatCount(() => {}));
+          dispatch(hitChatCount(() => { }));
         },
-        () => {}
+        () => { }
       )
     );
   };
@@ -107,45 +107,39 @@ export default function App(props: AppProps) {
     time === 0
       ? null
       : dispatch(
-          getMsgs(
-            "down",
-            chatData.length === 0
-              ? moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss")
-              : moment.utc(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss"),
-            chatData.length === 0 ? -1 : chatData[0].id,
-            (type: any, res: any) => {
-              MarkRead();
-              setLoading(false);
-            },
-            () => {
-              setLoading(false);
-            }
-          )
-        );
+        getMsgs(
+          "down",
+          chatData.length === 0
+            ? moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss")
+            : moment.utc(chatData[0].create_dt).format("YYYY-MM-DD HH:mm:ss"),
+          chatData.length === 0 ? -1 : chatData[0].id,
+          (type: any, res: any) => {
+            MarkRead();
+            setLoading(false);
+          },
+          () => {
+            setLoading(false);
+          }
+        )
+      );
   };
 
   // Get older Messages if Available -----------------
   const getOldMsgs = () => {
-    console.log("count ", chatData.length);
-    // console.log(loadMore && !check());
-
     time === 0
       ? dispatch(
-          getMsgs(
-            "up",
-            moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss"),
-            -1,
-            (data: any) => {
-              console.log("first ", data);
-
-              settime(1);
-              // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
-            },
-            () => {}
-          )
+        getMsgs(
+          "up",
+          moment.utc(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+          -1,
+          (data: any) => {
+            settime(1);
+          },
+          () => { }
         )
+      )
       : loadMore && !check()
-      ? dispatch(
+        ? dispatch(
           getMsgs(
             "up",
             moment
@@ -153,12 +147,11 @@ export default function App(props: AppProps) {
               .format("YYYY-MM-DD HH:mm:ss"),
             chatData[chatData.length - 1].id,
             (data: any) => {
-              // data.length === 0 ? setLoadMore(false) : setLoadMore(true);
             },
-            () => {}
+            () => { }
           )
         )
-      : null;
+        : null;
   };
 
   // Send messages ----------------------
@@ -171,10 +164,9 @@ export default function App(props: AppProps) {
           ? { canned_message_id: "", message: msg }
           : { canned_message_id: msgID, message: msg },
         () => {
-          // getNewMsgs();
         },
         () => {
-          console.warn("error");
+          console.log("error");
         }
       )
     );
@@ -227,18 +219,18 @@ export default function App(props: AppProps) {
           ) : chatData.length === 0 ? (
             <Text style={Styles.noChatText}>No Chat Available</Text>
           ) : (
-            <FlatList
-              keyboardShouldPersistTaps="handled"
-              showsVerticalScrollIndicator={false}
-              bounces={false}
-              inverted
-              data={chatData}
-              onEndReached={() => (loadMore ? getOldMsgs() : null)}
-              onEndReachedThreshold={0.5}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItems}
-            />
-          )}
+                <FlatList
+                  keyboardShouldPersistTaps="handled"
+                  showsVerticalScrollIndicator={false}
+                  bounces={false}
+                  inverted
+                  data={chatData}
+                  onEndReached={() => (loadMore ? getOldMsgs() : null)}
+                  onEndReachedThreshold={0.5}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderItems}
+                />
+              )}
         </View>
         <View style={Styles.bottomView}>
           {/* Canned Msgs ------------------ */}

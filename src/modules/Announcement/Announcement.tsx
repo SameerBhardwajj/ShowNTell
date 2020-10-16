@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, FlatList, Dimensions } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 
 // custom imports
@@ -7,8 +7,6 @@ import { CustomHeader, CustomLoader, CustomNoData } from "../../Components";
 import { Strings, vw, vh, ScreenName, CommonFunctions } from "../../utils";
 import { hitAnnouncementAPI } from "./action";
 import List from "./List";
-
-const iPhoneX = Dimensions.get("window").height >= 812;
 
 export interface AppProps {
   navigation?: any;
@@ -62,16 +60,16 @@ export default function App(props: AppProps) {
         {loading ? null : CommonFunctions.isNullUndefined(data) ? (
           <CustomNoData />
         ) : (
-          <FlatList
-            data={data}
-            keyboardShouldPersistTaps="handled"
-            bounces={false}
-            onEndReached={() => hitAPI(page)}
-            onEndReachedThreshold={0.5}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderItems}
-          />
-        )}
+            <FlatList
+              data={data}
+              keyboardShouldPersistTaps="handled"
+              bounces={false}
+              onEndReached={() => hitAPI(page)}
+              onEndReachedThreshold={0.5}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItems}
+            />
+          )}
       </View>
     </View>
   );
@@ -88,7 +86,7 @@ const Styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 4.65,
     elevation: 7,
-    paddingBottom: iPhoneX ? vh(30) : vh(10),
+    paddingBottom: CommonFunctions.iPhoneX ? vh(30) : vh(10),
   },
   innerView: {
     paddingVertical: vh(8),

@@ -1,5 +1,4 @@
-import { CustomToast } from "../../Components";
-import { Action, EndPoints, API, Strings } from "../../utils";
+import { Action, EndPoints, API } from "../../utils";
 import axios from "axios";
 
 export const hitAPI = (
@@ -20,15 +19,7 @@ export const hitAPI = (
         successCallback(success.data.data);
       })
       .catch((e) => {
-        console.warn("check ", e == "Network Error");
         console.log(e);
-        
-
-        // if (e === "Network Error") {
-        //   CustomToast(Strings.No_Internet);
-        // } else {
-        //   CustomToast(e);
-        // }
         failCallback(e);
       });
   };

@@ -56,8 +56,7 @@ export default function App(props: AppProps) {
   };
 
   const HitLogin = (deviceID: string, token: string, deviceName: string) => {
-    console.warn("token ", deviceToken);
-
+    console.log("token ", deviceToken);
     dispatch(
       loginAPI(
         params.email,

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { vw, Colors, vh } from "../utils";
 
 export interface AppProps {

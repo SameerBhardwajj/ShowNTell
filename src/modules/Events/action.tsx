@@ -1,5 +1,5 @@
 import { CustomToast } from "../../Components";
-import { Action, API, EndPoints, CommonFunctions } from "../../utils";
+import { Action, EndPoints } from "../../utils";
 import axios from "axios";
 
 export const hitAPI = (

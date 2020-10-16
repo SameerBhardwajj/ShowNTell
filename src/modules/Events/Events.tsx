@@ -4,9 +4,6 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity,
-  Image,
-  Dimensions,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
@@ -20,11 +17,8 @@ import {
   vh,
   Colors,
   ScreenName,
-  Images,
   CommonFunctions,
 } from "../../utils";
-
-const iPhoneX = Dimensions.get("window").height >= 812;
 
 export interface AppProps {
   navigation?: any;
@@ -58,16 +52,16 @@ export default function App(props: AppProps) {
     return index % 3 === 1
       ? Colors.lightWaterBlue
       : index % 3 === 2
-      ? Colors.lightGreen
-      : Colors.lightPink;
+        ? Colors.lightGreen
+        : Colors.lightPink;
   };
 
   const newColor = (index: number) => {
     return index % 3 === 1
       ? Colors.waterBlue
       : index % 3 === 2
-      ? Colors.green
-      : Colors.pink;
+        ? Colors.green
+        : Colors.pink;
   };
 
   return (
@@ -81,34 +75,34 @@ export default function App(props: AppProps) {
       ) : CommonFunctions.isNullUndefined(data) ? (
         <CustomNoData />
       ) : (
-        <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
-          {data.map((item: any, index: number) => (
-            <View style={Styles.innerView}>
-              <View
-                style={[
-                  Styles.headingView,
-                  { backgroundColor: newColor(index + 1) },
-                ]}
-              >
-                <Text style={Styles.heading}>
-                  {moment(item.start_date).format("MMMM DD, YYYY")}
-                </Text>
-              </View>
-              <View
-                style={[
-                  Styles.contentView,
-                  { backgroundColor: bgColor(index + 1) },
-                ]}
-              >
-                <Text style={[Styles.content, { color: newColor(index + 1) }]}>
-                  {item.headline}
-                </Text>
-                <Text style={[Styles.contentDESC]}>{item.tagline}</Text>
-              </View>
-            </View>
-          ))}
-        </ScrollView>
-      )}
+            <ScrollView showsVerticalScrollIndicator={false} bounces={false}>
+              {data.map((item: any, index: number) => (
+                <View style={Styles.innerView}>
+                  <View
+                    style={[
+                      Styles.headingView,
+                      { backgroundColor: newColor(index + 1) },
+                    ]}
+                  >
+                    <Text style={Styles.heading}>
+                      {moment(item.start_date).format("MMMM DD, YYYY")}
+                    </Text>
+                  </View>
+                  <View
+                    style={[
+                      Styles.contentView,
+                      { backgroundColor: bgColor(index + 1) },
+                    ]}
+                  >
+                    <Text style={[Styles.content, { color: newColor(index + 1) }]}>
+                      {item.headline}
+                    </Text>
+                    <Text style={[Styles.contentDESC]}>{item.tagline}</Text>
+                  </View>
+                </View>
+              ))}
+            </ScrollView>
+          )}
     </View>
   );
 }
@@ -116,7 +110,7 @@ const Styles = StyleSheet.create({
   mainView: {
     flex: 1,
     backgroundColor: "white",
-    paddingBottom: iPhoneX ? vh(30) : vh(10),
+    paddingBottom: CommonFunctions.iPhoneX ? vh(30) : vh(10),
   },
   innerView: {
     width: "100%",
@@ -139,7 +133,7 @@ const Styles = StyleSheet.create({
     position: "absolute",
     maxWidth: vw(120),
     right: vw(20),
-    top: iPhoneX ? vh(40) : vh(30),
+    top: CommonFunctions.iPhoneX ? vh(40) : vh(30),
     paddingVertical: vw(3),
     paddingHorizontal: vw(10),
     backgroundColor: "white",
