@@ -2,12 +2,6 @@ import axios from "axios";
 import { Platform } from "react-native";
 import { getUniqueId, getDeviceId } from "react-native-device-info";
 
-const DEV_BASE_URL = "http://showtelldevapi.appskeeper.com:4025";
-const QA_BASE_URL = "http://showtellqaapi.appskeeper.com:7034";
-const CLIENT_BASE_URL = "http://snt-parent-api-test.mytle.com";
-
-const CLIENT_URL = "https://stage.thelearningexperience.com";
-
 const BASE_URL = CLIENT_BASE_URL;
 
 // Axios instance for all APIs
